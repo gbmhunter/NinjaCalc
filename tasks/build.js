@@ -5,6 +5,7 @@ var Q = require('q');
 var gulp = require('gulp');
 var rollup = require('rollup');
 var less = require('gulp-less');
+var gulpBabel = require('gulp-babel');
 var jetpack = require('fs-jetpack');
 
 var utils = require('./utils');
@@ -21,6 +22,8 @@ var paths = {
         './**/*.html'
     ],
 }
+
+var print = require('gulp-print');
 
 // -------------------------------------
 // Tasks
@@ -128,5 +131,12 @@ gulp.task('watch', function () {
     gulp.watch('app/**/*.less', ['less-watch']);
 });
 
+// Incremental compile ES6, JSX files with sourcemaps
+gulp.task('compile', ['clean'], function () {
+    return gulp.src('app/**/*.jsx')
+        .pipe(print())
+        .pipe(gulpBabel())
+        .pipe(gulp.dest('build'));
+});
 
-gulp.task('build', ['bundle', 'less', 'copy', 'finalize']);
+gulp.task('build', ['bundle', 'less', 'compile', 'copy', 'finalize']);
