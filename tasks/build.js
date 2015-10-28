@@ -7,6 +7,7 @@ var rollup = require('rollup');
 var less = require('gulp-less');
 var gulpBabel = require('gulp-babel');
 var jetpack = require('fs-jetpack');
+var sourceMaps = require("gulp-sourcemaps");
 
 var utils = require('./utils');
 var generateSpecsImportFile = require('./generate_specs_import');
@@ -19,11 +20,17 @@ var paths = {
     copyFromAppDir: [
         './node_modules/**',
         './vendor/**',
-        './**/*.html'
+        './**/*.html',
+        './lib/**',
+        './view/**',
     ],
 }
 
+// Useful for printing debug statements to console while performing gulp tasks
 var print = require('gulp-print');
+
+// Used to filter out all files which haven't changed
+var changed = require('gulp-changed');
 
 // -------------------------------------
 // Tasks
@@ -126,17 +133,35 @@ gulp.task('finalize', ['clean'], function () {
 
 
 gulp.task('watch', function () {
-    gulp.watch('app/**/*.js', ['bundle-watch']);
-    gulp.watch(paths.copyFromAppDir, { cwd: 'app' }, ['copy-watch']);
+    // These should really be uncommented!!!
+    //gulp.watch('app/**/*.js', ['bundle-watch']);
+    //gulp.watch(paths.copyFromAppDir, { cwd: 'app' }, ['copy-watch']);
     gulp.watch('app/**/*.less', ['less-watch']);
+    gulp.watch('app/**/*.jsx', ['compile-watch']);
 });
 
-// Incremental compile ES6, JSX files with sourcemaps
-gulp.task('compile', ['clean'], function () {
-    return gulp.src('app/**/*.jsx')
+var compileWatchTask = function() {
+    return gulp.src(['app/*.jsx', 'app/node_modules/react-draggable-tab/**/*.js', '!app/node_modules/react-draggable-tab/node_modules/**/*'],  
+
+        // This base variable preserves the directory structure within /src/ when it compiles
+        // it and copies it to build/
+        {base: './app'})
+        //.pipe(changed('build'))
+        //.pipe(print())
+        //.pipe(gulpBabel())
+        //.pipe(gulp.dest('build'));
+
+        .pipe(sourceMaps.init()) //initialize source mapping
         .pipe(print())
-        .pipe(gulpBabel())
-        .pipe(gulp.dest('build'));
-});
+        //.pipe(gulpBabel({ optional: ['runtime'] })) //transpile
+        .pipe(gulpBabel()) //transpile
+        .pipe(sourceMaps.write(".")) //write source maps
+        .pipe(gulp.dest('build')); //pipe to the destination folder
+}
+
+// Incremental compile ES6, JSX files with sourcemaps
+gulp.task('compile', ['clean', 'copy'], compileWatchTask);
+//gulp.task('compile', compileWatchTask);
+gulp.task('compile-watch', compileWatchTask);
 
 gulp.task('build', ['bundle', 'less', 'compile', 'copy', 'finalize']);

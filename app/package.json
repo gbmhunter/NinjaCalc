@@ -11,9 +11,19 @@
   },
   "dependencies": {
     "fs-jetpack": "^0.7.0",
+    "material-ui": "^0.13.0",
     "react": "^0.14.0",
+    "react-absolute-grid": "^1.0.5",
+    "react-addons-create-fragment": "^0.14.0",
+    "react-addons-pure-render-mixin": "^0.14.0",
+    "react-addons-transition-group": "^0.14.0",
+    "react-addons-update": "^0.14.0",
     "react-dnd": "^2.0.2",
     "react-dnd-html5-backend": "^2.0.0",
-    "react-sortable": "0.0.2"
+    "react-dom": "^0.14.0",
+    "react-draggable-tab": "^0.3.3",
+    "react-grid-layout": "^0.8.5",
+    "react-sortable": "0.0.2",
+    "react-tap-event-plugin": "^0.2.1"
   }
 }
