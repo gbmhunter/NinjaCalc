@@ -36,7 +36,7 @@ class CalcRow extends React.Component {
     return (
       <tr>
         <td>{this.props.name}</td>
-        <td><input value="test"></input></td>
+        <td><input value={this.props.value}></input></td>
         <td>{this.props.units}</td>
         <td><input type="radio" /></td>
       </tr>
@@ -50,9 +50,9 @@ class App extends React.Component {
       <div>
       <table>
         <tbody>
-            <CalcRow name="Voltage" units="V" />
-            <CalcRow name="Current" units="I" />
-            <CalcRow name="Resistance" units="I" />
+            <CalcRow name="Voltage" value={this.props.state.voltageValue} units="V" />
+            <CalcRow name="Current" value={this.props.state.currentValue} units="I" />
+            <CalcRow name="Resistance" value={this.props.state.resistanceValue} units="I" />
         </tbody>
       </table>
 
@@ -64,12 +64,12 @@ class App extends React.Component {
 // Select what props to inject into app
 function mapStateToProps(state) {
   return {
-    serialPort: state.serialPort,
+    /*serialPort: state.serialPort,
     loggingState: state.logging,
     stats: state.stats,
-    util: state.util,
+    util: state.util,*/
     // Map everything at the moment, might change in future
-    //reduxState: state,    
+    state: state,    
   };
 }
 
