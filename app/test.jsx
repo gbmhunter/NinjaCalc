@@ -2,6 +2,27 @@
 //import Container from './Container';
 
 import React from 'react';
+// Redux utility functions
+import { compose, createStore, applyMiddleware } from 'redux';
+import { Provider, connect } from 'react-redux';
+import thunk from 'redux-thunk';
+
+const finalCreateStore = compose(
+  // Enables your middleware:
+  applyMiddleware(thunk) // any Redux middleware, e.g. redux-thunk
+  
+  // Provides support for DevTools:
+  //! @warning  This will cause the entire state/action history to be re-run everytime a
+  //!     new action is dispatched, which could cause performance issues!
+  //devTools()
+)(createStore);
+
+//=========== REDUCER ===========//
+import defaultReducer from './ohms-law-reducer.js';
+console.log(defaultReducer);
+
+// Create store. Note that there is only one of these for the entire app.
+const store = finalCreateStore(defaultReducer);
 
 //import Tabs from 'react-draggable-tab';
 import ReactDraggableTab from 'react-draggable-tab';
@@ -15,13 +36,15 @@ class CalcRow extends React.Component {
     return (
       <tr>
         <td>{this.props.name}</td>
+        <td><input value="test"></input></td>
         <td>{this.props.units}</td>
+        <td><input type="radio" /></td>
       </tr>
     );
   }
 }
 
-class Calculator extends React.Component {
+class App extends React.Component {
   render() {
     return (
       <div>
@@ -38,6 +61,32 @@ class Calculator extends React.Component {
   }
 }
 
+// Select what props to inject into app
+function mapStateToProps(state) {
+  return {
+    serialPort: state.serialPort,
+    loggingState: state.logging,
+    stats: state.stats,
+    util: state.util,
+    // Map everything at the moment, might change in future
+    //reduxState: state,    
+  };
+}
+
+// Inject dispath and state into app
+App = connect(mapStateToProps)(App);
+
+// Wrapping the app in Provider allows us to use Redux
+var appRender = React.render(
+  <div id='redux-wrapper-div' style={{height: '100%'}}>
+    <Provider store={store}>
+        <App />
+    </Provider>
+  </div>,
+  document.getElementById('content')
+);
+
+/*
 const tabsClassNames = {
   tabBar: 'myTabBar',
   tabBarAfter: 'myTabBarAfter',
@@ -128,12 +177,13 @@ class App extends React.Component {
       />
     )
   }
-};
+};*/
 
+/*
 React.render(
-  <App />,
+  <Calculator />,
   document.getElementById('content')
-);
+);*/
 
 /*
 
