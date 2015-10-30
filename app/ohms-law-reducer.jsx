@@ -5,7 +5,7 @@ const initialState = {
   currentValue: '',
   resistanceValue: '',
 
-  calcWhat: 'resistance',
+  calcWhat: 'Resistance',
 }
 
 export default function defaultReducer(state = initialState, action) {

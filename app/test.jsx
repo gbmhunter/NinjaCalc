@@ -7,6 +7,8 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 
+var ReactRadioGroup = require('react-radio-group');
+
 const finalCreateStore = compose(
   // Enables your middleware:
   applyMiddleware(thunk) // any Redux middleware, e.g. redux-thunk
@@ -19,7 +21,7 @@ const finalCreateStore = compose(
 
 //=========== REDUCER ===========//
 import defaultReducer from './ohms-law-reducer.js';
-console.log(defaultReducer);
+//console.log(defaultReducer);
 
 // Create store. Note that there is only one of these for the entire app.
 const store = finalCreateStore(defaultReducer);
@@ -31,28 +33,47 @@ var Tabs = ReactDraggableTab.Tabs;
 
 //var ReactGridLayout = require('react-grid-layout');
 
-class CalcRow extends React.Component {
-  render() {
+// Have had serious issues with using the "class" ES6 syntax!!!
+// e.g. "this" no longer exists as I know it!
+//class CalcRow extends React.Component {
+var CalcRow = React.createClass({
+
+  onCalcWhatChange: function(event) {
+    console.log('CalcRow.onCalcWhatChange() called.');
+    console.log('this =');
+    console.log(this);
+    this.props.onCalcWhatChange(event, this.props.name);
+  },
+
+  render: function() {
     return (
       <tr>
         <td>{this.props.name}</td>
         <td><input value={this.props.value}></input></td>
         <td>{this.props.units}</td>
-        <td><input type="radio" /></td>
+        <td><input type="radio" checked={this.props.calcWhat == this.props.name} onChange={this.onCalcWhatChange} /></td>
       </tr>
     );
   }
-}
+});
 
 class App extends React.Component {
+
+  onCalcWhatChange(event, name) {
+    console.log('onCalcWhatChange() called with event = .');    
+    console.log(event);
+    console.log('and name = ');
+    console.log(name);
+  }
+
   render() {
     return (
       <div>
       <table>
         <tbody>
-            <CalcRow name="Voltage" value={this.props.state.voltageValue} units="V" />
-            <CalcRow name="Current" value={this.props.state.currentValue} units="I" />
-            <CalcRow name="Resistance" value={this.props.state.resistanceValue} units="I" />
+            <CalcRow name="Voltage" value={this.props.state.voltageValue} units="V" calcWhat={this.props.state.calcWhat} onCalcWhatChange={this.onCalcWhatChange} />
+            <CalcRow name="Current" value={this.props.state.currentValue} units="I" calcWhat={this.props.state.calcWhat} onCalcWhatChange={this.onCalcWhatChange} />
+            <CalcRow name="Resistance" value={this.props.state.resistanceValue} units="I" calcWhat={this.props.state.calcWhat} onCalcWhatChange={this.onCalcWhatChange} />
         </tbody>
       </table>
 

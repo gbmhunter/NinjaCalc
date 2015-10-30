@@ -18,8 +18,9 @@ console.log(jetpack.read('package.json', 'json'));
 // window.env contains data from config/env_XXX.json file.
 var envName = window.env.name;
 
+/*
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('greet').innerHTML = greet();
     document.getElementById('platform-info').innerHTML = os.platform();
     document.getElementById('env-name').innerHTML = envName;
-});
+});*/
