@@ -1,4 +1,4 @@
-
+import * as ohmsLawActions from './ohms-law-actions.js';
 
 const initialState = {
   voltageValue: '',
@@ -9,12 +9,16 @@ const initialState = {
 }
 
 export default function defaultReducer(state = initialState, action) {
-  switch (action.type) {
-  case 'INCREMENT':
-    return state + 1;
-  case 'DECREMENT':
-    return state - 1;
-  default:
-    return state;
-  }
+	console.log('defaultReducer() called.');
+
+	switch (action.type) {
+		case ohmsLawActions.SET_CALC_WHAT:
+			console.log('ohmsLawActions.SET_CALC_WHAT action received.');
+			return Object.assign({}, state, {
+				calcWhat: action.variableName,	
+			});	
+			return state;
+		default:
+			return state;
+	}
 }

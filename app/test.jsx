@@ -21,6 +21,7 @@ const finalCreateStore = compose(
 
 //=========== REDUCER ===========//
 import defaultReducer from './ohms-law-reducer.js';
+import * as ohmsLawActions from './ohms-law-actions.js';
 //console.log(defaultReducer);
 
 // Create store. Note that there is only one of these for the entire app.
@@ -57,16 +58,19 @@ var CalcRow = React.createClass({
   }
 });
 
-class App extends React.Component {
+//class App extends React.Component {
+var App = React.createClass({
 
-  onCalcWhatChange(event, name) {
+  onCalcWhatChange: function(event, name) {
     console.log('onCalcWhatChange() called with event = .');    
     console.log(event);
     console.log('and name = ');
     console.log(name);
-  }
 
-  render() {
+    this.props.dispatch(ohmsLawActions.setCalcWhat(name));
+  },
+
+  render: function() {
     return (
       <div>
       <table>
@@ -80,7 +84,7 @@ class App extends React.Component {
       </div>
     );
   }
-}
+});
 
 // Select what props to inject into app
 function mapStateToProps(state) {
