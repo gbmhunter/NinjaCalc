@@ -7,10 +7,13 @@ const initialState = {
 
   calcWhat: 'Resistance',*/
 
-	variables: [
+	vars: [
 		{
 			name: 'Voltage',
-			units: 'V',
+			units: 'V',		
+			outputFn: function() {
+				return 10;
+			}	
 		},
 		{
 			name: 'Current',
@@ -29,9 +32,13 @@ export default function defaultReducer(state = initialState, action) {
 	switch (action.type) {
 		case ohmsLawActions.SET_VAR_VAL:
 			console.log('ohmsLawActions.SET_VAR_VAL action received.');
+			
 
-			var voltageValue;
-			switch(action.variableName) {
+			var varToSet = findByName(state.variables, action.varName);
+			console.log('varToSet = ');
+			console.log(varToSet);
+
+			switch(action.varName) {
 				case 'Voltage':
 					console.log('Setting voltage.');
 					voltageValue = state.currentValue*state.resistanceValue;
@@ -39,27 +46,34 @@ export default function defaultReducer(state = initialState, action) {
 				default:
 					console.log('ERROR: action.variableName not recognised.');
 			}
-
-			return Object.assign({}, state, {
-				calcWhat: action.variableName,	
-			});	
+			
 		case ohmsLawActions.SET_CALC_WHAT:
 			console.log('ohmsLawActions.SET_CALC_WHAT action received.');
 
+			/*
 			var voltageValue;
-			switch(action.variableName) {
+			switch(action.varName) {
 				case 'Voltage':
 					console.log('Setting voltage.');
 					voltageValue = state.currentValue*state.resistanceValue;
 					break;
 				default:
 					console.log('ERROR: action.variableName not recognised.');
-			}
+			}*/
 
 			return Object.assign({}, state, {
-				calcWhat: action.variableName,	
+				calcWhat: action.varName,	
 			});	
 		default:
 			return state;
 	}
+}
+
+function findByName(source, name) {
+  for (var i = 0; i < source.length; i++) {
+    if (source[i].name === name) {
+      return source[i];
+    }
+  }
+  throw "Couldn't find object with name: " + name;
 }

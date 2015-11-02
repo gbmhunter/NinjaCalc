@@ -34,14 +34,15 @@ export function setVarVal(varName, val) {
 export var SET_CALC_WHAT = 'SET_CALC_WHAT';
 
 //! @brief    Changes the current variable being calculated.
-export function setCalcWhat(variableName) {
+export function setCalcWhat(varName) {
 
 	return (dispatch, getState) => {
-		console.log('setCalcWhat() thunk called.');
+		console.log('setCalcWhat() thunk called with varName =');
+		console.log(varName);
 
 		dispatch({
 			type: SET_CALC_WHAT,
-			variableName: variableName,
+			varName: varName,
 		});
 	}
 }

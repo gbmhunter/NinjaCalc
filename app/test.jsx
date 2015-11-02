@@ -45,16 +45,18 @@ var CalcRow = React.createClass({
     console.log('CalcRow.onCalcWhatChange() called.');
     console.log('this =');
     console.log(this);
-    this.props.onCalcWhatChange(event, this.props.name);
+    //this.props.onCalcWhatChange(event, this.props.name);
+
+    this.props.dispatch(ohmsLawActions.setCalcWhat(this.props.varData.name));
   },
 
   render: function() {
     return (
       <tr>
-        <td>{this.props.name}</td>
-        <td><input value={this.props.value}></input></td>
-        <td>{this.props.units}</td>
-        <td><input type="radio" checked={this.props.calcWhat == this.props.name} onChange={this.onCalcWhatChange} /></td>
+        <td>{this.props.varData.name}</td>
+        <td><input value={this.props.varData.value}></input></td>
+        <td>{this.props.varData.units}</td>
+        <td><input type="radio" checked={this.props.calcWhat == this.props.varData.name} onChange={this.onCalcWhatChange} /></td>
       </tr>
     );
   }
@@ -74,13 +76,15 @@ var App = React.createClass({
 
 	render: function() {
 
+		var that = this;
+
 		return (
 			<div>
 				<table>
 					<tbody>
 						{/* This generates the rows of the table which contain the calculator variables */
-							this.props.state.variables.map(function(el){
-								return <CalcRow name={el.name} units={el.units} />
+							this.props.state.vars.map(function(el){
+								return <CalcRow varData={el} calcWhat={that.props.state.calcWhat} dispatch={that.props.dispatch} />
 							})
 						}
 					</tbody>
