@@ -34,6 +34,8 @@ var Tabs = ReactDraggableTab.Tabs;
 
 //var ReactGridLayout = require('react-grid-layout');
 
+
+
 // Have had serious issues with using the "class" ES6 syntax!!!
 // e.g. "this" no longer exists as I know it!
 //class CalcRow extends React.Component {
@@ -61,29 +63,32 @@ var CalcRow = React.createClass({
 //class App extends React.Component {
 var App = React.createClass({
 
-  onCalcWhatChange: function(event, name) {
-    console.log('onCalcWhatChange() called with event = .');    
-    console.log(event);
-    console.log('and name = ');
-    console.log(name);
+	onCalcWhatChange: function(event, name) {
+		console.log('onCalcWhatChange() called with event = .');    
+		console.log(event);
+		console.log('and name = ');
+		console.log(name);
 
-    this.props.dispatch(ohmsLawActions.setCalcWhat(name));
-  },
+		this.props.dispatch(ohmsLawActions.setCalcWhat(name));
+	},
 
-  render: function() {
-    return (
-      <div>
-      <table>
-        <tbody>
-            <CalcRow name="Voltage" value={this.props.state.voltageValue} units="V" calcWhat={this.props.state.calcWhat} onCalcWhatChange={this.onCalcWhatChange} />
-            <CalcRow name="Current" value={this.props.state.currentValue} units="I" calcWhat={this.props.state.calcWhat} onCalcWhatChange={this.onCalcWhatChange} />
-            <CalcRow name="Resistance" value={this.props.state.resistanceValue} units="I" calcWhat={this.props.state.calcWhat} onCalcWhatChange={this.onCalcWhatChange} />
-        </tbody>
-      </table>
+	render: function() {
 
-      </div>
-    );
-  }
+		return (
+			<div>
+				<table>
+					<tbody>
+						{/* This generates the rows of the table which contain the calculator variables */
+							this.props.state.variables.map(function(el){
+								return <CalcRow name={el.name} units={el.units} />
+							})
+						}
+					</tbody>
+				</table>
+
+			</div>
+		);
+	}
 });
 
 // Select what props to inject into app
