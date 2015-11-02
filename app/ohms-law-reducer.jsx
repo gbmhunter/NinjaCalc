@@ -20,11 +20,17 @@ const initialState = {
 			name: 'Current',
 			val: '',
 			units: 'I',
+			outputFn: function() {
+				return 10;
+			}
 		},
 		{
 			name: 'Resistance',
 			val: '',
 			units: 'R',
+			outputFn: function() {
+				return 10;
+			}
 		},
 	]
 }
@@ -41,14 +47,39 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('varIndex = ');
 			console.log(varIndex);
 
-			return Object.assign({}, state, {
-				vars: [
+
+			// Update the variable which was just changed by user			
+			// To modify array contents, we need to split it before and after the
+			// index we are interested in modifying, and then modify the element with another
+			// .assign() call.
+			var vars = [
 					...state.vars.slice(0, varIndex),
 					Object.assign({}, state.vars[varIndex], {
 						val: action.val
 					}),
 					...state.vars.slice(varIndex + 1)
-				]
+			]
+
+			// Need to find the calculated variable also
+			var calcVarIndex = findIndexByName(state.vars, state.calcWhat);
+			console.log('calcVarIndex = ' + calcVarIndex);
+
+			// Call the calculated variables output function
+			var calcVarVal = state.vars[calcVarIndex].outputFn();
+			console.log('calcVarVal = ' + calcVarVal);
+
+			// Update the calculated variable value
+			vars = [
+					...vars.slice(0, calcVarIndex),
+					Object.assign({}, vars[calcVarIndex], {
+						val: calcVarVal
+					}),
+					...vars.slice(calcVarIndex + 1)
+			]
+
+			// Finally, return with our modified vars array
+			return Object.assign({}, state, {
+				vars: vars
 			})
 			
 		case ohmsLawActions.SET_CALC_WHAT:
