@@ -22,6 +22,7 @@ export function setVarVal(varName, val) {
 
 		dispatch({
 			type: SET_VAR_VAL,
+			varName: varName,
 			val: val,
 		});
 	}

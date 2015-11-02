@@ -41,30 +41,39 @@ var Tabs = ReactDraggableTab.Tabs;
 //class CalcRow extends React.Component {
 var CalcRow = React.createClass({
 
-  onCalcWhatChange: function(event) {
-    console.log('CalcRow.onCalcWhatChange() called.');
-    console.log('this =');
-    console.log(this);
-    //this.props.onCalcWhatChange(event, this.props.name);
+	onValueChange: function(event) {
+		console.log('onValueChange() called with event = ');
+		console.log(event);
 
-    this.props.dispatch(ohmsLawActions.setCalcWhat(this.props.varData.name));
-  },
+		// Let's call a thunk to set the variable value inside redux state
+		this.props.dispatch(ohmsLawActions.setVarVal(this.props.varData.name, event.target.value));
+	},
 
-  render: function() {
-    return (
-      <tr>
-        <td>{this.props.varData.name}</td>
-        <td><input value={this.props.varData.value}></input></td>
-        <td>{this.props.varData.units}</td>
-        <td><input type="radio" checked={this.props.calcWhat == this.props.varData.name} onChange={this.onCalcWhatChange} /></td>
-      </tr>
-    );
-  }
+	onCalcWhatChange: function(event) {
+		console.log('CalcRow.onCalcWhatChange() called.');
+		console.log('this =');
+		console.log(this);
+		//this.props.onCalcWhatChange(event, this.props.name);
+
+		this.props.dispatch(ohmsLawActions.setCalcWhat(this.props.varData.name));
+	},
+
+	render: function() {
+		return (
+			<tr>
+				<td>{this.props.varData.name}</td>
+				<td><input value={this.props.varData.val} onChange={this.onValueChange}></input></td>
+				<td>{this.props.varData.units}</td>
+				<td><input type="radio" checked={this.props.calcWhat == this.props.varData.name} onChange={this.onCalcWhatChange} /></td>
+			</tr>
+		);
+	}
 });
 
 //class App extends React.Component {
 var App = React.createClass({
 
+/*
 	onCalcWhatChange: function(event, name) {
 		console.log('onCalcWhatChange() called with event = .');    
 		console.log(event);
@@ -72,7 +81,7 @@ var App = React.createClass({
 		console.log(name);
 
 		this.props.dispatch(ohmsLawActions.setCalcWhat(name));
-	},
+	},*/
 
 	render: function() {
 
