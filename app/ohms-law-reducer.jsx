@@ -10,17 +10,15 @@
 import * as ohmsLawActions from './ohms-law-actions.js';
 
 const initialState = {
-  /*voltageValue: '',
-  currentValue: '',
-  resistanceValue: '',
 
-  calcWhat: 'Resistance',*/
+  calcWhat: 'Resistance',
 
 	vars: [
 		{
 			name: 'Voltage',
 			val: '2',
 			units: 'V',		
+			direction: 'input',
 			outputFn: function(vars) {		
 				return getVal(vars, 'Current') * getVal(vars, 'Resistance');								
 			}
@@ -29,6 +27,7 @@ const initialState = {
 			name: 'Current',
 			val: '',
 			units: 'I',
+			direction: 'input',
 			outputFn: function(vars) {		
 				return getVal(vars, 'Voltage') / getVal(vars, 'Resistance');								
 			}
@@ -37,6 +36,7 @@ const initialState = {
 			name: 'Resistance',
 			val: '',
 			units: 'R',
+			direction: 'output',
 			outputFn: function(vars) {						
 
 				//console.log('getVal(\'Voltage\') =' + getVal(vars, 'Voltage'));
@@ -50,6 +50,8 @@ const initialState = {
 	]
 }
 
+//! @brief		Utility function that gets a calculator variable value when provided with the
+//!				array of variables and then variable name.
 function getVal(vars, varName) {
 	return vars[findIndexByName(vars, varName)].val;
 }
@@ -79,8 +81,18 @@ export default function defaultReducer(state = initialState, action) {
 					...state.vars.slice(varIndex + 1)
 			]
 
-			// Need to find the calculated variable also
-			var calcVarIndex = findIndexByName(state.vars, state.calcWhat);
+			// Need to also re-calculate any output variables
+			console.log('Re-calculating outputs.');
+			vars.forEach((el, index) => {
+				console.log(el);
+				if(el.direction == 'output') {
+					var calcVal = el.outputFn(vars);
+					console.log('calcVal = ' + calcVal);
+					el.val = calcVal;
+				}
+			});
+
+			/*var calcVarIndex = findIndexByName(state.vars, state.calcWhat);
 			console.log('calcVarIndex = ' + calcVarIndex);
 
 			// Call the calculated variables output function
@@ -94,29 +106,34 @@ export default function defaultReducer(state = initialState, action) {
 						val: calcVarVal
 					}),
 					...vars.slice(calcVarIndex + 1)
-			]
+			]*/
 
 			// Finally, return with our modified vars array
 			return Object.assign({}, state, {
 				vars: vars
 			})
 			
-		case ohmsLawActions.SET_CALC_WHAT:
+		case ohmsLawActions.SET_OUTPUT_VAR:
 			console.log('ohmsLawActions.SET_CALC_WHAT action received.');
 
-			/*
-			var voltageValue;
-			switch(action.varName) {
-				case 'Voltage':
-					console.log('Setting voltage.');
-					voltageValue = state.currentValue*state.resistanceValue;
-					break;
-				default:
-					console.log('ERROR: action.variableName not recognised.');
-			}*/
+			var varIndex = findIndexByName(state.vars, action.varName);
+			//console.log('varIndex = ');
+
+			var vars = [...state.vars];
+
+			vars.map(function(el, index){
+				if(index == varIndex) {
+					console.log('Setting ' + el.name + ' as a output.');
+					el.direction = 'output';
+				} else {
+					el.direction = 'input';
+					console.log('Setting ' + el.name + ' as a input.');
+				}
+			});
+			
 
 			return Object.assign({}, state, {
-				calcWhat: action.varName,	
+				vars: vars,	
 			});	
 		default:
 			return state;

@@ -55,7 +55,7 @@ var CalcRow = React.createClass({
 		console.log(this);
 		//this.props.onCalcWhatChange(event, this.props.name);
 
-		this.props.dispatch(ohmsLawActions.setCalcWhat(this.props.varData.name));
+		this.props.dispatch(ohmsLawActions.setOutputVar(this.props.varData.name));
 	},
 
 	render: function() {
@@ -64,7 +64,7 @@ var CalcRow = React.createClass({
 				<td>{this.props.varData.name}</td>
 				<td><input value={this.props.varData.val} onChange={this.onValueChange}></input></td>
 				<td>{this.props.varData.units}</td>
-				<td><input type="radio" checked={this.props.calcWhat == this.props.varData.name} onChange={this.onCalcWhatChange} /></td>
+				<td><input type="radio" checked={this.props.varData.direction == 'output'} onChange={this.onCalcWhatChange} /></td>
 			</tr>
 		);
 	}
@@ -80,7 +80,7 @@ var App = React.createClass({
 		console.log('and name = ');
 		console.log(name);
 
-		this.props.dispatch(ohmsLawActions.setCalcWhat(name));
+		this.props.dispatch(ohmsLawActions.setOutputVar(name));
 	},*/
 
 	render: function() {
