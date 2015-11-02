@@ -28,8 +28,17 @@ const initialState = {
 			name: 'Resistance',
 			val: '',
 			units: 'R',
-			outputFn: function() {
-				return 10;
+			outputFn: function(vars) {
+
+				console.log('this =');
+				console.log(this);
+
+				console.log('findIndexByName(vars, \'Voltage\').val = ' + findIndexByName(vars, 'Voltage'));
+				//console.log(initialState.vars);
+
+				var result = vars[findIndexByName(vars, 'Voltage')].val / vars[findIndexByName(vars, 'Current')].val;
+				console.log('result = ' + result);
+				return result;
 			}
 		},
 	]
@@ -65,7 +74,7 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('calcVarIndex = ' + calcVarIndex);
 
 			// Call the calculated variables output function
-			var calcVarVal = state.vars[calcVarIndex].outputFn();
+			var calcVarVal = state.vars[calcVarIndex].outputFn(vars);
 			console.log('calcVarVal = ' + calcVarVal);
 
 			// Update the calculated variable value
