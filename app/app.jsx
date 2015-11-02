@@ -1,5 +1,13 @@
+//!
+//! @file               app.jsx
+//! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+//! @created            2015-11-02
+//! @last-modified      2015-11-02
+//! @brief              Contains the "redux" actions for the NinjaCalc app.
+//! @details
+//!     See README.rst in repo root dir for more info.
+
 //import React, { Component } from 'react';
-//import Container from './Container';
 
 import React from 'react';
 // Redux utility functions
@@ -20,8 +28,8 @@ const finalCreateStore = compose(
 )(createStore);
 
 //=========== REDUCER ===========//
-import defaultReducer from './ohms-law-reducer.js';
-import * as ohmsLawActions from './ohms-law-actions.js';
+import defaultReducer from './calculators/ohms-law/ohms-law-reducer.js';
+import * as ohmsLawActions from './calculators/ohms-law/ohms-law-actions.js';
 //console.log(defaultReducer);
 
 // Create store. Note that there is only one of these for the entire app.
@@ -35,7 +43,7 @@ var Tabs = ReactDraggableTab.Tabs;
 //var ReactGridLayout = require('react-grid-layout');
 
 
-
+//! @brief    A single row in the calculator table.
 // Have had serious issues with using the "class" ES6 syntax!!!
 // e.g. "this" no longer exists as I know it!
 //class CalcRow extends React.Component {
@@ -73,16 +81,6 @@ var CalcRow = React.createClass({
 //class App extends React.Component {
 var App = React.createClass({
 
-/*
-	onCalcWhatChange: function(event, name) {
-		console.log('onCalcWhatChange() called with event = .');    
-		console.log(event);
-		console.log('and name = ');
-		console.log(name);
-
-		this.props.dispatch(ohmsLawActions.setOutputVar(name));
-	},*/
-
 	render: function() {
 
 		var that = this;
@@ -93,7 +91,7 @@ var App = React.createClass({
 					<tbody>
 						{/* This generates the rows of the table which contain the calculator variables */
 							this.props.state.vars.map(function(el){
-								return <CalcRow varData={el} calcWhat={that.props.state.calcWhat} dispatch={that.props.dispatch} />
+								return <CalcRow varData={el} dispatch={that.props.dispatch} />
 							})
 						}
 					</tbody>
@@ -104,7 +102,8 @@ var App = React.createClass({
 	}
 });
 
-// Select what props to inject into app
+//! @brief    Selects what props to inject into app.
+//! @details  Currently injecting everything.
 function mapStateToProps(state) {
   return {
     /*serialPort: state.serialPort,
@@ -116,10 +115,13 @@ function mapStateToProps(state) {
   };
 }
 
-// Inject dispath and state into app
+// Inject dispatch and state into app
 App = connect(mapStateToProps)(App);
 
 // Wrapping the app in Provider allows us to use Redux
+console.log(document);
+//console.log('document.getElementById(\'content\') = ');
+console.log(document.getElementById('content'));
 var appRender = React.render(
   <div id='redux-wrapper-div' style={{height: '100%'}}>
     <Provider store={store}>

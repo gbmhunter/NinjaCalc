@@ -79,7 +79,7 @@ var bundle = function (src, dest) {
 var bundleApplication = function () {
     return Q.all([
         bundle(srcDir.path('background.js'), destDir.path('background.js')),
-        bundle(srcDir.path('app.js'), destDir.path('app.js')),
+        //bundle(srcDir.path('app.js'), destDir.path('app.js')),
     ]);
 };
 
@@ -140,8 +140,16 @@ gulp.task('watch', function () {
     gulp.watch('app/**/*.jsx', ['compile-watch']);
 });
 
+//! @brief      Performs ES6/ES7 -> ES5 transformations, as well as compiling .jsx (React components) files
+//!             into normal .js fils.
 var compileWatchTask = function() {
-    return gulp.src(['app/*.jsx', 'app/node_modules/react-draggable-tab/**/*.js', '!app/node_modules/react-draggable-tab/node_modules/**/*'],  
+    return gulp.src(
+        // Can't seem to exclude a large directory, and then specifically include parts of it.
+        [
+            'app/**.jsx',
+            'app/calculators/**/*',
+            'app/node_modules/react-draggable-tab/**/*.js',
+            '!app/node_modules/react-draggable-tab/node_modules/**/*'],  
 
         // This base variable preserves the directory structure within /src/ when it compiles
         // it and copies it to build/
@@ -161,6 +169,8 @@ var compileWatchTask = function() {
 
 // Incremental compile ES6, JSX files with sourcemaps
 gulp.task('compile', ['clean', 'copy'], compileWatchTask);
+//gulp.task('compile', ['copy'], compileWatchTask);
+
 //gulp.task('compile', compileWatchTask);
 gulp.task('compile-watch', compileWatchTask);
 
