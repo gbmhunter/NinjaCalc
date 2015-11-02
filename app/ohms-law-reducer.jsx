@@ -1,3 +1,12 @@
+//!
+//! @file               ohms-law-reducer.js
+//! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+//! @created            2015-11-02
+//! @last-modified      2015-11-02
+//! @brief              Contains the "redux" reducer for the NinjaCalc app.
+//! @details
+//!     See README.rst in repo root dir for more info.
+
 import * as ohmsLawActions from './ohms-law-actions.js';
 
 const initialState = {
@@ -12,36 +21,37 @@ const initialState = {
 			name: 'Voltage',
 			val: '2',
 			units: 'V',		
-			outputFn: function() {
-				return 10;
-			}	
+			outputFn: function(vars) {		
+				return getVal(vars, 'Current') * getVal(vars, 'Resistance');								
+			}
 		},
 		{
 			name: 'Current',
 			val: '',
 			units: 'I',
-			outputFn: function() {
-				return 10;
+			outputFn: function(vars) {		
+				return getVal(vars, 'Voltage') / getVal(vars, 'Resistance');								
 			}
 		},
 		{
 			name: 'Resistance',
 			val: '',
 			units: 'R',
-			outputFn: function(vars) {
+			outputFn: function(vars) {						
 
-				console.log('this =');
-				console.log(this);
-
-				console.log('findIndexByName(vars, \'Voltage\').val = ' + findIndexByName(vars, 'Voltage'));
+				//console.log('getVal(\'Voltage\') =' + getVal(vars, 'Voltage'));
 				//console.log(initialState.vars);
 
-				var result = vars[findIndexByName(vars, 'Voltage')].val / vars[findIndexByName(vars, 'Current')].val;
+				var result = getVal(vars, 'Voltage') / getVal(vars, 'Current');
 				console.log('result = ' + result);
 				return result;
 			}
 		},
 	]
+}
+
+function getVal(vars, varName) {
+	return vars[findIndexByName(vars, varName)].val;
 }
 
 export default function defaultReducer(state = initialState, action) {

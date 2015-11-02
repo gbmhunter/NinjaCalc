@@ -1,4 +1,4 @@
- //!
+//!
 //! @file               ohms-law-actions.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
