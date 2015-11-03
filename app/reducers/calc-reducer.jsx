@@ -47,14 +47,16 @@ export default function defaultReducer(state = initialState, action) {
 				'" action.varId = "' + action.varId + 
 				'" action.val = "' + action.val + '".');
 
+			// Note that the value coming will be as displayed, i.e. non-scaled
+
 			// Convert value to float
-			action.val = parseFloat(action.val);
+			var dispVal = parseFloat(action.val);
 
 			// Check if value cannot be converted, and if so, change 'NaN' to nothing!
 			// If state was with NaN, 'NaN' would be displayed for inputs if the user, say, 
 			// deleted all the numbers in input
-			if(isNaN(action.val)) {
-				action.val = ''
+			if(isNaN(dispVal)) {
+				dispVal = ''
 			}
 
 			// First find the index of the calculator the variable/value belongs to			
@@ -63,7 +65,17 @@ export default function defaultReducer(state = initialState, action) {
 
 			// Now find the index of the variable
 			var varIndex = utility.findVarIndexById(state.calculators[calcIndex].vars, action.varId);
-			console.log('varIndex = ' +  varIndex);			
+			console.log('varIndex = ' +  varIndex);		
+
+			// Now standarise variable based on currently selected units
+			//state.calculators[calcIndex].vars[varIndex].selUnitValue;
+			var currUnitMultiplier = state.calculators[calcIndex].vars[varIndex].selUnitValue
+			console.log('Current unit multiplier = ' + currUnitMultiplier);	
+
+			// Calculate raw value from the inputs displayed value and unit multiplier
+
+			var rawVal = dispVal*currUnitMultiplier;
+			console.log('Raw value = ' + rawVal);
 
 
 			// Update the variable which was just changed by user			
@@ -75,13 +87,14 @@ export default function defaultReducer(state = initialState, action) {
 			vars = [
 					...vars.slice(0, varIndex),
 					Object.assign({}, vars[varIndex], {
-						rawVal: action.val,
-						dispVal: action.val,
+						rawVal: rawVal,
+						dispVal: dispVal,
 					}),
 					...vars.slice(varIndex + 1)
 			]
 
 			// Need to also re-calculate any output variables
+			// THIS WILL HAVE TO BE SORTED (using directed acyclic graph algorithm)
 			console.log('Re-calculating outputs.');
 			vars.forEach((el, index) => {
 				console.log(el);
