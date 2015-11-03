@@ -90,10 +90,15 @@ export default function defaultReducer(state = initialState, action) {
 		case calcActions.SET_OUTPUT_VAR:
 			console.log('calcActions.SET_CALC_WHAT action received.');
 
-			var varIndex = utility.findIndexByName(state.vars, action.varName);
-			//console.log('varIndex = ');
+			// First find the index of the calculator the variable/value belongs to			
+			var calcIndex = utility.findCalcIndexById(state.calculators, action.calcId);
+			console.log('calcIndex = ' + calcIndex);
 
-			var vars = [...state.vars];
+			// Now find the index of the variable
+			var varIndex = utility.findVarIndexById(state.calculators[calcIndex].vars, action.varId);
+			console.log('varIndex = ' +  varIndex);		
+
+			var vars = [...state.calculators[calcIndex].vars];
 
 			vars.map(function(el, index){
 				if(index == varIndex) {
@@ -104,11 +109,18 @@ export default function defaultReducer(state = initialState, action) {
 					console.log('Setting ' + el.name + ' as a input.');
 				}
 			});
-			
 
+			// Finally, return with our modified vars array
 			return Object.assign({}, state, {
-				vars: vars,	
-			});	
+				calculators: [
+					...state.calculators.slice(0, calcIndex),
+					Object.assign({}, state.calculators[calcIndex], {
+						vars: vars
+					}),
+					...state.calculators.slice(calcIndex + 1)
+				]
+			});
+			
 		default:
 			return state;
 	}

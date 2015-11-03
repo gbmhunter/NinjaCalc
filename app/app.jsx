@@ -68,7 +68,7 @@ var CalcRow = React.createClass({
 		console.log(this);
 		//this.props.onCalcWhatChange(event, this.props.name);
 
-		this.props.dispatch(calcActions.setOutputVar(this.props.varData.name));
+		this.props.dispatch(calcActions.setOutputVar(this.props.calcId, this.props.varData.id));
 	},
 
 	render: function() {

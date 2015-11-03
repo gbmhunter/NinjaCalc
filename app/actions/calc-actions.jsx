@@ -55,15 +55,15 @@ export function setVarVal(calcId, varId, val) {
 export var SET_OUTPUT_VAR = 'SET_OUTPUT_VAR';
 
 //! @brief    Changes the current variable being calculated.
-export function setOutputVar(varName) {
+export function setOutputVar(calcId, varId) {
 
 	return (dispatch, getState) => {
-		console.log('setOutputVar() thunk called with varName =');
-		console.log(varName);
+		console.log('setOutputVar() thunk called with varId = "' + varId + '".');
 
 		dispatch({
 			type: SET_OUTPUT_VAR,
-			varName: varName,
+			calcId,
+			varId,
 		});
 	}
 }
