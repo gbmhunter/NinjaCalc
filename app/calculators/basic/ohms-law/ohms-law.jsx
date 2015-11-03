@@ -22,7 +22,9 @@ var ohmsLawCalc = {
 			id: 'voltage',
 			name: 'Voltage',
 			val: '2',
-			units: 'V',		
+			units: [
+				{ label: 'V', value: 1 },
+			],		
 			direction: 'input',
 			outputFn: function(vars) {		
 				return getVal(vars, 'current') * getVal(vars, 'resistance');								
@@ -33,7 +35,9 @@ var ohmsLawCalc = {
 			id: 'current',
 			name: 'Current',
 			val: '',
-			units: 'I',
+			units: [
+				{ label: 'I', value: 1 },
+			],	
 			direction: 'input',
 			outputFn: function(vars) {		
 				return getVal(vars, 'voltage') / getVal(vars, 'resistance');								
@@ -44,7 +48,9 @@ var ohmsLawCalc = {
 			id: 'resistance',
 			name: 'Resistance',
 			val: '',
-			units: 'R',
+			units: [
+				{ label: 'R', value: 1 },
+			],	
 			direction: 'output',
 			outputFn: function(vars) {						
 

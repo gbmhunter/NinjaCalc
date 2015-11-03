@@ -15,6 +15,7 @@ import ReactDOM from 'react-dom';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
+var Select = require('react-select');
 
 var ReactRadioGroup = require('react-radio-group');
 
@@ -82,7 +83,12 @@ var CalcRow = React.createClass({
 			<tr>
 				<td>{this.props.varData.name}</td>
 				<td><input value={this.props.varData.val} onChange={this.onValueChange}></input></td>
-				<td>{this.props.varData.units}</td>
+				<td><Select
+					name="form-field-name"
+					value="one"
+					options={this.props.varData.units}					
+					/>
+				</td>
 				{radioButton}
 				
 			</tr>
