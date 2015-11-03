@@ -135,13 +135,32 @@ export default function defaultReducer(state = initialState, action) {
 			// Copy vars array for the relevant calculator
 			var vars = [...state.calculators[calcIndex].vars];
 
+			// Calculate new raw value for this variable
+			var rawVal = vars[varIndex].dispVal*action.unitValue;
+			console.log('New rawVal = ' + rawVal);
+
 			vars = [
 				...vars.slice(0, varIndex),
 				Object.assign({}, vars[varIndex], {
-					selUnitValue: action.unitValue
+					selUnitValue: action.unitValue,
+					rawVal: rawVal,
 				}),
 				...vars.slice(varIndex + 1)
 			];
+
+			// This has essentially changed the value of the input associated with the units,
+			// so we need to recalculate outputs again
+			console.log('Re-calculating outputs.');
+			vars.forEach((el, index) => {
+				
+				if(el.direction == 'output') {
+					console.log('Re-calculating "' + el.id + '".');
+					var calcVal = el.outputFn(vars);
+					console.log('calcVal = ' + calcVal);
+					el.rawVal = calcVal;
+					el.dispVal = calcVal;
+				}
+			});	
 
 			// Finally, return with our modified vars array
 			return Object.assign({}, state, {
