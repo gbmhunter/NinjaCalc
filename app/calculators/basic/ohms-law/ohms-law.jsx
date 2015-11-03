@@ -21,7 +21,8 @@ var ohmsLawCalc = {
 		{
 			id: 'voltage',
 			name: 'Voltage',
-			val: '2',
+			rawVal: '',
+			dispVal: '',
 			units: [
 				{ label: 'mV', value: 1e-3 },
 				{ label: 'V', value: 1 },
@@ -36,7 +37,8 @@ var ohmsLawCalc = {
 		{
 			id: 'current',
 			name: 'Current',
-			val: '',
+			rawVal: '',
+			dispVal: '',
 			units: [
 				{ label: 'I', value: 1 },
 			],
@@ -50,7 +52,8 @@ var ohmsLawCalc = {
 		{
 			id: 'resistance',
 			name: 'Resistance',
-			val: '',
+			rawVal: '',
+			dispVal: '',
 			units: [
 				{ label: 'R', value: 1 },
 			],

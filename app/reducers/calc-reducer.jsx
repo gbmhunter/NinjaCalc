@@ -75,7 +75,8 @@ export default function defaultReducer(state = initialState, action) {
 			vars = [
 					...vars.slice(0, varIndex),
 					Object.assign({}, vars[varIndex], {
-						val: action.val
+						rawVal: action.val,
+						dispVal: action.val,
 					}),
 					...vars.slice(varIndex + 1)
 			]
@@ -87,7 +88,8 @@ export default function defaultReducer(state = initialState, action) {
 				if(el.direction == 'output') {
 					var calcVal = el.outputFn(vars);
 					console.log('calcVal = ' + calcVal);
-					el.val = calcVal;
+					el.rawVal = calcVal;
+					el.dispVal = calcVal;
 				}
 			});	
 

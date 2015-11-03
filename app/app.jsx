@@ -90,7 +90,8 @@ var CalcRow = React.createClass({
 		return (
 			<tr>
 				<td>{this.props.varData.name}</td>
-				<td><input value={this.props.varData.val} onChange={this.onValueChange}></input></td>
+				{/* Now display the dispVal for each calculator variable */}
+				<td><input value={this.props.varData.dispVal} onChange={this.onValueChange}></input></td>
 				<td className="unitsCol">
 					<Select
 						name="form-field-name"
