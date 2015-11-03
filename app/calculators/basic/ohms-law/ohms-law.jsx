@@ -15,6 +15,8 @@ var ohmsLawCalc = {
 	name: 'Ohm\'s Law Calculator',
 	tags: 'ohm, law, resistance, voltage, current',
 
+	//calcType: 'simpleSwitchable',
+
 	vars: [
 		{
 			id: 'voltage',
@@ -24,7 +26,8 @@ var ohmsLawCalc = {
 			direction: 'input',
 			outputFn: function(vars) {		
 				return getVal(vars, 'current') * getVal(vars, 'resistance');								
-			}
+			},
+			showRadio: true,
 		},
 		{
 			id: 'current',
@@ -34,7 +37,8 @@ var ohmsLawCalc = {
 			direction: 'input',
 			outputFn: function(vars) {		
 				return getVal(vars, 'voltage') / getVal(vars, 'resistance');								
-			}
+			},
+			showRadio: true,
 		},
 		{
 			id: 'resistance',
@@ -50,7 +54,8 @@ var ohmsLawCalc = {
 				var result = getVal(vars, 'voltage') / getVal(vars, 'current');
 				console.log('result = ' + result);
 				return result;
-			}
+			},
+			showRadio: true,
 		},
 	],
 }

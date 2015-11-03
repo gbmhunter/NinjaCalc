@@ -7,10 +7,13 @@
 //! @details
 //!     See README.rst in repo root dir for more info.
 
+import { getVal } from '../../../utility/utility.js';
 
 var lt3745Calc = {
 
-	name: 'LT3745',
+	id: 'lt3745',
+	name: 'LT3745 Calculator',
+	tags: 'ic, linear tech, led',
 
 	vars: [
 		{
@@ -40,6 +43,15 @@ var lt3745Calc = {
 			val: '2',
 			units: 'V',		
 			direction: 'output',
+			outputFn: (vars) => {
+				var tempVal = getVal(vars, 'vOutMax') + 2.1;
+			
+				// Vin(min) cannot be less than 6.0V
+				if(tempVal < 6.0)
+					return 6.0;
+					
+				return tempVal;
+			},
 		},
 	]
 }

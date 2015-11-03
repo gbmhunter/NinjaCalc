@@ -24,6 +24,9 @@ export default function defaultReducer(state = initialState, action) {
 
 	switch (action.type) {
 
+		//==============================================================================//
+		//===================================== ADD_CALC ===============================//
+		//==============================================================================//
 		case calcActions.ADD_CALC:
 			console.log('calcActions.ADD_CALC action received.');
 
@@ -36,11 +39,23 @@ export default function defaultReducer(state = initialState, action) {
 				calculators: calculators,
 			});
 
-
+		//==============================================================================//
+		//================================== SET_VAR_VAL ===============================//
+		//==============================================================================//
 		case calcActions.SET_VAR_VAL:
 			console.log('calcActions.SET_VAR_VAL action received with action.calcId = "' + action.calcId + 
 				'" action.varId = "' + action.varId + 
 				'" action.val = "' + action.val + '".');
+
+			// Convert value to float
+			action.val = parseFloat(action.val);
+
+			// Check if value cannot be converted, and if so, change 'NaN' to nothing!
+			// If state was with NaN, 'NaN' would be displayed for inputs if the user, say, 
+			// deleted all the numbers in input
+			if(isNaN(action.val)) {
+				action.val = ''
+			}
 
 			// First find the index of the calculator the variable/value belongs to			
 			var calcIndex = utility.findCalcIndexById(state.calculators, action.calcId);
@@ -87,6 +102,9 @@ export default function defaultReducer(state = initialState, action) {
 				]
 			});
 			
+		//==============================================================================//
+		//=============================== SET_OUTPUT_VAR ===============================//
+		//==============================================================================//
 		case calcActions.SET_OUTPUT_VAR:
 			console.log('calcActions.SET_CALC_WHAT action received.');
 

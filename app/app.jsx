@@ -72,12 +72,19 @@ var CalcRow = React.createClass({
 	},
 
 	render: function() {
+
+		var radioButton;
+		if(this.props.varData.showRadio) {
+			radioButton = <td><input type="radio" checked={this.props.varData.direction == 'output'} onChange={this.onCalcWhatChange} /></td>
+		}
+
 		return (
 			<tr>
 				<td>{this.props.varData.name}</td>
 				<td><input value={this.props.varData.val} onChange={this.onValueChange}></input></td>
 				<td>{this.props.varData.units}</td>
-				<td><input type="radio" checked={this.props.varData.direction == 'output'} onChange={this.onCalcWhatChange} /></td>
+				{radioButton}
+				
 			</tr>
 		);
 	}
