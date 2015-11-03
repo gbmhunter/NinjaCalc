@@ -101,7 +101,46 @@ export default function defaultReducer(state = initialState, action) {
 					...state.calculators.slice(calcIndex + 1)
 				]
 			});
+
+		//==============================================================================//
+		//================================ SET_VAR_UNITS ===============================//
+		//==============================================================================//
 			
+		case calcActions.SET_VAR_UNITS:
+			console.log('calcActions.SET_VAR_UNITS action received.');
+
+			// First find the index of the calculator the variable/value belongs to			
+			var calcIndex = utility.findCalcIndexById(state.calculators, action.calcId);
+			console.log('calcIndex = ' + calcIndex);
+
+			// Now find the index of the variable
+			var varIndex = utility.findVarIndexById(state.calculators[calcIndex].vars, action.varId);
+			console.log('varIndex = ' +  varIndex);	
+
+			// Copy vars array for the relevant calculator
+			var vars = [...state.calculators[calcIndex].vars];
+
+			vars = [
+				...vars.slice(0, varIndex),
+				Object.assign({}, vars[varIndex], {
+					selUnitValue: action.unitValue
+				}),
+				...vars.slice(varIndex + 1)
+			];
+
+			// Finally, return with our modified vars array
+			return Object.assign({}, state, {
+				calculators: [
+					...state.calculators.slice(0, calcIndex),
+					Object.assign({}, state.calculators[calcIndex], {
+						vars: vars
+					}),
+					...state.calculators.slice(calcIndex + 1)
+				]
+			});
+
+
+
 		//==============================================================================//
 		//=============================== SET_OUTPUT_VAR ===============================//
 		//==============================================================================//

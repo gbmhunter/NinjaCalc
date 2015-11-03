@@ -20,6 +20,8 @@ export function findVarIndexById(varArray, id) {
 
 //! @brief		Utility function that gets a calculator variable value when provided with the
 //!				array of variables and then variable name.
+//! @details	Returns the variable taking into account the unit multiplier (e.g. should be returned
+//!				in SI units, if your using an SI unit for a multiplier of 1).
 export function getVal(vars, varId) {
 	return vars[findVarIndexById(vars, varId)].val;
 }

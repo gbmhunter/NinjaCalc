@@ -72,8 +72,16 @@ var CalcRow = React.createClass({
 		this.props.dispatch(calcActions.setOutputVar(this.props.calcId, this.props.varData.id));
 	},
 
+	onUnitsChange: function(event) {
+		console.log('onUnitsChange() called with event =');
+		console.log(event);
+
+		this.props.dispatch(calcActions.setVarUnits(this.props.calcId, this.props.varData.id, event));
+	},
+
 	render: function() {
 
+		// Work out if radio button is needed
 		var radioButton;
 		if(this.props.varData.showRadio) {
 			radioButton = <td><input type="radio" checked={this.props.varData.direction == 'output'} onChange={this.onCalcWhatChange} /></td>
@@ -83,14 +91,16 @@ var CalcRow = React.createClass({
 			<tr>
 				<td>{this.props.varData.name}</td>
 				<td><input value={this.props.varData.val} onChange={this.onValueChange}></input></td>
-				<td><Select
-					name="form-field-name"
-					value="one"
-					options={this.props.varData.units}					
+				<td className="unitsCol">
+					<Select
+						name="form-field-name"
+						value={this.props.varData.selUnitValue}
+						options={this.props.varData.units}
+						onChange={this.onUnitsChange}
+						clearValueText=""					
 					/>
 				</td>
-				{radioButton}
-				
+				{radioButton}				
 			</tr>
 		);
 	}

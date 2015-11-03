@@ -133,6 +133,7 @@ gulp.task('finalize', ['clean'], function () {
 
 
 gulp.task('watch', function () {
+    console.log('watch task started.');
     // These should really be uncommented!!!
     //gulp.watch('app/**/*.js', ['bundle-watch']);
     //gulp.watch(paths.copyFromAppDir, { cwd: 'app' }, ['copy-watch']);
@@ -143,6 +144,7 @@ gulp.task('watch', function () {
 //! @brief      Performs ES6/ES7 -> ES5 transformations, as well as compiling .jsx (React components) files
 //!             into normal .js fils.
 var compileWatchTask = function() {
+    console.log('compileWatchTask() called.');
     return gulp.src(
         // Can't seem to exclude a large directory, and then specifically include parts of it.
         [
