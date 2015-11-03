@@ -1,8 +1,8 @@
 //!
-//! @file               ohms-law-actions.js
+//! @file               calc-actions.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-02
+//! @last-modified      2015-11-03
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -34,14 +34,15 @@ export function addCalc(calcData) {
 export var SET_VAR_VAL = 'SET_VAR_VAL';
 
 //! @brief    Changes the current variable being calculated.
-export function setVarVal(varName, val) {
+export function setVarVal(calcId, varId, val) {
 
 	return (dispatch, getState) => {
-		console.log('setVarVal() thunk called.');
+		console.log('setVarVal() thunk called with calcId = "' + calcId + '" varId = "' + varId + '" val = "' + val + '".');
 
 		dispatch({
 			type: SET_VAR_VAL,
-			varName: varName,
+			calcId: calcId,
+			varId: varId,
 			val: val,
 		});
 	}

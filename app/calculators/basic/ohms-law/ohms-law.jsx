@@ -1,0 +1,59 @@
+//!
+//! @file               ohms-law.js
+//! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+//! @created            2015-11-02
+//! @last-modified      2015-11-03
+//! @brief              Contains the "redux" reducer for the NinjaCalc app.
+//! @details
+//!     See README.rst in repo root dir for more info.
+
+import { getVal } from '../../../utility/utility.js';
+
+var ohmsLawCalc = {
+
+	id: 'ohmsLaw',
+	name: 'Ohm\'s Law Calculator',
+	tags: 'ohm, law, resistance, voltage, current',
+
+	vars: [
+		{
+			id: 'voltage',
+			name: 'Voltage',
+			val: '2',
+			units: 'V',		
+			direction: 'input',
+			outputFn: function(vars) {		
+				return getVal(vars, 'current') * getVal(vars, 'resistance');								
+			}
+		},
+		{
+			id: 'current',
+			name: 'Current',
+			val: '',
+			units: 'I',
+			direction: 'input',
+			outputFn: function(vars) {		
+				return getVal(vars, 'voltage') / getVal(vars, 'resistance');								
+			}
+		},
+		{
+			id: 'resistance',
+			name: 'Resistance',
+			val: '',
+			units: 'R',
+			direction: 'output',
+			outputFn: function(vars) {						
+
+				//console.log('getVal(\'Voltage\') =' + getVal(vars, 'Voltage'));
+				//console.log(initialState.vars);
+
+				var result = getVal(vars, 'voltage') / getVal(vars, 'current');
+				console.log('result = ' + result);
+				return result;
+			}
+		},
+	],
+}
+
+export default ohmsLawCalc;
+

@@ -29,8 +29,8 @@ const finalCreateStore = compose(
 )(createStore);
 
 //=========== REDUCER ===========//
-import defaultReducer from './calculators/ohms-law/ohms-law-reducer.js';
-import * as ohmsLawActions from './calculators/ohms-law/ohms-law-actions.js';
+import defaultReducer from './reducers/calc-reducer.js';
+import * as calcActions from './actions/calc-actions.js';
 //console.log(defaultReducer);
 
 // Create store. Note that there is only one of these for the entire app.
@@ -39,14 +39,10 @@ const store = finalCreateStore(defaultReducer);
 
 //============== LOAD CALCULATORS ============//
 
-// First load the calculator engine
-import * as calcEngine from './calc-engine/calc-engine.js';
-
-//
 import lt3745Calc from './calculators/chip-specific/lt3745/lt3745.js';
+import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 
-// Register calculator
-calcEngine.addCalc(lt3745Calc);
+// Calculators are loaded into Redux state in the onMount function of the react App
 
 
 //var ReactGridLayout = require('react-grid-layout');
@@ -63,7 +59,7 @@ var CalcRow = React.createClass({
 		console.log(event);
 
 		// Let's call a thunk to set the variable value inside redux state
-		this.props.dispatch(ohmsLawActions.setVarVal(this.props.varData.name, event.target.value));
+		this.props.dispatch(calcActions.setVarVal(this.props.calcId, this.props.varData.id, event.target.value));
 	},
 
 	onCalcWhatChange: function(event) {
@@ -72,7 +68,7 @@ var CalcRow = React.createClass({
 		console.log(this);
 		//this.props.onCalcWhatChange(event, this.props.name);
 
-		this.props.dispatch(ohmsLawActions.setOutputVar(this.props.varData.name));
+		this.props.dispatch(calcActions.setOutputVar(this.props.varData.name));
 	},
 
 	render: function() {
@@ -96,9 +92,9 @@ var Calculator = React.createClass({
 			<div>
 				<table>
 					<tbody>
-						{/* This generates the rows of the table which contain the calculator variables */
-							this.props.data.vars.map(function(el){
-								return <CalcRow varData={el} dispatch={that.props.dispatch} />
+						{/* This generates the rows of the table which contain the calculator variables */							
+							this.props.data.vars.map((el) => {
+								return <CalcRow calcId={this.props.data.id} varData={el} dispatch={that.props.dispatch} />
 							})
 						}
 					</tbody>
@@ -112,7 +108,8 @@ var Calculator = React.createClass({
 var App = React.createClass({
 
 	componentDidMount: function() {
-		this.props.dispatch(ohmsLawActions.addCalc(lt3745Calc));
+		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
+		this.props.dispatch(calcActions.addCalc(lt3745Calc));
 	},
 
 	render: function() {
@@ -120,23 +117,12 @@ var App = React.createClass({
 		var that = this;
 
 		return (
-			<div>
-				<table>
-					<tbody>
-						{/* This generates the rows of the table which contain the calculator variables */
-							this.props.state.vars.map(function(el){
-								return <CalcRow varData={el} dispatch={that.props.dispatch} />
-							})
-						}
-					</tbody>
-				</table>
-
+			<div>				
 				{/* Let's create a table for every calculator in array */
 					this.props.state.calculators.map(function(el) {
 						return <Calculator data={el} dispatch={that.props.dispatch} />
 					})
 				}
-
 			</div>
 		);
 	}
