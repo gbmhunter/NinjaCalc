@@ -12,7 +12,7 @@
   "dependencies": {
     "fs-jetpack": "^0.7.0",
     "material-ui": "^0.13.0",
-    "react": "^0.14.0",
+    "react": "^0.14.2",
     "react-absolute-grid": "^1.0.5",
     "react-addons-create-fragment": "^0.14.0",
     "react-addons-pure-render-mixin": "^0.14.0",

@@ -7,6 +7,25 @@
 //! @details
 //!     See README.rst in repo root dir for more info.
 
+//======================================================================//
+//========================= addCalculator() ============================//
+//======================================================================//
+
+export var ADD_CALC = 'ADD_CALC';
+
+//! @brief    Changes the current variable being calculated.
+export function addCalc(calcData) {
+
+	return (dispatch, getState) => {
+		console.log('addCalc() thunk called.');
+
+		dispatch({
+			type: ADD_CALC,
+			calcData: calcData,			
+		});
+	}
+}
+
 
 //======================================================================//
 //=========================== setVarVal() ============================//

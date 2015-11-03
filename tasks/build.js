@@ -146,10 +146,12 @@ var compileWatchTask = function() {
     return gulp.src(
         // Can't seem to exclude a large directory, and then specifically include parts of it.
         [
-            'app/**.jsx',
-            'app/calculators/**/*',
-            'app/node_modules/react-draggable-tab/**/*.js',
-            '!app/node_modules/react-draggable-tab/node_modules/**/*'],  
+            'app/**/*.jsx',
+            //'app/calculators/**/*',
+            '!app/node_modules/**/*',
+            //'app/node_modules/react-draggable-tab/**/*.js',
+            //'!app/node_modules/react-draggable-tab/node_modules/**/*'
+        ],  
 
         // This base variable preserves the directory structure within /src/ when it compiles
         // it and copies it to build/

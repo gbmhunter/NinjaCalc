@@ -11,7 +11,8 @@ import * as ohmsLawActions from './ohms-law-actions.js';
 
 const initialState = {
 
-  calcWhat: 'Resistance',
+	//! @brief		Stores the data for every calculator.
+	calculators: [], 
 
 	vars: [
 		{
@@ -60,6 +61,20 @@ export default function defaultReducer(state = initialState, action) {
 	console.log('defaultReducer() called.');
 
 	switch (action.type) {
+
+		case ohmsLawActions.ADD_CALC:
+			console.log('ohmsLawActions.ADD_CALC action received.');
+
+			var calculators = [
+				...state.calculators,
+				action.calcData,
+			];
+
+			return Object.assign({}, state, {
+				calculators: calculators,
+			});
+
+
 		case ohmsLawActions.SET_VAR_VAL:
 			console.log('ohmsLawActions.SET_VAR_VAL action received with action.val = ' + action.val);
 			
