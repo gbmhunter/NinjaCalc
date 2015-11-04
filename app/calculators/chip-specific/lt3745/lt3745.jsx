@@ -23,7 +23,7 @@ var lt3745Calc = {
 			units: [
 				{ label: 'V', value: 1 },
 			],		
-			selUnit: 'V',
+			selUnitValue: 1,
 			direction: 'input',
 		},
 		{
@@ -33,7 +33,7 @@ var lt3745Calc = {
 			units: [
 				{ label: 'V', value: 1 },
 			],	
-			selUnit: 'V',	
+			selUnitValue: 1,	
 			direction: 'input',
 		},
 		{
@@ -43,7 +43,7 @@ var lt3745Calc = {
 			units: [
 				{ label: 'V', value: 1 },
 			],	
-			selUnit: 'V',	
+			selUnitValue: 1,	
 			direction: 'input',
 		},
 		{
@@ -53,7 +53,7 @@ var lt3745Calc = {
 			units: [
 				{ label: 'V', value: 1 },
 			],
-			selUnit: 'V',		
+			selUnitValue: 1,	
 			direction: 'output',
 			outputFn: (vars) => {
 				var tempVal = getVal(vars, 'vOutMax') + 2.1;

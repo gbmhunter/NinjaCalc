@@ -92,7 +92,7 @@ var CalcRow = React.createClass({
 			<tr>
 				<td>{this.props.varData.name}</td>
 				{/* Now display the dispVal for each calculator variable */}
-				<td><input value={this.props.varData.dispVal} onChange={this.onValueChange}></input></td>
+				<td><input value={this.props.varData.dispVal} onChange={this.onValueChange} className="varDispVal"/></td>
 				<td className="unitsCol">
 					{/*}
 					<Dropdown
@@ -126,7 +126,8 @@ var Calculator = React.createClass({
 
 		return (
 			<div>
-				<table>
+				<h1>{this.props.data.name}</h1>	
+				<table className="calculatorTable">
 					<tbody>
 						{/* This generates the rows of the table which contain the calculator variables */							
 							this.props.data.vars.map((el) => {
@@ -153,7 +154,7 @@ var App = React.createClass({
 		var that = this;
 
 		return (
-			<div>				
+			<div>	
 				{/* Let's create a table for every calculator in array */
 					this.props.state.calculators.map(function(el) {
 						return <Calculator key={el.id} data={el} dispatch={that.props.dispatch} />

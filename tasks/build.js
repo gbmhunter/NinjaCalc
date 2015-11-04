@@ -151,8 +151,16 @@ gulp.task('watch', function () {
     // These should really be uncommented!!!
     //gulp.watch('app/**/*.js', ['bundle-watch']);
     //gulp.watch(paths.copyFromAppDir, { cwd: 'app' }, ['copy-watch']);
-    gulp.watch('app/**/*.less', ['less-watch']);
-    gulp.watch('app/**/*.jsx', ['compile-watch']);
+    var watcher1 = gulp.watch('app/**/*.less', ['less-watch']);
+    watcher1.on('change', function (event) {
+        console.log('Event type: ' + event.type); // added, changed, or deleted
+        console.log('Event path: ' + event.path); // The path of the modified file
+    });
+    var watcher2 = gulp.watch('app/**/*.jsx', ['compile-watch']);
+    watcher2.on('change', function (event) {
+        console.log('Event type: ' + event.type); // added, changed, or deleted
+        console.log('Event path: ' + event.path); // The path of the modified file
+    });
 });
 
 //! @brief      Performs ES6/ES7 -> ES5 transformations, as well as compiling .jsx (React components) files
