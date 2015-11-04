@@ -50,14 +50,15 @@ export default function defaultReducer(state = initialState, action) {
 			// Note that the value coming will be as displayed, i.e. non-scaled
 
 			// Convert value to float
-			var dispVal = parseFloat(action.val);
+			//var dispVal = parseFloat(action.val);
+			var dispVal = action.val;
 
 			// Check if value cannot be converted, and if so, change 'NaN' to nothing!
 			// If state was with NaN, 'NaN' would be displayed for inputs if the user, say, 
 			// deleted all the numbers in input
-			if(isNaN(dispVal)) {
+			/*if(isNaN(dispVal)) {
 				dispVal = ''
-			}
+			}*/
 
 			// First find the index of the calculator the variable/value belongs to			
 			var calcIndex = utility.findCalcIndexById(state.calculators, action.calcId);
