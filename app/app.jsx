@@ -16,6 +16,7 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 var Select = require('react-select');
+import Dropdown from 'react-dropdown';
 
 var ReactRadioGroup = require('react-radio-group');
 
@@ -93,12 +94,23 @@ var CalcRow = React.createClass({
 				{/* Now display the dispVal for each calculator variable */}
 				<td><input value={this.props.varData.dispVal} onChange={this.onValueChange}></input></td>
 				<td className="unitsCol">
+					{/*}
+					<Dropdown
+						options={this.props.varData.units}
+						value={this.props.varData.selUnitValue}
+						placeholder="Select an option"
+					/>
+					*/}
+					
 					<Select
 						name="form-field-name"
 						value={this.props.varData.selUnitValue}
 						options={this.props.varData.units}
 						onChange={this.onUnitsChange}
-						clearValueText=""					
+						clearValueText=""	
+						clearable={false}			
+						multi={false}
+						searchable={false}	
 					/>
 				</td>
 				{radioButton}				
@@ -118,7 +130,7 @@ var Calculator = React.createClass({
 					<tbody>
 						{/* This generates the rows of the table which contain the calculator variables */							
 							this.props.data.vars.map((el) => {
-								return <CalcRow calcId={this.props.data.id} varData={el} dispatch={that.props.dispatch} />
+								return <CalcRow key={el.id} calcId={this.props.data.id} varData={el} dispatch={that.props.dispatch} />
 							})
 						}
 					</tbody>
@@ -144,7 +156,7 @@ var App = React.createClass({
 			<div>				
 				{/* Let's create a table for every calculator in array */
 					this.props.state.calculators.map(function(el) {
-						return <Calculator data={el} dispatch={that.props.dispatch} />
+						return <Calculator key={el.id} data={el} dispatch={that.props.dispatch} />
 					})
 				}
 			</div>

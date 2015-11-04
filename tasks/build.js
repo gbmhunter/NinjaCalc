@@ -42,12 +42,19 @@ gulp.task('clean', function(callback) {
 
 
 var copyTask = function () {
+    console.log('copyTask() called.');
+    return gulp.src(paths.copyFromAppDir, { cwd: './app/', base: './app/'})
+        .pipe(changed(destDir.path()))
+        .pipe(print())
+        .pipe(gulp.dest(destDir.path()));
+    /*
     return projectDir.copyAsync('app', destDir.path(), {
         overwrite: true,
         matching: paths.copyFromAppDir
-    });
+    });*/
 };
-gulp.task('copy', ['clean'], copyTask);
+//gulp.task('copy', ['clean'], copyTask);
+gulp.task('copy', copyTask);
 gulp.task('copy-watch', copyTask);
 
 
@@ -98,7 +105,8 @@ var bundleTask = function () {
     }
     return bundleApplication();
 };
-gulp.task('bundle', ['clean'], bundleTask);
+//gulp.task('bundle', ['clean'], bundleTask);
+gulp.task('bundle', bundleTask);
 gulp.task('bundle-watch', bundleTask);
 
 
@@ -107,11 +115,13 @@ var lessTask = function () {
     .pipe(less())
     .pipe(gulp.dest(destDir.path('stylesheets')));
 };
-gulp.task('less', ['clean'], lessTask);
+//gulp.task('less', ['clean'], lessTask);
+gulp.task('less', lessTask);
 gulp.task('less-watch', lessTask);
 
 
-gulp.task('finalize', ['clean'], function () {
+//gulp.task('finalize', ['clean'], function () {
+    gulp.task('finalize', function () {
     var manifest = srcDir.read('package.json', 'json');
     // Add "dev" or "test" suffix to name, so Electron will write all data
     // like cookies and localStorage in separate places for each environment.
@@ -128,7 +138,11 @@ gulp.task('finalize', ['clean'], function () {
     destDir.write('package.json', manifest);
 
     var configFilePath = projectDir.path('config/env_' + utils.getEnvName() + '.json');
-    destDir.copy(configFilePath, 'env_config.json');
+    destDir.copy(
+        configFilePath,
+        'env_config.json',
+        { overwrite: true }
+    );
 });
 
 
@@ -172,8 +186,8 @@ var compileWatchTask = function() {
 }
 
 // Incremental compile ES6, JSX files with sourcemaps
-gulp.task('compile', ['clean', 'copy'], compileWatchTask);
-//gulp.task('compile', ['copy'], compileWatchTask);
+//gulp.task('compile', ['clean', 'copy'], compileWatchTask);
+gulp.task('compile', ['copy'], compileWatchTask);
 
 //gulp.task('compile', compileWatchTask);
 gulp.task('compile-watch', compileWatchTask);
