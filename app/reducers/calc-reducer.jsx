@@ -96,15 +96,7 @@ export default function defaultReducer(state = initialState, action) {
 			// Need to also re-calculate any output variables
 			// THIS WILL HAVE TO BE SORTED (using directed acyclic graph algorithm)
 			console.log('Re-calculating outputs.');
-			vars.forEach((el, index) => {
-				console.log(el);
-				if(el.direction == 'output') {
-					var calcVal = el.outputFn(vars);
-					console.log('calcVal = ' + calcVal);
-					el.rawVal = calcVal;
-					el.dispVal = calcVal;
-				}
-			});	
+			vars = reCalcOutputs(vars);
 
 			// Finally, return with our modified vars array
 			return Object.assign({}, state, {
@@ -135,6 +127,7 @@ export default function defaultReducer(state = initialState, action) {
 			// Copy vars array for the relevant calculator
 			var vars = [...state.calculators[calcIndex].vars];
 
+			// Since the units have been changed for this variable, the raw value will change
 			// Calculate new raw value for this variable
 			var rawVal = vars[varIndex].dispVal*action.unitValue;
 			console.log('New rawVal = ' + rawVal);
@@ -151,16 +144,8 @@ export default function defaultReducer(state = initialState, action) {
 			// This has essentially changed the value of the input associated with the units,
 			// so we need to recalculate outputs again
 			console.log('Re-calculating outputs.');
-			vars.forEach((el, index) => {
-				
-				if(el.direction == 'output') {
-					console.log('Re-calculating "' + el.id + '".');
-					var calcVal = el.outputFn(vars);
-					console.log('calcVal = ' + calcVal);
-					el.rawVal = calcVal;
-					el.dispVal = calcVal;
-				}
-			});	
+			vars = reCalcOutputs(vars);
+			
 
 			// Finally, return with our modified vars array
 			return Object.assign({}, state, {
@@ -217,3 +202,26 @@ export default function defaultReducer(state = initialState, action) {
 	}
 }
 
+//======================================================================//
+//=========================== HELPER FUNCTIONS =========================//
+//======================================================================//
+
+function reCalcOutputs(vars) {
+	vars.forEach((el, index) => {
+				
+		if(el.direction == 'output') {
+			
+			var rawVal = el.outputFn(vars);
+			console.log('rawVal = ' + rawVal);
+			el.rawVal = rawVal;
+
+			// Now calculate displayed value using raw value
+			// and selected units
+			var dispVal = rawVal/el.selUnitValue;
+			console.log('Re-calculated "' + el.id + '", rawVal = "' + rawVal + '", dispVal = "' + dispVal + '.');
+			el.dispVal = dispVal;
+		}
+	});	
+
+	return vars;
+}
