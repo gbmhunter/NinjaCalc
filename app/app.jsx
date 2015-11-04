@@ -82,17 +82,31 @@ var CalcRow = React.createClass({
 
 	render: function() {
 
+		var isInputDisabled;
+		if(this.props.varData.direction == 'input') {
+			isInputDisabled = false;
+		} else {
+			// direction must == 'output'
+			isInputDisabled = true;
+		}
+
+
 		// Work out if radio button is needed
 		var radioButton;
 		if(this.props.varData.showRadio) {
-			radioButton = <td><input type="radio" checked={this.props.varData.direction == 'output'} onChange={this.onCalcWhatChange} /></td>
+			radioButton = <input type="radio" checked={this.props.varData.direction == 'output'} onChange={this.onCalcWhatChange} />
 		}
 
 		return (
 			<tr>
 				<td>{this.props.varData.name}</td>
 				{/* Now display the dispVal for each calculator variable */}
-				<td><input value={this.props.varData.dispVal} onChange={this.onValueChange} className="varDispVal"/></td>
+				<td>
+					<input
+						value={this.props.varData.dispVal}
+						onChange={this.onValueChange}
+						disabled={isInputDisabled}
+						className="varDispVal"/></td>
 				<td className="unitsCol">
 					{/*}
 					<Dropdown
@@ -113,7 +127,7 @@ var CalcRow = React.createClass({
 						searchable={false}	
 					/>
 				</td>
-				{radioButton}				
+				<td>{radioButton}</td>				
 			</tr>
 		);
 	}
