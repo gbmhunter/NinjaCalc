@@ -118,47 +118,12 @@ export default function defaultReducer(state = initialState, action) {
 			// Calculate the new raw value
 			var rawVal = utility.calcRawValFromDispVal(vars[varIndex]);
 
-			/*// Now standarise variable based on currently selected units
-			//state.calculators[calcIndex].vars[varIndex].selUnitValue;
-			var selUnitLabel = state.calculators[calcIndex].vars[varIndex].selUnitValue
-			console.log('Selected unit label = ' + selUnitLabel);
-
-			var selUnitIndex = utility.findUnitIndexByLabel(
-				state.calculators[calcIndex].vars[varIndex].units,
-				selUnitLabel);
-			console.log('Selected unit index = ' + selUnitIndex);
-
-			// Create a 'pointer' to selected unit to reduce verbosity in following code
-			var selUnit = state.calculators[calcIndex].vars[varIndex].units[selUnitIndex];
-
-			// Now we need to work out whether the 'eq' variable for the selected unit is just a number (a multiplier)
-			// or an object with two functions
-			var rawVal;
-			if(typeof selUnit === 'function') {
-				console.log('eq for "' + selUnit.label + '" units is a function.');
-
-				// Since we know 'eq' is a function, lets call it to work out what the rawVal is...
-				rawVal = selUnit.eq(dispVal, 'in');
-
-			} else {
-				console.log('eq for "' + selUnit.label + '" units is a number.');
-				console.log('dispVal = ' + dispVal);
-				rawVal = dispVal*selUnit.eq;
-			}*/
-
-
-			// Calculate raw value from the inputs displayed value and unit multiplier
-
-			
 			console.log('Raw value = ' + rawVal);
 
-
-			// Update the variable which was just changed by user			
 			// To modify array contents, we need to split it before and after the
 			// index we are interested in modifying, and then modify the element with another
 			// .assign() call.
 			//var vars = [...state.calculators[calcIndex].vars];
-
 			vars = [
 					...vars.slice(0, varIndex),
 					Object.assign({}, vars[varIndex], {
@@ -170,7 +135,7 @@ export default function defaultReducer(state = initialState, action) {
 			// Need to also re-calculate any output variables
 			// THIS WILL HAVE TO BE SORTED (using directed acyclic graph algorithm)
 			console.log('Re-calculating outputs.');
-			vars = reCalcOutputs(vars);
+			vars = utility.reCalcOutputs(vars);
 
 			// Finally, return with our modified vars array
 			return Object.assign({}, state, {
@@ -229,7 +194,7 @@ export default function defaultReducer(state = initialState, action) {
 			// This has essentially changed the value of the input associated with the units,
 			// so we need to recalculate outputs again
 			console.log('Re-calculating outputs.');
-			vars = reCalcOutputs(vars);
+			vars = utility.reCalcOutputs(vars);
 			
 
 			// Finally, return with our modified vars array
@@ -271,6 +236,9 @@ export default function defaultReducer(state = initialState, action) {
 				}
 			});
 
+			// Now that they have been changed, when need to re-calculate outputs
+			vars = utility.reCalcOutputs(vars);
+
 			// Finally, return with our modified vars array
 			return Object.assign({}, state, {
 				calculators: [
@@ -287,52 +255,3 @@ export default function defaultReducer(state = initialState, action) {
 	}
 }
 
-//======================================================================//
-//=========================== HELPER FUNCTIONS =========================//
-//======================================================================//
-
-//! @brief		Re-calculates all output variables in a calculator.
-function reCalcOutputs(vars) {
-	vars.forEach((calcVar, index) => {
-			
-		// Filter for outputs only	
-		if(calcVar.direction == 'output') {
-			
-			// Recalculate the rawVal for the variable by calling it's
-			// 'outputFn'.
-			var rawVal = calcVar.outputFn(vars);
-			console.log('rawVal = ' + rawVal);
-			calcVar.rawVal = rawVal;
-
-			// Find the index of the selected unit for this variable
-
-			var selUnitIndex = utility.findUnitIndexByLabel(
-				calcVar.units,
-				calcVar.selUnitValue);
-			console.log('Selected unit index = ' + selUnitIndex);						
-
-			// Now we need to work out whether the 'eq' variable for the selected unit is just a number (a multiplier)
-			// or an object with two functions
-			var dispVal;
-			if(typeof calcVar.units[selUnitIndex].eq === 'function') {
-				console.log('eq for "' + calcVar.units[selUnitIndex].label + '" unit is a function.');
-
-				// Since we know 'eq' is a function, lets call it to work out what the rawVal is...
-				dispVal = calcVar.units[selUnitIndex].eq(rawVal, 'output');
-
-			} else {
-				console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
-				dispVal = rawVal*calcVar.units[selUnitIndex].eq;
-			}
-
-
-			// Now calculate displayed value using raw value
-			// and selected units
-			//var dispVal = rawVal/calcVar.selUnitValue;
-			console.log('Re-calculated "' + calcVar.id + '", rawVal = "' + rawVal + '", dispVal = "' + dispVal + '.');
-			calcVar.dispVal = dispVal;
-		}
-	});	
-
-	return vars;
-}

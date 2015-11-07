@@ -26,7 +26,16 @@ var ohmsLawCalc = {
 			units: [
 				{ label: 'mV', eq: 1e-3 },
 				{ label: 'V', eq: 1 },
-				{ label: 'T', eq: (value, dir) => { return 1; } }
+				{ 
+					label: 'T',
+					eq: (value, dir) => {
+						if(dir == 'input') {
+							return 2;
+						} else {
+							return 4;
+						}
+					}
+				}
 			],
 			selUnitValue: 'V',		
 			direction: 'input',
