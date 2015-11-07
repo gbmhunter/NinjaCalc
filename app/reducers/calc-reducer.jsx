@@ -103,7 +103,22 @@ export default function defaultReducer(state = initialState, action) {
 			var varIndex = utility.findVarIndexById(state.calculators[calcIndex].vars, action.varId);
 			console.log('varIndex = ' +  varIndex);		
 
-			// Now standarise variable based on currently selected units
+			// Copy vars array for the relevant calculator
+			var vars = [...state.calculators[calcIndex].vars];
+
+			// Save in the new displayed value
+			vars = [
+				...vars.slice(0, varIndex),
+				Object.assign({}, vars[varIndex], {
+					dispVal: dispVal,					
+				}),
+				...vars.slice(varIndex + 1)
+			];
+
+			// Calculate the new raw value
+			var rawVal = utility.calcRawValFromDispVal(vars[varIndex]);
+
+			/*// Now standarise variable based on currently selected units
 			//state.calculators[calcIndex].vars[varIndex].selUnitValue;
 			var selUnitLabel = state.calculators[calcIndex].vars[varIndex].selUnitValue
 			console.log('Selected unit label = ' + selUnitLabel);
@@ -129,7 +144,7 @@ export default function defaultReducer(state = initialState, action) {
 				console.log('eq for "' + selUnit.label + '" units is a number.');
 				console.log('dispVal = ' + dispVal);
 				rawVal = dispVal*selUnit.eq;
-			}
+			}*/
 
 
 			// Calculate raw value from the inputs displayed value and unit multiplier
@@ -142,13 +157,12 @@ export default function defaultReducer(state = initialState, action) {
 			// To modify array contents, we need to split it before and after the
 			// index we are interested in modifying, and then modify the element with another
 			// .assign() call.
-			var vars = [...state.calculators[calcIndex].vars];
+			//var vars = [...state.calculators[calcIndex].vars];
 
 			vars = [
 					...vars.slice(0, varIndex),
 					Object.assign({}, vars[varIndex], {
 						rawVal: rawVal,
-						dispVal: dispVal,
 					}),
 					...vars.slice(varIndex + 1)
 			]
