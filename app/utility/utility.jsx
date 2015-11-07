@@ -18,6 +18,55 @@ export function findVarIndexById(varArray, id) {
 	throw 'Couldn\'t find variable with id = "' + id + '".';
 }
 
+export function calcRawValFromDispVal(calcVar) {
+	console.log('utility.calcRawValFromDispVal() called with calcVar =.');
+	console.log(calcVar);
+
+
+	var selUnitLabel = calcVar.selUnitValue
+	console.log('Selected unit label = ' + selUnitLabel);
+
+	var selUnitIndex = findUnitIndexByLabel(
+		calcVar.units,
+		selUnitLabel);
+	console.log('Selected unit index = ' + selUnitIndex);
+
+	// Now we need to work out whether the 'eq' variable for the selected unit is just a number (a multiplier)
+	// or an object with two functions
+	var rawVal;
+
+	// Somehow doing this assignment automatically converts the dispVal variable in the calc var from
+	// a string into a number, so it plays nicely when multiplied below?
+	// Should toFloat() or similar be used here instead???
+	var dispVal = calcVar.dispVal;
+	
+	if(typeof calcVar.units[selUnitIndex].eq === 'function') {
+		console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a function.');
+
+		// Since we know 'eq' is a function, lets call it to work out what the rawVal is...
+		rawVal = calcVar.units[selUnitIndex].eq(dispVal, 'in');
+
+	} else {
+		console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
+		rawVal = dispVal*calcVar.units[selUnitIndex].eq;
+	}
+
+	return rawVal;
+}
+
+export function findUnitIndexByLabel(unitArray, label) {
+	console.log('findUnitIndexByLabel() called with unitArrary =');
+	console.log(unitArray);
+	console.log('and label = "' + label + '".');
+	
+	for (var i = 0; i < unitArray.length; i++) {
+		if (unitArray[i].label === label) {
+			return i;
+		}
+	}
+	throw 'Couldn\'t find unit with label = "' + label + '".';
+}
+
 //! @brief		Utility function that gets a calculator variable value when provided with the
 //!				array of variables and then variable name.
 //! @details	Returns the variable taking into account the unit multiplier (e.g. should be returned

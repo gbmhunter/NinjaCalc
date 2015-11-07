@@ -24,10 +24,11 @@ var ohmsLawCalc = {
 			rawVal: '',
 			dispVal: '',
 			units: [
-				{ label: 'mV', value: 1e-3 },
-				{ label: 'V', value: 1 },
+				{ label: 'mV', eq: 1e-3 },
+				{ label: 'V', eq: 1 },
+				{ label: 'T', eq: (value, dir) => { return 1; } }
 			],
-			selUnitValue: 1,		
+			selUnitValue: 'V',		
 			direction: 'input',
 			outputFn: function(vars) {		
 				return getVal(vars, 'current') * getVal(vars, 'resistance');								
@@ -40,9 +41,9 @@ var ohmsLawCalc = {
 			rawVal: '',
 			dispVal: '',
 			units: [
-				{ label: 'I', value: 1 },
+				{ label: 'I', eq: 1 },
 			],
-			selUnitValue: 1,	
+			selUnitValue: 'I',	
 			direction: 'input',
 			outputFn: function(vars) {		
 				return getVal(vars, 'voltage') / getVal(vars, 'resistance');								
@@ -55,9 +56,9 @@ var ohmsLawCalc = {
 			rawVal: '',
 			dispVal: '',
 			units: [
-				{ label: 'R', value: 1 },
+				{ label: 'R', eq: 1 },
 			],
-			selUnitValue: 1,	
+			selUnitValue: 'R',	
 			direction: 'output',
 			outputFn: function(vars) {						
 
