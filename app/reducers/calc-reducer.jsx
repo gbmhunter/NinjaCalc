@@ -237,7 +237,7 @@ export default function defaultReducer(state = initialState, action) {
 			});
 
 			// Now that they have been changed, when need to re-calculate outputs
-			vars = utility.reCalcOutputs(vars);
+			vars = utility.reCalcAll(vars);
 
 			// Finally, return with our modified vars array
 			return Object.assign({}, state, {

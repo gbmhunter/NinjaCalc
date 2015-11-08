@@ -113,6 +113,70 @@ export function reCalcOutputs(vars) {
 	return vars;
 }
 
+export function reCalcAll(vars) {
+
+	// First loop through all inputs
+	// The order of input variable calculation
+	// does not matter
+	vars.forEach((calcVar, index) => {
+			
+		// Filter for inputs only	
+		if(calcVar.direction == 'input') {
+			
+			// Calculate the new raw value
+			var rawVal = calcRawValFromDispVal(calcVar);
+			calcVar.rawVal = rawVal;
+		}
+	});	
+
+	// Now loop through all outputs
+	// The order of these DOES matter, we have
+	// to do a topological sort
+	vars.forEach((calcVar, index) => {
+			
+		// Filter for outputs only	
+		if(calcVar.direction == 'output') {
+			
+			// Recalculate the rawVal for the variable by calling it's
+			// 'outputFn'.
+			var rawVal = calcVar.outputFn(vars);
+			console.log('rawVal = ' + rawVal);
+			calcVar.rawVal = rawVal;
+
+			// Find the index of the selected unit for this variable
+
+			var selUnitIndex = findUnitIndexByLabel(
+				calcVar.units,
+				calcVar.selUnitValue);
+			console.log('Selected unit index = ' + selUnitIndex);						
+
+			// Now we need to work out whether the 'eq' variable for the selected unit is just a number (a multiplier)
+			// or an object with two functions
+			var dispVal;
+			if(typeof calcVar.units[selUnitIndex].eq === 'function') {
+				console.log('eq for "' + calcVar.units[selUnitIndex].label + '" unit is a function.');
+
+				// Since we know 'eq' is a function, lets call it to work out what the rawVal is...
+				dispVal = calcVar.units[selUnitIndex].eq(rawVal, 'output');
+
+			} else {
+				console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
+				dispVal = rawVal*calcVar.units[selUnitIndex].eq;
+			}
+
+
+			// Now calculate displayed value using raw value
+			// and selected units
+			//var dispVal = rawVal/calcVar.selUnitValue;
+			console.log('Re-calculated "' + calcVar.id + '", rawVal = "' + rawVal + '", dispVal = "' + dispVal + '.');
+			calcVar.dispVal = dispVal;
+		}
+	});	
+
+	return vars;
+
+}
+
 //! @brief		Utility function that gets a calculator variable value when provided with the
 //!				array of variables and then variable name.
 //! @details	Returns the variable taking into account the unit multiplier (e.g. should be returned
