@@ -42,6 +42,17 @@ var ohmsLawCalc = {
 			outputFn: function(vars) {		
 				return getVal(vars, 'current') * getVal(vars, 'resistance');								
 			},
+			validators: [
+				{
+					msg: 'Voltage cannot be less than 0.',
+					fn: (rawVal) => {
+						if(rawVal < 0) {
+							return 'error';
+						}
+						return 'ok';
+					},
+				}
+			],
 			showRadio: true,
 		},
 		{

@@ -1,4 +1,11 @@
-
+//!
+//! @file               utility.jsx
+//! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+//! @created            2015-11-02
+//! @last-modified      2015-11-08
+//! @brief              Contains helper functions for the calc reducer in the NinjaCalc app.
+//! @details
+//!     See README.rst in repo root dir for more info.
 
 export function findCalcIndexById(calcArray, id) {
 	for (var i = 0; i < calcArray.length; i++) {
@@ -113,7 +120,12 @@ export function reCalcOutputs(vars) {
 	return vars;
 }
 
+//! @brief		Re-calculates all variables in the calculator (i.e. rawVal's from dispVal's for inputs,
+//!				dispVal's from rawVal's for outputs).
+//! @param		vars 	The array of variables from a specific calculator.
+//! @returns 	The modified vars array.
 export function reCalcAll(vars) {
+	console.log('utility.reCalcAll() called.');
 
 	// First loop through all inputs
 	// The order of input variable calculation
@@ -126,6 +138,9 @@ export function reCalcAll(vars) {
 			// Calculate the new raw value
 			var rawVal = calcRawValFromDispVal(calcVar);
 			calcVar.rawVal = rawVal;
+
+			// Validate
+			validateVar(calcVar);
 		}
 	});	
 
@@ -170,11 +185,50 @@ export function reCalcAll(vars) {
 			//var dispVal = rawVal/calcVar.selUnitValue;
 			console.log('Re-calculated "' + calcVar.id + '", rawVal = "' + rawVal + '", dispVal = "' + dispVal + '.');
 			calcVar.dispVal = dispVal;
+
+			// Validate
+			validateVar(calcVar);
 		}
 	});	
 
 	return vars;
 
+}
+
+//! @brief		Validates a calculator variable.
+//! @side-effects 	Saves the worst validation state returned from any of the validator functions 
+//!					into the calculator variable. This could be 'ok', 'warning' or 'error'.
+export function validateVar(calcVar) {
+	console.log('utility.validateVar() called for "' + calcVar.id + '".');
+
+	// Validators are optional, so check to see if they exist
+	if(typeof calcVar.validators === 'undefined') {
+		return 'ok'; 
+	}
+
+	var worstResult = 'ok';
+	calcVar.validators.forEach((validator) => {
+		// ALWAYS pass rawVal to validator function
+		var validationResult = validator.fn(calcVar.rawVal);
+		console.log('validationResult = ' + validationResult);
+
+		switch(validationResult) {
+			case 'ok':
+				break;
+			// Do nothing
+			case 'warning':
+				if(worstResult == 'ok') {
+					worstResult = 'warning';
+				}
+			case 'error':
+				worstResult = 'error';
+			default:
+				throw 'ERROR: Result returned from validation function not recognised!';
+		}
+	});
+
+	// Save the worst result into the calculator variable
+	calcVar.worstValidationResult = worstResult;
 }
 
 //! @brief		Utility function that gets a calculator variable value when provided with the

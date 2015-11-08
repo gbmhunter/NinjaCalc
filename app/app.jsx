@@ -2,7 +2,7 @@
 //! @file               app.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-03
+//! @last-modified      2015-11-08
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -81,6 +81,8 @@ var CalcRow = React.createClass({
 	},
 
 	render: function() {
+		console.log('CalcRow.render() called, with this.props.varData =');
+		console.log(this.props.varData);
 
 		var isInputDisabled;
 		if(this.props.varData.direction == 'input') {
@@ -89,6 +91,11 @@ var CalcRow = React.createClass({
 			// direction must == 'output'
 			isInputDisabled = true;
 		}
+
+		// Build up the required classes for styling
+		var className;
+		// worstValidationResult should either be 'ok', 'warning' or 'error'
+		className += 'varDispVal ' + this.props.varData.worstValidationResult;
 
 
 		// Work out if radio button is needed
@@ -106,7 +113,8 @@ var CalcRow = React.createClass({
 						value={this.props.varData.dispVal}
 						onChange={this.onValueChange}
 						disabled={isInputDisabled}
-						className="varDispVal"/></td>
+						className={className} />
+				</td>
 				<td className="unitsCol">
 					{/*}
 					<Dropdown
