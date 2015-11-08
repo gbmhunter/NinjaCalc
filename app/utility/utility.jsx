@@ -196,9 +196,10 @@ export function reCalcAll(vars) {
 
 }
 
-//! @brief		Validates a calculator variable.
+//! @brief			Validates a calculator variable.
 //! @side-effects 	Saves the worst validation state returned from any of the validator functions 
 //!					into the calculator variable. This could be 'ok', 'warning' or 'error'.
+//!					Saves tooltipText into the calculator variable.
 export function validateVar(calcVar) {
 	console.log('utility.validateVar() called for "' + calcVar.id + '".');
 
@@ -209,6 +210,10 @@ export function validateVar(calcVar) {
 	}
 
 	var worstResult = 'ok';
+
+	// This variable is for building up the text to display in the tooltip.
+	// It will be populated with violation info.
+	var tooltipText = '';
 	calcVar.validators.forEach((validator) => {
 		// ALWAYS pass rawVal to validator function
 		var validationResult = validator.fn(calcVar.rawVal);
@@ -217,22 +222,32 @@ export function validateVar(calcVar) {
 		switch(validationResult) {
 			case 'ok':
 				break;
-			// Do nothing
+			// Do nothing, don't want to add tooltip text for every validator that
+			// returns o.k.!
 			case 'warning':
 				if(worstResult == 'ok') {
 					worstResult = 'warning';
 				}
+				tooltipText += validator.msg;
 				break;
 			case 'error':
 				worstResult = 'error';
+				tooltipText += validator.msg;
 				break;
 			default:
 				throw 'ERROR: Result returned from validation function not recognised!';
 		}
 	});
 
+	if(worstResult == 'ok') {
+		// If we are here, and the worst result is 'ok', then we can add the text 
+		tooltipText = 'Value is o.k.';
+	}
+
+
 	// Save the worst result into the calculator variable
 	calcVar.worstValidationResult = worstResult;
+	calcVar.tooltipText = tooltipText;
 }
 
 //! @brief		Utility function that gets a calculator variable value when provided with the

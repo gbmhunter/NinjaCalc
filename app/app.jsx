@@ -110,7 +110,13 @@ var CalcRow = React.createClass({
 				<td>{this.props.varData.name}</td>
 				{/* Now display the dispVal for each calculator variable */}
 				<td>
-					<OverlayTrigger placement="right" overlay={<Tooltip><strong>Holy guacamole!</strong> Check this info.</Tooltip>}>
+					{/* The overlay trigger provides a hover zone for the tooltip */}
+					<OverlayTrigger
+						placement="right"
+						overlay={<Tooltip>{this.props.varData.tooltipText}</Tooltip>}
+						delayShow={200}>
+						{/* This is the input which either the user will enter a value into (for a calculator input),
+						or will display a calculator output (and be modifiable on the UI) */}
 						<input
 							value={this.props.varData.dispVal}
 							onChange={this.onValueChange}
