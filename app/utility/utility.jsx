@@ -204,7 +204,8 @@ export function validateVar(calcVar) {
 
 	// Validators are optional, so check to see if they exist
 	if(typeof calcVar.validators === 'undefined') {
-		return 'ok'; 
+		calcVar.worstValidationResult = 'ok';
+		return; 
 	}
 
 	var worstResult = 'ok';
@@ -221,8 +222,10 @@ export function validateVar(calcVar) {
 				if(worstResult == 'ok') {
 					worstResult = 'warning';
 				}
+				break;
 			case 'error':
 				worstResult = 'error';
+				break;
 			default:
 				throw 'ERROR: Result returned from validation function not recognised!';
 		}

@@ -21,10 +21,22 @@ body {
 
     input.varDispVal {
         height: 26px;
+        border: 2px solid;
+        border-radius: 4px;
 
         &.ok {
             // This is a light green colour
-            background-color: #92D18B;
+            border-color: #5CDB55;
+        }
+        
+        &.warning {
+            // This is a light green orange
+            border-color: #FFAA63;
+        }
+
+        &.error {
+            // This is a light red colour
+            border-color: #FF6363;
         }
     }
 
