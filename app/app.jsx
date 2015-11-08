@@ -17,6 +17,7 @@ import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 var Select = require('react-select');
 import Dropdown from 'react-dropdown';
+import { Tooltip, OverlayTrigger, Popover } from 'react-bootstrap';
 
 var ReactRadioGroup = require('react-radio-group');
 
@@ -109,11 +110,13 @@ var CalcRow = React.createClass({
 				<td>{this.props.varData.name}</td>
 				{/* Now display the dispVal for each calculator variable */}
 				<td>
-					<input
-						value={this.props.varData.dispVal}
-						onChange={this.onValueChange}
-						disabled={isInputDisabled}
-						className={className} />
+					<OverlayTrigger placement="right" overlay={<Tooltip><strong>Holy guacamole!</strong> Check this info.</Tooltip>}>
+						<input
+							value={this.props.varData.dispVal}
+							onChange={this.onValueChange}
+							disabled={isInputDisabled}
+							className={className} />
+					</OverlayTrigger>
 				</td>
 				<td className="unitsCol">
 					{/*}
