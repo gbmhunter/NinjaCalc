@@ -169,7 +169,7 @@ var App = React.createClass({
 
 	componentDidMount: function() {
 		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
-		//this.props.dispatch(calcActions.addCalc(lt3745Calc));
+		this.props.dispatch(calcActions.addCalc(lt3745Calc));
 	},
 
 	render: function() {

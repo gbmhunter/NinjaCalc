@@ -21,9 +21,9 @@ var lt3745Calc = {
 			name: 'Supply Voltage',
 			val: '2',
 			units: [
-				{ label: 'V', value: 1 },
+				{ label: 'V', eq: 1 },
 			],		
-			selUnitValue: 1,
+			selUnitValue: 'V',
 			direction: 'input',
 		},
 		{
@@ -31,9 +31,9 @@ var lt3745Calc = {
 			name: 'Load Voltage',
 			val: '2',
 			units: [
-				{ label: 'V', value: 1 },
+				{ label: 'V', eq: 1 },
 			],	
-			selUnitValue: 1,	
+			selUnitValue: 'V',	
 			direction: 'input',
 		},
 		{
@@ -41,9 +41,9 @@ var lt3745Calc = {
 			name: 'Maximum Output Voltage',
 			val: '2',
 			units: [
-				{ label: 'V', value: 1 },
+				{ label: 'V', eq: 1 },
 			],	
-			selUnitValue: 1,	
+			selUnitValue: 'V',	
 			direction: 'input',
 		},
 		{
@@ -51,9 +51,9 @@ var lt3745Calc = {
 			name: 'Minimum Output Voltage',
 			val: '2',
 			units: [
-				{ label: 'V', value: 1 },
+				{ label: 'V', eq: 1 },
 			],
-			selUnitValue: 1,	
+			selUnitValue: 'V',	
 			direction: 'output',
 			outputFn: (vars) => {
 				var tempVal = getVal(vars, 'vOutMax') + 2.1;
