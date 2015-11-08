@@ -93,7 +93,7 @@ var CalcRow = React.createClass({
 		}
 
 		// Build up the required classes for styling
-		var className;
+		var className = '';
 		// worstValidationResult should either be 'ok', 'warning' or 'error'
 		className += 'varDispVal ' + this.props.varData.worstValidationResult;
 

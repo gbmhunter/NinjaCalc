@@ -114,6 +114,7 @@ export default function defaultReducer(state = initialState, action) {
 				}),
 				...vars.slice(varIndex + 1)
 			];
+			/*
 
 			// Calculate the new raw value
 			var rawVal = utility.calcRawValFromDispVal(vars[varIndex]);
@@ -135,7 +136,9 @@ export default function defaultReducer(state = initialState, action) {
 			// Need to also re-calculate any output variables
 			// THIS WILL HAVE TO BE SORTED (using directed acyclic graph algorithm)
 			console.log('Re-calculating outputs.');
-			vars = utility.reCalcOutputs(vars);
+			vars = utility.reCalcOutputs(vars);*/
+
+			vars = utility.reCalcAll(vars);
 
 			// Finally, return with our modified vars array
 			return Object.assign({}, state, {
@@ -175,7 +178,7 @@ export default function defaultReducer(state = initialState, action) {
 				...vars.slice(varIndex + 1)
 			];
 
-			// Since the units have been changed for this variable, the raw value will change
+			/*// Since the units have been changed for this variable, the raw value will change
 			// Calculate new raw value for this variable
 			var rawVal = utility.calcRawValFromDispVal(vars[varIndex]);
 
@@ -189,12 +192,13 @@ export default function defaultReducer(state = initialState, action) {
 					rawVal: rawVal,
 				}),
 				...vars.slice(varIndex + 1)
-			];
+			];*/
 
 			// This has essentially changed the value of the input associated with the units,
 			// so we need to recalculate outputs again
-			console.log('Re-calculating outputs.');
-			vars = utility.reCalcOutputs(vars);
+			//console.log('Re-calculating outputs.');
+			//vars = utility.reCalcOutputs(vars);
+			vars = utility.reCalcAll(vars);
 			
 
 			// Finally, return with our modified vars array

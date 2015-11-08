@@ -57,6 +57,7 @@ export function calcRawValFromDispVal(calcVar) {
 		console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
 		rawVal = dispVal*calcVar.units[selUnitIndex].eq;
 	}
+	console.log('Calculated rawVal = ' + rawVal);
 
 	return rawVal;
 }
@@ -105,7 +106,7 @@ export function reCalcOutputs(vars) {
 
 			} else {
 				console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
-				dispVal = rawVal*calcVar.units[selUnitIndex].eq;
+				dispVal = rawVal/calcVar.units[selUnitIndex].eq;
 			}
 
 
@@ -176,7 +177,7 @@ export function reCalcAll(vars) {
 
 			} else {
 				console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
-				dispVal = rawVal*calcVar.units[selUnitIndex].eq;
+				dispVal = rawVal/calcVar.units[selUnitIndex].eq;
 			}
 
 
