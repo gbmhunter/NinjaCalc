@@ -46,10 +46,7 @@ var ohmsLawCalc = {
 				{
 					msg: 'Voltage cannot be less than 0.',
 					fn: (rawVal) => {
-						if(rawVal < 0) {
-							return 'error';
-						}
-						return 'ok';
+						if(rawVal < 0) {return 'error'} else {return 'ok'} ;
 					},
 				}
 			],
@@ -61,9 +58,12 @@ var ohmsLawCalc = {
 			rawVal: '',
 			dispVal: '',
 			units: [
-				{ label: 'I', eq: 1 },
+				{ label: 'nA', eq: 1e-9 },
+				{ label: 'uA', eq: 1e-6 },
+				{ label: 'mA', eq: 1e-3 },
+				{ label: 'A', eq: 1 },
 			],
-			selUnitValue: 'I',	
+			selUnitValue: 'A',	
 			direction: 'input',
 			outputFn: function(vars) {		
 				return getVal(vars, 'voltage') / getVal(vars, 'resistance');								
@@ -76,9 +76,12 @@ var ohmsLawCalc = {
 			rawVal: '',
 			dispVal: '',
 			units: [
-				{ label: 'R', eq: 1 },
+				{ label: 'm‎Ω', eq: 1e-3 },
+				{ label: '‎Ω', eq: 1 },
+				{ label: 'k‎Ω', eq: 1e3 },
+				{ label: 'M‎Ω', eq: 1e6 },
 			],
-			selUnitValue: 'R',	
+			selUnitValue: '‎Ω',	
 			direction: 'output',
 			outputFn: function(vars) {						
 
