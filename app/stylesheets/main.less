@@ -19,10 +19,36 @@ body {
         padding: 10px;
     }
 
+    input.varDispVal:focus {
+        border: solid 5px;
+
+        &.ok {
+            // This is a dark green colour
+            border-color: #08A000;
+        }
+
+        &.warning {
+            // This is a dark orange colour
+            border-color: #C55900;
+        }
+
+        &.error {
+            // This is a dark red colour
+            border-color: #C50000;
+        }
+    }
+
     input.varDispVal {
         height: 26px;
         border: 2px solid;
         border-radius: 4px;
+
+        padding: 2px;
+        border: solid 5px #c9c9c9;
+
+        // This gives a animation to the border when to goes
+        // to the hover state
+        transition: border 0.3s;
 
         &.ok {
             // This is a light green colour
