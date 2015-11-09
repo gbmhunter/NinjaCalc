@@ -204,10 +204,10 @@ export function validateVar(calcVar) {
 	console.log('utility.validateVar() called for "' + calcVar.id + '".');
 
 	// Validators are optional, so check to see if they exist
-	if(typeof calcVar.validators === 'undefined') {
+	/*if(typeof calcVar.validators === 'undefined') {
 		calcVar.worstValidationResult = 'ok';
 		return; 
-	}
+	}*/
 
 	var worstResult = 'ok';
 

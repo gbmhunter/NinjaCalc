@@ -62,22 +62,23 @@ export default function defaultReducer(state = initialState, action) {
 				});
 			});
 
+			// Check to see if any validators where provided, and if not, add empty array
+			// (otherwise error will be thrown on forEach() later in code)
+			action.calcData.vars.forEach((calcVar) => {
+				if(typeof calcVar.validators === 'undefined') {
+					calcVar.validators = [];
+				} 
+			});
+
 			// We need to run through all the calculations to bring all variables into their correct
 			// state
-
-
-			action.calcData.vars = utility.reCalcAll(action.calcData.vars);
+			utility.reCalcAll(action.calcData.vars);
 			
-
-			// Append the calculator to the end of the calculator array
+			// Append the new calculator to the end of the calculator array
 			var calculators = [
 				...state.calculators,
 				action.calcData,
-			];
-
-			
-
-
+			];			
 
 			return Object.assign({}, state, {
 				calculators: calculators,
