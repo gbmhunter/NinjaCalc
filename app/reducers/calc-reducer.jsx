@@ -61,7 +61,12 @@ export default function defaultReducer(state = initialState, action) {
 					el.value = el.label;
 				});
 			});
-			
+
+			// We need to run through all the calculations to bring all variables into their correct
+			// state
+
+
+			action.calcData.vars = utility.reCalcAll(action.calcData.vars);
 			
 
 			// Append the calculator to the end of the calculator array
@@ -69,6 +74,10 @@ export default function defaultReducer(state = initialState, action) {
 				...state.calculators,
 				action.calcData,
 			];
+
+			
+
+
 
 			return Object.assign({}, state, {
 				calculators: calculators,
