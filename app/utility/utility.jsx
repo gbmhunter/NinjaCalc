@@ -2,7 +2,7 @@
 //! @file               utility.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-08
+//! @last-modified      2015-11-09
 //! @brief              Contains helper functions for the calc reducer in the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -17,12 +17,17 @@ export function findCalcIndexById(calcArray, id) {
 }
 
 export function findVarIndexById(varArray, id) {
+
+	if(!(varArray instanceof Array)) {
+		throw 'varArray passed to findVarIndexById() was not an array.';
+	}
+
 	for (var i = 0; i < varArray.length; i++) {
 		if (varArray[i].id === id) {
 			return i;
 		}
 	}
-	throw 'Couldn\'t find variable with id = "' + id + '".';
+	throw 'Couldn\'t find variable with id = "' + id + '" in varArray = "' + varArray + '".';
 }
 
 export function calcRawValFromDispVal(calcVar) {
@@ -219,18 +224,16 @@ export function validateVar(calcVars, calcVarIndex) {
 
 	// Iterate over every validator for the specified variable we wish to validate
 	calcVars[calcVarIndex].validators.forEach((validator) => {
-		// ALWAYS pass rawVal to validator function
-		var validationResult = validator.fn(calcVars);
+		// ALWAYS pass rawVal as first parameter to validator function
+		// More complicated validators may need access to the other calculator variables,
+		// and that is why it is passed in second.
+		var validationResult = validator.fn(calcVars[calcVarIndex].rawVal, calcVars);
 		console.log('validationResult = ' + validationResult);			
 
 		if(!validationResult) {
 			// Something did not validate, lets find out it's severity and take appropriate
 			// action
 			switch(validator.severity) {
-				case 'ok':
-					break;
-				// Do nothing, don't want to add tooltip text for every validator that
-				// returns o.k.!
 				case 'warning':
 					if(worstResult == 'ok') {
 						worstResult = 'warning';
@@ -242,7 +245,8 @@ export function validateVar(calcVars, calcVarIndex) {
 					tooltipText += validator.msg;
 					break;
 				default:
-					throw 'ERROR: Result returned from validation function not recognised!';
+					throw 'ERROR: Validator severity "' + validator.severity + '" for variable "' + calcVars[calcVarIndex].id + 
+						'" is not valid! (must be "warning" or "error")';
 			}
 
 		}

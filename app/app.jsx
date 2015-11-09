@@ -180,7 +180,7 @@ var App = React.createClass({
 
 
 		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
-		//this.props.dispatch(calcActions.addCalc(lt3745Calc));
+		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));
 		//lt3745Calc.loadCalc(this.props.dispatch);
 	},
 

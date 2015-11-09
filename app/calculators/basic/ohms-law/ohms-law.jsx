@@ -34,8 +34,8 @@ var ohmsLawCalc = {
 			validators: [
 				{
 					msg: 'Voltage shouldn\'t really be negative.',
-					fn: (vars) => {
-						return (getVal(vars, 'voltage') >= 0.0);
+					fn: (val) => {
+						return (val >= 0.0);
 					},
 					severity: 'warning',
 				}
@@ -60,8 +60,8 @@ var ohmsLawCalc = {
 			validators: [
 				{
 					msg: 'Current shouldn\'t really be negative.',
-					fn: (vars) => {
-						return (getVal(vars, 'current') >= 0.0);
+					fn: (val) => {
+						return (val >= 0.0);
 					},
 					severity: 'warning',
 				}
@@ -90,8 +90,8 @@ var ohmsLawCalc = {
 			validators: [
 				{
 					msg: 'Resistance shouldn\'t really be negative.',
-					fn: (vars) => {
-						return (getVal(vars, 'resistance') >= 0.0);
+					fn: (val) => {
+						return (val >= 0.0);
 					},
 					severity: 'warning',
 				}
