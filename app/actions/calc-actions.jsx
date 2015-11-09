@@ -26,6 +26,28 @@ export function addCalc(calcData) {
 	}
 }
 
+//======================================================================//
+//========================= addCalculator() ============================//
+//======================================================================//
+
+export var ADD_VALIDATOR = 'ADD_VALIDATOR';
+
+//! @brief    Changes the current variable being calculated.
+export function addValidator(calcId, varId, validatorFn, validatorSeverity, validatorMsg) {
+
+	return (dispatch, getState) => {
+		console.log('addValidator() thunk called.');
+
+		dispatch({
+			calcId,
+			varId,
+			validatorFn,
+			validatorSeverity,
+			validatorMsg,			
+		});
+	}
+}
+
 
 //======================================================================//
 //=========================== setVarVal() ============================//

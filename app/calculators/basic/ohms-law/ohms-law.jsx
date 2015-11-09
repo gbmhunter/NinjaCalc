@@ -43,11 +43,18 @@ var ohmsLawCalc = {
 				return getVal(vars, 'current') * getVal(vars, 'resistance');								
 			},
 			validators: [
-				{
+				/*{
 					msg: 'Voltage cannot be less than 0.',
 					fn: (rawVal) => {
 						if(rawVal < 0) {return 'error'} else {return 'ok'} ;
 					},
+				},*/
+				{
+					msg: 'Supply voltage must be between 3.0 and 5.0V.',
+					fn: (rawVal) => {
+						return (rawVal >= 3.0 && rawVal <= 5.5);
+					},
+					severity: 'error',
 				}
 			],
 			showRadio: true,

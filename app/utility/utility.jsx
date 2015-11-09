@@ -217,26 +217,32 @@ export function validateVar(calcVar) {
 	calcVar.validators.forEach((validator) => {
 		// ALWAYS pass rawVal to validator function
 		var validationResult = validator.fn(calcVar.rawVal);
-		console.log('validationResult = ' + validationResult);
+		console.log('validationResult = ' + validationResult);			
 
-		switch(validationResult) {
-			case 'ok':
-				break;
-			// Do nothing, don't want to add tooltip text for every validator that
-			// returns o.k.!
-			case 'warning':
-				if(worstResult == 'ok') {
-					worstResult = 'warning';
-				}
-				tooltipText += validator.msg;
-				break;
-			case 'error':
-				worstResult = 'error';
-				tooltipText += validator.msg;
-				break;
-			default:
-				throw 'ERROR: Result returned from validation function not recognised!';
+		if(!validationResult) {
+			// Something did not validate, lets find out it's severity and take appropriate
+			// action
+			switch(validator.severity) {
+				case 'ok':
+					break;
+				// Do nothing, don't want to add tooltip text for every validator that
+				// returns o.k.!
+				case 'warning':
+					if(worstResult == 'ok') {
+						worstResult = 'warning';
+					}
+					tooltipText += validator.msg;
+					break;
+				case 'error':
+					worstResult = 'error';
+					tooltipText += validator.msg;
+					break;
+				default:
+					throw 'ERROR: Result returned from validation function not recognised!';
+			}
+
 		}
+
 	});
 
 	if(worstResult == 'ok') {
