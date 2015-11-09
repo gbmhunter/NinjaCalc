@@ -2,8 +2,8 @@
 //! @file               ohms-law.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-03
-//! @brief              Contains the "redux" reducer for the NinjaCalc app.
+//! @last-modified      2015-11-09
+//! @brief              Contains the Ohm's Law calculator data for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
@@ -21,21 +21,10 @@ var ohmsLawCalc = {
 		{
 			id: 'voltage',
 			name: 'Voltage',
-			rawVal: '',
 			dispVal: '',
 			units: [
 				{ label: 'mV', eq: 1e-3 },
 				{ label: 'V', eq: 1 },
-				{ 
-					label: 'T',
-					eq: (value, dir) => {
-						if(dir == 'input') {
-							return 2;
-						} else {
-							return 4;
-						}
-					}
-				}
 			],
 			selUnitValue: 'V',		
 			direction: 'input',
@@ -43,18 +32,12 @@ var ohmsLawCalc = {
 				return getVal(vars, 'current') * getVal(vars, 'resistance');								
 			},
 			validators: [
-				/*{
-					msg: 'Voltage cannot be less than 0.',
-					fn: (rawVal) => {
-						if(rawVal < 0) {return 'error'} else {return 'ok'} ;
-					},
-				},*/
 				{
-					msg: 'Supply voltage must be between 3.0 and 5.0V.',
-					fn: (rawVal) => {
-						return (rawVal >= 3.0 && rawVal <= 5.5);
+					msg: 'Voltage shouldn\'t really be negative.',
+					fn: (vars) => {
+						return (getVal(vars, 'voltage') >= 0.0);
 					},
-					severity: 'error',
+					severity: 'warning',
 				}
 			],
 			showRadio: true,
@@ -62,7 +45,6 @@ var ohmsLawCalc = {
 		{
 			id: 'current',
 			name: 'Current',
-			rawVal: '',
 			dispVal: '',
 			units: [
 				{ label: 'nA', eq: 1e-9 },
@@ -75,12 +57,20 @@ var ohmsLawCalc = {
 			outputFn: function(vars) {		
 				return getVal(vars, 'voltage') / getVal(vars, 'resistance');								
 			},
+			validators: [
+				{
+					msg: 'Current shouldn\'t really be negative.',
+					fn: (vars) => {
+						return (getVal(vars, 'current') >= 0.0);
+					},
+					severity: 'warning',
+				}
+			],
 			showRadio: true,
 		},
 		{
 			id: 'resistance',
 			name: 'Resistance',
-			rawVal: '',
 			dispVal: '',
 			units: [
 				{ label: 'm‎Ω', eq: 1e-3 },
@@ -91,14 +81,21 @@ var ohmsLawCalc = {
 			selUnitValue: '‎Ω',	
 			direction: 'output',
 			outputFn: function(vars) {						
-
 				//console.log('getVal(\'Voltage\') =' + getVal(vars, 'Voltage'));
 				//console.log(initialState.vars);
-
 				var result = getVal(vars, 'voltage') / getVal(vars, 'current');
 				console.log('result = ' + result);
 				return result;
 			},
+			validators: [
+				{
+					msg: 'Resistance shouldn\'t really be negative.',
+					fn: (vars) => {
+						return (getVal(vars, 'resistance') >= 0.0);
+					},
+					severity: 'warning',
+				}
+			],
 			showRadio: true,
 		},
 	],

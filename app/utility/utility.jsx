@@ -141,7 +141,7 @@ export function reCalcAll(vars) {
 			calcVar.rawVal = rawVal;
 
 			// Validate
-			validateVar(calcVar);
+			validateVar(vars, index);
 		}
 	});	
 
@@ -188,7 +188,7 @@ export function reCalcAll(vars) {
 			calcVar.dispVal = dispVal;
 
 			// Validate
-			validateVar(calcVar);
+			validateVar(vars, index);
 		}
 	});	
 
@@ -197,11 +197,13 @@ export function reCalcAll(vars) {
 }
 
 //! @brief			Validates a calculator variable.
+//! @param			calcVars 		An array of all the calculator variables.
+//! @param			calcVarIndex 	The index of the calculator variable you wish to validate.
 //! @side-effects 	Saves the worst validation state returned from any of the validator functions 
 //!					into the calculator variable. This could be 'ok', 'warning' or 'error'.
 //!					Saves tooltipText into the calculator variable.
-export function validateVar(calcVar) {
-	console.log('utility.validateVar() called for "' + calcVar.id + '".');
+export function validateVar(calcVars, calcVarIndex) {
+	console.log('utility.validateVar() called for "' + calcVars[calcVarIndex].id + '".');
 
 	// Validators are optional, so check to see if they exist
 	/*if(typeof calcVar.validators === 'undefined') {
@@ -214,9 +216,11 @@ export function validateVar(calcVar) {
 	// This variable is for building up the text to display in the tooltip.
 	// It will be populated with violation info.
 	var tooltipText = '';
-	calcVar.validators.forEach((validator) => {
+
+	// Iterate over every validator for the specified variable we wish to validate
+	calcVars[calcVarIndex].validators.forEach((validator) => {
 		// ALWAYS pass rawVal to validator function
-		var validationResult = validator.fn(calcVar.rawVal);
+		var validationResult = validator.fn(calcVars);
 		console.log('validationResult = ' + validationResult);			
 
 		if(!validationResult) {
@@ -252,8 +256,8 @@ export function validateVar(calcVar) {
 
 
 	// Save the worst result into the calculator variable
-	calcVar.worstValidationResult = worstResult;
-	calcVar.tooltipText = tooltipText;
+	calcVars[calcVarIndex].worstValidationResult = worstResult;
+	calcVars[calcVarIndex].tooltipText = tooltipText;
 }
 
 //! @brief		Utility function that gets a calculator variable value when provided with the

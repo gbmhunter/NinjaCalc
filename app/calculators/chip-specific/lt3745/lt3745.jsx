@@ -31,8 +31,9 @@ export function loadCalc(dispatch) {
 				validators: [
 					{
 						msg: 'Supply voltage must be between 3.0 and 5.0V.',
-						fn: (rawVal) => {
-							return (rawVal >= 3.0 && rawVal <= 5.5);
+						fn: (vars) => {
+							console.log('getVal = ' + getVal(vars, 'vSupp'));							
+							return (getVal(vars, 'vSupp') >= 3.0 && getVal(vars, 'vSupp') <= 5.5);
 						},
 						severity: 'error',
 					}
