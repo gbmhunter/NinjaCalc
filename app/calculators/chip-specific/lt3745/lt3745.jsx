@@ -360,7 +360,7 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'fSwMax',
-			name: 'fSwMax',
+			name: 'fsw(max)',
 			units: [
 				{ label: 'kHz', eq: 1e3 },				
 			],
@@ -369,6 +369,214 @@ export var data = {
 			outputFn: (vars) => {
 				// fsw(max) = min( Dmin/ton(min) , (1 - Dmax)/toff(min) )
 				return Math.min(getVal(vars, 'dMin')/getVal(vars, 'tOnMin'), (1.0 - getVal(vars, 'dMax'))/getVal(vars, 'tOffMin'));	
+			},
+		},
+
+		//==============================================================================//
+		//================================ fsw(act) (input) ============================//
+		//==============================================================================//
+		{
+			id: 'fSwAct',
+			name: 'fsw(act)',
+			units: [
+				{ label: 'kHz', eq: 1e3 },				
+			],
+			selUnitValue: 'kHz',	
+			direction: 'input',
+			validators: [
+				{
+					msg: 'fsw(act) has to be between 100kHz-1MHz.',
+					fn: (val) => {
+						return (val >= 100e3 && val <= 1e6);
+					},
+					severity: 'error',
+				},
+				{
+					msg: 'fsw(act) cannot be higher than fsw(max).',
+					fn: (val, vars) => {
+						return (val <= getVal(vars, 'fSwMax'));
+					},
+					severity: 'error',
+				},
+			],
+		},
+
+		//==============================================================================//
+		//================================= fugf (output) ==============================//
+		//==============================================================================//
+		{
+			id: 'fugf',
+			name: 'fugf',
+			units: [
+				{ label: 'kHz', eq: 1e3 },				
+			],
+			selUnitValue: 'kHz',	
+			direction: 'output',
+			outputFn: (vars) => {
+				// fugf = fsw(act)/10
+				return getVal(vars, 'fSwAct')/10.0;
+			},
+		},
+
+		//==============================================================================//
+		//================================== Rt (output) ===============================//
+		//==============================================================================//
+		{
+			id: 'rt',
+			name: 'Rt',
+			units: [
+				{ label: 'Ω', eq: 1 },
+				{ label: 'kΩ', eq: 1e3 },				
+			],
+			selUnitValue: 'kΩ',	
+			direction: 'output',
+			outputFn: (vars) => {
+				// Rt = 2.25167*10^11 / fSwAct^1.114
+				return ((2.25167*Math.pow(10, 11))/(Math.pow(getVal(vars, 'fSwAct'), 1.114)));
+			},
+		},
+
+		//==============================================================================//
+		//================================= tj(max) (input) ============================//
+		//==============================================================================//
+		{
+			id: 'tjMax',
+			name: 'tj(max)',
+			units: [
+				{ label: '°C', eq: 1e3 },				
+			],
+			selUnitValue: '°C',	
+			direction: 'input',
+			validators: [
+				{
+					msg: 'tjMax should really be higher than standard room temperature.',
+					fn: (val) => {
+						return (val >= 25.0);
+					},
+					severity: 'warning',
+				},
+				{
+					msg: 'tjMax cannot be higher than the internally set maximum temperature.',
+					fn: (val, vars) => {
+						return (val <= 165.0);
+					},
+					severity: 'error',
+				},
+			],
+		},
+
+		//==============================================================================//
+		//================================ Rtset (output) ==============================//
+		//==============================================================================//
+		{
+			id: 'rtSet',
+			name: 'Rtset',
+			units: [
+				{ label: 'Ω', eq: 1 },
+				{ label: 'kΩ', eq: 1e3 },				
+			],
+			selUnitValue: 'kΩ',	
+			direction: 'output',
+			outputFn: (vars) => {
+				// 
+				return (0.00172*(getVal(vars, 'tjMax') + 273.15)*getVal(vars, 'riSet')/1.205);
+			},
+		},
+
+		//==============================================================================//
+		//============================== Cout(min) (output) ============================//
+		//==============================================================================//
+		{
+			id: 'cOutMin',
+			name: 'cOutMin',
+			units: [
+				{ label: 'uF', eq: 1e-6 },				
+			],
+			selUnitValue: 'uF',	
+			direction: 'output',
+			outputFn: (vars) => {
+				// Cout(min) = max( 0.25/(Rsense*fugf) , 1.5/(Rsense*Vbuck,out*fugf) )
+				return (Math.max( 0.25/(getVal(vars, 'rSense')*getVal(vars, 'fugf')),
+					1.5/(getVal(vars, 'vOutMax')*getVal(vars, 'rSense')*getVal(vars, 'fugf'))));
+			},
+		},
+
+		//==============================================================================//
+		//================================== Il(delta) =================================//
+		//==============================================================================//
+		{
+			id: 'iLDelta',
+			name: 'iLDelta',
+			units: [
+				{ label: '%', eq: 1e-2 },				
+			],
+			selUnitValue: '%',	
+			direction: 'input',
+			validators: [
+				{
+					msg: 'iLDelta should be between 10-50%.',
+					fn: (val) => {
+						return (val >= 10e-2 && val <= 50e-2);
+					},
+					severity: 'warning',
+				},
+			],
+		},
+
+		//==============================================================================//
+		//================================= L(min) (output) ============================//
+		//==============================================================================//
+		{
+			id: 'lMin',
+			name: 'L(min)',
+			units: [
+				{ label: 'uH', eq: 1e-6 },				
+			],
+			selUnitValue: 'uH',	
+			direction: 'output',
+			outputFn: (vars) => {
+				// Lmin = [ (Vbuck,out + Vd,f) / (Vin(max) + Vd,f) ] * [ (Vin(max) - Vbuck,out) / (fsw(act)*Il(delta)) ]
+				return ( ((getVal(vars, 'vOutMax') + getVal(vars, 'vdf'))/(getVal(vars, 'vInMax') + getVal(vars, 'vdf')))*
+					((getVal(vars, 'vInMax') - getVal(vars, 'vOutMax'))/(getVal(vars, 'fSwAct')*getVal(vars, 'iLDelta'))));
+			},
+		},
+
+		//==============================================================================//
+		//================================= Vin(ripple) ================================//
+		//==============================================================================//
+		{
+			id: 'vInRipple',
+			name: 'vInRipple',
+			units: [
+				{ label: 'mV', eq: 1e-3 },				
+			],
+			selUnitValue: 'mV',	
+			direction: 'input',
+			validators: [
+				{
+					msg: 'vInRipple should be between 20mV-2.0V.',
+					fn: (val) => {
+						return (val >= 20e-3 && val <= 2.0);
+					},
+					severity: 'warning',
+				},
+			],
+		},
+
+		//==============================================================================//
+		//================================ Cin(min) (output) ===========================//
+		//==============================================================================//
+		{
+			id: 'cInMin',
+			name: 'Cin(min)',
+			units: [
+				{ label: 'uF', eq: 1e-6 },				
+			],
+			selUnitValue: 'uF',	
+			direction: 'output',
+			outputFn: (vars) => {
+				// Cin(min) = (Dmax*Iout(max)) / (Vin,ripple*fsw(act))
+				return ( (getVal(vars, 'dMax')*getVal(vars, 'iOutMax'))/(getVal(vars, 'vInRipple')*getVal(vars, 'fSwAct')) );
 			},
 		},
 

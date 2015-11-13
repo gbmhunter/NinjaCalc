@@ -18,6 +18,7 @@ import thunk from 'redux-thunk';
 var Select = require('react-select');
 import Dropdown from 'react-dropdown';
 import { Tooltip, OverlayTrigger, Popover } from 'react-bootstrap';
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 var ReactRadioGroup = require('react-radio-group');
 
@@ -57,6 +58,8 @@ import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 //class CalcRow extends React.Component {
 var CalcRow = React.createClass({
 
+	//mixins: [PureRenderMixin],
+
 	onValueChange: function(event) {
 		console.log('onValueChange() called with event = ');
 		console.log(event);
@@ -82,8 +85,8 @@ var CalcRow = React.createClass({
 	},
 
 	render: function() {
-		console.log('CalcRow.render() called, with this.props.varData =');
-		console.log(this.props.varData);
+		//console.log('CalcRow.render() called, with this.props.varData =');
+		//console.log(this.props.varData);
 
 		var isInputDisabled;
 		if(this.props.varData.direction == 'input') {
@@ -152,6 +155,9 @@ var CalcRow = React.createClass({
 });
 
 var Calculator = React.createClass({
+
+	//mixins: [PureRenderMixin],
+
 	render: function() {
 
 		var that = this;
@@ -175,6 +181,8 @@ var Calculator = React.createClass({
 
 //class App extends React.Component {
 var App = React.createClass({
+
+	//mixins: [PureRenderMixin],
 
 	componentDidMount: function() {
 

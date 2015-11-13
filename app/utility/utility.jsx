@@ -31,17 +31,17 @@ export function findVarIndexById(varArray, id) {
 }
 
 export function calcRawValFromDispVal(calcVar) {
-	console.log('utility.calcRawValFromDispVal() called with calcVar =.');
-	console.log(calcVar);
+	//console.log('utility.calcRawValFromDispVal() called with calcVar =.');
+	//console.log(calcVar);
 
 
 	var selUnitLabel = calcVar.selUnitValue
-	console.log('Selected unit label = ' + selUnitLabel);
+	//console.log('Selected unit label = ' + selUnitLabel);
 
 	var selUnitIndex = findUnitIndexByLabel(
 		calcVar.units,
 		selUnitLabel);
-	console.log('Selected unit index = ' + selUnitIndex);
+	//console.log('Selected unit index = ' + selUnitIndex);
 
 	// Now we need to work out whether the 'eq' variable for the selected unit is just a number (a multiplier)
 	// or an object with two functions
@@ -53,24 +53,24 @@ export function calcRawValFromDispVal(calcVar) {
 	var dispVal = calcVar.dispVal;
 
 	if(typeof calcVar.units[selUnitIndex].eq === 'function') {
-		console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a function.');
+		//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a function.');
 
 		// Since we know 'eq' is a function, lets call it to work out what the rawVal is...
 		rawVal = calcVar.units[selUnitIndex].eq(dispVal, 'input');
 
 	} else {
-		console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
+		//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
 		rawVal = dispVal*calcVar.units[selUnitIndex].eq;
 	}
-	console.log('Calculated rawVal = ' + rawVal);
+	//console.log('Calculated rawVal = ' + rawVal);
 
 	return rawVal;
 }
 
 export function findUnitIndexByLabel(unitArray, label) {
-	console.log('findUnitIndexByLabel() called with unitArrary =');
-	console.log(unitArray);
-	console.log('and label = "' + label + '".');
+	//console.log('findUnitIndexByLabel() called with unitArrary =');
+	//console.log(unitArray);
+	//console.log('and label = "' + label + '".');
 	
 	for (var i = 0; i < unitArray.length; i++) {
 		if (unitArray[i].label === label) {
@@ -90,7 +90,7 @@ export function reCalcOutputs(vars) {
 			// Recalculate the rawVal for the variable by calling it's
 			// 'outputFn'.
 			var rawVal = calcVar.outputFn(vars);
-			console.log('rawVal = ' + rawVal);
+			//console.log('rawVal = ' + rawVal);
 			calcVar.rawVal = rawVal;
 
 			// Find the index of the selected unit for this variable
@@ -98,19 +98,19 @@ export function reCalcOutputs(vars) {
 			var selUnitIndex = findUnitIndexByLabel(
 				calcVar.units,
 				calcVar.selUnitValue);
-			console.log('Selected unit index = ' + selUnitIndex);						
+			//console.log('Selected unit index = ' + selUnitIndex);						
 
 			// Now we need to work out whether the 'eq' variable for the selected unit is just a number (a multiplier)
 			// or an object with two functions
 			var dispVal;
 			if(typeof calcVar.units[selUnitIndex].eq === 'function') {
-				console.log('eq for "' + calcVar.units[selUnitIndex].label + '" unit is a function.');
+				//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" unit is a function.');
 
 				// Since we know 'eq' is a function, lets call it to work out what the rawVal is...
 				dispVal = calcVar.units[selUnitIndex].eq(rawVal, 'output');
 
 			} else {
-				console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
+				//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
 				dispVal = rawVal/calcVar.units[selUnitIndex].eq;
 			}
 
@@ -118,7 +118,7 @@ export function reCalcOutputs(vars) {
 			// Now calculate displayed value using raw value
 			// and selected units
 			//var dispVal = rawVal/calcVar.selUnitValue;
-			console.log('Re-calculated "' + calcVar.id + '", rawVal = "' + rawVal + '", dispVal = "' + dispVal + '.');
+			//console.log('Re-calculated "' + calcVar.id + '", rawVal = "' + rawVal + '", dispVal = "' + dispVal + '.');
 			calcVar.dispVal = dispVal;
 		}
 	});	
@@ -131,7 +131,10 @@ export function reCalcOutputs(vars) {
 //! @param		vars 	The array of variables from a specific calculator.
 //! @returns 	The modified vars array.
 export function reCalcAll(vars) {
-	console.log('utility.reCalcAll() called.');
+	//console.log('utility.reCalcAll() called.');
+
+	// Profiling test
+	//return(vars);
 
 	// First loop through all inputs
 	// The order of input variable calculation
@@ -161,7 +164,7 @@ export function reCalcAll(vars) {
 			// Recalculate the rawVal for the variable by calling it's
 			// 'outputFn'.
 			var rawVal = calcVar.outputFn(vars);
-			console.log('rawVal = ' + rawVal);
+			//console.log('rawVal = ' + rawVal);
 			calcVar.rawVal = rawVal;
 
 			// Find the index of the selected unit for this variable
@@ -169,19 +172,19 @@ export function reCalcAll(vars) {
 			var selUnitIndex = findUnitIndexByLabel(
 				calcVar.units,
 				calcVar.selUnitValue);
-			console.log('Selected unit index = ' + selUnitIndex);						
+			//console.log('Selected unit index = ' + selUnitIndex);						
 
 			// Now we need to work out whether the 'eq' variable for the selected unit is just a number (a multiplier)
 			// or an object with two functions
 			var dispVal;
 			if(typeof calcVar.units[selUnitIndex].eq === 'function') {
-				console.log('eq for "' + calcVar.units[selUnitIndex].label + '" unit is a function.');
+				//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" unit is a function.');
 
 				// Since we know 'eq' is a function, lets call it to work out what the rawVal is...
 				dispVal = calcVar.units[selUnitIndex].eq(rawVal, 'output');
 
 			} else {
-				console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
+				//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
 				dispVal = rawVal/calcVar.units[selUnitIndex].eq;
 			}
 
@@ -189,7 +192,7 @@ export function reCalcAll(vars) {
 			// Now calculate displayed value using raw value
 			// and selected units
 			//var dispVal = rawVal/calcVar.selUnitValue;
-			console.log('Re-calculated "' + calcVar.id + '", rawVal = "' + rawVal + '", dispVal = "' + dispVal + '.');
+			//console.log('Re-calculated "' + calcVar.id + '", rawVal = "' + rawVal + '", dispVal = "' + dispVal + '.');
 			calcVar.dispVal = dispVal;
 
 			// Validate
@@ -208,7 +211,7 @@ export function reCalcAll(vars) {
 //!					into the calculator variable. This could be 'ok', 'warning' or 'error'.
 //!					Saves tooltipText into the calculator variable.
 export function validateVar(calcVars, calcVarIndex) {
-	console.log('utility.validateVar() called for "' + calcVars[calcVarIndex].id + '".');
+	//console.log('utility.validateVar() called for "' + calcVars[calcVarIndex].id + '".');
 
 	// Validators are optional, so check to see if they exist
 	/*if(typeof calcVar.validators === 'undefined') {
@@ -228,7 +231,7 @@ export function validateVar(calcVars, calcVarIndex) {
 		// More complicated validators may need access to the other calculator variables,
 		// and that is why it is passed in second.
 		var validationResult = validator.fn(calcVars[calcVarIndex].rawVal, calcVars);
-		console.log('validationResult = ' + validationResult);			
+		//console.log('validationResult = ' + validationResult);			
 
 		if(!validationResult) {
 			// Something did not validate, lets find out it's severity and take appropriate
@@ -269,6 +272,8 @@ export function validateVar(calcVars, calcVarIndex) {
 //! @details	Returns the variable taking into account the unit multiplier (e.g. should be returned
 //!				in SI units, if your using an SI unit for a multiplier of 1).
 export function getVal(vars, varId) {
+	// Profiling test
+	//return 2;
 	return vars[findVarIndexById(vars, varId)].rawVal;
 }
 
