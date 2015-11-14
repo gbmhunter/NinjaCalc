@@ -202,12 +202,12 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.get('calculators')[calcIndex].vars, action.varId);
+			var varIndex = utility.findVarIndexById(state.getIn(['calculators', calcIndex, 'vars']), action.varId);
 			console.log('varIndex = ' +  varIndex);	
 
 			// Copy vars array for the relevant calculator
-			var vars = [...state.calculators[calcIndex].vars];
-
+			//var vars = [...state.calculators[calcIndex].vars];
+			/*
 			// Save in the new selected unit value
 			vars = [
 				...vars.slice(0, varIndex),
@@ -215,15 +215,20 @@ export default function defaultReducer(state = initialState, action) {
 					selUnitValue: action.unitValue,					
 				}),
 				...vars.slice(varIndex + 1)
-			];
+			];*/
 
-			/*// Since the units have been changed for this variable, the raw value will change
+			state = state.setIn(['calculators', calcIndex, 'vars', varIndex, 'selUnitValue'], action.unitValue);
+
+			// Since the units have been changed for this variable, the raw value will change
 			// Calculate new raw value for this variable
-			var rawVal = utility.calcRawValFromDispVal(vars[varIndex]);
+			var rawVal = utility.calcRawValFromDispVal(state.getIn(['calculators', calcIndex, 'vars', varIndex]));
 
 			//var rawVal = vars[varIndex].dispVal*action.unitValue;
 			console.log('New rawVal = ' + rawVal);
 
+			state = state.setIn(['calculators', calcIndex, 'vars', varIndex, 'rawVal'], rawVal);
+
+/*
 			// Save in the new raw value
 			vars = [
 				...vars.slice(0, varIndex),
@@ -237,9 +242,13 @@ export default function defaultReducer(state = initialState, action) {
 			// so we need to recalculate outputs again
 			//console.log('Re-calculating outputs.');
 			//vars = utility.reCalcOutputs(vars);
-			vars = utility.reCalcAll(vars);
-			
+			var calcVars = utility.reCalcAll(state.getIn(['calculators', calcIndex, 'vars']));
+			//console.log('rfb2 = ' + calcVars.getIn([6, 'dispVal']));
 
+			state = state.setIn(['calculators', calcIndex, 'vars'], calcVars);
+			
+			
+			/*
 			// Finally, return with our modified vars array
 			return Object.assign({}, state, {
 				calculators: [
@@ -249,7 +258,9 @@ export default function defaultReducer(state = initialState, action) {
 					}),
 					...state.calculators.slice(calcIndex + 1)
 				]
-			});
+			});*/
+
+			return state;
 
 
 

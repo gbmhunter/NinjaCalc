@@ -139,7 +139,7 @@ export function reCalcOutputs(vars) {
 //! @param		vars 	The array of variables from a specific calculator.
 //! @returns 	The modified vars array.
 export function reCalcAll(vars) {
-	//console.log('utility.reCalcAll() called.');
+	console.log('utility.reCalcAll() called.');
 
 	// Profiling test
 	//return(vars);
