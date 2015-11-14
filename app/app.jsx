@@ -22,6 +22,9 @@ var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 var ReactRadioGroup = require('react-radio-group');
 
+import AbsoluteGrid from './utility/AbsoluteGrid.js';
+//var ReactGridLayout = require('react-grid-layout');
+
 const finalCreateStore = compose(
   // Enables your middleware:
   applyMiddleware(thunk) // any Redux middleware, e.g. redux-thunk
@@ -51,7 +54,10 @@ import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 
 //var ReactGridLayout = require('react-grid-layout');
 
-
+ var sampleItems = [
+  {key: 1, name: 'Test', sort: 0, filtered: 0},
+  {key: 2, name: 'Test 1', sort: 1, filtered: 0},
+];
 
 var CalcInput = React.createClass({
 
@@ -234,6 +240,7 @@ var App = React.createClass({
 
 		return (
 			<div>	
+				<AbsoluteGrid items={sampleItems} />
 				{/* Let's create a table for every calculator in array */
 					this.props.state.get('calculators').map(function(el) {
 						return <Calculator key={el.get('id')} data={el} dispatch={that.props.dispatch} />

@@ -12,6 +12,9 @@
   "dependencies": {
     "fs-jetpack": "^0.7.0",
     "immutable": "^3.7.5",
+    "lodash": "^3.10.1",
+    "lodash.debounce": "^3.1.1",
+    "lodash.sortby": "^3.1.5",
     "material-ui": "^0.13.0",
     "react": "^0.14.2",
     "react-absolute-grid": "^1.0.5",
