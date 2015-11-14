@@ -22,8 +22,8 @@ var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 var ReactRadioGroup = require('react-radio-group');
 
-import AbsoluteGrid from './utility/AbsoluteGrid.js';
-//var ReactGridLayout = require('react-grid-layout');
+//import AbsoluteGrid from './utility/AbsoluteGrid.js';
+var ReactGridLayout = require('react-grid-layout');
 
 const finalCreateStore = compose(
   // Enables your middleware:
@@ -240,7 +240,12 @@ var App = React.createClass({
 
 		return (
 			<div>	
-				<AbsoluteGrid items={sampleItems} />
+				{/*<AbsoluteGrid items={sampleItems} />*/}
+				<ReactGridLayout className="layout" cols={12} rowHeight={30}>
+			      <div key={1} _grid={{x: 0, y: 0, w: 1, h: 2}}>1</div>
+			      <div key={2} _grid={{x: 1, y: 0, w: 1, h: 2}}>2</div>
+			      <div key={3} _grid={{x: 2, y: 0, w: 1, h: 2}}>3</div>
+			    </ReactGridLayout>
 				{/* Let's create a table for every calculator in array */
 					this.props.state.get('calculators').map(function(el) {
 						return <Calculator key={el.get('id')} data={el} dispatch={that.props.dispatch} />
