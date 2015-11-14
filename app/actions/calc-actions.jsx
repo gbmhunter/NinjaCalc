@@ -8,6 +8,24 @@
 //!     See README.rst in repo root dir for more info.
 
 //======================================================================//
+//========================= addCalcTab() ============================//
+//======================================================================//
+
+export var ADD_CALC_TAB = 'ADD_CALC_TAB';
+
+//! @brief    Changes the current variable being calculated.
+export function addCalcTab() {
+
+	return (dispatch, getState) => {
+		console.log('addCalcTab() thunk called.');
+
+		dispatch({
+			type: ADD_CALC_TAB,					
+		});
+	}
+}
+
+//======================================================================//
 //========================= addCalculator() ============================//
 //======================================================================//
 

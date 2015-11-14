@@ -95,7 +95,13 @@ export default function defaultReducer(state = initialState, action) {
 			var calculators = state.get('calculators').push(newCalc);
 			var state = state.set('calculators', calculators);
 
-			var gridElement = {key: state.get('gridElements').size, name: action.calcData.name, sort: 0, filtered: 0};
+			var gridElement = {
+				key: state.get('gridElements').size,
+				name: action.calcData.name,
+				sort: 0,
+				filtered: 0,
+				test: 'test',
+			};
 
 			// Add calculator to grid
 			var state = state.setIn(['gridElements', state.get('gridElements').size], immutable.fromJS(gridElement));

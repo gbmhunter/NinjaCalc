@@ -2,7 +2,7 @@
 //! @file               app.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-08
+//! @last-modified      2015-11-15
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -21,10 +21,14 @@ import { Tooltip, OverlayTrigger, Popover } from 'react-bootstrap';
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 
+//import Tabs from './utility/react-draggable-tab/components/Tabs';
+//import Tab from './utility/react-draggable-tab/components/Tab';
+
+
 var ReactRadioGroup = require('react-radio-group');
 
-import AbsoluteGrid from './utility/AbsoluteGrid.js';
-var ReactGridLayout = require('react-grid-layout');
+import AbsoluteGrid from './utility/react-absolute-grid/AbsoluteGrid.js';
+//var ReactGridLayout = require('react-grid-layout');
 
 const finalCreateStore = compose(
   // Enables your middleware:
@@ -222,111 +226,10 @@ var Calculator = React.createClass({
 	}
 })
 
-var NoDraggingLayout = React.createClass({
-  mixins: [PureRenderMixin],
 
-  propTypes: {
-    onLayoutChange: React.PropTypes.func.isRequired
-  },
-
-  getDefaultProps() {
-    return {
-      className: "layout",
-      isDraggable: false,
-      isResizable: false,
-      items: 50,
-      cols: 12,
-      rowHeight: 30
-    };
-  },
-
-  getInitialState() {
-    var layout = this.generateLayout();
-    return {
-      layout: layout
-    };
-  },
-
-  generateDOM() {
-    return _.map(_.range(this.props.items), function(i) {
-      return (<div key={i}><span className="text">{i}</span></div>);
-    });
-  },
-
-  generateLayout() {
-    var p = this.props;
-    return _.map(new Array(p.items), function(item, i) {
-      var y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 1;
-      return {x: i * 2 % 12, y: Math.floor(i / 6) * y, w: 2, h: y, i: i};
-    });
-  },
-
-  onLayoutChange: function(layout) {
-    //this.props.onLayoutChange(layout);
-  },
-
-  render() {
-    return (
-      <ReactGridLayout layout={this.state.layout} onLayoutChange={this.onLayoutChange}
-          {...this.props}>
-        {this.generateDOM()}
-      </ReactGridLayout>
-    );
-  }
-});
-
-var BasicLayout = React.createClass({
-  mixins: [PureRenderMixin],
-
-  propTypes: {
-    onLayoutChange: React.PropTypes.func.isRequired
-  },
-
-  getDefaultProps() {
-    return {
-      className: "layout",
-      items: 5,
-      rowHeight: 30,
-      cols: 12
-    };
-  },
-
-  getInitialState() {
-    var layout = this.generateLayout();
-    return {
-      layout: layout
-    };
-  },
-
-  generateDOM() {
-    return _.map(_.range(this.props.items), function(i) {
-      return (<div key={i}><span className="text">{i}</span></div>);
-    });
-  },
-
-  generateLayout() {
-    var p = this.props;
-    return _.map(new Array(p.items), function(item, i) {
-      //var y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 1;
-      return {x: 50, y: 50, w: 2, h: 2, i: i};
-    });
-  },
-
-  onLayoutChange: function(layout) {
-    //this.props.onLayoutChange(layout);
-  },
-
-  render() {
-    return (
-      <ReactGridLayout layout={this.state.layout} onLayoutChange={this.onLayoutChange}
-          {...this.props}>
-        {this.generateDOM()}
-      </ReactGridLayout>
-    );
-  }
-});
 
 //class App extends React.Component {
+
 var App = React.createClass({
 
 	//mixins: [PureRenderMixin],
@@ -343,9 +246,17 @@ var App = React.createClass({
 
 		var that = this;
 
+		// We have to inject the dispatch function as a prop to all of the grid elements so we
+		// can do something when the 'Load' button is clicked. The function pointer can't be added
+		// in the reducer because the reducer has no knowledge of it.
+		var items = this.props.state.get('gridElements').toJS().map((gridElement) => {
+			gridElement.dispatch = this.props.dispatch;
+			return gridElement;
+		});
+
 		return (
 			<div>	
-				<AbsoluteGrid items={this.props.state.get('gridElements').toJS()} />
+				<AbsoluteGrid items={items} />
 				{/*<BasicLayout />*/}
 				{/* Let's create a table for every calculator in array */
 					this.props.state.get('calculators').map(function(el) {
@@ -356,6 +267,8 @@ var App = React.createClass({
 		);
 	}
 });
+
+
 
 //! @brief    Selects what props to inject into app.
 //! @details  Currently injecting everything.
