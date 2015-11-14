@@ -346,7 +346,7 @@ var App = React.createClass({
 		return (
 			<div>	
 				<AbsoluteGrid items={this.props.state.get('gridElements').toJS()} />
-				<BasicLayout />
+				{/*<BasicLayout />*/}
 				{/* Let's create a table for every calculator in array */
 					this.props.state.get('calculators').map(function(el) {
 						return <Calculator key={el.get('id')} data={el} dispatch={that.props.dispatch} />

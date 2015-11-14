@@ -2,6 +2,7 @@
 
 import React from 'react';
 import BaseDisplayObject from './BaseDisplayObject.js';
+import { Button } from 'react-bootstrap';
 
 export default class GridItem extends BaseDisplayObject{
 
@@ -11,6 +12,11 @@ export default class GridItem extends BaseDisplayObject{
 
     return <div
             style={itemStyle}
-            className="gridItem">{this.props.item.name}</div>;
+            className="gridItem">
+            	<a>{this.props.item.name}</a>
+            	<br />
+            	<Button>Load</Button>
+
+            </div>;
   }
 }
