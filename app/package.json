@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "fs-jetpack": "^0.7.0",
+    "immutable": "^3.7.5",
     "material-ui": "^0.13.0",
     "react": "^0.14.2",
     "react-absolute-grid": "^1.0.5",

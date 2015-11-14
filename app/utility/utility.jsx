@@ -8,8 +8,10 @@
 //!     See README.rst in repo root dir for more info.
 
 export function findCalcIndexById(calcArray, id) {
-	for (var i = 0; i < calcArray.length; i++) {
-		if (calcArray[i].id === id) {
+
+	console.log('calcArray.size = ' + calcArray.size);
+	for (var i = 0; i < calcArray.size; i++) {
+		if (calcArray.getIn([i, 'id']) === id) {
 			return i;
 		}
 	}
@@ -18,12 +20,17 @@ export function findCalcIndexById(calcArray, id) {
 
 export function findVarIndexById(varArray, id) {
 
-	if(!(varArray instanceof Array)) {
+	/*if(!(varArray instanceof Array)) {
 		throw 'varArray passed to findVarIndexById() was not an array.';
-	}
+	}*/
 
-	for (var i = 0; i < varArray.length; i++) {
-		if (varArray[i].id === id) {
+	//console.log('findVarIndexById() called with varArray = ');
+	//console.log(varArray);
+	//console.log(' and id = ' + id);
+
+
+	for (var i = 0; i < varArray.size; i++) {
+		if (varArray.getIn([i, 'id']) === id) {
 			return i;
 		}
 	}
@@ -35,11 +42,11 @@ export function calcRawValFromDispVal(calcVar) {
 	//console.log(calcVar);
 
 
-	var selUnitLabel = calcVar.selUnitValue
+	var selUnitLabel = calcVar.get('selUnitValue');
 	//console.log('Selected unit label = ' + selUnitLabel);
 
 	var selUnitIndex = findUnitIndexByLabel(
-		calcVar.units,
+		calcVar.get('units'),
 		selUnitLabel);
 	//console.log('Selected unit index = ' + selUnitIndex);
 
@@ -50,17 +57,17 @@ export function calcRawValFromDispVal(calcVar) {
 	// Somehow doing this assignment automatically converts the dispVal variable in the calc var from
 	// a string into a number, so it plays nicely when multiplied below?
 	// Should toFloat() or similar be used here instead???
-	var dispVal = calcVar.dispVal;
+	var dispVal = calcVar.get('dispVal');
 
-	if(typeof calcVar.units[selUnitIndex].eq === 'function') {
+	if(typeof calcVar.getIn(['units', selUnitIndex, 'eq']) === 'function') {
 		//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a function.');
 
 		// Since we know 'eq' is a function, lets call it to work out what the rawVal is...
-		rawVal = calcVar.units[selUnitIndex].eq(dispVal, 'input');
+		rawVal = calcVar.getIn(['units', selUnitIndex, 'eq'])(dispVal, 'input');
 
 	} else {
 		//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
-		rawVal = dispVal*calcVar.units[selUnitIndex].eq;
+		rawVal = dispVal*calcVar.getIn(['units', selUnitIndex, 'eq']);
 	}
 	//console.log('Calculated rawVal = ' + rawVal);
 
@@ -72,8 +79,8 @@ export function findUnitIndexByLabel(unitArray, label) {
 	//console.log(unitArray);
 	//console.log('and label = "' + label + '".');
 	
-	for (var i = 0; i < unitArray.length; i++) {
-		if (unitArray[i].label === label) {
+	for (var i = 0; i < unitArray.size; i++) {
+		if (unitArray.getIn([i, 'label']) === label) {
 			return i;
 		}
 	}
@@ -82,6 +89,7 @@ export function findUnitIndexByLabel(unitArray, label) {
 
 //! @brief		Re-calculates all output variables in a calculator.
 export function reCalcOutputs(vars) {
+
 	vars.forEach((calcVar, index) => {
 			
 		// Filter for outputs only	
@@ -140,63 +148,72 @@ export function reCalcAll(vars) {
 	// The order of input variable calculation
 	// does not matter
 	vars.forEach((calcVar, index) => {
+
 			
 		// Filter for inputs only	
-		if(calcVar.direction == 'input') {
+		if(calcVar.get('direction') == 'input') {
 			
 			// Calculate the new raw value
 			var rawVal = calcRawValFromDispVal(calcVar);
-			calcVar.rawVal = rawVal;
+			calcVar = calcVar.set('rawVal', rawVal);
 
 			// Validate
-			validateVar(vars, index);
+			//validateVar(vars, index);
 		}
 	});	
+
+
 
 	// Now loop through all outputs
 	// The order of these DOES matter, we have
 	// to do a topological sort
 	vars.forEach((calcVar, index) => {
+		//console.log('vars.forEach() called with calcVar = ');
+		//console.log(calcVar.toJS());
+		//console.log(' and index = ' + index);
 			
 		// Filter for outputs only	
-		if(calcVar.direction == 'output') {
+		if(calcVar.get('direction') == 'output') {
 			
 			// Recalculate the rawVal for the variable by calling it's
 			// 'outputFn'.
-			var rawVal = calcVar.outputFn(vars);
+			var rawVal = calcVar.get('outputFn')(vars);
 			//console.log('rawVal = ' + rawVal);
-			calcVar.rawVal = rawVal;
+						
+			calcVar = calcVar.set('rawVal', rawVal);
 
 			// Find the index of the selected unit for this variable
 
 			var selUnitIndex = findUnitIndexByLabel(
-				calcVar.units,
-				calcVar.selUnitValue);
+				calcVar.get('units'),
+				calcVar.get('selUnitValue'));
 			//console.log('Selected unit index = ' + selUnitIndex);						
 
 			// Now we need to work out whether the 'eq' variable for the selected unit is just a number (a multiplier)
 			// or an object with two functions
 			var dispVal;
-			if(typeof calcVar.units[selUnitIndex].eq === 'function') {
+			if(typeof calcVar.getIn(['units', selUnitIndex, 'eq']) === 'function') {
 				//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" unit is a function.');
 
 				// Since we know 'eq' is a function, lets call it to work out what the rawVal is...
-				dispVal = calcVar.units[selUnitIndex].eq(rawVal, 'output');
+				dispVal = calcVar.getIn(['units', selUnitIndex, 'eq'])(rawVal, 'output');
 
 			} else {
 				//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
-				dispVal = rawVal/calcVar.units[selUnitIndex].eq;
+				dispVal = rawVal/calcVar.getIn(['units', selUnitIndex, 'eq']);
 			}
 
 
 			// Now calculate displayed value using raw value
 			// and selected units
 			//var dispVal = rawVal/calcVar.selUnitValue;
-			//console.log('Re-calculated "' + calcVar.id + '", rawVal = "' + rawVal + '", dispVal = "' + dispVal + '.');
-			calcVar.dispVal = dispVal;
+			//console.log('Re-calculated "' + calcVar.get('id') + '", rawVal = "' + rawVal + '", dispVal = "' + dispVal + '.');
+			vars = vars.setIn([index, 'dispVal'], dispVal);
+
+			//console.log('dispVal = ' + vars.getIn([index, 'dispVal']));
 
 			// Validate
-			validateVar(vars, index);
+			//validateVar(vars, index);
 		}
 	});	
 
@@ -274,6 +291,6 @@ export function validateVar(calcVars, calcVarIndex) {
 export function getVal(vars, varId) {
 	// Profiling test
 	//return 2;
-	return vars[findVarIndexById(vars, varId)].rawVal;
+	return vars.getIn([findVarIndexById(vars, varId), 'rawVal']);
 }
 

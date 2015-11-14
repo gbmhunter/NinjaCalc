@@ -51,6 +51,52 @@ import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 
 //var ReactGridLayout = require('react-grid-layout');
 
+var CalcInput = React.createClass({
+
+	mixins: [PureRenderMixin],
+
+	render: function() {
+
+		//console.log('this.props = ');
+		//console.log(this.props);
+
+		return (			
+				<input
+					value={this.props.value}
+					onChange={this.props.onChange}
+					disabled={this.props.disabled}
+					className={this.props.className} />
+		);
+	},
+
+});
+
+var CalcUnits = React.createClass({
+
+	mixins: [PureRenderMixin],
+
+	render: function() {
+
+		//console.log('this.props = ');
+		//console.log(this.props);
+
+		return (			
+			<Select
+					name="form-field-name"
+					value={this.props.value}
+					options={this.props.options}
+					onChange={this.props.onChange}
+					clearValueText=""	
+					clearable={false}			
+					multi={false}
+					searchable={false}	
+					placeholder="Select"
+				/>
+		);
+	},
+
+});
+
 
 //! @brief    A single row in the calculator table.
 // Have had serious issues with using the "class" ES6 syntax!!!
@@ -58,14 +104,14 @@ import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 //class CalcRow extends React.Component {
 var CalcRow = React.createClass({
 
-	//mixins: [PureRenderMixin],
+	mixins: [PureRenderMixin],
 
 	onValueChange: function(event) {
 		console.log('onValueChange() called with event = ');
 		console.log(event);
 
 		// Let's call a thunk to set the variable value inside redux state
-		this.props.dispatch(calcActions.setVarVal(this.props.calcId, this.props.varData.id, event.target.value));
+		this.props.dispatch(calcActions.setVarVal(this.props.calcId, this.props.varData.get('id'), event.target.value));
 	},
 
 	onCalcWhatChange: function(event) {
@@ -74,14 +120,14 @@ var CalcRow = React.createClass({
 		console.log(this);
 		//this.props.onCalcWhatChange(event, this.props.name);
 
-		this.props.dispatch(calcActions.setOutputVar(this.props.calcId, this.props.varData.id));
+		this.props.dispatch(calcActions.setOutputVar(this.props.calcId, this.props.varData.get('id')));
 	},
 
 	onUnitsChange: function(event) {
 		console.log('onUnitsChange() called with event =');
 		console.log(event);
 
-		this.props.dispatch(calcActions.setVarUnits(this.props.calcId, this.props.varData.id, event));
+		this.props.dispatch(calcActions.setVarUnits(this.props.calcId, this.props.varData.get('id'), event));
 	},
 
 	render: function() {
@@ -89,7 +135,7 @@ var CalcRow = React.createClass({
 		//console.log(this.props.varData);
 
 		var isInputDisabled;
-		if(this.props.varData.direction == 'input') {
+		if(this.props.varData.get('direction') == 'input') {
 			isInputDisabled = false;
 		} else {
 			// direction must == 'output'
@@ -99,53 +145,35 @@ var CalcRow = React.createClass({
 		// Build up the required classes for styling
 		var className = '';
 		// worstValidationResult should either be 'ok', 'warning' or 'error'
-		className += 'varDispVal ' + this.props.varData.worstValidationResult;
+		className += 'varDispVal ' + this.props.varData.get('worstValidationResult');
 
 
 		// Work out if radio button is needed
 		var radioButton;
-		if(this.props.varData.showRadio) {
-			radioButton = <input type="radio" checked={this.props.varData.direction == 'output'} onChange={this.onCalcWhatChange} />
+		if(this.props.varData.get('showRadio')) {
+			radioButton = <input type="radio" checked={this.props.varData.get('direction') == 'output'} onChange={this.onCalcWhatChange} />
 		}
 
 		return (
 			<tr>
-				<td>{this.props.varData.name}</td>
+				<td>{this.props.varData.get('name')}</td>
 				{/* Now display the dispVal for each calculator variable */}
 				<td>
-					{/* The overlay trigger provides a hover zone for the tooltip */}
-					<OverlayTrigger
-						placement="right"
-						overlay={<Tooltip>{this.props.varData.tooltipText}</Tooltip>}
-						delayShow={200}>
-						{/* This is the input which either the user will enter a value into (for a calculator input),
-						or will display a calculator output (and be modifiable on the UI) */}
-						<input
-							value={this.props.varData.dispVal}
-							onChange={this.onValueChange}
-							disabled={isInputDisabled}
-							className={className} />
-					</OverlayTrigger>
+					<CalcInput
+						value={this.props.varData.get('dispVal')}
+						overlay={this.props.varData.get('tooltipText')}
+						disabled={isInputDisabled}
+						className={className}
+						onChange={this.onValueChange} />
+					
 				</td>
 				<td className="unitsCol">
-					{/*}
-					<Dropdown
-						options={this.props.varData.units}
-						value={this.props.varData.selUnitValue}
-						placeholder="Select an option"
-					/>
-					*/}
 					
-					<Select
+					<CalcUnits
 						name="form-field-name"
-						value={this.props.varData.selUnitValue}
-						options={this.props.varData.units}
+						value={this.props.varData.get('selUnitValue')}
+						options={this.props.varData.get('units').toJS()}
 						onChange={this.onUnitsChange}
-						clearValueText=""	
-						clearable={false}			
-						multi={false}
-						searchable={false}	
-						placeholder="Select"
 					/>
 				</td>
 				<td>{radioButton}</td>				
@@ -156,11 +184,14 @@ var CalcRow = React.createClass({
 
 var Calculator = React.createClass({
 
-	//mixins: [PureRenderMixin],
+	mixins: [PureRenderMixin],
 
 	render: function() {
 
 		var that = this;
+
+		//console.log('this.props.data = ');
+		//console.log(this.props.data);
 
 		return (
 			<div>
@@ -168,8 +199,9 @@ var Calculator = React.createClass({
 				<table className="calculatorTable">
 					<tbody>
 						{/* This generates the rows of the table which contain the calculator variables */							
-							this.props.data.vars.map((el) => {
-								return <CalcRow key={el.id} calcId={this.props.data.id} varData={el} dispatch={that.props.dispatch} />
+							this.props.data.get('vars').map((el) => {
+								//console.log('el.id = ' + el.get('id'));
+								return <CalcRow key={el.get('id')} calcId={this.props.data.get('id')} varData={el} dispatch={that.props.dispatch} />
 							})
 						}
 					</tbody>
@@ -199,8 +231,8 @@ var App = React.createClass({
 		return (
 			<div>	
 				{/* Let's create a table for every calculator in array */
-					this.props.state.calculators.map(function(el) {
-						return <Calculator key={el.id} data={el} dispatch={that.props.dispatch} />
+					this.props.state.get('calculators').map(function(el) {
+						return <Calculator key={el.get('id')} data={el} dispatch={that.props.dispatch} />
 					})
 				}
 			</div>

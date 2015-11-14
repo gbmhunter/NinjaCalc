@@ -7,19 +7,24 @@
 //! @details
 //!     See README.rst in repo root dir for more info.
 
+var immutable = require('immutable');
+
 import * as utility from '../utility/utility.js';
 import * as calcActions from '../actions/calc-actions.js';
 
 //! @brief		Default/initial state for application.
-const initialState = {
+const initialState = immutable.fromJS({
 
 	//! @brief		Stores the data for every calculator.
 	//! @details	Calculators are loaded in the onMount() function of the React 'App' component.
-	calculators: [], 
-}
+	//calculators: [], 
+	calculators: immutable.List(), 
+});
 
 //! @brief		The default reducer for the app.
 export default function defaultReducer(state = initialState, action) {
+
+	state.asMutable();
 	console.log('defaultReducer() called.');
 
 	switch (action.type) {
@@ -72,17 +77,26 @@ export default function defaultReducer(state = initialState, action) {
 
 			// We need to run through all the calculations to bring all variables into their correct
 			// state
-			utility.reCalcAll(action.calcData.vars);
+			//utility.reCalcAll(action.calcData.vars);
 			
 			// Append the new calculator to the end of the calculator array
-			var calculators = [
+			/*var calculators = [
 				...state.calculators,
 				action.calcData,
-			];			
+			];*/
 
-			return Object.assign({}, state, {
+			var newCalc = immutable.fromJS(action.calcData);
+			console.log('newCalc = ');
+			console.log(newCalc);
+
+			var calculators = state.get('calculators').push(newCalc);
+			var state = state.set('calculators', calculators);
+
+			/*return Object.assign({}, state, {
 				calculators: calculators,
-			});
+			});*/
+
+			return state.asImmutable();
 
 		//==============================================================================//
 		//================================== SET_VAR_VAL ===============================//
@@ -106,15 +120,21 @@ export default function defaultReducer(state = initialState, action) {
 			}*/
 
 			// First find the index of the calculator the variable/value belongs to			
-			var calcIndex = utility.findCalcIndexById(state.calculators, action.calcId);
-			console.log('calcIndex = ' + calcIndex);
+			var calcIndex = utility.findCalcIndexById(state.get('calculators'), action.calcId);
+			//console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.calculators[calcIndex].vars, action.varId);
-			console.log('varIndex = ' +  varIndex);		
+			var varIndex = utility.findVarIndexById(state.getIn(['calculators', calcIndex, 'vars']), action.varId);
+			//console.log('varIndex = ' +  varIndex);	
+
+
+			//var newVar = state.get('calculators').get(calcIndex).get('vars').get()
+
+			//console.log('Setting variable value...');
+			var state = state.setIn(['calculators', calcIndex, 'vars', varIndex, 'dispVal'], dispVal);	
 
 			// Copy vars array for the relevant calculator
-			var vars = [...state.calculators[calcIndex].vars];
+			/*var vars = [...state.get('calculators')[calcIndex].vars];
 
 			// Save in the new displayed value
 			vars = [
@@ -123,14 +143,16 @@ export default function defaultReducer(state = initialState, action) {
 					dispVal: dispVal,					
 				}),
 				...vars.slice(varIndex + 1)
-			];
-			/*
+			];*/
+			
 
 			// Calculate the new raw value
-			var rawVal = utility.calcRawValFromDispVal(vars[varIndex]);
+			var rawVal = utility.calcRawValFromDispVal(state.getIn(['calculators', calcIndex, 'vars', varIndex]));
+			state = state.setIn(['calculators', calcIndex, 'vars', varIndex, 'rawVal'], rawVal);
 
-			console.log('Raw value = ' + rawVal);
+			//console.log('Raw value = ' + rawVal);
 
+/*
 			// To modify array contents, we need to split it before and after the
 			// index we are interested in modifying, and then modify the element with another
 			// .assign() call.
@@ -148,10 +170,15 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('Re-calculating outputs.');
 			vars = utility.reCalcOutputs(vars);*/
 
-			vars = utility.reCalcAll(vars);
+			var calcVars = utility.reCalcAll(state.getIn(['calculators', calcIndex, 'vars']));
+			//console.log('rfb2 = ' + calcVars.getIn([6, 'dispVal']));
+
+			state = state.setIn(['calculators', calcIndex, 'vars'], calcVars);
+
+			//console.log('state.rfb2 = ' + calcVars.getIn([6, 'dispVal']));
 
 			// Finally, return with our modified vars array
-			return Object.assign({}, state, {
+			/*return Object.assign({}, state, {
 				calculators: [
 					...state.calculators.slice(0, calcIndex),
 					Object.assign({}, state.calculators[calcIndex], {
@@ -159,7 +186,9 @@ export default function defaultReducer(state = initialState, action) {
 					}),
 					...state.calculators.slice(calcIndex + 1)
 				]
-			});
+			});*/
+
+			return state;
 
 		//==============================================================================//
 		//================================ SET_VAR_UNITS ===============================//
@@ -169,11 +198,11 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('calcActions.SET_VAR_UNITS action received.');
 
 			// First find the index of the calculator the variable/value belongs to			
-			var calcIndex = utility.findCalcIndexById(state.calculators, action.calcId);
+			var calcIndex = utility.findCalcIndexById(state.get('calculators'), action.calcId);
 			console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.calculators[calcIndex].vars, action.varId);
+			var varIndex = utility.findVarIndexById(state.get('calculators')[calcIndex].vars, action.varId);
 			console.log('varIndex = ' +  varIndex);	
 
 			// Copy vars array for the relevant calculator
@@ -231,11 +260,11 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('calcActions.SET_CALC_WHAT action received.');
 
 			// First find the index of the calculator the variable/value belongs to			
-			var calcIndex = utility.findCalcIndexById(state.calculators, action.calcId);
+			var calcIndex = utility.findCalcIndexById(state.get('calculators'), action.calcId);
 			console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.calculators[calcIndex].vars, action.varId);
+			var varIndex = utility.findVarIndexById(state.get('calculators')[calcIndex].vars, action.varId);
 			console.log('varIndex = ' +  varIndex);		
 
 			var vars = [...state.calculators[calcIndex].vars];
