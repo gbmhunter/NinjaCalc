@@ -23,7 +23,7 @@ var _ = require('lodash');
 
 var ReactRadioGroup = require('react-radio-group');
 
-//import AbsoluteGrid from './utility/AbsoluteGrid.js';
+import AbsoluteGrid from './utility/AbsoluteGrid.js';
 var ReactGridLayout = require('react-grid-layout');
 
 const finalCreateStore = compose(
@@ -285,7 +285,7 @@ var BasicLayout = React.createClass({
   getDefaultProps() {
     return {
       className: "layout",
-      items: 20,
+      items: 5,
       rowHeight: 30,
       cols: 12
     };
@@ -307,8 +307,8 @@ var BasicLayout = React.createClass({
   generateLayout() {
     var p = this.props;
     return _.map(new Array(p.items), function(item, i) {
-      var y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 1;
-      return {x: i * 2 % 12, y: Math.floor(i / 6) * y, w: 2, h: y, i: i};
+      //var y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 1;
+      return {x: 50, y: 50, w: 2, h: 2, i: i};
     });
   },
 
@@ -345,7 +345,7 @@ var App = React.createClass({
 
 		return (
 			<div>	
-				{/*<AbsoluteGrid items={sampleItems} />*/}
+				<AbsoluteGrid items={this.props.state.get('gridElements').toJS()} />
 				<BasicLayout />
 				{/* Let's create a table for every calculator in array */
 					this.props.state.get('calculators').map(function(el) {

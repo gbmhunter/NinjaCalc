@@ -19,11 +19,14 @@ const initialState = immutable.fromJS({
 	//! @details	Calculators are loaded in the onMount() function of the React 'App' component.
 	//calculators: [], 
 	calculators: immutable.List(), 
+
+	gridElements: immutable.List(),
 });
 
 //! @brief		The default reducer for the app.
 export default function defaultReducer(state = initialState, action) {
 
+	// Allow state to be mutated, just remember to return immutable version
 	state.asMutable();
 	console.log('defaultReducer() called.');
 
@@ -91,6 +94,11 @@ export default function defaultReducer(state = initialState, action) {
 
 			var calculators = state.get('calculators').push(newCalc);
 			var state = state.set('calculators', calculators);
+
+			var gridElement = {key: state.get('gridElements').size, name: action.calcData.name, sort: 0, filtered: 0};
+
+			// Add calculator to grid
+			var state = state.setIn(['gridElements', state.get('gridElements').size], immutable.fromJS(gridElement));
 
 			/*return Object.assign({}, state, {
 				calculators: calculators,
