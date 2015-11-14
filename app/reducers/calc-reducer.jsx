@@ -188,6 +188,9 @@ export default function defaultReducer(state = initialState, action) {
 				]
 			});*/
 
+			console.log('SET_VAR_VAL finished. state = ');
+			console.log(state.toJS());
+
 			return state;
 
 		//==============================================================================//

@@ -51,6 +51,8 @@ import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 
 //var ReactGridLayout = require('react-grid-layout');
 
+
+
 var CalcInput = React.createClass({
 
 	mixins: [PureRenderMixin],
@@ -61,11 +63,13 @@ var CalcInput = React.createClass({
 		//console.log(this.props);
 
 		return (			
+			<OverlayTrigger placement="right" overlay={<Tooltip>{this.props.overlay}</Tooltip>}>
 				<input
 					value={this.props.value}
 					onChange={this.props.onChange}
 					disabled={this.props.disabled}
 					className={this.props.className} />
+			</OverlayTrigger>
 		);
 	},
 
