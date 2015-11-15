@@ -8,7 +8,7 @@
 //!     See README.rst in repo root dir for more info.
 
 //======================================================================//
-//========================= addCalcTab() ============================//
+//============================ addCalcTab() ============================//
 //======================================================================//
 
 export var ADD_CALC_TAB = 'ADD_CALC_TAB';
@@ -21,6 +21,25 @@ export function addCalcTab() {
 
 		dispatch({
 			type: ADD_CALC_TAB,					
+		});
+	}
+}
+
+//======================================================================//
+//======================== setSelectedTab() ============================//
+//======================================================================//
+
+export var SET_ACTIVE_TAB = 'SET_ACTIVE_TAB';
+
+//! @brief    Changes the current variable being calculated.
+export function setActiveTab(tabKey) {
+
+	return (dispatch, getState) => {
+		console.log('setActiveTab() thunk called.');
+
+		dispatch({
+			type: SET_ACTIVE_TAB,
+			tabKey,					
 		});
 	}
 }

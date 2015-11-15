@@ -17,7 +17,7 @@ import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 var Select = require('react-select');
 import Dropdown from 'react-dropdown';
-import { Tooltip, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger, Popover, Tabs, Tab } from 'react-bootstrap';
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 
@@ -242,6 +242,11 @@ var App = React.createClass({
 		//lt3745Calc.loadCalc(this.props.dispatch);
 	},
 
+	handleSelect(key) {
+		//alert('selected ' + key);
+		this.props.dispatch(calcActions.setActiveTab(key));		
+	},
+
 	render: function() {
 
 		var that = this;
@@ -254,9 +259,22 @@ var App = React.createClass({
 			return gridElement;
 		});
 
+		console.log('activeTabKey = ' + this.props.state.get('activeTabKey'));		
+
 		return (
 			<div>	
-				<AbsoluteGrid items={items} />
+				{/* Tabs are the main view element on the UI */}
+				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
+					<Tab eventKey={0} title="Calculators">
+						Testing
+						<AbsoluteGrid items={items} responsive={true}/>
+						Testing
+					</Tab>
+					<Tab eventKey={1} title="Test 2">Testing</Tab>
+					<Tab eventKey={2} title="Test 3">Testing</Tab>
+				</Tabs>
+				
+				<div><AbsoluteGrid items={items} /></div>
 				{/*<BasicLayout />*/}
 				{/* Let's create a table for every calculator in array */
 					this.props.state.get('calculators').map(function(el) {

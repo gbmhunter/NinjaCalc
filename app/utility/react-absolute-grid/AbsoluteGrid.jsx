@@ -24,7 +24,10 @@ export default class AbsoluteGrid extends React.Component {
   }
 
   render() {
+    console.log('layoutWidth = ' + this.state.layoutWidth);
+
     if(!this.state.layoutWidth || !this.props.items.length){
+      console.log('ERROR! layoutWidth = ' + this.state.layoutWidth);
       return <div></div>;
     }
 
@@ -104,7 +107,15 @@ export default class AbsoluteGrid extends React.Component {
   }
 
   getDOMWidth = () => {
+    console.log('getDOMWidth() called.');
+    console.log('ReactDOM.findDOMNode(this) =');
+    console.log(ReactDOM.findDOMNode(this));
     var width = ReactDOM.findDOMNode(this).clientWidth;
+
+    //! @warning HACK!!! 
+    //! @todo   Fix.
+    // This makes <AbsoluteGrid> work inside a react-bootstrap <Tab> element
+    width = 400;
 
     if(this.state.layoutWidth !== width){
       this.setState({layoutWidth: width});

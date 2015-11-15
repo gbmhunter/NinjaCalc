@@ -21,6 +21,8 @@ const initialState = immutable.fromJS({
 	calculators: immutable.List(), 
 
 	gridElements: immutable.List(),
+
+	activeTabKey: '0',
 });
 
 //! @brief		The default reducer for the app.
@@ -31,6 +33,17 @@ export default function defaultReducer(state = initialState, action) {
 	console.log('defaultReducer() called.');
 
 	switch (action.type) {
+
+		//==============================================================================//
+		//================================= SET_ACTIVE_TAB =============================//
+		//==============================================================================//
+
+		case calcActions.SET_ACTIVE_TAB:
+			console.log('calcActions.SET_ACTIVE_TAB action received with action.tabKey =' + action.tabKey);
+
+			state = state.set('activeTabKey', action.tabKey);
+
+			return state.asImmutable();
 
 		//==============================================================================//
 		//===================================== ADD_CALC ===============================//
