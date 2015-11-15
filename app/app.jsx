@@ -271,7 +271,7 @@ var App = React.createClass({
 						<Input type="text" label="Search" placeholder="Enter text" />
 						<br />
 						<div>
-							<AbsoluteGrid items={items} itemWidth={242} responsive={true}/>
+							<AbsoluteGrid items={items} itemWidth={242} itemHeight={418} responsive={true} zoom={1} />
 						</div>
 					</Tab>
 					{/* Let's create a table for every calculator in array */
