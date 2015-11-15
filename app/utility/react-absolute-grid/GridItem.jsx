@@ -2,7 +2,7 @@
 
 import React from 'react';
 import BaseDisplayObject from './BaseDisplayObject.js';
-import { Button } from 'react-bootstrap';
+import { Button, Thumbnail } from 'react-bootstrap';
 
 import * as calcActions from '../../actions/calc-actions.js';
 console.log('calcActions = ');
@@ -24,10 +24,14 @@ export default class GridItem extends BaseDisplayObject{
     return <div
             style={itemStyle}
             className="gridItem">
-            	<a>{this.props.item.name}</a>
-            	<br />
-            	<Button onClick={this.onClick.bind(this)}>Open</Button>
-
+                <Thumbnail src="./calculators/omega.png" alt="242x200">
+                    <h3>{this.props.item.name}</h3>
+                    <p>{this.props.item.description}</p>
+                    <p>
+                      <Button bsStyle="primary" onClick={this.onClick.bind(this)}>Open</Button>&nbsp;
+                      <Button bsStyle="default">Button</Button>
+                    </p>
+                </Thumbnail>
             </div>;
     }
 }

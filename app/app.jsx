@@ -17,7 +17,7 @@ import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 var Select = require('react-select');
 import Dropdown from 'react-dropdown';
-import { Tooltip, OverlayTrigger, Popover, Tabs, Tab } from 'react-bootstrap';
+import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab } from 'react-bootstrap';
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 
@@ -265,9 +265,13 @@ var App = React.createClass({
 			<div>	
 				{/* Tabs are the main view element on the UI */}
 				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
+					{/* First tab is static and non-removable */}
 					<Tab eventKey={0} title="Calculators">
+						{/* This is used to narrow down on the desired calculator */}
+						<Input type="text" label="Search" placeholder="Enter text" />
+						<br />
 						<div>
-							<AbsoluteGrid items={items} responsive={true}/>
+							<AbsoluteGrid items={items} itemWidth={242} responsive={true}/>
 						</div>
 					</Tab>
 					{/* Let's create a table for every calculator in array */
