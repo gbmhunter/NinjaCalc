@@ -22,7 +22,7 @@ const initialState = immutable.fromJS({
 
 	gridElements: immutable.List(),
 
-	activeTabKey: '0',
+	activeTabKey: 0,
 });
 
 //! @brief		The default reducer for the app.

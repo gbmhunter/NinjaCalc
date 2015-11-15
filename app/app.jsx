@@ -270,17 +270,16 @@ var App = React.createClass({
 						<AbsoluteGrid items={items} responsive={true}/>
 						Testing
 					</Tab>
-					<Tab eventKey={1} title="Test 2">Testing</Tab>
-					<Tab eventKey={2} title="Test 3">Testing</Tab>
-				</Tabs>
-				
-				<div><AbsoluteGrid items={items} /></div>
-				{/*<BasicLayout />*/}
-				{/* Let's create a table for every calculator in array */
-					this.props.state.get('calculators').map(function(el) {
-						return <Calculator key={el.get('id')} data={el} dispatch={that.props.dispatch} />
-					})
-				}
+					{/* Let's create a table for every calculator in array */
+						this.props.state.get('calculators').map(function(el, index) {
+							return (
+								<Tab key={index+1} eventKey={index+1} title={el.get('name')}>
+									<Calculator key={el.get('id')} data={el} dispatch={that.props.dispatch} />
+								</Tab>
+							);
+						})
+					}
+				</Tabs>											
 			</div>
 		);
 	}
