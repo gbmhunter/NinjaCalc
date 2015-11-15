@@ -266,12 +266,15 @@ var App = React.createClass({
 				{/* Tabs are the main view element on the UI */}
 				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 					<Tab eventKey={0} title="Calculators">
-						Testing
-						<AbsoluteGrid items={items} responsive={true}/>
-						Testing
+						<div>
+							<AbsoluteGrid items={items} responsive={true}/>
+						</div>
 					</Tab>
 					{/* Let's create a table for every calculator in array */
-						this.props.state.get('calculators').map(function(el, index) {
+						this.props.state.get('calculators').filter((calculator) => {
+							console.log('calculator.get(\'visible\') = ' + calculator.get('visible'));
+							return calculator.get('visible');
+						}).map(function(el, index) {
 							return (
 								<Tab key={index+1} eventKey={index+1} title={el.get('name')}>
 									<Calculator key={el.get('id')} data={el} dispatch={that.props.dispatch} />

@@ -105,19 +105,23 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('newCalc = ');
 			console.log(newCalc);
 
+			// Set the default visibility for a calculator to false (i.e. not shown in a tab)
+			newCalc = newCalc.set('visible', false);
+
 			var calculators = state.get('calculators').push(newCalc);
-			var state = state.set('calculators', calculators);
+			state = state.set('calculators', calculators);
 
 			var gridElement = {
 				key: state.get('gridElements').size,
 				name: action.calcData.name,
+				calcId: newCalc.get('id'),
 				sort: 0,
 				filtered: 0,
 				test: 'test',
 			};
 
 			// Add calculator to grid
-			var state = state.setIn(['gridElements', state.get('gridElements').size], immutable.fromJS(gridElement));
+			state = state.setIn(['gridElements', state.get('gridElements').size], immutable.fromJS(gridElement));
 
 			/*return Object.assign({}, state, {
 				calculators: calculators,
@@ -125,6 +129,24 @@ export default function defaultReducer(state = initialState, action) {
 
 			return state.asImmutable();
 
+		//==============================================================================//
+		//===================================== OPEN_CALC ===============================//
+		//==============================================================================//
+		case calcActions.OPEN_CALC:
+			console.log('calcActions.OPEN_CALC action received with action.calcId = ' + action.calcId);
+
+			// We want to set the relevant calculator visible variable to true, which will cause it
+			// to open in a new tab
+			var calcIndex = state.get('calculators').findIndex((calculator) => {
+				return calculator.get('id') === action.calcId; 
+			});
+
+			console.log('calcIndex = ' + calcIndex);
+
+			// Now we know the index of the calculator, we can set it's visible property to true
+			state = state.setIn(['calculators', calcIndex, 'visible'], true);
+
+			return state.asImmutable();
 		//==============================================================================//
 		//================================== SET_VAR_VAL ===============================//
 		//==============================================================================//

@@ -14,7 +14,7 @@ export default class GridItem extends BaseDisplayObject{
 
     onClick() {
         console.log('GridItem.onClick() called. this.props.test = ' + this.props.item.test);
-        this.props.item.dispatch(calcActions.addCalcTab());
+        this.props.item.dispatch(calcActions.openCalc(this.props.item.calcId));
     }
 
     render() {
@@ -26,7 +26,7 @@ export default class GridItem extends BaseDisplayObject{
             className="gridItem">
             	<a>{this.props.item.name}</a>
             	<br />
-            	<Button onClick={this.onClick.bind(this)}>Load</Button>
+            	<Button onClick={this.onClick.bind(this)}>Open</Button>
 
             </div>;
     }

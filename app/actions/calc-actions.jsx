@@ -2,7 +2,7 @@
 //! @file               calc-actions.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-03
+//! @last-modified      2015-11-15
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -11,16 +11,17 @@
 //============================ addCalcTab() ============================//
 //======================================================================//
 
-export var ADD_CALC_TAB = 'ADD_CALC_TAB';
+export var OPEN_CALC = 'OPEN_CALC';
 
 //! @brief    Changes the current variable being calculated.
-export function addCalcTab() {
+export function openCalc(calcId) {
 
 	return (dispatch, getState) => {
-		console.log('addCalcTab() thunk called.');
+		console.log('openCalc() thunk called.');
 
 		dispatch({
-			type: ADD_CALC_TAB,					
+			type: OPEN_CALC,
+			calcId,
 		});
 	}
 }
