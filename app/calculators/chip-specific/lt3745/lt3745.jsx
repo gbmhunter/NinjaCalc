@@ -149,7 +149,7 @@ export var data = {
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },
 			],
-			selUnitValue: 'Ω',	
+			selUnitValue: 'kΩ',	
 			direction: 'input',
 			validators: [
 				{
@@ -172,7 +172,7 @@ export var data = {
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },
 			],
-			selUnitValue: 'Ω',	
+			selUnitValue: 'kΩ',	
 			direction: 'output',
 			outputFn: (vars) => {
 				return (getVal(vars, 'rfb1')*(getVal(vars, 'vOutMax')/1.205 - 1));	
@@ -443,7 +443,7 @@ export var data = {
 			id: 'tjMax',
 			name: 'tj(max)',
 			units: [
-				{ label: '°C', eq: 1e3 },				
+				{ label: '°C', eq: 1 },				
 			],
 			selUnitValue: '°C',	
 			direction: 'input',
