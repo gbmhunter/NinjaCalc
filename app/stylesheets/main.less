@@ -39,10 +39,10 @@ div.tab-content {
 .calculatorTable {
 
     td {
-        padding: 10px;
+        padding: 5px;
     }
 
-    input.varDispVal:focus {
+    /*input.varDispVal:focus {
         border: solid 5px;
 
         &.ok {
@@ -87,6 +87,34 @@ div.tab-content {
             // This is a light red colour
             border-color: #FF6363;
         }
+    }*/
+
+    // Let's give the calc variable inputs a thicker border, which allows us to easily see
+    // which are valid, have warnings, or have errors
+
+    // Gets rid of the bottom margin that bootstrap components have on inputs.
+    div.form-group {
+        margin-bottom: 0px;
+    }
+
+    input.form-control {
+        border-width: 3px;
+    }
+
+    input.form-control:focus {
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 15px rgba(102, 175, 233, .6);
+    }
+
+    .has-success .form-control:focus {
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 15px #67b168;
+    }
+
+    .has-warning .form-control:focus {   
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 15px #c0a16b;
+    }
+
+    .has-error .form-control:focus {
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 15px #ce8483;
     }
 
     .unitsCol {
