@@ -70,18 +70,31 @@ var CalcInput = React.createClass({
 
 	render: function() {
 
-		//console.log('this.props = ');
-		//console.log(this.props);
+		console.log('CalcInput.render() called. this.props = ');
+		console.log(this.props);
+
+		var placeholder;
+		if(!this.props.disabled) {
+			placeholder = 'Enter value';
+		} else {
+			placeholder = '';
+		}
 
 		return (			
 			<OverlayTrigger placement="right" overlay={<Tooltip>{this.props.overlay}</Tooltip>}>
-				<input
-					value={this.props.value}
-					onChange={this.props.onChange}
-					disabled={this.props.disabled}
-					className={this.props.className} />
+				<Input
+			        type="text"
+			        value={this.props.value}
+			        disabled={this.props.disabled}
+			        placeholder={placeholder}
+			        hasFeedback
+			        bsStyle={this.props.bsStyle}
+			        ref="input"
+			        groupClassName="group-class"
+			        labelClassName="label-class"
+			        onChange={this.props.onChange} />
 			</OverlayTrigger>
-		);
+    	);
 	},
 
 });
@@ -158,9 +171,9 @@ var CalcRow = React.createClass({
 		}
 
 		// Build up the required classes for styling
-		var className = '';
+		var bsStyle = '';
 		// worstValidationResult should either be 'ok', 'warning' or 'error'
-		className += 'varDispVal ' + this.props.varData.get('worstValidationResult');
+		bsStyle += this.props.varData.get('worstValidationResult');
 
 
 		// Work out if radio button is needed
@@ -178,7 +191,7 @@ var CalcRow = React.createClass({
 						value={this.props.varData.get('dispVal')}
 						overlay={this.props.varData.get('tooltipText')}
 						disabled={isInputDisabled}
-						className={className}
+						bsStyle={bsStyle}
 						onChange={this.onValueChange} />
 					
 				</td>

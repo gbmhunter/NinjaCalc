@@ -240,7 +240,7 @@ export function validateVar(calcVars, calcVarIndex) {
 
 
 
-	var worstResult = 'ok';
+	var worstResult = 'success';
 
 	// This variable is for building up the text to display in the tooltip.
 	// It will be populated with violation info.
@@ -259,7 +259,7 @@ export function validateVar(calcVars, calcVarIndex) {
 			// action
 			switch(validator.get('severity')) {
 				case 'warning':
-					if(worstResult == 'ok') {
+					if(worstResult == 'success') {
 						worstResult = 'warning';
 					}
 					tooltipText += validator.get('msg');
@@ -277,8 +277,8 @@ export function validateVar(calcVars, calcVarIndex) {
 
 	});
 
-	if(worstResult == 'ok') {
-		// If we are here, and the worst result is 'ok', then we can add the text 
+	if(worstResult == 'success') {
+		// If we are here, and the worst result is 'success', then we can add the text 
 		tooltipText = 'Value is o.k.';
 	}
 
