@@ -2,7 +2,7 @@
 //! @file               ohms-law.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-09
+//! @last-modified      2015-11-15
 //! @brief              Contains the Ohm's Law calculator data for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -12,8 +12,10 @@ import { getVal } from '../../../utility/utility.js';
 var ohmsLawCalc = {
 
 	id: 'ohmsLaw',
-	name: 'Ohm\'s Law Calculator',
+	name: 'Ohm\'s Law',
+	description: 'The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm\'s law.',
 	tags: 'ohm, law, resistance, voltage, current',
+	imageSrc: './calculators/basic/ohms-law/icon.png',
 
 	//calcType: 'simpleSwitchable',
 

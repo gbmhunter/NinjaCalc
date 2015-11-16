@@ -2,7 +2,7 @@
 //! @file               lt3745.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-03
-//! @last-modified      2015-11-09
+//! @last-modified      2015-11-16
 //! @brief              Contains the data for the LT3745 calculator.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -13,8 +13,10 @@ import * as calcActions from '../../../actions/calc-actions.js';
 export var data = {
 
 	id: 'lt3745',
-	name: 'LT3745 Calculator',
+	name: 'LT3745',
+	description: 'Calculate the values of the surrounding passive components required to operate the LT3745 IC.',
 	tags: 'ic, linear tech, led',
+	imageSrc: './calculators/chip-specific/lt3745/icon.png',
 
 	vars: [
 
@@ -149,7 +151,7 @@ export var data = {
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },
 			],
-			selUnitValue: 'Ω',	
+			selUnitValue: 'kΩ',	
 			direction: 'input',
 			validators: [
 				{
@@ -172,7 +174,7 @@ export var data = {
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },
 			],
-			selUnitValue: 'Ω',	
+			selUnitValue: 'kΩ',	
 			direction: 'output',
 			outputFn: (vars) => {
 				return (getVal(vars, 'rfb1')*(getVal(vars, 'vOutMax')/1.205 - 1));	
@@ -443,7 +445,7 @@ export var data = {
 			id: 'tjMax',
 			name: 'tj(max)',
 			units: [
-				{ label: '°C', eq: 1e3 },				
+				{ label: '°C', eq: 1 },				
 			],
 			selUnitValue: '°C',	
 			direction: 'input',

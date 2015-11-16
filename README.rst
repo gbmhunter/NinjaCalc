@@ -8,7 +8,7 @@ A embedded engineering calculator suite that's got your back.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2015-11-08
+- Last Modified: 2015-11-15
 - Version: v0.0.0
 - Company: mbedded.ninja
 - Project: NinjaTerm
@@ -29,8 +29,8 @@ Features
 --------
 
 - Suite of useful embedded-engineering related calculators.
-- Dynamic unit-changing support.
-- Continuously checking validators which make sure calculator variables are "within range".
+- Dynamic unit-changing support (including metric and imperial units).
+- Continuously checking validators which make sure calculator variables are "within range/sensible".
 - Powerful and compact language for describing new calculators, making it easy to add your own if so wanted!
 
 Installation

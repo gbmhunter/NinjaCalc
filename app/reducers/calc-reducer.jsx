@@ -7,22 +7,46 @@
 //! @details
 //!     See README.rst in repo root dir for more info.
 
+var immutable = require('immutable');
+
 import * as utility from '../utility/utility.js';
 import * as calcActions from '../actions/calc-actions.js';
 
 //! @brief		Default/initial state for application.
-const initialState = {
+const initialState = immutable.fromJS({
 
 	//! @brief		Stores the data for every calculator.
 	//! @details	Calculators are loaded in the onMount() function of the React 'App' component.
-	calculators: [], 
-}
+	//calculators: [], 
+	calculators: immutable.List(), 
+
+	gridElements: immutable.List(),
+
+	activeTabKey: 0,
+
+	//! @brief		Stores the text to display within the "search" input.
+	searchTerm: '',
+});
 
 //! @brief		The default reducer for the app.
 export default function defaultReducer(state = initialState, action) {
+
+	// Allow state to be mutated, just remember to return immutable version
+	state.asMutable();
 	console.log('defaultReducer() called.');
 
 	switch (action.type) {
+
+		//==============================================================================//
+		//================================= SET_ACTIVE_TAB =============================//
+		//==============================================================================//
+
+		case calcActions.SET_ACTIVE_TAB:
+			console.log('calcActions.SET_ACTIVE_TAB action received with action.tabKey =' + action.tabKey);
+
+			state = state.set('activeTabKey', action.tabKey);
+
+			return state.asImmutable();
 
 		//==============================================================================//
 		//===================================== ADD_CALC ===============================//
@@ -72,18 +96,97 @@ export default function defaultReducer(state = initialState, action) {
 
 			// We need to run through all the calculations to bring all variables into their correct
 			// state
-			utility.reCalcAll(action.calcData.vars);
+			//utility.reCalcAll(action.calcData.vars);
 			
 			// Append the new calculator to the end of the calculator array
-			var calculators = [
+			/*var calculators = [
 				...state.calculators,
 				action.calcData,
-			];			
+			];*/
 
-			return Object.assign({}, state, {
-				calculators: calculators,
+			var newCalc = immutable.fromJS(action.calcData);
+			console.log('newCalc = ');
+			console.log(newCalc);
+
+			// Set the default visibility for a calculator to false (i.e. not shown in a tab)
+			newCalc = newCalc.set('visible', false);
+
+			var calculators = state.get('calculators').push(newCalc);
+			state = state.set('calculators', calculators);
+
+			var gridElement = {
+				key: state.get('gridElements').size,
+				name: action.calcData.name,
+				description: newCalc.get('description'),
+				calcId: newCalc.get('id'),
+				imageSrc: newCalc.get('imageSrc'),
+				sort: 0,
+				filtered: false,
+				test: 'test',
+			};
+
+			// Add calculator to grid
+			state = state.setIn(['gridElements', state.get('gridElements').size], immutable.fromJS(gridElement));
+
+			//console.log('state.gridElements = ');
+			//console.log(state.get('gridElements').toJS());
+
+			//state = state.setIn(['gridElements', 0, 'filtered'], false);
+
+			return state.asImmutable();
+
+		//==============================================================================//
+		//================================= SET_SEARCH_TERM ============================//
+		//==============================================================================//
+
+		case calcActions.SET_SEARCH_TERM:
+			console.log('calcActions.SET_SEARCH_TERM action received with action.searchTerm =' + action.searchTerm);
+
+			state = state.set('searchTerm', action.searchTerm);
+
+			// We also need to update the "gridElements" array, to filter the results based on the current search term
+			// We can set the "filtered" variable on each gridElement to true to hide it
+			state.get('gridElements').forEach((gridElement, index) => {
+				//console.log('gridElements.forEach() called for gridElement =');
+				//console.log(gridElement.toJS());
+				//console.log('and index = ' + index);
+
+				// Build a regex with the search term
+				const regex = new RegExp(state.get('searchTerm'), 'i');
+
+				// Check if there is a match in the name, and set the filtered variable
+				// accordingly
+				if(gridElement.get('name').search(regex) > -1) {
+					//console.log('Match found!');		
+					//gridElement = gridElement.set('filtered', false);			
+					state = state.setIn(['gridElements', index, 'filtered'], false);
+				} else {
+					//console.log('Match not found.');
+					state = state.setIn(['gridElements', index, 'filtered'], true);
+				}
+
 			});
 
+			return state.asImmutable();
+
+		//==============================================================================//
+		//===================================== OPEN_CALC ===============================//
+		//==============================================================================//
+		case calcActions.OPEN_CALC:
+			console.log('calcActions.OPEN_CALC action received with action.calcId = ' + action.calcId);
+
+			// We want to set the relevant calculator visible variable to true, which will cause it
+			// to open in a new tab
+			var calcIndex = state.get('calculators').findIndex((calculator) => {
+				return calculator.get('id') === action.calcId; 
+			});
+
+			console.log('calcIndex = ' + calcIndex);
+
+			// Now we know the index of the calculator, we can set it's visible property to true
+			state = state.setIn(['calculators', calcIndex, 'visible'], true);
+
+			return state.asImmutable();
 		//==============================================================================//
 		//================================== SET_VAR_VAL ===============================//
 		//==============================================================================//
@@ -106,15 +209,21 @@ export default function defaultReducer(state = initialState, action) {
 			}*/
 
 			// First find the index of the calculator the variable/value belongs to			
-			var calcIndex = utility.findCalcIndexById(state.calculators, action.calcId);
-			console.log('calcIndex = ' + calcIndex);
+			var calcIndex = utility.findCalcIndexById(state.get('calculators'), action.calcId);
+			//console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.calculators[calcIndex].vars, action.varId);
-			console.log('varIndex = ' +  varIndex);		
+			var varIndex = utility.findVarIndexById(state.getIn(['calculators', calcIndex, 'vars']), action.varId);
+			//console.log('varIndex = ' +  varIndex);	
+
+
+			//var newVar = state.get('calculators').get(calcIndex).get('vars').get()
+
+			//console.log('Setting variable value...');
+			var state = state.setIn(['calculators', calcIndex, 'vars', varIndex, 'dispVal'], dispVal);	
 
 			// Copy vars array for the relevant calculator
-			var vars = [...state.calculators[calcIndex].vars];
+			/*var vars = [...state.get('calculators')[calcIndex].vars];
 
 			// Save in the new displayed value
 			vars = [
@@ -123,14 +232,16 @@ export default function defaultReducer(state = initialState, action) {
 					dispVal: dispVal,					
 				}),
 				...vars.slice(varIndex + 1)
-			];
-			/*
+			];*/
+			
 
 			// Calculate the new raw value
-			var rawVal = utility.calcRawValFromDispVal(vars[varIndex]);
+			var rawVal = utility.calcRawValFromDispVal(state.getIn(['calculators', calcIndex, 'vars', varIndex]));
+			state = state.setIn(['calculators', calcIndex, 'vars', varIndex, 'rawVal'], rawVal);
 
-			console.log('Raw value = ' + rawVal);
+			//console.log('Raw value = ' + rawVal);
 
+/*
 			// To modify array contents, we need to split it before and after the
 			// index we are interested in modifying, and then modify the element with another
 			// .assign() call.
@@ -148,10 +259,15 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('Re-calculating outputs.');
 			vars = utility.reCalcOutputs(vars);*/
 
-			vars = utility.reCalcAll(vars);
+			var calcVars = utility.reCalcAll(state.getIn(['calculators', calcIndex, 'vars']));
+			//console.log('rfb2 = ' + calcVars.getIn([6, 'dispVal']));
+
+			state = state.setIn(['calculators', calcIndex, 'vars'], calcVars);
+
+			//console.log('state.rfb2 = ' + calcVars.getIn([6, 'dispVal']));
 
 			// Finally, return with our modified vars array
-			return Object.assign({}, state, {
+			/*return Object.assign({}, state, {
 				calculators: [
 					...state.calculators.slice(0, calcIndex),
 					Object.assign({}, state.calculators[calcIndex], {
@@ -159,7 +275,12 @@ export default function defaultReducer(state = initialState, action) {
 					}),
 					...state.calculators.slice(calcIndex + 1)
 				]
-			});
+			});*/
+
+			console.log('SET_VAR_VAL finished. state = ');
+			console.log(state.toJS());
+
+			return state;
 
 		//==============================================================================//
 		//================================ SET_VAR_UNITS ===============================//
@@ -169,16 +290,16 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('calcActions.SET_VAR_UNITS action received.');
 
 			// First find the index of the calculator the variable/value belongs to			
-			var calcIndex = utility.findCalcIndexById(state.calculators, action.calcId);
+			var calcIndex = utility.findCalcIndexById(state.get('calculators'), action.calcId);
 			console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.calculators[calcIndex].vars, action.varId);
+			var varIndex = utility.findVarIndexById(state.getIn(['calculators', calcIndex, 'vars']), action.varId);
 			console.log('varIndex = ' +  varIndex);	
 
 			// Copy vars array for the relevant calculator
-			var vars = [...state.calculators[calcIndex].vars];
-
+			//var vars = [...state.calculators[calcIndex].vars];
+			/*
 			// Save in the new selected unit value
 			vars = [
 				...vars.slice(0, varIndex),
@@ -186,15 +307,20 @@ export default function defaultReducer(state = initialState, action) {
 					selUnitValue: action.unitValue,					
 				}),
 				...vars.slice(varIndex + 1)
-			];
+			];*/
 
-			/*// Since the units have been changed for this variable, the raw value will change
+			state = state.setIn(['calculators', calcIndex, 'vars', varIndex, 'selUnitValue'], action.unitValue);
+
+			// Since the units have been changed for this variable, the raw value will change
 			// Calculate new raw value for this variable
-			var rawVal = utility.calcRawValFromDispVal(vars[varIndex]);
+			var rawVal = utility.calcRawValFromDispVal(state.getIn(['calculators', calcIndex, 'vars', varIndex]));
 
 			//var rawVal = vars[varIndex].dispVal*action.unitValue;
 			console.log('New rawVal = ' + rawVal);
 
+			state = state.setIn(['calculators', calcIndex, 'vars', varIndex, 'rawVal'], rawVal);
+
+/*
 			// Save in the new raw value
 			vars = [
 				...vars.slice(0, varIndex),
@@ -208,9 +334,13 @@ export default function defaultReducer(state = initialState, action) {
 			// so we need to recalculate outputs again
 			//console.log('Re-calculating outputs.');
 			//vars = utility.reCalcOutputs(vars);
-			vars = utility.reCalcAll(vars);
-			
+			var calcVars = utility.reCalcAll(state.getIn(['calculators', calcIndex, 'vars']));
+			//console.log('rfb2 = ' + calcVars.getIn([6, 'dispVal']));
 
+			state = state.setIn(['calculators', calcIndex, 'vars'], calcVars);
+			
+			
+			/*
 			// Finally, return with our modified vars array
 			return Object.assign({}, state, {
 				calculators: [
@@ -220,7 +350,9 @@ export default function defaultReducer(state = initialState, action) {
 					}),
 					...state.calculators.slice(calcIndex + 1)
 				]
-			});
+			});*/
+
+			return state;
 
 
 
@@ -231,11 +363,11 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('calcActions.SET_CALC_WHAT action received.');
 
 			// First find the index of the calculator the variable/value belongs to			
-			var calcIndex = utility.findCalcIndexById(state.calculators, action.calcId);
+			var calcIndex = utility.findCalcIndexById(state.get('calculators'), action.calcId);
 			console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.calculators[calcIndex].vars, action.varId);
+			var varIndex = utility.findVarIndexById(state.get('calculators')[calcIndex].vars, action.varId);
 			console.log('varIndex = ' +  varIndex);		
 
 			var vars = [...state.calculators[calcIndex].vars];

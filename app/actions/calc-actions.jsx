@@ -2,7 +2,7 @@
 //! @file               calc-actions.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-03
+//! @last-modified      2015-11-15
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -27,26 +27,65 @@ export function addCalc(calcData) {
 }
 
 //======================================================================//
-//========================= addCalculator() ============================//
+//========================= setSearchTerm() ============================//
 //======================================================================//
 
-export var ADD_VALIDATOR = 'ADD_VALIDATOR';
+export var SET_SEARCH_TERM = 'SET_SEARCH_TERM';
 
 //! @brief    Changes the current variable being calculated.
-export function addValidator(calcId, varId, validatorFn, validatorSeverity, validatorMsg) {
+export function setSearchTerm(searchTerm) {
 
 	return (dispatch, getState) => {
-		console.log('addValidator() thunk called.');
+		console.log('setSearchTerm() thunk called.');
 
 		dispatch({
-			calcId,
-			varId,
-			validatorFn,
-			validatorSeverity,
-			validatorMsg,			
+			type: SET_SEARCH_TERM,
+			searchTerm,		
 		});
 	}
 }
+
+
+
+//======================================================================//
+//============================ addCalcTab() ============================//
+//======================================================================//
+
+export var OPEN_CALC = 'OPEN_CALC';
+
+//! @brief    Changes the current variable being calculated.
+export function openCalc(calcId) {
+
+	return (dispatch, getState) => {
+		console.log('openCalc() thunk called.');
+
+		dispatch({
+			type: OPEN_CALC,
+			calcId,
+		});
+	}
+}
+
+//======================================================================//
+//======================== setSelectedTab() ============================//
+//======================================================================//
+
+export var SET_ACTIVE_TAB = 'SET_ACTIVE_TAB';
+
+//! @brief    Changes the current variable being calculated.
+export function setActiveTab(tabKey) {
+
+	return (dispatch, getState) => {
+		console.log('setActiveTab() thunk called.');
+
+		dispatch({
+			type: SET_ACTIVE_TAB,
+			tabKey,					
+		});
+	}
+}
+
+
 
 
 //======================================================================//
