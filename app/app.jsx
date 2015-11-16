@@ -53,6 +53,7 @@ const store = finalCreateStore(defaultReducer);
 
 import * as lt3745Calc from './calculators/chip-specific/lt3745/lt3745.js';
 import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
+import * as resistorDividerCalc from './calculators/basic/resistor-divider/resistor-divider.js';
 
 // Calculators are loaded into Redux state in the onMount function of the react App
 
@@ -252,6 +253,7 @@ var App = React.createClass({
 
 		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
 		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));
+		this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
 		//lt3745Calc.loadCalc(this.props.dispatch);
 	},
 
