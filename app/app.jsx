@@ -247,6 +247,15 @@ var App = React.createClass({
 		this.props.dispatch(calcActions.setActiveTab(key));		
 	},
 
+	//! @brief		Called when the text within the "search" input changes.
+	//! @details	Dispatches a setSearchTerm event, which then updates the input and filters the calculator grid results.
+	onSearchInputChange(event) {
+	    console.log('onSearchInputChange() called with event.target.value = ');
+	    console.log(event.target.value);
+
+	    this.props.dispatch(calcActions.setSearchTerm(event.target.value));
+ 	},
+
 	render: function() {
 
 		var that = this;
@@ -268,7 +277,16 @@ var App = React.createClass({
 					{/* First tab is static and non-removable */}
 					<Tab eventKey={0} title="Calculators">
 						{/* This is used to narrow down on the desired calculator */}
-						<Input type="text" label="Search" placeholder="Enter text" />
+						<Input
+					        type="text"
+					        value={this.props.state.get('searchTerm')}
+					        placeholder="Enter text"
+					        label="Working example with validation"
+					        hasFeedback
+					        ref="input"
+					        groupClassName="group-class"
+					        labelClassName="label-class"
+					        onChange={this.onSearchInputChange} />
 						<br />
 						<div>
 							<AbsoluteGrid items={items} itemWidth={242} itemHeight={418} responsive={true} zoom={1} />

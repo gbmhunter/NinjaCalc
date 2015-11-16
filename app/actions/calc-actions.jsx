@@ -8,6 +8,46 @@
 //!     See README.rst in repo root dir for more info.
 
 //======================================================================//
+//========================= addCalculator() ============================//
+//======================================================================//
+
+export var ADD_CALC = 'ADD_CALC';
+
+//! @brief    Changes the current variable being calculated.
+export function addCalc(calcData) {
+
+	return (dispatch, getState) => {
+		console.log('addCalc() thunk called.');
+
+		dispatch({
+			type: ADD_CALC,
+			calcData: calcData,			
+		});
+	}
+}
+
+//======================================================================//
+//========================= setSearchTerm() ============================//
+//======================================================================//
+
+export var SET_SEARCH_TERM = 'SET_SEARCH_TERM';
+
+//! @brief    Changes the current variable being calculated.
+export function setSearchTerm(searchTerm) {
+
+	return (dispatch, getState) => {
+		console.log('setSearchTerm() thunk called.');
+
+		dispatch({
+			type: SET_SEARCH_TERM,
+			searchTerm,		
+		});
+	}
+}
+
+
+
+//======================================================================//
 //============================ addCalcTab() ============================//
 //======================================================================//
 
@@ -45,46 +85,7 @@ export function setActiveTab(tabKey) {
 	}
 }
 
-//======================================================================//
-//========================= addCalculator() ============================//
-//======================================================================//
 
-export var ADD_CALC = 'ADD_CALC';
-
-//! @brief    Changes the current variable being calculated.
-export function addCalc(calcData) {
-
-	return (dispatch, getState) => {
-		console.log('addCalc() thunk called.');
-
-		dispatch({
-			type: ADD_CALC,
-			calcData: calcData,			
-		});
-	}
-}
-
-//======================================================================//
-//========================= addCalculator() ============================//
-//======================================================================//
-
-export var ADD_VALIDATOR = 'ADD_VALIDATOR';
-
-//! @brief    Changes the current variable being calculated.
-export function addValidator(calcId, varId, validatorFn, validatorSeverity, validatorMsg) {
-
-	return (dispatch, getState) => {
-		console.log('addValidator() thunk called.');
-
-		dispatch({
-			calcId,
-			varId,
-			validatorFn,
-			validatorSeverity,
-			validatorMsg,			
-		});
-	}
-}
 
 
 //======================================================================//

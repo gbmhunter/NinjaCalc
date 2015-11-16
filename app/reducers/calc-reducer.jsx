@@ -23,6 +23,9 @@ const initialState = immutable.fromJS({
 	gridElements: immutable.List(),
 
 	activeTabKey: 0,
+
+	//! @brief		Stores the text to display within the "search" input.
+	searchTerm: '',
 });
 
 //! @brief		The default reducer for the app.
@@ -117,15 +120,51 @@ export default function defaultReducer(state = initialState, action) {
 				description: newCalc.get('description'),
 				calcId: newCalc.get('id'),
 				sort: 0,
-				filtered: 0,
+				filtered: false,
 				test: 'test',
 			};
 
 			// Add calculator to grid
 			state = state.setIn(['gridElements', state.get('gridElements').size], immutable.fromJS(gridElement));
 
-			console.log('state.gridElements = ');
-			console.log(state.get('gridElements').toJS());
+			//console.log('state.gridElements = ');
+			//console.log(state.get('gridElements').toJS());
+
+			//state = state.setIn(['gridElements', 0, 'filtered'], false);
+
+			return state.asImmutable();
+
+		//==============================================================================//
+		//================================= SET_SEARCH_TERM ============================//
+		//==============================================================================//
+
+		case calcActions.SET_SEARCH_TERM:
+			console.log('calcActions.SET_SEARCH_TERM action received with action.searchTerm =' + action.searchTerm);
+
+			state = state.set('searchTerm', action.searchTerm);
+
+			// We also need to update the "gridElements" array, to filter the results based on the current search term
+			// We can set the "filtered" variable on each gridElement to true to hide it
+			state.get('gridElements').forEach((gridElement, index) => {
+				//console.log('gridElements.forEach() called for gridElement =');
+				//console.log(gridElement.toJS());
+				//console.log('and index = ' + index);
+
+				// Build a regex with the search term
+				const regex = new RegExp(state.get('searchTerm'), 'i');
+
+				// Check if there is a match in the name, and set the filtered variable
+				// accordingly
+				if(gridElement.get('name').search(regex) > -1) {
+					//console.log('Match found!');		
+					//gridElement = gridElement.set('filtered', false);			
+					state = state.setIn(['gridElements', index, 'filtered'], false);
+				} else {
+					//console.log('Match not found.');
+					state = state.setIn(['gridElements', index, 'filtered'], true);
+				}
+
+			});
 
 			return state.asImmutable();
 
