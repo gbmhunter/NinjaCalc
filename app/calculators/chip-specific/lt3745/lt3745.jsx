@@ -2,7 +2,7 @@
 //! @file               lt3745.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-03
-//! @last-modified      2015-11-15
+//! @last-modified      2015-11-16
 //! @brief              Contains the data for the LT3745 calculator.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -16,6 +16,7 @@ export var data = {
 	name: 'LT3745',
 	description: 'Calculate the values of the surrounding passive components required to operate the LT3745 IC.',
 	tags: 'ic, linear tech, led',
+	imageSrc: './calculators/chip-specific/lt3745/icon.png',
 
 	vars: [
 

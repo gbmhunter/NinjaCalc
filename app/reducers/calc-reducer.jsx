@@ -119,6 +119,7 @@ export default function defaultReducer(state = initialState, action) {
 				name: action.calcData.name,
 				description: newCalc.get('description'),
 				calcId: newCalc.get('id'),
+				imageSrc: newCalc.get('imageSrc'),
 				sort: 0,
 				filtered: false,
 				test: 'test',

@@ -281,7 +281,7 @@ var App = React.createClass({
 					        type="text"
 					        value={this.props.state.get('searchTerm')}
 					        placeholder="Enter text"
-					        label="Working example with validation"
+					        label="Search for calculator"
 					        hasFeedback
 					        ref="input"
 					        groupClassName="group-class"
@@ -289,7 +289,13 @@ var App = React.createClass({
 					        onChange={this.onSearchInputChange} />
 						<br />
 						<div>
-							<AbsoluteGrid items={items} itemWidth={242} itemHeight={418} responsive={true} zoom={1} />
+							<AbsoluteGrid
+								items={items}
+								itemWidth={242}
+								itemHeight={418}
+								responsive={true}
+								zoom={1}
+								animation="transform 300ms ease"/>
 						</div>
 					</Tab>
 					{/* Let's create a table for every calculator in array */
