@@ -38,34 +38,6 @@ export default function defaultReducer(state = initialState, action) {
 	switch (action.type) {
 
 		//==============================================================================//
-		//=================================== ADD_CALC_TYPE ============================//
-		//==============================================================================//
-		case calcActions.ADD_CALC_TYPE:
-			console.log('calcActions.ADD_CALC_TYPE action received with action.model =');
-			console.log(action.model);
-
-			// Add calculator to grid
-			state = state.set('model', action.model);
-
-			//console.log('state.gridElements = ');
-			//console.log(state.get('gridElements').toJS());
-
-			//state = state.setIn(['gridElements', 0, 'filtered'], false);
-
-			return state.asImmutable();
-
-		//==============================================================================//
-		//================================= SET_ACTIVE_TAB =============================//
-		//==============================================================================//
-
-		case calcActions.SET_ACTIVE_TAB:
-			console.log('calcActions.SET_ACTIVE_TAB action received with action.tabKey =' + action.tabKey);
-
-			state = state.set('activeTabKey', action.tabKey);
-
-			return state.asImmutable();
-
-		//==============================================================================//
 		//===================================== ADD_CALC ===============================//
 		//==============================================================================//
 		case calcActions.ADD_CALC:
@@ -115,19 +87,21 @@ export default function defaultReducer(state = initialState, action) {
 			// state
 			//utility.reCalcAll(action.calcData.vars);
 			
-			// Append the new calculator to the end of the calculator array
-			/*var calculators = [
-				...state.calculators,
-				action.calcData,
-			];*/
 
 			var newCalc = immutable.fromJS(action.calcData);
 			console.log('newCalc = ');
 			console.log(newCalc);
 
+			// Calculate all the output variables (for the first time ever), to get the 
+			// calculator into a default state
+			var calcVars = utility.reCalcAll(newCalc.get('vars'));			
+			newCalc = newCalc.set('vars', calcVars);
+
 			// Set the default visibility for a calculator to false (i.e. not shown in a tab)
 			newCalc = newCalc.set('visible', false);
 
+
+			// Add this new calculator to the end of the calculators array
 			var calculators = state.get('calculators').push(newCalc);
 			state = state.set('calculators', calculators);
 
@@ -202,6 +176,17 @@ export default function defaultReducer(state = initialState, action) {
 
 			// Now we know the index of the calculator, we can set it's visible property to true
 			state = state.setIn(['calculators', calcIndex, 'visible'], true);
+
+			return state.asImmutable();
+
+		//==============================================================================//
+		//================================= SET_ACTIVE_TAB =============================//
+		//==============================================================================//
+
+		case calcActions.SET_ACTIVE_TAB:
+			console.log('calcActions.SET_ACTIVE_TAB action received with action.tabKey =' + action.tabKey);
+
+			state = state.set('activeTabKey', action.tabKey);
 
 			return state.asImmutable();
 		//==============================================================================//
