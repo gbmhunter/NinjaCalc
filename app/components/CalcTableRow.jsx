@@ -67,6 +67,7 @@ export var CalcTableRow = React.createClass({
 		return (
 			<tr>
 				<td>{this.props.varData.get('name')}</td>
+				<td><Latex>{this.props.varData.get('symbol')}</Latex></td>
 				{/* Now display the dispVal for each calculator variable */}
 				<td>
 					<CalcInput
@@ -86,7 +87,8 @@ export var CalcTableRow = React.createClass({
 						onChange={this.onUnitsChange}
 					/>
 				</td>
-				<td>{radioButton}</td>				
+				<td>{radioButton}</td>	
+				<td><Latex>{this.props.varData.get('comments')}</Latex></td>			
 			</tr>
 		);
 	}

@@ -2,13 +2,19 @@
 //! @file               lt3745.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-03
-//! @last-modified      2015-11-16
+//! @last-modified      2015-11-17
 //! @brief              Contains the data for the LT3745 calculator.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
+// npm modules
+import React from 'react';
+
+// User modules
 import { getVal } from '../../../utility/utility.js';
 import * as calcActions from '../../../actions/calc-actions.js';
+import { CalcTable } from '../../../components/CalcTable.js';
+import { CalcTableRow } from '../../../components/CalcTableRow.js';
 
 export var data = {
 
@@ -18,6 +24,20 @@ export var data = {
 	tags: 'ic, linear tech, led',
 	imageSrc: './calculators/chip-specific/lt3745/icon.png',
 
+	// This is the React view for this calculator
+	view: React.createClass({
+
+		mixins: [PureRenderMixin],
+
+		render: function() {
+			return (			
+				<CalcTable data={this.props.data} dispatch={this.props.dispatch}>
+				</CalcTable>			
+	    	);
+		},
+
+	}),
+
 	vars: [
 
 		//==============================================================================//
@@ -26,6 +46,7 @@ export var data = {
 		{
 			id: 'vSupp',
 			name: 'Supply Voltage',
+			symbol: '$V_{CC}$',
 			val: '2',
 			units: [
 				{ label: 'V', eq: 1 },
@@ -41,6 +62,7 @@ export var data = {
 					severity: 'error',
 				}
 			],
+			comments: 'The supply voltage for the logic. Must be between 3.0 and 5.5V.',
 		},
 
 		//==============================================================================//
@@ -49,6 +71,7 @@ export var data = {
 		{
 			id: 'vLoad',
 			name: 'Load Voltage',
+			symbol: '$V_{load}$',
 			val: '2',
 			units: [
 				{ label: 'V', eq: 1 },
@@ -64,6 +87,7 @@ export var data = {
 					severity: 'error',
 				}
 			],
+			comments: 'This is the maximum voltage that the load will ever see. If driving LEDs, this is equal to the forward voltage of the LED at the maximum current to plan to drive them at. If driving multiple LEDs series, sum the forward voltages. If driving different colours, this is equal to the LED with the highest forward voltage.',
 		},
 
 		//==============================================================================//
@@ -72,6 +96,7 @@ export var data = {
 		{
 			id: 'vOutMax',
 			name: 'Maximum Output Voltage',
+			symbol: '$V_{out(max)}$',
 			val: '2',
 			units: [
 				{ label: 'V', eq: 1 },
@@ -87,6 +112,7 @@ export var data = {
 					severity: 'error',
 				},
 			],
+			comments: 'This must be equal or higher than $V_{load}$. It is recommended to be set between 0.8V and 3.0V above $V_{load}$ for the best current regulation.',
 		},
 
 		//==============================================================================//
@@ -95,6 +121,7 @@ export var data = {
 		{
 			id: 'vInMin',
 			name: 'Minimum Input Voltage',
+			symbol: '$V_{in(min)}$',
 			val: '2',
 			units: [
 				{ label: 'V', eq: 1 },
@@ -110,6 +137,7 @@ export var data = {
 					
 				return tempVal;
 			},
+			comments: 'The is a minimum input voltage allowed to sustain current regulation. It cannot be less than 6V. The $2.1V$ is the minimum dropout voltage between the $V_{in}$ and ISN pins. $V_{in(min)} = V_{out(max)} + 2.1V$',
 		},
 
 		//==============================================================================//
@@ -118,6 +146,7 @@ export var data = {
 		{
 			id: 'vInMax',
 			name: 'Maximum Input Voltage',
+			symbol: '$V_{in(max)}$',
 			units: [
 				{ label: 'V', eq: 1 },
 			],
@@ -139,6 +168,7 @@ export var data = {
 					severity: 'error',
 				},
 			],
+			comments: 'This is the maximum input voltage that will ever be provided to the LT3745. Must be greater or equal to $V_{in(min)}$, and less or equal to 55V.',
 		},
 
 		//==============================================================================//
@@ -146,7 +176,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'rfb1',
-			name: 'Rfb1',
+			name: 'Feedback Resistor 1',
+			symbol: '$R_{fb1}$',
 			units: [
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },
@@ -162,6 +193,7 @@ export var data = {
 					severity: 'warning',
 				},
 			],
+			comments: 'This resistor along with $R_{fb2}$ determines the output voltage of the buck converter. This is recommended to be $10k\\Omega$.',
 		},
 
 		//==============================================================================//
@@ -169,7 +201,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'rfb2',
-			name: 'Rfb2',
+			name: 'Feedback Resistor 2',
+			symbol: '$R_{fb2}$',
 			units: [
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },
@@ -179,6 +212,7 @@ export var data = {
 			outputFn: (vars) => {
 				return (getVal(vars, 'rfb1')*(getVal(vars, 'vOutMax')/1.205 - 1));	
 			},
+			comments: 'This resistor along with $R_{fb1}$ determines the output voltage of the buck converter. $R_{fb2} = R_{fb1}*\\left(\\dfrac{V_{out(max)}}{1.205V} - 1\\right)$.',
 		},
 
 		//==============================================================================//	
@@ -186,13 +220,15 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'iOutMax',
-			name: 'Iout(max)',
+			name: 'Maximum Output Current',
+			symbol: '$I_{out(max)}$',
 			units: [
 				{ label: 'mA', eq: 1e-3 },
 				{ label: 'A', eq: 1 },
 			],
 			selUnitValue: 'A',	
 			direction: 'input',
+			comments: 'This is the maximum output current for all channels, i.e. maximum current going through MOSFET and current sense resistor.',
 		},
 
 		//==============================================================================//
@@ -200,7 +236,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'rSense',
-			name: 'Rsense',
+			name: 'Sense Resistance',
+			symbol: '$R_{sense}$',
 			units: [
 				{ label: 'mΩ', eq: 1e-3 },
 				{ label: 'Ω', eq: 1 },
@@ -210,14 +247,16 @@ export var data = {
 			outputFn: (vars) => {
 				return 0.035/getVal(vars, 'iOutMax');	
 			},
+			comments: 'The value for the current-sense resistor which will give you the $I_{out(max)}$ you want. $R_{sense} = \\dfrac{35mV}{I_{out(max)}}$.',
 		},
 
 		//==============================================================================//
 		//============================== Prsense (output) ==============================//
 		//==============================================================================//
 		{
-			id: 'prSense',
+			id: 'Sense Resistance Power Dissipation',
 			name: 'Prsense',
+			symbol: '$P_{Rsense}$',
 			units: [
 				{ label: 'mW', eq: 1e-3 },
 				{ label: 'W', eq: 1 },
@@ -227,6 +266,7 @@ export var data = {
 			outputFn: (vars) => {
 				return Math.pow(getVal(vars, 'iOutMax'), 2)*getVal(vars, 'rSense');	
 			},
+			comments: 'This is the power that will dissipated through the current-sense resistor at maximum current output. Make sure the resistor is rated to handle this power. $P_{Rsense} = I_{out(max)}^2 * R_{sense}$.',
 		},
 
 		//==============================================================================//
@@ -234,7 +274,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'iLedPinNom',
-			name: 'Iled,pin(nom)',
+			name: 'Nominal Led-Pin Current',
+			symbol: '$I_{led-pin(nom)}$',
 			units: [
 				{ label: 'mA', eq: 1e-3 },				
 			],
@@ -249,6 +290,7 @@ export var data = {
 					severity: 'error',
 				},
 			],
+			comments: 'This is the "nominal" current each LED will see. It has to be between 10-50mA. Note that the current for each channel can be individually controlled down to 50% and up to 150% of this nominal current, and then further modulated with PWM from 0 to 100%.',
 		},
 
 		//==============================================================================//
@@ -256,7 +298,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'riSet',
-			name: 'Riset',
+			name: 'Current Set Resistance',
+			symbol: '$R_{iset}$',
 			units: [
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },
@@ -266,6 +309,7 @@ export var data = {
 			outputFn: (vars) => {
 				return 2500*(1.205/getVal(vars, 'iLedPinNom'));	
 			},
+			comments: 'The resistor sets the nominal LED current chosen above. $R_{iset} = 2500*(\\dfrac{1.205}{I_{led-pin(nom)}})$.',
 		},
 
 		//==============================================================================//
@@ -273,12 +317,14 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'vdf',
-			name: 'Vdf',
+			name: 'Voltage Drop Across Buck Diode',
+			symbol: '$V_{d,f}$',
 			units: [
 				{ label: 'V', eq: 1 },				
 			],
 			selUnitValue: 'V',	
 			direction: 'input',		
+			comments: 'This is the forward voltage drop across the buck diode at the operating current. This value can be found in the diodes datasheet. Should be around 0.5V.',
 		},
 
 		//==============================================================================//
@@ -286,7 +332,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'dMin',
-			name: 'Dmin',
+			name: 'Minimum Duty Cycle',
+			symbol: '$D_{min}$',
 			units: [
 				{ label: '%', eq: 1e-2 },				
 			],
@@ -295,6 +342,7 @@ export var data = {
 			outputFn: (vars) => {
 				return (getVal(vars, 'vOutMax') + getVal(vars, 'vdf'))/(getVal(vars, 'vInMax') + getVal(vars, 'vdf'));	
 			},
+			comments: 'The minimum duty cycle of the buck converter. This limits the maximum switching frequency. $D_{min} = \\dfrac{V_{out(max)} + V_{d,f}}{V_{in(max)} + V_{d,f}}$.',
 		},
 
 		//==============================================================================//
@@ -302,7 +350,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'dMax',
-			name: 'Dmax',
+			name: 'Maximum Duty Cycle',
+			symbol: '$D_{max}$',
 			units: [
 				{ label: '%', eq: 1e-2 },				
 			],
@@ -311,6 +360,7 @@ export var data = {
 			outputFn: (vars) => {
 				return (getVal(vars, 'vOutMax') + getVal(vars, 'vdf'))/(getVal(vars, 'vInMin') + getVal(vars, 'vdf'));	
 			},
+			comments: 'The maximum duty cycle of the buck converter. This limits the maximum switching frequency. $D_{max} = \\dfrac{V_{out(max)} + V_{d,f}}{V_{in(min)} + V_{d,f}}$.',
 		},
 
 		//==============================================================================//
@@ -318,7 +368,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'tOnMin',
-			name: 'ton(min)',
+			name: 'Minimum Switch-On Time',
+			symbol: '$t_{on(min)}$',
 			units: [
 				{ label: 'ns', eq: 1e-9 },				
 			],
@@ -333,6 +384,7 @@ export var data = {
 					severity: 'warning',
 				},
 			],
+			comments: 'This is the minimum switch-on time of the MOSFET. Sometimes called the turn-on delay time ($t_{d(on)}$). Check the MOSFET\'s datasheet for this value. Should be greater than 1ns and less than 500ns.',
 		},
 
 		//==============================================================================//
@@ -340,7 +392,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'tOffMin',
-			name: 'toff(min)',
+			name: 'Minimum Switch-Off Time',
+			symbol: '$t_{off(min)}$',
 			units: [
 				{ label: 'ns', eq: 1e-9 },				
 			],
@@ -355,6 +408,7 @@ export var data = {
 					severity: 'warning',
 				},
 			],
+			comments: 'This is the minimum switch-off time of the MOSFET. Sometimes called the turn-off delay time ($t_{d(off)}$). Check the MOSFET\'s datasheet for this value. Should be greater than 1ns and less than 500ns.',
 		},
 
 		//==============================================================================//
@@ -362,7 +416,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'fSwMax',
-			name: 'fsw(max)',
+			name: 'Maximum Switching Frequency',
+			symbol: '$f_{sw(max)}$',
 			units: [
 				{ label: 'kHz', eq: 1e3 },				
 			],
@@ -372,6 +427,7 @@ export var data = {
 				// fsw(max) = min( Dmin/ton(min) , (1 - Dmax)/toff(min) )
 				return Math.min(getVal(vars, 'dMin')/getVal(vars, 'tOnMin'), (1.0 - getVal(vars, 'dMax'))/getVal(vars, 'tOffMin'));	
 			},
+			comments: 'This is the maximum switching frequency you could use. $f_{sw(max)} = min( \\dfrac{D_{min}}{t_{on,min}}, \\dfrac{1 - D_{max}}{t_{off(min)}})$.',
 		},
 
 		//==============================================================================//
@@ -379,7 +435,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'fSwAct',
-			name: 'fsw(act)',
+			name: 'Actual Switching Frequency',
+			symbol: '$f_{sw(act)}$',
 			units: [
 				{ label: 'kHz', eq: 1e3 },				
 			],
@@ -401,6 +458,7 @@ export var data = {
 					severity: 'error',
 				},
 			],
+			comments: 'This is the switching frequency you want to use, set by the resistor $R_T$. It has to be between 100kHz and 1MHz, and also less than $f_{sw(max)}$.',
 		},
 
 		//==============================================================================//
@@ -408,7 +466,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'fugf',
-			name: 'fugf',
+			name: 'Unity-gain Frequency',
+			symbol: '$f_{ugf}$',
 			units: [
 				{ label: 'kHz', eq: 1e3 },				
 			],
@@ -418,6 +477,7 @@ export var data = {
 				// fugf = fsw(act)/10
 				return getVal(vars, 'fSwAct')/10.0;
 			},
+			comments: 'This is the switching frequency which would give unity voltage gain between input and output. $f_{ugf} = \\dfrac{f_{sw(act)}}{10}$.',
 		},
 
 		//==============================================================================//
@@ -425,7 +485,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'rt',
-			name: 'Rt',
+			name: 'Frequency-setting Resistance',
+			symbol: '$R_{T}$',
 			units: [
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },				
@@ -436,6 +497,7 @@ export var data = {
 				// Rt = 2.25167*10^11 / fSwAct^1.114
 				return ((2.25167*Math.pow(10, 11))/(Math.pow(getVal(vars, 'fSwAct'), 1.114)));
 			},
+			comments: 'This is the resistance required to set the frequency at $f_{sw(act)}$ chosen above. Equation was worked out by fitting a power equation to the frequency-resistance values given in the datahseet. This equation fits the data well, with a regression coefficient of $r^2 = 0.9994$ within the valid range. $R_T = \\dfrac{2.25167e^{11}}{f_{sw(act)^{1.114}}}$.',
 		},
 
 		//==============================================================================//
@@ -443,7 +505,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'tjMax',
-			name: 'tj(max)',
+			name: 'Maximum Junction Temperature',
+			symbol: '$T_{J(max)}$',
 			units: [
 				{ label: '°C', eq: 1 },				
 			],
@@ -465,6 +528,7 @@ export var data = {
 					severity: 'error',
 				},
 			],
+			comments: 'This is the desired maximum junction temperature of the LT3745 IC. The IC will begin to reduce $I_{led-pin(nom)}$ above this to prevent any further increase on temperature. The LT3745 also has an absolute maximum junction temperature of $165^{\\circ}C$, at which point it will switch off until it drops to $155^{\\circ}C$.',
 		},
 
 		//==============================================================================//
@@ -472,7 +536,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'rtSet',
-			name: 'Rtset',
+			name: 'Temperature Set Resistance',
+			symbol: '$R_{TSET}$',
 			units: [
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },				
@@ -483,6 +548,7 @@ export var data = {
 				// 
 				return (0.00172*(getVal(vars, 'tjMax') + 273.15)*getVal(vars, 'riSet')/1.205);
 			},
+			comments: 'The resistance required to be connected between pin $T_{SET}$ and ground on the LT3745 to limit the junction temperature to $T_{J(max)}$. $R_{TSET} = \\frac{1.72mV*(T_J + 273.15)*R_{ISET}}{1.205V}$.',
 		},
 
 		//==============================================================================//
@@ -490,7 +556,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'cOutMin',
-			name: 'cOutMin',
+			name: 'Minimum Output Capacitance',
+			symbol: '$C_{out(min)}$',
 			units: [
 				{ label: 'uF', eq: 1e-6 },				
 			],
@@ -501,6 +568,7 @@ export var data = {
 				return (Math.max( 0.25/(getVal(vars, 'rSense')*getVal(vars, 'fugf')),
 					1.5/(getVal(vars, 'vOutMax')*getVal(vars, 'rSense')*getVal(vars, 'fugf'))));
 			},
+			comments: 'The output capacitance smooths the output voltage, and also stores energy to satisfy load transients. $C_{out(min)} = \\small \\begin{split} max( \\dfrac{0.25}{R_{sense}*f_{ugf}}, \\\\ \\dfrac{1.5}{V_{buck,out}*R_{sense}*f_{ugf}}) \\end{split}$.',
 		},
 
 		//==============================================================================//
@@ -508,7 +576,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'iLDelta',
-			name: 'iLDelta',
+			name: 'Inductor Ripple Current',
+			symbol: '$I_{L(delta)}$',
 			units: [
 				{ label: '%', eq: 1e-2 },				
 			],
@@ -523,6 +592,7 @@ export var data = {
 					severity: 'warning',
 				},
 			],
+			comments: 'This is the maximum desired ripple current through the inductor. A value between 10-50% is recommended.',
 		},
 
 		//==============================================================================//
@@ -530,7 +600,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'lMin',
-			name: 'L(min)',
+			name: 'Minimum Inductance',
+			symbol: '$L_{min}$',
 			units: [
 				{ label: 'uH', eq: 1e-6 },				
 			],
@@ -541,6 +612,7 @@ export var data = {
 				return ( ((getVal(vars, 'vOutMax') + getVal(vars, 'vdf'))/(getVal(vars, 'vInMax') + getVal(vars, 'vdf')))*
 					((getVal(vars, 'vInMax') - getVal(vars, 'vOutMax'))/(getVal(vars, 'fSwAct')*getVal(vars, 'iLDelta'))));
 			},
+			comments: 'This is the minimum inductance required to satisfy the inductor ripple current specified above. If this inductance is too large, you could consider increasing the ripple current, or increasing the switching frequency. $L_{min} = \\small \\begin{split} \\dfrac{V_{buck,out} + V_{d,f}}{ V_{in(max) + V_{d,f}}} * \\\\ \\dfrac{ V_{in(max)} - V_{buck,out} }{ f_{sw(act)}*I_{L(delta)} } \\end{split}$.</span>',
 		},
 
 		//==============================================================================//
@@ -548,7 +620,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'vInRipple',
-			name: 'vInRipple',
+			name: 'Input Voltage Ripple',
+			symbol: '$V_{in,ripple}$',
 			units: [
 				{ label: 'mV', eq: 1e-3 },				
 			],
@@ -563,6 +636,7 @@ export var data = {
 					severity: 'warning',
 				},
 			],
+			comments: 'The desired maximum input voltage ripple. A value around 100mV is normal.',
 		},
 
 		//==============================================================================//
@@ -570,7 +644,8 @@ export var data = {
 		//==============================================================================//
 		{
 			id: 'cInMin',
-			name: 'Cin(min)',
+			name: 'Minimum Input Capacitance',
+			symbol: '$C_{in(min)}$',
 			units: [
 				{ label: 'uF', eq: 1e-6 },				
 			],
@@ -580,6 +655,7 @@ export var data = {
 				// Cin(min) = (Dmax*Iout(max)) / (Vin,ripple*fsw(act))
 				return ( (getVal(vars, 'dMax')*getVal(vars, 'iOutMax'))/(getVal(vars, 'vInRipple')*getVal(vars, 'fSwAct')) );
 			},
+			comments: 'This is the minimum input capacitance required to satisfy the desired input voltage ripple chosen above. $V_{in, ripple} = \\dfrac{D_{max}*I_{out(max)}}{V_{in,ripple}*f_{sw(act)}}$.',
 		},
 
 	]

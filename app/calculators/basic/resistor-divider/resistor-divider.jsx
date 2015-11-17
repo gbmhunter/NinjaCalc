@@ -10,6 +10,7 @@
 // npm modules
 import React from 'react';
 
+
 // User modules
 import { getVal } from '../../../utility/utility.js';
 import * as calcActions from '../../../actions/calc-actions.js';
@@ -31,15 +32,6 @@ export var data = {
 		mixins: [PureRenderMixin],
 
 		render: function() {
-
-			console.log('ResistorDivider.render() called. this.props = ');
-			console.log(this.props);
-
-			console.log('CalcTable = ');
-			console.log(CalcTable);
-
-
-
 			return (			
 				<CalcTable data={this.props.data} dispatch={this.props.dispatch}>
 				</CalcTable>			
@@ -53,6 +45,7 @@ export var data = {
 		{
 			id: 'voltage',
 			name: 'Voltage',
+			symbol: '$V$',
 			dispVal: '',
 			units: [
 				{ label: 'mV', eq: 1e-3 },
@@ -77,6 +70,7 @@ export var data = {
 		{
 			id: 'current',
 			name: 'Current',
+			symbol: '$I$',
 			dispVal: '',
 			units: [
 				{ label: 'nA', eq: 1e-9 },
@@ -103,6 +97,7 @@ export var data = {
 		{
 			id: 'resistance',
 			name: 'Resistance',
+			symbol: '$R$',
 			dispVal: '',
 			units: [
 				{ label: 'm‎Ω', eq: 1e-3 },

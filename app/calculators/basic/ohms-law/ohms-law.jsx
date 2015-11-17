@@ -2,12 +2,18 @@
 //! @file               ohms-law.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-15
+//! @last-modified      2015-11-17
 //! @brief              Contains the Ohm's Law calculator data for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
+// npm modules
+import React from 'react';
+
+// User modules
 import { getVal } from '../../../utility/utility.js';
+import { CalcTable } from '../../../components/CalcTable.js';
+import { CalcTableRow } from '../../../components/CalcTableRow.js';
 
 var ohmsLawCalc = {
 
@@ -17,7 +23,19 @@ var ohmsLawCalc = {
 	tags: 'ohm, law, resistance, voltage, current',
 	imageSrc: './calculators/basic/ohms-law/icon.png',
 
-	//calcType: 'simpleSwitchable',
+	// This is the React view for this calculator
+	view: React.createClass({
+
+		mixins: [PureRenderMixin],
+
+		render: function() {
+			return (			
+				<CalcTable data={this.props.data} dispatch={this.props.dispatch}>
+				</CalcTable>			
+	    	);
+		},
+
+	}),
 
 	vars: [
 		{
