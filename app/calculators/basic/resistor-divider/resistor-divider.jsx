@@ -14,34 +14,8 @@ import React from 'react';
 import { getVal } from '../../../utility/utility.js';
 import * as calcActions from '../../../actions/calc-actions.js';
 import { CalcTable } from '../../../components/CalcTable.js';
+import { CalcTableRow } from '../../../components/CalcTableRow.js';
 
-
-var view = React.createClass({
-
-	mixins: [PureRenderMixin],
-
-	componentDidMount: function() {
-
-		console.log('ResistorDivider.componentDidMount() called.');
-
-		// Register this calculator with the global application state
-		//this.props.dispatch(calcActions.addCalc(data));
-	},
-
-	render: function() {
-
-		console.log('ResistorDivider.render() called. this.props = ');
-		console.log(this.props);
-
-		console.log('CalcTable = ');
-		console.log(CalcTable);
-
-		return (			
-			<CalcTable data={this.props.data} dispatch={this.props.dispatch} />			
-    	);
-	},
-
-});
 
 export var data = {
 
@@ -50,9 +24,30 @@ export var data = {
 	description: 'One of the most versatile commonly used electronic designs. Useful for reducing a voltage.',
 	tags: 'resistor, divider, leg, r1, r2, resistance, voltage',
 	imageSrc: './calculators/basic/resistor-divider/icon.png',
-	view: view,
 
-	//calcType: 'simpleSwitchable',
+	// This is the React view for this calculator
+	view: React.createClass({
+
+		mixins: [PureRenderMixin],
+
+		render: function() {
+
+			console.log('ResistorDivider.render() called. this.props = ');
+			console.log(this.props);
+
+			console.log('CalcTable = ');
+			console.log(CalcTable);
+
+
+
+			return (			
+				<CalcTable data={this.props.data} dispatch={this.props.dispatch}>
+				</CalcTable>			
+	    	);
+		},
+
+	}),
+
 
 	vars: [
 		{

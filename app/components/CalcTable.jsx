@@ -23,8 +23,8 @@ export var CalcTable = React.createClass({
 
 		console.log('CalcTable.render() called. this.props = ');
 		console.log(this.props);
-		console.log('CalcTableRow = ');
-		console.log(CalcTableRow);
+		//console.log('CalcTableRow = ');
+		//console.log(CalcTableRow);
 
 		return (
 			<div>				

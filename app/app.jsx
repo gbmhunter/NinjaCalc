@@ -276,9 +276,13 @@ var App = React.createClass({
  		if(el.get('id') == 'resistorDivider') {
  			console.log('renderCalc() called with id = resistorDivider.');
  			console.log(el.get('view'));
- 			var ResistorDividerView = React.createFactory(el.get('view'));
+
+ 			// Create the view for the specific calculator.
+ 			// Note that since this isn't created in JSX (i.e. <CalcView>...</CalcView>),
+ 			// we have to use React.createFactory
+ 			var CalcView = React.createFactory(el.get('view'));
  			
- 			return ResistorDividerView({ 
+ 			return CalcView({ 
  				// Pass in the entire calculator model as data
  				data: el,
  				// Pass in dispatch so actions can be called!
