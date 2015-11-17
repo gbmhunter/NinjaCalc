@@ -71,8 +71,8 @@ var CalcInput = React.createClass({
 
 	render: function() {
 
-		console.log('CalcInput.render() called. this.props = ');
-		console.log(this.props);
+		//console.log('CalcInput.render() called. this.props = ');
+		//console.log(this.props);
 
 		var placeholder;
 		if(!this.props.disabled) {
@@ -230,7 +230,7 @@ var Calculator = React.createClass({
 						{/* This generates the rows of the table which contain the calculator variables */							
 							this.props.data.get('vars').map((el) => {
 								//console.log('el.id = ' + el.get('id'));
-								return <CalcRow key={el.get('id')} calcId={this.props.data.get('id')} varData={el} dispatch={that.props.dispatch} />
+								return (<CalcRow key={el.get('id')} calcId={this.props.data.get('id')} varData={el} dispatch={that.props.dispatch} />)
 							})
 						}
 					</tbody>
@@ -274,8 +274,8 @@ var App = React.createClass({
  	//! @details	We need this because the UI structure of each calculator may be different.
  	renderCalc: function(el) {
  		if(el.get('id') == 'resistorDivider') {
- 			console.log('renderCalc() called with id = resistorDivider.');
- 			console.log(el.get('view'));
+ 			//console.log('renderCalc() called with id = resistorDivider.');
+ 			//console.log(el.get('view'));
 
  			// Create the view for the specific calculator.
  			// Note that since this isn't created in JSX (i.e. <CalcView>...</CalcView>),
@@ -306,15 +306,8 @@ var App = React.createClass({
 			return gridElement;
 		});
 
-		console.log('activeTabKey = ' + this.props.state.get('activeTabKey'));		
-
-		console.log('model = ');
-		console.log(this.props.state.get('model'));
-
-		var test = this.props.state.get('model');
-
 		return (
-			<div>	
+			<div className="app">	
 				{/* Tabs are the main view element on the UI */}
 				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 					{/* First tab is static and non-removable */}
@@ -333,13 +326,16 @@ var App = React.createClass({
 					        <test1 />
 						<br />
 						<div>
+							{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
+							height larger, but not the width */}
 							<AbsoluteGrid
 								items={items}
-								itemWidth={242}
-								itemHeight={418}
+								itemWidth={240}
+								itemHeight={360}
 								responsive={true}
 								zoom={1}
 								animation="transform 300ms ease"/>
+							}
 						</div>
 
 					</Tab>
