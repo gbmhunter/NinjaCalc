@@ -252,9 +252,8 @@ var App = React.createClass({
 
 
 		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
-		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));
+		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
 		this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
-		//lt3745Calc.loadCalc(this.props.dispatch);
 	},
 
 	handleSelect(key) {
@@ -271,6 +270,20 @@ var App = React.createClass({
 	    this.props.dispatch(calcActions.setSearchTerm(event.target.value));
  	},
 
+ 	//! @brief		This function determines what calculator element to render inside the tab.
+ 	//! @details	We need this because the UI structure of each calculator may be different.
+ 	renderCalc: function(el) {
+ 		if(el.get('id') == 'resistorDivider') {
+ 			console.log('renderCalc() called with id = resistorDivider.');
+ 			var ResistorDividerView = React.createFactory(resistorDividerCalc.view);
+ 			//console.log(resistorDividerCalc.view);
+ 			return ResistorDividerView({});
+ 		}
+
+
+ 		return <Calculator key={el.get('id')} data={el} dispatch={this.props.dispatch} />
+ 	},
+
 	render: function() {
 
 		var that = this;
@@ -284,6 +297,11 @@ var App = React.createClass({
 		});
 
 		console.log('activeTabKey = ' + this.props.state.get('activeTabKey'));		
+
+		console.log('model = ');
+		console.log(this.props.state.get('model'));
+
+		var test = this.props.state.get('model');
 
 		return (
 			<div>	
@@ -302,6 +320,7 @@ var App = React.createClass({
 					        groupClassName="group-class"
 					        labelClassName="label-class"
 					        onChange={this.onSearchInputChange} />
+					        <test1 />
 						<br />
 						<div>
 							<AbsoluteGrid
@@ -312,6 +331,7 @@ var App = React.createClass({
 								zoom={1}
 								animation="transform 300ms ease"/>
 						</div>
+
 					</Tab>
 					{/* Let's create a table for every calculator in array */
 						this.props.state.get('calculators').filter((calculator) => {
@@ -320,7 +340,8 @@ var App = React.createClass({
 						}).map(function(el, index) {
 							return (
 								<Tab key={index+1} eventKey={index+1} title={el.get('name')}>
-									<Calculator key={el.get('id')} data={el} dispatch={that.props.dispatch} />
+									{/* This next line of code inserts the entire calculator into the tab element. */}
+									{that.renderCalc(el)}																	
 								</Tab>
 							);
 						})

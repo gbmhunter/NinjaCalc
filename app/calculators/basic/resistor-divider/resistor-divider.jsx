@@ -7,7 +7,39 @@
 //! @details
 //!     See README.rst in repo root dir for more info.
 
+// npm modules
+import React from 'react';
+
+// User modules
 import { getVal } from '../../../utility/utility.js';
+import * as calcActions from '../../../actions/calc-actions.js';
+import CalcTable from '../../../components/CalcTable';
+
+
+export var view = React.createClass({
+
+	mixins: [PureRenderMixin],
+
+	componentDidMount: function() {
+
+		console.log('ResistorDivider.componentDidMount() called.');
+
+		// Register this calculator with the global application state
+		//this.props.dispatch(calcActions.addCalc(data));
+	},
+
+	render: function() {
+
+		console.log('ResistorDivider.render() called. this.props = ');
+		console.log(this.props);
+
+		return (			
+			/*<CalcTable data={this.props.data} />*/
+			<div>Testing!</div>
+    	);
+	},
+
+});
 
 export var data = {
 

@@ -38,6 +38,23 @@ export default function defaultReducer(state = initialState, action) {
 	switch (action.type) {
 
 		//==============================================================================//
+		//=================================== ADD_CALC_TYPE ============================//
+		//==============================================================================//
+		case calcActions.ADD_CALC_TYPE:
+			console.log('calcActions.ADD_CALC_TYPE action received with action.model =');
+			console.log(action.model);
+
+			// Add calculator to grid
+			state = state.set('model', action.model);
+
+			//console.log('state.gridElements = ');
+			//console.log(state.get('gridElements').toJS());
+
+			//state = state.setIn(['gridElements', 0, 'filtered'], false);
+
+			return state.asImmutable();
+
+		//==============================================================================//
 		//================================= SET_ACTIVE_TAB =============================//
 		//==============================================================================//
 
