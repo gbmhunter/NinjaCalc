@@ -11,18 +11,20 @@
 import React from 'react';
 
 // User modules
-import CalcTableRow from './CalcTableRow';
+import { CalcTableRow } from './CalcTableRow.js';
 
 
-export var model = React.createClass({
+export var CalcTable = React.createClass({
 
 	mixins: [PureRenderMixin],
 
 
 	render: function() {
 
-		console.log('CalcVarTable.render() called. this.props = ');
+		console.log('CalcTable.render() called. this.props = ');
 		console.log(this.props);
+		console.log('CalcTableRow = ');
+		console.log(CalcTableRow);
 
 		return (
 			<div>				
@@ -31,7 +33,7 @@ export var model = React.createClass({
 						{/* This generates the rows of the table which contain the calculator variables */							
 							this.props.data.get('vars').map((el) => {
 								//console.log('el.id = ' + el.get('id'));
-								return <CalcTableRow key={el.get('id')} calcId={this.props.data.get('id')} varData={el} dispatch={that.props.dispatch} />
+								return <CalcTableRow key={el.get('id')} calcId={this.props.data.get('id')} varData={el} dispatch={this.props.dispatch} />
 							})
 						}
 					</tbody>

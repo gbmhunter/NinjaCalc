@@ -12,9 +12,7 @@ import React from 'react';
 
 // User modules
 
-
-
-export var CalcRow = React.createClass({
+export var CalcTableRow = React.createClass({
 
 	mixins: [PureRenderMixin],
 

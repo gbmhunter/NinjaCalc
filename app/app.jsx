@@ -278,7 +278,12 @@ var App = React.createClass({
  			console.log(el.get('view'));
  			var ResistorDividerView = React.createFactory(el.get('view'));
  			
- 			return ResistorDividerView({});
+ 			return ResistorDividerView({ 
+ 				// Pass in the entire calculator model as data
+ 				data: el,
+ 				// Pass in dispatch so actions can be called!
+ 				dispatch: this.props.dispatch,
+ 			});
  		}
 
 

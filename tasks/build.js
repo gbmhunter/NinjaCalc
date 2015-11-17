@@ -21,6 +21,8 @@ var paths = {
         './node_modules/**',
         './vendor/**',
         './**/*.html',
+        // Copies over images used as icons in the calculator grid
+        './**/*.png',
         './lib/**',
         './view/**',
     ],

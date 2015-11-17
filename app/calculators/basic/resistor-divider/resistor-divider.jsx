@@ -13,7 +13,7 @@ import React from 'react';
 // User modules
 import { getVal } from '../../../utility/utility.js';
 import * as calcActions from '../../../actions/calc-actions.js';
-import CalcTable from '../../../components/CalcTable';
+import { CalcTable } from '../../../components/CalcTable.js';
 
 
 var view = React.createClass({
@@ -33,9 +33,11 @@ var view = React.createClass({
 		console.log('ResistorDivider.render() called. this.props = ');
 		console.log(this.props);
 
+		console.log('CalcTable = ');
+		console.log(CalcTable);
+
 		return (			
-			/*<CalcTable data={this.props.data} />*/
-			<div>Testing!</div>
+			<CalcTable data={this.props.data} dispatch={this.props.dispatch} />			
     	);
 	},
 
