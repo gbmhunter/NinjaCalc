@@ -275,8 +275,9 @@ var App = React.createClass({
  	renderCalc: function(el) {
  		if(el.get('id') == 'resistorDivider') {
  			console.log('renderCalc() called with id = resistorDivider.');
- 			var ResistorDividerView = React.createFactory(resistorDividerCalc.view);
- 			//console.log(resistorDividerCalc.view);
+ 			console.log(el.get('view'));
+ 			var ResistorDividerView = React.createFactory(el.get('view'));
+ 			
  			return ResistorDividerView({});
  		}
 

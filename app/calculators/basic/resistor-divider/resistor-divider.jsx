@@ -16,7 +16,7 @@ import * as calcActions from '../../../actions/calc-actions.js';
 import CalcTable from '../../../components/CalcTable';
 
 
-export var view = React.createClass({
+var view = React.createClass({
 
 	mixins: [PureRenderMixin],
 
@@ -48,6 +48,7 @@ export var data = {
 	description: 'One of the most versatile commonly used electronic designs. Useful for reducing a voltage.',
 	tags: 'resistor, divider, leg, r1, r2, resistance, voltage',
 	imageSrc: './calculators/basic/resistor-divider/icon.png',
+	view: view,
 
 	//calcType: 'simpleSwitchable',
 
