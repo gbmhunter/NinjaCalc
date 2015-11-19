@@ -28,8 +28,10 @@ export var CalcTable = React.createClass({
 		//console.log('CalcTableRow = ');
 		//console.log(CalcTableRow);
 
+		var className = "calculatorTable " + this.props.size;
+
 		return (
-			<div className="calculatorTable">				
+			<div className={className}>				
 				<table>
 					<tbody>
 						{/* This generates the rows of the table which contain the calculator variables */							

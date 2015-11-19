@@ -105,8 +105,38 @@ div.calculatorTable {
         padding: 5px;
     }
 
-    .varName, .varSymbol {
+    .varName, .varSymbol, .varUnits {
     	text-align: center;
+    }
+
+    .varUnits {
+        width: 70px;
+    }
+
+    //==================== CALCULATOR TABLE SIZE STYLING ======================//
+
+    &.large {
+
+    	// Note that this also changes the size of the glyphicons and the end of the variable inputs,
+    	// if they get too large they can look bad
+    	font-size: 24px;
+
+    	input {
+    		font-size: 20px;
+    	}
+
+    	// This keeps the glyphicons a little smaller
+    	.glyphicon {
+    		font-size: 14px;
+    	}
+
+    	td {
+        	padding: 10px;
+    	}
+
+    	.varUnits {
+        	width: 110px;
+    	}
     }
 
     // Let's give the calc variable inputs a thicker border, which allows us to easily see
@@ -153,9 +183,7 @@ div.calculatorTable {
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 15px #ff0000;
     }
 
-    .unitsCol {
-        width: 70px;
-    }
+    
 }
 
 a {

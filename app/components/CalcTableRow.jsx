@@ -152,7 +152,7 @@ export var CalcTableRow = React.createClass({
 						onChange={this.onValueChange} />
 					
 				</td>
-				<td className="unitsCol">
+				<td className="varUnits">
 					
 					<CalcUnits
 						name="form-field-name"

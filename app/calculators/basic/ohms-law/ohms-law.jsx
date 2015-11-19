@@ -25,6 +25,7 @@ var ohmsLawCalc = {
 	tags: 'ohm, law, resistance, voltage, current',
 	imageSrc: __dirname + '/icon.png',
 
+
 	// This is the React view for this calculator
 	view: React.createClass({
 
@@ -55,7 +56,10 @@ var ohmsLawCalc = {
 							</p>
 						</div>
 					</Panel>
-					<CalcTable data={this.props.data} dispatch={this.props.dispatch} />			
+					<CalcTable
+						data={this.props.data}
+						dispatch={this.props.dispatch}
+						size="large"/>			
 				</div>	
 	    	);
 		},

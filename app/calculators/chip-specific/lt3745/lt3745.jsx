@@ -9,6 +9,7 @@
 
 // npm modules
 import React from 'react';
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 // User modules
 import { getVal } from '../../../utility/utility.js';

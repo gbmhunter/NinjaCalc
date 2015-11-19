@@ -61,7 +61,10 @@ export var data = {
 						</div>	
 					</Panel>
 					<br />		
-					<CalcTable data={this.props.data} dispatch={this.props.dispatch} />		
+					<CalcTable
+						data={this.props.data}
+						dispatch={this.props.dispatch}
+						size="large"/>		
 				</div>		
 	    	);
 		},
