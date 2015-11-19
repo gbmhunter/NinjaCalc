@@ -2,10 +2,12 @@
 //! @file               calc-reducer.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-03
+//! @last-modified      2015-11-19
 //! @brief              Contains the "redux" reducer for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
+
+'use strict';
 
 var immutable = require('immutable');
 
@@ -36,17 +38,6 @@ export default function defaultReducer(state = initialState, action) {
 	console.log('defaultReducer() called.');
 
 	switch (action.type) {
-
-		//==============================================================================//
-		//================================= SET_ACTIVE_TAB =============================//
-		//==============================================================================//
-
-		case calcActions.SET_ACTIVE_TAB:
-			console.log('calcActions.SET_ACTIVE_TAB action received with action.tabKey =' + action.tabKey);
-
-			state = state.set('activeTabKey', action.tabKey);
-
-			return state.asImmutable();
 
 		//==============================================================================//
 		//===================================== ADD_CALC ===============================//
@@ -98,19 +89,21 @@ export default function defaultReducer(state = initialState, action) {
 			// state
 			//utility.reCalcAll(action.calcData.vars);
 			
-			// Append the new calculator to the end of the calculator array
-			/*var calculators = [
-				...state.calculators,
-				action.calcData,
-			];*/
 
 			var newCalc = immutable.fromJS(action.calcData);
 			console.log('newCalc = ');
 			console.log(newCalc);
 
+			// Calculate all the output variables (for the first time ever), to get the 
+			// calculator into a default state
+			var calcVars = utility.reCalcAll(newCalc.get('vars'));			
+			newCalc = newCalc.set('vars', calcVars);
+
 			// Set the default visibility for a calculator to false (i.e. not shown in a tab)
 			newCalc = newCalc.set('visible', false);
 
+
+			// Add this new calculator to the end of the calculators array
 			var calculators = state.get('calculators').push(newCalc);
 			state = state.set('calculators', calculators);
 
@@ -185,6 +178,17 @@ export default function defaultReducer(state = initialState, action) {
 
 			// Now we know the index of the calculator, we can set it's visible property to true
 			state = state.setIn(['calculators', calcIndex, 'visible'], true);
+
+			return state.asImmutable();
+
+		//==============================================================================//
+		//================================= SET_ACTIVE_TAB =============================//
+		//==============================================================================//
+
+		case calcActions.SET_ACTIVE_TAB:
+			console.log('calcActions.SET_ACTIVE_TAB action received with action.tabKey =' + action.tabKey);
+
+			state = state.set('activeTabKey', action.tabKey);
 
 			return state.asImmutable();
 		//==============================================================================//
@@ -367,34 +371,29 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.get('calculators')[calcIndex].vars, action.varId);
+			var varIndex = utility.findVarIndexById(state.getIn(['calculators', calcIndex, 'vars']), action.varId);
 			console.log('varIndex = ' +  varIndex);		
 
-			var vars = [...state.calculators[calcIndex].vars];
+			var vars = state.getIn(['calculators', calcIndex, 'vars'])
 
-			vars.map(function(el, index){
+			vars = vars.map(function(calcVar, index){
 				if(index == varIndex) {
-					console.log('Setting ' + el.name + ' as a output.');
-					el.direction = 'output';
-				} else {
-					el.direction = 'input';
-					console.log('Setting ' + el.name + ' as a input.');
+					console.log('Setting ' + calcVar.get('name') + ' as a output.');
+					calcVar = calcVar.set('direction', 'output');
+				} else {					
+					console.log('Setting ' + calcVar.get('name') + ' as a input.');
+					calcVar = calcVar.set('direction', 'input');
 				}
+
+				return calcVar;
 			});
 
 			// Now that they have been changed, when need to re-calculate outputs
 			vars = utility.reCalcAll(vars);
 
-			// Finally, return with our modified vars array
-			return Object.assign({}, state, {
-				calculators: [
-					...state.calculators.slice(0, calcIndex),
-					Object.assign({}, state.calculators[calcIndex], {
-						vars: vars
-					}),
-					...state.calculators.slice(calcIndex + 1)
-				]
-			});
+			state = state.setIn(['calculators', calcIndex, 'vars'], vars);
+
+			return state.asImmutable();
 			
 		default:
 			return state;

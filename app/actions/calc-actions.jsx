@@ -2,7 +2,7 @@
 //! @file               calc-actions.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-15
+//! @last-modified      2015-11-17
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -22,6 +22,25 @@ export function addCalc(calcData) {
 		dispatch({
 			type: ADD_CALC,
 			calcData: calcData,			
+		});
+	}
+}
+
+//======================================================================//
+//=========================== addCalcType() ============================//
+//======================================================================//
+
+export var ADD_CALC_TYPE = 'ADD_CALC_TYPE';
+
+//! @brief    Changes the current variable being calculated.
+export function addCalcType(model) {
+
+	return (dispatch, getState) => {
+		console.log('addCalcType() thunk called.');
+
+		dispatch({
+			type: ADD_CALC_TYPE,
+			model,			
 		});
 	}
 }

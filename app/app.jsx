@@ -2,7 +2,7 @@
 //! @file               app.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-15
+//! @last-modified      2015-11-17
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -20,6 +20,7 @@ import Dropdown from 'react-dropdown';
 import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab } from 'react-bootstrap';
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
+var Latex = require('react-latex');
 
 //import Tabs from './utility/react-draggable-tab/components/Tabs';
 //import Tab from './utility/react-draggable-tab/components/Tab';
@@ -53,6 +54,7 @@ const store = finalCreateStore(defaultReducer);
 
 import * as lt3745Calc from './calculators/chip-specific/lt3745/lt3745.js';
 import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
+import * as resistorDividerCalc from './calculators/basic/resistor-divider/resistor-divider.js';
 
 // Calculators are loaded into Redux state in the onMount function of the react App
 
@@ -70,8 +72,8 @@ var CalcInput = React.createClass({
 
 	render: function() {
 
-		console.log('CalcInput.render() called. this.props = ');
-		console.log(this.props);
+		//console.log('CalcInput.render() called. this.props = ');
+		//console.log(this.props);
 
 		var placeholder;
 		if(!this.props.disabled) {
@@ -229,7 +231,7 @@ var Calculator = React.createClass({
 						{/* This generates the rows of the table which contain the calculator variables */							
 							this.props.data.get('vars').map((el) => {
 								//console.log('el.id = ' + el.get('id'));
-								return <CalcRow key={el.get('id')} calcId={this.props.data.get('id')} varData={el} dispatch={that.props.dispatch} />
+								return (<CalcRow key={el.get('id')} calcId={this.props.data.get('id')} varData={el} dispatch={that.props.dispatch} />)
 							})
 						}
 					</tbody>
@@ -251,8 +253,8 @@ var App = React.createClass({
 
 
 		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
-		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));
-		//lt3745Calc.loadCalc(this.props.dispatch);
+		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
+		this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
 	},
 
 	handleSelect(key) {
@@ -269,6 +271,35 @@ var App = React.createClass({
 	    this.props.dispatch(calcActions.setSearchTerm(event.target.value));
  	},
 
+ 	//! @brief		This function determines what calculator element to render inside the tab.
+ 	//! @details	We need this because the UI structure of each calculator may be different.
+ 	renderCalc: function(calculator, key) {
+ 		//if(el.get('id') == 'resistorDivider') {
+ 			//console.log('renderCalc() called with id = resistorDivider.');
+ 			//console.log(el.get('view'));
+
+ 			// Create the view for the specific calculator.
+ 			// Note that since this isn't created in JSX (i.e. <CalcView>...</CalcView>),
+ 			// we have to use React.createFactory
+
+		return React.createElement(calculator.get('view'), { key: key, data: calculator, dispatch: this.props.dispatch });
+
+
+
+ 			/*var CalcView = React.createFactory(el.get('view'));
+ 			
+ 			return CalcView({ 
+ 				// Pass in the entire calculator model as data
+ 				data: el,
+ 				// Pass in dispatch so actions can be called!
+ 				dispatch: this.props.dispatch,
+ 			});*/
+ 		//}
+
+
+ 		//return <Calculator key={el.get('id')} data={el} dispatch={this.props.dispatch} />
+ 	},
+
 	render: function() {
 
 		var that = this;
@@ -281,10 +312,10 @@ var App = React.createClass({
 			return gridElement;
 		});
 
-		console.log('activeTabKey = ' + this.props.state.get('activeTabKey'));		
+		var that = this;
 
 		return (
-			<div>	
+			<div className="app">	
 				{/* Tabs are the main view element on the UI */}
 				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 					{/* First tab is static and non-removable */}
@@ -299,26 +330,30 @@ var App = React.createClass({
 					        ref="input"
 					        groupClassName="group-class"
 					        labelClassName="label-class"
-					        onChange={this.onSearchInputChange} />
+					        onChange={this.onSearchInputChange} />					        
 						<br />
 						<div>
+							{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
+							height larger, but not the width */}
 							<AbsoluteGrid
 								items={items}
-								itemWidth={242}
-								itemHeight={418}
+								itemWidth={240}
+								itemHeight={360}
 								responsive={true}
 								zoom={1}
-								animation="transform 300ms ease"/>
+								animation="transform 300ms ease"/>							
 						</div>
 					</Tab>
-					{/* Let's create a table for every calculator in array */
+					{/* Let's create a visual tab for every calculator in array */
+
 						this.props.state.get('calculators').filter((calculator) => {
-							console.log('calculator.get(\'visible\') = ' + calculator.get('visible'));
+							//console.log('calculator.get(\'visible\') = ' + calculator.get('visible'));
 							return calculator.get('visible');
-						}).map(function(el, index) {
+						}).map(function(calculator, index) {
 							return (
-								<Tab key={index+1} eventKey={index+1} title={el.get('name')}>
-									<Calculator key={el.get('id')} data={el} dispatch={that.props.dispatch} />
+								<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
+									{/* This next line of code inserts the entire calculator into the tab element. */}
+									{that.renderCalc(calculator)}										
 								</Tab>
 							);
 						})
@@ -361,178 +396,6 @@ var appRender = ReactDOM.render(
   </div>,
   document.getElementById('content')
 );
-
-/*
-//import Tabs from 'react-draggable-tab';
-import ReactDraggableTab from 'react-draggable-tab';
-var Tab = ReactDraggableTab.Tab;
-var Tabs = ReactDraggableTab.Tabs;
-
-const tabsClassNames = {
-  tabBar: 'myTabBar',
-  tabBarAfter: 'myTabBarAfter',
-  tab:      'myTab',
-  tabTitle: 'myTabTitle',
-  tabCloseIcon: 'tabCloseIcon',
-  tabBefore: 'myTabBefore',
-  tabAfter: 'myTabAfter'
-};
-
-const tabsStyles = {
-  tabBar: {},
-  tab:{},
-  tabTitle: {},
-  tabCloseIcon: {},
-  tabBefore: {},
-  tabAfter: {}
-};
-
-class App1 extends React.Component {
-  constructor(props) {
-    super(props);
-
-    //let icon = (<image src='icon.png' style={{height:'13px'}}/>);
-    //let fonticon = (<icon className='icon-html5'/>);
-    //let badge = (<DynamicTabBadge />);
-
-    this.state = {
-      tabs:[
-        (<Tab key={'tab0'} title={'unclosable tab'} disableClose={true} >
-          <div>
-            <h1>This tab cannot close</h1>
-          </div>
-        </Tab>),
-        (<Tab key={'tab1'} title={'1stTab'} >
-          <div>
-            <h1>This is tab1</h1>
-          </div>
-        </Tab>),
-        (<Tab key={'tab2'} title={'2ndTab Too long Toooooooooooooooooo long'} >
-          <div>
-            <pre>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-            </pre>
-          </div>
-        </Tab>),
-
-      ],
-      badgeCount: 0
-    };
-  }
-
-  handleTabSelect(e, key, currentTabs) {
-    console.log('handleTabSelect key:', key);
-    this.setState({selectedTab: key, tabs: currentTabs});
-  }
-
-  handleTabClose(e, key, currentTabs) {
-    console.log('tabClosed key:', key);
-    this.setState({tabs: currentTabs});
-  }
-
-  handleTabPositionChange(e, key, currentTabs) {
-    console.log('tabPositionChanged key:', key);
-    this.setState({tabs: currentTabs});
-  }
-
-  handleTabAddButtonClick(e, currentTabs) {
-    // key must be unique
-    const key = 'newTab_' + Date.now();
-    let newTab = (<Tab key={key} title='untitled' >
-                    <div>
-                      <h1>New Empty Tab</h1>
-                    </div>
-                  </Tab>);
-    let newTabs = currentTabs.concat([newTab]);
-
-    this.setState({
-      tabs: newTabs,
-      selectedTab: key
-    });
-  }
-
-  handleTabDoubleClick(e, key) {
-
-    let tab = _.find(this.state.tabs, (t) => {
-      return t.key === key;
-    });
-    this.setState({
-      editTabKey: key
-    }, () => {
-      this.refs.input.setValue(tab.props.title);
-      this.refs.dialog.show();
-    });
-  }
-
-  _onDialogSubmit() {
-    let title = this.refs.input.getValue();
-    let newTabs = _.map(this.state.tabs, (tab) => {
-      if(tab.key === this.state.editTabKey) {
-        return React.cloneElement(tab, {title: title});
-      } else {
-        return tab;
-      }
-    });
-    this.setState({tabs: newTabs}, () => {
-      this.refs.dialog.dismiss();
-    });
-  }
-
-  _onDialogCancel() {
-    this.refs.dialog.dismiss();
-  }
-
-  _handleBadgeInc() {
-    this.setState({badgeCount: this.state.badgeCount + 1});
-  }
-
-  _handleBadgeDec() {
-    this.setState({badgeCount: this.state.badgeCount + 1});
-  }
-
-  render() {
-
-    let standardActions = [
-      { text: 'Cancel', onClick: this._onDialogCancel.bind(this) },
-      { text: 'Submit', onClick: this._onDialogSubmit.bind(this), ref: 'submit' }
-    ];
-
-    console.log(this.state.tabs);
-
-
-    return (
-      <div>
-        <Tabs
-          tabsClassNames={tabsClassNames}
-          tabsStyles={tabsStyles}
-          selectedTab={this.state.selectedTab ? this.state.selectedTab : 'tab2'}
-          onTabSelect={this.handleTabSelect.bind(this)}
-          onTabClose={this.handleTabClose.bind(this)}
-          onTabAddButtonClick={this.handleTabAddButtonClick.bind(this)}
-          onTabPositionChange={this.handleTabPositionChange.bind(this)}
-          onTabDoubleClick={this.handleTabDoubleClick.bind(this)}
-          tabs={this.state.tabs}
-          shortCutKeys={
-            {
-              'close': ['alt+command+w', 'alt+ctrl+w'],
-              'create': ['alt+command+t', 'alt+ctrl+t'],
-              'moveRight': ['alt+command+tab', 'alt+ctrl+tab'],
-              'moveLeft': ['shift+alt+command+tab', 'shift+alt+ctrl+tab']
-            }
-          }
-          keepSelectedTab={true}
-          />      
-        <p style={{position: 'fixed', 'bottom': '10px'}}>
-          Source code can be found at <a href='https://github.com/georgeOsdDev/react-draggable-tab/tree/master/example'>GitHub</a>
-        </p>
-      </div>
-    );
-  }
-}
-
-
-React.render(<App1/>, document.getElementById('content'));
-*/
-
 
 
 
