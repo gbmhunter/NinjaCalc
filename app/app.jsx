@@ -67,7 +67,7 @@ var App = React.createClass({
 
 	componentDidMount: function() {
 
-
+		// Load in the calculators so the app knows about them
 		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
 		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
 		this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
@@ -90,30 +90,11 @@ var App = React.createClass({
  	//! @brief		This function determines what calculator element to render inside the tab.
  	//! @details	We need this because the UI structure of each calculator may be different.
  	renderCalc: function(calculator, key) {
- 		//if(el.get('id') == 'resistorDivider') {
- 			//console.log('renderCalc() called with id = resistorDivider.');
- 			//console.log(el.get('view'));
 
- 			// Create the view for the specific calculator.
- 			// Note that since this isn't created in JSX (i.e. <CalcView>...</CalcView>),
- 			// we have to use React.createFactory
-
+		// Create the view for the specific calculator.
+		// Note that since this isn't created in JSX (i.e. <CalcView>...</CalcView>),
+		// we have to use React.createFactory
 		return React.createElement(calculator.get('view'), { key: key, data: calculator, dispatch: this.props.dispatch });
-
-
-
- 			/*var CalcView = React.createFactory(el.get('view'));
- 			
- 			return CalcView({ 
- 				// Pass in the entire calculator model as data
- 				data: el,
- 				// Pass in dispatch so actions can be called!
- 				dispatch: this.props.dispatch,
- 			});*/
- 		//}
-
-
- 		//return <Calculator key={el.get('id')} data={el} dispatch={this.props.dispatch} />
  	},
 
 	render: function() {
@@ -127,8 +108,6 @@ var App = React.createClass({
 			gridElement.dispatch = this.props.dispatch;
 			return gridElement;
 		});
-
-		var that = this;
 
 		return (
 			<div className="app">	
@@ -168,8 +147,10 @@ var App = React.createClass({
 						}).map(function(calculator, index) {
 							return (
 								<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
-									{/* This next line of code inserts the entire calculator into the tab element. */}
-									{that.renderCalc(calculator)}										
+									{/* This next line of code inserts the entire calculator into the tab element.
+									We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to
+									THIS DOESN'T WORK YET?!? */}
+									{that.renderCalc(calculator, index+1)}										
 								</Tab>
 							);
 						})

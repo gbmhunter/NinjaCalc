@@ -9,6 +9,7 @@
 
 // npm modules
 import React from 'react';
+import { Panel } from 'react-bootstrap';
 
 // User modules
 import { getVal } from '../../../utility/utility.js';
@@ -31,16 +32,18 @@ var ohmsLawCalc = {
 		render: function() {
 			return (
 				<div>		
-					<div className="intro">
-						<p>The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:</p>
-						<p className="centered">
-							<Latex>$V = IR$</Latex><br />
-							where: <br />
-							<Latex>$V$</Latex> = voltage across the resistor<br />
-							<Latex>$I$</Latex> = current through the resistor <br />
-							<Latex>$R$</Latex> = resistance of the resistor
-						</p>
-					</div>
+					<Panel collapsible header="Info">	
+						<div className="intro">
+							<p>The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:</p>
+							<p className="centered">
+								<Latex>$V = IR$</Latex><br />
+								where: <br />
+								<Latex>$V$</Latex> = voltage across the resistor<br />
+								<Latex>$I$</Latex> = current through the resistor <br />
+								<Latex>$R$</Latex> = resistance of the resistor
+							</p>
+						</div>
+					</Panel>
 					<CalcTable data={this.props.data} dispatch={this.props.dispatch} />			
 				</div>	
 	    	);
