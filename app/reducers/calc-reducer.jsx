@@ -2,7 +2,7 @@
 //! @file               calc-reducer.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-03
+//! @last-modified      2015-11-19
 //! @brief              Contains the "redux" reducer for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -369,34 +369,29 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.get('calculators')[calcIndex].vars, action.varId);
+			var varIndex = utility.findVarIndexById(state.getIn(['calculators', calcIndex, 'vars']), action.varId);
 			console.log('varIndex = ' +  varIndex);		
 
-			var vars = [...state.calculators[calcIndex].vars];
+			var vars = state.getIn(['calculators', calcIndex, 'vars'])
 
-			vars.map(function(el, index){
+			vars = vars.map(function(calcVar, index){
 				if(index == varIndex) {
-					console.log('Setting ' + el.name + ' as a output.');
-					el.direction = 'output';
-				} else {
-					el.direction = 'input';
-					console.log('Setting ' + el.name + ' as a input.');
+					console.log('Setting ' + calcVar.get('name') + ' as a output.');
+					calcVar = calcVar.set('direction', 'output');
+				} else {					
+					console.log('Setting ' + calcVar.get('name') + ' as a input.');
+					calcVar = calcVar.set('direction', 'input');
 				}
+
+				return calcVar;
 			});
 
 			// Now that they have been changed, when need to re-calculate outputs
 			vars = utility.reCalcAll(vars);
 
-			// Finally, return with our modified vars array
-			return Object.assign({}, state, {
-				calculators: [
-					...state.calculators.slice(0, calcIndex),
-					Object.assign({}, state.calculators[calcIndex], {
-						vars: vars
-					}),
-					...state.calculators.slice(calcIndex + 1)
-				]
-			});
+			state = state.setIn(['calculators', calcIndex, 'vars'], vars);
+
+			return state.asImmutable();
 			
 		default:
 			return state;
