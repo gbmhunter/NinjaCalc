@@ -284,7 +284,7 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('SET_VAR_VAL finished. state = ');
 			console.log(state.toJS());
 
-			return state;
+			return state.asImmutable();
 
 		//==============================================================================//
 		//================================ SET_VAR_UNITS ===============================//
@@ -356,7 +356,7 @@ export default function defaultReducer(state = initialState, action) {
 				]
 			});*/
 
-			return state;
+			return state.asImmutable();
 
 
 
@@ -396,7 +396,7 @@ export default function defaultReducer(state = initialState, action) {
 			return state.asImmutable();
 			
 		default:
-			return state;
+			return state.asImmutable();
 	}
 }
 
