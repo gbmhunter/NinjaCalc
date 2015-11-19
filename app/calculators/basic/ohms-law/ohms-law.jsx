@@ -76,7 +76,6 @@ var ohmsLawCalc = {
 				}
 			],
 			showRadio: true,
-			comments: 'The voltage across the resistive element.',
 		},
 		{
 			id: 'current',
@@ -104,7 +103,6 @@ var ohmsLawCalc = {
 				}
 			],
 			showRadio: true,
-			comments: 'The current through the resistive element.',
 		},
 		{
 			id: 'resistance',
@@ -136,7 +134,6 @@ var ohmsLawCalc = {
 				}
 			],
 			showRadio: true,
-			comments: 'The resistance of the resistive element.',
 		},
 	],
 }

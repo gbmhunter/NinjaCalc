@@ -96,8 +96,7 @@ export var data = {
 					severity: 'warning',
 				}
 			],
-			showRadio: true,
-			comments: 'The input voltage to the top of the resistor divider.',
+			showRadio: true,			
 		},
 
 		//==================================================================================//
@@ -129,8 +128,7 @@ export var data = {
 					severity: 'error',
 				}
 			],
-			showRadio: true,
-			comments: 'The resistance of the top resistor (resistor 1).',
+			showRadio: true,			
 		},
 
 		//==================================================================================//
@@ -161,8 +159,7 @@ export var data = {
 					severity: 'error',
 				}
 			],
-			showRadio: true,
-			comments: 'The resistance of the bottom resistor (resistor 2).',
+			showRadio: true,			
 		},
 		
 		//==================================================================================//
@@ -198,8 +195,7 @@ export var data = {
 					severity: 'error',
 				}
 			],
-			showRadio: true,
-			comments: 'The output voltage from the middle of the resistor divider (between the two resistors).',
+			showRadio: true,			
 		},
 
 	],
