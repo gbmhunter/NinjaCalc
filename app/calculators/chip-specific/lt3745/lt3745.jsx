@@ -30,9 +30,14 @@ export var data = {
 		mixins: [PureRenderMixin],
 
 		render: function() {
-			return (			
-				<CalcTable data={this.props.data} dispatch={this.props.dispatch}>
-				</CalcTable>			
+			return (
+				<div>
+					<p>A calculator to help you choose the values of the supporting passive components for the Linear Technology LT3745 16-channel LED driver.</p>
+					<p>The datasheet can be found <a href="http://cds.linear.com/docs/en/datasheet/3745f.pdf">here</a>.</p>
+					<p>For more information you can check out the Linear Technology Demonstration Circuit 1608A.</p>
+					<br />			
+					<CalcTable data={this.props.data} dispatch={this.props.dispatch} />
+				</div>
 	    	);
 		},
 
@@ -568,7 +573,7 @@ export var data = {
 				return (Math.max( 0.25/(getVal(vars, 'rSense')*getVal(vars, 'fugf')),
 					1.5/(getVal(vars, 'vOutMax')*getVal(vars, 'rSense')*getVal(vars, 'fugf'))));
 			},
-			comments: 'The output capacitance smooths the output voltage, and also stores energy to satisfy load transients. $C_{out(min)} = \\small \\begin{split} max( \\dfrac{0.25}{R_{sense}*f_{ugf}}, \\\\ \\dfrac{1.5}{V_{buck,out}*R_{sense}*f_{ugf}}) \\end{split}$.',
+			comments: 'The output capacitance smooths the output voltage, and also stores energy to satisfy load transients. $C_{out(min)} = \\small \\max( \\dfrac{0.25}{R_{sense}*f_{ugf}}, \\dfrac{1.5}{V_{buck,out}*R_{sense}*f_{ugf}}) $.',
 		},
 
 		//==============================================================================//
@@ -612,7 +617,7 @@ export var data = {
 				return ( ((getVal(vars, 'vOutMax') + getVal(vars, 'vdf'))/(getVal(vars, 'vInMax') + getVal(vars, 'vdf')))*
 					((getVal(vars, 'vInMax') - getVal(vars, 'vOutMax'))/(getVal(vars, 'fSwAct')*getVal(vars, 'iLDelta'))));
 			},
-			comments: 'This is the minimum inductance required to satisfy the inductor ripple current specified above. If this inductance is too large, you could consider increasing the ripple current, or increasing the switching frequency. $L_{min} = \\small \\begin{split} \\dfrac{V_{buck,out} + V_{d,f}}{ V_{in(max) + V_{d,f}}} * \\\\ \\dfrac{ V_{in(max)} - V_{buck,out} }{ f_{sw(act)}*I_{L(delta)} } \\end{split}$.</span>',
+			comments: 'This is the minimum inductance required to satisfy the inductor ripple current specified above. If this inductance is too large, you could consider increasing the ripple current, or increasing the switching frequency. $L_{min} = \\small \\dfrac{V_{buck,out} + V_{d,f}}{ V_{in(max) + V_{d,f}}} * \\dfrac{ V_{in(max)} - V_{buck,out} }{ f_{sw(act)}*I_{L(delta)} } $.</span>',
 		},
 
 		//==============================================================================//
