@@ -32,9 +32,12 @@ export var data = {
 		render: function() {
 			return (
 				<div>
-					<p>A calculator to help you choose the values of the supporting passive components for the Linear Technology LT3745 16-channel LED driver.</p>
-					<p>The datasheet can be found <a href="http://cds.linear.com/docs/en/datasheet/3745f.pdf">here</a>.</p>
-					<p>For more information you can check out the Linear Technology Demonstration Circuit 1608A.</p>
+					<div className="intro">
+						<img src={ __dirname + '/lt3745-typical-application.png'} style={{float: 'right', height:200}} />
+						<p>A calculator to help you choose the values of the supporting passive components for the Linear Technology LT3745 16-channel LED driver.</p>
+						<p>The datasheet can be found <a href="http://cds.linear.com/docs/en/datasheet/3745f.pdf">here</a>.</p>
+						<p>For more information you can check out the Linear Technology Demonstration Circuit 1608A.</p>
+					</div>
 					<br />			
 					<CalcTable data={this.props.data} dispatch={this.props.dispatch} />
 				</div>

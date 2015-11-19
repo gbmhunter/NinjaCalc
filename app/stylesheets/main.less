@@ -43,6 +43,9 @@ div.tab-content {
     }
 }
 
+//==================================================================================//
+//================== CALCULATOR GRID TAB (FIRST TAB) STYLING =======================//
+//==================================================================================//
 
 .gridItem {
 
@@ -59,60 +62,36 @@ div.tab-content {
     }
 }
 
+//==================================================================================//
+//============ CALCULATOR TABS (EVERYTHING BUT FIRST TAB) STYLING ==================//
+//==================================================================================//
 
+div.intro {
+	display: inline-block;
+	width: 100%;
+}
 
-.calculatorTable {
+// Targets the div wrapper that contains a calculator table on one of the calculator tabs.
+div.calculatorTable {
+
+	//========== GENERAL CALCULATOR TABLE PROPERTIES ==============//
+
+	margin-top: 20px;
+
+	table, th, td {
+		// I don't like the look of the table border!!!
+   		//border: 1px solid silver;
+	}
+
+	tr:hover {
+          background-color: #ffff99;
+    }
 
     td {
         padding: 5px;
     }
 
-    /*input.varDispVal:focus {
-        border: solid 5px;
-
-        &.ok {
-            // This is a dark green colour
-            border-color: #08A000;
-        }
-
-        &.warning {
-            // This is a dark orange colour
-            border-color: #C55900;
-        }
-
-        &.error {
-            // This is a dark red colour
-            border-color: #C50000;
-        }
-    }
-
-    input.varDispVal {
-        height: 26px;
-        border: 2px solid;
-        border-radius: 4px;
-
-        padding: 2px;
-        border: solid 5px #c9c9c9;
-
-        // This gives a animation to the border when to goes
-        // to the hover state
-        transition: border 0.3s;
-
-        &.ok {
-            // This is a light green colour
-            border-color: #5CDB55;
-        }
-        
-        &.warning {
-            // This is a light green orange
-            border-color: #FFAA63;
-        }
-
-        &.error {
-            // This is a light red colour
-            border-color: #FF6363;
-        }
-    }*/
+  
 
     // Let's give the calc variable inputs a thicker border, which allows us to easily see
     // which are valid, have warnings, or have errors

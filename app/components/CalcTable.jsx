@@ -9,6 +9,7 @@
 
 // npm modules
 import React from 'react';
+import { Table } from 'react-bootstrap';
 
 // User modules
 import { CalcTableRow } from './CalcTableRow.js';

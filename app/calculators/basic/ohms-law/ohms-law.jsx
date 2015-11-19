@@ -29,9 +29,20 @@ var ohmsLawCalc = {
 		mixins: [PureRenderMixin],
 
 		render: function() {
-			return (			
-				<CalcTable data={this.props.data} dispatch={this.props.dispatch}>
-				</CalcTable>			
+			return (
+				<div>		
+					<div className="intro">
+						<p>The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:</p>
+						<p className="centered">
+							<Latex>$V = IR$</Latex><br />
+							where: <br />
+							<Latex>$V$</Latex> = voltage across the resistor<br />
+							<Latex>$I$</Latex> = current through the resistor <br />
+							<Latex>$R$</Latex> = resistance of the resistor
+						</p>
+					</div>
+					<CalcTable data={this.props.data} dispatch={this.props.dispatch} />			
+				</div>	
 	    	);
 		},
 
@@ -41,6 +52,7 @@ var ohmsLawCalc = {
 		{
 			id: 'voltage',
 			name: 'Voltage',
+			symbol: '$V$',
 			dispVal: '',
 			units: [
 				{ label: 'mV', eq: 1e-3 },
@@ -61,10 +73,12 @@ var ohmsLawCalc = {
 				}
 			],
 			showRadio: true,
+			comments: 'The voltage across the resistive element.',
 		},
 		{
 			id: 'current',
 			name: 'Current',
+			symbol: '$I$',
 			dispVal: '',
 			units: [
 				{ label: 'nA', eq: 1e-9 },
@@ -87,10 +101,12 @@ var ohmsLawCalc = {
 				}
 			],
 			showRadio: true,
+			comments: 'The current through the resistive element.',
 		},
 		{
 			id: 'resistance',
 			name: 'Resistance',
+			symbol: '$R$',
 			dispVal: '',
 			units: [
 				{ label: 'm‎Ω', eq: 1e-3 },
@@ -117,6 +133,7 @@ var ohmsLawCalc = {
 				}
 			],
 			showRadio: true,
+			comments: 'The resistance of the resistive element.',
 		},
 	],
 }

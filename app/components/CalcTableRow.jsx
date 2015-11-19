@@ -2,7 +2,7 @@
 //! @file               CalcTableRow.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-17
-//! @last-modified      2015-11-17
+//! @last-modified      2015-11-19
 //! @brief              Contains the CalcTableRow for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -40,6 +40,17 @@ export var CalcTableRow = React.createClass({
 		this.props.dispatch(calcActions.setVarUnits(this.props.calcId, this.props.varData.get('id'), event));
 	},
 
+	//! @brief		This is called by render() to render the radio button column.
+	//! @returns	A table data element containing the radio button if the calculator requires them, otherwise returns null.
+	renderRadioButton: function() {		
+		if(this.props.varData.get('showRadio')) {
+			return <td><input type="radio" checked={this.props.varData.get('direction') == 'output'} onChange={this.onCalcWhatChange} /></td>
+		} else {
+			// If the calculator doesn't want radio buttons, we don't want to show anything at all, not even an empty column!
+			return null;
+		}
+	},
+
 	render: function() {
 		//console.log('CalcRow.render() called, with this.props.varData =');
 		//console.log(this.props.varData);
@@ -59,10 +70,7 @@ export var CalcTableRow = React.createClass({
 
 
 		// Work out if radio button is needed
-		var radioButton;
-		if(this.props.varData.get('showRadio')) {
-			radioButton = <input type="radio" checked={this.props.varData.get('direction') == 'output'} onChange={this.onCalcWhatChange} />
-		}
+		
 
 		return (
 			<tr>
@@ -87,7 +95,7 @@ export var CalcTableRow = React.createClass({
 						onChange={this.onUnitsChange}
 					/>
 				</td>
-				<td>{radioButton}</td>	
+				{this.renderRadioButton()}
 				<td><Latex>{this.props.varData.get('comments')}</Latex></td>			
 			</tr>
 		);
