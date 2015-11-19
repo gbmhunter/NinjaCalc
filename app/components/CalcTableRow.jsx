@@ -140,8 +140,8 @@ export var CalcTableRow = React.createClass({
 
 		return (
 			<tr>
-				<td>{this.props.varData.get('name')}</td>
-				<td><Latex>{this.props.varData.get('symbol')}</Latex></td>
+				<td className="varName">{this.props.varData.get('name')}</td>
+				<td className="varSymbol"><Latex>{this.props.varData.get('symbol')}</Latex></td>
 				{/* Now display the dispVal for each calculator variable */}
 				<td>
 					<CalcInput
