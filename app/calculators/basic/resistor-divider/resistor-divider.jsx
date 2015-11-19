@@ -11,6 +11,7 @@
 
 // npm modules
 import React from 'react';
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 import { Panel } from 'react-bootstrap';
 
 // User modules

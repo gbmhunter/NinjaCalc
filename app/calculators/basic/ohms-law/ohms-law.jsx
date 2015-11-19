@@ -9,6 +9,7 @@
 
 // npm modules
 import React from 'react';
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 import { Panel } from 'react-bootstrap';
 
 // User modules
@@ -29,7 +30,17 @@ var ohmsLawCalc = {
 
 		mixins: [PureRenderMixin],
 
+		componentDidMount: function() {
+			console.log('OhmsLaw.componentDidMount() called.');
+		},
+
+		/*shouldComponentUpdate: function(nextProps, nextState) {
+		  return nextProps.data !== this.props.data;
+		},*/
+
 		render: function() {
+			console.log('OhmsLaw.render() called. this.props = ');
+			console.log(this.props);
 			return (
 				<div>		
 					<Panel collapsible header="Info">	

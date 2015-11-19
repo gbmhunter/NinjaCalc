@@ -9,6 +9,7 @@
 
 // npm modules
 import React from 'react';
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab } from 'react-bootstrap';
 
 // User modules
