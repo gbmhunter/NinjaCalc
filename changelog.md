@@ -6,3 +6,4 @@ v0.1.0
 - Made the imageSrc path variable within each calculator relative to the calculator, closes #3.
 - Added expanding functionality to the calculator intros and hided them by default, closes #6.
 - Stopped calculators re-rendering unless they have to (fixed serious performance issues), closes #5.
+- Centered the calculator tables in the middle of their tabs, closes #11.
