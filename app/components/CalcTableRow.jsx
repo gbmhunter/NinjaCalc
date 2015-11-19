@@ -9,9 +9,74 @@
 
 // npm modules
 import React from 'react';
+import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab } from 'react-bootstrap';
 
 // User modules
 
+var CalcInput = React.createClass({
+
+	mixins: [PureRenderMixin],
+
+	render: function() {
+
+		//console.log('CalcInput.render() called. this.props = ');
+		//console.log(this.props);
+
+		var placeholder;
+		if(!this.props.disabled) {
+			placeholder = 'Enter value';
+		} else {
+			placeholder = '';
+		}
+
+		return (			
+			<OverlayTrigger placement="right" overlay={<Tooltip>{this.props.overlay}</Tooltip>}>
+				<Input
+			        type="text"
+			        value={this.props.value}
+			        disabled={this.props.disabled}
+			        placeholder={placeholder}
+			        hasFeedback
+			        bsStyle={this.props.bsStyle}
+			        ref="input"
+			        groupClassName="group-class"
+			        labelClassName="label-class"
+			        onChange={this.props.onChange} />
+			</OverlayTrigger>
+    	);
+	},
+
+});
+
+var CalcUnits = React.createClass({
+
+	mixins: [PureRenderMixin],
+
+	render: function() {
+
+		//console.log('this.props = ');
+		//console.log(this.props);
+
+		return (			
+			<Select
+					name="form-field-name"
+					value={this.props.value}
+					options={this.props.options}
+					onChange={this.props.onChange}
+					clearValueText=""	
+					clearable={false}			
+					multi={false}
+					searchable={false}	
+					placeholder="Select"
+				/>
+		);
+	},
+
+});
+
+//! @brief    A single row in the calculator table.
+// Have had serious issues with using the "class" ES6 syntax!!!
+// e.g. "this" no longer exists as I know it!
 export var CalcTableRow = React.createClass({
 
 	mixins: [PureRenderMixin],
