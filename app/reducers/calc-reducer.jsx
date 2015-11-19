@@ -7,6 +7,8 @@
 //! @details
 //!     See README.rst in repo root dir for more info.
 
+'use strict';
+
 var immutable = require('immutable');
 
 import * as utility from '../utility/utility.js';

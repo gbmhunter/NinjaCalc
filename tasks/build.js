@@ -1,3 +1,12 @@
+//!
+//! @file               build.js
+//! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+//! @created            2015-11-02
+//! @last-modified      2015-11-19
+//! @brief              Contains the instructions for building the app.
+//! @details
+//!     See README.rst in repo root dir for more info.
+
 'use strict';
 
 var pathUtil = require('path');
@@ -18,8 +27,11 @@ var destDir = projectDir.cwd('./build');
 
 var paths = {
     copyFromAppDir: [
+        // It is assumed that all files in node_modules are ready for use (this is not
+        // always the case!!!)
         './node_modules/**',
         './vendor/**',
+        // All html files can be copied over without any processing
         './**/*.html',
         // Copies over images used as icons in the calculator grid
         './**/*.png',
