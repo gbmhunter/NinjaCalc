@@ -21,7 +21,7 @@ var ohmsLawCalc = {
 	name: 'Ohm\'s Law',
 	description: 'The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm\'s law.',
 	tags: 'ohm, law, resistance, voltage, current',
-	imageSrc: './calculators/basic/ohms-law/icon.png',
+	imageSrc: __dirname + '/icon.png',
 
 	// This is the React view for this calculator
 	view: React.createClass({

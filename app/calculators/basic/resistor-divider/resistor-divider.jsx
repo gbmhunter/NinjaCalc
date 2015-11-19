@@ -26,7 +26,7 @@ export var data = {
 	name: 'Resistor Divider',
 	description: 'One of the most versatile commonly used electronic designs. Useful for reducing a voltage.',
 	tags: 'resistor, divider, leg, r1, r2, resistance, voltage',
-	imageSrc: './calculators/basic/resistor-divider/icon.png',
+	imageSrc: __dirname + '/icon.png',
 
 	// This is the React view for this calculator
 	view: React.createClass({

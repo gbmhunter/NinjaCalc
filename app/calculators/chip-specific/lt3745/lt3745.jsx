@@ -22,7 +22,7 @@ export var data = {
 	name: 'LT3745',
 	description: 'Calculate the values of the surrounding passive components required to operate the LT3745 IC.',
 	tags: 'ic, linear tech, led',
-	imageSrc: './calculators/chip-specific/lt3745/icon.png',
+	imageSrc: __dirname + '/icon.png',
 
 	// This is the React view for this calculator
 	view: React.createClass({
