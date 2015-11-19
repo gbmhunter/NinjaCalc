@@ -273,7 +273,7 @@ var App = React.createClass({
 
  	//! @brief		This function determines what calculator element to render inside the tab.
  	//! @details	We need this because the UI structure of each calculator may be different.
- 	renderCalc: function(el) {
+ 	renderCalc: function(calculator, key) {
  		//if(el.get('id') == 'resistorDivider') {
  			//console.log('renderCalc() called with id = resistorDivider.');
  			//console.log(el.get('view'));
@@ -281,14 +281,19 @@ var App = React.createClass({
  			// Create the view for the specific calculator.
  			// Note that since this isn't created in JSX (i.e. <CalcView>...</CalcView>),
  			// we have to use React.createFactory
- 			var CalcView = React.createFactory(el.get('view'));
+
+		return React.createElement(calculator.get('view'), { key: key, data: calculator, dispatch: this.props.dispatch });
+
+
+
+ 			/*var CalcView = React.createFactory(el.get('view'));
  			
  			return CalcView({ 
  				// Pass in the entire calculator model as data
  				data: el,
  				// Pass in dispatch so actions can be called!
  				dispatch: this.props.dispatch,
- 			});
+ 			});*/
  		//}
 
 
@@ -307,6 +312,8 @@ var App = React.createClass({
 			return gridElement;
 		});
 
+		var that = this;
+
 		return (
 			<div className="app">	
 				{/* Tabs are the main view element on the UI */}
@@ -323,8 +330,7 @@ var App = React.createClass({
 					        ref="input"
 					        groupClassName="group-class"
 					        labelClassName="label-class"
-					        onChange={this.onSearchInputChange} />
-					        <test1 />
+					        onChange={this.onSearchInputChange} />					        
 						<br />
 						<div>
 							{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
@@ -338,15 +344,16 @@ var App = React.createClass({
 								animation="transform 300ms ease"/>							
 						</div>
 					</Tab>
-					{/* Let's create a table for every calculator in array */
+					{/* Let's create a visual tab for every calculator in array */
+
 						this.props.state.get('calculators').filter((calculator) => {
-							console.log('calculator.get(\'visible\') = ' + calculator.get('visible'));
+							//console.log('calculator.get(\'visible\') = ' + calculator.get('visible'));
 							return calculator.get('visible');
-						}).map(function(el, index) {
+						}).map(function(calculator, index) {
 							return (
-								<Tab key={index+1} eventKey={index+1} title={el.get('name')}>
+								<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
 									{/* This next line of code inserts the entire calculator into the tab element. */}
-									{that.renderCalc(el)}																	
+									{that.renderCalc(calculator)}										
 								</Tab>
 							);
 						})

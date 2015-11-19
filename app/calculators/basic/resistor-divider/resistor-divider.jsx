@@ -2,7 +2,7 @@
 //! @file               resistor-divider.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2012-11-26
-//! @last-modified      2015-11-17
+//! @last-modified      2015-11-19
 //! @brief              Contains the Resistor Divider calculator data for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -31,10 +31,15 @@ export var data = {
 
 		mixins: [PureRenderMixin],
 
+		componentDidMount: function() {
+			console.log('ResistorDivider.componentDidMount() called.');
+		},
+
+
 		render: function() {
+			console.log('ResistorDivider.render() called.');
 			return (			
-				<CalcTable data={this.props.data} dispatch={this.props.dispatch}>
-				</CalcTable>			
+				<CalcTable data={this.props.data} dispatch={this.props.dispatch} />				
 	    	);
 		},
 
@@ -42,10 +47,14 @@ export var data = {
 
 
 	vars: [
+
+		//==================================================================================//
+		//====================================== Vin =======================================//
+		//==================================================================================//
 		{
-			id: 'voltage',
-			name: 'Voltage',
-			symbol: '$V$',
+			id: 'vIn',
+			name: 'Input Voltage',
+			symbol: '$V_{in}$',
 			dispVal: '',
 			units: [
 				{ label: 'mV', eq: 1e-3 },
@@ -54,7 +63,8 @@ export var data = {
 			selUnitValue: 'V',		
 			direction: 'input',
 			outputFn: function(vars) {		
-				return getVal(vars, 'current') * getVal(vars, 'resistance');								
+				//return getVal(vars, 'current') * getVal(vars, 'resistance');	
+				return ((getVal(vars, 'vOut')*(getVal(vars, 'r1') + getVal(vars, 'r2')))/getVal(vars, 'r2'));							
 			},
 			validators: [
 				{
@@ -67,37 +77,14 @@ export var data = {
 			],
 			showRadio: true,
 		},
+
+		//==================================================================================//
+		//======================================= R1 =======================================//
+		//==================================================================================//
 		{
-			id: 'current',
-			name: 'Current',
-			symbol: '$I$',
-			dispVal: '',
-			units: [
-				{ label: 'nA', eq: 1e-9 },
-				{ label: 'uA', eq: 1e-6 },
-				{ label: 'mA', eq: 1e-3 },
-				{ label: 'A', eq: 1 },
-			],
-			selUnitValue: 'A',	
-			direction: 'input',
-			outputFn: function(vars) {		
-				return getVal(vars, 'voltage') / getVal(vars, 'resistance');								
-			},
-			validators: [
-				{
-					msg: 'Current shouldn\'t really be negative.',
-					fn: (val) => {
-						return (val >= 0.0);
-					},
-					severity: 'warning',
-				}
-			],
-			showRadio: true,
-		},
-		{
-			id: 'resistance',
-			name: 'Resistance',
-			symbol: '$R$',
+			id: 'r1',
+			name: 'Resistor 1 (top resistor)',
+			symbol: '$R1$',
 			dispVal: '',
 			units: [
 				{ label: 'm‎Ω', eq: 1e-3 },
@@ -105,26 +92,91 @@ export var data = {
 				{ label: 'k‎Ω', eq: 1e3 },
 				{ label: 'M‎Ω', eq: 1e6 },
 			],
-			selUnitValue: '‎Ω',	
-			direction: 'output',
-			outputFn: function(vars) {						
-				//console.log('getVal(\'Voltage\') =' + getVal(vars, 'Voltage'));
-				//console.log(initialState.vars);
-				var result = getVal(vars, 'voltage') / getVal(vars, 'current');
-				console.log('result = ' + result);
-				return result;
+			selUnitValue: 'k‎Ω',	
+			direction: 'input',
+			outputFn: function(vars) {		
+				//return getVal(vars, 'voltage') / getVal(vars, 'resistance');	
+				return ((getVal(vars, 'r2')*(getVal(vars, 'vIn') - getVal(vars, 'vOut')))/getVal(vars, 'vOut'));							
 			},
 			validators: [
 				{
-					msg: 'Resistance shouldn\'t really be negative.',
+					msg: 'Resistance can\'t be negative!',
 					fn: (val) => {
 						return (val >= 0.0);
 					},
-					severity: 'warning',
+					severity: 'error',
 				}
 			],
 			showRadio: true,
 		},
+
+		//==================================================================================//
+		//======================================= R2 =======================================//
+		//==================================================================================//
+		{
+			id: 'r2',
+			name: 'Resistor 2 (bottom resistor)',
+			symbol: '$R2$',
+			dispVal: '',
+			units: [
+				{ label: 'm‎Ω', eq: 1e-3 },
+				{ label: '‎Ω', eq: 1 },
+				{ label: 'k‎Ω', eq: 1e3 },
+				{ label: 'M‎Ω', eq: 1e6 },
+			],
+			selUnitValue: 'k‎Ω',	
+			direction: 'input',
+			outputFn: function(vars) {		
+				return ((getVal(vars, 'r1')*getVal(vars, 'vOut'))/(getVal(vars, 'vIn') - getVal(vars, 'vOut')));						
+			},
+			validators: [
+				{
+					msg: 'Resistance can\'t be negative!',
+					fn: (val) => {
+						return (val >= 0.0);
+					},
+					severity: 'error',
+				}
+			],
+			showRadio: true,
+		},
+		
+		//==================================================================================//
+		//====================================== Vout ======================================//
+		//==================================================================================//
+		{
+			id: 'vOut',
+			name: 'Output Voltage',
+			symbol: '$V_{out}$',
+			dispVal: '',
+			units: [
+				{ label: 'mV', eq: 1e-3 },
+				{ label: 'V', eq: 1 },
+			],
+			selUnitValue: 'V',		
+			direction: 'output',
+			outputFn: function(vars) {		
+				return ((getVal(vars, 'vIn')*getVal(vars, 'r2'))/(getVal(vars, 'r1') + getVal(vars, 'r2')));					
+			},
+			validators: [
+				{
+					msg: 'The output voltage must be less than the input voltage if positive (output must be greater than input if negative), and of the same sign.',
+					fn: (val, vars) => {						
+						var vIn = getVal(vars, 'vIn');
+						if(vIn < 0) {
+							// vIn negative, so vOut needs to be greater (closer to 0).
+							return val > vIn;
+						} else {
+							// vIn > 0 (i.e positive, standard case)
+							return val < vIn;
+						}						
+					},
+					severity: 'error',
+				}
+			],
+			showRadio: true,
+		},
+
 	],
 }
 
