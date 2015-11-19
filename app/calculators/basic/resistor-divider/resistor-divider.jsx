@@ -38,11 +38,24 @@ export var data = {
 
 		render: function() {
 			console.log('ResistorDivider.render() called.');
-			return (			
-				<CalcTable data={this.props.data} dispatch={this.props.dispatch} />				
+			return (
+				<div>							
+					<Latex>{'The following calculator works out either $V_{in}$, $R_1$, $R_2$, or $V_{out}$, given the other three parameters, using the resistive voltage divider equation:'}</Latex>
+					<p className="centered"><Latex>{'$V_{out}=\\frac{R_2}{R_1+R_2}V_{in}$'}</Latex></p>
+					<p className="centered">where:<br />
+						<Latex>{'$V_{in}$ = input voltage'}</Latex><br />
+						<Latex>{'$R_1$ = resistance of resistor 1 (see diagram)'}</Latex><br />
+						<Latex>{'$R_2$ = resistance of resistor 2 (see diagram)'}</Latex><br />
+						<Latex>{'$V_{out}$ = output voltage'}</Latex>
+					</p>
+					<p><Latex>{'It is assumed that the output impedance on $V_{out}$ is significantly higher than $R_2$ so that it doesnt matter (for example, $V_{out}$ is connected to an op-amp input, analogue microcontroller input or similar).'}</Latex></p>
+					<p><Latex>{'The quiescent current through the divider, $I_q$, is also calculated, which can be useful to know when designing power-saving circuits. The equation to find $I_q$ is:'}</Latex></p>
+					<p className="centered"><Latex>{'$I_q = \\frac{V_{in}}{R_1+R_2}$'}</Latex></p>	
+					<br />				
+					<CalcTable data={this.props.data} dispatch={this.props.dispatch} />		
+				</div>		
 	    	);
 		},
-
 	}),
 
 
