@@ -139,18 +139,16 @@ var App = React.createClass({
 								animation="transform 300ms ease"/>							
 						</div>
 					</Tab>
-					{/* Let's create a visual tab for every calculator in array */
-
-						this.props.state.get('calculators').filter((calculator) => {
-							//console.log('calculator.get(\'visible\') = ' + calculator.get('visible'));
-							return calculator.get('visible');
-						}).map(function(calculator, index) {
+					{
+						/* Let's create a visual tab for every calculator in the openCalculators array */
+						this.props.state.get('openCalculators').map(function(calculator, index) {
 							return (
 								<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
-									{/* This next line of code inserts the entire calculator into the tab element.
-									We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to
-									THIS DOESN'T WORK YET?!? */}
-									{that.renderCalc(calculator, index+1)}										
+									{
+										/* This next line of code inserts the entire calculator into the tab element.
+										We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
+										that.renderCalc(calculator, index+1)
+									}										
 								</Tab>
 							);
 						})

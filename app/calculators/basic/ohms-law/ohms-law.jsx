@@ -2,7 +2,7 @@
 //! @file               ohms-law.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-17
+//! @last-modified      2015-11-20
 //! @brief              Contains the Ohm's Law calculator data for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -11,12 +11,6 @@
 import React from 'react';
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 import { Panel } from 'react-bootstrap';
-
-console.log('window.appRoot (before) = ' + window.appRoot);
-window.appRoot = 'test';
-console.log('window.appRoot (after) = ' + window.appRoot);
-
-console.log('ohms law process.cwd = ' + process.cwd());
 
 // User modules
 import { getVal } from '../../../utility/utility.js';
