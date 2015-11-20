@@ -11,3 +11,4 @@ v0.1.0
 - Added the ability to specify the size of a calculator (e.g. small, medium, large), closes #8.
 - Added rounding to calculator outputs, closes #12.
 - Multiple instances of the same calculator type are now allowed to be open, closes #15.
+- Clicking 'Open' on a calculator in the grid view now opens it's tab, closes #14.

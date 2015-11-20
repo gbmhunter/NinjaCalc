@@ -193,7 +193,9 @@ export default function defaultReducer(state = initialState, action) {
 			// (at the end of the array)
 			state = state.setIn(['openCalculators', numOpenCalculators], calcTemplate);
 
-			//! @todo We also want to switch to it's tab (set it as the active tab)
+			// We also want to switch to it's tab (set it as the active tab).
+			// We know that the just added calculator will be the last one in the openCalculators array.
+			state = state.set('activeTabKey', numOpenCalculators + 1);
 
 
 			return state.asImmutable();
