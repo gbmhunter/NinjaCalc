@@ -19,7 +19,8 @@ import * as calcActions from '../actions/calc-actions.js';
 //! @brief		Default/initial state for application.
 const initialState = immutable.fromJS({
 
-	//! @brief		Stores the data for every calculator.
+	//! @brief		Stores the data for every registered calculator type. Calculator instances are created from
+	//!				these types when the user clicks the "Open" button.
 	//! @details	Calculators are loaded in the onMount() function of the React 'App' component.
 	//calculators: [], 
 	calculators: immutable.List(), 
@@ -333,6 +334,11 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('New rawVal = ' + rawVal);
 
 			state = state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'rawVal'], rawVal);
+
+			// We also need to re-calculate outputs
+			var calcVars = utility.reCalcAll(state.getIn(['openCalculators', action.calcInstance, 'vars']));			
+
+			state = state.setIn(['openCalculators', action.calcInstance, 'vars'], calcVars);
 
 			return state.asImmutable();
 
