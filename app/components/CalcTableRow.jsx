@@ -87,7 +87,7 @@ export var CalcTableRow = React.createClass({
 		console.log(event);
 
 		// Let's call a thunk to set the variable value inside redux state
-		this.props.dispatch(calcActions.setVarVal(this.props.calcId, this.props.varData.get('id'), event.target.value));
+		this.props.dispatch(calcActions.setVarVal(this.props.calcInstance, this.props.varData.get('id'), event.target.value));
 	},
 
 	onCalcWhatChange: function(event) {
@@ -96,14 +96,14 @@ export var CalcTableRow = React.createClass({
 		console.log(this);
 		//this.props.onCalcWhatChange(event, this.props.name);
 
-		this.props.dispatch(calcActions.setOutputVar(this.props.calcId, this.props.varData.get('id')));
+		this.props.dispatch(calcActions.setOutputVar(this.props.calcInstance, this.props.varData.get('id')));
 	},
 
 	onUnitsChange: function(event) {
 		console.log('onUnitsChange() called with event =');
 		console.log(event);
 
-		this.props.dispatch(calcActions.setVarUnits(this.props.calcId, this.props.varData.get('id'), event));
+		this.props.dispatch(calcActions.setVarUnits(this.props.calcInstance, this.props.varData.get('id'), event));
 	},
 
 	//! @brief		This is called by render() to render the radio button column.
@@ -118,8 +118,11 @@ export var CalcTableRow = React.createClass({
 	},
 
 	render: function() {
-		//console.log('CalcRow.render() called, with this.props.varData =');
-		//console.log(this.props.varData);
+		console.log('CalcRow.render() called, with this.props =');
+		console.log(this.props);
+		console.log('and this.props.varData.toJS() =');
+		console.log(this.props.varData.toJS());
+		//console.log('and this.props.calcInstance = ' + this.props.calcInstance);
 
 		var isInputDisabled;
 		if(this.props.varData.get('direction') == 'input') {

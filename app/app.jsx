@@ -147,7 +147,7 @@ var App = React.createClass({
 									{
 										/* This next line of code inserts the entire calculator into the tab element.
 										We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
-										that.renderCalc(calculator, index+1)
+										that.renderCalc(calculator, index)
 									}										
 								</Tab>
 							);

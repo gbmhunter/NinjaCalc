@@ -2,7 +2,7 @@
 //! @file               calc-actions.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-17
+//! @last-modified      2015-11-20
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -114,14 +114,14 @@ export function setActiveTab(tabKey) {
 export var SET_VAR_VAL = 'SET_VAR_VAL';
 
 //! @brief    Changes the current variable being calculated.
-export function setVarVal(calcId, varId, val) {
+export function setVarVal(calcInstance, varId, val) {
 
 	return (dispatch, getState) => {
-		console.log('setVarVal() thunk called with calcId = "' + calcId + '", varId = "' + varId + '", val = "' + val + '".');
+		console.log('setVarVal() thunk called with calcInstance = "' + calcInstance + '", varId = "' + varId + '", val = "' + val + '".');
 
 		dispatch({
 			type: SET_VAR_VAL,
-			calcId: calcId,
+			calcInstance,
 			varId: varId,
 			val: val,
 		});
@@ -135,14 +135,14 @@ export function setVarVal(calcId, varId, val) {
 export var SET_VAR_UNITS = 'SET_VAR_UNITS';
 
 //! @brief    Changes the current variable being calculated.
-export function setVarUnits(calcId, varId, unitValue) {
+export function setVarUnits(calcInstance, varId, unitValue) {
 
 	return (dispatch, getState) => {
-		console.log('setVarUnits() thunk called with calcId = "' + calcId + '", varId = "' + varId + '", unitValue = "' + unitValue + '".');
+		console.log('setVarUnits() thunk called with calcInstance = "' + calcInstance + '", varId = "' + varId + '", unitValue = "' + unitValue + '".');
 
 		dispatch({
 			type: SET_VAR_UNITS,
-			calcId,
+			calcInstance,
 			varId,
 			unitValue,
 		});
@@ -156,14 +156,14 @@ export function setVarUnits(calcId, varId, unitValue) {
 export var SET_OUTPUT_VAR = 'SET_OUTPUT_VAR';
 
 //! @brief    Changes the current variable being calculated.
-export function setOutputVar(calcId, varId) {
+export function setOutputVar(calcInstance, varId) {
 
 	return (dispatch, getState) => {
 		console.log('setOutputVar() thunk called with varId = "' + varId + '".');
 
 		dispatch({
 			type: SET_OUTPUT_VAR,
-			calcId,
+			calcInstance,
 			varId,
 		});
 	}

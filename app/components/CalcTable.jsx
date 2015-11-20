@@ -15,7 +15,8 @@ import { Table } from 'react-bootstrap';
 // User modules
 import { CalcTableRow } from './CalcTableRow.js';
 
-
+//! @brief		The important piece of each calculator which allows the user to enter in values for inputs and see the results of outputs.
+//! @details	This is used by each calculator and included within it's view variable.
 export var CalcTable = React.createClass({
 
 	mixins: [PureRenderMixin],
@@ -25,6 +26,8 @@ export var CalcTable = React.createClass({
 
 		console.log('CalcTable.render() called. this.props = ');
 		console.log(this.props);
+		console.log('and this.props.data.toJS() = ');
+		console.log(this.props.data.toJS());
 		//console.log('CalcTableRow = ');
 		//console.log(CalcTableRow);
 
@@ -37,7 +40,7 @@ export var CalcTable = React.createClass({
 						{/* This generates the rows of the table which contain the calculator variables */							
 							this.props.data.get('vars').map((el) => {
 								//console.log('el.id = ' + el.get('id'));
-								return <CalcTableRow key={el.get('id')} calcId={this.props.data.get('id')} varData={el} dispatch={this.props.dispatch} />
+								return <CalcTableRow key={el.get('id')} calcInstance={this.props.data.get('calcInstance')} varData={el} dispatch={this.props.dispatch} />
 							})
 						}
 					</tbody>
