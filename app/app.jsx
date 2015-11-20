@@ -9,7 +9,7 @@
 
 //import React, { Component } from 'react';
 
-// npm modules
+//============================ npm MODULES =============================//
 import React from 'react';
 import ReactDOM from 'react-dom';
 // Redux utility functions
@@ -18,15 +18,25 @@ import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 var Select = require('react-select');
 import Dropdown from 'react-dropdown';
-import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab } from 'react-bootstrap';
+import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab, Panel } from 'react-bootstrap';
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 var Latex = require('react-latex');
 var ReactRadioGroup = require('react-radio-group');
+
+// This next one is required for Material UI click events to work properly,
+// until React v1.0 is released.
+var injectTapEventPlugin = require('react-tap-event-plugin');
+injectTapEventPlugin();
+
+// Material UI modules
 const MenuItem = require('material-ui/lib/menu/menu-item'); 
 const LeftNav = require('material-ui/lib/left-nav');
+const List = require('material-ui/lib/lists/list');
+const ListDivider = require('material-ui/lib/lists/list-divider');
+const ListItem = require('material-ui/lib/lists/list-item');
 
-// User modules
+//=========================== USER MODULES =========================//
 import AbsoluteGrid from './utility/react-absolute-grid/AbsoluteGrid.js';
 
 
@@ -99,6 +109,11 @@ var App = React.createClass({
 		return React.createElement(calculator.get('view'), { key: key, data: calculator, dispatch: this.props.dispatch });
  	},
 
+ 	listItemClicked: function(event) {
+ 		console.log('listItemClicked() called with event.target.textContent = ');
+ 		console.log(event.target.textContent);
+ 	},
+
 	render: function() {
 
 		var that = this;
@@ -142,6 +157,26 @@ var App = React.createClass({
 				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 					{/* First tab is static and non-removable */}
 					<Tab eventKey={0} title="Calculators">
+						<Panel collapsible header="Filter">	
+							<List>
+								<ListItem primaryText="Sent mail" onTouchTap={this.listItemClicked}/>
+								<ListItem primaryText="Drafts" />
+								<ListItem
+								primaryText="Inbox"							
+								initiallyOpen={true}
+								nestedItems={[
+								  <ListItem primaryText="Starred" />,
+								  <ListItem
+								    primaryText="Sent Mail"		
+								    nestedItems={[
+								      <ListItem primaryText="Drafts" />,
+								    ]}
+								  />,
+								]}
+								/>
+							</List>
+						</Panel>
+
 						{/* This is used to narrow down on the desired calculator */}
 						<Input
 					        type="text"
