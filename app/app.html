@@ -4,13 +4,12 @@
     <meta charset="utf-8">
     <title>Electron Boilerplate</title>
 
-    <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+    
 
     <script src="vendor/electron_boilerplate/env_config.js"></script>
     <script src="vendor/electron_boilerplate/context_menu.js"></script>
     <script src="vendor/electron_boilerplate/external_links.js"></script>
-
-    <script src="app.js"></script>
+    <link rel="stylesheet" href="./lib/katex/katex.min.css">
    
 </head>
 <body>
@@ -27,7 +26,28 @@
     </div>-->
 
     <div id="content"></div>
-    <script src="test.js"></script>
+    <script type="text/javascript">
+        // This is that all javascript running in the renderer process can get access to the
+        // root path of the application (not process.cwd(), this returns the NinjaCalc folder).
+        // However, the import statement in ES6 must be static, so this is not much use
+        window.appRoot = __dirname;
+    </script>
+    <script src="app.js"></script>
+
+    <!-- Bootstrap CSS is needed for react-bootstrap to style correctly -->
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.5-dist/css/bootstrap.css">
+
+    <!-- Including this CSS so that the react-select select boxes are styled correctly -->
+    <link rel="stylesheet" href="./node_modules/react-select/dist/react-select.css">
+    <link rel="stylesheet" href="./node_modules/react-dropdown/style.css">
+
+
+
+    <!-- Make sure to add this CSS last, so to override any 3rd party ones -->
+    <link href="./stylesheets/main.css" rel="stylesheet" type="text/css">
+
+    <!-- DELETE THIS AT SOME POINT -->
+    <script src="https://cdn.polyfill.io/v1/polyfill.min.js"></script>
 <!--
     <script> 
     window.$(function(){

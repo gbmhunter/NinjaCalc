@@ -1,3 +1,12 @@
+//!
+//! @file               build.js
+//! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+//! @created            2015-11-02
+//! @last-modified      2015-11-19
+//! @brief              Contains the instructions for building the app.
+//! @details
+//!     See README.rst in repo root dir for more info.
+
 'use strict';
 
 var pathUtil = require('path');
@@ -18,9 +27,14 @@ var destDir = projectDir.cwd('./build');
 
 var paths = {
     copyFromAppDir: [
+        // It is assumed that all files in node_modules are ready for use (this is not
+        // always the case!!!)
         './node_modules/**',
         './vendor/**',
+        // All html files can be copied over without any processing
         './**/*.html',
+        // Copies over images used as icons in the calculator grid
+        './**/*.png',
         './lib/**',
         './view/**',
     ],
@@ -42,12 +56,19 @@ gulp.task('clean', function(callback) {
 
 
 var copyTask = function () {
+    console.log('copyTask() called.');
+    return gulp.src(paths.copyFromAppDir, { cwd: './app/', base: './app/'})
+        .pipe(changed(destDir.path()))
+        .pipe(print())
+        .pipe(gulp.dest(destDir.path()));
+    /*
     return projectDir.copyAsync('app', destDir.path(), {
         overwrite: true,
         matching: paths.copyFromAppDir
-    });
+    });*/
 };
-gulp.task('copy', ['clean'], copyTask);
+//gulp.task('copy', ['clean'], copyTask);
+gulp.task('copy', copyTask);
 gulp.task('copy-watch', copyTask);
 
 
@@ -79,7 +100,7 @@ var bundle = function (src, dest) {
 var bundleApplication = function () {
     return Q.all([
         bundle(srcDir.path('background.js'), destDir.path('background.js')),
-        bundle(srcDir.path('app.js'), destDir.path('app.js')),
+        //bundle(srcDir.path('app.js'), destDir.path('app.js')),
     ]);
 };
 
@@ -98,7 +119,8 @@ var bundleTask = function () {
     }
     return bundleApplication();
 };
-gulp.task('bundle', ['clean'], bundleTask);
+//gulp.task('bundle', ['clean'], bundleTask);
+gulp.task('bundle', bundleTask);
 gulp.task('bundle-watch', bundleTask);
 
 
@@ -107,11 +129,13 @@ var lessTask = function () {
     .pipe(less())
     .pipe(gulp.dest(destDir.path('stylesheets')));
 };
-gulp.task('less', ['clean'], lessTask);
+//gulp.task('less', ['clean'], lessTask);
+gulp.task('less', lessTask);
 gulp.task('less-watch', lessTask);
 
 
-gulp.task('finalize', ['clean'], function () {
+//gulp.task('finalize', ['clean'], function () {
+    gulp.task('finalize', function () {
     var manifest = srcDir.read('package.json', 'json');
     // Add "dev" or "test" suffix to name, so Electron will write all data
     // like cookies and localStorage in separate places for each environment.
@@ -128,20 +152,44 @@ gulp.task('finalize', ['clean'], function () {
     destDir.write('package.json', manifest);
 
     var configFilePath = projectDir.path('config/env_' + utils.getEnvName() + '.json');
-    destDir.copy(configFilePath, 'env_config.json');
+    destDir.copy(
+        configFilePath,
+        'env_config.json',
+        { overwrite: true }
+    );
 });
 
 
 gulp.task('watch', function () {
+    console.log('watch task started.');
     // These should really be uncommented!!!
     //gulp.watch('app/**/*.js', ['bundle-watch']);
     //gulp.watch(paths.copyFromAppDir, { cwd: 'app' }, ['copy-watch']);
-    gulp.watch('app/**/*.less', ['less-watch']);
-    gulp.watch('app/**/*.jsx', ['compile-watch']);
+    var watcher1 = gulp.watch('app/**/*.less', ['less-watch']);
+    watcher1.on('change', function (event) {
+        console.log('Event type: ' + event.type); // added, changed, or deleted
+        console.log('Event path: ' + event.path); // The path of the modified file
+    });
+    var watcher2 = gulp.watch('app/**/*.jsx', ['compile-watch']);
+    watcher2.on('change', function (event) {
+        console.log('Event type: ' + event.type); // added, changed, or deleted
+        console.log('Event path: ' + event.path); // The path of the modified file
+    });
 });
 
+//! @brief      Performs ES6/ES7 -> ES5 transformations, as well as compiling .jsx (React components) files
+//!             into normal .js fils.
 var compileWatchTask = function() {
-    return gulp.src(['app/*.jsx', 'app/node_modules/react-draggable-tab/**/*.js', '!app/node_modules/react-draggable-tab/node_modules/**/*'],  
+    console.log('compileWatchTask() called.');
+    return gulp.src(
+        // Can't seem to exclude a large directory, and then specifically include parts of it.
+        [
+            'app/**/*.jsx',
+            //'app/calculators/**/*',
+            '!app/node_modules/**/*',
+            //'app/node_modules/react-draggable-tab/**/*.js',
+            //'!app/node_modules/react-draggable-tab/node_modules/**/*'
+        ],  
 
         // This base variable preserves the directory structure within /src/ when it compiles
         // it and copies it to build/
@@ -160,7 +208,9 @@ var compileWatchTask = function() {
 }
 
 // Incremental compile ES6, JSX files with sourcemaps
-gulp.task('compile', ['clean', 'copy'], compileWatchTask);
+//gulp.task('compile', ['clean', 'copy'], compileWatchTask);
+gulp.task('compile', ['copy'], compileWatchTask);
+
 //gulp.task('compile', compileWatchTask);
 gulp.task('compile-watch', compileWatchTask);
 

@@ -26,6 +26,8 @@ app.on('ready', function () {
         height: mainWindowState.height
     });
 
+    //mainWindow.webContent.appRoot = 'blah';
+
     if (mainWindowState.isMaximized) {
         mainWindow.maximize();
     }
