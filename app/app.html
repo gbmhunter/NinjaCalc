@@ -26,6 +26,12 @@
     </div>-->
 
     <div id="content"></div>
+    <script type="text/javascript">
+        // This is that all javascript running in the renderer process can get access to the
+        // root path of the application (not process.cwd(), this returns the NinjaCalc folder).
+        // However, the import statement in ES6 must be static, so this is not much use
+        window.appRoot = __dirname;
+    </script>
     <script src="app.js"></script>
 
     <!-- Bootstrap CSS is needed for react-bootstrap to style correctly -->

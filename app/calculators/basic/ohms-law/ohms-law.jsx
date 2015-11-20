@@ -12,6 +12,12 @@ import React from 'react';
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 import { Panel } from 'react-bootstrap';
 
+console.log('window.appRoot (before) = ' + window.appRoot);
+window.appRoot = 'test';
+console.log('window.appRoot (after) = ' + window.appRoot);
+
+console.log('ohms law process.cwd = ' + process.cwd());
+
 // User modules
 import { getVal } from '../../../utility/utility.js';
 import { CalcTable } from '../../../components/CalcTable.js';

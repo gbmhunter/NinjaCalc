@@ -2,13 +2,14 @@
 //! @file               app.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-17
+//! @last-modified      2015-11-20
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
 //import React, { Component } from 'react';
 
+// npm modules
 import React from 'react';
 import ReactDOM from 'react-dom';
 // Redux utility functions
@@ -21,15 +22,11 @@ import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab } from 'react-bootst
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 var Latex = require('react-latex');
-
-//import Tabs from './utility/react-draggable-tab/components/Tabs';
-//import Tab from './utility/react-draggable-tab/components/Tab';
-
-
 var ReactRadioGroup = require('react-radio-group');
 
+// User modules
 import AbsoluteGrid from './utility/react-absolute-grid/AbsoluteGrid.js';
-//var ReactGridLayout = require('react-grid-layout');
+
 
 const finalCreateStore = compose(
   // Enables your middleware:
@@ -55,6 +52,9 @@ const store = finalCreateStore(defaultReducer);
 import * as lt3745Calc from './calculators/chip-specific/lt3745/lt3745.js';
 import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 import * as resistorDividerCalc from './calculators/basic/resistor-divider/resistor-divider.js';
+
+
+
 
 // Calculators are loaded into Redux state in the onMount function of the react App
 
