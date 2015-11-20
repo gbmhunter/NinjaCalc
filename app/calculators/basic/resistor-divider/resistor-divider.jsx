@@ -202,6 +202,26 @@ export var data = {
 			showRadio: true,			
 		},
 
+		//==================================================================================//
+		//======================================== iq ======================================//
+		//==================================================================================//
+		{
+			id: 'iq',
+			name: 'Quiescent Current',
+			symbol: '$I_{q}$',
+			dispVal: '',
+			units: [
+				{ label: 'mA', eq: 1e-3 },
+				{ label: 'A', eq: 1 },
+			],
+			selUnitValue: 'mA',		
+			direction: 'output',
+			outputFn: function(vars) {						
+				return  (getVal(vars, 'vIn')/(getVal(vars, 'r1') + getVal(vars, 'r2')));				
+			},
+			showRadio: false,			
+		},
+
 	],
 }
 
