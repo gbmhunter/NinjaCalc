@@ -72,6 +72,7 @@ var ohmsLawCalc = {
 			name: 'Voltage',
 			symbol: '$V$',
 			dispVal: '',
+			sf: 3,
 			units: [
 				{ label: 'mV', eq: 1e-3 },
 				{ label: 'V', eq: 1 },
@@ -97,6 +98,7 @@ var ohmsLawCalc = {
 			name: 'Current',
 			symbol: '$I$',
 			dispVal: '',
+			sf: 3,
 			units: [
 				{ label: 'nA', eq: 1e-9 },
 				{ label: 'uA', eq: 1e-6 },
@@ -124,6 +126,7 @@ var ohmsLawCalc = {
 			name: 'Resistance',
 			symbol: '$R$',
 			dispVal: '',
+			sf: 3,
 			units: [
 				{ label: 'm‎Ω', eq: 1e-3 },
 				{ label: '‎Ω', eq: 1 },

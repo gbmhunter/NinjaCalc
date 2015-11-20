@@ -9,3 +9,4 @@ v0.1.0
 - Centered the calculator tables in the middle of their tabs, closes #11.
 - Centered the text in the calculator table for the variable name and symbol, closes #10.
 - Added the ability to specify the size of a calculator (e.g. small, medium, large), closes #8.
+- Added rounding to calculator outputs, closes #12.

@@ -2,7 +2,7 @@
 //! @file               lt3745.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-03
-//! @last-modified      2015-11-17
+//! @last-modified      2015-11-20
 //! @brief              Contains the data for the LT3745 calculator.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -15,7 +15,7 @@ var PureRenderMixin = require('react-addons-pure-render-mixin');
 import { getVal } from '../../../utility/utility.js';
 import * as calcActions from '../../../actions/calc-actions.js';
 import { CalcTable } from '../../../components/CalcTable.js';
-import { CalcTableRow } from '../../../components/CalcTableRow.js';
+//import { CalcTableRow } from '../../../components/CalcTableRow.js';
 
 export var data = {
 
@@ -50,13 +50,12 @@ export var data = {
 	vars: [
 
 		//==============================================================================//
-		//================================== vSupp =====================================//
+		//================================ vSupp (input) ===============================//
 		//==============================================================================//
 		{
 			id: 'vSupp',
 			name: 'Supply Voltage',
 			symbol: '$V_{CC}$',
-			val: '2',
 			units: [
 				{ label: 'V', eq: 1 },
 			],		
@@ -81,7 +80,6 @@ export var data = {
 			id: 'vLoad',
 			name: 'Load Voltage',
 			symbol: '$V_{load}$',
-			val: '2',
 			units: [
 				{ label: 'V', eq: 1 },
 			],	
@@ -106,7 +104,6 @@ export var data = {
 			id: 'vOutMax',
 			name: 'Maximum Output Voltage',
 			symbol: '$V_{out(max)}$',
-			val: '2',
 			units: [
 				{ label: 'V', eq: 1 },
 			],	
@@ -131,7 +128,7 @@ export var data = {
 			id: 'vInMin',
 			name: 'Minimum Input Voltage',
 			symbol: '$V_{in(min)}$',
-			val: '2',
+			sf: 3,
 			units: [
 				{ label: 'V', eq: 1 },
 			],
@@ -212,6 +209,7 @@ export var data = {
 			id: 'rfb2',
 			name: 'Feedback Resistor 2',
 			symbol: '$R_{fb2}$',
+			sf: 3,
 			units: [
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },
@@ -247,6 +245,7 @@ export var data = {
 			id: 'rSense',
 			name: 'Sense Resistance',
 			symbol: '$R_{sense}$',
+			sf: 3,
 			units: [
 				{ label: 'mΩ', eq: 1e-3 },
 				{ label: 'Ω', eq: 1 },
@@ -266,6 +265,7 @@ export var data = {
 			id: 'Sense Resistance Power Dissipation',
 			name: 'Prsense',
 			symbol: '$P_{Rsense}$',
+			sf: 3,
 			units: [
 				{ label: 'mW', eq: 1e-3 },
 				{ label: 'W', eq: 1 },
@@ -309,6 +309,7 @@ export var data = {
 			id: 'riSet',
 			name: 'Current Set Resistance',
 			symbol: '$R_{iset}$',
+			sf: 3,
 			units: [
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },
@@ -343,6 +344,7 @@ export var data = {
 			id: 'dMin',
 			name: 'Minimum Duty Cycle',
 			symbol: '$D_{min}$',
+			sf: 3,
 			units: [
 				{ label: '%', eq: 1e-2 },				
 			],
@@ -361,6 +363,7 @@ export var data = {
 			id: 'dMax',
 			name: 'Maximum Duty Cycle',
 			symbol: '$D_{max}$',
+			sf: 3,
 			units: [
 				{ label: '%', eq: 1e-2 },				
 			],
@@ -427,6 +430,7 @@ export var data = {
 			id: 'fSwMax',
 			name: 'Maximum Switching Frequency',
 			symbol: '$f_{sw(max)}$',
+			sf: 3,
 			units: [
 				{ label: 'kHz', eq: 1e3 },				
 			],
@@ -477,6 +481,7 @@ export var data = {
 			id: 'fugf',
 			name: 'Unity-gain Frequency',
 			symbol: '$f_{ugf}$',
+			sf: 3,
 			units: [
 				{ label: 'kHz', eq: 1e3 },				
 			],
@@ -496,6 +501,7 @@ export var data = {
 			id: 'rt',
 			name: 'Frequency-setting Resistance',
 			symbol: '$R_{T}$',
+			sf: 3,
 			units: [
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },				
@@ -547,6 +553,7 @@ export var data = {
 			id: 'rtSet',
 			name: 'Temperature Set Resistance',
 			symbol: '$R_{TSET}$',
+			sf: 3,
 			units: [
 				{ label: 'Ω', eq: 1 },
 				{ label: 'kΩ', eq: 1e3 },				
@@ -567,6 +574,7 @@ export var data = {
 			id: 'cOutMin',
 			name: 'Minimum Output Capacitance',
 			symbol: '$C_{out(min)}$',
+			sf: 3,
 			units: [
 				{ label: 'uF', eq: 1e-6 },				
 			],
@@ -587,6 +595,7 @@ export var data = {
 			id: 'iLDelta',
 			name: 'Inductor Ripple Current',
 			symbol: '$I_{L(delta)}$',
+			sf: 3,
 			units: [
 				{ label: '%', eq: 1e-2 },				
 			],
@@ -611,6 +620,7 @@ export var data = {
 			id: 'lMin',
 			name: 'Minimum Inductance',
 			symbol: '$L_{min}$',
+			sf: 3,
 			units: [
 				{ label: 'uH', eq: 1e-6 },				
 			],
@@ -625,7 +635,7 @@ export var data = {
 		},
 
 		//==============================================================================//
-		//================================= Vin(ripple) ================================//
+		//============================== Vin(ripple) (input) ===========================//
 		//==============================================================================//
 		{
 			id: 'vInRipple',
@@ -655,6 +665,7 @@ export var data = {
 			id: 'cInMin',
 			name: 'Minimum Input Capacitance',
 			symbol: '$C_{in(min)}$',
+			sf: 3,
 			units: [
 				{ label: 'uF', eq: 1e-6 },				
 			],

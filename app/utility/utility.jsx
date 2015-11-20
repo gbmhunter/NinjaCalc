@@ -87,6 +87,7 @@ export function findUnitIndexByLabel(unitArray, label) {
 	throw 'Couldn\'t find unit with label = "' + label + '".';
 }
 
+/*
 //! @brief		Re-calculates all output variables in a calculator.
 export function reCalcOutputs(vars) {
 
@@ -132,7 +133,7 @@ export function reCalcOutputs(vars) {
 	});	
 
 	return vars;
-}
+}*/
 
 //! @brief		Re-calculates all variables in the calculator (i.e. rawVal's from dispVal's for inputs,
 //!				dispVal's from rawVal's for outputs).
@@ -167,6 +168,8 @@ export function reCalcAll(vars) {
 	// Now loop through all outputs
 	// The order of these DOES matter, we have
 	// to do a topological sort
+	// Another difference between inputs and outputs is that outputs could be
+	// rounded to a specific number of significant figures
 	vars.forEach((calcVar, index) => {
 		//console.log('vars.forEach() called with calcVar = ');
 		//console.log(calcVar.toJS());
@@ -201,6 +204,20 @@ export function reCalcAll(vars) {
 			} else {
 				//console.log('eq for "' + calcVar.units[selUnitIndex].label + '" units is a number.');
 				dispVal = rawVal/calcVar.getIn(['units', selUnitIndex, 'eq']);
+			}
+
+			// The last thing we have to do with the displayed value is round it to the specified number
+			// of significant figures, if provided.
+			var sf = calcVar.get('sf');
+			if(typeof(sf) !== 'undefined') {
+				// Significant figures have been provided, let's round the displayed value
+				// (note that this does not modify the rawValue, so this rounding does not impact the precision
+				// of other calculations)
+				dispVal = dispVal.toPrecision(sf);
+
+				// Note that this will add trailing 0's as padding, which we don't want. To remove these,
+				// we now convert the string back into a float
+				dispVal = parseFloat(dispVal);
 			}
 
 

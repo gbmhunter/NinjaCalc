@@ -81,6 +81,7 @@ export var data = {
 			name: 'Input Voltage',
 			symbol: '$V_{in}$',
 			dispVal: '',
+			sf: 3,
 			units: [
 				{ label: 'mV', eq: 1e-3 },
 				{ label: 'V', eq: 1 },
@@ -111,6 +112,7 @@ export var data = {
 			name: 'Resistor 1 (top resistor)',
 			symbol: '$R1$',
 			dispVal: '',
+			sf: 3,
 			units: [
 				{ label: 'm‎Ω', eq: 1e-3 },
 				{ label: '‎Ω', eq: 1 },
@@ -143,6 +145,7 @@ export var data = {
 			name: 'Resistor 2 (bottom resistor)',
 			symbol: '$R2$',
 			dispVal: '',
+			sf: 3,
 			units: [
 				{ label: 'm‎Ω', eq: 1e-3 },
 				{ label: '‎Ω', eq: 1 },
@@ -174,6 +177,7 @@ export var data = {
 			name: 'Output Voltage',
 			symbol: '$V_{out}$',
 			dispVal: '',
+			sf: 3,
 			units: [
 				{ label: 'mV', eq: 1e-3 },
 				{ label: 'V', eq: 1 },
@@ -210,6 +214,7 @@ export var data = {
 			name: 'Quiescent Current',
 			symbol: '$I_{q}$',
 			dispVal: '',
+			sf: 3,
 			units: [
 				{ label: 'mA', eq: 1e-3 },
 				{ label: 'A', eq: 1 },
