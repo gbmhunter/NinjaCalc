@@ -2,15 +2,17 @@
 //! @file               calc-reducer.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-20
+//! @last-modified      2015-11-21
 //! @brief              Contains the "redux" reducer for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
 'use strict';
 
+//=========== npm MODULES ==========//
 var immutable = require('immutable');
 
+//=========== USER MODULES ==========//
 import * as utility from '../utility/utility.js';
 import * as calcActions from '../actions/calc-actions.js';
 
@@ -310,73 +312,29 @@ export default function defaultReducer(state = initialState, action) {
 		//==============================================================================//
 			
 		case calcActions.SET_VAR_UNITS:
-			console.log('calcActions.SET_VAR_UNITS action received.');
+			console.log('calcActions.SET_VAR_UNITS action received with action =');
+			console.log(action);
 
 			// First find the index of the calculator the variable/value belongs to			
-			var calcIndex = utility.findCalcIndexById(state.get('openCalculators'), action.calcId);
-			console.log('calcIndex = ' + calcIndex);
+			//var calcIndex = utility.findCalcIndexById(state.get('openCalculators'), action.calcId);
+			//console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.getIn(['openCalculators', calcIndex, 'vars']), action.varId);
+			var varIndex = utility.findVarIndexById(state.getIn(['openCalculators', action.calcInstance, 'vars']), action.varId);
 			console.log('varIndex = ' +  varIndex);	
 
-			// Copy vars array for the relevant calculator
-			//var vars = [...state.calculators[calcIndex].vars];
-			/*
-			// Save in the new selected unit value
-			vars = [
-				...vars.slice(0, varIndex),
-				Object.assign({}, vars[varIndex], {
-					selUnitValue: action.unitValue,					
-				}),
-				...vars.slice(varIndex + 1)
-			];*/
-
-			state = state.setIn(['oepnCalculators', calcIndex, 'vars', varIndex, 'selUnitValue'], action.unitValue);
+			state = state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'selUnitValue'], action.unitValue);
 
 			// Since the units have been changed for this variable, the raw value will change
 			// Calculate new raw value for this variable
-			var rawVal = utility.calcRawValFromDispVal(state.getIn(['openCalculators', calcIndex, 'vars', varIndex]));
+			var rawVal = utility.calcRawValFromDispVal(state.getIn(['openCalculators', action.calcInstance, 'vars', varIndex]));
 
 			//var rawVal = vars[varIndex].dispVal*action.unitValue;
 			console.log('New rawVal = ' + rawVal);
 
-			state = state.setIn(['openCalculators', calcIndex, 'vars', varIndex, 'rawVal'], rawVal);
-
-/*
-			// Save in the new raw value
-			vars = [
-				...vars.slice(0, varIndex),
-				Object.assign({}, vars[varIndex], {
-					rawVal: rawVal,
-				}),
-				...vars.slice(varIndex + 1)
-			];*/
-
-			// This has essentially changed the value of the input associated with the units,
-			// so we need to recalculate outputs again
-			//console.log('Re-calculating outputs.');
-			//vars = utility.reCalcOutputs(vars);
-			var calcVars = utility.reCalcAll(state.getIn(['openCalculators', calcIndex, 'vars']));
-			//console.log('rfb2 = ' + calcVars.getIn([6, 'dispVal']));
-
-			state = state.setIn(['openCalculators', calcIndex, 'vars'], calcVars);
-			
-			
-			/*
-			// Finally, return with our modified vars array
-			return Object.assign({}, state, {
-				calculators: [
-					...state.calculators.slice(0, calcIndex),
-					Object.assign({}, state.calculators[calcIndex], {
-						vars: vars
-					}),
-					...state.calculators.slice(calcIndex + 1)
-				]
-			});*/
+			state = state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'rawVal'], rawVal);
 
 			return state.asImmutable();
-
 
 
 		//==============================================================================//
@@ -386,14 +344,14 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('calcActions.SET_CALC_WHAT action received.');
 
 			// First find the index of the calculator the variable/value belongs to			
-			var calcIndex = utility.findCalcIndexById(state.get('openCalculators'), action.calcId);
-			console.log('calcIndex = ' + calcIndex);
+			//var calcIndex = utility.findCalcIndexById(state.get('openCalculators'), action.calcId);
+			//console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
-			var varIndex = utility.findVarIndexById(state.getIn(['openCalculators', calcIndex, 'vars']), action.varId);
+			var varIndex = utility.findVarIndexById(state.getIn(['openCalculators', action.calcInstance, 'vars']), action.varId);
 			console.log('varIndex = ' +  varIndex);		
 
-			var vars = state.getIn(['openCalculators', calcIndex, 'vars'])
+			var vars = state.getIn(['openCalculators', action.calcInstance, 'vars'])
 
 			vars = vars.map(function(calcVar, index){
 				if(index == varIndex) {
@@ -410,7 +368,7 @@ export default function defaultReducer(state = initialState, action) {
 			// Now that they have been changed, when need to re-calculate outputs
 			vars = utility.reCalcAll(vars);
 
-			state = state.setIn(['openCalculators', calcIndex, 'vars'], vars);
+			state = state.setIn(['openCalculators', action.calcInstance, 'vars'], vars);
 
 			return state.asImmutable();
 			

@@ -38,17 +38,17 @@ export function findVarIndexById(varArray, id) {
 }
 
 export function calcRawValFromDispVal(calcVar) {
-	//console.log('utility.calcRawValFromDispVal() called with calcVar =.');
-	//console.log(calcVar);
+	console.log('utility.calcRawValFromDispVal() called with calcVar.toJS() =');
+	console.log(calcVar.toJS());
 
 
 	var selUnitLabel = calcVar.get('selUnitValue');
-	//console.log('Selected unit label = ' + selUnitLabel);
+	console.log('Selected unit label = ' + selUnitLabel);
 
 	var selUnitIndex = findUnitIndexByLabel(
 		calcVar.get('units'),
 		selUnitLabel);
-	//console.log('Selected unit index = ' + selUnitIndex);
+	console.log('Selected unit index = ' + selUnitIndex);
 
 	// Now we need to work out whether the 'eq' variable for the selected unit is just a number (a multiplier)
 	// or an object with two functions
