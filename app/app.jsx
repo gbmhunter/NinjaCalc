@@ -23,6 +23,8 @@ var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 var Latex = require('react-latex');
 var ReactRadioGroup = require('react-radio-group');
+const MenuItem = require('material-ui/lib/menu/menu-item'); 
+const LeftNav = require('material-ui/lib/left-nav');
 
 // User modules
 import AbsoluteGrid from './utility/react-absolute-grid/AbsoluteGrid.js';
@@ -109,8 +111,33 @@ var App = React.createClass({
 			return gridElement;
 		});
 
+		var menuItems = [
+		  { route: 'get-started', text: 'Get Started' },
+		  { route: 'customization', text: 'Customization' },
+		  { route: 'components', text: 'Components' },
+		  { type: MenuItem.Types.SUBHEADER, text: 'Resources' },
+		  {
+		     type: MenuItem.Types.LINK,
+		     payload: 'https://github.com/callemall/material-ui',
+		     text: 'GitHub'
+		  },
+		  {
+		     text: 'Disabled',
+		     disabled: true
+		  },
+		  {
+		     type: MenuItem.Types.LINK,
+		     payload: 'https://www.google.com',
+		     text: 'Disabled Link',
+		     disabled: true
+		  },
+		];
+
 		return (
 			<div className="app">	
+				{/* Docked Left Nav */}
+				<LeftNav ref="leftNav" menuItems={menuItems} docked={false} />
+
 				{/* Tabs are the main view element on the UI */}
 				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 					{/* First tab is static and non-removable */}
