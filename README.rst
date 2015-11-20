@@ -8,28 +8,29 @@ A embedded engineering calculator suite that's got your back.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2015-11-15
-- Version: v0.0.0
+- Last Modified: 2015-11-20
+- Version: v0.1.0
 - Company: mbedded.ninja
 - Project: NinjaTerm
-- Language: HTML, js, css
-- Compiler: n/a
+- Language: HTML, js, jsx, LESS
+- Compiler: gulp-based system
 - uC Model: Any
 - Computer Architecture: Any
-- Operating System: Any
+- Operating System: Windows/Linux/iOS
 - Documentation Format: Doxygen
 - License: GPLv3
 
 Motivation
 ==========
 
-
+The goal of this is to provide a sleek desktop application to help you with all those small, frequent calculations you do while designing an embedded product. Whether it be a low-pass LC filter, a resistor divider, or even just Ohm's law (o.k., I hope you don't forget that one, but it is included none-the-less), this app makes them easy to find, use, and have confidence in the answers.
 
 Features
 --------
 
 - Suite of useful embedded-engineering related calculators.
-- Dynamic unit-changing support (including metric and imperial units).
+- As-you-type updating
+- Dynamic unit-changing support (including various metric and imperial units).
 - Continuously checking validators which make sure calculator variables are "within range/sensible".
 - Powerful and compact language for describing new calculators, making it easy to add your own if so wanted!
 
@@ -39,7 +40,7 @@ Installation
 The Windows method:
 -------------------
 
-#. Download the latest release installer from https://github.com/mbedded-ninja/NinjaTerm/releases.
+#. Download the latest release installer from https://github.com/mbedded-ninja/NinjaCalc/releases.
 #. Run the installer and done!
 
 The Cross-platform Method (Windows, Linux, MacOS):
@@ -103,6 +104,10 @@ Contains the source code. This is split into the following sub-directories:
 
 actions/ - Contains all the "actions" (aka events) that are recognised by the Redux-based state machine.
 
+calculators/ - Contains all of the data to create each calculator type.
+
+components/ - Contains custom re-usable react components which are used by the view objects.
+
 img/ - Contains images which are incorporated into the app.
 
 lib/ - Contains all 3rd party code libraries which are not managed as npm dependencies.
@@ -111,13 +116,9 @@ misc/ - Contains miscellaneous and generic Javascript helper functions (e.g. str
 
 modules/ - Non-third party javascript modules that are used by the view. Anything that is not specifically 'view' related, but is used by the view (perhaps in many places), should go in here.
 
-react-components/ - Contains custom re-usable react components which are used by the view objects.
-
 reducers/ - Contains the "reducers" for the Redux-based state machine. They take in the current state and an action which has occurred, and return the next state.
 
 style/ - Contains the :code:`.less` files which style the app. :code:`.less` files in :code:`src/` get compiled into :code:`.css` files in :code:`build/` as part of the compile step.
-
-view/ - Contains :code:`.html` (view structure) and :code:`.jsx` (React view models) for the views. For example, a particular view might be the main window, or the splash-screen.
 
 
 Code Dependencies
@@ -132,3 +133,5 @@ See changelog.md.
 
 Contributors
 ============
+
+Thanks to Phillip Abplanalp for user-interaction guidance and tips!
