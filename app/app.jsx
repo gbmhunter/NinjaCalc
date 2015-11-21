@@ -23,7 +23,8 @@ var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 var Latex = require('react-latex');
 var ReactRadioGroup = require('react-radio-group');
-import TreeView from 'react-treeview';
+//import TreeView from 'react-treeview';
+import { TreeView } from './utility/react-bootstrap-treeview/react-bootstrap-treeview.js';
 
 // This next one is required for Material UI click events to work properly,
 // until React v1.0 is released.
@@ -73,6 +74,34 @@ import * as resistorDividerCalc from './calculators/basic/resistor-divider/resis
 
 
 //class App extends React.Component {
+
+	var data = [
+		{
+		text: "Electronics",
+		nodes: [
+		  {
+		    text: "PCB Design",
+		    nodes: [
+		      {
+		        text: "Grandchild 1"
+		      },
+		      {
+		        text: "Grandchild 2"
+		      }
+		    ]
+		  },
+		  {
+		    text: "Basic"
+		  }
+		]
+		},
+		{
+		text: "Mechanical"
+		},
+		{
+		text: "Software"
+		},
+		];
 
 var App = React.createClass({
 
@@ -149,6 +178,8 @@ var App = React.createClass({
 		  },
 		];
 
+		
+
 
 		return (
 			<div className="app">	
@@ -161,6 +192,7 @@ var App = React.createClass({
 					<Tab eventKey={0} title="Calculators">
 						<div id='calculatorSelectionTab' >
 							<div className="calcCategories" >
+								<TreeView data={data} />
 								<List subheader="Category">
 									<ListItem 
 										primaryText="Electronics" />
