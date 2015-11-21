@@ -157,25 +157,20 @@ var App = React.createClass({
 				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 					{/* First tab is static and non-removable */}
 					<Tab eventKey={0} title="Calculators">
-						<Panel collapsible header="Filter">	
-							<List>
-								<ListItem primaryText="Sent mail" onTouchTap={this.listItemClicked}/>
-								<ListItem primaryText="Drafts" />
-								<ListItem
-								primaryText="Inbox"							
-								initiallyOpen={true}
-								nestedItems={[
-								  <ListItem primaryText="Starred" />,
-								  <ListItem
-								    primaryText="Sent Mail"		
-								    nestedItems={[
-								      <ListItem primaryText="Drafts" />,
-								    ]}
-								  />,
-								]}
-								/>
-							</List>
-						</Panel>
+						<div className="calcCategories">
+							<Input type="select" label="Filter 1" multiple>
+								<option value="select">select (multiple)</option>
+								<option value="other">...</option>
+							</Input>
+							<Input type="select" label="Filter 2" multiple>
+								<option value="select">select (multiple)</option>
+								<option value="other">...</option>
+							</Input>
+							<Input type="select" label="Filter 3" multiple>
+								<option value="select">select (multiple)</option>
+								<option value="other">...</option>
+							</Input>
+						</div>
 
 						{/* This is used to narrow down on the desired calculator */}
 						<Input
