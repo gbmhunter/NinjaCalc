@@ -47,17 +47,28 @@ div.tab-content {
 //================== CALCULATOR GRID TAB (FIRST TAB) STYLING =======================//
 //==================================================================================//
 
+#calculatorSelectionTab {
+  display: flex;
+}
+
 div.calcCategories {
-    display: flex;
+    //display: flex;
+
+    width: 250px;
+    margin-right: 20px;
 
     // This centers the category selection boxes into
     // the middle of the tab
-    justify-content: center;
+    //justify-content: center;
 
     div.form-group {
         margin-left: 10px;
         margin-right: 10px;
     }
+}
+
+div.rightCol {
+  flex: 1 1 auto;
 }
 
 .gridItem {

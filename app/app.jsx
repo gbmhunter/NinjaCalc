@@ -23,6 +23,7 @@ var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 var Latex = require('react-latex');
 var ReactRadioGroup = require('react-radio-group');
+import TreeView from 'react-treeview';
 
 // This next one is required for Material UI click events to work properly,
 // until React v1.0 is released.
@@ -148,6 +149,7 @@ var App = React.createClass({
 		  },
 		];
 
+
 		return (
 			<div className="app">	
 				{/* Docked Left Nav */}
@@ -157,44 +159,54 @@ var App = React.createClass({
 				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 					{/* First tab is static and non-removable */}
 					<Tab eventKey={0} title="Calculators">
-						<div className="calcCategories">
-							<Input type="select" label="Filter 1" multiple>
-								<option value="select">select (multiple)</option>
-								<option value="other">...</option>
-							</Input>
-							<Input type="select" label="Filter 2" multiple>
-								<option value="select">select (multiple)</option>
-								<option value="other">...</option>
-							</Input>
-							<Input type="select" label="Filter 3" multiple>
-								<option value="select">select (multiple)</option>
-								<option value="other">...</option>
-							</Input>
-						</div>
+						<div id='calculatorSelectionTab' >
+							<div className="calcCategories" >
+								<List subheader="Category">
+									<ListItem 
+										primaryText="Electronics" />
+									<ListItem primaryText="Mechanical" />
+									<ListItem
+										primaryText="Software"								
+										initiallyOpen={false}
+										nestedItems={[
+											<ListItem primaryText="Test1" />,
+											<ListItem
+											primaryText="Test2"								
+											nestedItems={[
+												<ListItem primaryText="Test3" />,
+											]}
+											/>,
+										]}
+									/>
+								</List>
+							</div>
 
-						{/* This is used to narrow down on the desired calculator */}
-						<Input
-					        type="text"
-					        value={this.props.state.get('searchTerm')}
-					        placeholder="Enter text"
-					        label="Search for calculator"
-					        hasFeedback
-					        ref="input"
-					        groupClassName="group-class"
-					        labelClassName="label-class"
-					        onChange={this.onSearchInputChange} />					        
-						<br />
-						<div>
-							{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
-							height larger, but not the width */}
-							<AbsoluteGrid
-								items={items}
-								itemWidth={240}
-								itemHeight={360}
-								responsive={true}
-								zoom={1}
-								animation="transform 300ms ease"/>							
-						</div>
+							<div className='rightCol'>
+								{/* This is used to narrow down on the desired calculator */}
+								<Input
+							        type="text"
+							        value={this.props.state.get('searchTerm')}
+							        placeholder="Enter text"
+							        label="Search for calculator"
+							        hasFeedback
+							        ref="input"
+							        groupClassName="group-class"
+							        labelClassName="label-class"
+							        onChange={this.onSearchInputChange} />					        
+								<br />
+								<div>
+									{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
+									height larger, but not the width */}
+									<AbsoluteGrid
+										items={items}
+										itemWidth={240}
+										itemHeight={360}
+										responsive={true}
+										zoom={1}
+										animation="transform 300ms ease"/>							
+								</div>
+							</div>
+						</div>{/* id='calculatorSelectionTab' */}
 					</Tab>
 					{
 						/* Let's create a visual tab for every calculator in the openCalculators array */
