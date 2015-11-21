@@ -40,7 +40,10 @@ const initialState = immutable.fromJS({
 export default function defaultReducer(state = initialState, action) {
 
 	// Allow state to be mutated, just remember to return immutable version
-	state.asMutable();
+	// This saves memory, and prevents bugs if developer forgets to write
+	// state = state.set()..., as we can now just write state.set()
+	// Make sure to return an immutable! e.g. return state.asImmutable().
+	state = state.asMutable();
 	console.log('defaultReducer() called.');
 
 	switch (action.type) {
@@ -111,7 +114,7 @@ export default function defaultReducer(state = initialState, action) {
 
 			// Add this new calculator to the end of the calculators array
 			var calculators = state.get('calculators').push(newCalc);
-			state = state.set('calculators', calculators);
+			state.set('calculators', calculators);
 
 			var gridElement = {
 				key: state.get('gridElements').size,
@@ -125,7 +128,7 @@ export default function defaultReducer(state = initialState, action) {
 			};
 
 			// Add calculator to grid
-			state = state.setIn(['gridElements', state.get('gridElements').size], immutable.fromJS(gridElement));
+			state.setIn(['gridElements', state.get('gridElements').size], immutable.fromJS(gridElement));
 
 			//console.log('state.gridElements = ');
 			//console.log(state.get('gridElements').toJS());
@@ -210,7 +213,7 @@ export default function defaultReducer(state = initialState, action) {
 		case calcActions.SET_ACTIVE_TAB:
 			console.log('calcActions.SET_ACTIVE_TAB action received with action.tabKey =' + action.tabKey);
 
-			state = state.set('activeTabKey', action.tabKey);
+			state.set('activeTabKey', action.tabKey);
 
 			return state.asImmutable();
 		//==============================================================================//
@@ -246,7 +249,7 @@ export default function defaultReducer(state = initialState, action) {
 			//var newVar = state.get('calculators').get(calcIndex).get('vars').get()
 
 			//console.log('Setting variable value...');
-			var state = state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'dispVal'], dispVal);	
+			state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'dispVal'], dispVal);	
 
 			// Copy vars array for the relevant calculator
 			/*var vars = [...state.get('calculators')[calcIndex].vars];
@@ -263,7 +266,7 @@ export default function defaultReducer(state = initialState, action) {
 
 			// Calculate the new raw value
 			var rawVal = utility.calcRawValFromDispVal(state.getIn(['openCalculators', action.calcInstance, 'vars', varIndex]));
-			state = state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'rawVal'], rawVal);
+			state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'rawVal'], rawVal);
 
 			//console.log('Raw value = ' + rawVal);
 
@@ -288,7 +291,7 @@ export default function defaultReducer(state = initialState, action) {
 			var calcVars = utility.reCalcAll(state.getIn(['openCalculators', action.calcInstance, 'vars']));
 			//console.log('rfb2 = ' + calcVars.getIn([6, 'dispVal']));
 
-			state = state.setIn(['openCalculators', action.calcInstance, 'vars'], calcVars);
+			state.setIn(['openCalculators', action.calcInstance, 'vars'], calcVars);
 
 			//console.log('state.rfb2 = ' + calcVars.getIn([6, 'dispVal']));
 
@@ -324,7 +327,7 @@ export default function defaultReducer(state = initialState, action) {
 			var varIndex = utility.findVarIndexById(state.getIn(['openCalculators', action.calcInstance, 'vars']), action.varId);
 			console.log('varIndex = ' +  varIndex);	
 
-			state = state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'selUnitValue'], action.unitValue);
+			state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'selUnitValue'], action.unitValue);
 
 			// Since the units have been changed for this variable, the raw value will change
 			// Calculate new raw value for this variable
@@ -333,12 +336,12 @@ export default function defaultReducer(state = initialState, action) {
 			//var rawVal = vars[varIndex].dispVal*action.unitValue;
 			console.log('New rawVal = ' + rawVal);
 
-			state = state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'rawVal'], rawVal);
+			state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'rawVal'], rawVal);
 
 			// We also need to re-calculate outputs
 			var calcVars = utility.reCalcAll(state.getIn(['openCalculators', action.calcInstance, 'vars']));			
 
-			state = state.setIn(['openCalculators', action.calcInstance, 'vars'], calcVars);
+			state.setIn(['openCalculators', action.calcInstance, 'vars'], calcVars);
 
 			return state.asImmutable();
 
@@ -374,7 +377,7 @@ export default function defaultReducer(state = initialState, action) {
 			// Now that they have been changed, when need to re-calculate outputs
 			vars = utility.reCalcAll(vars);
 
-			state = state.setIn(['openCalculators', action.calcInstance, 'vars'], vars);
+			state.setIn(['openCalculators', action.calcInstance, 'vars'], vars);
 
 			return state.asImmutable();
 			
