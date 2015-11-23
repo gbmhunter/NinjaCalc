@@ -2,53 +2,53 @@ import React from 'react';
 
 export var TreeView = React.createClass({
 
-  propTypes: {
-    levels: React.PropTypes.number,
+    propTypes: {
+        levels: React.PropTypes.number,
 
-    expandIcon: React.PropTypes.string,
-    collapseIcon: React.PropTypes.string,
-    emptyIcon: React.PropTypes.string,
-    nodeIcon: React.PropTypes.string,
+        expandIcon: React.PropTypes.string,
+        collapseIcon: React.PropTypes.string,
+        emptyIcon: React.PropTypes.string,
+        nodeIcon: React.PropTypes.string,
 
-    color: React.PropTypes.string,
-    backColor: React.PropTypes.string,
-    borderColor: React.PropTypes.string,
-    onhoverColor: React.PropTypes.string,
-    selectedColor: React.PropTypes.string,
-    selectedBackColor: React.PropTypes.string,
+        color: React.PropTypes.string,
+        backColor: React.PropTypes.string,
+        borderColor: React.PropTypes.string,
+        onhoverColor: React.PropTypes.string,
+        selectedColor: React.PropTypes.string,
+        selectedBackColor: React.PropTypes.string,
 
-    enableLinks: React.PropTypes.bool,
-    highlightSelected: React.PropTypes.bool,
-    showBorder: React.PropTypes.bool,
-    showTags: React.PropTypes.bool,
+        enableLinks: React.PropTypes.bool,
+        highlightSelected: React.PropTypes.bool,
+        showBorder: React.PropTypes.bool,
+        showTags: React.PropTypes.bool,
 
-    nodes: React.PropTypes.arrayOf(React.PropTypes.number)
-  },
+        nodes: React.PropTypes.arrayOf(React.PropTypes.number)
+    },
 
-  getDefaultProps: function () {
-    return {
-      levels: 2,
+    getDefaultProps: function () {
+        return {
+            levels: 2,
 
-      expandIcon: 'glyphicon glyphicon-plus',
-      collapseIcon: 'glyphicon glyphicon-minus',
-      emptyIcon: 'glyphicon',
-      nodeIcon: 'glyphicon glyphicon-stop',
+            expandIcon: 'glyphicon glyphicon-plus',
+            collapseIcon: 'glyphicon glyphicon-minus',
+            emptyIcon: 'glyphicon',
+            nodeIcon: 'glyphicon glyphicon-stop',
 
-      color: undefined,
-      backColor: undefined,
-      borderColor: undefined,
-      onhoverColor: '#F5F5F5', // TODO Not implemented yet, investigate radium.js 'A toolchain for React component styling'
-      selectedColor: '#FFFFFF',
-      selectedBackColor: '#428bca',
+            color: undefined,
+            backColor: undefined,
+            borderColor: undefined,
+            onhoverColor: '#F5F5F5', // TODO Not implemented yet, investigate radium.js 'A toolchain for React component styling'
+            selectedColor: '#FFFFFF',
+            selectedBackColor: '#428bca',
 
-      enableLinks: false,
-      highlightSelected: true,
-      showBorder: true,
-      showTags: false,
+            enableLinks: false,
+            highlightSelected: true,
+            showBorder: true,
+            showTags: false,
 
-      nodes: []
-    }
-  },
+            nodes: []
+        }
+    },
 
   setNodeId: function(node) {
 
@@ -104,15 +104,17 @@ var TreeNode = React.createClass({
     }
   },
 
-  toggleExpanded: function(id, event) {
-    this.setState({ expanded: !this.state.expanded });
-    event.stopPropagation();
-  },
+    toggleExpanded: function(id, event) {
+        console.log('toggleExpanded() called.');
+        this.setState({ expanded: !this.state.expanded });
+        event.stopPropagation();
+    },
 
-  toggleSelected: function(id, event) {
-    this.setState({ selected: !this.state.selected });
-    event.stopPropagation();
-  },
+    toggleSelected: function(id, event) {
+        console.log('toggleSelected() called.');
+        this.setState({ selected: !this.state.selected });
+        event.stopPropagation();
+    },
 
   render: function() {
 

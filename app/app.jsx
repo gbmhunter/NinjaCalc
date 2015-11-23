@@ -111,8 +111,8 @@ var App = React.createClass({
 
 		// Load in the calculators so the app knows about them
 		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
-		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
-		this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
+		//this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
+		//this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
 	},
 
 	handleSelect(key) {
@@ -193,6 +193,7 @@ var App = React.createClass({
 						<div id='calculatorSelectionTab' >
 							<div className="calcCategories" >
 								<TreeView data={data} />
+								{/*
 								<List subheader="Category">
 									<ListItem 
 										primaryText="Electronics" />
@@ -211,6 +212,7 @@ var App = React.createClass({
 										]}
 									/>
 								</List>
+								*/}
 							</div>
 
 							<div className='rightCol'>

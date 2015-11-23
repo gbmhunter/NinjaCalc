@@ -22,6 +22,7 @@ var ohmsLawCalc = {
 	id: 'ohmsLaw',
 	name: 'Ohm\'s Law',
 	description: 'The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm\'s law.',
+	categoryPath: [ 'Electronics', 'Basic' ],
 	tags: 'ohm, law, resistance, voltage, current',
 	imageSrc: __dirname + '/icon.png',
 

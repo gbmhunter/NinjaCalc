@@ -2,7 +2,7 @@
 //! @file               calc-reducer.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-21
+//! @last-modified      2015-11-23
 //! @brief              Contains the "redux" reducer for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -11,9 +11,11 @@
 
 //=========== npm MODULES ==========//
 var immutable = require('immutable');
+var TreeModel = require('tree-model');
 
 //=========== USER MODULES ==========//
 import * as utility from '../utility/utility.js';
+import * as immutableTree from '../utility/immutable-tree/immutable-tree.js';
 import * as calcActions from '../actions/calc-actions.js';
 
 //! @brief		Default/initial state for application.
@@ -23,7 +25,10 @@ const initialState = immutable.fromJS({
 	//!				these types when the user clicks the "Open" button.
 	//! @details	Calculators are loaded in the onMount() function of the React 'App' component.
 	//calculators: [], 
-	calculators: immutable.List(), 
+	calculators: immutable.List(),
+
+	//categoryTree: new TreeModel(), 
+	categoryTree: immutableTree.createRootNode(),
 
 	//! @brief		A calculator objects exists in here for every open calculator.
 	openCalculators: immutable.List(),
@@ -134,6 +139,28 @@ export default function defaultReducer(state = initialState, action) {
 			//console.log(state.get('gridElements').toJS());
 
 			//state = state.setIn(['gridElements', 0, 'filtered'], false);
+
+			//===================== ADJUST CATEGORY TREE AS NEEDED =====================//
+
+			var categoryPath = newCalc.get('categoryPath');
+			if(typeof(categoryPath) === 'undefined') {
+				console.log('WARNING: No categoryPath found for calculator ' + newCalc.get('name'));
+			}
+			console.log('categoryPath = ' + categoryPath);
+
+			// Extract first element
+			var category1 = categoryPath.get(0);
+			console.log('category1 = ' + category1);
+
+			// See if this category already exists
+			var categoryTree = state.get('categoryTree');
+			console.log('Existing categoryTree = ');
+			console.log(categoryTree.toJS());
+
+			categoryTree = immutableTree.addChildNode(categoryTree, category1);
+
+
+
 
 			return state.asImmutable();
 
