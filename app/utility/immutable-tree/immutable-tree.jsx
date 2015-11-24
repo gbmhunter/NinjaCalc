@@ -29,7 +29,7 @@ export function createRootNode() {
 export function getChildNode(parentNode, nodeKey) {
 	console.log('getChildNode() called.');
 	var foundNode = parentNode.get('children').find((childNode) => {
-		return childNode.key = newNodeKey;
+		return childNode.key = nodeKey;
 	});
 
 	console.log('foundNode = ' + foundNode);
@@ -46,7 +46,7 @@ export function getChildNode(parentNode, nodeKey) {
 //! @details	A new node will only be created if the key does not already exist.
 //!				If it does exist, nothing will happen.
 export function addChildNode(parentNode, newNodeKey) {
-	console.log('Existing parent node = ');
+	console.log('addChildNode() called with existing parent node = ');
 	console.log(parentNode.toJS());
 
 	var foundNode = getChildNode(parentNode, newNodeKey);
@@ -72,9 +72,23 @@ export function addChildNode(parentNode, newNodeKey) {
 //! @brief		Adds an entire node path to the parent node
 //!				(i.e. a child node, grandchild node, great-grandchild node, e.t.c)
 export function addNodePath(parentNode, nodePath) {
-	for(i = 0; i < nodePath.size; i++){
-		
+	console.log('addNodePath() called with parentNode.toJS() = ');
+	console.log(parentNode.toJS());
+	console.log(' and nodePath.toJS() = ');
+	console.log(nodePath.toJS());
+	console.log('and nodePath.size = ' + nodePath.size);
+
+	var newParentNode;
+	if(nodePath.size != 0) {
+		parentNode = addChildNode(parentNode, nodePath.get(0));
+		var childNode = getChildNode(parentNode, nodePath.get(0));
+		nodePath = nodePath.shift();
+		parentNode = parentNode.setIn(['children', 0], addNodePath(childNode, nodePath));
 	}
+
+	console.log('addNodePath() finished.');
+
+	return parentNode;
 }
 
 

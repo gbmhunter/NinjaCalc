@@ -148,17 +148,21 @@ export default function defaultReducer(state = initialState, action) {
 			}
 			console.log('categoryPath = ' + categoryPath);
 
+
 			// Extract first element
-			var category1 = categoryPath.get(0);
-			console.log('category1 = ' + category1);
+			//var category1 = categoryPath.get(0);
+			//console.log('category1 = ' + category1);
 
 			// See if this category already exists
 			var categoryTree = state.get('categoryTree');
 			console.log('Existing categoryTree = ');
 			console.log(categoryTree.toJS());
 
-			categoryTree = immutableTree.addChildNode(categoryTree, category1);
+			//categoryTree = immutableTree.addChildNode(categoryTree, category1);
+			categoryTree = immutableTree.addNodePath(categoryTree, categoryPath);
 
+			console.log('New categoryTree.toJS() = ');
+			console.log(categoryTree.toJS());
 
 
 
