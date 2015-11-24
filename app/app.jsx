@@ -179,6 +179,7 @@ var App = React.createClass({
 		];
 
 		
+		data = this.props.state.get('textNodesCategoryTree').toJS();
 
 
 		return (

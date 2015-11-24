@@ -128,7 +128,7 @@ function copyDataAndChildren(fromNode, toNode) {
 	console.log(toNode.toJS());
 
 	toNode = toNode.set('text', fromNode.get('key'));
-	//toNode = toNode.set('nodes', fromNode.get('children'));
+	toNode = toNode.set('nodes', immutable.List());
 
 	for(var i = 0; i < fromNode.get('children').size; i++) {
 		var childFromNode = fromNode.getIn(['children', i]);
