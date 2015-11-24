@@ -42,6 +42,22 @@ export function getChildNode(parentNode, nodeKey) {
 	}
 }
 
+export function getChildNodeIndex(parentNode, nodeKey) {
+	console.log('getChildNodeIndex() called.');
+	var foundNodeIndex = parentNode.get('children').findIndex((childNode, index) => {
+		return childNode.key = nodeKey;
+	});
+
+	console.log('foundNodeIndex = ' + foundNodeIndex);
+	if(foundNodeIndex == -1) {
+		console.log('Could not find node \"' + nodeKey + '\", so returning undefined.');
+		return undefined;
+	} else {
+		console.log('Found node \"' + nodeKey + '\", so returning it.');
+		return foundNodeIndex;
+	}
+}
+
 //! @brief		
 //! @details	A new node will only be created if the key does not already exist.
 //!				If it does exist, nothing will happen.
@@ -82,8 +98,9 @@ export function addNodePath(parentNode, nodePath) {
 	if(nodePath.size != 0) {
 		parentNode = addChildNode(parentNode, nodePath.get(0));
 		var childNode = getChildNode(parentNode, nodePath.get(0));
+		var childNodeIndex = getChildNodeIndex(parentNode, nodePath.get(0));
 		nodePath = nodePath.shift();
-		parentNode = parentNode.setIn(['children', 0], addNodePath(childNode, nodePath));
+		parentNode = parentNode.setIn(['children', childNodeIndex], addNodePath(childNode, nodePath));
 	}
 
 	console.log('addNodePath() finished.');
