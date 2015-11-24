@@ -108,4 +108,36 @@ export function addNodePath(parentNode, nodePath) {
 	return parentNode;
 }
 
+export function createTextNodesTree(fromNode) {
+
+	var textNodesTree = immutable.Map();
+
+	textNodesTree = copyDataAndChildren(fromNode, textNodesTree);
+
+	console.log('textNodesTree.toJS = ');
+	console.log(textNodesTree.toJS());
+
+	return textNodesTree;
+	
+}
+
+function copyDataAndChildren(fromNode, toNode) {
+	console.log('copyDataAndChildren() called with fromNode.toJS() =');
+	console.log(fromNode.toJS());
+	console.log('and toNode.toJS() = ');
+	console.log(toNode.toJS());
+
+	toNode = toNode.set('text', fromNode.get('key'));
+	//toNode = toNode.set('nodes', fromNode.get('children'));
+
+	for(var i = 0; i < fromNode.get('children').size; i++) {
+		var childFromNode = fromNode.getIn(['children', i]);
+		var childToNode = copyDataAndChildren(childFromNode, immutable.Map());
+		toNode = toNode.setIn(['nodes', i], childToNode);
+	}
+
+	return toNode;
+}
+
+
 

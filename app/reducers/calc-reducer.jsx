@@ -153,7 +153,7 @@ export default function defaultReducer(state = initialState, action) {
 			//var category1 = categoryPath.get(0);
 			//console.log('category1 = ' + category1);
 
-			// See if this category already exists
+			// Get existing category tree
 			var categoryTree = state.get('categoryTree');
 			console.log('Existing categoryTree = ');
 			console.log(categoryTree.toJS());
@@ -164,7 +164,10 @@ export default function defaultReducer(state = initialState, action) {
 			console.log('New categoryTree.toJS() = ');
 			console.log(categoryTree.toJS());
 
+			var textNodesCategoryTree = immutableTree.createTextNodesTree(categoryTree);
 
+			console.log('textNodesCategoryTree.toJS() = ');
+			console.log(textNodesCategoryTree.toJS());
 
 			return state.asImmutable();
 
