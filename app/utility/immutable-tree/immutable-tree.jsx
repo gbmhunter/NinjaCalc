@@ -46,9 +46,12 @@ export function getChildNode(parentNode, nodeKey) {
 }
 
 export function getChildNodeIndex(parentNode, nodeKey) {
-	console.log('getChildNodeIndex() called.');
+	console.log('getChildNodeIndex() called with parentNode.toJS() =');
+	console.log(parentNode.toJS());
+	console.log('and nodeKey = ' + nodeKey);
+
 	var foundNodeIndex = parentNode.get('children').findIndex((childNode, index) => {
-		return childNode.key = nodeKey;
+		return childNode.get('key') == nodeKey;
 	});
 
 	console.log('foundNodeIndex = ' + foundNodeIndex);

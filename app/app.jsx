@@ -117,7 +117,7 @@ var App = React.createClass({
 
 		// Load in the calculators so the app knows about them
 		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
-		//this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
+		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
 		//this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
 	},
 
