@@ -27,9 +27,12 @@ export function createRootNode() {
 }
 
 export function getChildNode(parentNode, nodeKey) {
-	console.log('getChildNode() called.');
+	console.log('getChildNode() called with parentNode.toJS() =');
+	console.log(parentNode.toJS());
+	console.log('and nodeKey = ' + nodeKey);
+
 	var foundNode = parentNode.get('children').find((childNode) => {
-		return childNode.key = nodeKey;
+		return childNode.get('key') == nodeKey;
 	});
 
 	console.log('foundNode = ' + foundNode);
@@ -62,8 +65,9 @@ export function getChildNodeIndex(parentNode, nodeKey) {
 //! @details	A new node will only be created if the key does not already exist.
 //!				If it does exist, nothing will happen.
 export function addChildNode(parentNode, newNodeKey) {
-	console.log('addChildNode() called with existing parent node = ');
+	console.log('addChildNode() called with existing parentNode.toJS() = ');
 	console.log(parentNode.toJS());
+	console.log('and newNodeKey = ' + newNodeKey);
 
 	var foundNode = getChildNode(parentNode, newNodeKey);
 

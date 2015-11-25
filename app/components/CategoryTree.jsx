@@ -10,6 +10,40 @@
 import React from 'react';
 import {Treebeard} from 'react-treebeard';
 
+const data = {
+    name: 'root',
+    toggled: true,
+    children: [
+        {
+            name: 'parent',
+            children: [
+                {
+                    name: 'child',
+                    terminal: true
+                }
+            ]
+        },
+        {
+            name: 'loading parent',
+            loading: true
+        },
+        {
+            name: 'parent',
+            children: [
+                {
+                    name: 'nested parent',
+                    children: [
+                        {
+                            name: 'nested child',
+                            //terminal: true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
 export class CategoryTree extends React.Component {
     constructor(props){
         super(props);
@@ -29,7 +63,7 @@ export class CategoryTree extends React.Component {
     render(){
         return (
             <Treebeard
-                data={this.props.data}
+                data={this.props.data.toJS()}
                 onToggle={this.onToggle}
             />
         );

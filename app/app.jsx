@@ -105,39 +105,7 @@ import * as resistorDividerCalc from './calculators/basic/resistor-divider/resis
 		},
 		];*/
 
-const data = {
-    name: 'root',
-    toggled: true,
-    children: [
-        {
-            name: 'parent',
-            children: [
-                {
-                    name: 'child',
-                    terminal: true
-                }
-            ]
-        },
-        {
-            name: 'loading parent',
-            loading: true
-        },
-        {
-            name: 'parent',
-            children: [
-                {
-                    name: 'nested parent',
-                    children: [
-                        {
-                            name: 'nested child',
-                            //terminal: true
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-};
+
 
 
 
@@ -219,10 +187,10 @@ var App = React.createClass({
 		
 		//data = this.props.state.get('textNodesCategoryTree').toJS();
 
-		console.log('Comparison of data =');
-		console.log(data);
-		console.log('and this.props.state.get(\'nameChildrenCategoryTree\').toJS() =');
-		console.log(this.props.state.get('nameChildrenCategoryTree').toJS());
+		//console.log('Comparison of data =');
+		//console.log(data);
+		//console.log('and this.props.state.get(\'nameChildrenCategoryTree\').toJS() =');
+		//console.log(this.props.state.get('nameChildrenCategoryTree').toJS());
 
 		return (
 			<div className="app">	
@@ -236,7 +204,7 @@ var App = React.createClass({
 						<div id='calculatorSelectionTab' >
 							<div className="calcCategories" >
 								{/*<TreeView data={data} />*/}
-								<CategoryTree data={this.props.state.get('nameChildrenCategoryTree').toJS()}/>
+								<CategoryTree data={this.props.state.get('nameChildrenCategoryTree')}/>
 								{/*
 								<List subheader="Category">
 									<ListItem 

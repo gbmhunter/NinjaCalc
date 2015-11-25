@@ -22,6 +22,7 @@ export var data = {
 	id: 'lt3745',
 	name: 'LT3745',
 	description: 'Calculate the values of the surrounding passive components required to operate the LT3745 IC.',
+	categoryPath: [ 'Electronics', 'Vendor', 'Linear Technology' ],
 	tags: 'ic, linear tech, led',
 	imageSrc: __dirname + '/icon.png',
 
