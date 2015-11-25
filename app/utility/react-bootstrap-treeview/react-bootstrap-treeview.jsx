@@ -1,5 +1,6 @@
 import React from 'react';
 
+//! @brief      TreeView is the top-most object. It can contain many TreeNodes.
 export var TreeView = React.createClass({
 
     propTypes: {
@@ -50,21 +51,26 @@ export var TreeView = React.createClass({
         }
     },
 
-  setNodeId: function(node) {
+    //! @brief      Sets a node ID for the supplied node and all it's dependents (recursive).
+    //! @warning    Recursive function!
+    setNodeId: function(node) {
+        console.log('ReactBootstrapTreeView.setNodeId() called.');
 
-    if (!node.nodes) return;
+        if (!node.nodes) return;
 
-    var _this = this;
-    node.nodes.forEach(function checkStates(node) {
-      node.nodeId = _this.props.nodes.length;
-      _this.props.nodes.push(node);
-      _this.setNodeId(node);
-    });
-  },
+        var _this = this;
+        node.nodes.forEach(function checkStates(node) {
+            node.nodeId = _this.props.nodes.length;
+            _this.props.nodes.push(node);
+            _this.setNodeId(node);
+        });
+    },
 
   render: function() {
 
+    console.log('ReactBootstrapTreeView.render() called.');
     this.setNodeId({ nodes: data });
+    console.log('this')
 
     var children = [];
     if (data) {
@@ -87,22 +93,23 @@ export var TreeView = React.createClass({
   }
 });
 
-
+//! @brief      A TreeNode represents a single node in the TreeView.
+//! @details    It is also responsible for rendering it's children.
 var TreeNode = React.createClass({
 
-  getInitialState: function() {
-    var node = this.props.node;
-    return {
-      expanded: (node.state && node.state.hasOwnProperty('expanded')) ?
-                  node.state.expanded :
-                    (this.props.level < this.props.options.levels) ?
-                      true :
-                      false,
-      selected: (node.state && node.state.hasOwnProperty('selected')) ? 
-                  node.state.selected :
-                  false
-    }
-  },
+    getInitialState: function() {
+        var node = this.props.node;
+        return {
+            expanded: (node.state && node.state.hasOwnProperty('expanded')) ?
+                      node.state.expanded :
+                        (this.props.level < this.props.options.levels) ?
+                          true :
+                          false,
+            selected: (node.state && node.state.hasOwnProperty('selected')) ? 
+                      node.state.selected :
+                      false
+        }
+    },
 
     toggleExpanded: function(id, event) {
         console.log('toggleExpanded() called.');
@@ -116,121 +123,127 @@ var TreeNode = React.createClass({
         event.stopPropagation();
     },
 
-  render: function() {
+    render: function() {
+        console.log('TreeNode.render() called.');
 
-    var node = this.props.node;
-    var options = this.props.options;
+        var node = this.props.node;
+        var options = this.props.options;
 
-    var style;
-    if (!this.props.visible) {
+        var style;
+        if (!this.props.visible) {
 
-      style = { 
-        display: 'none' 
-      };
-    }
-    else {
+          style = { 
+            display: 'none' 
+          };
+        }
+        else {
 
-      if (options.highlightSelected && this.state.selected) {
-        style = {
-          color: options.selectedColor,
-          backgroundColor: options.selectedBackColor
-        };
-      }
-      else {
-        style = {
-          color: node.color || options.color,
-          backgroundColor: node.backColor || options.backColor
-        };
-      }
+          if (options.highlightSelected && this.state.selected) {
+            style = {
+              color: options.selectedColor,
+              backgroundColor: options.selectedBackColor
+            };
+          }
+          else {
+            style = {
+              color: node.color || options.color,
+              backgroundColor: node.backColor || options.backColor
+            };
+          }
 
-      if (!options.showBorder) {
-        style.border = 'none';
-      }
-      else if (options.borderColor) {
-        style.border = '1px solid ' + options.borderColor;
-      }
-    } 
+          if (!options.showBorder) {
+            style.border = 'none';
+          }
+          else if (options.borderColor) {
+            style.border = '1px solid ' + options.borderColor;
+          }
+        } 
 
-    var indents = [];
-    for (var i = 0; i < this.props.level-1; i++) {
-      indents.push(<span className='indent'></span>);
-    }
+        var indents = [];
+        for (var i = 0; i < this.props.level-1; i++) {
+          indents.push(<span className='indent'></span>);
+        }
 
-    var expandCollapseIcon;
-    if (node.nodes) {
-      if (!this.state.expanded) {
-        expandCollapseIcon = (
-          <span className={options.expandIcon}
-                onClick={this.toggleExpanded.bind(this, node.nodeId)}>
+        var expandCollapseIcon;
+        if (node.nodes) {
+          if (!this.state.expanded) {
+            expandCollapseIcon = (
+              <span className={options.expandIcon}
+                    onClick={this.toggleExpanded.bind(this, node.nodeId)}>
+              </span>
+            );
+          }
+          else {
+            expandCollapseIcon = (
+              <span className={options.collapseIcon}
+                    onClick={this.toggleExpanded.bind(this, node.nodeId)}>
+              </span>
+            );
+          }
+        }
+        else {
+          expandCollapseIcon = (
+            <span className={options.emptyIcon}></span>
+          );
+        }
+
+        var nodeIcon = (
+          <span className='icon'>
+            <i className={node.icon || options.nodeIcon}></i>
           </span>
         );
-      }
-      else {
-        expandCollapseIcon = (
-          <span className={options.collapseIcon}
-                onClick={this.toggleExpanded.bind(this, node.nodeId)}>
-          </span>
-        );
-      }
-    }
-    else {
-      expandCollapseIcon = (
-        <span className={options.emptyIcon}></span>
-      );
-    }
 
-    var nodeIcon = (
-      <span className='icon'>
-        <i className={node.icon || options.nodeIcon}></i>
-      </span>
-    );
+        var nodeText;
+        if (options.enableLinks) {
+          nodeText = (
+            <a href={node.href} /*style="color:inherit;"*/>
+              {node.text}
+            </a>
+          );
+        }
+        else {
+          nodeText = (
+            <span>{node.text}</span>
+          );
+        }
 
-    var nodeText;
-    if (options.enableLinks) {
-      nodeText = (
-        <a href={node.href} /*style="color:inherit;"*/>
-          {node.text}
-        </a>
-      );
-    }
-    else {
-      nodeText = (
-        <span>{node.text}</span>
-      );
-    }
+        var badges;
+        if (options.showTags && node.tags) {
+          badges = node.tags.map(function (tag) {
+            return (
+              <span className='badge'>{tag}</span>
+            );
+          });
+        }
 
-    var badges;
-    if (options.showTags && node.tags) {
-      badges = node.tags.map(function (tag) {
+
+        // @warning Recursive!
+        var children = [];
+        if (node.nodes) {
+            console.log('Rendering children of node ' + this.props.node.text);
+            var _this = this;
+            node.nodes.forEach(function (node) {
+            children.push(<TreeNode node={node}
+                                    level={_this.props.level+1}
+                                    visible={_this.state.expanded && _this.props.visible}
+                                    options={options} />);
+            });
+        }
+
         return (
-          <span className='badge'>{tag}</span>
+            <li 
+                className='list-group-item'
+                style={style}
+                onClick={this.toggleSelected.bind(this, node.nodeId)}
+                key={node.nodeId}>
+                {indents}
+                {expandCollapseIcon}
+                {nodeIcon}
+                {nodeText}
+                {badges}
+                {children}
+            </li>
         );
-      });
-    }
+    } // render()
 
-    var children = [];
-    if (node.nodes) {
-      var _this = this;
-      node.nodes.forEach(function (node) {
-        children.push(<TreeNode node={node}
-                                level={_this.props.level+1}
-                                visible={_this.state.expanded && _this.props.visible}
-                                options={options} />);
-      });
-    }
-
-    return (
-      <li className='list-group-item'
-          style={style}
-          onClick={this.toggleSelected.bind(this, node.nodeId)}
-          key={node.nodeId}>
-        {indents}
-        {expandCollapseIcon}
-        {nodeIcon}
-        {nodeText}
-        {badges}
-        {children}
-      </li>
-    );
-  }
 });

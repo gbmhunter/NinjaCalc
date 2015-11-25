@@ -32,33 +32,7 @@ const initialState = immutable.fromJS({
 
 	//! @brief		This holds a "massaged" categoryTree which is formatted to work with the UI object which
 	//!				created the category menus.
-	textNodesCategoryTree: immutable.List([
-		{
-		text: "Electronics",
-		nodes: [
-		  {
-		    text: "PCB Design",
-		    nodes: [
-		      {
-		        text: "Grandchild 1"
-		      },
-		      {
-		        text: "Grandchild 2"
-		      }
-		    ]
-		  },
-		  {
-		    text: "Basic"
-		  }
-		]
-		},
-		{
-		text: "Mechanical"
-		},
-		{
-		text: "Software"
-		},
-		]),
+	textNodesCategoryTree: immutable.List(),
 
 	//! @brief		A calculator objects exists in here for every open calculator.
 	openCalculators: immutable.List(),

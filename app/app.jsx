@@ -25,6 +25,7 @@ var Latex = require('react-latex');
 var ReactRadioGroup = require('react-radio-group');
 //import TreeView from 'react-treeview';
 import { TreeView } from './utility/react-bootstrap-treeview/react-bootstrap-treeview.js';
+import {Treebeard} from 'react-treebeard';
 
 // This next one is required for Material UI click events to work properly,
 // until React v1.0 is released.
@@ -75,7 +76,7 @@ import * as resistorDividerCalc from './calculators/basic/resistor-divider/resis
 
 //class App extends React.Component {
 
-	var data = [
+	/*var data = [
 		{
 		text: "Electronics",
 		nodes: [
@@ -101,7 +102,58 @@ import * as resistorDividerCalc from './calculators/basic/resistor-divider/resis
 		{
 		text: "Software"
 		},
-		];
+		];*/
+
+const data = {
+    name: 'root',
+    toggled: true,
+    children: [
+        {
+            name: 'parent',
+            children: [
+                {
+                    name: 'child',
+                    terminal: true
+                }
+            ]
+        },
+        {
+            name: 'loading parent',
+            loading: true
+        },
+        {
+            name: 'parent',
+            children: [
+                {
+                    name: 'nested parent',
+                    children: [
+                        {
+                            name: 'nested child',
+                            terminal: true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+class TreeExample extends React.Component {
+    constructor(props){
+        super(props);
+    }
+    onToggle(/* node, toggled */){
+        // ...
+    }
+    render(){
+        return (
+            <Treebeard
+                data={data}
+                onToggle={this.onToggle}
+            />
+        );
+    }
+}
 
 var App = React.createClass({
 
@@ -179,7 +231,7 @@ var App = React.createClass({
 		];
 
 		
-		data = this.props.state.get('textNodesCategoryTree').toJS();
+		//data = this.props.state.get('textNodesCategoryTree').toJS();
 
 
 		return (
@@ -193,7 +245,8 @@ var App = React.createClass({
 					<Tab eventKey={0} title="Calculators">
 						<div id='calculatorSelectionTab' >
 							<div className="calcCategories" >
-								<TreeView data={data} />
+								{/*<TreeView data={data} />*/}
+								<TreeExample />
 								{/*
 								<List subheader="Category">
 									<ListItem 
