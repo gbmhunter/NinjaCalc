@@ -129,7 +129,7 @@ const data = {
                     children: [
                         {
                             name: 'nested child',
-                            terminal: true
+                            //terminal: true
                         }
                     ]
                 }
@@ -148,7 +148,7 @@ class TreeExample extends React.Component {
     render(){
         return (
             <Treebeard
-                data={data}
+                data={this.props.data}
                 onToggle={this.onToggle}
             />
         );
@@ -233,6 +233,10 @@ var App = React.createClass({
 		
 		//data = this.props.state.get('textNodesCategoryTree').toJS();
 
+		console.log('Comparison of data =');
+		console.log(data);
+		console.log('and this.props.state.get(\'nameChildrenCategoryTree\').toJS() =');
+		console.log(this.props.state.get('nameChildrenCategoryTree').toJS());
 
 		return (
 			<div className="app">	
@@ -246,7 +250,7 @@ var App = React.createClass({
 						<div id='calculatorSelectionTab' >
 							<div className="calcCategories" >
 								{/*<TreeView data={data} />*/}
-								<TreeExample />
+								<TreeExample data={this.props.state.get('nameChildrenCategoryTree').toJS()}/>
 								{/*
 								<List subheader="Category">
 									<ListItem 

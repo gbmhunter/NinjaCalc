@@ -32,7 +32,7 @@ const initialState = immutable.fromJS({
 
 	//! @brief		This holds a "massaged" categoryTree which is formatted to work with the UI object which
 	//!				created the category menus.
-	textNodesCategoryTree: immutable.List(),
+	nameChildrenCategoryTree: immutable.List(),
 
 	//! @brief		A calculator objects exists in here for every open calculator.
 	openCalculators: immutable.List(),
@@ -172,15 +172,16 @@ export default function defaultReducer(state = initialState, action) {
 
 
 
-			var textNodesCategoryTree = immutableTree.createTextNodesTree(categoryTree);
+			var nameChildrenCategoryTree = immutableTree.createNameChildrenTree(categoryTree);
 
-			console.log('Existing textNodesCategoryTree.toJS() = ');
-			console.log(state.get('textNodesCategoryTree').toJS());
-			console.log('textNodesCategoryTree.get(\'nodes\').toJS() = ');
-			console.log(textNodesCategoryTree.get('nodes').toJS());
+			console.log('Existing nameChildrenCategoryTree.toJS() = ');
+			console.log(state.get('nameChildrenCategoryTree').toJS());
+			//console.log('nameChildrenCategoryTree.get(\'nodes\').toJS() = ');
+			//console.log(nameChildrenCategoryTree.get('nodes').toJS());
 
 
-			state.set('textNodesCategoryTree', textNodesCategoryTree.get('nodes'));
+			//state.set('nameChildrenCategoryTree', nameChildrenCategoryTree.get('nodes'));
+			state.set('nameChildrenCategoryTree', nameChildrenCategoryTree);
 
 			return state.asImmutable();
 

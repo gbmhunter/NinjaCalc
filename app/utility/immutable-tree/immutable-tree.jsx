@@ -108,7 +108,20 @@ export function addNodePath(parentNode, nodePath) {
 	return parentNode;
 }
 
-export function createTextNodesTree(fromNode) {
+/*export function createTextNodesTree(fromNode) {
+
+	var textNodesTree = immutable.Map();
+
+	textNodesTree = copyDataAndChildren(fromNode, textNodesTree);
+
+	console.log('textNodesTree.toJS = ');
+	console.log(textNodesTree.toJS());
+
+	return textNodesTree;
+	
+}*/
+
+export function createNameChildrenTree(fromNode) {
 
 	var textNodesTree = immutable.Map();
 
@@ -127,13 +140,13 @@ function copyDataAndChildren(fromNode, toNode) {
 	console.log('and toNode.toJS() = ');
 	console.log(toNode.toJS());
 
-	toNode = toNode.set('text', fromNode.get('key'));
-	toNode = toNode.set('nodes', immutable.List());
+	toNode = toNode.set('name', fromNode.get('key'));
+	toNode = toNode.set('children', immutable.List());
 
 	for(var i = 0; i < fromNode.get('children').size; i++) {
 		var childFromNode = fromNode.getIn(['children', i]);
 		var childToNode = copyDataAndChildren(childFromNode, immutable.Map());
-		toNode = toNode.setIn(['nodes', i], childToNode);
+		toNode = toNode.setIn(['children', i], childToNode);
 	}
 
 	return toNode;
