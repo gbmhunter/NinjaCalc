@@ -3,7 +3,7 @@
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-25
 //! @last-modified      2015-11-25
-//! @brief              
+//! @brief              React component which draws the calculator category tree element.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
@@ -65,7 +65,7 @@ var style = {
                 display: 'block'
             },
             activeLink: {
-                background: '#AAA'
+                background: '#000'
             },
             toggle: {
                 base: {
@@ -137,7 +137,11 @@ export class CategoryTree extends React.Component {
         if(!node.terminal){ this.onSubTreeToggled(node, toggled); }
         this.setState({ cursor: node });
     }
+
     render(){
+
+        // The data variable has to be in a specific format for the tree structure to render correctly.
+        // Doesn't seem like an array of siblings as the highest level object is supported
         return (
             <Treebeard
                 data={this.props.data.toJS()}
@@ -146,4 +150,5 @@ export class CategoryTree extends React.Component {
             />
         );
     }
+
 }
