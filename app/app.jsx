@@ -25,7 +25,7 @@ var Latex = require('react-latex');
 var ReactRadioGroup = require('react-radio-group');
 //import TreeView from 'react-treeview';
 import { TreeView } from './utility/react-bootstrap-treeview/react-bootstrap-treeview.js';
-import {Treebeard} from 'react-treebeard';
+
 
 // This next one is required for Material UI click events to work properly,
 // until React v1.0 is released.
@@ -41,6 +41,7 @@ const ListItem = require('material-ui/lib/lists/list-item');
 
 //=========================== USER MODULES =========================//
 import AbsoluteGrid from './utility/react-absolute-grid/AbsoluteGrid.js';
+import {CategoryTree} from './components/CategoryTree.js';
 
 
 const finalCreateStore = compose(
@@ -138,22 +139,7 @@ const data = {
     ]
 };
 
-class TreeExample extends React.Component {
-    constructor(props){
-        super(props);
-    }
-    onToggle(/* node, toggled */){
-        // ...
-    }
-    render(){
-        return (
-            <Treebeard
-                data={this.props.data}
-                onToggle={this.onToggle}
-            />
-        );
-    }
-}
+
 
 var App = React.createClass({
 
@@ -250,7 +236,7 @@ var App = React.createClass({
 						<div id='calculatorSelectionTab' >
 							<div className="calcCategories" >
 								{/*<TreeView data={data} />*/}
-								<TreeExample data={this.props.state.get('nameChildrenCategoryTree').toJS()}/>
+								<CategoryTree data={this.props.state.get('nameChildrenCategoryTree').toJS()}/>
 								{/*
 								<List subheader="Category">
 									<ListItem 
