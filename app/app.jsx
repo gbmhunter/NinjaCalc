@@ -207,7 +207,7 @@ var App = React.createClass({
 							<div className="calcCategories" >
 								{/*<TreeView data={data} />*/}
 								<CategoryTree
-									data={this.props.state.get('nameChildrenCategoryTree')}
+									data={this.props.state.get('categoryTree')}
 									dispatch={this.props.dispatch}/>
 								{/*
 								<List subheader="Category">

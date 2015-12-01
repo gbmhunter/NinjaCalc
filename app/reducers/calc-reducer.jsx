@@ -172,16 +172,16 @@ export default function defaultReducer(state = initialState, action) {
 
 
 
-			var nameChildrenCategoryTree = immutableTree.createNameChildrenTree(categoryTree);
+			//var nameChildrenCategoryTree = immutableTree.createNameChildrenTree(categoryTree);
 
-			console.log('Existing nameChildrenCategoryTree.toJS() = ');
-			console.log(state.get('nameChildrenCategoryTree').toJS());
+			//console.log('Existing nameChildrenCategoryTree.toJS() = ');
+			//console.log(state.get('nameChildrenCategoryTree').toJS());
 			//console.log('nameChildrenCategoryTree.get(\'nodes\').toJS() = ');
 			//console.log(nameChildrenCategoryTree.get('nodes').toJS());
 
 
 			//state.set('nameChildrenCategoryTree', nameChildrenCategoryTree.get('nodes'));
-			state.set('nameChildrenCategoryTree', nameChildrenCategoryTree);
+			//state.set('nameChildrenCategoryTree', nameChildrenCategoryTree);
 
 			return state.asImmutable();
 
