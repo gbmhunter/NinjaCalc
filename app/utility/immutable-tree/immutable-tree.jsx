@@ -12,20 +12,24 @@
 //=========== npm MODULES ==========//
 var immutable = require('immutable');
 
-const nodeKeyName = 'name';
-const nodeChildrenName = 'children';
+const nodeKeyParameterId = 'key';
+const nodeNameParameterId = 'name';
+const nodeChildrenParameterId = 'children';
 
 //! @brief		Creates a root node. This must be called before
 //!				any of the other functions in this module are used.
 export function createRootNode() {
 	console.log('createRootNode() called.');
 	var rootNode = immutable.Map({
-		//nodeKeyName: 'root',
-		//nodeChildrenName: immutable.List(),
+		//nodeNameParameterId: 'root',
+		//nodeChildrenParameterId: immutable.List(),
 	})
 
-	rootNode = rootNode.set(nodeKeyName, 'root');
-	rootNode = rootNode.set(nodeChildrenName, immutable.List());
+	// The key for the root node is always 0, this is easy!
+	rootNode = rootNode.set(nodeKeyParameterId, immutable.List([0]));
+	
+	rootNode = rootNode.set(nodeNameParameterId, 'root');
+	rootNode = rootNode.set(nodeChildrenParameterId, immutable.List());
 
 	console.log('Create rootNode. rootNode.toJS() =');
 	console.log(rootNode.toJS());
@@ -39,8 +43,8 @@ export function getChildNode(parentNode, nodeKey) {
 	console.log(parentNode.toJS());
 	console.log('and nodeKey = ' + nodeKey);
 
-	var foundNode = parentNode.get(nodeChildrenName).find((childNode) => {
-		return childNode.get(nodeKeyName) == nodeKey;
+	var foundNode = parentNode.get(nodeChildrenParameterId).find((childNode) => {
+		return childNode.get(nodeNameParameterId) == nodeKey;
 	});
 
 	console.log('foundNode = ' + foundNode);
@@ -60,8 +64,8 @@ export function getChildNodeIndex(parentNode, nodeKey) {
 	console.log(parentNode.toJS());
 	console.log('and nodeKey = ' + nodeKey);
 
-	var foundNodeIndex = parentNode.get(nodeChildrenName).findIndex((childNode, index) => {
-		return childNode.get(nodeKeyName) == nodeKey;
+	var foundNodeIndex = parentNode.get(nodeChildrenParameterId).findIndex((childNode, index) => {
+		return childNode.get(nodeNameParameterId) == nodeKey;
 	});
 
 	console.log('foundNodeIndex = ' + foundNodeIndex);
@@ -87,11 +91,19 @@ export function addChildNode(parentNode, newNodeKey) {
 	console.log('foundNode = ' + foundNode);
 	if(typeof(foundNode) == 'undefined') {
 		console.log('Could not find node \"' + newNodeKey + '\", so creating new node.');
-		var length = parentNode.get(nodeChildrenName).size;
+		var length = parentNode.get(nodeChildrenParameterId).size;
 		var newChildNode = immutable.Map({});
-		newChildNode = newChildNode.set(nodeKeyName, newNodeKey);
-		newChildNode = newChildNode.set(nodeChildrenName, immutable.List());
-		parentNode = parentNode.setIn([nodeChildrenName, length], newChildNode);
+
+		// Create unique key, first get parent key
+		var parentKey = parentNode.get(nodeKeyParameterId);
+		// Unique key is the parent key (array), with an additional element
+		// added at the end which is the index of this child
+		var newChildKey = parentKey.push(length);
+		newChildNode = newChildNode.set(nodeKeyParameterId, newChildKey);
+		newChildNode = newChildNode.set(nodeNameParameterId, newNodeKey);
+		newChildNode = newChildNode.set(nodeChildrenParameterId, immutable.List());
+		
+		parentNode = parentNode.setIn([nodeChildrenParameterId, length], newChildNode);
 	} else {
 		console.log('Found node \"' + newNodeKey + '\", so not creating new node.');
 	}
@@ -117,7 +129,7 @@ export function addNodePath(parentNode, nodePath) {
 		var childNode = getChildNode(parentNode, nodePath.get(0));
 		var childNodeIndex = getChildNodeIndex(parentNode, nodePath.get(0));
 		nodePath = nodePath.shift();
-		parentNode = parentNode.setIn([nodeChildrenName, childNodeIndex], addNodePath(childNode, nodePath));
+		parentNode = parentNode.setIn([nodeChildrenParameterId, childNodeIndex], addNodePath(childNode, nodePath));
 	}
 
 	console.log('addNodePath() finished.');
@@ -158,11 +170,11 @@ function copyDataAndChildren(fromNode, toNode) {
 	console.log('and toNode.toJS() = ');
 	console.log(toNode.toJS());
 
-	toNode = toNode.set('name', fromNode.get(nodeKeyName));
+	toNode = toNode.set('name', fromNode.get(nodeNameParameterId));
 	toNode = toNode.set('children', immutable.List());
 
-	for(var i = 0; i < fromNode.get(nodeChildrenName).size; i++) {
-		var childFromNode = fromNode.getIn([nodeChildrenName, i]);
+	for(var i = 0; i < fromNode.get(nodeChildrenParameterId).size; i++) {
+		var childFromNode = fromNode.getIn([nodeChildrenParameterId, i]);
 		var childToNode = copyDataAndChildren(childFromNode, immutable.Map());
 		toNode = toNode.setIn(['children', i], childToNode);
 	}
