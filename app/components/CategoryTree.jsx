@@ -2,14 +2,20 @@
 //! @file               CategoryTree.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-25
-//! @last-modified      2015-11-25
-//! @brief              React component which draws the calculator category tree element.
+//! @last-modified      2015-12-01
+//! @brief              React component which draws the calculator category tree element. Uses the
+//!                     react-treebeard module.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
+// npm modules
 import React from 'react';
 import {Treebeard} from 'react-treebeard';
 
+// User modules
+import * as calcActions from '../actions/calc-actions.js';
+
+/*
 const data = {
     name: 'root',
     toggled: true,
@@ -42,7 +48,7 @@ const data = {
             ]
         }
     ]
-};
+};*/
 
 var style = {
     tree: {
@@ -127,14 +133,35 @@ export class CategoryTree extends React.Component {
         this.state = {};
         this.onToggle = this.onToggle.bind(this);
     }
+
+    //! @brief
+    //! @details    Called by onToggle().
     onSubTreeToggled(node, toggled){
+        console.log('CategoryTree.onSubTreeToggled() called.');
         // Store Toggle State
         node.toggled = toggled;
     }
+
+    //! @brief      Event handler for when a node in the category tree is wanted to be toggled (
+    //!             i.e. user clicks the node arrow).
     onToggle(node, toggled){
-        if(this.state.cursor){this.state.cursor.active = false;}
+        console.log('CategoryTree.onToggle() called with node =');
+        console.log(node);
+        console.log('and toggled = ' + toggled);
+
+        if(this.state.cursor){ 
+            this.state.cursor.active = false;
+        }
         node.active = true;
-        if(!node.terminal){ this.onSubTreeToggled(node, toggled); }
+        
+        // Check to make sure we are not at the tip of a branch
+        // (if we are, we do not need/want to toggle)
+        if(!node.terminal) {
+            this.onSubTreeToggled(node, toggled);
+
+            // Dispatch action to change state of category tree data
+            this.props.dispatch(calcActions.toggleCategory(node, toggled));
+        }
         this.setState({ cursor: node });
     }
 

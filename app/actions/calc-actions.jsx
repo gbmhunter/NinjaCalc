@@ -2,7 +2,7 @@
 //! @file               calc-actions.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-20
+//! @last-modified      2015-12-01
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -41,6 +41,26 @@ export function addCalcType(model) {
 		dispatch({
 			type: ADD_CALC_TYPE,
 			model,			
+		});
+	}
+}
+
+//======================================================================//
+//========================= toggleCategory() ===========================//
+//======================================================================//
+
+export var TOGGLE_CATEGORY = 'TOGGLE_CATEGORY';
+
+//! @brief    Toggles the visibility of a node in the calculator category tree view.
+export function toggleCategory(node, toggled) {
+
+	console.log('toggleCategory() action called.');
+	return (dispatch, getState) => {
+		console.log('toggleCategory() thunk called.');
+		dispatch({
+			type: TOGGLE_CATEGORY,
+			node: node,
+			toggled: toggled,		
 		});
 	}
 }

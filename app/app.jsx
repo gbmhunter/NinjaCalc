@@ -206,7 +206,9 @@ var App = React.createClass({
 						<div id='calculatorSelectionTab' >
 							<div className="calcCategories" >
 								{/*<TreeView data={data} />*/}
-								<CategoryTree data={this.props.state.get('nameChildrenCategoryTree')}/>
+								<CategoryTree
+									data={this.props.state.get('nameChildrenCategoryTree')}
+									dispatch={this.props.dispatch}/>
 								{/*
 								<List subheader="Category">
 									<ListItem 

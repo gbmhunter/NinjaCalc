@@ -32,7 +32,7 @@ const initialState = immutable.fromJS({
 
 	//! @brief		This holds a "massaged" categoryTree which is formatted to work with the UI object which
 	//!				created the category menus.
-	nameChildrenCategoryTree: immutable.List(),
+	nameChildrenCategoryTree: immutable.Map(),
 
 	//! @brief		A calculator objects exists in here for every open calculator.
 	openCalculators: immutable.List(),
@@ -182,6 +182,16 @@ export default function defaultReducer(state = initialState, action) {
 
 			//state.set('nameChildrenCategoryTree', nameChildrenCategoryTree.get('nodes'));
 			state.set('nameChildrenCategoryTree', nameChildrenCategoryTree);
+
+			return state.asImmutable();
+
+		//==============================================================================//
+		//================================= TOGGLE_CATEGORY ============================//
+		//==============================================================================//
+
+		case calcActions.TOGGLE_CATEGORY:
+			console.log('calcActions.TOGGLE_CATEGORY action received.');
+
 
 			return state.asImmutable();
 
