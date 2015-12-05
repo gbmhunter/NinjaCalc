@@ -12,10 +12,62 @@
 //=========== npm MODULES ==========//
 
 
+//! @brief 		Hides all the items in gridElements which are not children of category key.
+//! @param 		categoryPath 	categoryPath should be an array of strings in the form ['root', 'Electronics', 'Basic'].
+export function filter(gridElements, categoryPath) {
+	console.log('gridHelper.filter() called with gridElements =');
+	console.log(gridElements);
+	console.log('and categoryPath =');
+	console.log(categoryPath);
+	// We need to set the false parameter on every gridElement which is not in the categoryPath
+	for(var i = 0; i < gridElements.length; i++) {
 
-export function filter(gridElements, key) {
-	console.log('gridHelper.filter() called.');
+		// We need to check whether the grid element's category path belongs to the
+		// provided category path.
+		var newCategoryPath = categoryPath.slice();
+		console.log('newCategoryPath = ');
+		console.log(newCategoryPath);
 
-	// We need to set the false parameter on every gridElement which is not the key, or a child of the key
+		// Now remove the 'root' element from path
+		newCategoryPath.shift();
+		console.log('newCategoryPath.shift() =');
+		console.log(newCategoryPath);
 
+		if(isInPath(gridElements[i].categoryPath, newCategoryPath)) {
+			// This gird element belongs to the selected category path, let's make sure it's shown
+			// in the grid view
+			console.log('gridElement ' + gridElements[i].name + ' is in the categoryPath, making visible.');
+			gridElements[i].filtered = false;
+		} else {
+			// This gird element does not belong to the selected category path, let's hide it.
+			console.log('gridElement ' + gridElements[i].name + ' is NOT in the categoryPath, hiding.');
+			gridElements[i].filtered = true;
+		}
+
+	}
+
+}
+
+//! @brief 		Checks to see if categoryPath1 is the same OR a child path of categoryPath2.
+//! @details	If categoryPath2 is empty, then isInPath() will return true.
+//! @param 		categoryPath1 		The category path that is under investigation.
+//! @param 		categoryPath2       The category path that we want to see if categoryPath1 belongs to.
+function isInPath(categoryPath1, categoryPath2) {
+	console.log('gridHelper.isInPath() called with categoryPath1 =');
+	console.log(categoryPath1);
+	console.log('and categoryPath2 =');
+	console.log(categoryPath2);
+
+	// We need to check to make sure that every string element in the reference category path
+	// is present in the category path under investigation.
+	for (var i = 0; i < categoryPath2.length; i++) {
+		console.log('Comparing \"' + categoryPath1[i] + '\" with \"' + categoryPath2[i] + '\".');
+		if(categoryPath1[i] != categoryPath2[i]) {
+			return false;
+		}
+	}
+
+	// If we made it here, all elements in categoryPath2 are in categoryPath1,
+	// and so it passed!
+	return true;
 }

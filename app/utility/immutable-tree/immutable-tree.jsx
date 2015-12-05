@@ -2,8 +2,8 @@
 //! @file               immutable-tree.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-23
-//! @last-modified      2015-12-01
-//! @brief              
+//! @last-modified      2015-12-06
+//! @brief  			Contains helper functions for working with the category tree.            
 //! @details
 //!     See README.rst in repo root dir for more info.
 
@@ -57,7 +57,7 @@ export function createRootNode() {
 	})
 
 	// The key for the root node is always 0, this is easy!
-	rootNode = rootNode.set(nodeKeyParameterId, immutable.List([0]));
+	rootNode = rootNode.set(nodeKeyParameterId, immutable.List(['root']));
 	
 	rootNode = rootNode.set(nodeNameParameterId, 'root');
 	rootNode = rootNode.set(nodeChildrenParameterId, immutable.List());
@@ -112,31 +112,34 @@ export function getChildNodeIndex(parentNode, nodeKey) {
 //! @brief		
 //! @details	A new node will only be created if the key does not already exist.
 //!				If it does exist, nothing will happen.
-export function addChildNode(parentNode, newNodeKey) {
+//! @param      parentNode 		The parent node that the new child node will be added to.
+//! @param 		newNodeName 	The name of the new node.  
+export function addChildNode(parentNode, newNodeName) {
 	console.log('addChildNode() called with existing parentNode.toJS() = ');
 	console.log(parentNode.toJS());
-	console.log('and newNodeKey = ' + newNodeKey);
+	console.log('and newNodeName = ' + newNodeName);
 
-	var foundNode = getChildNode(parentNode, newNodeKey);
+	var foundNode = getChildNode(parentNode, newNodeName);
 
 	console.log('foundNode = ' + foundNode);
 	if(typeof(foundNode) == 'undefined') {
-		console.log('Could not find node \"' + newNodeKey + '\", so creating new node.');
+		console.log('Could not find node \"' + newNodeName + '\", so creating new node.');
 		var length = parentNode.get(nodeChildrenParameterId).size;
 		var newChildNode = immutable.Map({});
 
 		// Create unique key, first get parent key
 		var parentKey = parentNode.get(nodeKeyParameterId);
 		// Unique key is the parent key (array), with an additional element
-		// added at the end which is the index of this child
-		var newChildKey = parentKey.push(length);
+		// added at the end which is the string name of this new node.
+		var newChildKey = parentKey.push(newNodeName);
 		newChildNode = newChildNode.set(nodeKeyParameterId, newChildKey);
-		newChildNode = newChildNode.set(nodeNameParameterId, newNodeKey);
+		newChildNode = newChildNode.set(nodeNameParameterId, newNodeName);
 		newChildNode = newChildNode.set(nodeChildrenParameterId, immutable.List());
 		
 		parentNode = parentNode.setIn([nodeChildrenParameterId, length], newChildNode);
 	} else {
-		console.log('Found node \"' + newNodeKey + '\", so not creating new node.');
+		// Requested new node already exists
+		console.log('Found node \"' + newNodeName + '\", so not creating new node.');
 	}
 
 	console.log('Modified parentNode = ');
@@ -225,51 +228,5 @@ function findNode(startNode, key) {
 	return undefined;
 
 }
-
-/*export function createTextNodesTree(fromNode) {
-
-	var textNodesTree = immutable.Map();
-
-	textNodesTree = copyDataAndChildren(fromNode, textNodesTree);
-
-	console.log('textNodesTree.toJS = ');
-	console.log(textNodesTree.toJS());
-
-	return textNodesTree;
-	
-}*/
-
-/*
-export function createNameChildrenTree(fromNode) {
-
-	var textNodesTree = immutable.Map();
-
-	textNodesTree = copyDataAndChildren(fromNode, textNodesTree);
-
-	console.log('textNodesTree.toJS = ');
-	console.log(textNodesTree.toJS());
-
-	return textNodesTree;
-	
-}
-
-function copyDataAndChildren(fromNode, toNode) {
-	console.log('copyDataAndChildren() called with fromNode.toJS() =');
-	console.log(fromNode.toJS());
-	console.log('and toNode.toJS() = ');
-	console.log(toNode.toJS());
-
-	toNode = toNode.set('name', fromNode.get(nodeNameParameterId));
-	toNode = toNode.set('children', immutable.List());
-
-	for(var i = 0; i < fromNode.get(nodeChildrenParameterId).size; i++) {
-		var childFromNode = fromNode.getIn([nodeChildrenParameterId, i]);
-		var childToNode = copyDataAndChildren(childFromNode, immutable.Map());
-		toNode = toNode.setIn(['children', i], childToNode);
-	}
-
-	return toNode;
-}*/
-
 
 

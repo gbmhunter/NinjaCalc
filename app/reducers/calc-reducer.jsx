@@ -143,9 +143,9 @@ export default function defaultReducer(state = initialState, action) {
 				description: newCalc.get('description'),
 				calcId: newCalc.get('id'),
 				imageSrc: newCalc.get('imageSrc'),
+				categoryPath: newCalc.get('categoryPath'),
 				sort: 0,
-				filtered: false,
-				test: 'test',
+				filtered: false,				
 			};
 
 			// Add calculator to grid
@@ -182,18 +182,6 @@ export default function defaultReducer(state = initialState, action) {
 
 			state.set('categoryTree', categoryTree);
 
-
-
-			//var nameChildrenCategoryTree = immutableTree.createNameChildrenTree(categoryTree);
-
-			//console.log('Existing nameChildrenCategoryTree.toJS() = ');
-			//console.log(state.get('nameChildrenCategoryTree').toJS());
-			//console.log('nameChildrenCategoryTree.get(\'nodes\').toJS() = ');
-			//console.log(nameChildrenCategoryTree.get('nodes').toJS());
-
-
-			//state.set('nameChildrenCategoryTree', nameChildrenCategoryTree.get('nodes'));
-			//state.set('nameChildrenCategoryTree', nameChildrenCategoryTree);
 
 			return state.asImmutable();
 
