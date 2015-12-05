@@ -223,7 +223,7 @@ export default function defaultReducer(state = initialState, action) {
 			gridHelper.filter(gridElements, action.node.key);
 
 			// Save the modified grid elements back into the immutable state variable
-			state.set('gridElements', gridElements);
+			state.set('gridElements', immutable.fromJS(gridElements));
 
 
 			return state.asImmutable();
