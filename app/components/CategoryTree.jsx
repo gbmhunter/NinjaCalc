@@ -139,7 +139,7 @@ export class CategoryTree extends React.Component {
     onSubTreeToggled(node, toggled){
         console.log('CategoryTree.onSubTreeToggled() called.');
         // Store Toggle State
-        node.toggled = toggled;
+        //node.toggled = toggled;
     }
 
     //! @brief      Event handler for when a node in the category tree is wanted to be toggled (
@@ -149,20 +149,20 @@ export class CategoryTree extends React.Component {
         console.log(node);
         console.log('and toggled = ' + toggled);
 
-        if(this.state.cursor){ 
-            this.state.cursor.active = false;
-        }
-        node.active = true;
+        //if(this.state.cursor){ 
+        //    this.state.cursor.active = false;
+        //}
+        //node.active = true;
         
         // Check to make sure we are not at the tip of a branch
         // (if we are, we do not need/want to toggle)
         if(!node.terminal) {
-            this.onSubTreeToggled(node, toggled);
+            //this.onSubTreeToggled(node, toggled);
 
             // Dispatch action to change state of category tree data
-            this.props.dispatch(calcActions.toggleCategory(node, toggled));
+            //this.props.dispatch(calcActions.toggleCategory(node, toggled));
         }
-        this.setState({ cursor: node });
+        //this.setState({ cursor: node });
     }
 
     render(){

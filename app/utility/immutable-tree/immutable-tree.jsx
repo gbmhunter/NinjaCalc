@@ -169,21 +169,29 @@ export function addNodePath(parentNode, nodePath) {
 }
 
 //! @brief		Call to set a param in the node specified by key to the specified state within the tree structure
-//!				defined by parentNode.
-export function setParam(parentNode, key, param, state) {
-	console.log('immutableTree.setParam() called with parentNode.toJS() =')
-	console.log(parentNode);
-	console.log('and key =');
-	console.log(key);
-	console.log('and param = ' + param);
-	console.log(' and state = ' + state);
+//!				defined by startNode.
+export function setParam(startNode, key, param, state) {
+	//console.log('immutableTree.setParam() called with startNode =')
+	//console.log(startNode);
+	//console.log('and key =');
+	//console.log(key);
+	//console.log('and param = ' + param);
+	//console.log(' and state = ' + state);
 
 	// We need to find the node, from the given key
-	var foundNode = findNode(parentNode, key);
-	console.log('foundNode = ');
-	console.log(foundNode);
+	var foundNode = findNode(startNode, key);
+	//console.log('foundNode = ');
+	//console.log(foundNode);
 
-	return parentNode;
+	// Check to make sure a node was found
+	if(typeof(foundNode) == 'undefined') {
+		throw 'Could not find node with key ' + key + 'in startNode';
+	}
+
+	// Now that we have the right node, let's modify the parameter, 
+	// setting it to the state provided
+	foundNode[param] = state;
+	
 }
 
 //! @brief		Finds a node based on the given key within a startNode (i.e. recursively looking at
@@ -192,28 +200,28 @@ export function setParam(parentNode, key, param, state) {
 //! @param 		key 		The unique key of the node you wish to find.
 //! @returns 	The node that has the given key. If no node is found, returns undefined. 
 function findNode(startNode, key) {
-	console.log('findNode() called with startNode = ');
-	console.log(startNode);
-	console.log('and key =');
-	console.log(key);
+	//console.log('findNode() called with startNode = ');
+	//console.log(startNode);
+	//console.log('and key =');
+	//console.log(key);
 
 	if(startNode.key.equals(key)) {
-		console.log('Found node!');
+		//console.log('Found node!');
 		return startNode;
 	}
 
 	for(var x = 0; x < startNode.children.length; x++) {
-		console.log('startNode.children[x] = ');
-		console.log(startNode.children[x]);
+		//console.log('startNode.children[x] = ');
+		//console.log(startNode.children[x]);
 		var foundNode = findNode(startNode.children[x], key);
 		if(typeof(foundNode) != 'undefined') {
-			console.log('findNode() did not return undefined, when childNode =');
-			console.log(startNode.children[x]);
+			//console.log('findNode() did not return undefined, when childNode =');
+			//console.log(startNode.children[x]);
 			return foundNode;
 		}
 	}
 
-	console.log('returning undefined.');
+	//console.log('returning undefined.');
 	return undefined;
 
 }

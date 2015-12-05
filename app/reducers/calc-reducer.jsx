@@ -195,8 +195,12 @@ export default function defaultReducer(state = initialState, action) {
 
 			// Now we want to change the toggled state of the node in state.categoryTree with the same
 			// id as provided in action.node.key, to the boolean state provided by action.node.toggled
-			immutableTree.setParam(state.get('categoryTree').toJS(), action.node.key, 'toggled', action.node.toggled);
-
+			var categoryTree = state.get('categoryTree').toJS();
+			console.log('categoryTree (before mod) =');
+			console.log(categoryTree);
+			immutableTree.setParam(categoryTree, action.node.key, 'toggled', action.toggled);
+			console.log('categoryTree (after mod) =');
+			console.log(categoryTree);
 
 			return state.asImmutable();
 
