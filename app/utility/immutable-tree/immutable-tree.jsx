@@ -16,6 +16,37 @@ const nodeKeyParameterId = 'key';
 const nodeNameParameterId = 'name';
 const nodeChildrenParameterId = 'children';
 
+// Warn if overriding existing method
+if(Array.prototype.equals)
+    console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+// attach the .equals method to Array's prototype to call it on any array
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time 
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}
+// Hide method from for-in loops
+Object.defineProperty(Array.prototype, "equals", {enumerable: false});
+
+
 //! @brief		Creates a root node. This must be called before
 //!				any of the other functions in this module are used.
 export function createRootNode() {
@@ -135,6 +166,56 @@ export function addNodePath(parentNode, nodePath) {
 	console.log('addNodePath() finished.');
 
 	return parentNode;
+}
+
+//! @brief		Call to set a param in the node specified by key to the specified state within the tree structure
+//!				defined by parentNode.
+export function setParam(parentNode, key, param, state) {
+	console.log('immutableTree.setParam() called with parentNode.toJS() =')
+	console.log(parentNode);
+	console.log('and key =');
+	console.log(key);
+	console.log('and param = ' + param);
+	console.log(' and state = ' + state);
+
+	// We need to find the node, from the given key
+	var foundNode = findNode(parentNode, key);
+	console.log('foundNode = ');
+	console.log(foundNode);
+
+	return parentNode;
+}
+
+//! @brief		Finds a node based on the given key within a startNode (i.e. recursively looking at
+//!				the startNode and all it's ancestors).
+//! @param 		startNode	The node you want to begin the recursive search from.
+//! @param 		key 		The unique key of the node you wish to find.
+//! @returns 	The node that has the given key. If no node is found, returns undefined. 
+function findNode(startNode, key) {
+	console.log('findNode() called with startNode = ');
+	console.log(startNode);
+	console.log('and key =');
+	console.log(key);
+
+	if(startNode.key.equals(key)) {
+		console.log('Found node!');
+		return startNode;
+	}
+
+	for(var x = 0; x < startNode.children.length; x++) {
+		console.log('startNode.children[x] = ');
+		console.log(startNode.children[x]);
+		var foundNode = findNode(startNode.children[x], key);
+		if(typeof(foundNode) != 'undefined') {
+			console.log('findNode() did not return undefined, when childNode =');
+			console.log(startNode.children[x]);
+			return foundNode;
+		}
+	}
+
+	console.log('returning undefined.');
+	return undefined;
+
 }
 
 /*export function createTextNodesTree(fromNode) {
