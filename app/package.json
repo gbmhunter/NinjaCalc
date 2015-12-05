@@ -39,6 +39,7 @@
     "react-sortable": "0.0.2",
     "react-style": "^0.5.5",
     "react-tap-event-plugin": "^0.2.1",
+    "react-treebeard": "^1.0.14",
     "react-treeview": "^0.4.2",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.0"

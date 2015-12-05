@@ -207,7 +207,7 @@ export default function defaultReducer(state = initialState, action) {
 			var gridElements = state.get('gridElements').toJS();
 
 			// Filter the grid elements. This function sets the visible property of all grid elements that do not belong to the 
-			// given key to false
+			// given key to false. Modifies the gridElements array directly (no return value).
 			gridHelper.filter(gridElements, action.node.key);
 
 			// Save the modified grid elements back into the immutable state variable

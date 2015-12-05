@@ -12,8 +12,12 @@
 //=========== npm MODULES ==========//
 
 
-//! @brief 		Hides all the items in gridElements which are not children of category key.
+//! @brief 		Shows items in gridElements which are children of category path, and hides all others, by setting the "filtered" property.
+//! @param 		gridElements    An array of the elements displayed in the grid view. This function requires each element
+//! 							to have "name" and "categoryPath" parameters. The "filtered" property on each element will be
+//! 							modified directly.
 //! @param 		categoryPath 	categoryPath should be an array of strings in the form ['root', 'Electronics', 'Basic'].
+//! @returns 	Nothing, modifies gridElements directly.
 export function filter(gridElements, categoryPath) {
 	console.log('gridHelper.filter() called with gridElements =');
 	console.log(gridElements);
@@ -52,6 +56,7 @@ export function filter(gridElements, categoryPath) {
 //! @details	If categoryPath2 is empty, then isInPath() will return true.
 //! @param 		categoryPath1 		The category path that is under investigation.
 //! @param 		categoryPath2       The category path that we want to see if categoryPath1 belongs to.
+//! @returns 	True is categoryPath1 is equal or a child of categoryPath2, otherwise false.
 function isInPath(categoryPath1, categoryPath2) {
 	console.log('gridHelper.isInPath() called with categoryPath1 =');
 	console.log(categoryPath1);
