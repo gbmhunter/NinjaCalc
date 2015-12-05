@@ -2,7 +2,7 @@
 //! @file               CategoryTree.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-25
-//! @last-modified      2015-12-01
+//! @last-modified      2015-12-05
 //! @brief              React component which draws the calculator category tree element. Uses the
 //!                     react-treebeard module.
 //! @details
@@ -160,7 +160,7 @@ export class CategoryTree extends React.Component {
             //this.onSubTreeToggled(node, toggled);
 
             // Dispatch action to change state of category tree data
-            //this.props.dispatch(calcActions.toggleCategory(node, toggled));
+            this.props.dispatch(calcActions.toggleCategory(node, toggled));
         }
         //this.setState({ cursor: node });
     }

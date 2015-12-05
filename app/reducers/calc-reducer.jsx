@@ -2,21 +2,33 @@
 //! @file               calc-reducer.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-23
+//! @last-modified      2015-12-05
 //! @brief              Contains the "redux" reducer for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
 'use strict';
 
-//=========== npm MODULES ==========//
+//===============================================================================================//
+//========================================= npm MODULES =========================================//
+//===============================================================================================//
 var immutable = require('immutable');
 var TreeModel = require('tree-model');
 
-//=========== USER MODULES ==========//
+//===============================================================================================//
+//========================================== USER MODULES =======================================//
+//===============================================================================================//
+
 import * as utility from '../utility/utility.js';
 import * as immutableTree from '../utility/immutable-tree/immutable-tree.js';
 import * as calcActions from '../actions/calc-actions.js';
+
+// Helps with manipulation of the calculator grid that the user can select from.
+import * as gridHelper from '../utility/grid-helper/grid-helper.js';
+
+//===============================================================================================//
+//============================================ CODE =============================================//
+//===============================================================================================//
 
 //! @brief		Default/initial state for application.
 const initialState = immutable.fromJS({
@@ -201,6 +213,18 @@ export default function defaultReducer(state = initialState, action) {
 			immutableTree.setParam(categoryTree, action.node.key, 'toggled', action.toggled);
 			console.log('categoryTree (after mod) =');
 			console.log(categoryTree);
+
+			// Currently, this also counts as if the user 'clicked' on the category, so
+			// we want to filter the displayed calculators to only those in this category.
+			var gridElements = state.get('gridElements').toJS();
+
+			// Filter the grid elements. This function sets the visible property of all grid elements that do not belong to the 
+			// given key to false
+			gridHelper.filter(gridElements, action.node.key);
+
+			// Save the modified grid elements back into the immutable state variable
+			state.set('gridElements', gridElements);
+
 
 			return state.asImmutable();
 
