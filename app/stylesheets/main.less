@@ -51,9 +51,24 @@ p.centered {
     // This is the little strip down the left-hand side of the app that the user can
     // click to open the left drawer menu.
     #leftNavDrawerTeaser {
+
+        // Width determines how visible and easy to click the bar is
         width: 20px;
+
         height: 100%;
+
+        color: white;
         background-color: #505050;
+
+        // The teaser has got a single > character inside of it,
+        // we want to center align it both horizontally and vertically
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            background-color: #707070;
+        }
     }
 
 }

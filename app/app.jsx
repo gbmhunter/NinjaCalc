@@ -66,54 +66,11 @@ const store = finalCreateStore(defaultReducer);
 
 //============== LOAD CALCULATORS ============//
 
+// Calculators are loaded into Redux state in the onMount function of the react App
 import * as lt3745Calc from './calculators/chip-specific/lt3745/lt3745.js';
 import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 import * as resistorDividerCalc from './calculators/basic/resistor-divider/resistor-divider.js';
 import * as rcTimeConstantCalc from './calculators/basic/rc-time-constant/rc-time-constant.js';
-
-
-
-
-// Calculators are loaded into Redux state in the onMount function of the react App
-
-
-//class App extends React.Component {
-
-	/*var data = [
-		{
-		text: "Electronics",
-		nodes: [
-		  {
-		    text: "PCB Design",
-		    nodes: [
-		      {
-		        text: "Grandchild 1"
-		      },
-		      {
-		        text: "Grandchild 2"
-		      }
-		    ]
-		  },
-		  {
-		    text: "Basic"
-		  }
-		]
-		},
-		{
-		text: "Mechanical"
-		},
-		{
-		text: "Software"
-		},
-		];*/
-
-
-
-const style = {
-  background: '#F9F9F9',
-  boxShadow: 'rgba(0, 0, 0, 0.188235) 0px 10px 20px, rgba(0, 0, 0, 0.227451) 0px 6px 6px'
-};
-
 
 
 var App = React.createClass({
@@ -206,19 +163,6 @@ var App = React.createClass({
 			return gridElement;
 		});
 
-		/*
-		const drawerProps = {
-      overlayColor: 'rgba(255,255,255,0.6)',
-      drawerStyle: style
-    };*/
-		
-		//data = this.props.state.get('textNodesCategoryTree').toJS();
-
-		//console.log('Comparison of data =');
-		//console.log(data);
-		//console.log('and this.props.state.get(\'nameChildrenCategoryTree\').toJS() =');
-		//console.log(this.props.state.get('nameChildrenCategoryTree').toJS());
-
 		return (
 			<div className="app full-height">	
 
@@ -281,18 +225,19 @@ var App = React.createClass({
 		        		id="leftNavDrawerTeaser"
 		        		onClick={this.onLeftNavDrawerTeaserClick}
 		        		class="full-height">
+		        		&gt;
 		        	</div>
 
 					{/* Tabs are the main view element on the UI */}
 					<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 						{/* First tab is static and non-removable */}
 						<Tab eventKey={0} title="Calculators">
-							No calculators are open yet. Want to open one?
+							No calculators are open yet. Want to create a new one?
 
 							<br />
 							<br />
 
-							<Button onClick={this.onOpenCalculatorClicked}>Open Calculator</Button>																		
+							<Button onClick={this.onOpenCalculatorClicked}>New Calculator</Button>																		
 						</Tab>
 						{
 							/* Let's create a visual tab for every calculator in the openCalculators array */
