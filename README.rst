@@ -8,8 +8,8 @@ A embedded engineering calculator suite that's got your back.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2015-11-20
-- Version: v0.1.0
+- Last Modified: 2015-12-06
+- Version: v0.2.0
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: HTML, js, jsx, LESS
@@ -67,8 +67,11 @@ Developing
 
 .. _node: https://nodejs.org/en/
 
-To Build The Windows Installer
-------------------------------
+Creating Installers
+-------------------
+
+#. Type :code:`npm run release` from the repo root directory.
+#. Go make a coffee (or soy latte, no judging) and enjoy the next 5-10 minutes before coming back to find an installer! An installer will be made for the operating system you are currently running on.
 
 
 
