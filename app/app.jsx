@@ -205,26 +205,28 @@ var App = React.createClass({
 		var openCalculatorTabs;
 		if(this.props.state.get('openCalculators').size != 0) {
 			openCalculatorTabs = 
-				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
-					{/* First tab is static and non-removable */}
-					{/*<Tab eventKey={0} title="Calculators">
-																							
-					</Tab>*/}
-					{
-						/* Let's create a visual tab for every calculator in the openCalculators array */
-						this.props.state.get('openCalculators').map(function(calculator, index) {
-							return (
-								<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
-									{
-										/* This next line of code inserts the entire calculator into the tab element.
-										We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
-										that.renderCalc(calculator, index)
-									}										
-								</Tab>
-							);
-						})
-					}
-				</Tabs>		
+				<div id="calc-tab-container">
+					<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
+						{/* First tab is static and non-removable */}
+						{/*<Tab eventKey={0} title="Calculators">
+																								
+						</Tab>*/}
+						{
+							/* Let's create a visual tab for every calculator in the openCalculators array */
+							this.props.state.get('openCalculators').map(function(calculator, index) {
+								return (
+									<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
+										{
+											/* This next line of code inserts the entire calculator into the tab element.
+											We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
+											that.renderCalc(calculator, index)
+										}										
+									</Tab>
+								);
+							})
+						}
+					</Tabs>
+				</div>		
 		}
 
 		return (

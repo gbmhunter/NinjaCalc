@@ -1,10 +1,10 @@
 {
-  "name": "electron-boilerplate",
-  "productName": "Electron Boilerplate",
-  "identifier": "com.example.electron-boilerplate",
-  "description": "Starter for your Electron application. Out of the box ready for serious stuff.",
-  "version": "0.1.0",
-  "author": "Mr Gumby <gumby@sillywalks.com>",
+  "name": "NinjaCalc",
+  "productName": "NinjaCalc",
+  "identifier": "com.mbedded-ninja.ninja-calc",
+  "description": "A embedded engineering calculator suite that's got your back.",
+  "version": "0.2.0",
+  "author": "Geoffrey Hunter <gbmhunter@gmail.com>",
   "main": "background.js",
   "config": {
     "target": "development"

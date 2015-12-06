@@ -1,3 +1,12 @@
+v0.2.0
+------
+
+- New modal view for selecting new calculator.
+- Calculators are now filterable by category.
+- New initial view when there are no calculators open.
+- New left drawer menu with small teaser bar.
+- Renamed app title to "NinjaCalc", closes #20.
+
 v0.1.0
 -------
 
