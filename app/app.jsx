@@ -25,6 +25,7 @@ var Latex = require('react-latex');
 var ReactRadioGroup = require('react-radio-group');
 //import TreeView from 'react-treeview';
 import { TreeView } from './utility/react-bootstrap-treeview/react-bootstrap-treeview.js';
+import Drawer from 'react-motion-drawer';
 
 
 // This next one is required for Material UI click events to work properly,
@@ -108,7 +109,32 @@ import * as rcTimeConstantCalc from './calculators/basic/rc-time-constant/rc-tim
 
 
 
+const style = {
+  background: '#F9F9F9',
+  boxShadow: 'rgba(0, 0, 0, 0.188235) 0px 10px 20px, rgba(0, 0, 0, 0.227451) 0px 6px 6px'
+};
 
+var menuItems = [
+  { route: 'get-started', text: 'Get Started' },
+  { route: 'customization', text: 'Customization' },
+  { route: 'components', text: 'Components' },
+  { type: MenuItem.Types.SUBHEADER, text: 'Resources' },
+  {
+     type: MenuItem.Types.LINK,
+     payload: 'https://github.com/callemall/material-ui',
+     text: 'GitHub'
+  },
+  {
+     text: 'Disabled',
+     disabled: true
+  },
+  {
+     type: MenuItem.Types.LINK,
+     payload: 'https://www.google.com',
+     text: 'Disabled Link',
+     disabled: true
+  },
+];
 
 var App = React.createClass({
 
@@ -161,6 +187,19 @@ var App = React.createClass({
  		this.props.dispatch(calcActions.setCalcGridVisibility(false));
  	},
 
+ 	onDrawerChange: function(event) {
+ 		console.log('onDrawerChange() called.');
+ 	},
+
+ 	openMenu: function(event) {
+ 		this.refs.leftNav.toggle();
+ 	},
+
+ 	drawerMenuItemChanged: function(event) {
+ 		console.log('drawerMenuItemChanged() called with event =');
+ 		console.log(event);
+ 	},
+
 	render: function() {
 
 		var that = this;
@@ -172,6 +211,12 @@ var App = React.createClass({
 			gridElement.dispatch = this.props.dispatch;
 			return gridElement;
 		});
+
+		/*
+		const drawerProps = {
+      overlayColor: 'rgba(255,255,255,0.6)',
+      drawerStyle: style
+    };*/
 		
 		//data = this.props.state.get('textNodesCategoryTree').toJS();
 
@@ -183,7 +228,13 @@ var App = React.createClass({
 		return (
 			<div className="app">	
 				{/* Docked Left Nav */}
-				{/*<LeftNav ref="leftNav" menuItems={menuItems} docked={false} />*/}
+				<LeftNav ref="leftNav" menuItems={menuItems} docked={false} onChange={this.drawerMenuItemChanged} />
+				{/*<Drawer {...drawerProps}
+					open={true}
+					onChange={this.onDrawerChange}					
+					fadeOut={true}>
+					TESTING!!!
+				</Drawer>*/}
 
 				<Modal
 					show={this.props.state.get('calcGridVisibility')}
@@ -240,7 +291,8 @@ var App = React.createClass({
 
 						<br />
 
-						<Button onClick={this.onOpenCalculatorClicked}>Open Calculator</Button>																	
+						<Button onClick={this.onOpenCalculatorClicked}>Open Calculator</Button>		
+						<Button onClick={this.openMenu}>Open Menu</Button>																	
 					</Tab>
 					{
 						/* Let's create a visual tab for every calculator in the openCalculators array */

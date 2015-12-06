@@ -34,6 +34,7 @@
     "react-dropdown": "^0.7.2",
     "react-grid-layout": "^0.8.5",
     "react-latex": "0.0.8",
+    "react-motion-drawer": "^3.0.0",
     "react-radio-group": "^2.1.1",
     "react-redux": "^4.0.0",
     "react-sortable": "0.0.2",
