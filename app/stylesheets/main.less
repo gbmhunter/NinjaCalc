@@ -73,6 +73,23 @@ p.centered {
 
 }
 
+// This is just plenty of white space with some text and button, which we want to center
+// in the middle of the view.
+#no-open-calc-window-parent {
+
+    // We want to center align it both horizontally and vertically
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // The actual text and button is wrapped up in this child div
+    #text-and-button {
+        text-align: center;
+
+        font-size: 20px;
+    }
+}
+
 
 
 div.tab-content {

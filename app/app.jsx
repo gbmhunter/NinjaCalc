@@ -73,6 +73,43 @@ import * as resistorDividerCalc from './calculators/basic/resistor-divider/resis
 import * as rcTimeConstantCalc from './calculators/basic/rc-time-constant/rc-time-constant.js';
 
 
+class NoOpenCalculatorsWindow extends React.Component {
+    constructor(props){
+        super(props);
+        //this.state = {};
+        this.onOpenCalculatorClicked = this.onOpenCalculatorClicked.bind(this);
+    }
+
+    onOpenCalculatorClicked(event) {
+ 		console.log('onOpenCalculatorClicked() called.');
+ 		this.props.dispatch(calcActions.setCalcGridVisibility(true));
+ 	}
+
+    render(){
+
+        // The data variable has to be in a specific format for the tree structure to render correctly.
+        // Doesn't seem like an array of siblings as the highest level object is supported
+        return (
+            <div id="no-open-calc-window-parent" className="full-width full-height">
+            	<div id="text-and-button">
+					No calculators are open yet. Want to create a new one?
+
+					<br />
+					<br />
+
+					<Button 
+						onClick={this.onOpenCalculatorClicked}
+						bsSize="large"
+						bsStyle="primary">
+							New Calculator
+					</Button>	
+				</div>
+            </div>
+        );
+    }
+
+}
+
 var App = React.createClass({
 
 	//mixins: [PureRenderMixin],
@@ -113,11 +150,6 @@ var App = React.createClass({
  	listItemClicked: function(event) {
  		console.log('listItemClicked() called with event.target.textContent = ');
  		console.log(event.target.textContent);
- 	},
-
- 	onOpenCalculatorClicked: function(event) {
- 		console.log('onOpenCalculatorClicked() called.');
- 		this.props.dispatch(calcActions.setCalcGridVisibility(true));
  	},
 
  	hideCalcGrid: function(event) {
@@ -162,6 +194,38 @@ var App = React.createClass({
 			gridElement.dispatch = this.props.dispatch;
 			return gridElement;
 		});
+
+		var noCalcsOpenWindow;
+		if(this.props.state.get('openCalculators').size == 0) {
+			noCalcsOpenWindow = <NoOpenCalculatorsWindow dispatch={this.props.dispatch}/>;
+		} else {
+			// Do nothing
+		}
+
+		var openCalculatorTabs;
+		if(this.props.state.get('openCalculators').size != 0) {
+			openCalculatorTabs = 
+				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
+					{/* First tab is static and non-removable */}
+					{/*<Tab eventKey={0} title="Calculators">
+																							
+					</Tab>*/}
+					{
+						/* Let's create a visual tab for every calculator in the openCalculators array */
+						this.props.state.get('openCalculators').map(function(calculator, index) {
+							return (
+								<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
+									{
+										/* This next line of code inserts the entire calculator into the tab element.
+										We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
+										that.renderCalc(calculator, index)
+									}										
+								</Tab>
+							);
+						})
+					}
+				</Tabs>		
+		}
 
 		return (
 			<div className="app full-height">	
@@ -228,32 +292,10 @@ var App = React.createClass({
 		        		&gt;
 		        	</div>
 
+		        	{noCalcsOpenWindow}
+
 					{/* Tabs are the main view element on the UI */}
-					<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
-						{/* First tab is static and non-removable */}
-						<Tab eventKey={0} title="Calculators">
-							No calculators are open yet. Want to create a new one?
-
-							<br />
-							<br />
-
-							<Button onClick={this.onOpenCalculatorClicked}>New Calculator</Button>																		
-						</Tab>
-						{
-							/* Let's create a visual tab for every calculator in the openCalculators array */
-							this.props.state.get('openCalculators').map(function(calculator, index) {
-								return (
-									<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
-										{
-											/* This next line of code inserts the entire calculator into the tab element.
-											We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
-											that.renderCalc(calculator, index)
-										}										
-									</Tab>
-								);
-							})
-						}
-					</Tabs>		
+					{openCalculatorTabs}
 				</div>									
 			</div>
 		);
