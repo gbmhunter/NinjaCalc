@@ -46,6 +46,25 @@ export function addCalcType(model) {
 }
 
 //======================================================================//
+//===================== setCalcGridVisibility() ========================//
+//======================================================================//
+
+export var SET_CALC_GRID_VISIBILITY = 'SET_CALC_GRID_VISIBILITY';
+
+//! @brief    Changes the current variable being calculated.
+export function setCalcGridVisibility(trueFalse) {
+
+	return (dispatch, getState) => {
+		console.log('setCalcGridVisibility() thunk called.');
+
+		dispatch({
+			type: SET_CALC_GRID_VISIBILITY,
+			trueFalse,
+		});
+	}
+}
+
+//======================================================================//
 //========================= toggleCategory() ===========================//
 //======================================================================//
 
@@ -92,7 +111,8 @@ export function setSearchTerm(searchTerm) {
 
 export var OPEN_CALC = 'OPEN_CALC';
 
-//! @brief    Changes the current variable being calculated.
+//! @brief    Opens a new calculator, the type being specified by calcId.
+//! @details  Also closes the calc grid view (so you can start using the calculator straight away).
 export function openCalc(calcId) {
 
 	return (dispatch, getState) => {
@@ -102,6 +122,13 @@ export function openCalc(calcId) {
 			type: OPEN_CALC,
 			calcId,
 		});
+
+		dispatch({
+			type: SET_CALC_GRID_VISIBILITY,
+			false,
+		});
+
+
 	}
 }
 

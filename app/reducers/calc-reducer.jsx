@@ -2,7 +2,7 @@
 //! @file               calc-reducer.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-12-05
+//! @last-modified      2015-12-06
 //! @brief              Contains the "redux" reducer for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -38,6 +38,9 @@ const initialState = immutable.fromJS({
 	//! @details	Calculators are loaded in the onMount() function of the React 'App' component.
 	//calculators: [], 
 	calculators: immutable.List(),
+
+	//! @brief		If true, the modal calculator grid element will be visible.
+	calcGridVisibility: false,
 
 	//categoryTree: new TreeModel(), 
 	categoryTree: immutableTree.createRootNode(),
@@ -181,6 +184,19 @@ export default function defaultReducer(state = initialState, action) {
 			console.log(categoryTree.toJS());
 
 			state.set('categoryTree', categoryTree);
+
+
+			return state.asImmutable();
+
+		//==============================================================================//
+		//============================ SET_CALC_GRID_VISIBILITY ========================//
+		//==============================================================================//
+
+		case calcActions.SET_CALC_GRID_VISIBILITY:
+			console.log('calcActions.SET_CALC_GRID_VISIBILITY action received with action =');
+			console.log(action);
+
+			state.set('calcGridVisibility', action.trueFalse);
 
 
 			return state.asImmutable();

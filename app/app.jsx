@@ -152,6 +152,15 @@ var App = React.createClass({
  		console.log(event.target.textContent);
  	},
 
+ 	onOpenCalculatorClicked: function(event) {
+ 		console.log('onOpenCalculatorClicked() called.');
+ 		this.props.dispatch(calcActions.setCalcGridVisibility(true));
+ 	},
+
+ 	hideCalcGrid: function(event) {
+ 		this.props.dispatch(calcActions.setCalcGridVisibility(false));
+ 	},
+
 	render: function() {
 
 		var that = this;
@@ -163,29 +172,6 @@ var App = React.createClass({
 			gridElement.dispatch = this.props.dispatch;
 			return gridElement;
 		});
-
-		var menuItems = [
-		  { route: 'get-started', text: 'Get Started' },
-		  { route: 'customization', text: 'Customization' },
-		  { route: 'components', text: 'Components' },
-		  { type: MenuItem.Types.SUBHEADER, text: 'Resources' },
-		  {
-		     type: MenuItem.Types.LINK,
-		     payload: 'https://github.com/callemall/material-ui',
-		     text: 'GitHub'
-		  },
-		  {
-		     text: 'Disabled',
-		     disabled: true
-		  },
-		  {
-		     type: MenuItem.Types.LINK,
-		     payload: 'https://www.google.com',
-		     text: 'Disabled Link',
-		     disabled: true
-		  },
-		];
-
 		
 		//data = this.props.state.get('textNodesCategoryTree').toJS();
 
@@ -197,61 +183,64 @@ var App = React.createClass({
 		return (
 			<div className="app">	
 				{/* Docked Left Nav */}
-				<LeftNav ref="leftNav" menuItems={menuItems} docked={false} />
+				{/*<LeftNav ref="leftNav" menuItems={menuItems} docked={false} />*/}
+
+				<Modal
+					show={this.props.state.get('calcGridVisibility')}
+					onHide={this.hideCalcGrid}
+					dialogClassName="calcGridModal">
+		          	<Modal.Header closeButton>
+		            	<Modal.Title>Open Calculator</Modal.Title>
+		          	</Modal.Header>
+        			<Modal.Body>
+	        			<div id='calculatorSelectionTab' >
+							<div className="calcCategories" >
+								{/*<TreeView data={data} />*/}
+								<CategoryTree
+									data={this.props.state.get('categoryTree')}
+									dispatch={this.props.dispatch}/>								
+							</div>
+	        				<div className='rightCol'>
+								{/* This is used to narrow down on the desired calculator */}
+								<Input
+							        type="text"
+							        value={this.props.state.get('searchTerm')}
+							        placeholder="Enter text"
+							        label="Search for calculator"
+							        hasFeedback
+							        ref="input"
+							        groupClassName="group-class"
+							        labelClassName="label-class"
+							        onChange={this.onSearchInputChange} />					        
+								<br />							         
+					            <div>
+									{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
+									height larger, but not the width */}
+									<AbsoluteGrid
+										items={items}
+										itemWidth={240}
+										itemHeight={360}
+										responsive={true}
+										zoom={1}
+										animation="transform 300ms ease"/>							
+								</div>
+							</div> {/*<div className='rightCol'>*/}
+						</div> {/*<div id='calculatorSelectionTab' >*/}
+		        	</Modal.Body>
+		          <Modal.Footer>
+		            <Button onClick={this.close}>Close</Button>
+		          </Modal.Footer>
+		        </Modal>
 
 				{/* Tabs are the main view element on the UI */}
 				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 					{/* First tab is static and non-removable */}
 					<Tab eventKey={0} title="Calculators">
-						
+						No calculators are open yet. Want to open one?
 
-							
-								
-						<Modal
-							show={true}
-							dialogClassName="calcGridModal">
-				          <Modal.Header closeButton>
-				            <Modal.Title>Open Calculator</Modal.Title>
-				          </Modal.Header>
-		        			<Modal.Body>
-			        			<div id='calculatorSelectionTab' >
-									<div className="calcCategories" >
-										{/*<TreeView data={data} />*/}
-										<CategoryTree
-											data={this.props.state.get('categoryTree')}
-											dispatch={this.props.dispatch}/>								
-									</div>
-			        				<div className='rightCol'>
-										{/* This is used to narrow down on the desired calculator */}
-										<Input
-									        type="text"
-									        value={this.props.state.get('searchTerm')}
-									        placeholder="Enter text"
-									        label="Search for calculator"
-									        hasFeedback
-									        ref="input"
-									        groupClassName="group-class"
-									        labelClassName="label-class"
-									        onChange={this.onSearchInputChange} />					        
-										<br />							         
-							            <div>
-											{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
-											height larger, but not the width */}
-											<AbsoluteGrid
-												items={items}
-												itemWidth={240}
-												itemHeight={360}
-												responsive={true}
-												zoom={1}
-												animation="transform 300ms ease"/>							
-										</div>
-									</div> {/*<div className='rightCol'>*/}
-								</div> {/*<div id='calculatorSelectionTab' >*/}
-				        	</Modal.Body>
-				          <Modal.Footer>
-				            <Button onClick={this.close}>Close</Button>
-				          </Modal.Footer>
-				        </Modal>
+						<br />
+
+						<Button onClick={this.onOpenCalculatorClicked}>Open Calculator</Button>																	
 					</Tab>
 					{
 						/* Let's create a visual tab for every calculator in the openCalculators array */
