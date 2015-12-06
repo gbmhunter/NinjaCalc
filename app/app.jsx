@@ -2,7 +2,7 @@
 //! @file               app.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-20
+//! @last-modified      2015-12-06
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -231,56 +231,52 @@ var App = React.createClass({
 								*/}
 							</div>
 
-							<div className='rightCol'>
-								{/* This is used to narrow down on the desired calculator */}
-								<Input
-							        type="text"
-							        value={this.props.state.get('searchTerm')}
-							        placeholder="Enter text"
-							        label="Search for calculator"
-							        hasFeedback
-							        ref="input"
-							        groupClassName="group-class"
-							        labelClassName="label-class"
-							        onChange={this.onSearchInputChange} />					        
-								<br />
-								<div>
-									{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
-									height larger, but not the width */}
-									<AbsoluteGrid
-										items={items}
-										itemWidth={240}
-										itemHeight={360}
-										responsive={true}
-										zoom={1}
-										animation="transform 300ms ease"/>							
-								</div>
-								<Modal show={true}>
+							
+								
+								<Modal
+									show={true}
+									dialogClassName="calcGridModal">
 						          <Modal.Header closeButton>
 						            <Modal.Title>Modal heading</Modal.Title>
 						          </Modal.Header>
-						          <Modal.Body>
-						            <h4>Text in a modal</h4>
-						            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+				        			<Modal.Body>
+				        				<div className='rightCol'>
+											{/* This is used to narrow down on the desired calculator */}
+											<Input
+										        type="text"
+										        value={this.props.state.get('searchTerm')}
+										        placeholder="Enter text"
+										        label="Search for calculator"
+										        hasFeedback
+										        ref="input"
+										        groupClassName="group-class"
+										        labelClassName="label-class"
+										        onChange={this.onSearchInputChange} />					        
+											<br />
+								            <h4>Text in a modal</h4>
+								            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
 
-						            <hr />
+								            <hr />
 
-						            <h4>Overflowing text to show scroll behavior</h4>
-						            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-						            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-						            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-						            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-						            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-						            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-						            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-						            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-						            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-						          </Modal.Body>
+								            <h4>Overflowing text to show scroll behavior</h4>
+								            <div>
+											{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
+											height larger, but not the width */}
+											<AbsoluteGrid
+												items={items}
+												itemWidth={240}
+												itemHeight={360}
+												responsive={true}
+												zoom={1}
+												animation="transform 300ms ease"/>							
+											</div>
+										</div>
+						        	</Modal.Body>
 						          <Modal.Footer>
 						            <Button onClick={this.close}>Close</Button>
 						          </Modal.Footer>
 						        </Modal>
-							</div>
+							
 						</div>{/* id='calculatorSelectionTab' */}
 					</Tab>
 					{
