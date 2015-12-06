@@ -203,63 +203,38 @@ var App = React.createClass({
 				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 					{/* First tab is static and non-removable */}
 					<Tab eventKey={0} title="Calculators">
-						<div id='calculatorSelectionTab' >
-							<div className="calcCategories" >
-								{/*<TreeView data={data} />*/}
-								<CategoryTree
-									data={this.props.state.get('categoryTree')}
-									dispatch={this.props.dispatch}/>
-								{/*
-								<List subheader="Category">
-									<ListItem 
-										primaryText="Electronics" />
-									<ListItem primaryText="Mechanical" />
-									<ListItem
-										primaryText="Software"								
-										initiallyOpen={false}
-										nestedItems={[
-											<ListItem primaryText="Test1" />,
-											<ListItem
-											primaryText="Test2"								
-											nestedItems={[
-												<ListItem primaryText="Test3" />,
-											]}
-											/>,
-										]}
-									/>
-								</List>
-								*/}
-							</div>
+						
 
 							
 								
-								<Modal
-									show={true}
-									dialogClassName="calcGridModal">
-						          <Modal.Header closeButton>
-						            <Modal.Title>Modal heading</Modal.Title>
-						          </Modal.Header>
-				        			<Modal.Body>
-				        				<div className='rightCol'>
-											{/* This is used to narrow down on the desired calculator */}
-											<Input
-										        type="text"
-										        value={this.props.state.get('searchTerm')}
-										        placeholder="Enter text"
-										        label="Search for calculator"
-										        hasFeedback
-										        ref="input"
-										        groupClassName="group-class"
-										        labelClassName="label-class"
-										        onChange={this.onSearchInputChange} />					        
-											<br />
-								            <h4>Text in a modal</h4>
-								            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
-
-								            <hr />
-
-								            <h4>Overflowing text to show scroll behavior</h4>
-								            <div>
+						<Modal
+							show={true}
+							dialogClassName="calcGridModal">
+				          <Modal.Header closeButton>
+				            <Modal.Title>Open Calculator</Modal.Title>
+				          </Modal.Header>
+		        			<Modal.Body>
+			        			<div id='calculatorSelectionTab' >
+									<div className="calcCategories" >
+										{/*<TreeView data={data} />*/}
+										<CategoryTree
+											data={this.props.state.get('categoryTree')}
+											dispatch={this.props.dispatch}/>								
+									</div>
+			        				<div className='rightCol'>
+										{/* This is used to narrow down on the desired calculator */}
+										<Input
+									        type="text"
+									        value={this.props.state.get('searchTerm')}
+									        placeholder="Enter text"
+									        label="Search for calculator"
+									        hasFeedback
+									        ref="input"
+									        groupClassName="group-class"
+									        labelClassName="label-class"
+									        onChange={this.onSearchInputChange} />					        
+										<br />							         
+							            <div>
 											{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
 											height larger, but not the width */}
 											<AbsoluteGrid
@@ -269,15 +244,14 @@ var App = React.createClass({
 												responsive={true}
 												zoom={1}
 												animation="transform 300ms ease"/>							
-											</div>
 										</div>
-						        	</Modal.Body>
-						          <Modal.Footer>
-						            <Button onClick={this.close}>Close</Button>
-						          </Modal.Footer>
-						        </Modal>
-							
-						</div>{/* id='calculatorSelectionTab' */}
+									</div> {/*<div className='rightCol'>*/}
+								</div> {/*<div id='calculatorSelectionTab' >*/}
+				        	</Modal.Body>
+				          <Modal.Footer>
+				            <Button onClick={this.close}>Close</Button>
+				          </Modal.Footer>
+				        </Modal>
 					</Tab>
 					{
 						/* Let's create a visual tab for every calculator in the openCalculators array */
