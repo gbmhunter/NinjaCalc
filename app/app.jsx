@@ -114,27 +114,7 @@ const style = {
   boxShadow: 'rgba(0, 0, 0, 0.188235) 0px 10px 20px, rgba(0, 0, 0, 0.227451) 0px 6px 6px'
 };
 
-var menuItems = [
-  { route: 'get-started', text: 'Get Started' },
-  { route: 'customization', text: 'Customization' },
-  { route: 'components', text: 'Components' },
-  { type: MenuItem.Types.SUBHEADER, text: 'Resources' },
-  {
-     type: MenuItem.Types.LINK,
-     payload: 'https://github.com/callemall/material-ui',
-     text: 'GitHub'
-  },
-  {
-     text: 'Disabled',
-     disabled: true
-  },
-  {
-     type: MenuItem.Types.LINK,
-     payload: 'https://www.google.com',
-     text: 'Disabled Link',
-     disabled: true
-  },
-];
+
 
 var App = React.createClass({
 
@@ -195,9 +175,23 @@ var App = React.createClass({
  		this.refs.leftNav.toggle();
  	},
 
+ 	//! @brief		Event handler for when a different menu item is clicked in the left drawer menu.
  	drawerMenuItemChanged: function(event) {
  		console.log('drawerMenuItemChanged() called with event =');
  		console.log(event);
+
+ 		if(event.target.textContent == 'New Calculator') {
+ 			this.props.dispatch(calcActions.setCalcGridVisibility(true));
+ 		}
+ 	},
+
+ 	//! @brief		Event handler for when someone clicks on the left navigation drawer teaser
+ 	//!				(the little visible bar on the left-hand side of the app).
+ 	onLeftNavDrawerTeaserClick: function(event) {
+ 		// Let's display the left nav drawer.
+ 		// Since it should be always hidden when this event is fired, this toggle() command
+ 		// should always make it visible
+ 		this.refs.leftNav.toggle();
  	},
 
 	render: function() {
@@ -226,16 +220,14 @@ var App = React.createClass({
 		//console.log(this.props.state.get('nameChildrenCategoryTree').toJS());
 
 		return (
-			<div className="app">	
-				{/* Docked Left Nav */}
-				<LeftNav ref="leftNav" menuItems={menuItems} docked={false} onChange={this.drawerMenuItemChanged} />
-				{/*<Drawer {...drawerProps}
-					open={true}
-					onChange={this.onDrawerChange}					
-					fadeOut={true}>
-					TESTING!!!
-				</Drawer>*/}
+			<div className="app full-height">	
 
+				{/* NON-FLOW DOM ELEMENTS */}
+
+				{/* LEFT DRAWER NAV */}
+				<LeftNav ref="leftNav" menuItems={this.props.state.get('leftNavMenuItems').toJS()} docked={false} onChange={this.drawerMenuItemChanged} />
+
+				{/* CALC GRID MODAL VIEW */}
 				<Modal
 					show={this.props.state.get('calcGridVisibility')}
 					onHide={this.hideCalcGrid}
@@ -283,32 +275,41 @@ var App = React.createClass({
 		          </Modal.Footer>
 		        </Modal>
 
-				{/* Tabs are the main view element on the UI */}
-				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
-					{/* First tab is static and non-removable */}
-					<Tab eventKey={0} title="Calculators">
-						No calculators are open yet. Want to open one?
+		        <div id="flowElements" class="full-height">
 
-						<br />
+		        	<div 
+		        		id="leftNavDrawerTeaser"
+		        		onClick={this.onLeftNavDrawerTeaserClick}
+		        		class="full-height">
+		        	</div>
 
-						<Button onClick={this.onOpenCalculatorClicked}>Open Calculator</Button>		
-						<Button onClick={this.openMenu}>Open Menu</Button>																	
-					</Tab>
-					{
-						/* Let's create a visual tab for every calculator in the openCalculators array */
-						this.props.state.get('openCalculators').map(function(calculator, index) {
-							return (
-								<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
-									{
-										/* This next line of code inserts the entire calculator into the tab element.
-										We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
-										that.renderCalc(calculator, index)
-									}										
-								</Tab>
-							);
-						})
-					}
-				</Tabs>											
+					{/* Tabs are the main view element on the UI */}
+					<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
+						{/* First tab is static and non-removable */}
+						<Tab eventKey={0} title="Calculators">
+							No calculators are open yet. Want to open one?
+
+							<br />
+							<br />
+
+							<Button onClick={this.onOpenCalculatorClicked}>Open Calculator</Button>																		
+						</Tab>
+						{
+							/* Let's create a visual tab for every calculator in the openCalculators array */
+							this.props.state.get('openCalculators').map(function(calculator, index) {
+								return (
+									<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
+										{
+											/* This next line of code inserts the entire calculator into the tab element.
+											We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
+											that.renderCalc(calculator, index)
+										}										
+									</Tab>
+								);
+							})
+						}
+					</Tabs>		
+				</div>									
 			</div>
 		);
 	}

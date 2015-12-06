@@ -2,8 +2,8 @@
 //! @file               main.less
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-19
-//! @brief              Contains the CSS styling for the NinjaCalc app, using the language (needs 
+//! @last-modified      2015-12-06
+//! @brief              Contains the CSS styling for the NinjaCalc app, using the language LESS (needs 
 //!						to be compiled to CSS before the browser can read it).
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -13,7 +13,7 @@ html, body {
     width: 100%;
     // Set min-height, not height, as height = 100% on
     // html element truncates long content!
-    min-height: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -22,8 +22,17 @@ html, body {
 body {
     display: flex;
     justify-content: center;
-    align-items: center;
+    //align-items: center;
     font-family: sans-serif;
+}
+
+// Applied primarily to div elements.
+.full-width {
+    width: 100%;
+}
+
+.full-height {
+    height: 100%;
 }
 
 nav {
@@ -33,6 +42,23 @@ nav {
 p.centered {
 	text-align: center;
 }
+
+#flowElements {
+  height: 100%;
+
+  display: flex;
+
+    // This is the little strip down the left-hand side of the app that the user can
+    // click to open the left drawer menu.
+    #leftNavDrawerTeaser {
+        width: 20px;
+        height: 100%;
+        background-color: #505050;
+    }
+
+}
+
+
 
 div.tab-content {
     width: 1100px;

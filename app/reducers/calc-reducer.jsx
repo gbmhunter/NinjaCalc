@@ -33,6 +33,21 @@ import * as gridHelper from '../utility/grid-helper/grid-helper.js';
 //! @brief		Default/initial state for application.
 const initialState = immutable.fromJS({
 
+	leftNavMenuItems: [
+		{
+			text: 'New Calculator',
+			disabled: false,
+		},
+		{
+			text: 'Save Calculator',
+			disabled: true,
+		},
+		{
+			text: 'Load Calculator',
+			disabled: true,
+		},
+	],
+
 	//! @brief		Stores the data for every registered calculator type. Calculator instances are created from
 	//!				these types when the user clicks the "Open" button.
 	//! @details	Calculators are loaded in the onMount() function of the React 'App' component.
