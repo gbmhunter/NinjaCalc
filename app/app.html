@@ -2,10 +2,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Electron Boilerplate</title>
+    <title>NinjaCalc</title>
 
     
-
     <script src="vendor/electron_boilerplate/env_config.js"></script>
     <script src="vendor/electron_boilerplate/context_menu.js"></script>
     <script src="vendor/electron_boilerplate/external_links.js"></script>
@@ -25,7 +24,7 @@
         </p>
     </div>-->
 
-    <div id="content"></div>
+    <div id="content" class="full-height full-width"></div>
     <script type="text/javascript">
         // This is that all javascript running in the renderer process can get access to the
         // root path of the application (not process.cwd(), this returns the NinjaCalc folder).
@@ -40,6 +39,8 @@
     <!-- Including this CSS so that the react-select select boxes are styled correctly -->
     <link rel="stylesheet" href="./node_modules/react-select/dist/react-select.css">
     <link rel="stylesheet" href="./node_modules/react-dropdown/style.css">
+
+    <link href="./utility/react-bootstrap-treeview/react-bootstrap-treeview.css" rel="stylesheet">
 
 
 

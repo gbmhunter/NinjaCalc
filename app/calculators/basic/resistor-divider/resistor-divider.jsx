@@ -26,6 +26,7 @@ export var data = {
 	id: 'resistorDivider',
 	name: 'Resistor Divider',
 	description: 'One of the most versatile commonly used electronic designs. Useful for reducing a voltage.',
+	categoryPath: [ 'Electronics', 'Basic' ],
 	tags: 'resistor, divider, leg, r1, r2, resistance, voltage',
 	imageSrc: __dirname + '/icon.png',
 

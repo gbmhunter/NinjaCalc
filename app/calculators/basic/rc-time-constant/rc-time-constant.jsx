@@ -1,9 +1,9 @@
 //!
-//! @file               ohms-law.js
+//! @file               rc-time-constant.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
-//! @created            2015-11-02
-//! @last-modified      2015-11-20
-//! @brief              Contains the Ohm's Law calculator data for the NinjaCalc app.
+//! @created            2015-11-26
+//! @last-modified      2015-11-26
+//! @brief              Contains the RC time constant calculator data for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
@@ -17,13 +17,13 @@ import { getVal } from '../../../utility/utility.js';
 import { CalcTable } from '../../../components/CalcTable.js';
 import { CalcTableRow } from '../../../components/CalcTableRow.js';
 
-var ohmsLawCalc = {
+export var data = {
 
-	id: 'ohmsLaw',
-	name: 'Ohm\'s Law',
-	description: 'The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm\'s law.',
+	id: 'rcTimeConstant',
+	name: 'RC Time Constant',
+	description: 'Calculate the rate of charge.',
 	categoryPath: [ 'Electronics', 'Basic' ],
-	tags: 'ohm, law, resistance, voltage, current',
+	tags: 'resistance, rc, voltage, current',
 	imageSrc: __dirname + '/icon.png',
 
 
@@ -33,7 +33,7 @@ var ohmsLawCalc = {
 		mixins: [PureRenderMixin],
 
 		componentDidMount: function() {
-			console.log('OhmsLaw.componentDidMount() called.');
+			//console.log('OhmsLaw.componentDidMount() called.');
 		},
 
 		/*shouldComponentUpdate: function(nextProps, nextState) {
@@ -41,8 +41,8 @@ var ohmsLawCalc = {
 		},*/
 
 		render: function() {
-			console.log('OhmsLaw.render() called. this.props = ');
-			console.log(this.props);
+			//console.log('OhmsLaw.render() called. this.props = ');
+			//console.log(this.props);
 			return (
 				<div>		
 					<Panel collapsible header="Info">	
@@ -69,60 +69,6 @@ var ohmsLawCalc = {
 
 	vars: [
 		{
-			id: 'voltage',
-			name: 'Voltage',
-			symbol: '$V$',
-			dispVal: '',
-			sf: 3,
-			units: [
-				{ label: 'mV', eq: 1e-3 },
-				{ label: 'V', eq: 1 },
-			],
-			selUnitValue: 'V',		
-			direction: 'input',
-			outputFn: function(vars) {		
-				return getVal(vars, 'current') * getVal(vars, 'resistance');								
-			},
-			validators: [
-				{
-					msg: 'Voltage shouldn\'t really be negative.',
-					fn: (val) => {
-						return (val >= 0.0);
-					},
-					severity: 'warning',
-				}
-			],
-			showRadio: true,
-		},
-		{
-			id: 'current',
-			name: 'Current',
-			symbol: '$I$',
-			dispVal: '',
-			sf: 3,
-			units: [
-				{ label: 'nA', eq: 1e-9 },
-				{ label: 'uA', eq: 1e-6 },
-				{ label: 'mA', eq: 1e-3 },
-				{ label: 'A', eq: 1 },
-			],
-			selUnitValue: 'A',	
-			direction: 'input',
-			outputFn: function(vars) {		
-				return getVal(vars, 'voltage') / getVal(vars, 'resistance');								
-			},
-			validators: [
-				{
-					msg: 'Current shouldn\'t really be negative.',
-					fn: (val) => {
-						return (val >= 0.0);
-					},
-					severity: 'warning',
-				}
-			],
-			showRadio: true,
-		},
-		{
 			id: 'resistance',
 			name: 'Resistance',
 			symbol: '$R$',
@@ -134,13 +80,13 @@ var ohmsLawCalc = {
 				{ label: 'k‎Ω', eq: 1e3 },
 				{ label: 'M‎Ω', eq: 1e6 },
 			],
-			selUnitValue: '‎Ω',	
-			direction: 'output',
+			selUnitValue: '‎kΩ',	
+			direction: 'input',
 			outputFn: function(vars) {						
 				//console.log('getVal(\'Voltage\') =' + getVal(vars, 'Voltage'));
 				//console.log(initialState.vars);
-				var result = getVal(vars, 'voltage') / getVal(vars, 'current');
-				console.log('result = ' + result);
+				var result = getVal(vars, 'timeConstant') / getVal(vars, 'capacitance');
+				//console.log('result = ' + result);
 				return result;
 			},
 			validators: [
@@ -154,8 +100,70 @@ var ohmsLawCalc = {
 			],
 			showRadio: true,
 		},
+		{
+			id: 'capacitance',
+			name: 'Capacitance',
+			symbol: '$C$',
+			dispVal: '',
+			sf: 3,
+			units: [
+				{ label: 'pF', eq: 1e-12 },
+				{ label: '‎nF', eq: 1e-9 },
+				{ label: 'uF', eq: 1e-6 },
+				{ label: 'mF', eq: 1e-3 },
+				{ label: 'F', eq: 1 },
+			],
+			selUnitValue: '‎uF',	
+			direction: 'input',
+			outputFn: function(vars) {						
+
+				var result = getVal(vars, 'timeConstant') / getVal(vars, 'voltage');
+				//console.log('result = ' + result);
+				return result;
+			},
+			validators: [
+				{
+					msg: 'Capacitance shouldn\'t really be negative.',
+					fn: (val) => {
+						return (val >= 0.0);
+					},
+					severity: 'warning',
+				}
+			],
+			showRadio: true,
+		},
+		{
+			id: 'timeConstant',
+			name: 'Time Constant',
+			symbol: '$T$',
+			dispVal: '',
+			sf: 3,
+			units: [
+				{ label: 'ps', eq: 1e-12 },
+				{ label: '‎ns', eq: 1e-9 },
+				{ label: 'us', eq: 1e-6 },
+				{ label: 'ms', eq: 1e-3 },
+				{ label: 's', eq: 1 },
+			],
+			selUnitValue: '‎ms',	
+			direction: 'output',
+			outputFn: function(vars) {						
+
+				var result = getVal(vars, 'resistance') * getVal(vars, 'capacitance');
+				//console.log('result = ' + result);
+				return result;
+			},
+			validators: [
+				{
+					msg: 'The time constant shouldn\'t really be negative.',
+					fn: (val) => {
+						return (val >= 0.0);
+					},
+					severity: 'warning',
+				}
+			],
+			showRadio: true,
+		},
 	],
 }
-
-export default ohmsLawCalc;
 

@@ -1,10 +1,10 @@
 {
-  "name": "electron-boilerplate",
-  "productName": "Electron Boilerplate",
-  "identifier": "com.example.electron-boilerplate",
-  "description": "Starter for your Electron application. Out of the box ready for serious stuff.",
-  "version": "0.1.0",
-  "author": "Mr Gumby <gumby@sillywalks.com>",
+  "name": "NinjaCalc",
+  "productName": "NinjaCalc",
+  "identifier": "com.mbedded-ninja.ninja-calc",
+  "description": "A embedded engineering calculator suite that's got your back.",
+  "version": "0.2.0",
+  "author": "Geoffrey Hunter <gbmhunter@gmail.com>",
   "main": "background.js",
   "config": {
     "target": "development"
@@ -25,7 +25,7 @@
     "react-addons-pure-render-mixin": "^0.14.0",
     "react-addons-transition-group": "^0.14.0",
     "react-addons-update": "^0.14.0",
-    "react-bootstrap": "^0.27.3",
+    "react-bootstrap": "^0.28.1",
     "react-dnd": "^2.0.2",
     "react-dnd-html5-backend": "^2.0.0",
     "react-dom": "^0.14.2",
@@ -34,11 +34,14 @@
     "react-dropdown": "^0.7.2",
     "react-grid-layout": "^0.8.5",
     "react-latex": "0.0.8",
+    "react-motion-drawer": "^3.0.0",
     "react-radio-group": "^2.1.1",
     "react-redux": "^4.0.0",
     "react-sortable": "0.0.2",
     "react-style": "^0.5.5",
     "react-tap-event-plugin": "^0.2.1",
+    "react-treebeard": "^1.0.14",
+    "react-treeview": "^0.4.2",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.0"
   }

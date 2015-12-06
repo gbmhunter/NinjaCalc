@@ -2,14 +2,14 @@
 //! @file               app.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-20
+//! @last-modified      2015-12-06
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
 //import React, { Component } from 'react';
 
-// npm modules
+//============================ npm MODULES =============================//
 import React from 'react';
 import ReactDOM from 'react-dom';
 // Redux utility functions
@@ -18,14 +18,31 @@ import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 var Select = require('react-select');
 import Dropdown from 'react-dropdown';
-import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab } from 'react-bootstrap';
+import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab, Panel, Modal, Button } from 'react-bootstrap';
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 var Latex = require('react-latex');
 var ReactRadioGroup = require('react-radio-group');
+//import TreeView from 'react-treeview';
+import { TreeView } from './utility/react-bootstrap-treeview/react-bootstrap-treeview.js';
+import Drawer from 'react-motion-drawer';
 
-// User modules
+
+// This next one is required for Material UI click events to work properly,
+// until React v1.0 is released.
+var injectTapEventPlugin = require('react-tap-event-plugin');
+injectTapEventPlugin();
+
+// Material UI modules
+const MenuItem = require('material-ui/lib/menu/menu-item'); 
+const LeftNav = require('material-ui/lib/left-nav');
+const List = require('material-ui/lib/lists/list');
+const ListDivider = require('material-ui/lib/lists/list-divider');
+const ListItem = require('material-ui/lib/lists/list-item');
+
+//=========================== USER MODULES =========================//
 import AbsoluteGrid from './utility/react-absolute-grid/AbsoluteGrid.js';
+import {CategoryTree} from './components/CategoryTree.js';
 
 
 const finalCreateStore = compose(
@@ -49,17 +66,49 @@ const store = finalCreateStore(defaultReducer);
 
 //============== LOAD CALCULATORS ============//
 
+// Calculators are loaded into Redux state in the onMount function of the react App
 import * as lt3745Calc from './calculators/chip-specific/lt3745/lt3745.js';
 import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 import * as resistorDividerCalc from './calculators/basic/resistor-divider/resistor-divider.js';
+import * as rcTimeConstantCalc from './calculators/basic/rc-time-constant/rc-time-constant.js';
 
 
+class NoOpenCalculatorsWindow extends React.Component {
+    constructor(props){
+        super(props);
+        //this.state = {};
+        this.onOpenCalculatorClicked = this.onOpenCalculatorClicked.bind(this);
+    }
 
+    onOpenCalculatorClicked(event) {
+ 		console.log('onOpenCalculatorClicked() called.');
+ 		this.props.dispatch(calcActions.setCalcGridVisibility(true));
+ 	}
 
-// Calculators are loaded into Redux state in the onMount function of the react App
+    render(){
 
+        // The data variable has to be in a specific format for the tree structure to render correctly.
+        // Doesn't seem like an array of siblings as the highest level object is supported
+        return (
+            <div id="no-open-calc-window-parent" className="full-width full-height">
+            	<div id="text-and-button">
+					No calculators are open yet. Want to create a new one?
 
-//class App extends React.Component {
+					<br />
+					<br />
+
+					<Button 
+						onClick={this.onOpenCalculatorClicked}
+						bsSize="large"
+						bsStyle="primary">
+							New Calculator
+					</Button>	
+				</div>
+            </div>
+        );
+    }
+
+}
 
 var App = React.createClass({
 
@@ -71,6 +120,7 @@ var App = React.createClass({
 		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
 		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
 		this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
+		this.props.dispatch(calcActions.addCalc(rcTimeConstantCalc.data));
 	},
 
 	handleSelect(key) {
@@ -97,6 +147,42 @@ var App = React.createClass({
 		return React.createElement(calculator.get('view'), { key: key, data: calculator, dispatch: this.props.dispatch });
  	},
 
+ 	listItemClicked: function(event) {
+ 		console.log('listItemClicked() called with event.target.textContent = ');
+ 		console.log(event.target.textContent);
+ 	},
+
+ 	hideCalcGrid: function(event) {
+ 		this.props.dispatch(calcActions.setCalcGridVisibility(false));
+ 	},
+
+ 	onDrawerChange: function(event) {
+ 		console.log('onDrawerChange() called.');
+ 	},
+
+ 	openMenu: function(event) {
+ 		this.refs.leftNav.toggle();
+ 	},
+
+ 	//! @brief		Event handler for when a different menu item is clicked in the left drawer menu.
+ 	drawerMenuItemChanged: function(event) {
+ 		console.log('drawerMenuItemChanged() called with event =');
+ 		console.log(event);
+
+ 		if(event.target.textContent == 'New Calculator') {
+ 			this.props.dispatch(calcActions.setCalcGridVisibility(true));
+ 		}
+ 	},
+
+ 	//! @brief		Event handler for when someone clicks on the left navigation drawer teaser
+ 	//!				(the little visible bar on the left-hand side of the app).
+ 	onLeftNavDrawerTeaserClick: function(event) {
+ 		// Let's display the left nav drawer.
+ 		// Since it should be always hidden when this event is fired, this toggle() command
+ 		// should always make it visible
+ 		this.refs.leftNav.toggle();
+ 	},
+
 	render: function() {
 
 		var that = this;
@@ -109,51 +195,110 @@ var App = React.createClass({
 			return gridElement;
 		});
 
+		var noCalcsOpenWindow;
+		if(this.props.state.get('openCalculators').size == 0) {
+			noCalcsOpenWindow = <NoOpenCalculatorsWindow dispatch={this.props.dispatch}/>;
+		} else {
+			// Do nothing
+		}
+
+		var openCalculatorTabs;
+		if(this.props.state.get('openCalculators').size != 0) {
+			openCalculatorTabs = 
+				<div id="calc-tab-container">
+					<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
+						{/* First tab is static and non-removable */}
+						{/*<Tab eventKey={0} title="Calculators">
+																								
+						</Tab>*/}
+						{
+							/* Let's create a visual tab for every calculator in the openCalculators array */
+							this.props.state.get('openCalculators').map(function(calculator, index) {
+								return (
+									<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
+										{
+											/* This next line of code inserts the entire calculator into the tab element.
+											We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
+											that.renderCalc(calculator, index)
+										}										
+									</Tab>
+								);
+							})
+						}
+					</Tabs>
+				</div>		
+		}
+
 		return (
-			<div className="app">	
-				{/* Tabs are the main view element on the UI */}
-				<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
-					{/* First tab is static and non-removable */}
-					<Tab eventKey={0} title="Calculators">
-						{/* This is used to narrow down on the desired calculator */}
-						<Input
-					        type="text"
-					        value={this.props.state.get('searchTerm')}
-					        placeholder="Enter text"
-					        label="Search for calculator"
-					        hasFeedback
-					        ref="input"
-					        groupClassName="group-class"
-					        labelClassName="label-class"
-					        onChange={this.onSearchInputChange} />					        
-						<br />
-						<div>
-							{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
-							height larger, but not the width */}
-							<AbsoluteGrid
-								items={items}
-								itemWidth={240}
-								itemHeight={360}
-								responsive={true}
-								zoom={1}
-								animation="transform 300ms ease"/>							
-						</div>
-					</Tab>
-					{
-						/* Let's create a visual tab for every calculator in the openCalculators array */
-						this.props.state.get('openCalculators').map(function(calculator, index) {
-							return (
-								<Tab key={index+1} eventKey={index+1} title={calculator.get('name')}>
-									{
-										/* This next line of code inserts the entire calculator into the tab element.
-										We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
-										that.renderCalc(calculator, index)
-									}										
-								</Tab>
-							);
-						})
-					}
-				</Tabs>											
+			<div className="app full-height">	
+
+				{/* NON-FLOW DOM ELEMENTS */}
+
+				{/* LEFT DRAWER NAV */}
+				<LeftNav ref="leftNav" menuItems={this.props.state.get('leftNavMenuItems').toJS()} docked={false} onChange={this.drawerMenuItemChanged} />
+
+				{/* CALC GRID MODAL VIEW */}
+				<Modal
+					show={this.props.state.get('calcGridVisibility')}
+					onHide={this.hideCalcGrid}
+					dialogClassName="calcGridModal">
+		          	<Modal.Header closeButton>
+		            	<Modal.Title>Open Calculator</Modal.Title>
+		          	</Modal.Header>
+        			<Modal.Body>
+	        			<div id='calculatorSelectionTab' >
+							<div className="calcCategories" >
+								{/*<TreeView data={data} />*/}
+								<CategoryTree
+									data={this.props.state.get('categoryTree')}
+									dispatch={this.props.dispatch}/>								
+							</div>
+	        				<div className='rightCol'>
+								{/* This is used to narrow down on the desired calculator */}
+								<Input
+							        type="text"
+							        value={this.props.state.get('searchTerm')}
+							        placeholder="Enter text"
+							        label="Search for calculator"
+							        hasFeedback
+							        ref="input"
+							        groupClassName="group-class"
+							        labelClassName="label-class"
+							        onChange={this.onSearchInputChange} />					        
+								<br />							         
+					            <div>
+									{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
+									height larger, but not the width */}
+									<AbsoluteGrid
+										items={items}
+										itemWidth={240}
+										itemHeight={360}
+										responsive={true}
+										zoom={1}
+										animation="transform 300ms ease"/>							
+								</div>
+							</div> {/*<div className='rightCol'>*/}
+						</div> {/*<div id='calculatorSelectionTab' >*/}
+		        	</Modal.Body>
+		          <Modal.Footer>
+		            <Button onClick={this.close}>Close</Button>
+		          </Modal.Footer>
+		        </Modal>
+
+		        <div id="flowElements" class="full-height">
+
+		        	<div 
+		        		id="leftNavDrawerTeaser"
+		        		onClick={this.onLeftNavDrawerTeaserClick}
+		        		class="full-height">
+		        		&gt;
+		        	</div>
+
+		        	{noCalcsOpenWindow}
+
+					{/* Tabs are the main view element on the UI */}
+					{openCalculatorTabs}
+				</div>									
 			</div>
 		);
 	}

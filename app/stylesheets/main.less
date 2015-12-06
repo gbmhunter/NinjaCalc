@@ -2,8 +2,8 @@
 //! @file               main.less
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-11-19
-//! @brief              Contains the CSS styling for the NinjaCalc app, using the language (needs 
+//! @last-modified      2015-12-06
+//! @brief              Contains the CSS styling for the NinjaCalc app, using the language LESS (needs 
 //!						to be compiled to CSS before the browser can read it).
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -13,7 +13,7 @@ html, body {
     width: 100%;
     // Set min-height, not height, as height = 100% on
     // html element truncates long content!
-    min-height: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -22,8 +22,17 @@ html, body {
 body {
     display: flex;
     justify-content: center;
-    align-items: center;
+    //align-items: center;
     font-family: sans-serif;
+}
+
+// Applied primarily to div elements.
+.full-width {
+    width: 100%;
+}
+
+.full-height {
+    height: 100%;
 }
 
 nav {
@@ -33,6 +42,61 @@ nav {
 p.centered {
 	text-align: center;
 }
+
+#flowElements {
+  height: 100%;
+
+  display: flex;
+
+    // This is the little strip down the left-hand side of the app that the user can
+    // click to open the left drawer menu.
+    #leftNavDrawerTeaser {
+
+        // Width determines how visible and easy to click the bar is
+        width: 20px;
+
+        height: 100%;
+
+        color: white;
+        background-color: #505050;
+
+        // The teaser has got a single > character inside of it,
+        // we want to center align it both horizontally and vertically
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            background-color: #707070;
+        }
+    }
+
+}
+
+// This is just plenty of white space with some text and button, which we want to center
+// in the middle of the view.
+#no-open-calc-window-parent {
+
+    // We want to center align it both horizontally and vertically
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // The actual text and button is wrapped up in this child div
+    #text-and-button {
+        text-align: center;
+
+        font-size: 20px;
+    }
+}
+
+// This container wraps all of the tabs.
+#calc-tab-container {
+    // Padding provides offset from sides of app and left nav teaser
+    padding: 25px;
+}
+
+
 
 div.tab-content {
     width: 1100px;
@@ -46,6 +110,36 @@ div.tab-content {
 //==================================================================================//
 //================== CALCULATOR GRID TAB (FIRST TAB) STYLING =======================//
 //==================================================================================//
+
+#calculatorSelectionTab {
+  display: flex;
+}
+
+// This targets the modal (popover) calc grid view.
+// This class is provided as a prop to the Modal React element.
+.calcGridModal {
+  width: 90%;
+}
+
+div.calcCategories {
+    //display: flex;
+
+    width: 200px;
+    margin-right: 20px;
+
+    // This centers the category selection boxes into
+    // the middle of the tab
+    //justify-content: center;
+
+    div.form-group {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+div.rightCol {
+  flex: 1 1 auto;
+}
 
 .gridItem {
 
