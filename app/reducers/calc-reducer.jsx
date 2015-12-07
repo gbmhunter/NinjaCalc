@@ -2,7 +2,7 @@
 //! @file               calc-reducer.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-12-06
+//! @last-modified      2015-12-07
 //! @brief              Contains the "redux" reducer for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -232,6 +232,8 @@ export default function defaultReducer(state = initialState, action) {
 			immutableTree.setParam(categoryTree, action.node.key, 'toggled', action.toggled);
 			//console.log('categoryTree (after mod) =');
 			//console.log(categoryTree);
+
+			state.set('categoryTree', immutable.fromJS(categoryTree));
 
 			// Currently, this also counts as if the user 'clicked' on the category, so
 			// we want to filter the displayed calculators to only those in this category.
