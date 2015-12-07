@@ -2,7 +2,7 @@
 //! @file               app.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-12-06
+//! @last-modified      2015-12-07
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -18,7 +18,7 @@ import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 var Select = require('react-select');
 import Dropdown from 'react-dropdown';
-import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab, Panel, Modal, Button } from 'react-bootstrap';
+import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab, Panel, Modal, Button, Glyphicon } from 'react-bootstrap';
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 var Latex = require('react-latex');
@@ -288,10 +288,9 @@ var App = React.createClass({
 		        <div id="flowElements" class="full-height">
 
 		        	<div 
-		        		id="leftNavDrawerTeaser"
-		        		onClick={this.onLeftNavDrawerTeaserClick}
+		        		id="leftNavDrawerTeaser"		        		
 		        		class="full-height">
-		        		&gt;
+		        		<Button onClick={this.onLeftNavDrawerTeaserClick}><Glyphicon glyph="align-justify" /></Button>
 		        	</div>
 
 		        	{noCalcsOpenWindow}
