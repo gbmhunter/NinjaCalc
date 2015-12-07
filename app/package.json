@@ -34,14 +34,12 @@
     "react-dropdown": "^0.7.2",
     "react-grid-layout": "^0.8.5",
     "react-latex": "0.0.8",
-    "react-motion-drawer": "^3.0.0",
     "react-radio-group": "^2.1.1",
     "react-redux": "^4.0.0",
     "react-sortable": "0.0.2",
     "react-style": "^0.5.5",
     "react-tap-event-plugin": "^0.2.1",
     "react-treebeard": "^1.1.0",
-    "react-treeview": "^0.4.2",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.0"
   }

@@ -2,54 +2,23 @@
 //! @file               CategoryTree.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-25
-//! @last-modified      2015-12-05
+//! @last-modified      2015-12-07
 //! @brief              React component which draws the calculator category tree element. Uses the
 //!                     react-treebeard module.
 //! @details
 //!     See README.rst in repo root dir for more info.
 
-// npm modules
+//======================================== NPM MODULES =====================================//
 import React from 'react';
 import {Treebeard} from 'react-treebeard';
 
-// User modules
+//======================================== USER MODULES =====================================//
 import * as calcActions from '../actions/calc-actions.js';
 
-/*
-const data = {
-    name: 'root',
-    toggled: true,
-    children: [
-        {
-            name: 'parent',
-            children: [
-                {
-                    name: 'child',
-                    terminal: true
-                }
-            ]
-        },
-        {
-            name: 'loading parent',
-            loading: true
-        },
-        {
-            name: 'parent',
-            children: [
-                {
-                    name: 'nested parent',
-                    children: [
-                        {
-                            name: 'nested child',
-                            //terminal: true
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-};*/
 
+
+//! @brief      Styling for the calculator category view. Note that while most styling for the app is in main.less, the react-treebard
+//!             app uses React-styled inline styling through this variable.
 var style = {
     tree: {
         base: {
@@ -127,6 +96,9 @@ var style = {
     }
 };
 
+//! @brief      CategoryTree handles the rendering of the calculator category tree on the left-hand side
+//!             of the "Create New Calculator" modal view.
+//! @details    Uses the react-treebeard module to create the tree view.
 export class CategoryTree extends React.Component {
     constructor(props){
         super(props);
@@ -136,6 +108,7 @@ export class CategoryTree extends React.Component {
 
     //! @brief
     //! @details    Called by onToggle().
+    //! @todo       Delete.
     onSubTreeToggled(node, toggled){
         console.log('CategoryTree.onSubTreeToggled() called.');
         // Store Toggle State

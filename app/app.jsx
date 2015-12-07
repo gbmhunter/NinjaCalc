@@ -25,7 +25,7 @@ var Latex = require('react-latex');
 var ReactRadioGroup = require('react-radio-group');
 //import TreeView from 'react-treeview';
 import { TreeView } from './utility/react-bootstrap-treeview/react-bootstrap-treeview.js';
-import Drawer from 'react-motion-drawer';
+//import Drawer from 'react-motion-drawer';
 
 
 // This next one is required for Material UI click events to work properly,
