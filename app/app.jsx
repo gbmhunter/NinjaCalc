@@ -232,7 +232,9 @@ var App = React.createClass({
 		return (
 			<div className="app full-height">	
 
-				{/* NON-FLOW DOM ELEMENTS */}
+				{/* ================================================================================================ */}
+				{/* ==================================== NON-FLOW DOM ELEMENTS ===================================== */}
+				{/* ================================================================================================ */}
 
 				{/* LEFT DRAWER NAV */}
 				<LeftNav ref="leftNav" menuItems={this.props.state.get('leftNavMenuItems').toJS()} docked={false} onChange={this.drawerMenuItemChanged} />
@@ -266,7 +268,7 @@ var App = React.createClass({
 							        labelClassName="label-class"
 							        onChange={this.onSearchInputChange} />					        
 								<br />							         
-					            <div>
+					            <div id="calcGridContainer">
 									{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
 									height larger, but not the width */}
 									<AbsoluteGrid
@@ -285,11 +287,14 @@ var App = React.createClass({
 		          </Modal.Footer>
 		        </Modal>
 
-		        <div id="flowElements" class="full-height">
+		        {/* ================================================================================================ */}
+				{/* ======================================== FLOW DOM ELEMENTS ===================================== */}
+				{/* ================================================================================================ */}
+		        <div id="flowElements" className="full-height">
 
 		        	<div 
 		        		id="leftNavDrawerTeaser"		        		
-		        		class="full-height">
+		        		className="full-height">
 		        		<Button onClick={this.onLeftNavDrawerTeaserClick}><Glyphicon glyph="align-justify" /></Button>
 		        	</div>
 

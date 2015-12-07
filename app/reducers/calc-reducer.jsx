@@ -91,8 +91,8 @@ export default function defaultReducer(state = initialState, action) {
 		//===================================== ADD_CALC ===============================//
 		//==============================================================================//
 		case calcActions.ADD_CALC:
-			console.log('calcActions.ADD_CALC action received with action.calcData =');
-			console.log(action.calcData);
+			//console.log('calcActions.ADD_CALC action received with action.calcData =');
+			//console.log(action.calcData);
 
 			// Before adding the calculator to the array, we have to massage the input date into something
 			// that is compatible with what the rest of the app wants.
@@ -139,8 +139,8 @@ export default function defaultReducer(state = initialState, action) {
 			
 
 			var newCalc = immutable.fromJS(action.calcData);
-			console.log('newCalc = ');
-			console.log(newCalc);
+			//console.log('newCalc = ');
+			//console.log(newCalc);
 
 			// Calculate all the output variables (for the first time ever), to get the 
 			// calculator into a default state
@@ -180,7 +180,7 @@ export default function defaultReducer(state = initialState, action) {
 			if(typeof(categoryPath) === 'undefined') {
 				console.log('WARNING: No categoryPath found for calculator ' + newCalc.get('name'));
 			}
-			console.log('categoryPath = ' + categoryPath);
+			//console.log('categoryPath = ' + categoryPath);
 
 
 			// Extract first element
@@ -189,14 +189,14 @@ export default function defaultReducer(state = initialState, action) {
 
 			// Get existing category tree
 			var categoryTree = state.get('categoryTree');
-			console.log('Existing categoryTree = ');
-			console.log(categoryTree.toJS());
+			//console.log('Existing categoryTree = ');
+			//console.log(categoryTree.toJS());
 
 			//categoryTree = immutableTree.addChildNode(categoryTree, category1);
 			categoryTree = immutableTree.addNodePath(categoryTree, categoryPath);
 
-			console.log('New categoryTree.toJS() = ');
-			console.log(categoryTree.toJS());
+			//console.log('New categoryTree.toJS() = ');
+			//console.log(categoryTree.toJS());
 
 			state.set('categoryTree', categoryTree);
 
@@ -208,8 +208,8 @@ export default function defaultReducer(state = initialState, action) {
 		//==============================================================================//
 
 		case calcActions.SET_CALC_GRID_VISIBILITY:
-			console.log('calcActions.SET_CALC_GRID_VISIBILITY action received with action =');
-			console.log(action);
+			//console.log('calcActions.SET_CALC_GRID_VISIBILITY action received with action =');
+			//console.log(action);
 
 			state.set('calcGridVisibility', action.trueFalse);
 
@@ -221,17 +221,17 @@ export default function defaultReducer(state = initialState, action) {
 		//==============================================================================//
 
 		case calcActions.TOGGLE_CATEGORY:
-			console.log('calcActions.TOGGLE_CATEGORY action received with action =');
-			console.log(action);
+			//console.log('calcActions.TOGGLE_CATEGORY action received with action =');
+			//console.log(action);
 
 			// Now we want to change the toggled state of the node in state.categoryTree with the same
 			// id as provided in action.node.key, to the boolean state provided by action.node.toggled
 			var categoryTree = state.get('categoryTree').toJS();
-			console.log('categoryTree (before mod) =');
-			console.log(categoryTree);
+			//console.log('categoryTree (before mod) =');
+			//console.log(categoryTree);
 			immutableTree.setParam(categoryTree, action.node.key, 'toggled', action.toggled);
-			console.log('categoryTree (after mod) =');
-			console.log(categoryTree);
+			//console.log('categoryTree (after mod) =');
+			//console.log(categoryTree);
 
 			// Currently, this also counts as if the user 'clicked' on the category, so
 			// we want to filter the displayed calculators to only those in this category.
@@ -252,7 +252,7 @@ export default function defaultReducer(state = initialState, action) {
 		//==============================================================================//
 
 		case calcActions.SET_SEARCH_TERM:
-			console.log('calcActions.SET_SEARCH_TERM action received with action.searchTerm =' + action.searchTerm);
+			//console.log('calcActions.SET_SEARCH_TERM action received with action.searchTerm =' + action.searchTerm);
 
 			state = state.set('searchTerm', action.searchTerm);
 
@@ -330,9 +330,9 @@ export default function defaultReducer(state = initialState, action) {
 		//================================== SET_VAR_VAL ===============================//
 		//==============================================================================//
 		case calcActions.SET_VAR_VAL:
-			console.log('calcActions.SET_VAR_VAL action received with action.calcId = "' + action.calcId + 
-				'" action.varId = "' + action.varId + 
-				'" action.val = "' + action.val + '".');
+			//console.log('calcActions.SET_VAR_VAL action received with action.calcId = "' + action.calcId + 
+			//	'" action.varId = "' + action.varId + 
+			//	'" action.val = "' + action.val + '".');
 
 			// Note that the value coming will be as displayed, i.e. non-scaled
 
@@ -416,8 +416,8 @@ export default function defaultReducer(state = initialState, action) {
 				]
 			});*/
 
-			console.log('SET_VAR_VAL finished. state = ');
-			console.log(state.toJS());
+			//console.log('SET_VAR_VAL finished. state = ');
+			//console.log(state.toJS());
 
 			return state.asImmutable();
 
@@ -426,8 +426,8 @@ export default function defaultReducer(state = initialState, action) {
 		//==============================================================================//
 			
 		case calcActions.SET_VAR_UNITS:
-			console.log('calcActions.SET_VAR_UNITS action received with action =');
-			console.log(action);
+			//console.log('calcActions.SET_VAR_UNITS action received with action =');
+			//console.log(action);
 
 			// First find the index of the calculator the variable/value belongs to			
 			//var calcIndex = utility.findCalcIndexById(state.get('openCalculators'), action.calcId);
@@ -435,7 +435,7 @@ export default function defaultReducer(state = initialState, action) {
 
 			// Now find the index of the variable
 			var varIndex = utility.findVarIndexById(state.getIn(['openCalculators', action.calcInstance, 'vars']), action.varId);
-			console.log('varIndex = ' +  varIndex);	
+			//console.log('varIndex = ' +  varIndex);	
 
 			state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'selUnitValue'], action.unitValue);
 
@@ -444,7 +444,7 @@ export default function defaultReducer(state = initialState, action) {
 			var rawVal = utility.calcRawValFromDispVal(state.getIn(['openCalculators', action.calcInstance, 'vars', varIndex]));
 
 			//var rawVal = vars[varIndex].dispVal*action.unitValue;
-			console.log('New rawVal = ' + rawVal);
+			//console.log('New rawVal = ' + rawVal);
 
 			state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'rawVal'], rawVal);
 
@@ -460,7 +460,7 @@ export default function defaultReducer(state = initialState, action) {
 		//=============================== SET_OUTPUT_VAR ===============================//
 		//==============================================================================//
 		case calcActions.SET_OUTPUT_VAR:
-			console.log('calcActions.SET_CALC_WHAT action received.');
+			//console.log('calcActions.SET_CALC_WHAT action received.');
 
 			// First find the index of the calculator the variable/value belongs to			
 			//var calcIndex = utility.findCalcIndexById(state.get('openCalculators'), action.calcId);
@@ -468,16 +468,16 @@ export default function defaultReducer(state = initialState, action) {
 
 			// Now find the index of the variable
 			var varIndex = utility.findVarIndexById(state.getIn(['openCalculators', action.calcInstance, 'vars']), action.varId);
-			console.log('varIndex = ' +  varIndex);		
+			//console.log('varIndex = ' +  varIndex);		
 
 			var vars = state.getIn(['openCalculators', action.calcInstance, 'vars'])
 
 			vars = vars.map(function(calcVar, index){
 				if(index == varIndex) {
-					console.log('Setting ' + calcVar.get('name') + ' as a output.');
+					//console.log('Setting ' + calcVar.get('name') + ' as a output.');
 					calcVar = calcVar.set('direction', 'output');
 				} else {					
-					console.log('Setting ' + calcVar.get('name') + ' as a input.');
+					//console.log('Setting ' + calcVar.get('name') + ' as a input.');
 					calcVar = calcVar.set('direction', 'input');
 				}
 

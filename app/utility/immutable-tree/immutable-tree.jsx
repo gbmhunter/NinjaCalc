@@ -50,7 +50,7 @@ Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 //! @brief		Creates a root node. This must be called before
 //!				any of the other functions in this module are used.
 export function createRootNode() {
-	console.log('createRootNode() called.');
+	//console.log('createRootNode() called.');
 	var rootNode = immutable.Map({
 		//nodeNameParameterId: 'root',
 		//nodeChildrenParameterId: immutable.List(),
@@ -62,28 +62,28 @@ export function createRootNode() {
 	rootNode = rootNode.set(nodeNameParameterId, 'root');
 	rootNode = rootNode.set(nodeChildrenParameterId, immutable.List());
 
-	console.log('Create rootNode. rootNode.toJS() =');
-	console.log(rootNode.toJS());
+	//console.log('Create rootNode. rootNode.toJS() =');
+	//console.log(rootNode.toJS());
 	return rootNode;
 }
 
 //! @brief		Searches for the nodeKey withing the given parentNode.
 //! @returns	The first node that matches the key, or if no node is found, undefined.
 export function getChildNode(parentNode, nodeKey) {
-	console.log('getChildNode() called with parentNode.toJS() =');
-	console.log(parentNode.toJS());
-	console.log('and nodeKey = ' + nodeKey);
+	//console.log('getChildNode() called with parentNode.toJS() =');
+	//console.log(parentNode.toJS());
+	//console.log('and nodeKey = ' + nodeKey);
 
 	var foundNode = parentNode.get(nodeChildrenParameterId).find((childNode) => {
 		return childNode.get(nodeNameParameterId) == nodeKey;
 	});
 
-	console.log('foundNode = ' + foundNode);
+	//console.log('foundNode = ' + foundNode);
 	if(typeof(foundNode) == 'undefined') {
-		console.log('Could not find node \"' + nodeKey + '\", so returning undefined.');
+		//console.log('Could not find node \"' + nodeKey + '\", so returning undefined.');
 		return undefined;
 	} else {
-		console.log('Found node \"' + nodeKey + '\", so returning it.');
+		//console.log('Found node \"' + nodeKey + '\", so returning it.');
 		return foundNode;
 	}
 }
@@ -91,20 +91,20 @@ export function getChildNode(parentNode, nodeKey) {
 //! @brief		Returns the index 
 //! @returns	The first node that matches the key, or if no node is found, undefined.
 export function getChildNodeIndex(parentNode, nodeKey) {
-	console.log('getChildNodeIndex() called with parentNode.toJS() =');
-	console.log(parentNode.toJS());
-	console.log('and nodeKey = ' + nodeKey);
+	//console.log('getChildNodeIndex() called with parentNode.toJS() =');
+	//console.log(parentNode.toJS());
+	//console.log('and nodeKey = ' + nodeKey);
 
 	var foundNodeIndex = parentNode.get(nodeChildrenParameterId).findIndex((childNode, index) => {
 		return childNode.get(nodeNameParameterId) == nodeKey;
 	});
 
-	console.log('foundNodeIndex = ' + foundNodeIndex);
+	//console.log('foundNodeIndex = ' + foundNodeIndex);
 	if(foundNodeIndex == -1) {
-		console.log('Could not find node \"' + nodeKey + '\", so returning undefined.');
+		//console.log('Could not find node \"' + nodeKey + '\", so returning undefined.');
 		return undefined;
 	} else {
-		console.log('Found node \"' + nodeKey + '\", so returning it.');
+		//console.log('Found node \"' + nodeKey + '\", so returning it.');
 		return foundNodeIndex;
 	}
 }
@@ -115,15 +115,15 @@ export function getChildNodeIndex(parentNode, nodeKey) {
 //! @param      parentNode 		The parent node that the new child node will be added to.
 //! @param 		newNodeName 	The name of the new node.  
 export function addChildNode(parentNode, newNodeName) {
-	console.log('addChildNode() called with existing parentNode.toJS() = ');
-	console.log(parentNode.toJS());
-	console.log('and newNodeName = ' + newNodeName);
+	//console.log('addChildNode() called with existing parentNode.toJS() = ');
+	//console.log(parentNode.toJS());
+	//console.log('and newNodeName = ' + newNodeName);
 
 	var foundNode = getChildNode(parentNode, newNodeName);
 
-	console.log('foundNode = ' + foundNode);
+	//console.log('foundNode = ' + foundNode);
 	if(typeof(foundNode) == 'undefined') {
-		console.log('Could not find node \"' + newNodeName + '\", so creating new node.');
+		//console.log('Could not find node \"' + newNodeName + '\", so creating new node.');
 		var length = parentNode.get(nodeChildrenParameterId).size;
 		var newChildNode = immutable.Map({});
 
@@ -139,11 +139,11 @@ export function addChildNode(parentNode, newNodeName) {
 		parentNode = parentNode.setIn([nodeChildrenParameterId, length], newChildNode);
 	} else {
 		// Requested new node already exists
-		console.log('Found node \"' + newNodeName + '\", so not creating new node.');
+		//console.log('Found node \"' + newNodeName + '\", so not creating new node.');
 	}
 
-	console.log('Modified parentNode = ');
-	console.log(parentNode.toJS());
+	//console.log('Modified parentNode = ');
+	//console.log(parentNode.toJS());
 
 	return parentNode;
 }
@@ -151,11 +151,11 @@ export function addChildNode(parentNode, newNodeName) {
 //! @brief		Adds an entire node path to the parent node
 //!				(i.e. a child node, grandchild node, great-grandchild node, e.t.c)
 export function addNodePath(parentNode, nodePath) {
-	console.log('addNodePath() called with parentNode.toJS() = ');
-	console.log(parentNode.toJS());
-	console.log(' and nodePath.toJS() = ');
-	console.log(nodePath.toJS());
-	console.log('and nodePath.size = ' + nodePath.size);
+	//console.log('addNodePath() called with parentNode.toJS() = ');
+	//console.log(parentNode.toJS());
+	//console.log(' and nodePath.toJS() = ');
+	//console.log(nodePath.toJS());
+	//console.log('and nodePath.size = ' + nodePath.size);
 
 	var newParentNode;
 	if(nodePath.size != 0) {
@@ -166,7 +166,7 @@ export function addNodePath(parentNode, nodePath) {
 		parentNode = parentNode.setIn([nodeChildrenParameterId, childNodeIndex], addNodePath(childNode, nodePath));
 	}
 
-	console.log('addNodePath() finished.');
+	//console.log('addNodePath() finished.');
 
 	return parentNode;
 }
