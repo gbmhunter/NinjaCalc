@@ -2,7 +2,7 @@
 //! @file               psb-track-width.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2014-11-19
-//! @last-modified      2015-12-07
+//! @last-modified      2015-12-08
 //! @brief              Contains the PCB track width calculator data for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -20,6 +20,96 @@ import * as calcActions from '../../../actions/calc-actions.js';
 import { CalcTable } from '../../../components/CalcTable.js';
 import { CalcTableRow } from '../../../components/CalcTableRow.js';
 
+var Latex = require('react-latex');
+
+var NumberRow = React.createClass({
+
+	mixins: [PureRenderMixin],
+
+
+	render: function() {
+
+		return <tr>
+			<td>{this.props.calcVar.name}</td>
+			<td><Latex>{this.props.calcVar.symbol}</Latex></td>
+			<td>
+				<CalcInput
+					value={this.props.varData.get('dispVal')}
+					overlay={this.props.varData.get('tooltipText')}
+					disabled={isInputDisabled}
+					bsStyle={bsStyle}
+					onChange={this.onValueChange} />
+				
+			</td>
+		</tr>;
+	},
+
+});
+
+var CustomCalcTable = React.createClass({
+
+	mixins: [PureRenderMixin],
+
+
+	render: function() {
+
+		console.log('CustomCalcTable.render() called. this.props = ');
+		console.log(this.props);
+		//console.log('and this.props.data.toJS() = ');
+		//console.log(this.props.data.toJS());
+		//console.log('CalcTableRow = ');
+		//console.log(CalcTableRow);
+
+		//var className = "calculatorTable " + this.props.size;
+
+		return (
+			<div>				
+				<table>
+					<tbody>
+						{/* This generates the rows of the table which contain the calculator variables */}			
+						{this.props.children}
+					</tbody>
+				</table>			
+			</div>
+		);
+	},
+
+});
+
+//==================================================================================//
+//==================================== CURRENT (input) =============================//
+//==================================================================================//
+var calcVarCurrent = {
+		id: 'i',
+		name: 'Current',
+		symbol: '$I$',
+		dispVal: '',
+		sf: 3,
+		units: [
+			{ label: 'uA', eq: 1e-6 },
+			{ label: 'mA', eq: 1e-3 },
+			{ label: 'A', eq: 1 },
+		],
+		selUnitValue: 'A',		
+		direction: 'input',
+		validators: [
+			{
+				msg: 'The current cannot be negative or 0.',
+				fn: (val) => {
+					return (val > 0.0);
+				},
+				severity: 'error',
+			},
+			{
+				msg: 'The current is above the recommended maximum (35A). Equation will not be as accurate (extrapolation will occur).',
+				fn: (val) => {
+					return (val > 35.0);
+				},
+				severity: 'warning',
+			},
+		],
+		showRadio: false,			
+};
 
 export var data = {
 
@@ -29,6 +119,8 @@ export var data = {
 	categoryPath: [ 'Electronics', 'PCB' ],
 	tags: 'pcb, track, width, current',
 	imageSrc: __dirname + '/icon.png',
+
+
 
 	// This is the React view for this calculator
 	view: React.createClass({
@@ -61,11 +153,20 @@ export var data = {
 							<p className="centered"><Latex>{'$I_q = \\frac{V_{in}}{R_1+R_2}$'}</Latex></p>													
 						</div>	
 					</Panel>
-					<br />		
-					<CalcTable
+					<br />
+					{/*<img src={ __dirname + '/resistor-divider-diagram.png'} style={{float: 'right', height:400}} />*/}
+					<br />	
+
+					{/*<CalcTable
 						data={this.props.data}
 						dispatch={this.props.dispatch}
-						size="large"/>		
+						size="large"/>*/}	
+
+					<CustomCalcTable>
+						<NumberRow calcVar={calcVarCurrent}/>
+
+					</CustomCalcTable>
+
 				</div>		
 	    	);
 		},
@@ -208,24 +309,24 @@ export var data = {
 			outputFn: function(vars) {		
 				//return getVal(vars, 'current') * getVal(vars, 'resistance');	
 				//return ((getVal(vars, 'vOut')*(getVal(vars, 'r1') + getVal(vars, 'r2')))/getVal(vars, 'r2'));		
-				
+				return 99.9;
 
-				if(getVal(vars, 'traceLocation') == 'externalTrace')     
-				{
+				//if(getVal(vars, 'traceLocation') == 'externalTrace')     
+				//{
 					//Log('External trace selected.');
 					crossSectionalArea = (Math.pow((current/(0.048*Math.pow(this.tempRise.val(), 0.44))), 1/0.725));
 					//Log('Cross-sectional area = ' + crossSectionalArea);
 					width = (crossSectionalArea/(this.copperThickness.val()*1000000.0/25.4))*(25.4/1000000.0);
 					return width;
-				}
-				else if(getVal(vars, 'traceLocation') == 'internalTrace')
-				{
+				//}
+				//else if(getVal(vars, 'traceLocation') == 'internalTrace')
+				//{
 					//Log('Internal trace selected.');
 					crossSectionalArea = (Math.pow((current/(0.024*Math.pow(this.tempRise.val(), 0.44))), 1/0.725));
 					//Log('Cross-sectional area = ' + crossSectionalArea);
 					width = (crossSectionalArea/(this.copperThickness.val()*1000000.0/25.4))*(25.4/1000000.0);
 					return width;
-				}
+				//}
 
 
 			},

@@ -71,6 +71,7 @@ import * as lt3745Calc from './calculators/chip-specific/lt3745/lt3745.js';
 import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 import * as resistorDividerCalc from './calculators/basic/resistor-divider/resistor-divider.js';
 import * as rcTimeConstantCalc from './calculators/basic/rc-time-constant/rc-time-constant.js';
+import * as pcbTrackWidthCalc from './calculators/pcb/pcb-track-width/pcb-track-width.js';
 
 
 class NoOpenCalculatorsWindow extends React.Component {
@@ -121,6 +122,7 @@ var App = React.createClass({
 		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
 		this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
 		this.props.dispatch(calcActions.addCalc(rcTimeConstantCalc.data));
+		//this.props.dispatch(calcActions.addCalc(pcbTrackWidthCalc.data));
 	},
 
 	handleSelect(key) {

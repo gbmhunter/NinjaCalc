@@ -8,8 +8,8 @@ A embedded engineering calculator suite that's got your back.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2015-12-06
-- Version: v0.2.0
+- Last Modified: 2015-12-08
+- Version: v0.2.1
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: HTML, js, jsx, LESS

@@ -1,8 +1,9 @@
 v0.2.1
 ------
 
-- Added track width calculator.
+- Added track width calculator (not operational yet).
 - NinjaCalc app now has proper icon.
+- Nav menu teaser is now bigger and with "justified text" button.
 
 v0.2.0
 ------
