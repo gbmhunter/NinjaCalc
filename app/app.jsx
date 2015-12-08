@@ -2,7 +2,7 @@
 //! @file               app.jsx
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-12-06
+//! @last-modified      2015-12-07
 //! @brief              Contains the "redux" actions for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -18,14 +18,14 @@ import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 var Select = require('react-select');
 import Dropdown from 'react-dropdown';
-import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab, Panel, Modal, Button } from 'react-bootstrap';
+import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab, Panel, Modal, Button, Glyphicon } from 'react-bootstrap';
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var _ = require('lodash');
 var Latex = require('react-latex');
 var ReactRadioGroup = require('react-radio-group');
 //import TreeView from 'react-treeview';
 import { TreeView } from './utility/react-bootstrap-treeview/react-bootstrap-treeview.js';
-import Drawer from 'react-motion-drawer';
+//import Drawer from 'react-motion-drawer';
 
 
 // This next one is required for Material UI click events to work properly,
@@ -71,6 +71,7 @@ import * as lt3745Calc from './calculators/chip-specific/lt3745/lt3745.js';
 import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 import * as resistorDividerCalc from './calculators/basic/resistor-divider/resistor-divider.js';
 import * as rcTimeConstantCalc from './calculators/basic/rc-time-constant/rc-time-constant.js';
+import * as pcbTrackWidthCalc from './calculators/pcb/pcb-track-width/pcb-track-width.js';
 
 
 class NoOpenCalculatorsWindow extends React.Component {
@@ -121,6 +122,7 @@ var App = React.createClass({
 		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
 		this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
 		this.props.dispatch(calcActions.addCalc(rcTimeConstantCalc.data));
+		//this.props.dispatch(calcActions.addCalc(pcbTrackWidthCalc.data));
 	},
 
 	handleSelect(key) {
@@ -232,7 +234,9 @@ var App = React.createClass({
 		return (
 			<div className="app full-height">	
 
-				{/* NON-FLOW DOM ELEMENTS */}
+				{/* ================================================================================================ */}
+				{/* ==================================== NON-FLOW DOM ELEMENTS ===================================== */}
+				{/* ================================================================================================ */}
 
 				{/* LEFT DRAWER NAV */}
 				<LeftNav ref="leftNav" menuItems={this.props.state.get('leftNavMenuItems').toJS()} docked={false} onChange={this.drawerMenuItemChanged} />
@@ -266,7 +270,7 @@ var App = React.createClass({
 							        labelClassName="label-class"
 							        onChange={this.onSearchInputChange} />					        
 								<br />							         
-					            <div>
+					            <div id="calcGridContainer">
 									{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
 									height larger, but not the width */}
 									<AbsoluteGrid
@@ -285,13 +289,15 @@ var App = React.createClass({
 		          </Modal.Footer>
 		        </Modal>
 
-		        <div id="flowElements" class="full-height">
+		        {/* ================================================================================================ */}
+				{/* ======================================== FLOW DOM ELEMENTS ===================================== */}
+				{/* ================================================================================================ */}
+		        <div id="flowElements" className="full-height">
 
 		        	<div 
-		        		id="leftNavDrawerTeaser"
-		        		onClick={this.onLeftNavDrawerTeaserClick}
-		        		class="full-height">
-		        		&gt;
+		        		id="leftNavDrawerTeaser"		        		
+		        		className="full-height">
+		        		<Button onClick={this.onLeftNavDrawerTeaserClick}><Glyphicon glyph="align-justify" /></Button>
 		        	</div>
 
 		        	{noCalcsOpenWindow}

@@ -89,27 +89,29 @@ export default class AbsoluteGrid extends React.Component {
     this.onResize();
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
-  }
-
-  onResize = () => {
-    if (!this.running) {
-      this.running = true;
-
-      if (window.requestAnimationFrame) {
-        window.requestAnimationFrame(this.getDOMWidth);
-      } else {
-        setTimeout(this.getDOMWidth, 66);
-      }
-
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onResize);
     }
-  }
+
+    onResize = () => {
+        console.log('AbsoluteGrid.onResize() called.');
+        //if (!this.running) {
+        //    console.log('this.running was false!');
+        //    this.running = true;
+
+            if (window.requestAnimationFrame) {
+                window.requestAnimationFrame(this.getDOMWidth);
+            } else {
+                setTimeout(this.getDOMWidth, 66);
+            }
+
+        //}
+    }
 
   getDOMWidth = () => {
-    //console.log('getDOMWidth() called.');
-    //console.log('ReactDOM.findDOMNode(this) =');
-    //console.log(ReactDOM.findDOMNode(this));
+    console.log('getDOMWidth() called.');
+    console.log('ReactDOM.findDOMNode(this) =');
+    console.log(ReactDOM.findDOMNode(this));
     var width = ReactDOM.findDOMNode(this).clientWidth;
 
     //! @warning HACK!!! 

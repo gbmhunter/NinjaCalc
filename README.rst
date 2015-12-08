@@ -8,8 +8,8 @@ A embedded engineering calculator suite that's got your back.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2015-12-06
-- Version: v0.2.0
+- Last Modified: 2015-12-08
+- Version: v0.2.1
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: HTML, js, jsx, LESS
@@ -23,7 +23,7 @@ A embedded engineering calculator suite that's got your back.
 Motivation
 ==========
 
-The goal of this is to provide a sleek desktop application to help you with all those small, frequent calculations you do while designing an embedded product. Whether it be a low-pass LC filter, a resistor divider, or even just Ohm's law (o.k., I hope you don't forget that one, but it is included none-the-less), this app makes them easy to find, use, and have confidence in the answers.
+The goal of this is to provide a easy-to-use desktop application to help you with all those small, frequent calculations you do while doing embedded engineering (or other forms of engineering). Whether it be a low-pass LC filter, a resistor divider, or even just Ohm's law (o.k., I hope you don't forget that one, but it is included none-the-less), this app makes them easy to find, use, and have confidence in the answers.
 
 Features
 --------
@@ -31,7 +31,7 @@ Features
 - Suite of useful embedded-engineering related calculators.
 - As-you-type updating
 - Dynamic unit-changing support (including various metric and imperial units).
-- Continuously checking validators which make sure calculator variables are "within range/sensible".
+- Continuously checking validators which make sure calculator variables are within range and sensible.
 - Powerful and compact language for describing new calculators, making it easy to add your own if so wanted!
 
 Installation
@@ -137,4 +137,13 @@ See changelog.md.
 Contributors
 ============
 
-Thanks to Phillip Abplanalp for user-interaction guidance and tips!
+Thanks to Phillip Abplanalp and Zac Frank for user-interaction guidance and tips!
+
+Thanks to alexcurtis_ for the time and effort he put into the `react-treebeard`_ module.
+
+.. _alexcurtis: https://github.com/alexcurtis
+.. _`react-treebeard`: https://github.com/alexcurtis/react-treebeard
+
+Thanks to the kids at Facebook_ for the great react framework.
+
+.. _Facebook: https://facebook.github.io/react/

@@ -53,21 +53,23 @@ p.centered {
     #leftNavDrawerTeaser {
 
         // Width determines how visible and easy to click the bar is
-        width: 20px;
+        width: 50px;
 
         height: 100%;
+        padding: 5px;
 
         color: white;
         background-color: #505050;
 
         // The teaser has got a single > character inside of it,
         // we want to center align it both horizontally and vertically
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        //display: flex;
+        //justify-content: center;
+        //align-items: center;
+        text-align: center;
 
         &:hover {
-            background-color: #707070;
+            //background-color: #707070;
         }
     }
 
@@ -108,7 +110,7 @@ div.tab-content {
 }
 
 //==================================================================================//
-//================== CALCULATOR GRID TAB (FIRST TAB) STYLING =======================//
+//========================= CALCULATOR GRID MODAL STYLING ==========================//
 //==================================================================================//
 
 #calculatorSelectionTab {
@@ -139,6 +141,12 @@ div.calcCategories {
 
 div.rightCol {
   flex: 1 1 auto;
+
+
+    #calcGridContainer {
+        padding: 20px;
+    }
+
 }
 
 .gridItem {

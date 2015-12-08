@@ -3,7 +3,7 @@
   "productName": "NinjaCalc",
   "identifier": "com.mbedded-ninja.ninja-calc",
   "description": "A embedded engineering calculator suite that's got your back.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Geoffrey Hunter <gbmhunter@gmail.com>",
   "main": "background.js",
   "config": {
@@ -20,7 +20,7 @@
     "material-ui": "^0.13.0",
     "mousetrap": "^1.5.3",
     "react": "^0.14.2",
-    "react-absolute-grid": "^1.0.5",
+    "react-absolute-grid": "^2.0.0",
     "react-addons-create-fragment": "^0.14.0",
     "react-addons-pure-render-mixin": "^0.14.0",
     "react-addons-transition-group": "^0.14.0",
@@ -34,14 +34,12 @@
     "react-dropdown": "^0.7.2",
     "react-grid-layout": "^0.8.5",
     "react-latex": "0.0.8",
-    "react-motion-drawer": "^3.0.0",
     "react-radio-group": "^2.1.1",
     "react-redux": "^4.0.0",
     "react-sortable": "0.0.2",
     "react-style": "^0.5.5",
     "react-tap-event-plugin": "^0.2.1",
-    "react-treebeard": "^1.0.14",
-    "react-treeview": "^0.4.2",
+    "react-treebeard": "^1.1.0",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.0"
   }
