@@ -122,7 +122,8 @@ var App = React.createClass({
 		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
 		this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
 		this.props.dispatch(calcActions.addCalc(rcTimeConstantCalc.data));
-		//this.props.dispatch(calcActions.addCalc(pcbTrackWidthCalc.data));
+		// The PCB track width calculator is the testing calc for the new flexible calc syntax
+		this.props.dispatch(calcActions.addCalc(pcbTrackWidthCalc.data));
 	},
 
 	handleSelect(key) {
