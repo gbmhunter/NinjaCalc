@@ -2,7 +2,7 @@
 //! @file               calc-reducer.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-12-07
+//! @last-modified      2015-12-26
 //! @brief              Contains the "redux" reducer for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -22,6 +22,7 @@ var TreeModel = require('tree-model');
 import * as utility from '../utility/utility.js';
 import * as immutableTree from '../utility/immutable-tree/immutable-tree.js';
 import * as calcActions from '../actions/calc-actions.js';
+import * as customCalcActions from '../actions/custom-calc-actions.js';
 
 // Helps with manipulation of the calculator grid that the user can select from.
 import * as gridHelper from '../utility/grid-helper/grid-helper.js';
@@ -203,6 +204,39 @@ export default function defaultReducer(state = initialState, action) {
 
 			return state.asImmutable();
 
+		// Registers a calculator so that it can be shown in the grid view
+		case customCalcActions.REGISTER_CALC:
+			console.log('customCalcActions.REGISTER_CALC action received with action.data =');
+			console.log(action.data);
+
+			// Add this new calculator to the end of the calculators array
+			var calculators = state.get('calculators').push(action.data);
+			state.set('calculators', calculators);
+
+			var gridElement = {
+				key: state.get('gridElements').size,
+				name: action.data.name,
+				description: action.data.description,
+				calcId: action.data.id,
+				imageSrc: action.data.imageSrc,
+				categoryPath: action.data.categoryPath,
+				sort: 0,
+				filtered: false,				
+			};
+
+			// Add calculator to grid
+			state.setIn(['gridElements', state.get('gridElements').size], immutable.fromJS(gridElement));
+
+
+			return state.asImmutable();
+
+		case customCalcActions.OPEN_CALC:
+
+
+
+			return state.asImmutable();
+
+
 		//==============================================================================//
 		//============================ SET_CALC_GRID_VISIBILITY ========================//
 		//==============================================================================//
@@ -382,23 +416,9 @@ export default function defaultReducer(state = initialState, action) {
 
 			//console.log('Raw value = ' + rawVal);
 
-/*
-			// To modify array contents, we need to split it before and after the
-			// index we are interested in modifying, and then modify the element with another
-			// .assign() call.
-			//var vars = [...state.calculators[calcIndex].vars];
-			vars = [
-					...vars.slice(0, varIndex),
-					Object.assign({}, vars[varIndex], {
-						rawVal: rawVal,
-					}),
-					...vars.slice(varIndex + 1)
-			]
-
 			// Need to also re-calculate any output variables
 			// THIS WILL HAVE TO BE SORTED (using directed acyclic graph algorithm)
 			console.log('Re-calculating outputs.');
-			vars = utility.reCalcOutputs(vars);*/
 
 			var calcVars = utility.reCalcAll(state.getIn(['openCalculators', action.calcInstance, 'vars']));
 			//console.log('rfb2 = ' + calcVars.getIn([6, 'dispVal']));

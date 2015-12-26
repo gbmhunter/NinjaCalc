@@ -2,7 +2,7 @@
 //! @file               psb-track-width.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2014-11-19
-//! @last-modified      2015-12-23
+//! @last-modified      2015-12-26
 //! @brief              Contains the PCB track width calculator data for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -17,152 +17,10 @@ import { Panel } from 'react-bootstrap';
 // User modules
 import { getVal } from '../../../utility/utility.js';
 import * as calcActions from '../../../actions/calc-actions.js';
+import * as customCalcActions from '../../../actions/custom-calc-actions.js';
 import { CalcTable } from '../../../components/CalcTable.js';
 import { CalcTableRow } from '../../../components/CalcTableRow.js';
-import { Input, Tooltip, OverlayTrigger, Popover, Tabs, Tab } from 'react-bootstrap';
 
-var Latex = require('react-latex');
-
-var CalcInput = React.createClass({
-
-	mixins: [PureRenderMixin],
-
-	render: function() {
-
-		console.log('CalcInput.render() called. this.props = ');
-		console.log(this.props);
-
-		var placeholder;
-		if(!this.props.disabled) {
-			placeholder = 'Enter value';
-		} else {
-			placeholder = '';
-		}
-
-		return (			
-			<OverlayTrigger placement="right" overlay={<Tooltip>{this.props.overlay}</Tooltip>}>
-				<Input
-			        type="text"
-			        value={this.props.value}
-			        disabled={this.props.disabled}
-			        placeholder={placeholder}
-			        hasFeedback
-			        bsStyle={this.props.bsStyle}
-			        ref="input"
-			        groupClassName="group-class"
-			        labelClassName="label-class"
-			        onChange={this.props.onChange} />
-			</OverlayTrigger>
-    	);
-	},
-
-});
-
-//! @brief		This needs is be passed a calcVar prop.
-var NumberRow = React.createClass({
-
-	mixins: [PureRenderMixin],
-
-
-	render: function() {
-
-		console.log('NumberRow.render() called with this.props =');
-		console.log(this.props)
-
-		var isInputDisabled;
-		if(this.props.calcVar.direction == 'input') {
-			isInputDisabled = false;
-		} else {
-			// direction must == 'output'
-			isInputDisabled = true;
-		}
-
-		// Build up the required classes for styling
-		var bsStyle = '';
-		// worstValidationResult should either be 'ok', 'warning' or 'error'
-		bsStyle += this.props.calcVar.worstValidationResult;
-
-		return <tr>
-			<td>{this.props.calcVar.name}</td>
-			<td><Latex>{this.props.calcVar.symbol}</Latex></td>
-			<td>
-				<CalcInput
-					value={this.props.calcVar.dispVal}
-					overlay={this.props.calcVar.tooltipText}
-					disabled={isInputDisabled}
-					bsStyle={bsStyle}
-					onChange={this.onValueChange} />
-				
-			</td>
-		</tr>;
-	},
-
-});
-
-var CustomCalcTable = React.createClass({
-
-	mixins: [PureRenderMixin],
-
-
-	render: function() {
-
-		console.log('CustomCalcTable.render() called. this.props = ');
-		console.log(this.props);
-		//console.log('and this.props.data.toJS() = ');
-		//console.log(this.props.data.toJS());
-		//console.log('CalcTableRow = ');
-		//console.log(CalcTableRow);
-
-		//var className = "calculatorTable " + this.props.size;
-
-		return (
-			<div>				
-				<table>
-					<tbody>
-						{/* This generates the rows of the table which contain the calculator variables */}			
-						{this.props.children}
-					</tbody>
-				</table>			
-			</div>
-		);
-	},
-
-});
-
-//==================================================================================//
-//==================================== CURRENT (input) =============================//
-//==================================================================================//
-var calcVarCurrent = {
-		id: 'i',
-		name: 'Current',
-		symbol: '$I$',
-		dispVal: '',
-		sf: 3,
-		units: [
-			{ label: 'uA', eq: 1e-6 },
-			{ label: 'mA', eq: 1e-3 },
-			{ label: 'A', eq: 1 },
-		],
-		selUnitValue: 'A',		
-		direction: 'input',
-		validators: [
-			{
-				msg: 'The current cannot be negative or 0.',
-				fn: (val) => {
-					return (val > 0.0);
-				},
-				severity: 'error',
-			},
-			{
-				msg: 'The current is above the recommended maximum (35A). Equation will not be as accurate (extrapolation will occur).',
-				fn: (val) => {
-					return (val > 35.0);
-				},
-				severity: 'warning',
-			},
-		],
-		showRadio: false,			
-};
 
 export var data = {
 
@@ -216,6 +74,10 @@ export var data = {
 						size="large"/>*/}	
 
 					<CustomCalcTable>
+
+						{/*==================================================================================//
+						//==================================== CURRENT (input) =============================//
+						//==================================================================================*/}
 						<NumberRow calcVar={{
 							id: 'i',
 							name: 'Current',
@@ -246,7 +108,47 @@ export var data = {
 								},
 							],
 							showRadio: false,			
-					}}/>
+						}}/>
+
+						{/*==================================================================================//
+						//==================================== TEMP RISE (input) ===========================//
+						//==================================================================================*/}
+						<NumberRow calcVar={{
+							id: 'tempRise',
+							name: 'Temp. Rise',
+							symbol: '$\\Delta T$',
+							dispVal: '',
+							sf: 3,
+							units: [
+								{ label: '°C', eq: 1 },
+							],
+							selUnitValue: '°C',		
+							direction: 'input',
+							validators: [
+								{
+									msg: 'The temp. rise cannot be negative or 0.',
+									fn: (val) => {
+										return (val > 0.0);
+									},
+									severity: 'error',
+								},
+								{
+									msg: 'Temp. rise is below the recommended minimum (10°C). Equation will not be as accurate (extrapolation will occur).',
+									fn: (val) => {
+										return (val > 10.0);
+									},
+									severity: 'warning',
+								},
+								{
+									msg: 'Temp. rise is above the recommended minimum (100°C). Equation will not be as accurate (extrapolation will occur).',
+									fn: (val) => {
+										return (val < 100.0);
+									},
+									severity: 'warning',
+								},
+							],
+							showRadio: false,			
+						}}/>
 
 					</CustomCalcTable>
 

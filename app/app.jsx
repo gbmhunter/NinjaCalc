@@ -58,6 +58,7 @@ const finalCreateStore = compose(
 //=========== REDUCER ===========//
 import defaultReducer from './reducers/calc-reducer.js';
 import * as calcActions from './actions/calc-actions.js';
+import * as customCalcActions from './actions/custom-calc-actions.js';
 //console.log(defaultReducer);
 
 // Create store. Note that there is only one of these for the entire app.
@@ -67,8 +68,9 @@ const store = finalCreateStore(defaultReducer);
 //============== LOAD CALCULATORS ============//
 
 // Calculators are loaded into Redux state in the onMount function of the react App
+// Modules export a 'data' variable
 import * as lt3745Calc from './calculators/chip-specific/lt3745/lt3745.js';
-import ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
+import * as ohmsLawCalc from './calculators/basic/ohms-law/ohms-law.js';
 import * as resistorDividerCalc from './calculators/basic/resistor-divider/resistor-divider.js';
 import * as rcTimeConstantCalc from './calculators/basic/rc-time-constant/rc-time-constant.js';
 import * as pcbTrackWidthCalc from './calculators/pcb/pcb-track-width/pcb-track-width.js';
@@ -118,12 +120,13 @@ var App = React.createClass({
 	componentDidMount: function() {
 
 		// Load in the calculators so the app knows about them
-		this.props.dispatch(calcActions.addCalc(ohmsLawCalc));
-		this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
-		this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
-		this.props.dispatch(calcActions.addCalc(rcTimeConstantCalc.data));
+		//this.props.dispatch(calcActions.addCalc(ohmsLawCalc.data));
+		this.props.dispatch(customCalcActions.registerCalc(ohmsLawCalc.data));
+		//this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
+		//this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
+		//this.props.dispatch(calcActions.addCalc(rcTimeConstantCalc.data));
 		// The PCB track width calculator is the testing calc for the new flexible calc syntax
-		this.props.dispatch(calcActions.addCalc(pcbTrackWidthCalc.data));
+		//this.props.dispatch(calcActions.addCalc(pcbTrackWidthCalc.data));
 	},
 
 	handleSelect(key) {
