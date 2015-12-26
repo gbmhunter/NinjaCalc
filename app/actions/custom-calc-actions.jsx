@@ -7,6 +7,8 @@
 //! @details
 //!     See README.rst in repo root dir for more info.
 
+import * as calcActions from './calc-actions.js';
+
 //======================================================================//
 //============================== addCalc() =============================//
 //======================================================================//
@@ -38,6 +40,8 @@ export function openCalc(calcId) {
 			type: OPEN_CALC,
 			calcId,			
 		});
+
+		dispatch(calcActions.setCalcGridVisibility(false));
 	}
 }
 
