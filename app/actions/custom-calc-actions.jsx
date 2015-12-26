@@ -41,6 +41,8 @@ export function openCalc(calcId) {
 			calcId,			
 		});
 
+		// Let's also hide the calculator grid, so that the user can work
+		// with the new calculator straight away
 		dispatch(calcActions.setCalcGridVisibility(false));
 	}
 }

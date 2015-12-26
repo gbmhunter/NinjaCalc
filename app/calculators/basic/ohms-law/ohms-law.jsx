@@ -72,6 +72,14 @@ var NumberRow = React.createClass({
 
 	},
 
+	onValueChange: function(event) {
+		console.log('onValueChange() called with event = ');
+		console.log(event);
+
+		// Let's call a thunk to set the variable value inside redux state
+		this.props.dispatch(calcActions.setVarVal(this.props.calcInstance, this.props.varData.get('id'), event.target.value));
+	},
+
 
 	render: function() {
 
@@ -130,13 +138,19 @@ var CustomCalcTable = React.createClass({
 		//console.log(CalcTableRow);
 
 		//var className = "calculatorTable " + this.props.size;
+		var self = this;
+		var childrenWithProps = React.Children.map(this.props.children, function(child) {
+            return React.cloneElement(child, { calcInstance: self.props.calcInstance });
+        });
+
+        //return <div>{childrenWithProps}</div>
 
 		return (
 			<div>				
 				<table>
 					<tbody>
 						{/* This generates the rows of the table which contain the calculator variables */}			
-						{this.props.children}
+						{childrenWithProps}
 					</tbody>
 				</table>			
 			</div>
@@ -156,6 +170,10 @@ export var data = {
 
 
 	// This is the React view for this calculator
+	// This gets passed the following props:
+	// 'key': Unique ID for this particular calculator instance.
+	// 'data': The calculator data associated with the instance (immutableObject)
+	// 'dispatch': Function to dispatch actions with.
 	view: React.createClass({
 
 		mixins: [PureRenderMixin],
@@ -164,13 +182,12 @@ export var data = {
 			console.log('OhmsLaw.componentDidMount() called.');
 		},
 
-		/*shouldComponentUpdate: function(nextProps, nextState) {
-		  return nextProps.data !== this.props.data;
-		},*/
 
 		render: function() {
 			console.log('OhmsLaw.render() called. this.props = ');
 			console.log(this.props);
+			console.log('and this.props.data.toJS() =');
+			console.log(this.props.data.toJS());
 			return (
 				<div>		
 					<Panel collapsible header="Info">	
@@ -190,7 +207,7 @@ export var data = {
 						dispatch={this.props.dispatch}
 						size="large"/>*/}		
 
-					<CustomCalcTable>
+					<CustomCalcTable calcInstance={this.props.data.calcInstance}>
 
 						{/*==================================================================================//
 						//================================== VOLTAGE (input/output) =========================//
