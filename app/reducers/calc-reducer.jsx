@@ -210,7 +210,7 @@ export default function defaultReducer(state = initialState, action) {
 			console.log(action.data);
 
 			// Add this new calculator to the end of the calculators array
-			var calculators = state.get('calculators').push(action.data);
+			var calculators = state.get('calculators').push(immutable.fromJS(action.data));
 			state.set('calculators', calculators);
 
 			var gridElement = {
@@ -231,7 +231,36 @@ export default function defaultReducer(state = initialState, action) {
 			return state.asImmutable();
 
 		case customCalcActions.OPEN_CALC:
+			console.log('customCalcActions.OPEN_CALC action received with action.calcId =');
+			console.log(action.calcId);
 
+			console.log('calcActions.OPEN_CALC action received with action.calcId = ' + action.calcId);
+
+			// We want to set the relevant calculator visible variable to true, which will cause it
+			// to open in a new tab
+			var calcIndex = state.get('calculators').findIndex((calculator) => {
+				return calculator.get('id') === action.calcId; 
+			});
+
+			console.log('calcIndex = ' + calcIndex);
+
+			var calcTemplate = state.getIn(['calculators', calcIndex]);
+
+			// Get current number of open calculators
+			var numOpenCalculators = state.get('openCalculators').size;
+
+			// Set the calculator instance. This number is unique to each calculator, and is passed in
+			// with each action so the reducer knows which open calculator to act upon when things like
+			// variables change
+			calcTemplate = calcTemplate.set('calcInstance', numOpenCalculators);
+
+			// Let's grab the calculator template and add it to the open calculators variable
+			// (at the end of the array)
+			state = state.setIn(['openCalculators', numOpenCalculators], calcTemplate);
+
+			// We also want to switch to it's tab (set it as the active tab).
+			// We know that the just added calculator will be the last one in the openCalculators array.
+			state = state.set('activeTabKey', numOpenCalculators + 1);
 
 
 			return state.asImmutable();

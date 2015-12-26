@@ -5,16 +5,16 @@ import BaseDisplayObject from './BaseDisplayObject.js';
 import { Button, Thumbnail } from 'react-bootstrap';
 
 import * as calcActions from '../../actions/calc-actions.js';
-//console.log('calcActions = ');
-//console.log(calcActions);
+import * as customCalcActions from '../../actions/custom-calc-actions.js';
 
 
 export default class GridItem extends BaseDisplayObject{
 
 
     onClick() {
-        console.log('GridItem.onClick() called. this.props.test = ' + this.props.item.test);
-        this.props.item.dispatch(calcActions.openCalc(this.props.item.calcId));
+        console.log('GridItem.onClick() called.');
+        // Let's dispatch an action to open the calculator
+        this.props.item.dispatch(customCalcActions.openCalc(this.props.item.calcId));
     }
 
     render() {
