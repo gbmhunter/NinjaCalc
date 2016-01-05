@@ -21,13 +21,13 @@ export function registerCalc(data) {
 
 		dispatch({
 			type: REGISTER_CALC,
-			data,			
+			data,
 		});
 	}
 }
 
 //======================================================================//
-//============================== openCalc() =============================//
+//============================== openCalc() ============================//
 //======================================================================//
 
 export var OPEN_CALC = 'OPEN_CALC';
@@ -38,7 +38,7 @@ export function openCalc(calcId) {
 
 		dispatch({
 			type: OPEN_CALC,
-			calcId,			
+			calcId,
 		});
 
 		// Let's also hide the calculator grid, so that the user can work
@@ -48,19 +48,19 @@ export function openCalc(calcId) {
 }
 
 //======================================================================//
-//=========================== addNumberRow() ===========================//
+//============================= addCalcVar() ===========================//
 //======================================================================//
 
-export var ADD_NUMBER_ROW = 'ADD_NUMBER_ROW';
+export var ADD_CALC_VAR = 'ADD_CALC_VAR';
 
-export function addNumberRow(calcId, numberRowData) {
+export function addCalcVar(calcInstance, varData) {
 	return (dispatch, getState) => {
-		console.log('addNumberRow() thunk called with calcId = "' + calcId + '".');
+		console.log('addCalcVar() thunk called with calcInstance = "' + calcInstance + '".');
 
 		dispatch({
-			type: ADD_NUMBER_ROW,
-			calcId,
-			numberRowData,
+			type: ADD_CALC_VAR,
+			calcInstance,
+			varData,
 		});
 	}
 }

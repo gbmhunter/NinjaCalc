@@ -34,7 +34,7 @@ var injectTapEventPlugin = require('react-tap-event-plugin');
 injectTapEventPlugin();
 
 // Material UI modules
-const MenuItem = require('material-ui/lib/menu/menu-item'); 
+const MenuItem = require('material-ui/lib/menu/menu-item');
 const LeftNav = require('material-ui/lib/left-nav');
 const List = require('material-ui/lib/lists/list');
 const ListDivider = require('material-ui/lib/lists/list-divider');
@@ -48,7 +48,7 @@ import {CategoryTree} from './components/CategoryTree.js';
 const finalCreateStore = compose(
   // Enables your middleware:
   applyMiddleware(thunk) // any Redux middleware, e.g. redux-thunk
-  
+
   // Provides support for DevTools:
   //! @warning  This will cause the entire state/action history to be re-run everytime a
   //!     new action is dispatched, which could cause performance issues!
@@ -63,7 +63,6 @@ import * as customCalcActions from './actions/custom-calc-actions.js';
 
 // Create store. Note that there is only one of these for the entire app.
 const store = finalCreateStore(defaultReducer);
-
 
 //============== LOAD CALCULATORS ============//
 
@@ -100,12 +99,12 @@ class NoOpenCalculatorsWindow extends React.Component {
 					<br />
 					<br />
 
-					<Button 
+					<Button
 						onClick={this.onOpenCalculatorClicked}
 						bsSize="large"
 						bsStyle="primary">
 							New Calculator
-					</Button>	
+					</Button>
 				</div>
             </div>
         );
@@ -122,7 +121,7 @@ var App = React.createClass({
 		// Load in the calculators so the app knows about them
 		//this.props.dispatch(calcActions.addCalc(ohmsLawCalc.data));
 		this.props.dispatch(customCalcActions.registerCalc(ohmsLawCalc.data));
-		//this.props.dispatch(calcActions.addCalc(lt3745Calc.data));		
+		//this.props.dispatch(calcActions.addCalc(lt3745Calc.data));
 		//this.props.dispatch(calcActions.addCalc(resistorDividerCalc.data));
 		//this.props.dispatch(calcActions.addCalc(rcTimeConstantCalc.data));
 		// The PCB track width calculator is the testing calc for the new flexible calc syntax
@@ -131,7 +130,7 @@ var App = React.createClass({
 
 	handleSelect(key) {
 		//alert('selected ' + key);
-		this.props.dispatch(calcActions.setActiveTab(key));		
+		this.props.dispatch(calcActions.setActiveTab(key));
 	},
 
 	//! @brief		Called when the text within the "search" input changes.
@@ -210,12 +209,12 @@ var App = React.createClass({
 
 		var openCalculatorTabs;
 		if(this.props.state.get('openCalculators').size != 0) {
-			openCalculatorTabs = 
+			openCalculatorTabs =
 				<div id="calc-tab-container">
 					<Tabs activeKey={this.props.state.get('activeTabKey')} onSelect={this.handleSelect}>
 						{/* First tab is static and non-removable */}
 						{/*<Tab eventKey={0} title="Calculators">
-																								
+
 						</Tab>*/}
 						{
 							/* Let's create a visual tab for every calculator in the openCalculators array */
@@ -226,17 +225,17 @@ var App = React.createClass({
 											/* This next line of code inserts the entire calculator into the tab element.
 											We also need to pass in a key to prevent it from getting re-rendered when it doesn't have to */
 											that.renderCalc(calculator, index)
-										}										
+										}
 									</Tab>
 								);
 							})
 						}
 					</Tabs>
-				</div>		
+				</div>
 		}
 
 		return (
-			<div className="app full-height">	
+			<div className="app full-height">
 
 				{/* ================================================================================================ */}
 				{/* ==================================== NON-FLOW DOM ELEMENTS ===================================== */}
@@ -259,7 +258,7 @@ var App = React.createClass({
 								{/*<TreeView data={data} />*/}
 								<CategoryTree
 									data={this.props.state.get('categoryTree')}
-									dispatch={this.props.dispatch}/>								
+									dispatch={this.props.dispatch}/>
 							</div>
 	        				<div className='rightCol'>
 								{/* This is used to narrow down on the desired calculator */}
@@ -272,8 +271,8 @@ var App = React.createClass({
 							        ref="input"
 							        groupClassName="group-class"
 							        labelClassName="label-class"
-							        onChange={this.onSearchInputChange} />					        
-								<br />							         
+							        onChange={this.onSearchInputChange} />
+								<br />
 					            <div id="calcGridContainer">
 									{/* Item width and height determine the size of the card. Note that if the card is too big it can make the
 									height larger, but not the width */}
@@ -283,7 +282,7 @@ var App = React.createClass({
 										itemHeight={360}
 										responsive={true}
 										zoom={1}
-										animation="transform 300ms ease"/>							
+										animation="transform 300ms ease"/>
 								</div>
 							</div> {/*<div className='rightCol'>*/}
 						</div> {/*<div id='calculatorSelectionTab' >*/}
@@ -298,8 +297,8 @@ var App = React.createClass({
 				{/* ================================================================================================ */}
 		        <div id="flowElements" className="full-height">
 
-		        	<div 
-		        		id="leftNavDrawerTeaser"		        		
+		        	<div
+		        		id="leftNavDrawerTeaser"
 		        		className="full-height">
 		        		<Button onClick={this.onLeftNavDrawerTeaserClick}><Glyphicon glyph="align-justify" /></Button>
 		        	</div>
@@ -308,7 +307,7 @@ var App = React.createClass({
 
 					{/* Tabs are the main view element on the UI */}
 					{openCalculatorTabs}
-				</div>									
+				</div>
 			</div>
 		);
 	}
@@ -325,7 +324,7 @@ function mapStateToProps(state) {
     stats: state.stats,
     util: state.util,*/
     // Map everything at the moment, might change in future
-    state: state,    
+    state: state,
   };
 }
 

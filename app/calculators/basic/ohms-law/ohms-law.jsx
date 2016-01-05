@@ -2,7 +2,7 @@
 //! @file               ohms-law.js
 //! @author             Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
 //! @created            2015-11-02
-//! @last-modified      2015-12-26
+//! @last-modified      2016-01-04
 //! @brief              Contains the Ohm's Law calculator data for the NinjaCalc app.
 //! @details
 //!     See README.rst in repo root dir for more info.
@@ -39,7 +39,7 @@ var CalcInput = React.createClass({
 			placeholder = '';
 		}
 
-		return (			
+		return (
 			<OverlayTrigger placement="right" overlay={<Tooltip>{this.props.overlay}</Tooltip>}>
 				<Input
 			        type="text"
@@ -59,16 +59,34 @@ var CalcInput = React.createClass({
 });
 
 //! @brief			A basic number-based calculator variable, which is displayed as a row in a table.
-//! @details		This needs is be passed a calcVar prop.
+//! @details		This needs is be passed a calcVar and dispatch prop.
+//! @note           "Dumb" object.
 var NumberRow = React.createClass({
 
 	mixins: [PureRenderMixin],
 
+    // Prop checks
+    // Note this doesn't work, because the props are inserted dynamically, and these
+    // checks happen before the componentWillMNount function is called!
+    //propTypes: {
+    //    calcInstance: React.PropTypes.number.isRequired,
+    //    dispatch: React.PropTypes.func.isRequired,
+    //},
+
 	componentWillMount: function() {
 		console.log('NumberRow.componentWillMount() called.');
 
+        if(typeof(this.props.calcInstance) === 'undefined') {
+            throw "calcInstance prop was not provided to NumberRow element.";
+        }
+
+        if(typeof(this.props.calcVar) === 'undefined') {
+            throw "calcVar prop was not provided to NumberRow element.";
+        }
+
+		// A new number row has been added!
 		// We need to register this calculator variable with the main redux state machine
-		customCalcActions.addNumberRow(this.props.calcName, this.props.calcVar);
+		this.props.dispatch(customCalcActions.addCalcVar(this.props.calcInstance, this.props.calcVar));
 
 	},
 
@@ -77,7 +95,7 @@ var NumberRow = React.createClass({
 		console.log(event);
 
 		// Let's call a thunk to set the variable value inside redux state
-		this.props.dispatch(calcActions.setVarVal(this.props.calcInstance, this.props.varData.get('id'), event.target.value));
+		this.props.dispatch(calcActions.setVarVal(this.props.calcInstance, this.props.calcVar.id, event.target.value));
 	},
 
 
@@ -109,22 +127,29 @@ var NumberRow = React.createClass({
 					disabled={isInputDisabled}
 					bsStyle={bsStyle}
 					onChange={this.onValueChange} />
-				
+
 			</td>
 		</tr>;
 	},
 
 });
 
+//! @details    This needs to be passed a calcInstance prop.
 var CustomCalcTable = React.createClass({
 
 	mixins: [PureRenderMixin],
 
+    // Prop checks
+    propTypes: {
+        calcInstance: React.PropTypes.number.isRequired,
+        dispatch: React.PropTypes.func.isRequired,
+    },
+
 	componentWillMount: function() {
-		console.log('CustomCalcTable.componentWillMount() called.');	
+		console.log('CustomCalcTable.componentWillMount() called.');
 
 		// We need to create a new "open" calculator to the redux state machine
-		customCalcActions.openCalc();			
+		customCalcActions.openCalc();
 	},
 
 
@@ -137,22 +162,26 @@ var CustomCalcTable = React.createClass({
 		//console.log('CalcTableRow = ');
 		//console.log(CalcTableRow);
 
-		//var className = "calculatorTable " + this.props.size;
+		// Following code generates all the children, while inserting the calcInstance and dispatch
+        // as a prop to each automatically
 		var self = this;
 		var childrenWithProps = React.Children.map(this.props.children, function(child) {
-            return React.cloneElement(child, { calcInstance: self.props.calcInstance });
+            return React.cloneElement(
+                child,
+                {
+                    calcInstance: self.props.calcInstance,
+                    dispatch: self.props.dispatch,
+                });
         });
 
-        //return <div>{childrenWithProps}</div>
-
 		return (
-			<div>				
+			<div>
 				<table>
 					<tbody>
-						{/* This generates the rows of the table which contain the calculator variables */}			
+						{/* This generates the rows of the table which contain the calculator variables */}
 						{childrenWithProps}
 					</tbody>
-				</table>			
+				</table>
 			</div>
 		);
 	},
@@ -189,8 +218,8 @@ export var data = {
 			console.log('and this.props.data.toJS() =');
 			console.log(this.props.data.toJS());
 			return (
-				<div>		
-					<Panel collapsible header="Info">	
+				<div>
+					<Panel collapsible header="Info">
 						<div className="intro">
 							<p>The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:</p>
 							<p className="centered">
@@ -202,12 +231,10 @@ export var data = {
 							</p>
 						</div>
 					</Panel>
-					{/*<CalcTable
-						data={this.props.data}
-						dispatch={this.props.dispatch}
-						size="large"/>*/}		
 
-					<CustomCalcTable calcInstance={this.props.data.calcInstance}>
+
+                    {/* calcInstance gets passed to all children of CustomCalcTable automatically */}
+					<CustomCalcTable calcInstance={this.props.data.get('calcInstance')} dispatch={this.props.dispatch}>
 
 						{/*==================================================================================//
 						//================================== VOLTAGE (input/output) =========================//
@@ -222,10 +249,10 @@ export var data = {
 								{ label: 'mV', eq: 1e-3 },
 								{ label: 'V', eq: 1 },
 							],
-							selUnitValue: 'V',		
+							selUnitValue: 'V',
 							direction: 'input',
-							outputFn: function(vars) {		
-								return getVal(vars, 'current') * getVal(vars, 'resistance');								
+							outputFn: function(vars) {
+								return getVal(vars, 'current') * getVal(vars, 'resistance');
 							},
 							validators: [
 								{
@@ -254,10 +281,10 @@ export var data = {
 								{ label: 'mA', eq: 1e-3 },
 								{ label: 'A', eq: 1 },
 							],
-							selUnitValue: 'A',	
+							selUnitValue: 'A',
 							direction: 'input',
-							outputFn: function(vars) {		
-								return getVal(vars, 'voltage') / getVal(vars, 'resistance');								
+							outputFn: function(vars) {
+								return getVal(vars, 'voltage') / getVal(vars, 'resistance');
 							},
 							validators: [
 								{
@@ -286,9 +313,9 @@ export var data = {
 								{ label: 'k‎Ω', eq: 1e3 },
 								{ label: 'M‎Ω', eq: 1e6 },
 							],
-							selUnitValue: '‎Ω',	
+							selUnitValue: '‎Ω',
 							direction: 'output',
-							outputFn: function(vars) {						
+							outputFn: function(vars) {
 								//console.log('getVal(\'Voltage\') =' + getVal(vars, 'Voltage'));
 								//console.log(initialState.vars);
 								var result = getVal(vars, 'voltage') / getVal(vars, 'current');
@@ -310,98 +337,10 @@ export var data = {
 					</CustomCalcTable>
 
 
-				</div>	
+				</div>
 	    	);
 		},
 
 	}),
 
-	vars: [
-		{
-			id: 'voltage',
-			name: 'Voltage',
-			symbol: '$V$',
-			dispVal: '',
-			sf: 3,
-			units: [
-				{ label: 'mV', eq: 1e-3 },
-				{ label: 'V', eq: 1 },
-			],
-			selUnitValue: 'V',		
-			direction: 'input',
-			outputFn: function(vars) {		
-				return getVal(vars, 'current') * getVal(vars, 'resistance');								
-			},
-			validators: [
-				{
-					msg: 'Voltage shouldn\'t really be negative.',
-					fn: (val) => {
-						return (val >= 0.0);
-					},
-					severity: 'warning',
-				}
-			],
-			showRadio: true,
-		},
-		{
-			id: 'current',
-			name: 'Current',
-			symbol: '$I$',
-			dispVal: '',
-			sf: 3,
-			units: [
-				{ label: 'nA', eq: 1e-9 },
-				{ label: 'uA', eq: 1e-6 },
-				{ label: 'mA', eq: 1e-3 },
-				{ label: 'A', eq: 1 },
-			],
-			selUnitValue: 'A',	
-			direction: 'input',
-			outputFn: function(vars) {		
-				return getVal(vars, 'voltage') / getVal(vars, 'resistance');								
-			},
-			validators: [
-				{
-					msg: 'Current shouldn\'t really be negative.',
-					fn: (val) => {
-						return (val >= 0.0);
-					},
-					severity: 'warning',
-				}
-			],
-			showRadio: true,
-		},
-		{
-			id: 'resistance',
-			name: 'Resistance',
-			symbol: '$R$',
-			dispVal: '',
-			sf: 3,
-			units: [
-				{ label: 'm‎Ω', eq: 1e-3 },
-				{ label: '‎Ω', eq: 1 },
-				{ label: 'k‎Ω', eq: 1e3 },
-				{ label: 'M‎Ω', eq: 1e6 },
-			],
-			selUnitValue: '‎Ω',	
-			direction: 'output',
-			outputFn: function(vars) {						
-				//console.log('getVal(\'Voltage\') =' + getVal(vars, 'Voltage'));
-				//console.log(initialState.vars);
-				var result = getVal(vars, 'voltage') / getVal(vars, 'current');
-				console.log('result = ' + result);
-				return result;
-			},
-			validators: [
-				{
-					msg: 'Resistance shouldn\'t really be negative.',
-					fn: (val) => {
-						return (val >= 0.0);
-					},
-					severity: 'warning',
-				}
-			],
-			showRadio: true,
-		},
-	],
 }

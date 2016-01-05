@@ -20,9 +20,9 @@ export function findCalcIndexById(calcArray, id) {
 
 export function findVarIndexById(varArray, id) {
 
-	/*if(!(varArray instanceof Array)) {
+	if(!(varArray instanceof Array)) {
 		throw 'varArray passed to findVarIndexById() was not an array.';
-	}*/
+	}
 
 	//console.log('findVarIndexById() called with varArray = ');
 	//console.log(varArray);
@@ -92,12 +92,12 @@ export function findUnitIndexByLabel(unitArray, label) {
 	//console.log('and label.valueOf() = "' + label.valueOf() + '".');
 	//console.log('label.length = ' + label.length);
 
-	
+
 	for (var i = 0; i < unitArray.size; i++) {
 		var arraylabel = unitArray.getIn([i, 'label']).valueOf();
 		arraylabel = arraylabel.replace(re, "");
 		//console.log('length = ' + arraylabel.length);
-		//console.log('unitArray.getIn([i, \'label\'] = ' + arraylabel);		
+		//console.log('unitArray.getIn([i, \'label\'] = ' + arraylabel);
 		//console.log('if = ' + (arraylabel == label));
 		if (arraylabel == label.valueOf()) {
 			return i;
@@ -122,10 +122,10 @@ export function reCalcAll(vars) {
 	// does not matter
 	vars.forEach((calcVar, index) => {
 
-			
-		// Filter for inputs only	
+
+		// Filter for inputs only
 		if(calcVar.get('direction') == 'input') {
-			
+
 			// Calculate the new raw value
 			var rawVal = calcRawValFromDispVal(calcVar);
 			calcVar = calcVar.set('rawVal', rawVal);
@@ -133,7 +133,7 @@ export function reCalcAll(vars) {
 			// Validate
 			vars = validateVar(vars, index);
 		}
-	});	
+	});
 
 
 
@@ -146,15 +146,15 @@ export function reCalcAll(vars) {
 		//console.log('vars.forEach() called with calcVar = ');
 		//console.log(calcVar.toJS());
 		//console.log(' and index = ' + index);
-			
-		// Filter for outputs only	
+
+		// Filter for outputs only
 		if(calcVar.get('direction') == 'output') {
-			
+
 			// Recalculate the rawVal for the variable by calling it's
 			// 'outputFn'.
 			var rawVal = calcVar.get('outputFn')(vars);
 			//console.log('rawVal = ' + rawVal);
-						
+
 			vars = vars.setIn([index, 'rawVal'], rawVal);
 
 			// Find the index of the selected unit for this variable
@@ -162,7 +162,7 @@ export function reCalcAll(vars) {
 			var selUnitIndex = findUnitIndexByLabel(
 				calcVar.get('units'),
 				calcVar.get('selUnitValue'));
-			//console.log('Selected unit index = ' + selUnitIndex);						
+			//console.log('Selected unit index = ' + selUnitIndex);
 
 			// Now we need to work out whether the 'eq' variable for the selected unit is just a number (a multiplier)
 			// or an object with two functions
@@ -204,7 +204,7 @@ export function reCalcAll(vars) {
 			// Validate
 			vars = validateVar(vars, index);
 		}
-	});	
+	});
 
 	return vars;
 
@@ -213,7 +213,7 @@ export function reCalcAll(vars) {
 //! @brief			Validates a calculator variable.
 //! @param			calcVars 		An array of all the calculator variables.
 //! @param			calcVarIndex 	The index of the calculator variable you wish to validate.
-//! @side-effects 	Saves the worst validation state returned from any of the validator functions 
+//! @side-effects 	Saves the worst validation state returned from any of the validator functions
 //!					into the calculator variable. This could be 'ok', 'warning' or 'error'.
 //!					Saves tooltipText into the calculator variable.
 export function validateVar(calcVars, calcVarIndex) {
@@ -224,7 +224,7 @@ export function validateVar(calcVars, calcVarIndex) {
 	// Validators are optional, so check to see if they exist
 	/*if(typeof calcVar.validators === 'undefined') {
 		calcVar.worstValidationResult = 'ok';
-		return; 
+		return;
 	}*/
 
 
@@ -241,7 +241,7 @@ export function validateVar(calcVars, calcVarIndex) {
 		// More complicated validators may need access to the other calculator variables,
 		// and that is why it is passed in second.
 		var validationResult = validator.get('fn')(calcVars.getIn([calcVarIndex, 'rawVal']), calcVars);
-		//console.log('validationResult = ' + validationResult);			
+		//console.log('validationResult = ' + validationResult);
 
 		if(!validationResult) {
 			// Something did not validate, lets find out it's severity and take appropriate
@@ -258,7 +258,7 @@ export function validateVar(calcVars, calcVarIndex) {
 					tooltipText += validator.get('msg');
 					break;
 				default:
-					throw 'ERROR: Validator severity "' + validator.severity + '" for variable "' + calcVars.getIn([calcVarIndex, 'id']) + 
+					throw 'ERROR: Validator severity "' + validator.severity + '" for variable "' + calcVars.getIn([calcVarIndex, 'id']) +
 						'" is not valid! (must be "warning" or "error")';
 			}
 
@@ -267,7 +267,7 @@ export function validateVar(calcVars, calcVarIndex) {
 	});
 
 	if(worstResult == 'success') {
-		// If we are here, and the worst result is 'success', then we can add the text 
+		// If we are here, and the worst result is 'success', then we can add the text
 		tooltipText = 'Value is o.k.';
 	}
 

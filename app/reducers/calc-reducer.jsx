@@ -52,13 +52,13 @@ const initialState = immutable.fromJS({
 	//! @brief		Stores the data for every registered calculator type. Calculator instances are created from
 	//!				these types when the user clicks the "Open" button.
 	//! @details	Calculators are loaded in the onMount() function of the React 'App' component.
-	//calculators: [], 
+	//calculators: [],
 	calculators: immutable.List(),
 
 	//! @brief		If true, the modal calculator grid element will be visible.
 	calcGridVisibility: false,
 
-	//categoryTree: new TreeModel(), 
+	//categoryTree: new TreeModel(),
 	categoryTree: immutableTree.createRootNode(),
 
 	//! @brief		This holds a "massaged" categoryTree which is formatted to work with the UI object which
@@ -111,45 +111,45 @@ export default function defaultReducer(state = initialState, action) {
 			// units: [
 			// 		{ label: 'mV', eq: {
 			//			to: val => { return val*1000; }
-			//			from: val => { return val/1000; } 
+			//			from: val => { return val/1000; }
 			//		},
 			//		{ label: 'V', eq: val => { return val; } }
 			// ]
 
 			// Work out whether eq is a number or function
+            /*
 			action.calcData.vars.forEach((calcVar) => {
 				calcVar.units.forEach((el) => {
-					
+
 					// Add a value variable to the unit object. The value variable
 					// is required by the react-select UI element to work correctly
 					el.value = el.label;
 				});
-			});
+			});*/
 
 			// Check to see if any validators where provided, and if not, add empty array
 			// (otherwise error will be thrown on forEach() later in code)
-			action.calcData.vars.forEach((calcVar) => {
-				if(typeof calcVar.validators === 'undefined') {
-					calcVar.validators = [];
-				} 
-			});
+			//action.calcData.vars.forEach((calcVar) => {
+			//	if(typeof calcVar.validators === 'undefined') {
+			//		calcVar.validators = [];
+			//	}
+			//});
 
-			// We need to run through all the calculations to bring all variables into their correct
-			// state
-			//utility.reCalcAll(action.calcData.vars);
-			
 
 			var newCalc = immutable.fromJS(action.calcData);
 			//console.log('newCalc = ');
 			//console.log(newCalc);
 
-			// Calculate all the output variables (for the first time ever), to get the 
+            // Add empty vars array. This will get populated by React calculator variable elements when they mount
+            newCalcs.A
+
+			// Calculate all the output variables (for the first time ever), to get the
 			// calculator into a default state
-			var calcVars = utility.reCalcAll(newCalc.get('vars'));			
-			newCalc = newCalc.set('vars', calcVars);
+			//var calcVars = utility.reCalcAll(newCalc.get('vars'));
+			//newCalc = newCalc.set('vars', calcVars);
 
 			// Set the default visibility for a calculator to false (i.e. not shown in a tab)
-			newCalc = newCalc.set('visible', false);
+			//newCalc = newCalc.set('visible', false);
 
 
 			// Add this new calculator to the end of the calculators array
@@ -164,7 +164,7 @@ export default function defaultReducer(state = initialState, action) {
 				imageSrc: newCalc.get('imageSrc'),
 				categoryPath: newCalc.get('categoryPath'),
 				sort: 0,
-				filtered: false,				
+				filtered: false,
 			};
 
 			// Add calculator to grid
@@ -221,7 +221,7 @@ export default function defaultReducer(state = initialState, action) {
 				imageSrc: action.data.imageSrc,
 				categoryPath: action.data.categoryPath,
 				sort: 0,
-				filtered: false,				
+				filtered: false,
 			};
 
 			// Add calculator to grid
@@ -239,7 +239,7 @@ export default function defaultReducer(state = initialState, action) {
 			// We want to set the relevant calculator visible variable to true, which will cause it
 			// to open in a new tab
 			var calcIndex = state.get('calculators').findIndex((calculator) => {
-				return calculator.get('id') === action.calcId; 
+				return calculator.get('id') === action.calcId;
 			});
 
 			console.log('calcIndex = ' + calcIndex);
@@ -302,7 +302,7 @@ export default function defaultReducer(state = initialState, action) {
 			// we want to filter the displayed calculators to only those in this category.
 			var gridElements = state.get('gridElements').toJS();
 
-			// Filter the grid elements. This function sets the visible property of all grid elements that do not belong to the 
+			// Filter the grid elements. This function sets the visible property of all grid elements that do not belong to the
 			// given key to false. Modifies the gridElements array directly (no return value).
 			gridHelper.filter(gridElements, action.node.key);
 
@@ -334,8 +334,8 @@ export default function defaultReducer(state = initialState, action) {
 				// Check if there is a match in the name, and set the filtered variable
 				// accordingly
 				if(gridElement.get('name').search(regex) > -1) {
-					//console.log('Match found!');		
-					//gridElement = gridElement.set('filtered', false);			
+					//console.log('Match found!');
+					//gridElement = gridElement.set('filtered', false);
 					state = state.setIn(['gridElements', index, 'filtered'], false);
 				} else {
 					//console.log('Match not found.');
@@ -355,7 +355,7 @@ export default function defaultReducer(state = initialState, action) {
 			// We want to set the relevant calculator visible variable to true, which will cause it
 			// to open in a new tab
 			var calcIndex = state.get('calculators').findIndex((calculator) => {
-				return calculator.get('id') === action.calcId; 
+				return calculator.get('id') === action.calcId;
 			});
 
 			console.log('calcIndex = ' + calcIndex);
@@ -391,12 +391,34 @@ export default function defaultReducer(state = initialState, action) {
 			state.set('activeTabKey', action.tabKey);
 
 			return state.asImmutable();
+
+        //==============================================================================//
+        //================================== ADD_CALC_VAR ==============================//
+        //==============================================================================//
+
+        // This is called by a calulator variable in it's componentWillMount function.
+        // This case needs to add the appropriate variable data to the appropriate calculator
+        // instance
+        case customCalcActions.ADD_CALC_VAR:
+            console.log('customCalcActions.ADD_CALC_VAR action received with action.calcInstance = ');
+            console.log(action.calcInstance);
+            console.log('and action.varData =');
+            console.log(action.varData);
+
+            // Get the calculator corresponding to calcInstance
+            var calculator = state.getIn(['openCalculators', action.calcInstance]);
+
+            console.log('Found calculator.toJS() = ');
+            console.log(calculator.toJS());
+
+            return state.asImmutable();
+
 		//==============================================================================//
 		//================================== SET_VAR_VAL ===============================//
 		//==============================================================================//
 		case calcActions.SET_VAR_VAL:
-			//console.log('calcActions.SET_VAR_VAL action received with action.calcId = "' + action.calcId + 
-			//	'" action.varId = "' + action.varId + 
+			//console.log('calcActions.SET_VAR_VAL action received with action.calcId = "' + action.calcId +
+			//	'" action.varId = "' + action.varId +
 			//	'" action.val = "' + action.val + '".');
 
 			// Note that the value coming will be as displayed, i.e. non-scaled
@@ -406,25 +428,25 @@ export default function defaultReducer(state = initialState, action) {
 			var dispVal = action.val;
 
 			// Check if value cannot be converted, and if so, change 'NaN' to nothing!
-			// If state was with NaN, 'NaN' would be displayed for inputs if the user, say, 
+			// If state was with NaN, 'NaN' would be displayed for inputs if the user, say,
 			// deleted all the numbers in input
 			/*if(isNaN(dispVal)) {
 				dispVal = ''
 			}*/
 
-			// First find the index of the calculator the variable/value belongs to			
+			// First find the index of the calculator the variable/value belongs to
 			//var calcIndex = utility.findCalcIndexById(state.get('openCalculators'), action.calcId);
 			//console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
 			var varIndex = utility.findVarIndexById(state.getIn(['openCalculators', action.calcInstance, 'vars']), action.varId);
-			//console.log('varIndex = ' +  varIndex);	
+			//console.log('varIndex = ' +  varIndex);
 
 
 			//var newVar = state.get('calculators').get(calcIndex).get('vars').get()
 
 			//console.log('Setting variable value...');
-			state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'dispVal'], dispVal);	
+			state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'dispVal'], dispVal);
 
 			// Copy vars array for the relevant calculator
 			/*var vars = [...state.get('calculators')[calcIndex].vars];
@@ -433,11 +455,11 @@ export default function defaultReducer(state = initialState, action) {
 			vars = [
 				...vars.slice(0, varIndex),
 				Object.assign({}, vars[varIndex], {
-					dispVal: dispVal,					
+					dispVal: dispVal,
 				}),
 				...vars.slice(varIndex + 1)
 			];*/
-			
+
 
 			// Calculate the new raw value
 			var rawVal = utility.calcRawValFromDispVal(state.getIn(['openCalculators', action.calcInstance, 'vars', varIndex]));
@@ -475,18 +497,18 @@ export default function defaultReducer(state = initialState, action) {
 		//==============================================================================//
 		//================================ SET_VAR_UNITS ===============================//
 		//==============================================================================//
-			
+
 		case calcActions.SET_VAR_UNITS:
 			//console.log('calcActions.SET_VAR_UNITS action received with action =');
 			//console.log(action);
 
-			// First find the index of the calculator the variable/value belongs to			
+			// First find the index of the calculator the variable/value belongs to
 			//var calcIndex = utility.findCalcIndexById(state.get('openCalculators'), action.calcId);
 			//console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
 			var varIndex = utility.findVarIndexById(state.getIn(['openCalculators', action.calcInstance, 'vars']), action.varId);
-			//console.log('varIndex = ' +  varIndex);	
+			//console.log('varIndex = ' +  varIndex);
 
 			state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'selUnitValue'], action.unitValue);
 
@@ -500,7 +522,7 @@ export default function defaultReducer(state = initialState, action) {
 			state.setIn(['openCalculators', action.calcInstance, 'vars', varIndex, 'rawVal'], rawVal);
 
 			// We also need to re-calculate outputs
-			var calcVars = utility.reCalcAll(state.getIn(['openCalculators', action.calcInstance, 'vars']));			
+			var calcVars = utility.reCalcAll(state.getIn(['openCalculators', action.calcInstance, 'vars']));
 
 			state.setIn(['openCalculators', action.calcInstance, 'vars'], calcVars);
 
@@ -513,13 +535,13 @@ export default function defaultReducer(state = initialState, action) {
 		case calcActions.SET_OUTPUT_VAR:
 			//console.log('calcActions.SET_CALC_WHAT action received.');
 
-			// First find the index of the calculator the variable/value belongs to			
+			// First find the index of the calculator the variable/value belongs to
 			//var calcIndex = utility.findCalcIndexById(state.get('openCalculators'), action.calcId);
 			//console.log('calcIndex = ' + calcIndex);
 
 			// Now find the index of the variable
 			var varIndex = utility.findVarIndexById(state.getIn(['openCalculators', action.calcInstance, 'vars']), action.varId);
-			//console.log('varIndex = ' +  varIndex);		
+			//console.log('varIndex = ' +  varIndex);
 
 			var vars = state.getIn(['openCalculators', action.calcInstance, 'vars'])
 
@@ -527,7 +549,7 @@ export default function defaultReducer(state = initialState, action) {
 				if(index == varIndex) {
 					//console.log('Setting ' + calcVar.get('name') + ' as a output.');
 					calcVar = calcVar.set('direction', 'output');
-				} else {					
+				} else {
 					//console.log('Setting ' + calcVar.get('name') + ' as a input.');
 					calcVar = calcVar.set('direction', 'input');
 				}
@@ -541,8 +563,13 @@ export default function defaultReducer(state = initialState, action) {
 			state.setIn(['openCalculators', action.calcInstance, 'vars'], vars);
 
 			return state.asImmutable();
-			
+
 		default:
+            console.log('default case entered for reducer with action =');
+            console.log(action);
+            if(action.type != "@@redux/INIT") {
+                throw 'Action type "' + action.type +  '" was not recognised by the reducer.';
+            }
 			return state.asImmutable();
 	}
 }
