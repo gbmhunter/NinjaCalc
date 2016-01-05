@@ -1,0 +1,48 @@
+﻿<Window x:Class="NinjaCalc.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:NinjaCalc"
+        Title="MainWindow" Height="800" Width="1200">
+    <Grid>
+
+        <TabControl Name="TabControlCalculators">
+            <TabItem Header="Start">
+                <StackPanel Width="400"  Height="400">
+                    <!--<TextBox Text="{Binding Path=Name2}"/>-->
+                    <Label>No calculator is open. Do you want to create one?</Label>
+                    <Button Name="buttonNewCalc" Width="100" Height="40">New Calculator</Button>
+                </StackPanel>
+            </TabItem>
+        </TabControl>               
+
+        <!-- THE "CHOOSE CALCULATOR" OVERLAY -->
+        <Grid Name="overlay" Visibility="Collapsed">
+            <!-- GREY BORDER -->
+            <Border HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="DarkGray"
+                Opacity=".7"
+                MouseLeftButtonDown="Border_MouseLeftButtonDown">
+            </Border>
+            <!-- INNER CONTENT -->
+            <Border HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="White"
+                Padding="20"
+                BorderBrush="DarkGray"
+                BorderThickness="2">
+                <StackPanel Width="800" Height="600">
+                    <Label>Select Calculator</Label>
+                    <DockPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="30">
+                        <Label VerticalAlignment="Center">Search:</Label>
+                        <TextBox VerticalAlignment="Center" Width="Auto" HorizontalAlignment="Stretch">Test</TextBox>
+                    </DockPanel>
+                    <WrapPanel Orientation="Horizontal" Name="calculatorGrid">                        
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+
+    </Grid>
+</Window>
