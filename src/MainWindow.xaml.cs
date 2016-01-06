@@ -23,12 +23,19 @@ namespace NinjaCalc
     {
 
         /// <summary>
-        /// Retains a list of all calculators (and their data) which have been added to
-        /// the application.
+        /// Retains a list of all available calculators (and their data) which have been added to
+        /// the application (i.e. the available list to choose from when "New Calculator" is clicked).
         /// </summary>
-        private List<Calculator> calculators;
+        private List<Calculator> calculatorTemplates;
+
+        /// <summary>
+        /// Retains a list of all the open calculator instances (i.e. the calculators which are shown on the tabs).
+        /// </summary>
         private List<Calculator> calculatorInstances;
 
+        /// <summary>
+        /// Constructor. Create and opens a new main window for the application.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -44,7 +51,7 @@ namespace NinjaCalc
             // Add event handler for "new calculator" button click on Start tab
             buttonNewCalc.Click += buttonNewCalc_Click;
 
-            calculators = new List<Calculator>();
+            calculatorTemplates = new List<Calculator>();
             calculatorInstances = new List<Calculator>();
 
             // Register calculators
@@ -79,7 +86,7 @@ namespace NinjaCalc
         public void RegisterCalculator(Calculator calculator)
         {
             // Save the calculator into a list
-            this.calculators.Add(calculator);
+            this.calculatorTemplates.Add(calculator);
 
             // Create a calculator grid element
             CalculatorGridElement testUserControl = new CalculatorGridElement();
@@ -108,7 +115,7 @@ namespace NinjaCalc
             Console.WriteLine("Open was clicked on the \"" + calculatorGridElement.Title + "\" calculator grid element.");
 
             // Find calculator associated with the grid element
-            Calculator foundCalc = this.calculators.Find(x => x.Name == (string)calculatorGridElement.Title.Content);
+            Calculator foundCalc = this.calculatorTemplates.Find(x => x.Name == (string)calculatorGridElement.Title.Content);
             Console.WriteLine("Found calculator \"" + foundCalc.Name + "\" using the calculator grid element.");
 
             // We need to make a new calculator object here. Just adding foundCalc would result in all instances of the same calculator

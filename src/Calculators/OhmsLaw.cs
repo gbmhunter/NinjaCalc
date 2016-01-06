@@ -30,7 +30,8 @@ namespace NinjaCalc
                         var current = calcVars[1].RawVal;
                         var resistance = calcVars[2].RawVal;
                         return current * resistance;
-                    }));
+                    },
+                    0.0));
 
             this.CalcVars.Add(
                 new CalcVar(
@@ -38,7 +39,12 @@ namespace NinjaCalc
                     view.TextBoxCurrentValue,
                     view.RadioButtonCurrent,
                     this.CalcVars,
-                    (calcVars) => calcVars[0].RawVal / calcVars[2].RawVal));
+                    (calcVars) => {
+                        var voltage = calcVars[0].RawVal;
+                        var resistance = calcVars[2].RawVal;
+                        return voltage / resistance;
+                    },
+                    0.0));
             
             this.CalcVars.Add(
                 new CalcVar(
@@ -46,7 +52,12 @@ namespace NinjaCalc
                     view.TextBoxResistanceValue,
                     view.RadioButtonResistance,
                     this.CalcVars,
-                    (calcVars) => calcVars[0].RawVal / calcVars[1].RawVal));
+                    (calcVars) => {
+                        var voltage = calcVars[0].RawVal;
+                        var current = calcVars[1].RawVal;
+                        return voltage / current;
+                    },
+                    0.0));
 
             this.CalcVars.Find(
                 (calcVar) => { return calcVar.Name == "resistance"; }).Direction = Direction_t.Output;
@@ -80,6 +91,7 @@ namespace NinjaCalc
             {
                 //this.CalcVars[i].RawValueRead += this.RawValueRead;
                 this.CalcVars[i].RawValueRead += eventHandler;
+                this.CalcVars[i].DisableUpdate = true;
             }
 
             for (int i = 0; i < this.CalcVars.Count; i++)
@@ -108,6 +120,8 @@ namespace NinjaCalc
             for (int i = 0; i < this.CalcVars.Count; i++)
             {
                 this.CalcVars[i].RawValueRead -= eventHandler;
+                this.CalcVars[i].DisableUpdate = false;
+
                 Console.WriteLine("Dependants of \"" + this.CalcVars[i].Name + "\" are:");
 
                 for (int j = 0; j < this.CalcVars[i].Dependants.Count; j++)

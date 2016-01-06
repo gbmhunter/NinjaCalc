@@ -10,16 +10,16 @@
     <Canvas Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Image Source="ohms-law-diagram.png" Width="400" Height="400" Canvas.Left="-219" Canvas.Top="-190" />
 
-        <TextBox Name="TextBoxVoltageValue" Width="100" Canvas.Left="-170" Canvas.Top="-13"></TextBox>
-        <Label Content="Voltage" Canvas.Left="-170" Canvas.Top="-44"/>
-        <RadioButton Name="RadioButtonVoltage" GroupName="OhmsLaw" Canvas.Left="-105" Canvas.Top="-38"></RadioButton>
+        <TextBox Name="TextBoxVoltageValue" Width="100" Canvas.Left="-192" Canvas.Top="32"></TextBox>
+        <Label Content="Voltage" Canvas.Left="-192" Canvas.Top="-4" FontSize="16"/>
+        <RadioButton Name="RadioButtonVoltage" GroupName="OhmsLaw" Canvas.Left="-128" Canvas.Top="7"></RadioButton>
 
-        <Label Canvas.Left="-36" Canvas.Top="-116">Current</Label>
+        <Label Canvas.Left="-39" Canvas.Top="-121" FontSize="16">Current</Label>
         <TextBox Name="TextBoxCurrentValue" Width="100" Canvas.Left="-36" Canvas.Top="-90"></TextBox>
         <RadioButton Name="RadioButtonCurrent" GroupName="OhmsLaw" Canvas.Left="24" Canvas.Top="-108"></RadioButton>
 
-        <Label Canvas.Left="128" Canvas.Top="-12">Resistance</Label>
+        <Label Canvas.Left="128" Canvas.Top="-17" FontSize="16">Resistance</Label>
         <TextBox Name="TextBoxResistanceValue" Width="100" Height="Auto" Canvas.Left="128" Canvas.Top="14"></TextBox>
-        <RadioButton Name="RadioButtonResistance" GroupName="OhmsLaw" Width="Auto" Canvas.Left="198" Canvas.Top="-4"></RadioButton>
+        <RadioButton Name="RadioButtonResistance" GroupName="OhmsLaw" Width="Auto" Canvas.Left="209" Canvas.Top="-5"></RadioButton>
     </Canvas>
 </UserControl>

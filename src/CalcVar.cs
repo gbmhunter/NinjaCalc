@@ -47,6 +47,9 @@ namespace NinjaCalc
             {
                 this.rawVal = value;
                 // Should we also update the text box here?
+                if(!this.DisableUpdate){
+                    this.calcValTextBox.Text = this.rawVal.ToString();
+                }
             }
         }
 
@@ -131,13 +134,38 @@ namespace NinjaCalc
                 this.dependants = value;
             }
         }
+
+        private bool disableUpdate;
+
+        /// <summary>
+        /// Set to true to disable the updating of the text box when this CalcVar's Calculate() method
+        /// is called.
+        /// </summary>
+        public bool DisableUpdate
+        {
+            get
+            {
+                return this.disableUpdate;
+            }
+            set
+            {
+                this.disableUpdate = value;
+            }
+        }
         
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="calcValTextBox">The text box that displays this calculator variables value.</param>
         /// <param name="equation">An expression tree of a function which calculates this variables value from the other variables.</param>
-        public CalcVar(String name, TextBox calcValTextBox, RadioButton ioRadioButton, List<CalcVar> calcVars, Func<List<CalcVar>, double> equation)
+        public CalcVar(
+            String name,
+            TextBox calcValTextBox,
+            RadioButton ioRadioButton,
+            List<CalcVar> calcVars,
+            Func<List<CalcVar>,
+            double> equation,
+            double defaultRawValue)
         {
 
             this.name = name;
@@ -160,6 +188,9 @@ namespace NinjaCalc
             this.dependencies = new List<CalcVar>();
             this.dependants = new List<CalcVar>();
 
+            // Assign the default raw value
+            this.RawVal = defaultRawValue;
+            //this.calcValTextBox.Text = this.rawVal.ToString();
         }
         
         
@@ -170,9 +201,9 @@ namespace NinjaCalc
 
             // Invoke the provided equation function,
             // which should return the raw value for this calculator variable
-            this.rawVal = equation.Invoke(this.calcVars);
+            this.RawVal = equation.Invoke(this.calcVars);
 
-            this.calcValTextBox.Text = this.rawVal.ToString();
+            //this.calcValTextBox.Text = this.rawVal.ToString();
         }
 
         /// <summary>
@@ -187,6 +218,7 @@ namespace NinjaCalc
             Console.WriteLine("TextBox \"" + textBox.Name + "\" changed. Text now equals = \"" + textBox.Text + "\".");
 
             // Save this to the raw value
+            // (bypass setting the property as we don't want to update the TextBox)
             this.rawVal = Convert.ToDouble(textBox.Text);
 
             // We need to re-calculate any this calculator variables dependants, if they are outputs
