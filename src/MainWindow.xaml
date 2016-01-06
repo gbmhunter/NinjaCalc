@@ -6,12 +6,12 @@
         FontSize="14">
     <Grid>
         <DockPanel LastChildFill="True">
-            <StackPanel Orientation="Vertical" Width="60">
+            <StackPanel Orientation="Vertical" Width="60" Background="#7688A9">
                 <Button Width="50" Height="50" Margin="0,10,0,0">
                     <Image Source="img/menu-stack-hamburger-128x118.png" Width="40" Margin="0,10,0,10"></Image>
                 </Button>
             </StackPanel>
-            <TabControl Name="TabControlCalculators" Margin="10">
+            <TabControl Name="TabControlCalculators" Margin="10" BorderThickness="0">
                 <TabControl.Resources>
                     <Style TargetType="TabItem">
                         <Setter Property="Template">
@@ -27,7 +27,7 @@
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Setter TargetName="Border" Property="Background" Value="White" />
-                                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                                            <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
                                         </Trigger>
                                         <Trigger Property="IsSelected" Value="False">
                                             <Setter TargetName="Border" Property="Background" Value="LightGray" />
