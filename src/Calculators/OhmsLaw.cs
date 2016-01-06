@@ -51,7 +51,7 @@ namespace NinjaCalc
             this.CalcVars.Find(
                 (calcVar) => { return calcVar.Name == "resistance"; }).Direction = Direction_t.Output;
 
-            this.CalculateDependencies();
+            this.FindDependenciesAndDependants();
 
 
         }
@@ -65,19 +65,21 @@ namespace NinjaCalc
             return view;
         }
 
-        private void CalculateDependencies()
+        private void FindDependenciesAndDependants()
         {
 
             var dependencyList = new List<CalcVar>();
 
+            EventHandler eventHandler = (object sender, EventArgs e) => {
+                CalcVar calcVar = (CalcVar)sender;
+                //Console.WriteLine("CalcVar \"" + calcVar.Name + "\" was read.");
+                dependencyList.Add(calcVar);
+            };
+
             for (int i = 0; i < this.CalcVars.Count; i++)
             {
                 //this.CalcVars[i].RawValueRead += this.RawValueRead;
-                this.CalcVars[i].RawValueRead += (object sender, EventArgs e) => {
-                    CalcVar calcVar = (CalcVar)sender;
-                    //Console.WriteLine("CalcVar \"" + calcVar.Name + "\" was read.");
-                    dependencyList.Add(calcVar);
-                };
+                this.CalcVars[i].RawValueRead += eventHandler;
             }
 
             for (int i = 0; i < this.CalcVars.Count; i++)
@@ -86,18 +88,33 @@ namespace NinjaCalc
                 dependencyList.Clear();
 
                 // Call the calculate method, this will fire ReadRawValue events
-                // for all variables it needs
+                // for all variables it needs, and add to the dependancy list
                 this.CalcVars[i].Calculate();
 
+                // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
                 for (int j = 0; j < dependencyList.Count; j++ )
                 {
                     Console.WriteLine("\"" + dependencyList[j].Name + "\" is a dependency of \"" + this.CalcVars[i].Name + "\".");
+                    dependencyList[j].Dependants.Add(this.CalcVars[i]);
                 }
 
                 Console.WriteLine("Finished finding dependencies for CalcVar \"" + this.CalcVars[i].Name + "\".");
 
                 // Save the dependencies to the calculator variable
                 this.CalcVars[i].Dependencies = dependencyList;
+            }
+
+            // Now remove event handler that we added at start of function
+            for (int i = 0; i < this.CalcVars.Count; i++)
+            {
+                this.CalcVars[i].RawValueRead -= eventHandler;
+                Console.WriteLine("Dependants of \"" + this.CalcVars[i].Name + "\" are:");
+
+                for (int j = 0; j < this.CalcVars[i].Dependants.Count; j++)
+                {
+                    Console.WriteLine("\t\"" + this.CalcVars[i].Dependants[j].Name + "\"");
+                }
+
             }
         }
 

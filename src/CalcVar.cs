@@ -109,6 +109,24 @@ namespace NinjaCalc
                 this.dependencies = value;
             }
         }
+
+        private List<CalcVar> dependants;
+
+        /// <summary>
+        /// Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
+        /// but rather once all calculator variables and their equations have been added to the calculator.
+        /// </summary>
+        public List<CalcVar> Dependants
+        {
+            get
+            {
+                return this.dependants;
+            }
+            set
+            {
+                this.dependants = value;
+            }
+        }
         
         /// <summary>
         /// Constructor.
@@ -121,16 +139,18 @@ namespace NinjaCalc
             this.name = name;
 
             this.calcValTextBox = calcValTextBox;
-            //this.calcValTextBox.TextChanged += 
+            // Setup event handler for when textbox text changes
+            this.calcValTextBox.TextChanged += this.TextBoxChanged;
 
             this.ioRadioButton = ioRadioButton;
 
             this.calcVars = calcVars;
 
-            // We need to work out all the dependents of this variable somehow!
-            this.equation = equation;    
-            
-                 
+            this.equation = equation;
+
+            // Initialise the dependency and dependant lists
+            this.dependencies = new List<CalcVar>();
+            this.dependants = new List<CalcVar>();
 
         }
         
@@ -138,9 +158,39 @@ namespace NinjaCalc
 
         public void Calculate()
         {
+            Console.WriteLine("CalcVar.Calculate() called for \"" + this.Name + "\".");
+
             // Invoke the provided equation function,
             // which should return the raw value for this calculator variable
             this.rawVal = equation.Invoke(this.calcVars);
+
+            this.calcValTextBox.Text = this.rawVal.ToString();
+        }
+
+        /// <summary>
+        /// Event handler for when the calculator variables textbox (e.g. it's value) changes. Assigned
+        /// to the .TextChanged event of the TextBox in this class's constructor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void TextBoxChanged(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            Console.WriteLine("TextBox \"" + textBox.Name + "\" changed. Text now equals = \"" + textBox.Text + "\".");
+
+            // Save this to the raw value
+            this.rawVal = Convert.ToDouble(textBox.Text);
+
+            // We need to re-calculate any this calculator variables dependants, if they are outputs
+            for (int i = 0; i < this.dependants.Count; i++)
+            {
+                if (this.dependants[i].Direction == Direction_t.Output)
+                {
+                    this.dependants[i].Calculate();
+                }
+            }
+
+
         }
 
     }
