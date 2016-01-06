@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-
+using NinjaCalc.Core;
 
 namespace NinjaCalc
 {
@@ -19,6 +19,10 @@ namespace NinjaCalc
         {
             // Create the view for this calculator
             this.view = new Calculators.OhmsLawView();
+
+            //===============================================================================================//
+            //============================================ VOLTAGE ==========================================//
+            //===============================================================================================//
 
             //! @todo, Move these into the constructor for the base object?
             this.CalcVars.Add(
@@ -35,7 +39,22 @@ namespace NinjaCalc
                     },
                     0.0));
 
-            this.CalcVars["voltage"].AddValidator();
+            // Add validators
+            this.CalcVars["voltage"].AddValidator(new Validator(
+                (value) => {
+                    if (value < 0)
+                    {
+                        return ValidationResult_t.Warning;
+                    }
+                    else
+                    {
+                        return ValidationResult_t.Ok;
+                    }
+                }));
+
+            //===============================================================================================//
+            //============================================ CURRENT ==========================================//
+            //===============================================================================================//
 
             this.CalcVars.Add(
                 "current",
@@ -50,6 +69,10 @@ namespace NinjaCalc
                         return voltage / resistance;
                     },
                     0.0));
+
+            //===============================================================================================//
+            //========================================== RESISTANCE =========================================//
+            //===============================================================================================//
             
             this.CalcVars.Add(
                 "resistance",

@@ -73,6 +73,7 @@
       <DependentUpon>OhmsLawView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\CalcVar.cs" />
+    <Compile Include="Core\Validator.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

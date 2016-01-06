@@ -8,6 +8,10 @@ using System.Windows.Controls;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+// Debug.Assert
+using System.Diagnostics;
+
+using NinjaCalc.Core;
 
 namespace NinjaCalc
 {
@@ -23,6 +27,9 @@ namespace NinjaCalc
     /// </summary>
     public class CalcVar
     {
+        //===============================================================================================//
+        //==================================== VARIABLES AND PROPERTIES =================================//
+        //===============================================================================================//
 
         private double rawVal;
 
@@ -154,7 +161,15 @@ namespace NinjaCalc
                 this.disableUpdate = value;
             }
         }
-        
+
+        private List<Validator> validators;
+
+        private ValidationResult_t validationResult;
+
+        //===============================================================================================//
+        //============================================ METHODS ==========================================//
+        //===============================================================================================//
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -189,13 +204,20 @@ namespace NinjaCalc
             this.dependencies = new List<CalcVar>();
             this.dependants = new List<CalcVar>();
 
+            // Initialise empty validators list
+            this.validators = new List<Validator>();
+
             // Assign the default raw value
             this.RawVal = defaultRawValue;
             //this.calcValTextBox.Text = this.rawVal.ToString();
+
+            
         }
         
         
-
+        /// <summary>
+        /// This should only be called for output variables.
+        /// </summary>
         public void Calculate()
         {
             Console.WriteLine("CalcVar.Calculate() called for \"" + this.Name + "\".");
@@ -204,7 +226,7 @@ namespace NinjaCalc
             // which should return the raw value for this calculator variable
             this.RawVal = equation.Invoke(this.calcVars);
 
-            //this.calcValTextBox.Text = this.rawVal.ToString();
+            this.Validate();
         }
 
         /// <summary>
@@ -215,12 +237,25 @@ namespace NinjaCalc
         /// <param name="e"></param>
         public void TextBoxChanged(object sender, EventArgs e)
         {
+            //Debug.Assert(this.Direction == Direction_t.Input);
+
             TextBox textBox = (TextBox)sender;
             Console.WriteLine("TextBox \"" + textBox.Name + "\" changed. Text now equals = \"" + textBox.Text + "\".");
 
             // Save this to the raw value
             // (bypass setting the property as we don't want to update the TextBox)
-            this.rawVal = Convert.ToDouble(textBox.Text);
+            // This could throw a System.FormatException if the value can't be converted into a double,
+            // for example, if it had letters (a2) or was just a negative sign (-).
+            try
+            {
+                this.rawVal = Convert.ToDouble(textBox.Text);
+            }
+            catch(System.FormatException exception)
+            {
+                this.rawVal = Double.NaN;
+            }
+
+            this.Validate();
 
             // We need to re-calculate any this calculator variables dependants, if they are outputs
             for (int i = 0; i < this.dependants.Count; i++)
@@ -253,10 +288,44 @@ namespace NinjaCalc
         /// <summary>
         /// Use this to add a specific validator to this calculator variable.
         /// </summary>
-        public void AddValidator()
+        public void AddValidator(Validator validator)
         {
-
+            // Add provided validator to the internal list
+            this.validators.Add(validator);
         }
 
+        /// <summary>
+        /// Call this to perform validation on this calculator variable. Will run all validators
+        /// that have been added through calling AddValidator().
+        /// </summary>
+        public void Validate()
+        {
+            Console.WriteLine("Validate() called from \"" + this.Name + "\" with this.RawVal = \"" + this.RawVal.ToString() + "\".");
+
+            ValidationResult_t worstValidationResult = ValidationResult_t.Ok;
+
+            // Validate this value (if validators are provided)
+            foreach (var validator in this.validators)
+            {
+                // Run the validation function
+                ValidationResult_t validationResult = validator.ValidationFunction.Invoke(this.RawVal);
+
+                // Logic for keeping track of the worst validation resut
+                // (error worse than warning worse than ok)
+                if (validationResult == ValidationResult_t.Warning && worstValidationResult == ValidationResult_t.Ok)
+                {
+                    worstValidationResult = ValidationResult_t.Warning;
+                }
+                else if (validationResult == ValidationResult_t.Error)
+                {
+                    worstValidationResult = ValidationResult_t.Error;
+                }
+            }
+
+            Console.WriteLine("Validation result was \"" + worstValidationResult.ToString() + "\".");
+
+            // Save this to the internal variable
+            this.validationResult = worstValidationResult;
+        }
     }
 }
