@@ -7,9 +7,9 @@
 
         <TabControl Name="TabControlCalculators">
             <TabItem Header="Start">
-                <StackPanel Width="400"  Height="400">
+                <StackPanel Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <!--<TextBox Text="{Binding Path=Name2}"/>-->
-                    <Label HorizontalAlignment="Center" Padding="20">No calculator is open. Do you want to create one?</Label>
+                    <Label HorizontalAlignment="Center" Padding="20" FontWeight="Bold" FontSize="20">No calculator is open. Do you want to create one?</Label>
                     <Button Name="buttonNewCalc" Width="100" Height="40">New Calculator</Button>
                 </StackPanel>
             </TabItem>
