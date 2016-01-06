@@ -53,6 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\CalcNumberVar.cs" />
     <Compile Include="Core\CalculatorGridElement.xaml.cs">
       <DependentUpon>CalculatorGridElement.xaml</DependentUpon>
     </Compile>

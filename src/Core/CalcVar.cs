@@ -21,17 +21,17 @@ namespace NinjaCalc
         Output
     }
 
-
     /// <summary>
     /// Encapsulates a single variable in a NinjaCalc calculator. Stores the variable name, it's equation, it's state (input or output).
+    /// Designed to be used as a base class for particular calculator variable types (e.g. number, boolean, e.t.c).
     /// </summary>
-    public class CalcVar
+    public abstract class CalcVar
     {
         //===============================================================================================//
         //==================================== VARIABLES AND PROPERTIES =================================//
         //===============================================================================================//
 
-        private double rawVal;
+        protected double rawVal;
 
         /// <summary>
         /// Holds the "raw" (unscaled, unrounded) value for this variable.
@@ -145,7 +145,7 @@ namespace NinjaCalc
             }
         }
 
-        private List<CalcVar> dependants;
+        protected List<CalcVar> dependants;
 
         /// <summary>
         /// Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
@@ -183,7 +183,20 @@ namespace NinjaCalc
 
         private List<Validator> validators;
 
-        private ValidationResult_t validationResult;
+        private ValidationLevel validationResult;
+
+        public ValidationLevel ValidationResult
+        {
+            get
+            {
+                return this.validationResult;
+            }
+            set
+            {
+                this.validationResult = value;
+                // Change the textbox's border colour
+            }
+        }
 
         //===============================================================================================//
         //============================================ METHODS ==========================================//
@@ -260,40 +273,7 @@ namespace NinjaCalc
         /// </summary>
         /// <param name="sender">Should be of type TextBox.</param>
         /// <param name="e"></param>
-        public void TextBoxChanged(object sender, EventArgs e)
-        {
-            // Make sure this event only fires when this variable is an input!
-            Debug.Assert(this.Direction == Direction_t.Input);
-
-            TextBox textBox = (TextBox)sender;
-            Console.WriteLine("TextBox \"" + textBox.Name + "\" changed. Text now equals = \"" + textBox.Text + "\".");
-
-            // Save this to the raw value
-            // (bypass setting the property as we don't want to update the TextBox)
-            // This could throw a System.FormatException if the value can't be converted into a double,
-            // for example, if it had letters (a2) or was just a negative sign (-).
-            try
-            {
-                this.rawVal = Convert.ToDouble(textBox.Text);
-            }
-            catch(System.FormatException exception)
-            {
-                this.rawVal = Double.NaN;
-            }
-
-            this.Validate();
-
-            // We need to re-calculate any this calculator variables dependants, if they are outputs
-            for (int i = 0; i < this.dependants.Count; i++)
-            {
-                if (this.dependants[i].Direction == Direction_t.Output)
-                {
-                    this.dependants[i].Calculate();
-                }
-            }
-
-
-        }
+        public abstract void TextBoxChanged(object sender, EventArgs e);
 
         public void RadioButtonChanged(object sender, EventArgs e)
         {
@@ -328,23 +308,23 @@ namespace NinjaCalc
         {
             Console.WriteLine("Validate() called from \"" + this.Name + "\" with this.RawVal = \"" + this.RawVal.ToString() + "\".");
 
-            ValidationResult_t worstValidationResult = ValidationResult_t.Ok;
+            ValidationLevel worstValidationResult = ValidationLevels.Ok;
 
             // Validate this value (if validators are provided)
             foreach (var validator in this.validators)
             {
                 // Run the validation function
-                ValidationResult_t validationResult = validator.ValidationFunction.Invoke(this.RawVal);
+                ValidationLevel validationResult = validator.ValidationFunction.Invoke(this.RawVal);
 
                 // Logic for keeping track of the worst validation resut
                 // (error worse than warning worse than ok)
-                if (validationResult == ValidationResult_t.Warning && worstValidationResult == ValidationResult_t.Ok)
+                if (validationResult == ValidationLevels.Warning && worstValidationResult == ValidationLevels.Ok)
                 {
-                    worstValidationResult = ValidationResult_t.Warning;
+                    worstValidationResult = ValidationLevels.Warning;
                 }
-                else if (validationResult == ValidationResult_t.Error)
+                else if (validationResult == ValidationLevels.Error)
                 {
-                    worstValidationResult = ValidationResult_t.Error;
+                    worstValidationResult = ValidationLevels.Error;
                 }
             }
 

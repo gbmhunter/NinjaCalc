@@ -27,7 +27,7 @@ namespace NinjaCalc
             //! @todo, Move these into the constructor for the base object?
             this.CalcVars.Add(
                 "voltage",
-                new CalcVar(
+                new CalcNumberVar(
                     "voltage",
                     view.TextBoxVoltageValue,
                     view.RadioButtonVoltage,
@@ -45,11 +45,11 @@ namespace NinjaCalc
                 (value) => {
                     if (value < 0)
                     {
-                        return ValidationResult_t.Warning;
+                        return ValidationLevels.Error;
                     }
                     else
                     {
-                        return ValidationResult_t.Ok;
+                        return ValidationLevels.Ok;
                     }
                 }));
 
@@ -59,7 +59,7 @@ namespace NinjaCalc
 
             this.CalcVars.Add(
                 "current",
-                new CalcVar(
+                new CalcNumberVar(
                     "current",
                     view.TextBoxCurrentValue,
                     view.RadioButtonCurrent,
@@ -77,7 +77,7 @@ namespace NinjaCalc
             
             this.CalcVars.Add(
                 "resistance",
-                new CalcVar(
+                new CalcNumberVar(
                     "resistance",
                     view.TextBoxResistanceValue,
                     view.RadioButtonResistance,

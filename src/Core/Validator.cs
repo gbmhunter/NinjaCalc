@@ -8,13 +8,35 @@ namespace NinjaCalc.Core
 {
 
     /// <summary>
-    /// The different values a validation function can return.
+    /// Encapsulates a validation result.
     /// </summary>
-    public enum ValidationResult_t
+    public class ValidationLevel
     {
-        Ok,
-        Warning,
-        Error
+        string name;
+        string colour;
+
+        public ValidationLevel(string name, string colour)
+        {
+            this.name = name;
+            this.colour = colour;
+        }
+    }
+
+    /// <summary>
+    /// The different ValidationLevels a validation function can return.
+    /// </summary>
+    public class ValidationLevels
+    {
+        public static readonly ValidationLevel Ok;
+        public static readonly ValidationLevel Warning;
+        public static readonly ValidationLevel Error;
+
+        static ValidationLevels()
+        {
+            Ok = new ValidationLevel("ok", "green");
+            Warning = new ValidationLevel("warning", "orange");
+            Error = new ValidationLevel("error", "red");
+        }
     }
 
     /// <summary>
@@ -22,11 +44,11 @@ namespace NinjaCalc.Core
     /// </summary>
     public class Validator
     {
-        private Func<double, ValidationResult_t> validationFunction;
+        private Func<double, ValidationLevel> validationFunction;
         /// <summary>
         /// Gets or sets the validation function which performs the validation and returns a ValidationResult_t.
         /// </summary>
-        public Func<double, ValidationResult_t> ValidationFunction
+        public Func<double, ValidationLevel> ValidationFunction
         {
             get {
                 return this.validationFunction;
@@ -41,7 +63,7 @@ namespace NinjaCalc.Core
         /// Constructor. 
         /// </summary>
         /// <param name="validationFunction">The function which will validate the calculator variable.</param>
-        public Validator(Func<double, ValidationResult_t> validationFunction)
+        public Validator(Func<double, ValidationLevel> validationFunction)
         {
             // Save function internally
             this.validationFunction = validationFunction;
@@ -59,11 +81,11 @@ namespace NinjaCalc.Core
                     //return ValidationResult_t.Error;
                     if (Double.IsNaN(value))
                     {
-                        return ValidationResult_t.Error;
+                        return ValidationLevels.Error;
                     }
                     else
                     {
-                        return ValidationResult_t.Ok;
+                        return ValidationLevels.Ok;
                     }
                 });
         }
