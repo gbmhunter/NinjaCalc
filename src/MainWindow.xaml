@@ -7,45 +7,45 @@
     <Grid>
         <DockPanel LastChildFill="True">
             <StackPanel Orientation="Vertical" Width="60" Background="#7688A9">
-                <Button Width="50" Height="50" Margin="0,10,0,0">
+                <Button Name="ButtonMenu" Width="50" Height="50" Margin="0,10,0,0">
                     <Image Source="img/menu-stack-hamburger-128x118.png" Width="40" Margin="0,10,0,10"></Image>
                 </Button>
             </StackPanel>
-            <TabControl Name="TabControlCalculators" Margin="10" BorderThickness="0">
-                <TabControl.Resources>
-                    <Style TargetType="TabItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="TabItem">
-                                    <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
-                                        <ContentPresenter x:Name="ContentSite"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            ContentSource="Header"
-                                            Margin="20,10"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="White" />
-                                            <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
-                                        </Trigger>
-                                        <Trigger Property="IsSelected" Value="False">
-                                            <Setter TargetName="Border" Property="Background" Value="LightGray" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </TabControl.Resources>
-                <TabItem Header="Start">
-                    <StackPanel Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <!--<TextBox Text="{Binding Path=Name2}"/>-->
-                        <Label HorizontalAlignment="Center" Padding="20" FontWeight="Bold" FontSize="20" Margin="0">No calculator is open. Do you want to create one?</Label>
-                        <Button Name="buttonNewCalc" Width="150" Height="40">New Calculator</Button>
-                    </StackPanel>
-                </TabItem>
-            </TabControl>
+            <Grid>
+                <StackPanel Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <!--<TextBox Text="{Binding Path=Name2}"/>-->
+                    <Label HorizontalAlignment="Center" Padding="20" FontWeight="Bold" FontSize="20" Margin="0">No calculator is open. Do you want to create one?</Label>
+                    <Button Name="buttonNewCalc" Width="150" Height="40">New Calculator</Button>
+                </StackPanel>
+                <TabControl Name="TabControlCalculators" Margin="10" BorderThickness="0" Visibility="Collapsed">
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                            <ContentPresenter x:Name="ContentSite"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                ContentSource="Header"
+                                                Margin="20,10"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="White" />
+                                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="False">
+                                                <Setter TargetName="Border" Property="Background" Value="LightGray" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
+                </TabControl>
+            </Grid>
         </DockPanel>
 
         <!-- THE "CHOOSE CALCULATOR" OVERLAY -->

@@ -36,8 +36,11 @@ namespace NinjaCalc
 
             // Hide the overlay
             overlay.Visibility = System.Windows.Visibility.Collapsed;
-            
 
+            // Add event handler for menu button click
+            ButtonMenu.Click += ButtonMenu_Click;
+
+            // Add event handler for "new calculator" button click on Start tab
             buttonNewCalc.Click += buttonNewCalc_Click;
 
             calculators = new List<Calculator>();
@@ -52,6 +55,11 @@ namespace NinjaCalc
             overlay.Visibility = System.Windows.Visibility.Visible;
         }
 
+        private void ButtonMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // Show the overlay
+            overlay.Visibility = System.Windows.Visibility.Visible;
+        }
      
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -114,6 +122,17 @@ namespace NinjaCalc
 
             // Add new tab to tab control
             this.TabControlCalculators.Items.Add(tabItem);
+
+            // Hide the "Select Calculator" overlay
+            overlay.Visibility = System.Windows.Visibility.Collapsed;
+
+            // Make the tab control visible
+            this.TabControlCalculators.Visibility = System.Windows.Visibility.Visible;
+
+            // Make this newly added tab the active tab
+            this.TabControlCalculators.SelectedIndex = this.TabControlCalculators.Items.Count - 1;
+
+
         }
 
     } // public partial class MainWindow : Window, INotifyPropertyChanged
