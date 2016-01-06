@@ -109,6 +109,9 @@ namespace NinjaCalc
             // to fill in the tab (it will have many children)
             tabItem.Content = foundCalc.GetView();
 
+            //tabItem.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            //tabItem.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+
             // Add new tab to tab control
             this.TabControlCalculators.Items.Add(tabItem);
         }

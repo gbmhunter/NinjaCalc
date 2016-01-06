@@ -147,6 +147,8 @@ namespace NinjaCalc
             this.calcValTextBox.TextChanged += this.TextBoxChanged;
 
             this.ioRadioButton = ioRadioButton;
+            // Setup event handlers. Note that Checked and Unchecked have their own handlers. In this
+            // case we point them to the same handler function and inspect state there.
             this.ioRadioButton.Checked += this.RadioButtonChanged;
             this.ioRadioButton.Unchecked += this.RadioButtonChanged;
 
