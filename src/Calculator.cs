@@ -81,5 +81,70 @@ namespace NinjaCalc
         /// </summary>
         /// <returns></returns>
         public abstract Control GetView();
+
+        /// <summary>
+        /// This finds all the dependencies and dependants for all calculator variables,
+        /// and populates the Dependancies and Dependants lists for each.
+        /// </summary>
+        protected void FindDependenciesAndDependants()
+        {
+
+            var dependencyList = new List<CalcVar>();
+
+            EventHandler eventHandler = (object sender, EventArgs e) =>
+            {
+                CalcVar calcVar = (CalcVar)sender;
+                //Console.WriteLine("CalcVar \"" + calcVar.Name + "\" was read.");
+                dependencyList.Add(calcVar);
+            };
+
+            // Attach event handlers onto the read-of-value for each calculator variable,
+            // and also disable updating of the textboxes when we call Calculate().
+            for (int i = 0; i < this.CalcVars.Count; i++)
+            {
+                //this.CalcVars[i].RawValueRead += this.RawValueRead;
+                this.CalcVars[i].RawValueRead += eventHandler;
+                this.CalcVars[i].DisableUpdate = true;
+            }
+
+            for (int i = 0; i < this.CalcVars.Count; i++)
+            {
+                Console.WriteLine("Finding dependencies for CalcVar \"" + this.CalcVars[i].Name + "\".");
+                dependencyList.Clear();
+
+                // Call the calculate method, this will fire ReadRawValue events
+                // for all variables it needs, and add to the dependancy list
+                this.CalcVars[i].Calculate();
+
+                // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
+                for (int j = 0; j < dependencyList.Count; j++)
+                {
+                    Console.WriteLine("\"" + dependencyList[j].Name + "\" is a dependency of \"" + this.CalcVars[i].Name + "\".");
+                    dependencyList[j].Dependants.Add(this.CalcVars[i]);
+                }
+
+                Console.WriteLine("Finished finding dependencies for CalcVar \"" + this.CalcVars[i].Name + "\".");
+
+                // Save the dependencies to the calculator variable
+                this.CalcVars[i].Dependencies = dependencyList;
+            }
+
+            // Now remove event handler that we added at start of function, and
+            // re-enable updates for all variables
+            for (int i = 0; i < this.CalcVars.Count; i++)
+            {
+                this.CalcVars[i].RawValueRead -= eventHandler;
+                this.CalcVars[i].DisableUpdate = false;
+
+                Console.WriteLine("Dependants of \"" + this.CalcVars[i].Name + "\" are:");
+
+                for (int j = 0; j < this.CalcVars[i].Dependants.Count; j++)
+                {
+                    Console.WriteLine("\t\"" + this.CalcVars[i].Dependants[j].Name + "\"");
+                }
+
+            }
+        }
+
     }
 }
