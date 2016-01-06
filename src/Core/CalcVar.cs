@@ -82,6 +82,21 @@ namespace NinjaCalc
         private Dictionary<string, CalcVar> calcVars;
 
         private Func<Dictionary<string, CalcVar>, double> equation;
+        /// <summary>
+        /// Gets and sets the equation function which is used to calculate the value
+        /// of this calculator variable when it is an output.
+        /// </summary>
+        public Func<Dictionary<string, CalcVar>, double> Equation
+        {
+            get
+            {
+                return this.equation;
+            }
+            set
+            {
+                this.equation = value;
+            }
+        }
 
         private Direction_t direction;
 
@@ -217,16 +232,17 @@ namespace NinjaCalc
             // Assign the default raw value
             this.RawVal = defaultRawValue;
             //this.calcValTextBox.Text = this.rawVal.ToString();
-
             
-        }
-        
+        }        
         
         /// <summary>
         /// This should only be called for output variables.
         /// </summary>
         public void Calculate()
         {
+            // Make sure this event only fires when this calculator variable is an output!
+            Debug.Assert(this.Direction == Direction_t.Output);
+
             Console.WriteLine("CalcVar.Calculate() called for \"" + this.Name + "\".");
 
             // Invoke the provided equation function,
