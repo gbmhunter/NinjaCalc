@@ -20,6 +20,7 @@ namespace NinjaCalc
             // Create the view for this calculator
             this.view = new Calculators.OhmsLawView();
 
+            //! @todo, Move these into the constructor for the base object?
             this.CalcVars.Add(
                 new CalcVar(
                     "voltage",
@@ -71,11 +72,16 @@ namespace NinjaCalc
         /// Returns the Ohm's Law calculator view.
         /// </summary>
         /// <returns></returns>
+        /// @todo Turn into parameter?
         public override Control GetView()
         {
             return view;
         }
 
+        /// <summary>
+        /// This finds all the dependencies and dependants for all calculator variables,
+        /// and populates the Dependancies and Dependants lists for each.
+        /// </summary>
         private void FindDependenciesAndDependants()
         {
 
@@ -87,6 +93,8 @@ namespace NinjaCalc
                 dependencyList.Add(calcVar);
             };
 
+            // Attach event handlers onto the read-of-value for each calculator variable,
+            // and also disable updating of the textboxes when we call Calculate().
             for (int i = 0; i < this.CalcVars.Count; i++)
             {
                 //this.CalcVars[i].RawValueRead += this.RawValueRead;
@@ -116,7 +124,8 @@ namespace NinjaCalc
                 this.CalcVars[i].Dependencies = dependencyList;
             }
 
-            // Now remove event handler that we added at start of function
+            // Now remove event handler that we added at start of function, and
+            // re-enable updates for all variables
             for (int i = 0; i < this.CalcVars.Count; i++)
             {
                 this.CalcVars[i].RawValueRead -= eventHandler;
