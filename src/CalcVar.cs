@@ -87,6 +87,10 @@ namespace NinjaCalc
                     // we need to disable the input text box and check the radio button
                     this.calcValTextBox.IsEnabled = false;
                     this.ioRadioButton.IsChecked = true; 
+                } else if(value == Direction_t.Input)
+                {
+                    this.calcValTextBox.IsEnabled = true;
+                    this.ioRadioButton.IsChecked = false; 
                 }
                 
             }
@@ -143,6 +147,8 @@ namespace NinjaCalc
             this.calcValTextBox.TextChanged += this.TextBoxChanged;
 
             this.ioRadioButton = ioRadioButton;
+            this.ioRadioButton.Checked += this.RadioButtonChanged;
+            this.ioRadioButton.Unchecked += this.RadioButtonChanged;
 
             this.calcVars = calcVars;
 
@@ -191,6 +197,22 @@ namespace NinjaCalc
             }
 
 
+        }
+
+        public void RadioButtonChanged(object sender, EventArgs e)
+        {
+            RadioButton radioButton = (RadioButton)sender;
+            Console.WriteLine("RadioButtonChanged() event called for \"" + radioButton.Name + "\".");
+
+            if(radioButton.IsChecked == true)
+            {
+                this.Direction = Direction_t.Output;
+            }
+            else
+            {
+                this.Direction = Direction_t.Input;
+            }
+            
         }
 
     }
