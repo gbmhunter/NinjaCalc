@@ -5,26 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace NinjaCalc
-{
+namespace NinjaCalc {
     /// <summary>
     /// Base calculator class. Designed to be inherited by actual calculator implementations.
     /// </summary>
-    public abstract class Calculator
-    {
+    public abstract class Calculator {
         private string name;
 
         /// <summary>
         /// The name of the calculator. This is shown in the "choose calculator" grid.
         /// </summary>
-        public string Name
-        {
-            get
-            {
+        public string Name {
+            get {
                 return name;
             }
-            set
-            {
+            set {
                 name = value;
             }
         }
@@ -34,14 +29,11 @@ namespace NinjaCalc
         /// <summary>
         /// A description of the calculator. Can be many lines of text. This is shown in the "choose calculator" grid.
         /// </summary>
-        public string Description
-        {
-            get
-            {
+        public string Description {
+            get {
                 return description;
             }
-            set
-            {
+            set {
                 description = value;
             }
         }
@@ -51,14 +43,11 @@ namespace NinjaCalc
         /// <summary>
         /// A list holding all of the calculator variables for the calculator.
         /// </summary>
-        public Dictionary<string, CalcVar> CalcVars
-        {
-            get
-            {
+        public Dictionary<string, CalcVar> CalcVars {
+            get {
                 return calcVars;
             }
-            set
-            {
+            set {
                 calcVars = value;
             }
         }
@@ -68,8 +57,7 @@ namespace NinjaCalc
         /// </summary>
         /// <param name="name"></param>
         /// <param name="description"></param>
-        public Calculator(string name, string description)
-        {            
+        public Calculator(string name, string description) {
             this.name = name;
             this.description = description;
             this.calcVars = new Dictionary<string, CalcVar>();
@@ -86,13 +74,11 @@ namespace NinjaCalc
         /// This finds all the dependencies and dependants for all calculator variables,
         /// and populates the Dependancies and Dependants lists for each.
         /// </summary>
-        protected void FindDependenciesAndDependants()
-        {
+        protected void FindDependenciesAndDependants() {
 
             var dependencyList = new List<CalcVar>();
 
-            EventHandler eventHandler = (object sender, EventArgs e) =>
-            {
+            EventHandler eventHandler = (object sender, EventArgs e) => {
                 CalcVar calcVar = (CalcVar)sender;
                 //Console.WriteLine("CalcVar \"" + calcVar.Name + "\" was read.");
                 dependencyList.Add(calcVar);
@@ -100,15 +86,13 @@ namespace NinjaCalc
 
             // Attach event handlers onto the read-of-value for each calculator variable,
             // and also disable updating of the textboxes when we call Calculate().
-            foreach (var pair in this.CalcVars)
-            {
+            foreach (var pair in this.CalcVars) {
                 pair.Value.RawValueRead += eventHandler;
                 pair.Value.DisableUpdate = true;
             }
 
-          
-            foreach (var pair in this.CalcVars)
-            {
+
+            foreach (var pair in this.CalcVars) {
                 Console.WriteLine("Finding dependencies for CalcVar \"" + pair.Value.Name + "\".");
                 dependencyList.Clear();
 
@@ -118,8 +102,7 @@ namespace NinjaCalc
                 pair.Value.Equation.Invoke(this.CalcVars);
 
                 // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
-                for (int j = 0; j < dependencyList.Count; j++)
-                {
+                for (int j = 0; j < dependencyList.Count; j++) {
                     Console.WriteLine("\"" + dependencyList[j].Name + "\" is a dependency of \"" + pair.Value.Name + "\".");
                     dependencyList[j].Dependants.Add(pair.Value);
                 }
@@ -132,15 +115,13 @@ namespace NinjaCalc
 
             // Now remove event handler that we added at start of function, and
             // re-enable updates for all variables
-            foreach (var pair in this.CalcVars)
-            {
+            foreach (var pair in this.CalcVars) {
                 pair.Value.RawValueRead -= eventHandler;
                 pair.Value.DisableUpdate = false;
 
                 Console.WriteLine("Dependants of \"" + pair.Value.Name + "\" are:");
 
-                for (int j = 0; j < pair.Value.Dependants.Count; j++)
-                {
+                for (int j = 0; j < pair.Value.Dependants.Count; j++) {
                     Console.WriteLine("\t\"" + pair.Value.Dependants[j].Name + "\"");
                 }
             }

@@ -14,13 +14,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 
-namespace NinjaCalc
-{
+namespace NinjaCalc {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
+    public partial class MainWindow : Window {
 
         /// <summary>
         /// Retains a list of all available calculators (and their data) which have been added to
@@ -36,8 +34,7 @@ namespace NinjaCalc
         /// <summary>
         /// Constructor. Create and opens a new main window for the application.
         /// </summary>
-        public MainWindow()
-        {
+        public MainWindow() {
             InitializeComponent();
             //Name2 = new String('a', 5);
             //myGrid.DataContext = this;
@@ -58,24 +55,21 @@ namespace NinjaCalc
             this.RegisterCalculator(new OhmsLaw());
         }
 
-        private void buttonNewCalc_Click(object sender, RoutedEventArgs e)
-        {
+        private void buttonNewCalc_Click(object sender, RoutedEventArgs e) {
             // Show the overlay
             overlay.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void ButtonMenu_Click(object sender, RoutedEventArgs e)
-        {
+        private void ButtonMenu_Click(object sender, RoutedEventArgs e) {
             // Show the overlay
             overlay.Visibility = System.Windows.Visibility.Visible;
         }
-     
 
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             // Hide the overlay
             overlay.Visibility = System.Windows.Visibility.Collapsed;
-            
+
         }
 
         /// <summary>
@@ -83,8 +77,7 @@ namespace NinjaCalc
         /// to the "choose calculator" grid and allow the user to open a calculator of this type.
         /// </summary>
         /// <param name="calculator">The calculator you wish to register.</param>
-        public void RegisterCalculator(Calculator calculator)
-        {
+        public void RegisterCalculator(Calculator calculator) {
             // Save the calculator into a list
             this.calculatorTemplates.Add(calculator);
 
@@ -106,8 +99,7 @@ namespace NinjaCalc
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HandleOpenCalcButtonClicked(object sender, EventArgs e)
-        {
+        private void HandleOpenCalcButtonClicked(object sender, EventArgs e) {
             Console.WriteLine("HandleOpenCalcButtonClicked() called with sender = " + sender.ToString() + " and e = " + e.ToString() + ".");
 
             // Work out what calculator was clicked on
@@ -157,7 +149,7 @@ namespace NinjaCalc
 
     } // public partial class MainWindow : Window, INotifyPropertyChanged
 
-  
+
 
 }
 

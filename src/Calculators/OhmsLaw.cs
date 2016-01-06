@@ -7,16 +7,14 @@ using System.Windows.Controls;
 
 using NinjaCalc.Core;
 
-namespace NinjaCalc
-{
-    class OhmsLaw : Calculator
-    {
+namespace NinjaCalc {
+    class OhmsLaw : Calculator {
 
         Calculators.OhmsLawView view;
 
 
-        public OhmsLaw() : base("Ohm's Law", "Ohm's law calculator.")
-        {
+        public OhmsLaw()
+            : base("Ohm's Law", "Ohm's law calculator.") {
             // Create the view for this calculator
             this.view = new Calculators.OhmsLawView();
 
@@ -43,13 +41,11 @@ namespace NinjaCalc
             this.CalcVars["voltage"].AddValidator(Validator.IsNumber());
             this.CalcVars["voltage"].AddValidator(new Validator(
                 (value) => {
-                    if (value < 0)
-                    {
-                        return ValidationLevels.Error;
+                    if (value < 0) {
+                        return CalcValidationResults.Error;
                     }
-                    else
-                    {
-                        return ValidationLevels.Ok;
+                    else {
+                        return CalcValidationResults.Ok;
                     }
                 }));
 
@@ -74,7 +70,7 @@ namespace NinjaCalc
             //===============================================================================================//
             //========================================== RESISTANCE =========================================//
             //===============================================================================================//
-            
+
             this.CalcVars.Add(
                 "resistance",
                 new CalcNumberVar(
@@ -100,12 +96,11 @@ namespace NinjaCalc
         /// </summary>
         /// <returns></returns>
         /// @todo Turn into parameter?
-        public override Control GetView()
-        {
+        public override Control GetView() {
             return view;
         }
 
-      
+
 
     }
 }

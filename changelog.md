@@ -1,3 +1,10 @@
+v0.3.0
+------
+
+- Switched from Electron/Javascript/Node.js to C#/.NET platform.
+- Implemented basic "Ohm's Law" calculator.
+- Validation working.
+
 v0.2.1
 ------
 
