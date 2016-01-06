@@ -96,12 +96,16 @@ namespace NinjaCalc
                 this.direction = value;
                 if(value == Direction_t.Output) {
                     // If this calc variable is being set as an output,
-                    // we need to disable the input text box and check the radio button
+                    // we need to disable the input text box, check the radio button,
+                    // and remove the event handler
                     this.calcValTextBox.IsEnabled = false;
+                    this.calcValTextBox.TextChanged -= this.TextBoxChanged;
                     this.ioRadioButton.IsChecked = true; 
+                    
                 } else if(value == Direction_t.Input)
                 {
                     this.calcValTextBox.IsEnabled = true;
+                    this.calcValTextBox.TextChanged += this.TextBoxChanged;
                     this.ioRadioButton.IsChecked = false; 
                 }
                 
@@ -188,7 +192,7 @@ namespace NinjaCalc
 
             this.calcValTextBox = calcValTextBox;
             // Setup event handler for when textbox text changes
-            this.calcValTextBox.TextChanged += this.TextBoxChanged;
+            //this.calcValTextBox.TextChanged += this.TextBoxChanged;
 
             this.ioRadioButton = ioRadioButton;
             // Setup event handlers. Note that Checked and Unchecked have their own handlers. In this
@@ -206,6 +210,9 @@ namespace NinjaCalc
 
             // Initialise empty validators list
             this.validators = new List<Validator>();
+
+            // Default direction is an input
+            this.Direction = Direction_t.Input;
 
             // Assign the default raw value
             this.RawVal = defaultRawValue;
@@ -226,18 +233,21 @@ namespace NinjaCalc
             // which should return the raw value for this calculator variable
             this.RawVal = equation.Invoke(this.calcVars);
 
+            // Validation is done in the TextBoxChanged event handler
             this.Validate();
         }
 
         /// <summary>
         /// Event handler for when the calculator variables textbox (e.g. it's value) changes. Assigned
-        /// to the .TextChanged event of the TextBox in this class's constructor.
+        /// to the .TextChanged event of the TextBox in this class's constructor. Should only be called
+        /// when this calculator variable is an input.
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">Should be of type TextBox.</param>
         /// <param name="e"></param>
         public void TextBoxChanged(object sender, EventArgs e)
         {
-            //Debug.Assert(this.Direction == Direction_t.Input);
+            // Make sure this event only fires when this variable is an input!
+            Debug.Assert(this.Direction == Direction_t.Input);
 
             TextBox textBox = (TextBox)sender;
             Console.WriteLine("TextBox \"" + textBox.Name + "\" changed. Text now equals = \"" + textBox.Text + "\".");
