@@ -40,6 +40,7 @@ namespace NinjaCalc
                     0.0));
 
             // Add validators
+            this.CalcVars["voltage"].AddValidator(Validator.IsNumber());
             this.CalcVars["voltage"].AddValidator(new Validator(
                 (value) => {
                     if (value < 0)

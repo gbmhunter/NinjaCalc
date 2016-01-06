@@ -46,5 +46,26 @@ namespace NinjaCalc.Core
             // Save function internally
             this.validationFunction = validationFunction;
         }
+
+        /// <summary>
+        /// Factory function. Returns a validator which will give an error if the calculator variable is not a valid number (NaN does not count).
+        /// </summary>
+        /// <returns>A validator which will give an error if the calculator variable is not a valid number.</returns>
+        public static Validator IsNumber()
+        {
+            return new Validator(
+                (value) =>
+                {
+                    //return ValidationResult_t.Error;
+                    if (Double.IsNaN(value))
+                    {
+                        return ValidationResult_t.Error;
+                    }
+                    else
+                    {
+                        return ValidationResult_t.Ok;
+                    }
+                });
+        }
     }
 }
