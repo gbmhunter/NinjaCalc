@@ -9,7 +9,7 @@
             <TabItem Header="Start">
                 <StackPanel Width="400"  Height="400">
                     <!--<TextBox Text="{Binding Path=Name2}"/>-->
-                    <Label>No calculator is open. Do you want to create one?</Label>
+                    <Label HorizontalAlignment="Center" Padding="20">No calculator is open. Do you want to create one?</Label>
                     <Button Name="buttonNewCalc" Width="100" Height="40">New Calculator</Button>
                 </StackPanel>
             </TabItem>

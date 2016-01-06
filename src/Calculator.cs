@@ -46,6 +46,23 @@ namespace NinjaCalc
             }
         }
 
+        private List<CalcVar> calcVars;
+
+        /// <summary>
+        /// A list holding all of the calculator variables for the calculator.
+        /// </summary>
+        public List<CalcVar> CalcVars
+        {
+            get
+            {
+                return calcVars;
+            }
+            set
+            {
+                calcVars = value;
+            }
+        }
+
         /// <summary>
         /// Constructor for calculator.
         /// </summary>
@@ -55,6 +72,7 @@ namespace NinjaCalc
         {            
             this.name = name;
             this.description = description;
+            this.calcVars = new List<CalcVar>();
         }
 
         /// <summary>

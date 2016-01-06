@@ -10,14 +10,17 @@
             <StackPanel Orientation="Horizontal">
                 <Label>Voltage</Label>
                 <TextBox Name="TextBoxVoltageValue" Width="100"></TextBox>
+                <RadioButton Name="RadioButtonVoltage" GroupName="OhmsLaw"></RadioButton>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label>Current</Label>
                 <TextBox Name="TextBoxCurrentValue" Width="100"></TextBox>
+                <RadioButton Name="RadioButtonCurrent" GroupName="OhmsLaw"></RadioButton>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label>Resistance</Label>
                 <TextBox Name="TextBoxResistanceValue" Width="100"></TextBox>
+                <RadioButton Name="RadioButtonResistance" GroupName="OhmsLaw"></RadioButton>
             </StackPanel>
         </StackPanel>
     </Grid>

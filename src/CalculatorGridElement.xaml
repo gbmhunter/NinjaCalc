@@ -8,7 +8,7 @@
     <Grid>
         <Border BorderThickness="2" BorderBrush="Gray">
             <StackPanel Margin="10">
-                <Image Width="200" Height="100"></Image>
+                <Image Width="200" Height="100" Source="Calculators/icon.png"></Image>
                 <Label Name="Title">Calculator Title</Label>
                 <Label Name="Description">This is a description of the calculator.</Label>
                 <Button Name="ButtonOpen" Width="50">Open</Button>
