@@ -71,8 +71,10 @@ namespace NinjaCalc
 
         private TextBox calcValTextBox;
         private RadioButton ioRadioButton;
-        private List<CalcVar> calcVars;
-        private Func<List<CalcVar>, double> equation;
+        
+        private Dictionary<string, CalcVar> calcVars;
+
+        private Func<Dictionary<string, CalcVar>, double> equation;
 
         private Direction_t direction;
 
@@ -162,9 +164,8 @@ namespace NinjaCalc
             String name,
             TextBox calcValTextBox,
             RadioButton ioRadioButton,
-            List<CalcVar> calcVars,
-            Func<List<CalcVar>,
-            double> equation,
+            Dictionary<string, CalcVar> calcVars,
+            Func<Dictionary<string, CalcVar>, double> equation,
             double defaultRawValue)
         {
 

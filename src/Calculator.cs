@@ -46,12 +46,12 @@ namespace NinjaCalc
             }
         }
 
-        private List<CalcVar> calcVars;
+        private Dictionary<string, CalcVar> calcVars;
 
         /// <summary>
         /// A list holding all of the calculator variables for the calculator.
         /// </summary>
-        public List<CalcVar> CalcVars
+        public Dictionary<string, CalcVar> CalcVars
         {
             get
             {
@@ -72,7 +72,7 @@ namespace NinjaCalc
         {            
             this.name = name;
             this.description = description;
-            this.calcVars = new List<CalcVar>();
+            this.calcVars = new Dictionary<string, CalcVar>();
         }
 
         /// <summary>
@@ -100,14 +100,19 @@ namespace NinjaCalc
 
             // Attach event handlers onto the read-of-value for each calculator variable,
             // and also disable updating of the textboxes when we call Calculate().
-            for (int i = 0; i < this.CalcVars.Count; i++)
+            /*for (int i = 0; i < this.CalcVars.Count; i++)
             {
                 //this.CalcVars[i].RawValueRead += this.RawValueRead;
                 this.CalcVars[i].RawValueRead += eventHandler;
                 this.CalcVars[i].DisableUpdate = true;
+            }*/
+            foreach (var pair in this.CalcVars)
+            {
+                pair.Value.RawValueRead += eventHandler;
+                pair.Value.DisableUpdate = true;
             }
 
-            for (int i = 0; i < this.CalcVars.Count; i++)
+            /*for (int i = 0; i < this.CalcVars.Count; i++)
             {
                 Console.WriteLine("Finding dependencies for CalcVar \"" + this.CalcVars[i].Name + "\".");
                 dependencyList.Clear();
@@ -127,11 +132,32 @@ namespace NinjaCalc
 
                 // Save the dependencies to the calculator variable
                 this.CalcVars[i].Dependencies = dependencyList;
+            }*/
+            foreach (var pair in this.CalcVars)
+            {
+                Console.WriteLine("Finding dependencies for CalcVar \"" + pair.Value.Name + "\".");
+                dependencyList.Clear();
+
+                // Call the calculate method, this will fire ReadRawValue events
+                // for all variables it needs, and add to the dependancy list
+                pair.Value.Calculate();
+
+                // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
+                for (int j = 0; j < dependencyList.Count; j++)
+                {
+                    Console.WriteLine("\"" + dependencyList[j].Name + "\" is a dependency of \"" + pair.Value.Name + "\".");
+                    dependencyList[j].Dependants.Add(pair.Value);
+                }
+
+                Console.WriteLine("Finished finding dependencies for CalcVar \"" + pair.Value.Name + "\".");
+
+                // Save the dependencies to the calculator variable
+                pair.Value.Dependencies = dependencyList;
             }
 
             // Now remove event handler that we added at start of function, and
             // re-enable updates for all variables
-            for (int i = 0; i < this.CalcVars.Count; i++)
+            /*for (int i = 0; i < this.CalcVars.Count; i++)
             {
                 this.CalcVars[i].RawValueRead -= eventHandler;
                 this.CalcVars[i].DisableUpdate = false;
@@ -143,6 +169,19 @@ namespace NinjaCalc
                     Console.WriteLine("\t\"" + this.CalcVars[i].Dependants[j].Name + "\"");
                 }
 
+            }*/
+
+            foreach (var pair in this.CalcVars)
+            {
+                pair.Value.RawValueRead -= eventHandler;
+                pair.Value.DisableUpdate = false;
+
+                Console.WriteLine("Dependants of \"" + pair.Value.Name + "\" are:");
+
+                for (int j = 0; j < pair.Value.Dependants.Count; j++)
+                {
+                    Console.WriteLine("\t\"" + pair.Value.Dependants[j].Name + "\"");
+                }
             }
         }
 

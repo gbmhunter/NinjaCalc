@@ -22,46 +22,48 @@ namespace NinjaCalc
 
             //! @todo, Move these into the constructor for the base object?
             this.CalcVars.Add(
+                "voltage",
                 new CalcVar(
                     "voltage",
                     view.TextBoxVoltageValue,
                     view.RadioButtonVoltage,
                     this.CalcVars,
                     (calcVars) => {
-                        var current = calcVars[1].RawVal;
-                        var resistance = calcVars[2].RawVal;
+                        var current = calcVars["current"].RawVal;
+                        var resistance = calcVars["resistance"].RawVal;
                         return current * resistance;
                     },
                     0.0));
 
             this.CalcVars.Add(
+                "current",
                 new CalcVar(
                     "current",
                     view.TextBoxCurrentValue,
                     view.RadioButtonCurrent,
                     this.CalcVars,
                     (calcVars) => {
-                        var voltage = calcVars[0].RawVal;
-                        var resistance = calcVars[2].RawVal;
+                        var voltage = calcVars["voltage"].RawVal;
+                        var resistance = calcVars["resistance"].RawVal;
                         return voltage / resistance;
                     },
                     0.0));
             
             this.CalcVars.Add(
+                "resistance",
                 new CalcVar(
                     "resistance",
                     view.TextBoxResistanceValue,
                     view.RadioButtonResistance,
                     this.CalcVars,
                     (calcVars) => {
-                        var voltage = calcVars[0].RawVal;
-                        var current = calcVars[1].RawVal;
+                        var voltage = calcVars["voltage"].RawVal;
+                        var current = calcVars["current"].RawVal;
                         return voltage / current;
                     },
                     0.0));
 
-            this.CalcVars.Find(
-                (calcVar) => { return calcVar.Name == "resistance"; }).Direction = Direction_t.Output;
+            this.CalcVars["resistance"].Direction = Direction_t.Output;
 
             this.FindDependenciesAndDependants();
 
