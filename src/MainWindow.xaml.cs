@@ -27,6 +27,7 @@ namespace NinjaCalc
         /// the application.
         /// </summary>
         private List<Calculator> calculators;
+        private List<Calculator> calculatorInstances;
 
         public MainWindow()
         {
@@ -44,6 +45,7 @@ namespace NinjaCalc
             buttonNewCalc.Click += buttonNewCalc_Click;
 
             calculators = new List<Calculator>();
+            calculatorInstances = new List<Calculator>();
 
             // Register calculators
             this.RegisterCalculator(new OhmsLaw());
@@ -109,13 +111,24 @@ namespace NinjaCalc
             Calculator foundCalc = this.calculators.Find(x => x.Name == (string)calculatorGridElement.Title.Content);
             Console.WriteLine("Found calculator \"" + foundCalc.Name + "\" using the calculator grid element.");
 
+            // We need to make a new calculator object here. Just adding foundCalc would result in all instances of the same calculator
+            // being updated at the same time!!!
+            Type type = foundCalc.GetType();
+            // This next line creates a new object of the specific calculator type.
+            // It relies of there being a public parameterless constructor
+            // (which there should be for any specific calculator, which derives from the base calculator class)
+            object o = Activator.CreateInstance(type);
+            // Add this new calculator instance to the list of instances
+            calculatorInstances.Add((Calculator)o);
+
             // Create a new tab
             var tabItem = new TabItem();
             tabItem.Header = calculatorGridElement.Title.Content;
 
             // Fill in the tab with the content from the found calculator. The View() method should return a base UI element
             // to fill in the tab (it will have many children)
-            tabItem.Content = foundCalc.GetView();
+            //tabItem.Content = foundCalc.GetView();
+            tabItem.Content = calculatorInstances[calculatorInstances.Count - 1].GetView();
 
             //tabItem.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
             //tabItem.VerticalAlignment = System.Windows.VerticalAlignment.Center;
