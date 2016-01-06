@@ -250,5 +250,13 @@ namespace NinjaCalc
             
         }
 
+        /// <summary>
+        /// Use this to add a specific validator to this calculator variable.
+        /// </summary>
+        public void AddValidator()
+        {
+
+        }
+
     }
 }

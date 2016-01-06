@@ -35,6 +35,8 @@ namespace NinjaCalc
                     },
                     0.0));
 
+            this.CalcVars["voltage"].AddValidator();
+
             this.CalcVars.Add(
                 "current",
                 new CalcVar(
