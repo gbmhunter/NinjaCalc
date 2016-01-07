@@ -190,6 +190,9 @@ namespace NinjaCalc {
                 // Change the textbox's border colour
                 this.calcValTextBox.BorderBrush = this.validationResult.BorderBrush;
                 this.calcValTextBox.Background = this.validationResult.BackgroundBrush;
+                var toolTip = new System.Windows.Controls.Label();
+                toolTip.Content = "Testing";
+                this.calcValTextBox.ToolTip = toolTip;
             }
         }
 

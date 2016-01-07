@@ -55,26 +55,34 @@ namespace NinjaCalc.Core {
     /// Used to encapsulate a single validator for a calculator variable. Designed to be added to the CalcVar object.
     /// </summary>
     public class Validator {
-        private Func<double, CalcValidationResult> validationFunction;
+
         /// <summary>
         /// Gets or sets the validation function which performs the validation and returns a ValidationResult_t.
         /// </summary>
         public Func<double, CalcValidationResult> ValidationFunction {
-            get {
-                return this.validationFunction;
-            }
-            set {
-                this.validationFunction = value;
-            }
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the message to be displayed to the user (in a tooltip), when the validator
+        /// fails with either a warning or an error.
+        /// </summary>
+        public string Message {
+            get;
+            set;
         }
 
         /// <summary>
         /// Constructor. 
         /// </summary>
         /// <param name="validationFunction">The function which will validate the calculator variable.</param>
-        public Validator(Func<double, CalcValidationResult> validationFunction) {
+        public Validator(Func<double, CalcValidationResult> validationFunction, string message) {
             // Save function internally
-            this.validationFunction = validationFunction;
+            this.ValidationFunction = validationFunction;
+
+            // Save the message internally
+            this.Message = message;
         }
 
         /// <summary>
@@ -93,7 +101,8 @@ namespace NinjaCalc.Core {
                     else {
                         return CalcValidationResults.Ok;
                     }
-                });
+                },
+                "Value must be a real number.");
         }
 
         /// <summary>
@@ -111,7 +120,8 @@ namespace NinjaCalc.Core {
                     else {
                         return CalcValidationResults.Ok;
                     }
-                });
+                },
+                "Value must be positive and not equal to 0.");
         }
     }
 }
