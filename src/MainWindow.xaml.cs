@@ -52,7 +52,7 @@ namespace NinjaCalc {
             calculatorInstances = new List<Calculator>();
 
             // Register calculators
-            this.RegisterCalculator(new OhmsLaw());
+            this.RegisterCalculator(new OhmsLawCalculator());
         }
 
         private void buttonNewCalc_Click(object sender, RoutedEventArgs e) {

@@ -8,16 +8,16 @@ using System.Windows.Controls;
 using NinjaCalc.Core;
 
 namespace NinjaCalc {
-    class OhmsLaw : Calculator {
+    public class OhmsLawCalculator : Calculator {
 
         Calculators.OhmsLawView view;
 
 
-        public OhmsLaw()
+        public OhmsLawCalculator()
             : base(
             "Ohm's Law",
             "Ohm's law calculator.",
-            new Uri("pack://application:,,,/Calculators/icon.png")) {
+            "pack://application:,,,/Calculators/icon.png") {
 
             // Create the view for this calculator
             this.view = new Calculators.OhmsLawView();

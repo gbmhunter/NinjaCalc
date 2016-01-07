@@ -45,11 +45,20 @@ namespace NinjaCalc {
         /// </summary>
         /// <param name="name"></param>
         /// <param name="description"></param>
-        public Calculator(string name, string description, Uri iconImagePath) {
+        public Calculator(string name, string description, string iconImagePath) {
             this.Name = name;
             this.Description = description;
             this.CalcVars = new Dictionary<string, CalcVar>();
-            this.IconImagePath = iconImagePath;
+
+            const string scheme = "pack";
+            if (UriParser.IsKnownScheme(scheme)) {
+                this.IconImagePath = new Uri(iconImagePath);
+            }
+            else {
+                Console.WriteLine("WARNING: \"pack\" scheme for image URI is not known, are you running unit tests?");
+                //this.IconImagePath = "";
+            }
+            //this.IconImagePath = iconImagePath;
         }
 
         /// <summary>

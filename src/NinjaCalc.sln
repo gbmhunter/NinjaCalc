@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaCalc", "NinjaCalc.csproj", "{423C9F6A-E2EB-41DD-80AB-7C7A5DC509E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaCalcUnitTests", "..\test\NinjaCalcUnitTests.csproj", "{618F93E0-3DB8-432A-96D7-1157D46EC0F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{423C9F6A-E2EB-41DD-80AB-7C7A5DC509E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{423C9F6A-E2EB-41DD-80AB-7C7A5DC509E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{423C9F6A-E2EB-41DD-80AB-7C7A5DC509E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{618F93E0-3DB8-432A-96D7-1157D46EC0F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{618F93E0-3DB8-432A-96D7-1157D46EC0F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{618F93E0-3DB8-432A-96D7-1157D46EC0F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{618F93E0-3DB8-432A-96D7-1157D46EC0F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

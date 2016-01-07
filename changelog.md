@@ -1,3 +1,8 @@
+v0.3.1
+------
+
+- Added first unit tests using the inbuilt Microsoft Unit Testing framework.
+
 v0.3.0
 ------
 
