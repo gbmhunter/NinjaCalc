@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// For easy access to brushes
+using System.Windows.Media;
+
 namespace NinjaCalc.Core {
 
     /// <summary>
@@ -30,9 +33,15 @@ namespace NinjaCalc.Core {
             }
         }
 
-        public CalcValidationResult(string name, System.Windows.Media.Brush borderBrush) {
+        public System.Windows.Media.Brush BackgroundBrush {
+            get;
+            set;
+        }
+
+        public CalcValidationResult(string name, System.Windows.Media.Brush borderBrush, System.Windows.Media.Brush backgroundBrush) {
             this.name = name;
             this.borderBrush = borderBrush;
+            this.BackgroundBrush = backgroundBrush;
         }
     }
 
@@ -45,9 +54,9 @@ namespace NinjaCalc.Core {
         public static readonly CalcValidationResult Error;
 
         static CalcValidationResults() {
-            Ok = new CalcValidationResult("ok", System.Windows.Media.Brushes.Green);
-            Warning = new CalcValidationResult("warning", System.Windows.Media.Brushes.Orange);
-            Error = new CalcValidationResult("error", System.Windows.Media.Brushes.Red);
+            Ok = new CalcValidationResult("ok", System.Windows.Media.Brushes.Green, (SolidColorBrush)new BrushConverter().ConvertFromString("#e5ffe5"));
+            Warning = new CalcValidationResult("warning", System.Windows.Media.Brushes.Orange, (SolidColorBrush)new BrushConverter().ConvertFromString("#fff5e5"));
+            Error = new CalcValidationResult("error", System.Windows.Media.Brushes.Red, (SolidColorBrush)new BrushConverter().ConvertFromString("#ffe5e5"));
         }
     }
 

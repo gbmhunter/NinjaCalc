@@ -99,8 +99,8 @@ namespace NinjaCalc {
                         return voltage / current;
                     },
                     new NumberUnit[]{
-                        new NumberUnit("mR", 0.001),
-                        new NumberUnit("R", 1.0, NumberPreference.DEFAULT),
+                        new NumberUnit("mΩ", 0.001),
+                        new NumberUnit("Ω", 1.0, NumberPreference.DEFAULT),
                     },
                     0.0));
 

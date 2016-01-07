@@ -189,6 +189,7 @@ namespace NinjaCalc {
                 this.validationResult = value;
                 // Change the textbox's border colour
                 this.calcValTextBox.BorderBrush = this.validationResult.BorderBrush;
+                this.calcValTextBox.Background = this.validationResult.BackgroundBrush;
             }
         }
 
