@@ -9,11 +9,19 @@ using System.Diagnostics;
 
 namespace NinjaCalc.Core {
     class CalcNumberVar : CalcVar {
-        public CalcNumberVar(String name,
+
+
+        private ComboBox unitsComboBox;
+        private List<NumberUnit> units;
+
+        public CalcNumberVar(
+            String name,
             TextBox calcValTextBox,
+            ComboBox unitsComboBox,
             RadioButton ioRadioButton,
             Dictionary<string, CalcVar> calcVars,
             Func<Dictionary<string, CalcVar>, double> equation,
+            NumberUnit[] units,
             double defaultRawValue)
             : base(
                 name,
@@ -23,6 +31,21 @@ namespace NinjaCalc.Core {
                 equation,
                 defaultRawValue) {
 
+            // Internally save reference to the units combo box
+            this.unitsComboBox = unitsComboBox;
+
+            // Attach event handler to the selection change for the units combo box
+            this.unitsComboBox.SelectionChanged += this.UnitsComboBox_SelectionChanged;
+
+            // Initialise empty units list
+            this.units = new List<NumberUnit>();
+
+            // Internally save the units
+            // Note we can't implictly convert from an array of NumberUnit to a List<NumberUnit>
+            foreach(var unit in units) {
+                this.units.Add(unit);
+            }
+                
         }
 
         /// <summary>
@@ -58,8 +81,10 @@ namespace NinjaCalc.Core {
                     this.dependants[i].Calculate();
                 }
             }
+        }
 
-
+        public void UnitsComboBox_SelectionChanged(object sender, EventArgs e) {
+            Console.WriteLine("UnitsComboBox_Changed() called.");
         }
     }
 

@@ -32,12 +32,17 @@ namespace NinjaCalc {
                 new CalcNumberVar(
                     "voltage",
                     view.TextBoxVoltageValue,
+                    view.VoltageUnits,
                     view.RadioButtonVoltage,
                     this.CalcVars,
                     (calcVars) => {
                         var current = calcVars["current"].RawVal;
                         var resistance = calcVars["resistance"].RawVal;
                         return current * resistance;
+                    },
+                    new NumberUnit[]{
+                        new NumberUnit("mV", 0.001),
+                        new NumberUnit("V", 1.0),
                     },
                     0.0));
 
@@ -62,12 +67,16 @@ namespace NinjaCalc {
                 new CalcNumberVar(
                     "current",
                     view.TextBoxCurrentValue,
+                    view.CurrentUnits,
                     view.RadioButtonCurrent,
                     this.CalcVars,
                     (calcVars) => {
                         var voltage = calcVars["voltage"].RawVal;
                         var resistance = calcVars["resistance"].RawVal;
                         return voltage / resistance;
+                    },
+                    new NumberUnit[]{
+                        new NumberUnit("mA", 0.001)
                     },
                     0.0));
 
@@ -80,12 +89,16 @@ namespace NinjaCalc {
                 new CalcNumberVar(
                     "resistance",
                     view.TextBoxResistanceValue,
+                    view.ResistanceUnits,
                     view.RadioButtonResistance,
                     this.CalcVars,
                     (calcVars) => {
                         var voltage = calcVars["voltage"].RawVal;
                         var current = calcVars["current"].RawVal;
                         return voltage / current;
+                    },
+                    new NumberUnit[]{
+                        new NumberUnit("mR", 0.001)
                     },
                     0.0));
 
