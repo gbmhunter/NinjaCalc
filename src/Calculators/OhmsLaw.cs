@@ -42,7 +42,7 @@ namespace NinjaCalc {
                     },
                     new NumberUnit[]{
                         new NumberUnit("mV", 0.001),
-                        new NumberUnit("V", 1.0),
+                        new NumberUnit("V", 1.0, NumberPreference.DEFAULT),
                     },
                     0.0));
 
@@ -76,7 +76,8 @@ namespace NinjaCalc {
                         return voltage / resistance;
                     },
                     new NumberUnit[]{
-                        new NumberUnit("mA", 0.001)
+                        new NumberUnit("mA", 0.001),
+                        new NumberUnit("A", 1.0, NumberPreference.DEFAULT),
                     },
                     0.0));
 
@@ -98,7 +99,8 @@ namespace NinjaCalc {
                         return voltage / current;
                     },
                     new NumberUnit[]{
-                        new NumberUnit("mR", 0.001)
+                        new NumberUnit("mR", 0.001),
+                        new NumberUnit("R", 1.0, NumberPreference.DEFAULT),
                     },
                     0.0));
 

@@ -59,10 +59,23 @@ namespace NinjaCalc.Core {
 
             // Internally save the units
             // Note we can't implictly convert from an array of NumberUnit to a List<NumberUnit>
+            NumberUnit defaultUnit = null;
             foreach(var unit in units) {
-                this.units.Add(unit);                
+                this.units.Add(unit);     
+                if(unit.Preference == NumberPreference.DEFAULT)
+                {
+                    defaultUnit = unit;
+                }
             }
             this.unitsComboBox.ItemsSource = this.units;
+
+            // Set current combobox selection to default unit
+            if(defaultUnit != null) {
+                this.unitsComboBox.SelectedItem = defaultUnit;
+            } else {
+                this.unitsComboBox.SelectedItem = this.units[0];
+            }
+
                 
         }
 
@@ -103,6 +116,8 @@ namespace NinjaCalc.Core {
 
         public void UnitsComboBox_SelectionChanged(object sender, EventArgs e) {
             Console.WriteLine("UnitsComboBox_Changed() called.");
+
+
         }
     }
 

@@ -10,20 +10,20 @@
     <Canvas Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Image Source="ohms-law-diagram.png" Width="400" Height="400" Canvas.Left="-219" Canvas.Top="-190" />
 
-        <TextBox Name="TextBoxVoltageValue" Width="100" Canvas.Left="-192" Canvas.Top="32"></TextBox>
-        <Label Content="Voltage" Canvas.Left="-192" Canvas.Top="-4" FontSize="16"/>
-        <RadioButton Name="RadioButtonVoltage" GroupName="OhmsLaw" Canvas.Left="-128" Canvas.Top="7"></RadioButton>
-        <ComboBox Name="VoltageUnits" Height="18" Canvas.Left="-87" Canvas.Top="32" Width="39"/>
+        <TextBox Name="TextBoxVoltageValue" Width="100" Height="25" Canvas.Left="-224" Canvas.Top="31"></TextBox>
+        <Label Content="Voltage" Canvas.Left="-224" Canvas.Top="-5" FontSize="16"/>
+        <RadioButton Name="RadioButtonVoltage" GroupName="OhmsLaw" Canvas.Left="-160" Canvas.Top="6"></RadioButton>
+        <ComboBox Name="VoltageUnits" Width="55" Height="25" Canvas.Left="-119" Canvas.Top="31" />
 
-        <Label Canvas.Left="-67" Canvas.Top="-120" FontSize="16">Current</Label>
-        <TextBox Name="TextBoxCurrentValue" Width="100" Canvas.Left="-67" Canvas.Top="-89"></TextBox>
-        <RadioButton Name="RadioButtonCurrent" GroupName="OhmsLaw" Canvas.Left="10" Canvas.Top="-112"></RadioButton>
-        <ComboBox x:Name="CurrentUnits" Height="18" Canvas.Left="38" Canvas.Top="-89" Width="39"/>
+        <Label Canvas.Left="-87" Canvas.Top="-114" FontSize="16">Current</Label>
+        <TextBox Name="TextBoxCurrentValue" Width="100" Height="25" Canvas.Left="-87" Canvas.Top="-83"></TextBox>
+        <RadioButton Name="RadioButtonCurrent" GroupName="OhmsLaw" Canvas.Left="-10" Canvas.Top="-106"></RadioButton>
+        <ComboBox x:Name="CurrentUnits" Width="55" Height="25" Canvas.Left="18" Canvas.Top="-83"/>
 
         <Label Canvas.Left="121" Canvas.Top="-17" FontSize="16">Resistance</Label>
-        <TextBox Name="TextBoxResistanceValue" Width="84" Height="Auto" Canvas.Left="121" Canvas.Top="14"></TextBox>
+        <TextBox Name="TextBoxResistanceValue" Width="84" Height="25" Canvas.Left="121" Canvas.Top="14"></TextBox>
         <RadioButton Name="RadioButtonResistance" GroupName="OhmsLaw" Width="Auto" Canvas.Left="209" Canvas.Top="-5"></RadioButton>
-        <ComboBox x:Name="ResistanceUnits" Height="18" Canvas.Left="209" Canvas.Top="14" Width="39"/>
+        <ComboBox x:Name="ResistanceUnits" Width="55" Height="25" Canvas.Left="209" Canvas.Top="14"/>
 
 
     </Canvas>
