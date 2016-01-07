@@ -27,6 +27,16 @@ namespace NinjaCalc {
             set;
         }
 
+        public Uri IconImagePath {
+            get;
+            set;
+        }
+
+        public UserControl View {
+            get;
+            set;
+        }
+
         /// <summary>
         /// A list holding all of the calculator variables for the calculator.
         /// </summary>
@@ -35,20 +45,18 @@ namespace NinjaCalc {
             set;
         }
 
-        public Uri IconImagePath {
-            get;
-            set;
-        }
+        
 
         /// <summary>
         /// Constructor for calculator.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="description"></param>
-        public Calculator(string name, string description, string iconImagePath) {
+        public Calculator(string name, string description, string iconImagePath, UserControl view) {
             this.Name = name;
             this.Description = description;
-            this.CalcVars = new Dictionary<string, CalcVar>();
+
+    
 
             // The following is implemented to that unit tests work, as constructing a calculator outside
             // of this project (i.e. inside Unit Test project instead) causes the URI pack scheme to fail
@@ -61,14 +69,14 @@ namespace NinjaCalc {
                 //this.IconImagePath = "";
             }
             //this.IconImagePath = iconImagePath;
-        }
 
-        /// <summary>
-        /// This needs to return a Grid which contains the calculators view. The Grid element will be inserted on the
-        /// empty tab when a new instance of the calculator is created. 
-        /// </summary>
-        /// <returns></returns>
-        public abstract Control GetView();
+            // Internally save reference to the view
+            this.View = view;
+
+            // Initialise empty dictionary for the calculator variables
+            // (these are not passed into the constructor for clarity reasons)
+            this.CalcVars = new Dictionary<string, CalcVar>();
+        }
 
         /// <summary>
         /// This finds all the dependencies and dependants for all calculator variables,

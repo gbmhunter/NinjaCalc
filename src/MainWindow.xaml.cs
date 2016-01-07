@@ -135,7 +135,7 @@ namespace NinjaCalc {
             // Fill in the tab with the content from the found calculator. The View() method should return a base UI element
             // to fill in the tab (it will have many children)
             //tabItem.Content = foundCalc.GetView();
-            tabItem.Content = calculatorInstances[calculatorInstances.Count - 1].GetView();
+            tabItem.Content = calculatorInstances[calculatorInstances.Count - 1].View;
 
             //tabItem.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
             //tabItem.VerticalAlignment = System.Windows.VerticalAlignment.Center;

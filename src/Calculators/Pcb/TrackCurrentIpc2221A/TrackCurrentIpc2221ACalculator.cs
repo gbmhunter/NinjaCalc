@@ -11,16 +11,14 @@ using NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A;
 namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
     class TrackCurrentIpc2221ACalculator : Calculator {
 
-        Calculators.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221AView view;
-
         public TrackCurrentIpc2221ACalculator()
             : base(
             "Track Current (IPC-2221A)",
             "PCB track current carrying capability calculator, using IPC-2221A.",
-            "pack://application:,,,/Calculators/Basic/OhmsLaw/icon.png") {
+            "pack://application:,,,/Calculators/Basic/OhmsLaw/icon.png",
+            new TrackCurrentIpc2221AView()) {
 
-            // Create the view for this calculator
-            this.view = new TrackCurrentIpc2221AView();
+            TrackCurrentIpc2221AView view = (TrackCurrentIpc2221AView)this.View;
 
             //===============================================================================================//
             //============================================ VOLTAGE ==========================================//
@@ -50,15 +48,5 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             this.CalcVars["voltage"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.CalcVars["voltage"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
         }
-
-        /// <summary>
-        /// Returns the Ohm's Law calculator view.
-        /// </summary>
-        /// <returns></returns>
-        /// @todo Turn into parameter?
-        public override Control GetView() {
-            return view;
-        }
-
     }
 }

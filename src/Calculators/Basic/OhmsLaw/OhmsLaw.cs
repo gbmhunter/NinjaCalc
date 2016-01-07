@@ -10,17 +10,14 @@ using NinjaCalc.Core;
 namespace NinjaCalc {
     public class OhmsLawCalculator : Calculator {
 
-        Calculators.OhmsLawView view;
-
-
         public OhmsLawCalculator()
             : base(
             "Ohm's Law",
             "Ohm's law calculator.",
-            "pack://application:,,,/Calculators/Basic/OhmsLaw/icon.png") {
+            "pack://application:,,,/Calculators/Basic/OhmsLaw/icon.png",
+            new Calculators.OhmsLawView()) {
 
-            // Create the view for this calculator
-            this.view = new Calculators.OhmsLawView();
+            Calculators.OhmsLawView view = (Calculators.OhmsLawView)this.View;
 
             //===============================================================================================//
             //============================================ VOLTAGE ==========================================//
@@ -109,17 +106,5 @@ namespace NinjaCalc {
             this.RecalculateAllOutputs();
 
         }
-
-        /// <summary>
-        /// Returns the Ohm's Law calculator view.
-        /// </summary>
-        /// <returns></returns>
-        /// @todo Turn into parameter?
-        public override Control GetView() {
-            return view;
-        }
-
-
-
     }
 }
