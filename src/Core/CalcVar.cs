@@ -174,25 +174,21 @@ namespace NinjaCalc {
 
         private List<Validator> validators;
 
-        private CalcValidationResult validationResult;
+        public List<CalcValidationResult> ValidationResults;
+
+        private CalcValidationLevel validationResult;
 
         /// <summary>
         /// Gets or sets the validation result for this calculator variable.
         /// Will also change the border colour of the associated text box.
         /// </summary>
-        public CalcValidationResult ValidationResult {
+        public CalcValidationLevel WorstValidationLevel {
             get {
                 return this.validationResult;
             }
             set
             {
                 this.validationResult = value;
-                // Change the textbox's border colour
-                this.calcValTextBox.BorderBrush = this.validationResult.BorderBrush;
-                this.calcValTextBox.Background = this.validationResult.BackgroundBrush;
-                var toolTip = new System.Windows.Controls.Label();
-                toolTip.Content = "Testing";
-                this.calcValTextBox.ToolTip = toolTip;
             }
         }
 
@@ -251,9 +247,13 @@ namespace NinjaCalc {
 
             this.name = name;
 
-            this.calcValTextBox = calcValTextBox;
-            // Setup event handler for when textbox text changes
-            //this.calcValTextBox.TextChanged += this.TextBoxChanged;
+            this.calcValTextBox = calcValTextBox;            
+            // The next line sets the delay before the tooltip is shown for the textboxes.
+            // The delay (2nd argument) is in milli-seconds
+            ToolTipService.SetInitialShowDelay(this.calcValTextBox, 50);
+            // We want to show the tooltip for disabled textboxes (textboxes belonging
+            // to output calculator variables are disabled)
+            ToolTipService.SetShowOnDisabled(this.calcValTextBox, true);      
 
             this.ioRadioButton = ioRadioButton;
             // Setup event handlers. Note that Checked and Unchecked have their own handlers. In this
@@ -271,6 +271,9 @@ namespace NinjaCalc {
 
             // Initialise empty validators list
             this.validators = new List<Validator>();
+
+            // Initialise empty validation results list
+            this.ValidationResults = new List<CalcValidationResult>();
 
             // Default direction is an input
             this.Direction = Direction_t.Input;
@@ -355,32 +358,42 @@ namespace NinjaCalc {
 
         /// <summary>
         /// Call this to perform validation on this calculator variable. Will run all validators
-        /// that have been added through calling AddValidator().
+        /// that have been added through calling AddValidator(), and populate ValidationResults with the
+        /// results.
         /// </summary>
         public void Validate() {
             Console.WriteLine("Validate() called from \"" + this.Name + "\" with this.RawVal = \"" + this.RawVal.ToString() + "\".");
 
-            CalcValidationResult worstValidationResult = CalcValidationResults.Ok;
+            // Clear the old validation results
+            this.ValidationResults.Clear();
+
+            CalcValidationLevel worstValidationResult = CalcValidationLevels.Ok;
 
             // Validate this value (if validators are provided)
             foreach (var validator in this.validators) {
                 // Run the validation function
-                CalcValidationResult validationResult = validator.ValidationFunction.Invoke(this.RawVal);
+                CalcValidationLevel validationLevel = validator.ValidationFunction.Invoke(this.RawVal);
+
+                // Save this validation result
+                this.ValidationResults.Add(new CalcValidationResult(validationLevel, validator.Message));
 
                 // Logic for keeping track of the worst validation resut
                 // (error worse than warning worse than ok)
-                if (validationResult == CalcValidationResults.Warning && worstValidationResult == CalcValidationResults.Ok) {
-                    worstValidationResult = CalcValidationResults.Warning;
+                if (validationLevel == CalcValidationLevels.Warning && worstValidationResult == CalcValidationLevels.Ok) {
+                    worstValidationResult = CalcValidationLevels.Warning;
                 }
-                else if (validationResult == CalcValidationResults.Error) {
-                    worstValidationResult = CalcValidationResults.Error;
+                else if (validationLevel == CalcValidationLevels.Error) {
+                    worstValidationResult = CalcValidationLevels.Error;
                 }
             }
 
             Console.WriteLine("Validation result was \"" + worstValidationResult.ToString() + "\".");
 
             // Save this to the internal variable
-            this.ValidationResult = worstValidationResult;
+            this.WorstValidationLevel = worstValidationResult;
+
+            // Finally, force an update of the UI based on these validation results
+            this.UpdateUIBasedOnValidationResults();
         }
 
         /// <summary>
@@ -455,6 +468,33 @@ namespace NinjaCalc {
                     this.dependants[i].Calculate();
                 }
             }
+        }
+
+        public void UpdateUIBasedOnValidationResults() {
+            // Change the textbox's border colour
+            this.calcValTextBox.BorderBrush = this.validationResult.BorderBrush;
+            this.calcValTextBox.Background = this.validationResult.BackgroundBrush;
+
+            // Build up string from all of the validators which are at the same validation
+            // level as the worse one
+            String validationMsg = "";
+            if (this.WorstValidationLevel != CalcValidationLevels.Ok) {
+                foreach (var validationResult in this.ValidationResults) {
+                    // Check to see if this validation result was just as bad as the worse one
+                    // (i.e. the same level of validation)
+                    if (validationResult.CalcValidationLevel == this.WorstValidationLevel) {
+                        validationMsg += validationResult.Message + " ";
+                    }
+                }
+            }
+            else {
+                // Validation must of been o.k., so in this case we display a stock-standard message
+                validationMsg = "Value is o.k.";
+            }
+
+            var toolTip = new System.Windows.Controls.Label();
+            toolTip.Content = validationMsg;
+            this.calcValTextBox.ToolTip = toolTip;
         }
     }
 }

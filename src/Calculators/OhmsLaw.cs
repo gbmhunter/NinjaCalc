@@ -47,8 +47,8 @@ namespace NinjaCalc {
                     0.0));
 
             // Add validators
-            this.CalcVars["voltage"].AddValidator(Validator.IsNumber(CalcValidationResults.Error));
-            this.CalcVars["voltage"].AddValidator(Validator.IsGreaterThanZero(CalcValidationResults.Error));
+            this.CalcVars["voltage"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.CalcVars["voltage"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
             //===============================================================================================//
             //============================================ CURRENT ==========================================//
@@ -73,8 +73,8 @@ namespace NinjaCalc {
                     },
                     0.0));
 
-            this.CalcVars["current"].AddValidator(Validator.IsNumber(CalcValidationResults.Error));
-            this.CalcVars["current"].AddValidator(Validator.IsGreaterThanZero(CalcValidationResults.Error));
+            this.CalcVars["current"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.CalcVars["current"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
             //===============================================================================================//
             //========================================== RESISTANCE =========================================//
@@ -100,8 +100,8 @@ namespace NinjaCalc {
                     0.0));
 
             this.CalcVars["resistance"].Direction = Direction_t.Output;
-            this.CalcVars["resistance"].AddValidator(Validator.IsNumber(CalcValidationResults.Error));
-            this.CalcVars["resistance"].AddValidator(Validator.IsGreaterThanZero(CalcValidationResults.Error));
+            this.CalcVars["resistance"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.CalcVars["resistance"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
             this.FindDependenciesAndDependants();
 
