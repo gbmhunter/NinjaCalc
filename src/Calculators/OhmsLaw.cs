@@ -29,7 +29,7 @@ namespace NinjaCalc {
             //! @todo, Move these into the constructor for the base object?
             this.CalcVars.Add(
                 "voltage",
-                new CalcNumberVar(
+                new CalcVar(
                     "voltage",
                     view.TextBoxVoltageValue,
                     view.VoltageUnits,
@@ -64,7 +64,7 @@ namespace NinjaCalc {
 
             this.CalcVars.Add(
                 "current",
-                new CalcNumberVar(
+                new CalcVar(
                     "current",
                     view.TextBoxCurrentValue,
                     view.CurrentUnits,
@@ -87,7 +87,7 @@ namespace NinjaCalc {
 
             this.CalcVars.Add(
                 "resistance",
-                new CalcNumberVar(
+                new CalcVar(
                     "resistance",
                     view.TextBoxResistanceValue,
                     view.ResistanceUnits,

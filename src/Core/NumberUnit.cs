@@ -11,7 +11,7 @@ namespace NinjaCalc.Core {
         DEFAULT
     }
 
-    class NumberUnit {
+    public class NumberUnit {
 
         private string name;
 
@@ -21,7 +21,7 @@ namespace NinjaCalc.Core {
                 return this.multiplier;
             }
             set {
-                this.multiplier = multiplier;
+                this.multiplier = value;
             }
         }
 
