@@ -50,6 +50,8 @@ namespace NinjaCalc {
             this.Description = description;
             this.CalcVars = new Dictionary<string, CalcVar>();
 
+            // The following is implemented to that unit tests work, as constructing a calculator outside
+            // of this project (i.e. inside Unit Test project instead) causes the URI pack scheme to fail
             const string scheme = "pack";
             if (UriParser.IsKnownScheme(scheme)) {
                 this.IconImagePath = new Uri(iconImagePath);

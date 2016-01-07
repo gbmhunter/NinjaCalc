@@ -47,16 +47,8 @@ namespace NinjaCalc {
                     0.0));
 
             // Add validators
-            this.CalcVars["voltage"].AddValidator(Validator.IsNumber());
-            this.CalcVars["voltage"].AddValidator(new Validator(
-                (value) => {
-                    if (value < 0) {
-                        return CalcValidationResults.Error;
-                    }
-                    else {
-                        return CalcValidationResults.Ok;
-                    }
-                }));
+            this.CalcVars["voltage"].AddValidator(Validator.IsNumber(CalcValidationResults.Error));
+            this.CalcVars["voltage"].AddValidator(Validator.IsGreaterThanZero(CalcValidationResults.Error));
 
             //===============================================================================================//
             //============================================ CURRENT ==========================================//
@@ -80,6 +72,9 @@ namespace NinjaCalc {
                         new NumberUnit("A", 1.0, NumberPreference.DEFAULT),
                     },
                     0.0));
+
+            this.CalcVars["current"].AddValidator(Validator.IsNumber(CalcValidationResults.Error));
+            this.CalcVars["current"].AddValidator(Validator.IsGreaterThanZero(CalcValidationResults.Error));
 
             //===============================================================================================//
             //========================================== RESISTANCE =========================================//
@@ -105,6 +100,8 @@ namespace NinjaCalc {
                     0.0));
 
             this.CalcVars["resistance"].Direction = Direction_t.Output;
+            this.CalcVars["resistance"].AddValidator(Validator.IsNumber(CalcValidationResults.Error));
+            this.CalcVars["resistance"].AddValidator(Validator.IsGreaterThanZero(CalcValidationResults.Error));
 
             this.FindDependenciesAndDependants();
 

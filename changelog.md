@@ -2,6 +2,7 @@ v0.3.1
 ------
 
 - Added first unit tests using the inbuilt Microsoft Unit Testing framework.
+- Added IsGreaterThanZero() validator factory method, and added this constraint to all variables in the Ohm's Law calculator.
 
 v0.3.0
 ------

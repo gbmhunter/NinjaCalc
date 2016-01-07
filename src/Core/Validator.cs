@@ -78,15 +78,35 @@ namespace NinjaCalc.Core {
         }
 
         /// <summary>
-        /// Factory function. Returns a validator which will give an error if the calculator variable is not a valid number (NaN does not count).
+        /// Factory function. Returns a validator which will give the provided "desiredValidationResult" if 
+        /// the calculator variable is not a valid number (NaN does not count). If the value is a valid number,
+        /// it will return "CalcValidationResults.Ok".
         /// </summary>
         /// <returns>A validator which will give an error if the calculator variable is not a valid number.</returns>
-        public static Validator IsNumber() {
+        public static Validator IsNumber(CalcValidationResult desiredValidationResult) {
             return new Validator(
                 (value) => {
                     //return ValidationResult_t.Error;
                     if (Double.IsNaN(value)) {
-                        return CalcValidationResults.Error;
+                        return desiredValidationResult;
+                    }
+                    else {
+                        return CalcValidationResults.Ok;
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Factory function. Returns a validator which will give the provided validation result if the calculator variable is 
+        /// not greater than 0. If the number is greater than 0, it will return "CalcValidationResults.Ok".
+        /// </summary>
+        /// <returns>A validator which will give an error if the calculator variable is not a valid number.</returns>
+        public static Validator IsGreaterThanZero(CalcValidationResult desiredValidationResult) {
+            return new Validator(
+                (value) => {
+                    //return ValidationResult_t.Error;
+                    if (value <= 0) {
+                        return desiredValidationResult;
                     }
                     else {
                         return CalcValidationResults.Ok;
