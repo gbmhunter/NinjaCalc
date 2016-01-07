@@ -10,57 +10,34 @@ namespace NinjaCalc {
     /// Base calculator class. Designed to be inherited by actual calculator implementations.
     /// </summary>
     public abstract class Calculator {
-        private string name;
 
         /// <summary>
         /// The name of the calculator. This is shown in the "choose calculator" grid.
         /// </summary>
         public string Name {
-            get {
-                return name;
-            }
-            set {
-                name = value;
-            }
+            get;
+            set;
         }
-
-        private string description;
 
         /// <summary>
         /// A description of the calculator. Can be many lines of text. This is shown in the "choose calculator" grid.
         /// </summary>
         public string Description {
-            get {
-                return description;
-            }
-            set {
-                description = value;
-            }
+            get;
+            set;
         }
-
-        private Dictionary<string, CalcVar> calcVars;
 
         /// <summary>
         /// A list holding all of the calculator variables for the calculator.
         /// </summary>
         public Dictionary<string, CalcVar> CalcVars {
-            get {
-                return calcVars;
-            }
-            set {
-                calcVars = value;
-            }
+            get;
+            set;
         }
 
-        private Uri iconImagePath;
-
         public Uri IconImagePath {
-            get {
-                return this.iconImagePath;
-            }
-            set {
-                this.iconImagePath = value;
-            }
+            get;
+            set;
         }
 
         /// <summary>
@@ -69,9 +46,9 @@ namespace NinjaCalc {
         /// <param name="name"></param>
         /// <param name="description"></param>
         public Calculator(string name, string description, Uri iconImagePath) {
-            this.name = name;
-            this.description = description;
-            this.calcVars = new Dictionary<string, CalcVar>();
+            this.Name = name;
+            this.Description = description;
+            this.CalcVars = new Dictionary<string, CalcVar>();
             this.IconImagePath = iconImagePath;
         }
 
@@ -84,7 +61,8 @@ namespace NinjaCalc {
 
         /// <summary>
         /// This finds all the dependencies and dependants for all calculator variables,
-        /// and populates the Dependancies and Dependants lists for each.
+        /// and populates the Dependancies and Dependants lists for each. Must be called after all
+        /// variables have been added to the calcVars List.
         /// </summary>
         protected void FindDependenciesAndDependants() {
 
@@ -135,6 +113,20 @@ namespace NinjaCalc {
 
                 for (int j = 0; j < pair.Value.Dependants.Count; j++) {
                     Console.WriteLine("\t\"" + pair.Value.Dependants[j].Name + "\"");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Forces all output variables in the calculator to re-calculate. Useful for bringing the calculator
+        /// into a default state once all the variables have been set up correctly.
+        /// </summary>
+        public void RecalculateAllOutputs() {
+            foreach (var calcVar in this.CalcVars) {
+                // We only want to call Calculate() on outputs
+                if (calcVar.Value.Direction == Direction_t.Output) {
+                    // Call calculate, this will update the textboxes automatically
+                    calcVar.Value.Calculate();
                 }
             }
         }

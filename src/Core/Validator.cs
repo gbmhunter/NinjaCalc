@@ -13,24 +13,15 @@ namespace NinjaCalc.Core {
     /// Encapsulates a validation result.
     /// </summary>
     public class CalcValidationResult {
-        private string name;
+
         public string Name {
-            get {
-                return this.name;
-            }
-            set {
-                this.name = value;
-            }
+            get;
+            set;
         }
 
-        private System.Windows.Media.Brush borderBrush;
         public System.Windows.Media.Brush BorderBrush {
-            get {
-                return this.borderBrush;
-            }
-            set {
-                this.borderBrush = value;
-            }
+            get;
+            set;
         }
 
         public System.Windows.Media.Brush BackgroundBrush {
@@ -39,8 +30,8 @@ namespace NinjaCalc.Core {
         }
 
         public CalcValidationResult(string name, System.Windows.Media.Brush borderBrush, System.Windows.Media.Brush backgroundBrush) {
-            this.name = name;
-            this.borderBrush = borderBrush;
+            this.Name = name;
+            this.BorderBrush = borderBrush;
             this.BackgroundBrush = backgroundBrush;
         }
     }

@@ -108,6 +108,9 @@ namespace NinjaCalc {
 
             this.FindDependenciesAndDependants();
 
+            // Bring the calculator into a default, stable state
+            this.RecalculateAllOutputs();
+
         }
 
         /// <summary>
