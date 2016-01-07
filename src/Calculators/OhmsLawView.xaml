@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="NinjaCalc.Calculators.OhmsLawView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center">
+    <Canvas Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image Source="ohms-law-diagram.png" Width="400" Height="400" Canvas.Left="-219" Canvas.Top="-190" />
+
+        <TextBox Name="TextBoxVoltageValue" Width="100" Height="25" Canvas.Left="-224" Canvas.Top="31" BorderThickness="3"></TextBox>
+        <Label Content="Voltage" Canvas.Left="-224" Canvas.Top="-5" FontSize="16"/>
+        <RadioButton Name="RadioButtonVoltage" GroupName="OhmsLaw" Canvas.Left="-160" Canvas.Top="6"></RadioButton>
+        <ComboBox Name="VoltageUnits" Width="55" Height="25" Canvas.Left="-119" Canvas.Top="31" />
+
+        <Label Canvas.Left="-87" Canvas.Top="-114" FontSize="16">Current</Label>
+        <TextBox Name="TextBoxCurrentValue" Width="100" Height="25" Canvas.Left="-87" Canvas.Top="-83" BorderThickness="3"></TextBox>
+        <RadioButton Name="RadioButtonCurrent" GroupName="OhmsLaw" Canvas.Left="-10" Canvas.Top="-106"></RadioButton>
+        <ComboBox x:Name="CurrentUnits" Width="55" Height="25" Canvas.Left="18" Canvas.Top="-83"/>
+
+        <Label Canvas.Left="121" Canvas.Top="-17" FontSize="16">Resistance</Label>
+        <TextBox Name="TextBoxResistanceValue" Width="84" Height="25" Canvas.Left="121" Canvas.Top="14" BorderThickness="3"></TextBox>
+        <RadioButton Name="RadioButtonResistance" GroupName="OhmsLaw" Width="Auto" Canvas.Left="209" Canvas.Top="-5"></RadioButton>
+        <ComboBox x:Name="ResistanceUnits" Width="55" Height="25" Canvas.Left="209" Canvas.Top="14"/>
+
+
+    </Canvas>
+</UserControl>

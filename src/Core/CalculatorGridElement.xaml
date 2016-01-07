@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="NinjaCalc.CalculatorGridElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Border BorderThickness="2" BorderBrush="Gray">
+            <StackPanel Margin="10">
+                <Image Name="IconImage" Width="200" Height="100" Source="Calculators/icon.png"></Image>
+                <Label Name="Title">Calculator Title</Label>
+                <Label Name="Description">This is a description of the calculator.</Label>
+                <Button Name="ButtonOpen" Width="50">Open</Button>
+            </StackPanel>
+        </Border>
+        
+    </Grid>
+</UserControl>
