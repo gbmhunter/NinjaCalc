@@ -12,11 +12,20 @@ using System.Collections.ObjectModel;
 namespace NinjaCalc.Core {
 
 
- 
-
-
     class CalcNumberVar : CalcVar {
 
+        private double dispVal;
+        public double DispVal {
+            get {
+                return this.dispVal;
+            }
+            set {
+                Console.WriteLine("DispVal.set() called.");
+                this.dispVal = value;
+                // We also need to update the raw value!
+                this.RawVal = this.dispVal / this.selUnit.Multiplier;
+            }
+        }
 
         private ComboBox unitsComboBox;
 
@@ -28,6 +37,27 @@ namespace NinjaCalc.Core {
             set {
                 this.units = value;
                 // We also 
+            }
+        }
+
+        /// <summary>
+        /// Do NOT access this from anything put the SelectionChanged event handler for
+        /// the ComboBox.
+        /// </summary>
+        private NumberUnit selUnit;
+
+        /// <summary>
+        /// Gets and sets the selected unit for this calculator variable. If set, it will also update
+        /// the associated ComboBox on the UI.
+        /// </summary>
+        public NumberUnit SelUnit {
+            get {
+                return this.selUnit;
+            }
+            set {
+                this.selUnit = value;
+                // Anytime this is set, also update selected value in combobox
+                this.unitsComboBox.SelectedItem = this.selUnit;
             }
         }
 
@@ -71,9 +101,9 @@ namespace NinjaCalc.Core {
 
             // Set current combobox selection to default unit
             if(defaultUnit != null) {
-                this.unitsComboBox.SelectedItem = defaultUnit;
+                this.SelUnit = defaultUnit;
             } else {
-                this.unitsComboBox.SelectedItem = this.units[0];
+                this.SelUnit = this.units[0];
             }
 
                 
@@ -117,7 +147,18 @@ namespace NinjaCalc.Core {
         public void UnitsComboBox_SelectionChanged(object sender, EventArgs e) {
             Console.WriteLine("UnitsComboBox_Changed() called.");
 
+            // Need to update the selected unit, bypassing the property (otherwise
+            // we will create an infinite loop)
+            ComboBox units = (ComboBox)sender;
+            this.selUnit = (NumberUnit)units.SelectedItem;
 
+            Console.WriteLine("Selected unit is now \"" + this.selUnit + "\".");
+
+            // If the variable is an input, we need to adjust the raw value, if the
+            // variable is an output, we need to adjust the displayed value
+            if (this.Direction == Direction_t.Input) {
+                //this.RawVal = this.DispVal / 
+            }
         }
     }
 

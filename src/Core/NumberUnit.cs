@@ -14,7 +14,17 @@ namespace NinjaCalc.Core {
     class NumberUnit {
 
         private string name;
+
         private double multiplier;
+        public double Multiplier {
+            get {
+                return this.multiplier;
+            }
+            set {
+                this.multiplier = multiplier;
+            }
+        }
+
         private Func<double, double> modifierFunc;
 
         private NumberPreference preference;
