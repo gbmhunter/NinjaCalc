@@ -53,6 +53,7 @@ namespace NinjaCalc {
 
             // Register calculators
             this.RegisterCalculator(new OhmsLawCalculator());
+            this.RegisterCalculator(new NinjaCalc.Calculators.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152Controller());
         }
 
         private void buttonNewCalc_Click(object sender, RoutedEventArgs e) {

@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="NinjaCalc.Calculators.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="600">
+    <Grid>
+        <Image Source="/NinjaCalc;component/Calculators/Basic/OhmsLaw/ohms-law-diagram.png" Margin="54,71,146,129" />
+
+        <TextBox x:Name="TextBoxVoltageValue" BorderThickness="3" Margin="49,292,451,283"/>
+        <Label Content="Voltage" FontSize="16" Margin="49,256,486,313"/>
+        <RadioButton x:Name="RadioButtonVoltage" GroupName="OhmsLaw" Margin="113,267,472,319"/>
+        <ComboBox x:Name="VoltageUnits" Margin="154,292,391,283" />
+
+        <Label FontSize="16" Content="Current" Margin="186,147,351,422"/>
+        <TextBox x:Name="TextBoxCurrentValue" BorderThickness="3" Margin="186,178,314,397"/>
+        <RadioButton x:Name="RadioButtonCurrent" GroupName="OhmsLaw" Margin="263,155,322,431"/>
+        <ComboBox x:Name="CurrentUnits" Margin="291,178,254,397"/>
+
+        <Label FontSize="16" Content="Resistance" Margin="394,244,122,325"/>
+        <TextBox x:Name="TextBoxResistanceValue" BorderThickness="3" Margin="394,275,122,300"/>
+        <RadioButton x:Name="RadioButtonResistance" GroupName="OhmsLaw" Width="Auto" Margin="482,256,103,330"/>
+        <ComboBox x:Name="ResistanceUnits" Margin="482,275,63,300"/>
+
+    </Grid>
+</UserControl>
