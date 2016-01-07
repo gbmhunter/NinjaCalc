@@ -13,12 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2152 {
+namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
     /// <summary>
     /// Interaction logic for TrackCurrentIpc2152View.xaml
     /// </summary>
-    public partial class TrackCurrentIpc2152View : UserControl {
-        public TrackCurrentIpc2152View() {
+    public partial class TrackCurrentIpc2221AView : UserControl {
+        public TrackCurrentIpc2221AView() {
             InitializeComponent();
         }
     }

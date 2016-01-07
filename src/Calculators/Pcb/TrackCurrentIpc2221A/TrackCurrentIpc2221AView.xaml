@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NinjaCalc.Calculators.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152View"
+﻿<UserControl x:Class="NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221AView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -22,6 +22,9 @@
         <TextBox x:Name="TextBoxResistanceValue" BorderThickness="3" Margin="394,275,122,300"/>
         <RadioButton x:Name="RadioButtonResistance" GroupName="OhmsLaw" Width="Auto" Margin="482,256,103,330"/>
         <ComboBox x:Name="ResistanceUnits" Margin="482,275,63,300"/>
+        
+        <ComboBox x:Name="TrackLayer" Margin="218,352,254,223" />
+        <Label Content="Track Layer" FontSize="16" Margin="94,346,401,223"/>
 
     </Grid>
 </UserControl>

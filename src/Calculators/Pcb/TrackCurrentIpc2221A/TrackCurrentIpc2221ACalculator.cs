@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 
 using NinjaCalc.Core;
-using NinjaCalc.Calculators.Pcb.TrackCurrentIpc2152;
+using NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A;
 
-namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2152 {
-    class TrackCurrentIpc2152Controller : Calculator {
+namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
+    class TrackCurrentIpc2221ACalculator : Calculator {
 
-        Calculators.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152View view;
+        Calculators.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221AView view;
 
-        public TrackCurrentIpc2152Controller()
+        public TrackCurrentIpc2221ACalculator()
             : base(
-            "Track Current (IPC-2152)",
-            "PCB track current carrying capability calculator, using IPC-2152.",
+            "Track Current (IPC-2221A)",
+            "PCB track current carrying capability calculator, using IPC-2221A.",
             "pack://application:,,,/Calculators/Basic/OhmsLaw/icon.png") {
 
             // Create the view for this calculator
-            this.view = new TrackCurrentIpc2152View();
+            this.view = new TrackCurrentIpc2221AView();
 
             //===============================================================================================//
             //============================================ VOLTAGE ==========================================//
