@@ -7,12 +7,29 @@ using System.Windows.Controls;
 // Debug.Assert
 using System.Diagnostics;
 
+using System.Collections.ObjectModel;
+
 namespace NinjaCalc.Core {
+
+
+ 
+
+
     class CalcNumberVar : CalcVar {
 
 
         private ComboBox unitsComboBox;
+
         private List<NumberUnit> units;
+        public List<NumberUnit> Units {
+            get {
+                return this.units;
+            }
+            set {
+                this.units = value;
+                // We also 
+            }
+        }
 
         public CalcNumberVar(
             String name,
@@ -43,8 +60,9 @@ namespace NinjaCalc.Core {
             // Internally save the units
             // Note we can't implictly convert from an array of NumberUnit to a List<NumberUnit>
             foreach(var unit in units) {
-                this.units.Add(unit);
+                this.units.Add(unit);                
             }
+            this.unitsComboBox.ItemsSource = this.units;
                 
         }
 

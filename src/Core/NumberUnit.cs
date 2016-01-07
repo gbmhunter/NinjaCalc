@@ -21,5 +21,13 @@ namespace NinjaCalc.Core {
             this.multiplier = multiplier;
         }
 
+        /// <summary>
+        /// Provides a string representation of a NumberUnit object.
+        /// </summary>
+        /// <returns>A string representation of a NumberUnit object.</returns>
+        public override string ToString() {
+            return this.name;
+        }
+
     }
 }
