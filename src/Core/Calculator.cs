@@ -52,15 +52,27 @@ namespace NinjaCalc {
             }
         }
 
+        private Uri iconImagePath;
+
+        public Uri IconImagePath {
+            get {
+                return this.iconImagePath;
+            }
+            set {
+                this.iconImagePath = value;
+            }
+        }
+
         /// <summary>
         /// Constructor for calculator.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="description"></param>
-        public Calculator(string name, string description) {
+        public Calculator(string name, string description, Uri iconImagePath) {
             this.name = name;
             this.description = description;
             this.calcVars = new Dictionary<string, CalcVar>();
+            this.IconImagePath = iconImagePath;
         }
 
         /// <summary>

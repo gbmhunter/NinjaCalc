@@ -82,15 +82,22 @@ namespace NinjaCalc {
             this.calculatorTemplates.Add(calculator);
 
             // Create a calculator grid element
-            CalculatorGridElement testUserControl = new CalculatorGridElement();
-            testUserControl.Title.Content = calculator.Name;
-            testUserControl.Description.Content = calculator.Description;
-            testUserControl.OpenButtonClicked += HandleOpenCalcButtonClicked;
+            CalculatorGridElement calculatorGridElement = new CalculatorGridElement();
+            calculatorGridElement.Title.Content = calculator.Name;
+            calculatorGridElement.Description.Content = calculator.Description;
+
+            // Setup the calculator's icon
+            BitmapImage logo = new BitmapImage();
+            logo.BeginInit();
+            logo.UriSource = calculator.IconImagePath;
+            logo.EndInit();
+            calculatorGridElement.IconImage.Source = logo;
+
+            calculatorGridElement.OpenButtonClicked += HandleOpenCalcButtonClicked;
 
             // Add grid element
-            calculatorGrid.Children.Add(testUserControl);
+            calculatorGrid.Children.Add(calculatorGridElement);
 
-            //this.TabControlCalculators.Items.Add(new TabItem());
         }
 
         /// <summary>

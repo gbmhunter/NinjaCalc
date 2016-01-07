@@ -161,6 +161,10 @@ namespace NinjaCalc {
 
         private CalcValidationResult validationResult;
 
+        /// <summary>
+        /// Gets or sets the validation result for this calculator variable.
+        /// Will also change the border colour of the associated text box.
+        /// </summary>
         public CalcValidationResult ValidationResult {
             get {
                 return this.validationResult;

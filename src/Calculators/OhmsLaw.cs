@@ -14,7 +14,11 @@ namespace NinjaCalc {
 
 
         public OhmsLaw()
-            : base("Ohm's Law", "Ohm's law calculator.") {
+            : base(
+            "Ohm's Law",
+            "Ohm's law calculator.",
+            new Uri("pack://application:,,,/Calculators/icon.png")) {
+
             // Create the view for this calculator
             this.view = new Calculators.OhmsLawView();
 
