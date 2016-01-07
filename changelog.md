@@ -2,8 +2,11 @@ v0.3.0
 ------
 
 - Switched from Electron/Javascript/Node.js to C#/.NET platform.
+- Updated the README appropriately (due to C# switch).
 - Implemented basic "Ohm's Law" calculator.
 - Validation working.
+- Unit selection working correctly.
+- Added basic InnoSetup installer script.
 
 v0.2.1
 ------
