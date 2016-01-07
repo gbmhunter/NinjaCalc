@@ -57,7 +57,7 @@
     <Compile Include="Core\CalculatorGridElement.xaml.cs">
       <DependentUpon>CalculatorGridElement.xaml</DependentUpon>
     </Compile>
-    <Page Include="Calculators\OhmsLawView.xaml">
+    <Page Include="Calculators\Basic\OhmsLaw\OhmsLawView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -70,7 +70,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Calculator.cs" />
-    <Compile Include="Calculators\OhmsLawView.xaml.cs">
+    <Compile Include="Calculators\Basic\OhmsLaw\OhmsLawView.xaml.cs">
       <DependentUpon>OhmsLawView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\CalcVar.cs" />
@@ -86,7 +86,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculators\OhmsLaw.cs" />
+    <Compile Include="Calculators\Basic\OhmsLaw\OhmsLaw.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -114,8 +114,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Calculators\icon.png" />
-    <Resource Include="Calculators\ohms-law-diagram.png" />
+    <Resource Include="Calculators\Basic\OhmsLaw\icon.png" />
+    <Resource Include="Calculators\Basic\OhmsLaw\ohms-law-diagram.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\menu-stack-hamburger-128x118.png" />

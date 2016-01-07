@@ -17,7 +17,7 @@ namespace NinjaCalc {
             : base(
             "Ohm's Law",
             "Ohm's law calculator.",
-            "pack://application:,,,/Calculators/icon.png") {
+            "pack://application:,,,/Calculators/Basic/OhmsLaw/icon.png") {
 
             // Create the view for this calculator
             this.view = new Calculators.OhmsLawView();
