@@ -62,7 +62,7 @@ namespace NinjaCalc {
                 Console.WriteLine("DispVal.set() called.");
                 this.dispVal = value;
                 // We also need to update the raw value!
-                this.RawVal = this.dispVal / this.selUnit.Multiplier;
+                //this.RawVal = this.dispVal / this.selUnit.Multiplier;
             }
         }
 
@@ -271,10 +271,6 @@ namespace NinjaCalc {
             // Default direction is an input
             this.Direction = Direction_t.Input;
 
-            // Assign the default raw value
-            this.RawVal = defaultRawValue;
-            //this.calcValTextBox.Text = this.rawVal.ToString();
-
             // Internally save reference to the units combo box
             this.unitsComboBox = unitsComboBox;
 
@@ -303,6 +299,14 @@ namespace NinjaCalc {
                 this.SelUnit = this.units[0];
             }
 
+            // Assign the default raw value
+            this.rawVal = defaultRawValue;
+            this.dispVal = this.rawVal * this.selUnit.Multiplier;
+            this.calcValTextBox.Text = this.dispVal.ToString();
+            //this.calcValTextBox.Text = this.rawVal.ToString();
+
+            
+
         }
 
         /// <summary>
@@ -316,7 +320,9 @@ namespace NinjaCalc {
 
             // Invoke the provided equation function,
             // which should return the raw value for this calculator variable
-            this.RawVal = equation.Invoke(this.calcVars);
+            this.rawVal = equation.Invoke(this.calcVars);
+            this.dispVal = this.rawVal / this.selUnit.Multiplier;
+            this.calcValTextBox.Text = this.dispVal.ToString();
 
             // Validation is done in the TextBoxChanged event handler
             this.Validate();
@@ -392,9 +398,11 @@ namespace NinjaCalc {
             // This could throw a System.FormatException if the value can't be converted into a double,
             // for example, if it had letters (a2) or was just a negative sign (-).
             try {
-                this.rawVal = Convert.ToDouble(textBox.Text);
+                this.dispVal = Convert.ToDouble(textBox.Text);
+                this.rawVal = this.dispVal / this.selUnit.Multiplier;
             }
             catch (System.FormatException exception) {
+                this.dispVal = Double.NaN;
                 this.rawVal = Double.NaN;
             }
 
@@ -421,12 +429,17 @@ namespace NinjaCalc {
             // If the variable is an input, we need to adjust the raw value, if the
             // variable is an output, we need to adjust the displayed value
             if (this.Direction == Direction_t.Input) {
-                this.rawVal = this.DispVal / this.selUnit.Multiplier;
+                this.rawVal = this.DispVal * this.selUnit.Multiplier;
                 Console.WriteLine("rawVal re-scaled to \"" + this.rawVal.ToString() + "\".");
                 // We also need to force a recalculation of any dependants (which are also outputs)
                 // of this variable
                 this.ForceDependantOutputsToRecalculate();
 
+            }
+            else if(this.Direction == Direction_t.Output) {
+                // Recalculate dispVal and update textbox
+                this.dispVal = this.rawVal / this.selUnit.Multiplier;
+                this.calcValTextBox.Text = this.dispVal.ToString();
             }
         }
 
