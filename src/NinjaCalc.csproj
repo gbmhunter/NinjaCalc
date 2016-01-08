@@ -82,8 +82,9 @@
       <DependentUpon>OhmsLawView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\CalcVar.cs" />
+    <Compile Include="Core\CalcVarOutput.cs" />
     <Compile Include="Core\MarginSetter.cs" />
-    <Compile Include="Core\InputCalcVar.cs" />
+    <Compile Include="Core\CalcVarInput.cs" />
     <Compile Include="Core\NumberUnit.cs" />
     <Compile Include="Core\Validator.cs" />
     <Compile Include="MainWindow.xaml.cs">
