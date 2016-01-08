@@ -10,6 +10,21 @@ using NinjaCalc.Core;
 namespace NinjaCalc {
     public class OhmsLawCalculator : Calculator {
 
+        public CalcVar Voltage {
+            get;
+            set;
+        }
+
+        public CalcVar Current {
+            get;
+            set;
+        }
+
+        public CalcVar Resistance {
+            get;
+            set;
+        }
+
         public OhmsLawCalculator()
             : base(
             "Ohm's Law",
@@ -24,17 +39,16 @@ namespace NinjaCalc {
             //===============================================================================================//
 
             //! @todo, Move these into the constructor for the base object?
-            this.CalcVars.Add(
-                "voltage",
-                new CalcVar(
+            
+            this.Voltage = new CalcVar(
                     "voltage",
                     view.TextBoxVoltageValue,
                     view.VoltageUnits,
                     view.RadioButtonVoltage,
-                    this.CalcVars,
-                    (calcVars) => {
-                        var current = calcVars["current"].RawVal;
-                        var resistance = calcVars["resistance"].RawVal;
+                    //this.CalcVars,
+                    () => {
+                        var current = this.Current.RawVal;
+                        var resistance = this.Resistance.RawVal;
                         return current * resistance;
                     },
                     new NumberUnit[]{
@@ -42,27 +56,30 @@ namespace NinjaCalc {
                         new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
                         new NumberUnit("kV", 1e3),
                     },
-                    0.0));
+                    0.0);
 
             // Add validators
-            this.CalcVars["voltage"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.CalcVars["voltage"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.Voltage.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.Voltage.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(
+                "voltage",
+                this.Voltage);
 
             //===============================================================================================//
             //============================================ CURRENT ==========================================//
             //===============================================================================================//
 
-            this.CalcVars.Add(
-                "current",
-                new CalcVar(
+            
+            this.Current = new CalcVar(
                     "current",
                     view.TextBoxCurrentValue,
                     view.CurrentUnits,
                     view.RadioButtonCurrent,
-                    this.CalcVars,
-                    (calcVars) => {
-                        var voltage = calcVars["voltage"].RawVal;
-                        var resistance = calcVars["resistance"].RawVal;
+                    //this.CalcVars,
+                    () => {
+                        var voltage = this.Voltage.RawVal;
+                        var resistance = this.Resistance.RawVal;
                         return voltage / resistance;
                     },
                     new NumberUnit[]{
@@ -72,26 +89,29 @@ namespace NinjaCalc {
                         new NumberUnit("mA", 1e-3),
                         new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                     },
-                    0.0));
+                    0.0);
 
-            this.CalcVars["current"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.CalcVars["current"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.Current.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.Current.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(
+                "current",
+                this.Current);
 
             //===============================================================================================//
             //========================================== RESISTANCE =========================================//
             //===============================================================================================//
 
-            this.CalcVars.Add(
-                "resistance",
-                new CalcVar(
+            
+            this.Resistance = new CalcVar(
                     "resistance",
                     view.TextBoxResistanceValue,
                     view.ResistanceUnits,
                     view.RadioButtonResistance,
-                    this.CalcVars,
-                    (calcVars) => {
-                        var voltage = calcVars["voltage"].RawVal;
-                        var current = calcVars["current"].RawVal;
+                    //this.CalcVars,
+                    () => {
+                        var voltage = this.Voltage.RawVal;
+                        var current = this.Current.RawVal;
                         return voltage / current;
                     },
                     new NumberUnit[]{
@@ -101,11 +121,15 @@ namespace NinjaCalc {
                         new NumberUnit("MΩ", 1e6),
                         new NumberUnit("GΩ", 1e9),
                     },
-                    0.0));
+                    0.0);
 
-            this.CalcVars["resistance"].Direction = Direction_t.Output;
-            this.CalcVars["resistance"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.CalcVars["resistance"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.Resistance.Direction = Direction_t.Output;
+            this.Resistance.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.Resistance.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(
+                "resistance",
+                this.Resistance);
 
             this.FindDependenciesAndDependants();
 

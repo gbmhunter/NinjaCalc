@@ -24,7 +24,7 @@ namespace NinjaCalc {
     /// Encapsulates a single variable in a NinjaCalc calculator. Stores the variable name, it's equation, it's state (input or output).
     /// Designed to be used as a base class for particular calculator variable types (e.g. number, boolean, e.t.c).
     /// </summary>
-    public class CalcVar {
+    public class CalcVar : BaseCalcVar {
         //===============================================================================================//
         //==================================== VARIABLES AND PROPERTIES =================================//
         //===============================================================================================//
@@ -38,9 +38,11 @@ namespace NinjaCalc {
             get {
                 // Do we want to do something here so we can work out
                 // the dependants
-                if (RawValueRead != null) {
+                /*if (RawValueRead != null) {
                     RawValueRead(this, EventArgs.Empty);
-                }
+                }*/
+
+                this.OnRawValueRead(EventArgs.Empty);
 
                 return this.rawVal;
             }
@@ -66,44 +68,14 @@ namespace NinjaCalc {
             }
         }
 
-        /// <summary>
-        /// Use this to listen and act on the raw value being read from this calculator variable.
-        /// </summary>
-        public event EventHandler RawValueRead;
-
-        private String name;
-
-        public String Name {
-            get {
-                return name;
-            }
-            set {
-                name = value;
-            }
-        }
-
         private TextBox calcValTextBox;
         private RadioButton ioRadioButton;
 
-        private Dictionary<string, CalcVar> calcVars;
-
-        private Func<Dictionary<string, CalcVar>, double> equation;
-        /// <summary>
-        /// Gets and sets the equation function which is used to calculate the value
-        /// of this calculator variable when it is an output.
-        /// </summary>
-        public Func<Dictionary<string, CalcVar>, double> Equation {
-            get {
-                return this.equation;
-            }
-            set {
-                this.equation = value;
-            }
-        }
+        //private Dictionary<string, CalcVar> calcVars;
 
         private Direction_t direction;
 
-        public Direction_t Direction {
+        public override Direction_t Direction {
             get {
                 return this.direction;
             }
@@ -128,51 +100,6 @@ namespace NinjaCalc {
                     }
                 }
 
-            }
-        }
-
-        private List<CalcVar> dependencies;
-
-        /// <summary>
-        /// Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
-        /// but rather once all calculator variables and their equations have been added to the calculator.
-        /// </summary>
-        public List<CalcVar> Dependencies {
-            get {
-                return this.dependencies;
-            }
-            set {
-                this.dependencies = value;
-            }
-        }
-
-        protected List<CalcVar> dependants;
-
-        /// <summary>
-        /// Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
-        /// but rather once all calculator variables and their equations have been added to the calculator.
-        /// </summary>
-        public List<CalcVar> Dependants {
-            get {
-                return this.dependants;
-            }
-            set {
-                this.dependants = value;
-            }
-        }
-
-        private bool disableUpdate;
-
-        /// <summary>
-        /// Set to true to disable the updating of the text box when this CalcVar's Calculate() method
-        /// is called.
-        /// </summary>
-        public bool DisableUpdate {
-            get {
-                return this.disableUpdate;
-            }
-            set {
-                this.disableUpdate = value;
             }
         }
 
@@ -244,12 +171,12 @@ namespace NinjaCalc {
             TextBox calcValTextBox,
             ComboBox unitsComboBox,
             RadioButton ioRadioButton,
-            Dictionary<string, CalcVar> calcVars,
-            Func<Dictionary<string, CalcVar>, double> equation,
+            //Dictionary<string, CalcVar> calcVars,
+            Func<double> equation,
             NumberUnit[] units,
-            double defaultRawValue) {
+            double defaultRawValue) : base(name, equation) {
 
-            this.name = name;
+            //this.name = name;
 
             this.calcValTextBox = calcValTextBox;            
             // The next line sets the delay before the tooltip is shown for the textboxes.
@@ -267,14 +194,6 @@ namespace NinjaCalc {
                 this.ioRadioButton.Checked += this.RadioButtonChanged;
                 this.ioRadioButton.Unchecked += this.RadioButtonChanged;
             }
-
-            this.calcVars = calcVars;
-
-            this.equation = equation;
-
-            // Initialise the dependency and dependant lists
-            this.dependencies = new List<CalcVar>();
-            this.dependants = new List<CalcVar>();
 
             // Initialise empty validators list
             this.validators = new List<Validator>();
@@ -326,7 +245,7 @@ namespace NinjaCalc {
         /// <summary>
         /// This should only be called for output variables.
         /// </summary>
-        public void Calculate() {
+        public override void Calculate() {
             // Make sure this event only fires when this calculator variable is an output!
             Debug.Assert(this.Direction == Direction_t.Output);
 
@@ -334,7 +253,7 @@ namespace NinjaCalc {
 
             // Invoke the provided equation function,
             // which should return the raw value for this calculator variable
-            this.rawVal = equation.Invoke(this.calcVars);
+            this.rawVal = this.Equation.Invoke();
             this.dispVal = this.rawVal / this.selUnit.Multiplier;
             this.calcValTextBox.Text = this.dispVal.ToString();
 

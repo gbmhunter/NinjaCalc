@@ -17,15 +17,15 @@ namespace NinjaCalc.Core {
             String name,
             TextBox calcValTextBox,
             ComboBox unitsComboBox,            
-            Dictionary<string, CalcVar> calcVars, 
-            Func<Dictionary<string, CalcVar>, double> equation,
+            //Dictionary<string, CalcVar> calcVars, 
+            Func<double> equation,
             NumberUnit[] units)
             : base(
             name,
             calcValTextBox,
             unitsComboBox,
             null,
-            calcVars,
+            //calcVars,
             equation,
             units,
             0.0) {

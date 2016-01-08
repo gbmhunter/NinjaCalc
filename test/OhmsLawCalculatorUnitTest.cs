@@ -16,5 +16,12 @@ namespace NinjaCalcUnitTests {
             Assert.AreEqual(ohmsLawCalculator.CalcVars["resistance"].Direction, Direction_t.Output, "Resistance did not default to an input.");
 
         }
+
+        [TestMethod]
+        public void TestOhmsLawEquation() {
+
+            OhmsLawCalculator ohmsLawCalculator = new OhmsLawCalculator();
+
+        }
     }
 }

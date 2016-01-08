@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace NinjaCalc {
+namespace NinjaCalc.Core {
     /// <summary>
     /// Base calculator class. Designed to be inherited by actual calculator implementations.
     /// </summary>
@@ -40,7 +40,7 @@ namespace NinjaCalc {
         /// <summary>
         /// A list holding all of the calculator variables for the calculator.
         /// </summary>
-        public Dictionary<string, CalcVar> CalcVars {
+        public Dictionary<string, BaseCalcVar> CalcVars {
             get;
             set;
         }
@@ -75,7 +75,7 @@ namespace NinjaCalc {
 
             // Initialise empty dictionary for the calculator variables
             // (these are not passed into the constructor for clarity reasons)
-            this.CalcVars = new Dictionary<string, CalcVar>();
+            this.CalcVars = new Dictionary<string, BaseCalcVar>();
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace NinjaCalc {
         /// </summary>
         protected void FindDependenciesAndDependants() {
 
-            var dependencyList = new List<CalcVar>();
+            var dependencyList = new List<BaseCalcVar>();
 
             EventHandler eventHandler = (object sender, EventArgs e) => {
                 CalcVar calcVar = (CalcVar)sender;
@@ -108,7 +108,7 @@ namespace NinjaCalc {
                 // Invoke the equation, this will fire ReadRawValue events
                 // for all variables it needs, and add to the dependancy list
                 // DO NOT call pair.Value.Calculate() directly!
-                pair.Value.Equation.Invoke(this.CalcVars);
+                pair.Value.Equation.Invoke();
 
                 // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
                 for (int j = 0; j < dependencyList.Count; j++) {

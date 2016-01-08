@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 
+using NinjaCalc.Core;
+
 namespace NinjaCalc {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -53,7 +55,7 @@ namespace NinjaCalc {
 
             // Register calculators
             this.RegisterCalculator(new OhmsLawCalculator());
-            this.RegisterCalculator(new NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221ACalculator());
+            //this.RegisterCalculator(new NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221ACalculator());
         }
 
         private void buttonNewCalc_Click(object sender, RoutedEventArgs e) {

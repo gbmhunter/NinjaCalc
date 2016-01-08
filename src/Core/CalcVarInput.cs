@@ -18,7 +18,7 @@ namespace NinjaCalc.Core {
             String name,
             TextBox calcValTextBox,
             ComboBox unitsComboBox,            
-            Dictionary<string, CalcVar> calcVars,            
+            //Dictionary<string, CalcVar> calcVars,            
             NumberUnit[] units,
             double defaultRawValue)
             : base(
@@ -26,7 +26,7 @@ namespace NinjaCalc.Core {
             calcValTextBox,
             unitsComboBox,
             null,
-            calcVars,
+            //calcVars,
             null,
             units,
             defaultRawValue) {
