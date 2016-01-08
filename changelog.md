@@ -2,6 +2,7 @@ v0.3.2
 ------
 
 - Improved unit tests for Ohm's Law calculator.
+- Converted CalcVars object from Dictionary to List, closes #23.
 
 v0.3.1
 ------

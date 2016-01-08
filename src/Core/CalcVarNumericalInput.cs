@@ -30,7 +30,7 @@ namespace NinjaCalc.Core {
             null,
             units,
             defaultRawValue,
-            Direction_t.Input) {
+            Directions.Input) {
 
         }
 

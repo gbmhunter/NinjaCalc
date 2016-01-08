@@ -11,9 +11,9 @@ namespace NinjaCalcUnitTests {
 
             OhmsLawCalculator ohmsLawCalculator = new OhmsLawCalculator();
 
-            Assert.AreEqual(ohmsLawCalculator.Voltage.Direction, Direction_t.Input, "Voltage did not default to an input.");
-            Assert.AreEqual(ohmsLawCalculator.Current.Direction, Direction_t.Input, "Current did not default to an input.");
-            Assert.AreEqual(ohmsLawCalculator.Resistance.Direction, Direction_t.Output, "Resistance did not default to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Voltage.Direction, Directions.Input, "Voltage did not default to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Current.Direction, Directions.Input, "Current did not default to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Resistance.Direction, Directions.Output, "Resistance did not default to an input.");
 
         }
 
@@ -22,23 +22,23 @@ namespace NinjaCalcUnitTests {
 
             OhmsLawCalculator ohmsLawCalculator = new OhmsLawCalculator();
 
-            ohmsLawCalculator.Resistance.Direction = Direction_t.Output;
+            ohmsLawCalculator.Resistance.Direction = Directions.Output;
 
-            Assert.AreEqual(ohmsLawCalculator.Voltage.Direction, Direction_t.Input, "Voltage did not correctly change to an input.");
-            Assert.AreEqual(ohmsLawCalculator.Current.Direction, Direction_t.Input, "Current did not correctly change to an input.");
-            Assert.AreEqual(ohmsLawCalculator.Resistance.Direction, Direction_t.Output, "Resistance did not correctly change to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Voltage.Direction, Directions.Input, "Voltage did not correctly change to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Current.Direction, Directions.Input, "Current did not correctly change to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Resistance.Direction, Directions.Output, "Resistance did not correctly change to an input.");
 
-            ohmsLawCalculator.Voltage.Direction = Direction_t.Output;
+            ohmsLawCalculator.Voltage.Direction = Directions.Output;
 
-            Assert.AreEqual(ohmsLawCalculator.Voltage.Direction, Direction_t.Output, "Voltage did not correctly change to an input.");
-            Assert.AreEqual(ohmsLawCalculator.Current.Direction, Direction_t.Input, "Current did not correctly change to an input.");
-            Assert.AreEqual(ohmsLawCalculator.Resistance.Direction, Direction_t.Input, "Resistance did not correctly change to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Voltage.Direction, Directions.Output, "Voltage did not correctly change to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Current.Direction, Directions.Input, "Current did not correctly change to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Resistance.Direction, Directions.Input, "Resistance did not correctly change to an input.");
 
-            ohmsLawCalculator.Current.Direction = Direction_t.Output;
+            ohmsLawCalculator.Current.Direction = Directions.Output;
 
-            Assert.AreEqual(ohmsLawCalculator.Voltage.Direction, Direction_t.Input, "Voltage did not correctly change to an input.");
-            Assert.AreEqual(ohmsLawCalculator.Current.Direction, Direction_t.Output, "Current did not correctly change to an input.");
-            Assert.AreEqual(ohmsLawCalculator.Resistance.Direction, Direction_t.Input, "Resistance did not correctly change to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Voltage.Direction, Directions.Input, "Voltage did not correctly change to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Current.Direction, Directions.Output, "Current did not correctly change to an input.");
+            Assert.AreEqual(ohmsLawCalculator.Resistance.Direction, Directions.Input, "Resistance did not correctly change to an input.");
 
         }
 

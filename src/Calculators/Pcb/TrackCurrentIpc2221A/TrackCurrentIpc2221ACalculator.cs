@@ -68,9 +68,7 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             this.TraceCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.TraceCurrent.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-            this.CalcVars.Add(
-                "traceCurrent",
-                this.TraceCurrent);
+            this.CalcVars.Add(this.TraceCurrent);
 
             //===============================================================================================//
             //========================================== TEMP RISE ==========================================//
@@ -90,9 +88,7 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             this.TempRise.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.TempRise.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-            this.CalcVars.Add(
-                "tempRise",
-                this.TempRise);
+            this.CalcVars.Add(this.TempRise);
 
             //===============================================================================================//
             //======================================== TRACK THICKNESS ======================================//
@@ -113,9 +109,7 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             this.TrackThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.TrackThickness.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-            this.CalcVars.Add(
-                "trackThickness",
-                this.TrackThickness);
+            this.CalcVars.Add(this.TrackThickness);
 
             //===============================================================================================//
             //========================================= TRACK LAYER =========================================//
@@ -130,9 +124,7 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
                     "External",
                 });
 
-            this.CalcVars.Add(
-                "trackLayer",
-                this.TrackLayer);
+            this.CalcVars.Add(this.TrackLayer);
 
             //===============================================================================================//
             //======================================== MIN. TRACK WIDTH =====================================//
@@ -180,9 +172,7 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             this.MinTrackWidth.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.MinTrackWidth.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-            this.CalcVars.Add(
-                "minTrackWidth",
-                this.MinTrackWidth);
+            this.CalcVars.Add(this.MinTrackWidth);
 
             this.FindDependenciesAndDependants();
             this.RecalculateAllOutputs();

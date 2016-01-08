@@ -60,7 +60,7 @@ namespace NinjaCalc.Core {
             set;
         }
 
-        public virtual Direction_t Direction {
+        public virtual Directions Direction {
             get;
             set;
         }
@@ -88,7 +88,7 @@ namespace NinjaCalc.Core {
             Console.WriteLine("ForceDependantOutputsToRecalculate() called.");
             // We need to re-calculate any this calculator variables dependants, if they are outputs
             for (int i = 0; i < this.Dependants.Count; i++) {
-                if (this.Dependants[i].Direction == Direction_t.Output) {
+                if (this.Dependants[i].Direction == Directions.Output) {
                     this.Dependants[i].Calculate();
                 }
             }

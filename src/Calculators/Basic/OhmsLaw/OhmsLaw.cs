@@ -57,15 +57,13 @@ namespace NinjaCalc {
                         new NumberUnit("kV", 1e3),
                     },
                     0.0,
-                    Direction_t.Input);
+                    Directions.Input);
 
             // Add validators
             this.Voltage.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.Voltage.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-            this.CalcVars.Add(
-                "voltage",
-                this.Voltage);
+            this.CalcVars.Add(this.Voltage);
 
             //===============================================================================================//
             //============================================ CURRENT ==========================================//
@@ -91,14 +89,12 @@ namespace NinjaCalc {
                         new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                     },
                     0.0,
-                    Direction_t.Input);
+                    Directions.Input);
 
             this.Current.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.Current.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-            this.CalcVars.Add(
-                "current",
-                this.Current);
+            this.CalcVars.Add(this.Current);
 
             //===============================================================================================//
             //========================================== RESISTANCE =========================================//
@@ -124,15 +120,13 @@ namespace NinjaCalc {
                         new NumberUnit("GΩ", 1e9),
                     },
                     0.0,
-                    Direction_t.Output);
+                    Directions.Output);
 
             //this.Resistance.Direction = Direction_t.Output;
             this.Resistance.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.Resistance.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-            this.CalcVars.Add(
-                "resistance",
-                this.Resistance);
+            this.CalcVars.Add(this.Resistance);
 
             this.FindDependenciesAndDependants();
 
