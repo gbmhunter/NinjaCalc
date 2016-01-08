@@ -1,3 +1,12 @@
+v0.3.1
+------
+
+- Added first unit tests using the inbuilt Microsoft Unit Testing framework.
+- Added IsGreaterThanZero() validator factory method, and added this constraint to all variables in the Ohm's Law calculator.
+- Tooltips on calculator variable textboxes are now displaying the results from value validation.
+- Added ComboBox-style calculator variable.
+- Added Track Current (IPC2152) calculator.
+
 v0.3.0
 ------
 

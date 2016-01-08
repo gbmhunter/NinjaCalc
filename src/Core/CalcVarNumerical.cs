@@ -24,7 +24,7 @@ namespace NinjaCalc {
     /// Encapsulates a single variable in a NinjaCalc calculator. Stores the variable name, it's equation, it's state (input or output).
     /// Designed to be used as a base class for particular calculator variable types (e.g. number, boolean, e.t.c).
     /// </summary>
-    public class CalcVar {
+    public class CalcVarNumerical : CalcVarBase {
         //===============================================================================================//
         //==================================== VARIABLES AND PROPERTIES =================================//
         //===============================================================================================//
@@ -36,11 +36,7 @@ namespace NinjaCalc {
         /// </summary>
         public double RawVal {
             get {
-                // Do we want to do something here so we can work out
-                // the dependants
-                if (RawValueRead != null) {
-                    RawValueRead(this, EventArgs.Empty);
-                }
+                this.OnRawValueRead(EventArgs.Empty);
 
                 return this.rawVal;
             }
@@ -66,44 +62,14 @@ namespace NinjaCalc {
             }
         }
 
-        /// <summary>
-        /// Use this to listen and act on the raw value being read from this calculator variable.
-        /// </summary>
-        public event EventHandler RawValueRead;
-
-        private String name;
-
-        public String Name {
-            get {
-                return name;
-            }
-            set {
-                name = value;
-            }
-        }
-
         private TextBox calcValTextBox;
         private RadioButton ioRadioButton;
 
-        private Dictionary<string, CalcVar> calcVars;
-
-        private Func<Dictionary<string, CalcVar>, double> equation;
-        /// <summary>
-        /// Gets and sets the equation function which is used to calculate the value
-        /// of this calculator variable when it is an output.
-        /// </summary>
-        public Func<Dictionary<string, CalcVar>, double> Equation {
-            get {
-                return this.equation;
-            }
-            set {
-                this.equation = value;
-            }
-        }
+        //private Dictionary<string, CalcVar> calcVars;
 
         private Direction_t direction;
 
-        public Direction_t Direction {
+        public override Direction_t Direction {
             get {
                 return this.direction;
             }
@@ -115,81 +81,39 @@ namespace NinjaCalc {
                     // and remove the event handler
                     this.calcValTextBox.IsEnabled = false;
                     this.calcValTextBox.TextChanged -= this.TextBoxChanged;
-                    this.ioRadioButton.IsChecked = true;
+                    if (this.ioRadioButton != null) {
+                        this.ioRadioButton.IsChecked = true;
+                    }
 
                 }
                 else if (value == Direction_t.Input) {
                     this.calcValTextBox.IsEnabled = true;
                     this.calcValTextBox.TextChanged += this.TextBoxChanged;
-                    this.ioRadioButton.IsChecked = false;
+                    if (this.ioRadioButton != null) {
+                        this.ioRadioButton.IsChecked = false;
+                    }
                 }
 
             }
         }
 
-        private List<CalcVar> dependencies;
-
-        /// <summary>
-        /// Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
-        /// but rather once all calculator variables and their equations have been added to the calculator.
-        /// </summary>
-        public List<CalcVar> Dependencies {
-            get {
-                return this.dependencies;
-            }
-            set {
-                this.dependencies = value;
-            }
-        }
-
-        protected List<CalcVar> dependants;
-
-        /// <summary>
-        /// Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
-        /// but rather once all calculator variables and their equations have been added to the calculator.
-        /// </summary>
-        public List<CalcVar> Dependants {
-            get {
-                return this.dependants;
-            }
-            set {
-                this.dependants = value;
-            }
-        }
-
-        private bool disableUpdate;
-
-        /// <summary>
-        /// Set to true to disable the updating of the text box when this CalcVar's Calculate() method
-        /// is called.
-        /// </summary>
-        public bool DisableUpdate {
-            get {
-                return this.disableUpdate;
-            }
-            set {
-                this.disableUpdate = value;
-            }
-        }
-
         private List<Validator> validators;
 
-        private CalcValidationResult validationResult;
+        public List<CalcValidationResult> ValidationResults;
+
+        private CalcValidationLevel validationResult;
 
         /// <summary>
         /// Gets or sets the validation result for this calculator variable.
         /// Will also change the border colour of the associated text box.
         /// </summary>
-        public CalcValidationResult ValidationResult {
+        public CalcValidationLevel WorstValidationLevel {
             get {
                 return this.validationResult;
             }
             set
             {
                 this.validationResult = value;
-                // Change the textbox's border colour
-                this.calcValTextBox.BorderBrush = this.validationResult.BorderBrush;
-                this.calcValTextBox.Background = this.validationResult.BackgroundBrush;
             }
         }
 
@@ -236,41 +160,42 @@ namespace NinjaCalc {
         /// </summary>
         /// <param name="calcValTextBox">The text box that displays this calculator variables value.</param>
         /// <param name="equation">An expression tree of a function which calculates this variables value from the other variables.</param>
-        public CalcVar(
+        public CalcVarNumerical(
             String name,
             TextBox calcValTextBox,
             ComboBox unitsComboBox,
             RadioButton ioRadioButton,
-            Dictionary<string, CalcVar> calcVars,
-            Func<Dictionary<string, CalcVar>, double> equation,
+            //Dictionary<string, CalcVar> calcVars,
+            Func<double> equation,
             NumberUnit[] units,
-            double defaultRawValue) {
+            double defaultRawValue,
+            Direction_t defaultDirection) : base(name, equation) {
 
-            this.name = name;
-
-            this.calcValTextBox = calcValTextBox;
-            // Setup event handler for when textbox text changes
-            //this.calcValTextBox.TextChanged += this.TextBoxChanged;
+            this.calcValTextBox = calcValTextBox;            
+            // The next line sets the delay before the tooltip is shown for the textboxes.
+            // The delay (2nd argument) is in milli-seconds
+            ToolTipService.SetInitialShowDelay(this.calcValTextBox, 50);
+            // We want to show the tooltip for disabled textboxes (textboxes belonging
+            // to output calculator variables are disabled)
+            ToolTipService.SetShowOnDisabled(this.calcValTextBox, true);      
 
             this.ioRadioButton = ioRadioButton;
             // Setup event handlers. Note that Checked and Unchecked have their own handlers. In this
             // case we point them to the same handler function and inspect state there.
-            this.ioRadioButton.Checked += this.RadioButtonChanged;
-            this.ioRadioButton.Unchecked += this.RadioButtonChanged;
-
-            this.calcVars = calcVars;
-
-            this.equation = equation;
-
-            // Initialise the dependency and dependant lists
-            this.dependencies = new List<CalcVar>();
-            this.dependants = new List<CalcVar>();
+            // Note that the radio button is optional, and could be null!
+            if (this.ioRadioButton != null) {
+                this.ioRadioButton.Checked += this.RadioButtonChanged;
+                this.ioRadioButton.Unchecked += this.RadioButtonChanged;
+            }
 
             // Initialise empty validators list
             this.validators = new List<Validator>();
 
-            // Default direction is an input
-            this.Direction = Direction_t.Input;
+            // Initialise empty validation results list
+            this.ValidationResults = new List<CalcValidationResult>();
+
+            // Setup default direction
+            this.Direction = defaultDirection;
 
             // Internally save reference to the units combo box
             this.unitsComboBox = unitsComboBox;
@@ -313,7 +238,7 @@ namespace NinjaCalc {
         /// <summary>
         /// This should only be called for output variables.
         /// </summary>
-        public void Calculate() {
+        public override void Calculate() {
             // Make sure this event only fires when this calculator variable is an output!
             Debug.Assert(this.Direction == Direction_t.Output);
 
@@ -321,7 +246,7 @@ namespace NinjaCalc {
 
             // Invoke the provided equation function,
             // which should return the raw value for this calculator variable
-            this.rawVal = equation.Invoke(this.calcVars);
+            this.rawVal = this.Equation.Invoke();
             this.dispVal = this.rawVal / this.selUnit.Multiplier;
             this.calcValTextBox.Text = this.dispVal.ToString();
 
@@ -352,32 +277,42 @@ namespace NinjaCalc {
 
         /// <summary>
         /// Call this to perform validation on this calculator variable. Will run all validators
-        /// that have been added through calling AddValidator().
+        /// that have been added through calling AddValidator(), and populate ValidationResults with the
+        /// results.
         /// </summary>
         public void Validate() {
             Console.WriteLine("Validate() called from \"" + this.Name + "\" with this.RawVal = \"" + this.RawVal.ToString() + "\".");
 
-            CalcValidationResult worstValidationResult = CalcValidationResults.Ok;
+            // Clear the old validation results
+            this.ValidationResults.Clear();
+
+            CalcValidationLevel worstValidationResult = CalcValidationLevels.Ok;
 
             // Validate this value (if validators are provided)
             foreach (var validator in this.validators) {
                 // Run the validation function
-                CalcValidationResult validationResult = validator.ValidationFunction.Invoke(this.RawVal);
+                CalcValidationLevel validationLevel = validator.ValidationFunction.Invoke(this.RawVal);
+
+                // Save this validation result
+                this.ValidationResults.Add(new CalcValidationResult(validationLevel, validator.Message));
 
                 // Logic for keeping track of the worst validation resut
                 // (error worse than warning worse than ok)
-                if (validationResult == CalcValidationResults.Warning && worstValidationResult == CalcValidationResults.Ok) {
-                    worstValidationResult = CalcValidationResults.Warning;
+                if (validationLevel == CalcValidationLevels.Warning && worstValidationResult == CalcValidationLevels.Ok) {
+                    worstValidationResult = CalcValidationLevels.Warning;
                 }
-                else if (validationResult == CalcValidationResults.Error) {
-                    worstValidationResult = CalcValidationResults.Error;
+                else if (validationLevel == CalcValidationLevels.Error) {
+                    worstValidationResult = CalcValidationLevels.Error;
                 }
             }
 
             Console.WriteLine("Validation result was \"" + worstValidationResult.ToString() + "\".");
 
             // Save this to the internal variable
-            this.ValidationResult = worstValidationResult;
+            this.WorstValidationLevel = worstValidationResult;
+
+            // Finally, force an update of the UI based on these validation results
+            this.UpdateUIBasedOnValidationResults();
         }
 
         /// <summary>
@@ -410,9 +345,9 @@ namespace NinjaCalc {
             this.Validate();
 
             // We need to re-calculate any this calculator variables dependants, if they are outputs
-            for (int i = 0; i < this.dependants.Count; i++) {
-                if (this.dependants[i].Direction == Direction_t.Output) {
-                    this.dependants[i].Calculate();
+            for (int i = 0; i < this.Dependants.Count; i++) {
+                if (this.Dependants[i].Direction == Direction_t.Output) {
+                    this.Dependants[i].Calculate();
                 }
             }
         }
@@ -444,14 +379,31 @@ namespace NinjaCalc {
             }
         }
 
-        public void ForceDependantOutputsToRecalculate() {
-            Console.WriteLine("ForceDependantOutputsToRecalculate() called.");
-            // We need to re-calculate any this calculator variables dependants, if they are outputs
-            for (int i = 0; i < this.dependants.Count; i++) {
-                if (this.dependants[i].Direction == Direction_t.Output) {
-                    this.dependants[i].Calculate();
+        public void UpdateUIBasedOnValidationResults() {
+            // Change the textbox's border colour
+            this.calcValTextBox.BorderBrush = this.validationResult.BorderBrush;
+            this.calcValTextBox.Background = this.validationResult.BackgroundBrush;
+
+            // Build up string from all of the validators which are at the same validation
+            // level as the worse one
+            String validationMsg = "";
+            if (this.WorstValidationLevel != CalcValidationLevels.Ok) {
+                foreach (var validationResult in this.ValidationResults) {
+                    // Check to see if this validation result was just as bad as the worse one
+                    // (i.e. the same level of validation)
+                    if (validationResult.CalcValidationLevel == this.WorstValidationLevel) {
+                        validationMsg += validationResult.Message + " ";
+                    }
                 }
             }
+            else {
+                // Validation must of been o.k., so in this case we display a stock-standard message
+                validationMsg = "Value is o.k.";
+            }
+
+            var toolTip = new System.Windows.Controls.Label();
+            toolTip.Content = validationMsg;
+            this.calcValTextBox.ToolTip = toolTip;
         }
     }
 }

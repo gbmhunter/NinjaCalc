@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 
+using NinjaCalc.Core;
+
 namespace NinjaCalc {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -52,7 +54,8 @@ namespace NinjaCalc {
             calculatorInstances = new List<Calculator>();
 
             // Register calculators
-            this.RegisterCalculator(new OhmsLaw());
+            this.RegisterCalculator(new OhmsLawCalculator());
+            this.RegisterCalculator(new NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221ACalculator());
         }
 
         private void buttonNewCalc_Click(object sender, RoutedEventArgs e) {
@@ -84,7 +87,7 @@ namespace NinjaCalc {
             // Create a calculator grid element
             CalculatorGridElement calculatorGridElement = new CalculatorGridElement();
             calculatorGridElement.Title.Content = calculator.Name;
-            calculatorGridElement.Description.Content = calculator.Description;
+            calculatorGridElement.Description.Text = calculator.Description;
 
             // Setup the calculator's icon
             BitmapImage logo = new BitmapImage();
@@ -96,7 +99,7 @@ namespace NinjaCalc {
             calculatorGridElement.OpenButtonClicked += HandleOpenCalcButtonClicked;
 
             // Add grid element
-            calculatorGrid.Children.Add(calculatorGridElement);
+            AvailableCalculatorsGrid.Children.Add(calculatorGridElement);
 
         }
 
@@ -134,7 +137,7 @@ namespace NinjaCalc {
             // Fill in the tab with the content from the found calculator. The View() method should return a base UI element
             // to fill in the tab (it will have many children)
             //tabItem.Content = foundCalc.GetView();
-            tabItem.Content = calculatorInstances[calculatorInstances.Count - 1].GetView();
+            tabItem.Content = calculatorInstances[calculatorInstances.Count - 1].View;
 
             //tabItem.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
             //tabItem.VerticalAlignment = System.Windows.VerticalAlignment.Center;
@@ -155,8 +158,6 @@ namespace NinjaCalc {
         }
 
     } // public partial class MainWindow : Window, INotifyPropertyChanged
-
-
 
 }
 

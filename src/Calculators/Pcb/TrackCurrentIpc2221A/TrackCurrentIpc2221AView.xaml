@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221AView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="600"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center">
+    <Canvas Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label FontSize="16" Content="Track Current" Canvas.Left="-105" Canvas.Top="-102"/>
+        <TextBox x:Name="TrackCurrentValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="-96"/>
+        <ComboBox x:Name="TrackCurrentUnits" Canvas.Left="118" Canvas.Top="-96"/>
+
+        <Label FontSize="16" Content="Temp. Rise" Canvas.Left="-105" Canvas.Top="-59"/>
+        <TextBox x:Name="TempRiseValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="-53"/>
+        <ComboBox x:Name="TempRiseUnits" Canvas.Left="118" Canvas.Top="-50"/>
+
+        <Label FontSize="16" Content="Track Thickness" Canvas.Left="-105" Canvas.Top="-16"/>
+        <TextBox x:Name="TrackThicknessValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="-10"/>
+        <ComboBox x:Name="TrackThicknessUnits" Canvas.Left="118" Canvas.Top="-10"/>
+
+        <ComboBox x:Name="TrackLayer" Width="100" Canvas.Left="13" Canvas.Top="48" />
+        <Label Content="Track Layer" FontSize="16" Canvas.Left="-105" Canvas.Top="48"/>
+
+        <Label Content="Min. Track Width" FontSize="16" Canvas.Left="-138" Canvas.Top="98"/>
+        <TextBox x:Name="MinTrackWidthValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="98"/>
+        <ComboBox x:Name="MinTrackWidthUnits" Canvas.Left="118" Canvas.Top="98"/>
+    </Canvas>
+</UserControl>

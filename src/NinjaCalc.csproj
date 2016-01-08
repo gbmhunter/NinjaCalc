@@ -53,11 +53,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\CalcNumberVar.cs" />
+    <Compile Include="Calculators\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221ACalculator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Calculators\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221AView.xaml.cs">
+      <DependentUpon>TrackCurrentIpc2221AView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\CalcVarBase.cs" />
     <Compile Include="Core\CalculatorGridElement.xaml.cs">
       <DependentUpon>CalculatorGridElement.xaml</DependentUpon>
     </Compile>
-    <Page Include="Calculators\OhmsLawView.xaml">
+    <Page Include="Calculators\Basic\OhmsLaw\OhmsLawView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Calculators\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221AView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -70,10 +81,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Calculator.cs" />
-    <Compile Include="Calculators\OhmsLawView.xaml.cs">
+    <Compile Include="Calculators\Basic\OhmsLaw\OhmsLawView.xaml.cs">
       <DependentUpon>OhmsLawView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\CalcVar.cs" />
+    <Compile Include="Core\CalcVarComboBox.cs" />
+    <Compile Include="Core\CalcVarNumerical.cs" />
+    <Compile Include="Core\CalcVarNumericalOutput.cs" />
+    <Compile Include="Core\MarginSetter.cs" />
+    <Compile Include="Core\CalcVarNumericalInput.cs" />
     <Compile Include="Core\NumberUnit.cs" />
     <Compile Include="Core\Validator.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -86,7 +101,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculators\OhmsLaw.cs" />
+    <Compile Include="Calculators\Basic\OhmsLaw\OhmsLaw.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -114,8 +129,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Calculators\icon.png" />
-    <Resource Include="Calculators\ohms-law-diagram.png" />
+    <Resource Include="Calculators\Basic\OhmsLaw\icon.png" />
+    <Resource Include="Calculators\Basic\OhmsLaw\ohms-law-diagram.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\menu-stack-hamburger-128x118.png" />

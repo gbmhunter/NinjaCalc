@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace NinjaCalc {
+namespace NinjaCalc.Core {
     /// <summary>
     /// Base calculator class. Designed to be inherited by actual calculator implementations.
     /// </summary>
@@ -27,37 +27,56 @@ namespace NinjaCalc {
             set;
         }
 
-        /// <summary>
-        /// A list holding all of the calculator variables for the calculator.
-        /// </summary>
-        public Dictionary<string, CalcVar> CalcVars {
-            get;
-            set;
-        }
-
         public Uri IconImagePath {
             get;
             set;
         }
+
+        public UserControl View {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// A list holding all of the calculator variables for the calculator.
+        /// </summary>
+        public Dictionary<string, CalcVarBase> CalcVars {
+            get;
+            set;
+        }
+
+        
 
         /// <summary>
         /// Constructor for calculator.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="description"></param>
-        public Calculator(string name, string description, Uri iconImagePath) {
+        public Calculator(string name, string description, string iconImagePath, UserControl view) {
             this.Name = name;
             this.Description = description;
-            this.CalcVars = new Dictionary<string, CalcVar>();
-            this.IconImagePath = iconImagePath;
-        }
 
-        /// <summary>
-        /// This needs to return a Grid which contains the calculators view. The Grid element will be inserted on the
-        /// empty tab when a new instance of the calculator is created. 
-        /// </summary>
-        /// <returns></returns>
-        public abstract Control GetView();
+    
+
+            // The following is implemented to that unit tests work, as constructing a calculator outside
+            // of this project (i.e. inside Unit Test project instead) causes the URI pack scheme to fail
+            const string scheme = "pack";
+            if (UriParser.IsKnownScheme(scheme)) {
+                this.IconImagePath = new Uri(iconImagePath);
+            }
+            else {
+                Console.WriteLine("WARNING: \"pack\" scheme for image URI is not known, are you running unit tests?");
+                //this.IconImagePath = "";
+            }
+            //this.IconImagePath = iconImagePath;
+
+            // Internally save reference to the view
+            this.View = view;
+
+            // Initialise empty dictionary for the calculator variables
+            // (these are not passed into the constructor for clarity reasons)
+            this.CalcVars = new Dictionary<string, CalcVarBase>();
+        }
 
         /// <summary>
         /// This finds all the dependencies and dependants for all calculator variables,
@@ -66,10 +85,10 @@ namespace NinjaCalc {
         /// </summary>
         protected void FindDependenciesAndDependants() {
 
-            var dependencyList = new List<CalcVar>();
+            var dependencyList = new List<CalcVarBase>();
 
             EventHandler eventHandler = (object sender, EventArgs e) => {
-                CalcVar calcVar = (CalcVar)sender;
+                CalcVarBase calcVar = (CalcVarBase)sender;
                 //Console.WriteLine("CalcVar \"" + calcVar.Name + "\" was read.");
                 dependencyList.Add(calcVar);
             };
@@ -86,15 +105,20 @@ namespace NinjaCalc {
                 Console.WriteLine("Finding dependencies for CalcVar \"" + pair.Value.Name + "\".");
                 dependencyList.Clear();
 
-                // Invoke the equation, this will fire ReadRawValue events
-                // for all variables it needs, and add to the dependancy list
-                // DO NOT call pair.Value.Calculate() directly!
-                pair.Value.Equation.Invoke(this.CalcVars);
+                if (pair.Value.Equation != null) {
+                    // Invoke the equation, this will fire ReadRawValue events
+                    // for all variables it needs, and add to the dependancy list
+                    // DO NOT call pair.Value.Calculate() directly!
+                    pair.Value.Equation.Invoke();
 
-                // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
-                for (int j = 0; j < dependencyList.Count; j++) {
-                    Console.WriteLine("\"" + dependencyList[j].Name + "\" is a dependency of \"" + pair.Value.Name + "\".");
-                    dependencyList[j].Dependants.Add(pair.Value);
+                    // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
+                    for (int j = 0; j < dependencyList.Count; j++) {
+                        Console.WriteLine("\"" + dependencyList[j].Name + "\" is a dependency of \"" + pair.Value.Name + "\".");
+                        dependencyList[j].Dependants.Add(pair.Value);
+                    }
+                }
+                else {
+                    Console.WriteLine("Equation was null, so \"" + pair.Value.Name + "\" has no dependancies.");
                 }
 
                 Console.WriteLine("Finished finding dependencies for CalcVar \"" + pair.Value.Name + "\".");
