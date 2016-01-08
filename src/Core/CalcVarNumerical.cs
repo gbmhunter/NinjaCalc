@@ -29,10 +29,13 @@ namespace NinjaCalc {
         //==================================== VARIABLES AND PROPERTIES =================================//
         //===============================================================================================//
 
+        //============================================= RAW VAL =========================================//
+
         protected double rawVal;
 
         /// <summary>
-        /// Holds the "raw" (unscaled, unrounded) value for this variable.
+        /// Gets or sets the the "raw" (unscaled, unrounded) value for this variable. Setting will cause the displayed value, textbox, and all
+        /// dependant variables to update.
         /// </summary>
         public double RawVal {
             get {
@@ -42,12 +45,29 @@ namespace NinjaCalc {
             }
 
             set {
-                this.rawVal = value;                
-                if (!this.DisableUpdate) {
-                    this.calcValTextBox.Text = this.rawVal.ToString();
+                // Only set if new value is different from current
+                if (this.rawVal != value) {
+                    this.rawVal = value;
+                    // Fire the RawValueChanged event handler
+                    this.OnRawValueChanged(EventArgs.Empty);
                 }
             }
         }
+
+        private event EventHandler RawValueChanged;
+
+        /// <summary>
+        /// Fires the RawValueChanged event handler (as long as it's not null).
+        /// </summary>
+        /// <param name="e">The event arguments you wish to provide to listening methods.</param>
+        public virtual void OnRawValueChanged(EventArgs e) {
+            EventHandler handler = RawValueChanged;
+            if (handler != null) {
+                handler(this, e);
+            }
+        }
+
+        //============================================ DISP VAL =========================================//
 
         private double dispVal;
         public double DispVal {
@@ -231,6 +251,13 @@ namespace NinjaCalc {
             this.calcValTextBox.Text = this.dispVal.ToString();
             //this.calcValTextBox.Text = this.rawVal.ToString();
 
+            // Install event handlers
+            this.RawValueChanged += (sender, EventArgs) => {
+                // Update displayed value
+                this.dispVal = this.rawVal * this.selUnit.Multiplier;
+                // Update textbox
+                this.calcValTextBox.Text = this.dispVal.ToString();
+            };
             
 
         }

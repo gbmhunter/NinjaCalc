@@ -1,3 +1,8 @@
+v0.3.2 
+------
+
+- Improved unit tests for Ohm's Law calculator.
+
 v0.3.1
 ------
 
