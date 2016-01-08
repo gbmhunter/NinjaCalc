@@ -4,28 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="600">
-    <Grid>
+             d:DesignHeight="600" d:DesignWidth="600"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center">
+    <Canvas Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label FontSize="16" Content="Track Current" Canvas.Left="-105" Canvas.Top="-102"/>
+        <TextBox x:Name="TrackCurrentValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="-96"/>
+        <ComboBox x:Name="TrackCurrentUnits" Canvas.Left="118" Canvas.Top="-96"/>
 
-        <Label FontSize="16" Content="Track Current" Margin="68,196,419,373"/>
-        <TextBox x:Name="TrackCurrentValue" BorderThickness="3" Margin="186,202,314,373"/>
-        <ComboBox x:Name="TrackCurrentUnits" Margin="291,202,254,373"/>
+        <Label FontSize="16" Content="Temp. Rise" Canvas.Left="-105" Canvas.Top="-59"/>
+        <TextBox x:Name="TempRiseValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="-53"/>
+        <ComboBox x:Name="TempRiseUnits" Canvas.Left="118" Canvas.Top="-50"/>
 
-        <Label FontSize="16" Content="Temp. Rise" Margin="68,239,419,330"/>
-        <TextBox x:Name="TempRiseValue" BorderThickness="3" Margin="186,245,314,330"/>
-        <ComboBox x:Name="TempRiseUnits" Margin="291,248,254,327"/>
+        <Label FontSize="16" Content="Track Thickness" Canvas.Left="-105" Canvas.Top="-16"/>
+        <TextBox x:Name="TrackThicknessValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="-10"/>
+        <ComboBox x:Name="TrackThicknessUnits" Canvas.Left="118" Canvas.Top="-10"/>
 
-        <Label FontSize="16" Content="Track Thickness" Margin="68,282,419,287"/>
-        <TextBox x:Name="TrackThicknessValue" BorderThickness="3" Margin="186,288,314,287"/>
-        <ComboBox x:Name="TrackThicknessUnits" Margin="291,288,254,287"/>
+        <ComboBox x:Name="TrackLayer" Width="100" Canvas.Left="13" Canvas.Top="48" />
+        <Label Content="Track Layer" FontSize="16" Canvas.Left="-105" Canvas.Top="48"/>
 
-        <ComboBox x:Name="TrackLayer" Margin="186,346,254,229" />
-        <Label Content="Track Layer" FontSize="16" Margin="68,346,427,223"/>
-        
-        <Label Content="Min. Track Width" FontSize="16" Margin="35,396,427,173"/>
-        <TextBox x:Name="MinTrackWidthValue" BorderThickness="3" Margin="186,396,314,179"/>
-        <ComboBox x:Name="MinTrackWidthUnits" Margin="291,396,254,179"/>
-
-
-    </Grid>
+        <Label Content="Min. Track Width" FontSize="16" Canvas.Left="-138" Canvas.Top="98"/>
+        <TextBox x:Name="MinTrackWidthValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="98"/>
+        <ComboBox x:Name="MinTrackWidthUnits" Canvas.Left="118" Canvas.Top="98"/>
+    </Canvas>
 </UserControl>
