@@ -9,6 +9,7 @@ using NinjaCalc.Core;
 using NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A;
 
 namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
+
     class TrackCurrentIpc2221ACalculator : Calculator {
 
         public TrackCurrentIpc2221ACalculator()
@@ -18,10 +19,11 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             "pack://application:,,,/Calculators/Basic/OhmsLaw/icon.png",
             new TrackCurrentIpc2221AView()) {
 
+            // Re-cast the view so we can access it's unique properties
             TrackCurrentIpc2221AView view = (TrackCurrentIpc2221AView)this.View;
 
             //===============================================================================================//
-            //============================================ VOLTAGE ==========================================//
+            //========================================= TRACE CURRENT =======================================//
             //===============================================================================================//
 
             //! @todo, Move these into the constructor for the base object?

@@ -38,8 +38,9 @@ namespace NinjaCalc {
                         return current * resistance;
                     },
                     new NumberUnit[]{
-                        new NumberUnit("mV", 0.001),
-                        new NumberUnit("V", 1.0, NumberPreference.DEFAULT),
+                        new NumberUnit("mV", 1e-3),
+                        new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
+                        new NumberUnit("kV", 1e3),
                     },
                     0.0));
 
@@ -65,8 +66,11 @@ namespace NinjaCalc {
                         return voltage / resistance;
                     },
                     new NumberUnit[]{
-                        new NumberUnit("mA", 0.001),
-                        new NumberUnit("A", 1.0, NumberPreference.DEFAULT),
+                        new NumberUnit("pA", 1e-12),
+                        new NumberUnit("nA", 1e-9),
+                        new NumberUnit("uA", 1e-6),
+                        new NumberUnit("mA", 1e-3),
+                        new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                     },
                     0.0));
 
@@ -91,8 +95,11 @@ namespace NinjaCalc {
                         return voltage / current;
                     },
                     new NumberUnit[]{
-                        new NumberUnit("mΩ", 0.001),
-                        new NumberUnit("Ω", 1.0, NumberPreference.DEFAULT),
+                        new NumberUnit("mΩ", 1e-3),
+                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                        new NumberUnit("kΩ", 1e3),
+                        new NumberUnit("MΩ", 1e6),
+                        new NumberUnit("GΩ", 1e9),
                     },
                     0.0));
 
