@@ -11,7 +11,7 @@ namespace NinjaCalc.Core {
     /// A specialisation of a generic CalcVar which is for variables which are always
     /// an output. Removes the ability to add a input/output radio button, or a default value.
     /// </summary>
-    class CalcVarOutput : CalcVar {
+    class CalcVarOutput : CalcVarNumerical {
 
         public CalcVarOutput(
             String name,

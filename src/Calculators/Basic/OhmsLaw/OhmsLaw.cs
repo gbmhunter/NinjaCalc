@@ -10,17 +10,17 @@ using NinjaCalc.Core;
 namespace NinjaCalc {
     public class OhmsLawCalculator : Calculator {
 
-        public CalcVar Voltage {
+        public CalcVarNumerical Voltage {
             get;
             set;
         }
 
-        public CalcVar Current {
+        public CalcVarNumerical Current {
             get;
             set;
         }
 
-        public CalcVar Resistance {
+        public CalcVarNumerical Resistance {
             get;
             set;
         }
@@ -40,7 +40,7 @@ namespace NinjaCalc {
 
             //! @todo, Move these into the constructor for the base object?
             
-            this.Voltage = new CalcVar(
+            this.Voltage = new CalcVarNumerical(
                     "voltage",
                     view.TextBoxVoltageValue,
                     view.VoltageUnits,
@@ -71,7 +71,7 @@ namespace NinjaCalc {
             //===============================================================================================//
 
             
-            this.Current = new CalcVar(
+            this.Current = new CalcVarNumerical(
                     "current",
                     view.TextBoxCurrentValue,
                     view.CurrentUnits,
@@ -103,7 +103,7 @@ namespace NinjaCalc {
             //===============================================================================================//
 
             
-            this.Resistance = new CalcVar(
+            this.Resistance = new CalcVarNumerical(
                     "resistance",
                     view.TextBoxResistanceValue,
                     view.ResistanceUnits,

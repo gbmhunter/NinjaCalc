@@ -53,7 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\BaseCalcVar.cs" />
+    <Compile Include="Core\CalcVarBase.cs" />
     <Compile Include="Core\CalcNumberVar.cs" />
     <Compile Include="Core\CalculatorGridElement.xaml.cs">
       <DependentUpon>CalculatorGridElement.xaml</DependentUpon>
@@ -74,7 +74,7 @@
     <Compile Include="Calculators\Basic\OhmsLaw\OhmsLawView.xaml.cs">
       <DependentUpon>OhmsLawView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\CalcVar.cs" />
+    <Compile Include="Core\CalcVarNumerical.cs" />
     <Compile Include="Core\CalcVarOutput.cs" />
     <Compile Include="Core\MarginSetter.cs" />
     <Compile Include="Core\CalcVarInput.cs" />

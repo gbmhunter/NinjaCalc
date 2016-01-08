@@ -40,7 +40,7 @@ namespace NinjaCalc.Core {
         /// <summary>
         /// A list holding all of the calculator variables for the calculator.
         /// </summary>
-        public Dictionary<string, BaseCalcVar> CalcVars {
+        public Dictionary<string, CalcVarBase> CalcVars {
             get;
             set;
         }
@@ -75,7 +75,7 @@ namespace NinjaCalc.Core {
 
             // Initialise empty dictionary for the calculator variables
             // (these are not passed into the constructor for clarity reasons)
-            this.CalcVars = new Dictionary<string, BaseCalcVar>();
+            this.CalcVars = new Dictionary<string, CalcVarBase>();
         }
 
         /// <summary>
@@ -85,10 +85,10 @@ namespace NinjaCalc.Core {
         /// </summary>
         protected void FindDependenciesAndDependants() {
 
-            var dependencyList = new List<BaseCalcVar>();
+            var dependencyList = new List<CalcVarBase>();
 
             EventHandler eventHandler = (object sender, EventArgs e) => {
-                CalcVar calcVar = (CalcVar)sender;
+                CalcVarNumerical calcVar = (CalcVarNumerical)sender;
                 //Console.WriteLine("CalcVar \"" + calcVar.Name + "\" was read.");
                 dependencyList.Add(calcVar);
             };

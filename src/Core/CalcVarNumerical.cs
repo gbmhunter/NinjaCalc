@@ -24,7 +24,7 @@ namespace NinjaCalc {
     /// Encapsulates a single variable in a NinjaCalc calculator. Stores the variable name, it's equation, it's state (input or output).
     /// Designed to be used as a base class for particular calculator variable types (e.g. number, boolean, e.t.c).
     /// </summary>
-    public class CalcVar : BaseCalcVar {
+    public class CalcVarNumerical : CalcVarBase {
         //===============================================================================================//
         //==================================== VARIABLES AND PROPERTIES =================================//
         //===============================================================================================//
@@ -166,7 +166,7 @@ namespace NinjaCalc {
         /// </summary>
         /// <param name="calcValTextBox">The text box that displays this calculator variables value.</param>
         /// <param name="equation">An expression tree of a function which calculates this variables value from the other variables.</param>
-        public CalcVar(
+        public CalcVarNumerical(
             String name,
             TextBox calcValTextBox,
             ComboBox unitsComboBox,
@@ -352,9 +352,9 @@ namespace NinjaCalc {
             this.Validate();
 
             // We need to re-calculate any this calculator variables dependants, if they are outputs
-            for (int i = 0; i < this.dependants.Count; i++) {
-                if (this.dependants[i].Direction == Direction_t.Output) {
-                    this.dependants[i].Calculate();
+            for (int i = 0; i < this.Dependants.Count; i++) {
+                if (this.Dependants[i].Direction == Direction_t.Output) {
+                    this.Dependants[i].Calculate();
                 }
             }
         }
@@ -389,9 +389,9 @@ namespace NinjaCalc {
         public void ForceDependantOutputsToRecalculate() {
             Console.WriteLine("ForceDependantOutputsToRecalculate() called.");
             // We need to re-calculate any this calculator variables dependants, if they are outputs
-            for (int i = 0; i < this.dependants.Count; i++) {
-                if (this.dependants[i].Direction == Direction_t.Output) {
-                    this.dependants[i].Calculate();
+            for (int i = 0; i < this.Dependants.Count; i++) {
+                if (this.Dependants[i].Direction == Direction_t.Output) {
+                    this.Dependants[i].Calculate();
                 }
             }
         }

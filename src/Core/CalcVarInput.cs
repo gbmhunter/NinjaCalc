@@ -12,7 +12,7 @@ namespace NinjaCalc.Core {
     /// an input. Removes the ability to add a input/output radio button and provide
     /// an equation.
     /// </summary>
-    class CalcVarInput : CalcVar {
+    class CalcVarInput : CalcVarNumerical {
 
         public CalcVarInput(
             String name,
