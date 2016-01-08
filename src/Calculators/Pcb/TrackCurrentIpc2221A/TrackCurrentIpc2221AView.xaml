@@ -8,23 +8,72 @@
              HorizontalAlignment="Center"
              VerticalAlignment="Center">
     <Canvas Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Label FontSize="16" Content="Track Current" Canvas.Left="-105" Canvas.Top="-102"/>
-        <TextBox x:Name="TrackCurrentValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="-96"/>
-        <ComboBox x:Name="TrackCurrentUnits" Canvas.Left="118" Canvas.Top="-96"/>
 
-        <Label FontSize="16" Content="Temp. Rise" Canvas.Left="-105" Canvas.Top="-59"/>
-        <TextBox x:Name="TempRiseValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="-53"/>
-        <ComboBox x:Name="TempRiseUnits" Canvas.Left="118" Canvas.Top="-50"/>
+        <Polygon
+            Points="-50,50 270,50 270,100 -50,100"
+            Stroke="Black"
+            StrokeThickness="3" Canvas.Left="-104" Canvas.Top="-53">
+            <Polygon.Fill>
+                <SolidColorBrush Color="Green" Opacity="0.4"/>
+            </Polygon.Fill>
+        </Polygon>
+        <Polygon
+            Name="Track"
+            Points="20,0 200,0 220,50 0,50"
+            Stroke="Black" 
+            StrokeThickness="3" Canvas.Left="-104" Canvas.Top="-53">
+            <Polygon.Fill>
+                <SolidColorBrush Color="Orange" Opacity="0.4"/>
+            </Polygon.Fill>
+        </Polygon>
+        <Canvas Width="222" Height="20" Canvas.Left="-104" Canvas.Top="64">
+            <Line
+            X1="0" Y1="0" X2="220" Y2="0"
+            Stroke="Black"
+            StrokeThickness="3">
+            </Line>
+            <Line
+                X1="0" Y1="0" X2="10" Y2="-10"
+                Stroke="Black"
+                StrokeThickness="3"/>
+            <Line
+                X1="0" Y1="0" X2="10" Y2="10"
+                Stroke="Black"
+                StrokeThickness="3"/>
+            <Line
+                X1="220" Y1="0" X2="210" Y2="-10"
+                Stroke="Black"
+                StrokeThickness="3"/>
+            <Line
+                X1="220" Y1="0" X2="210" Y2="10"
+                Stroke="Black"
+                StrokeThickness="3"/>
+        </Canvas>
 
-        <Label FontSize="16" Content="Track Thickness" Canvas.Left="-105" Canvas.Top="-16"/>
-        <TextBox x:Name="TrackThicknessValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="-10"/>
-        <ComboBox x:Name="TrackThicknessUnits" Canvas.Left="118" Canvas.Top="-10"/>
+        <Canvas Height="53" Canvas.Left="-269" Canvas.Top="-84" Width="142">
+            <Label FontSize="16" Content="Track Current"/>
+            <TextBox x:Name="TrackCurrentValue" Width="100" BorderThickness="3" Canvas.Top="31"/>
+            <ComboBox x:Name="TrackCurrentUnits" Canvas.Left="114" Canvas.Top="31"/>
+        </Canvas>
+        <Canvas Height="53" Canvas.Left="-239" Canvas.Top="-222" Width="220">
+            <Label FontSize="16" Content="Temp. Rise" Canvas.Left="55"/>
+            <TextBox x:Name="TempRiseValue" Width="100" BorderThickness="3" Canvas.Top="31" Canvas.Left="55"/>
+            <ComboBox x:Name="TempRiseUnits" Canvas.Left="160" Canvas.Top="31"/>
+            <Image Source="temperature-icon.jpg" Height="64" Width="87" Canvas.Left="-23"/>
+        </Canvas>
 
-        <ComboBox x:Name="TrackLayer" Width="100" Canvas.Left="13" Canvas.Top="48" />
-        <Label Content="Track Layer" FontSize="16" Canvas.Left="-105" Canvas.Top="48"/>
+        <Canvas Height="74" Canvas.Left="123" Canvas.Top="-75" Width="143">
+            <Label FontSize="16" Content="Track Thickness"/>
+            <TextBox x:Name="TrackThicknessValue" Width="100" BorderThickness="3" Canvas.Top="36"/>
+            <ComboBox x:Name="TrackThicknessUnits" Canvas.Left="105" Canvas.Top="36"/>
+        </Canvas>
 
-        <Label Content="Min. Track Width" FontSize="16" Canvas.Left="-138" Canvas.Top="98"/>
-        <TextBox x:Name="MinTrackWidthValue" Width="100" BorderThickness="3" Canvas.Left="13" Canvas.Top="98"/>
-        <ComboBox x:Name="MinTrackWidthUnits" Canvas.Left="118" Canvas.Top="98"/>
+        <ComboBox x:Name="TrackLayer" Width="100" Canvas.Left="104" Canvas.Top="-146" />
+        <Label Content="Track Layer" FontSize="16" Canvas.Left="104" Canvas.Top="-182"/>
+        <Canvas Height="58" Canvas.Left="-77" Canvas.Top="64" Width="158">
+            <Label Content="Min. Track Width" FontSize="16" Canvas.Left="18" Canvas.Top="5"/>
+            <TextBox x:Name="MinTrackWidthValue" Width="100" BorderThickness="3" Canvas.Left="9" Canvas.Top="36"/>
+            <ComboBox x:Name="MinTrackWidthUnits" Canvas.Top="36" Canvas.Left="130"/>
+        </Canvas>
     </Canvas>
 </UserControl>
