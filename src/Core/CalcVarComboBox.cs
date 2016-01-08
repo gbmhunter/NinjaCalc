@@ -49,11 +49,11 @@ namespace NinjaCalc.Core {
             // Populate combobox
             this.CalculatorComboBox.ItemsSource = this.ComboBoxOptions;
 
-            // Select default
-            this.CalculatorComboBox.SelectedItem = this.ComboBoxOptions[0];
-
             // Set-up event handler for combo-box
             this.CalculatorComboBox.SelectionChanged += this.ComboBoxChanged;
+
+            // Select default (make sure this is done after event handler is installed!)
+            this.CalculatorComboBox.SelectedItem = this.ComboBoxOptions[0];            
 
         }
 

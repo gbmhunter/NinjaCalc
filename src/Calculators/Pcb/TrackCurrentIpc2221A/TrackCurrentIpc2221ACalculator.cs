@@ -151,6 +151,22 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
                     var trackLayer = this.TrackLayer.RawVal;
 
                     //var trackLayer = TrackLayer_t.INTERNAL or TrackLayer_t.EXTERNAL
+                    if(trackLayer == "External")     
+			        {
+				        Console.WriteLine("External trace selected.");
+				        double crossSectionalArea = (Math.Pow((traceCurrent/(0.048*Math.Pow(tempRise, 0.44))), 1/0.725));
+				        Console.WriteLine("Cross-sectional area = " + crossSectionalArea.ToString());
+				        double width = (crossSectionalArea/(trackThickness*1000000.0/25.4))*(25.4/1000000.0);
+				        return width;
+			        }
+			        else if(trackLayer == "Internal")
+			        {
+				        Console.WriteLine("Internal trace selected.");
+				        double crossSectionalArea = (Math.Pow((traceCurrent/(0.024*Math.Pow(tempRise, 0.44))), 1/0.725));
+                        Console.WriteLine("Cross-sectional area = " + crossSectionalArea.ToString());
+				        double width = (crossSectionalArea/(trackThickness*1000000.0/25.4))*(25.4/1000000.0);
+				        return width;
+			        }
  
                     // EQUATION GOES HERE
                     return 0.0;
@@ -169,6 +185,7 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
                 this.MinTrackWidth);
 
             this.FindDependenciesAndDependants();
+            this.RecalculateAllOutputs();
             
         }       
     }
