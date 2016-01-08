@@ -12,6 +12,26 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
 
     class TrackCurrentIpc2221ACalculator : Calculator {
 
+        CalcVarNumericalInput TraceCurrent {
+            get;
+            set;
+        }
+
+        CalcVarNumericalInput TempRise {
+            get;
+            set;
+        }
+
+        CalcVarNumericalInput TrackThickness {
+            get;
+            set;
+        }
+
+        CalcVarNumericalOutput MinTrackWidth {
+            get;
+            set;
+        }
+
         public TrackCurrentIpc2221ACalculator()
             : base(
             "Track Current (IPC-2221A)",
@@ -27,65 +47,70 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             //===============================================================================================//
 
             //! @todo, Move these into the constructor for the base object?
-            this.CalcVars.Add(
+            
+           this.TraceCurrent = new CalcVarNumericalInput(
                 "traceCurrent",
-                new CalcVarInput(
-                    "traceCurrent",
-                    view.TrackCurrentValue,
-                    view.TrackCurrentUnits,                    
-                    this.CalcVars,                    
-                    new NumberUnit[]{
-                        new NumberUnit("mA", 1e-3),
-                        new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
-                    },
-                    0.0));
+                view.TrackCurrentValue,
+                view.TrackCurrentUnits,                    
+                //this.CalcVars,                    
+                new NumberUnit[]{
+                    new NumberUnit("mA", 1e-3),
+                    new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
+                },
+                0.0);
 
             // Add validators
-            this.CalcVars["traceCurrent"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.CalcVars["traceCurrent"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.TraceCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.TraceCurrent.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(
+                "traceCurrent",
+                this.TraceCurrent);
 
             //===============================================================================================//
             //========================================== TEMP RISE ==========================================//
             //===============================================================================================//
-
-            //! @todo, Move these into the constructor for the base object?
-            this.CalcVars.Add(
+            
+            this.TempRise = new CalcVarNumericalInput(
                 "tempRise",
-                new CalcVarInput(
-                    "tempRise",
-                    view.TempRiseValue,
-                    view.TempRiseUnits,                    
-                    this.CalcVars,                    
-                    new NumberUnit[]{
-                        new NumberUnit("C", 1e0, NumberPreference.DEFAULT),                        
-                    },
-                    0.0));
+                view.TempRiseValue,
+                view.TempRiseUnits,                    
+                //this.CalcVars,                    
+                new NumberUnit[]{
+                    new NumberUnit("C", 1e0, NumberPreference.DEFAULT),                        
+                },
+                0.0);
 
             // Add validators
-            this.CalcVars["tempRise"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.CalcVars["tempRise"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.TempRise.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.TempRise.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(
+                "tempRise",
+                this.TempRise);
 
             //===============================================================================================//
             //======================================== TRACK THICKNESS ======================================//
             //===============================================================================================//
-
-            //! @todo, Move these into the constructor for the base object?
-            this.CalcVars.Add(
+            
+            this.TrackThickness = new CalcVarNumericalInput(
                 "trackThickness",
-                new CalcVarInput(
-                    "trackThickness",
-                    view.TrackThicknessValue,
-                    view.TrackThicknessUnits,
-                    this.CalcVars,
-                    new NumberUnit[]{
-                        new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),                        
-                        new NumberUnit("mm", 1e-3),                        
-                    },
-                    0.0));
+                view.TrackThicknessValue,
+                view.TrackThicknessUnits,
+                //this.CalcVars,
+                new NumberUnit[]{
+                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),                        
+                    new NumberUnit("mm", 1e-3),                        
+                },
+                0.0);
 
             // Add validators
-            this.CalcVars["trackThickness"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.CalcVars["trackThickness"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.TrackThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.TrackThickness.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(
+                "trackThickness",
+                this.TrackThickness);
 
             //===============================================================================================//
             //========================================= TRACK LAYER =========================================//
@@ -100,33 +125,34 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             //===============================================================================================//
             //======================================== MIN. TRACK WIDTH =====================================//
             //===============================================================================================//
-
-            //! @todo, Move these into the constructor for the base object?
-            this.CalcVars.Add(
+            
+            this.MinTrackWidth = new CalcVarNumericalOutput(
                 "minTrackWidth",
-                new CalcVarOutput(
-                    "minTrackWidth",
-                    view.MinTrackWidthValue,
-                    view.MinTrackWidthUnits,
-                    this.CalcVars,
-                    (calcVars) => {
-                        var traceCurrent = calcVars["traceCurrent"].RawVal;
-                        var tempRise = calcVars["tempRise"].RawVal;
-                        var trackThickness = calcVars["trackThickness"].RawVal;
+                view.MinTrackWidthValue,
+                view.MinTrackWidthUnits,
+                //this.CalcVars,
+                () => {
+                    var traceCurrent = this.TraceCurrent.RawVal;
+                    var tempRise = this.TempRise.RawVal;
+                    var trackThickness = this.TrackThickness.RawVal;
 
-                        //var trackLayer = TrackLayer_t.INTERNAL or TrackLayer_t.EXTERNAL
+                    //var trackLayer = TrackLayer_t.INTERNAL or TrackLayer_t.EXTERNAL
  
-                        // EQUATION GOES HERE
-                        return 0.0;
-                    },
-                    new NumberUnit[]{
-                        new NumberUnit("um", 1e-6),                        
-                        new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
-                    }));
+                    // EQUATION GOES HERE
+                    return 0.0;
+                },
+                new NumberUnit[]{
+                    new NumberUnit("um", 1e-6),                        
+                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
+                });
 
             // Add validators
-            this.CalcVars["minTrackWidth"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.CalcVars["minTrackWidth"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.MinTrackWidth.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.MinTrackWidth.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(
+                "minTrackWidth",
+                this.MinTrackWidth);
             
         }       
     }
