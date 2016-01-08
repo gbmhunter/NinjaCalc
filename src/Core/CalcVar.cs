@@ -115,13 +115,17 @@ namespace NinjaCalc {
                     // and remove the event handler
                     this.calcValTextBox.IsEnabled = false;
                     this.calcValTextBox.TextChanged -= this.TextBoxChanged;
-                    this.ioRadioButton.IsChecked = true;
+                    if (this.ioRadioButton != null) {
+                        this.ioRadioButton.IsChecked = true;
+                    }
 
                 }
                 else if (value == Direction_t.Input) {
                     this.calcValTextBox.IsEnabled = true;
                     this.calcValTextBox.TextChanged += this.TextBoxChanged;
-                    this.ioRadioButton.IsChecked = false;
+                    if (this.ioRadioButton != null) {
+                        this.ioRadioButton.IsChecked = false;
+                    }
                 }
 
             }
@@ -258,8 +262,11 @@ namespace NinjaCalc {
             this.ioRadioButton = ioRadioButton;
             // Setup event handlers. Note that Checked and Unchecked have their own handlers. In this
             // case we point them to the same handler function and inspect state there.
-            this.ioRadioButton.Checked += this.RadioButtonChanged;
-            this.ioRadioButton.Unchecked += this.RadioButtonChanged;
+            // Note that the radio button is optional, and could be null!
+            if (this.ioRadioButton != null) {
+                this.ioRadioButton.Checked += this.RadioButtonChanged;
+                this.ioRadioButton.Unchecked += this.RadioButtonChanged;
+            }
 
             this.calcVars = calcVars;
 

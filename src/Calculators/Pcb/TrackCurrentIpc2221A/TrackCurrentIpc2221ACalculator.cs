@@ -26,27 +26,21 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
 
             //! @todo, Move these into the constructor for the base object?
             this.CalcVars.Add(
-                "voltage",
-                new CalcVar(
-                    "voltage",
-                    view.TextBoxVoltageValue,
-                    view.VoltageUnits,
-                    view.RadioButtonVoltage,
-                    this.CalcVars,
-                    (calcVars) => {
-                        var current = calcVars["current"].RawVal;
-                        var resistance = calcVars["resistance"].RawVal;
-                        return current * resistance;
-                    },
+                "traceCurrent",
+                new InputCalcVar(
+                    "traceCurrent",
+                    view.TrackCurrentValue,
+                    view.TrackCurrentUnits,                    
+                    this.CalcVars,                    
                     new NumberUnit[]{
-                        new NumberUnit("mV", 0.001),
-                        new NumberUnit("V", 1.0, NumberPreference.DEFAULT),
+                        new NumberUnit("mA", 0.001),
+                        new NumberUnit("A", 1.0, NumberPreference.DEFAULT),
                     },
                     0.0));
 
             // Add validators
-            this.CalcVars["voltage"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.CalcVars["voltage"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.CalcVars["traceCurrent"].AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.CalcVars["traceCurrent"].AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
         }
     }
 }
