@@ -197,6 +197,13 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
 
             this.CalcVars.Add(this.MinTrackWidth);
 
+            //===============================================================================================//
+            //=========================================== VIEW CONFIG =======================================//
+            //===============================================================================================//
+
+            //this.TrackLayer.
+
+
             this.FindDependenciesAndDependants();
             this.RecalculateAllOutputs();
             
