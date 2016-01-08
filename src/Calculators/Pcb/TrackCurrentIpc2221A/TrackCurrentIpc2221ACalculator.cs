@@ -27,6 +27,11 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             set;
         }
 
+        CalcVarComboBox TrackLayer {
+            get;
+            set;
+        }
+
         CalcVarNumericalOutput MinTrackWidth {
             get;
             set;
@@ -117,10 +122,17 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             //===============================================================================================//
 
             // This is a combobox!!! How do we do this?
-            /*enum TrackLayer_t {
-                INTERNAL,
-                EXTERNAL,
-            }*/
+            this.TrackLayer = new CalcVarComboBox(
+                "trackLayer",
+                view.TrackLayer,
+                new string[] {
+                    "Internal",
+                    "External",
+                });
+
+            this.CalcVars.Add(
+                "trackLayer",
+                this.TrackLayer);
 
             //===============================================================================================//
             //======================================== MIN. TRACK WIDTH =====================================//
@@ -132,9 +144,11 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
                 view.MinTrackWidthUnits,
                 //this.CalcVars,
                 () => {
+                    Console.WriteLine("Equation() called for MinTrackWidth.");
                     var traceCurrent = this.TraceCurrent.RawVal;
                     var tempRise = this.TempRise.RawVal;
                     var trackThickness = this.TrackThickness.RawVal;
+                    var trackLayer = this.TrackLayer.RawVal;
 
                     //var trackLayer = TrackLayer_t.INTERNAL or TrackLayer_t.EXTERNAL
  
@@ -153,6 +167,8 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             this.CalcVars.Add(
                 "minTrackWidth",
                 this.MinTrackWidth);
+
+            this.FindDependenciesAndDependants();
             
         }       
     }

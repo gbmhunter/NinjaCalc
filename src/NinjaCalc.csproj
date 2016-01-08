@@ -61,7 +61,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\CalcVarBase.cs" />
-    <Compile Include="Core\CalcNumberVar.cs" />
     <Compile Include="Core\CalculatorGridElement.xaml.cs">
       <DependentUpon>CalculatorGridElement.xaml</DependentUpon>
     </Compile>
@@ -85,6 +84,7 @@
     <Compile Include="Calculators\Basic\OhmsLaw\OhmsLawView.xaml.cs">
       <DependentUpon>OhmsLawView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\CalcVarComboBox.cs" />
     <Compile Include="Core\CalcVarNumerical.cs" />
     <Compile Include="Core\CalcVarNumericalOutput.cs" />
     <Compile Include="Core\MarginSetter.cs" />

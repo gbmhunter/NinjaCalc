@@ -36,12 +36,6 @@ namespace NinjaCalc {
         /// </summary>
         public double RawVal {
             get {
-                // Do we want to do something here so we can work out
-                // the dependants
-                /*if (RawValueRead != null) {
-                    RawValueRead(this, EventArgs.Empty);
-                }*/
-
                 this.OnRawValueRead(EventArgs.Empty);
 
                 return this.rawVal;
@@ -174,9 +168,8 @@ namespace NinjaCalc {
             //Dictionary<string, CalcVar> calcVars,
             Func<double> equation,
             NumberUnit[] units,
-            double defaultRawValue) : base(name, equation) {
-
-            //this.name = name;
+            double defaultRawValue,
+            Direction_t defaultDirection) : base(name, equation) {
 
             this.calcValTextBox = calcValTextBox;            
             // The next line sets the delay before the tooltip is shown for the textboxes.
@@ -201,8 +194,8 @@ namespace NinjaCalc {
             // Initialise empty validation results list
             this.ValidationResults = new List<CalcValidationResult>();
 
-            // Default direction is an input
-            this.Direction = Direction_t.Input;
+            // Setup default direction
+            this.Direction = defaultDirection;
 
             // Internally save reference to the units combo box
             this.unitsComboBox = unitsComboBox;
@@ -383,16 +376,6 @@ namespace NinjaCalc {
                 // Recalculate dispVal and update textbox
                 this.dispVal = this.rawVal / this.selUnit.Multiplier;
                 this.calcValTextBox.Text = this.dispVal.ToString();
-            }
-        }
-
-        public void ForceDependantOutputsToRecalculate() {
-            Console.WriteLine("ForceDependantOutputsToRecalculate() called.");
-            // We need to re-calculate any this calculator variables dependants, if they are outputs
-            for (int i = 0; i < this.Dependants.Count; i++) {
-                if (this.Dependants[i].Direction == Direction_t.Output) {
-                    this.Dependants[i].Calculate();
-                }
             }
         }
 

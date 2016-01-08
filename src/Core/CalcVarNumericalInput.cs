@@ -29,7 +29,8 @@ namespace NinjaCalc.Core {
             //calcVars,
             null,
             units,
-            defaultRawValue) {
+            defaultRawValue,
+            Direction_t.Input) {
 
         }
 

@@ -72,6 +72,8 @@ namespace NinjaCalc.Core {
             return;
         }
 
+
+
         public CalcVarBase(string name, Func<double> equation) {
             this.Name = name;
 
@@ -79,6 +81,17 @@ namespace NinjaCalc.Core {
             this.Dependants = new List<CalcVarBase>();
 
             this.Equation = equation;
+        }
+        
+
+        public void ForceDependantOutputsToRecalculate() {
+            Console.WriteLine("ForceDependantOutputsToRecalculate() called.");
+            // We need to re-calculate any this calculator variables dependants, if they are outputs
+            for (int i = 0; i < this.Dependants.Count; i++) {
+                if (this.Dependants[i].Direction == Direction_t.Output) {
+                    this.Dependants[i].Calculate();
+                }
+            }
         }
 
     }

@@ -88,7 +88,7 @@ namespace NinjaCalc.Core {
             var dependencyList = new List<CalcVarBase>();
 
             EventHandler eventHandler = (object sender, EventArgs e) => {
-                CalcVarNumerical calcVar = (CalcVarNumerical)sender;
+                CalcVarBase calcVar = (CalcVarBase)sender;
                 //Console.WriteLine("CalcVar \"" + calcVar.Name + "\" was read.");
                 dependencyList.Add(calcVar);
             };
@@ -105,15 +105,20 @@ namespace NinjaCalc.Core {
                 Console.WriteLine("Finding dependencies for CalcVar \"" + pair.Value.Name + "\".");
                 dependencyList.Clear();
 
-                // Invoke the equation, this will fire ReadRawValue events
-                // for all variables it needs, and add to the dependancy list
-                // DO NOT call pair.Value.Calculate() directly!
-                pair.Value.Equation.Invoke();
+                if (pair.Value.Equation != null) {
+                    // Invoke the equation, this will fire ReadRawValue events
+                    // for all variables it needs, and add to the dependancy list
+                    // DO NOT call pair.Value.Calculate() directly!
+                    pair.Value.Equation.Invoke();
 
-                // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
-                for (int j = 0; j < dependencyList.Count; j++) {
-                    Console.WriteLine("\"" + dependencyList[j].Name + "\" is a dependency of \"" + pair.Value.Name + "\".");
-                    dependencyList[j].Dependants.Add(pair.Value);
+                    // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
+                    for (int j = 0; j < dependencyList.Count; j++) {
+                        Console.WriteLine("\"" + dependencyList[j].Name + "\" is a dependency of \"" + pair.Value.Name + "\".");
+                        dependencyList[j].Dependants.Add(pair.Value);
+                    }
+                }
+                else {
+                    Console.WriteLine("Equation was null, so \"" + pair.Value.Name + "\" has no dependancies.");
                 }
 
                 Console.WriteLine("Finished finding dependencies for CalcVar \"" + pair.Value.Name + "\".");
