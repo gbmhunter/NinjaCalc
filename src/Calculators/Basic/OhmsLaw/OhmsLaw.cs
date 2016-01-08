@@ -28,7 +28,7 @@ namespace NinjaCalc {
         public OhmsLawCalculator()
             : base(
             "Ohm's Law",
-            "Ohm's law calculator.",
+            "The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm's law.",
             "pack://application:,,,/Calculators/Basic/OhmsLaw/icon.png",
             new Calculators.OhmsLawView()) {
 

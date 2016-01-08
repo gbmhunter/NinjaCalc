@@ -9,26 +9,27 @@ namespace NinjaCalc.Core {
 
     /// <summary>
     /// A specialisation of a generic CalcVar which is for variables which are always
-    /// an output. Removes the ability to add a input/output radio button, or a default value.
+    /// an input. Removes the ability to add a input/output radio button and provide
+    /// an equation.
     /// </summary>
-    class CalcVarOutput : CalcVarNumerical {
+    class CalcVarNumericalInput : CalcVarNumerical {
 
-        public CalcVarOutput(
+        public CalcVarNumericalInput(
             String name,
             TextBox calcValTextBox,
             ComboBox unitsComboBox,            
-            //Dictionary<string, CalcVar> calcVars, 
-            Func<double> equation,
-            NumberUnit[] units)
+            //Dictionary<string, CalcVar> calcVars,            
+            NumberUnit[] units,
+            double defaultRawValue)
             : base(
             name,
             calcValTextBox,
             unitsComboBox,
             null,
             //calcVars,
-            equation,
+            null,
             units,
-            0.0) {
+            defaultRawValue) {
 
         }
 
