@@ -70,7 +70,9 @@
                         <Label VerticalAlignment="Center">Search:</Label>
                         <TextBox VerticalAlignment="Center" Width="Auto" HorizontalAlignment="Stretch">Test</TextBox>
                     </DockPanel>
-                    <WrapPanel Orientation="Horizontal" Name="calculatorGrid">                        
+                    <!-- THE GRID OF AVAILABLE CALCULATORS -->
+                    <!-- This gets populated at run-time via the code -->
+                    <WrapPanel Orientation="Horizontal" Name="AvailableCalculatorsGrid" local:Core.MarginSetter.Margin="10">
                     </WrapPanel>
                 </StackPanel>
             </Border>

@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace NinjaCalc.Core {
+
+    /// <summary>
+    /// A specialisation of a generic CalcVar which is for variables which are always
+    /// an input. Removes the ability to add a input/output radio button and provide
+    /// an equation.
+    /// </summary>
     class InputCalcVar : CalcVar {
 
         public InputCalcVar(

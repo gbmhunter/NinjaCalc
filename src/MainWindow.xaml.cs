@@ -85,7 +85,7 @@ namespace NinjaCalc {
             // Create a calculator grid element
             CalculatorGridElement calculatorGridElement = new CalculatorGridElement();
             calculatorGridElement.Title.Content = calculator.Name;
-            calculatorGridElement.Description.Content = calculator.Description;
+            calculatorGridElement.Description.Text = calculator.Description;
 
             // Setup the calculator's icon
             BitmapImage logo = new BitmapImage();
@@ -97,7 +97,7 @@ namespace NinjaCalc {
             calculatorGridElement.OpenButtonClicked += HandleOpenCalcButtonClicked;
 
             // Add grid element
-            calculatorGrid.Children.Add(calculatorGridElement);
+            AvailableCalculatorsGrid.Children.Add(calculatorGridElement);
 
         }
 
@@ -156,8 +156,6 @@ namespace NinjaCalc {
         }
 
     } // public partial class MainWindow : Window, INotifyPropertyChanged
-
-
 
 }
 
