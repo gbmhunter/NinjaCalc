@@ -93,8 +93,13 @@ namespace NinjaCalc.Core {
             set;
         }
 
+        //===============================================================================================//
+        //========================================== CONSTRUCTORS =======================================//
+        //===============================================================================================//
+
         /// <summary>
-        /// Constructor. 
+        /// Constructor which accepts a validation function with the associated calculator variables raw value
+        /// as an input. Useful for creating pre-defined, simple validators.
         /// </summary>
         /// <param name="validationFunction">The function which will validate the calculator variable.</param>
         public Validator(Func<double, CalcValidationLevel> validationFunction, string message) {
@@ -104,6 +109,22 @@ namespace NinjaCalc.Core {
             // Save the message internally
             this.Message = message;
         }
+
+        /// <summary>
+        /// Constructor which accepts a validation function with no input arguments. Useful for creating custom validators.
+        /// </summary>
+        /// <param name="validationFunction">The function which will validate the calculator variable.</param>
+        public Validator(Func<CalcValidationLevel> validationFunction, string message) {
+            // Save function internally
+            this.ValidationFunction = (value) => {
+                CalcValidationLevel validationLevel = validationFunction.Invoke();
+                return validationLevel;
+            };
+
+            // Save the message internally
+            this.Message = message;
+        }
+
 
         /// <summary>
         /// Factory function. Returns a validator which will give the provided "desiredValidationResult" if 

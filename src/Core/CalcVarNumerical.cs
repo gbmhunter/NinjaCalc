@@ -365,7 +365,7 @@ namespace NinjaCalc {
             // for example, if it had letters (a2) or was just a negative sign (-).
             try {
                 this.dispVal = Convert.ToDouble(textBox.Text);
-                this.rawVal = this.dispVal / this.selUnit.Multiplier;
+                this.rawVal = this.dispVal * this.selUnit.Multiplier;
             }
             catch (System.FormatException exception) {
                 this.dispVal = Double.NaN;

@@ -64,9 +64,14 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
                 },
                 0.0);
 
-            // Add validators
+            //===== VALIDATORS =====//
             this.TraceCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.TraceCurrent.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.TraceCurrent.AddValidator(
+                new Validator(() => {
+                    return ((this.TraceCurrent.RawVal > 35.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);                                      
+                },
+                "Current is above recommended maximum (35A). Equation will not be as accurate (extrapolation will occur)."));
 
             this.CalcVars.Add(this.TraceCurrent);
 
@@ -84,9 +89,19 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
                 },
                 0.0);
 
-            // Add validators
+            //===== VALIDATORS =====//
             this.TempRise.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.TempRise.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.TempRise.AddValidator(
+                new Validator(() => {
+                    return ((this.TempRise.RawVal < 10.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                "Temperature rise is below the recommended minimum (10C). Equation will not be as accurate (extrapolation will occur)."));
+            this.TempRise.AddValidator(
+                new Validator(() => {
+                    return ((this.TempRise.RawVal > 100.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                "Temperature rise is above the recommended maximum (100C). Equation will not be as accurate (extrapolation will occur)."));
 
             this.CalcVars.Add(this.TempRise);
 
@@ -105,9 +120,19 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
                 },
                 0.0);
 
-            // Add validators
+            //===== VALIDATORS =====//
             this.TrackThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.TrackThickness.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.TrackThickness.AddValidator(
+               new Validator(() => {
+                   return ((this.TrackThickness.RawVal < 17.5e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+               },
+               "Track thickness is below the recommended minimum (17.5um or 0.5oz). Equation will not be as accurate (extrapolation will occur)."));
+            this.TrackThickness.AddValidator(
+                new Validator(() => {
+                    return ((this.TrackThickness.RawVal > 105.0036e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                "Track thickness is above the recommended maximum (105um or 3oz). Equation will not be as accurate (extrapolation will occur)."));
 
             this.CalcVars.Add(this.TrackThickness);
 
@@ -115,7 +140,6 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             //========================================= TRACK LAYER =========================================//
             //===============================================================================================//
 
-            // This is a combobox!!! How do we do this?
             this.TrackLayer = new CalcVarComboBox(
                 "trackLayer",
                 view.TrackLayer,
@@ -134,15 +158,13 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
                 "minTrackWidth",
                 view.MinTrackWidthValue,
                 view.MinTrackWidthUnits,
-                //this.CalcVars,
                 () => {
-                    Console.WriteLine("Equation() called for MinTrackWidth.");
+                    //Console.WriteLine("Equation() called for MinTrackWidth.");
                     var traceCurrent = this.TraceCurrent.RawVal;
                     var tempRise = this.TempRise.RawVal;
                     var trackThickness = this.TrackThickness.RawVal;
                     var trackLayer = this.TrackLayer.RawVal;
-
-                    //var trackLayer = TrackLayer_t.INTERNAL or TrackLayer_t.EXTERNAL
+                    
                     if(trackLayer == "External")     
 			        {
 				        Console.WriteLine("External trace selected.");
@@ -158,10 +180,11 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
                         Console.WriteLine("Cross-sectional area = " + crossSectionalArea.ToString());
 				        double width = (crossSectionalArea/(trackThickness*1000000.0/25.4))*(25.4/1000000.0);
 				        return width;
-			        }
- 
-                    // EQUATION GOES HERE
-                    return 0.0;
+                    }
+                    else {
+                        System.Diagnostics.Debug.Assert(false, "Track layer was invalid (should be either External or Internal).");
+                        return Double.NaN;
+                    }
                 },
                 new NumberUnit[]{
                     new NumberUnit("um", 1e-6),                        
