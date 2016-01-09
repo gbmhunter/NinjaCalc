@@ -4,6 +4,7 @@ v0.3.3
 - Added custom default button style (blue buttons) and added white button style.
 - Improved the appearance of the calculator selection grid.
 - Added grid icon for the IPC2221A Track Current calculator.
+- Added application icon, closes #21.
 
 v0.3.2 
 ------
