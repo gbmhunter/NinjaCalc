@@ -142,6 +142,21 @@ namespace NinjaCalc.Core {
         }
 
         /// <summary>
+        /// Performs validation on every numerical calculator variable, and updates UI accordingly.
+        /// Useful for bringing calculator into a default state.
+        /// </summary>
+        public void ValidateAllVariables() {
+            foreach (var calcVar in this.CalcVars) {
+                // We can only validate numerical calculator variables
+                // (this may change in the future)
+                if (calcVar is CalcVarNumerical) {
+                    var calcVarNumerical = (CalcVarNumerical)calcVar;
+                    calcVarNumerical.Validate();
+                }
+            }
+        }
+
+        /// <summary>
         /// Forces all output variables in the calculator to re-calculate. Useful for bringing the calculator
         /// into a default state once all the variables have been set up correctly.
         /// </summary>

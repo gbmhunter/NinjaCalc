@@ -50,19 +50,16 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             //===============================================================================================//
             //========================================= TRACE CURRENT =======================================//
             //===============================================================================================//
-
-            //! @todo, Move these into the constructor for the base object?
             
            this.TraceCurrent = new CalcVarNumericalInput(
                 "traceCurrent",
                 view.TrackCurrentValue,
-                view.TrackCurrentUnits,                    
-                //this.CalcVars,                    
+                view.TrackCurrentUnits,                                                  
                 new NumberUnit[]{
                     new NumberUnit("mA", 1e-3),
                     new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                 },
-                0.0);
+                null);
 
             //===== VALIDATORS =====//
             this.TraceCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -82,12 +79,11 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             this.TempRise = new CalcVarNumericalInput(
                 "tempRise",
                 view.TempRiseValue,
-                view.TempRiseUnits,                    
-                //this.CalcVars,                    
+                view.TempRiseUnits,                                                
                 new NumberUnit[]{
                     new NumberUnit("C", 1e0, NumberPreference.DEFAULT),                        
                 },
-                0.0);
+                null);
 
             //===== VALIDATORS =====//
             this.TempRise.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -96,12 +92,12 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
                 new Validator(() => {
                     return ((this.TempRise.RawVal < 10.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
                 },
-                "Temperature rise is below the recommended minimum (10C). Equation will not be as accurate (extrapolation will occur)."));
+                "Temperature rise is below the recommended minimum (10°C). Equation will not be as accurate (extrapolation will occur)."));
             this.TempRise.AddValidator(
                 new Validator(() => {
                     return ((this.TempRise.RawVal > 100.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
                 },
-                "Temperature rise is above the recommended maximum (100C). Equation will not be as accurate (extrapolation will occur)."));
+                "Temperature rise is above the recommended maximum (100°C). Equation will not be as accurate (extrapolation will occur)."));
 
             this.CalcVars.Add(this.TempRise);
 
@@ -112,13 +108,12 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             this.TrackThickness = new CalcVarNumericalInput(
                 "trackThickness",
                 view.TrackThicknessValue,
-                view.TrackThicknessUnits,
-                //this.CalcVars,
+                view.TrackThicknessUnits,                
                 new NumberUnit[]{
                     new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),                        
                     new NumberUnit("mm", 1e-3),                        
                 },
-                0.0);
+                null);
 
             //===== VALIDATORS =====//
             this.TrackThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -219,6 +214,7 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
 
             this.FindDependenciesAndDependants();
             this.RecalculateAllOutputs();
+            this.ValidateAllVariables();
             
         }       
     }

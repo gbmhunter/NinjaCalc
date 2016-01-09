@@ -56,8 +56,8 @@ namespace NinjaCalc {
                         new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
                         new NumberUnit("kV", 1e3),
                     },
-                    0.0,
-                    Directions.Input);
+                    Directions.Input,
+                    null);
 
             // Add validators
             this.Voltage.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -88,8 +88,8 @@ namespace NinjaCalc {
                         new NumberUnit("mA", 1e-3),
                         new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                     },
-                    0.0,
-                    Directions.Input);
+                    Directions.Input,
+                    null);
 
             this.Current.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.Current.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
@@ -119,8 +119,8 @@ namespace NinjaCalc {
                         new NumberUnit("MΩ", 1e6),
                         new NumberUnit("GΩ", 1e9),
                     },
-                    0.0,
-                    Directions.Output);
+                    Directions.Output,
+                    null);
 
             //this.Resistance.Direction = Direction_t.Output;
             this.Resistance.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));

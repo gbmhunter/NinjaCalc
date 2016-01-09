@@ -7,6 +7,7 @@ v0.3.2
 - Added correct validators to IPC2221A Track Current calculator, closes #24.
 - Added visual diagram to IPC2221A Track Current calculator, which includes a top PCB layer which disappears if "External" is selected as the track layer.
 - Created a re-usable WPF dimension element, closes #26.
+- Fixed bug where inputs with failing validators where still o.k. (green) on initial calculator start-up, closes #27.
 
 v0.3.1
 ------

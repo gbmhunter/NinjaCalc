@@ -175,24 +175,24 @@ namespace NinjaCalc {
         }
 
         //===============================================================================================//
-        //============================================ METHODS ==========================================//
+        //========================================== CONSTRUCTORS =======================================//
         //===============================================================================================//
 
         /// <summary>
-        /// Constructor.
+        /// Base constructor. Requires all possible arguments.
         /// </summary>
         /// <param name="calcValTextBox">The text box that displays this calculator variables value.</param>
         /// <param name="equation">An expression tree of a function which calculates this variables value from the other variables.</param>
+        /// <param name="defaultRawValue">Default number for raw value to be set to. Can also be set to null, in which case the displayed text will be empty.</param>
         public CalcVarNumerical(
             String name,
             TextBox calcValTextBox,
             ComboBox unitsComboBox,
-            RadioButton ioRadioButton,
-            //Dictionary<string, CalcVar> calcVars,
+            RadioButton ioRadioButton,            
             Func<double> equation,
-            NumberUnit[] units,
-            double defaultRawValue,
-            Directions defaultDirection) : base(name, equation) {
+            NumberUnit[] units,            
+            Directions defaultDirection,
+            System.Nullable<double> defaultRawValue) : base(name, equation) {
 
             this.calcValTextBox = calcValTextBox;            
             // The next line sets the delay before the tooltip is shown for the textboxes.
@@ -249,10 +249,18 @@ namespace NinjaCalc {
             }
 
             // Assign the default raw value
-            this.rawVal = defaultRawValue;
-            this.dispVal = this.rawVal * this.selUnit.Multiplier;
-            this.calcValTextBox.Text = this.dispVal.ToString();
-            //this.calcValTextBox.Text = this.rawVal.ToString();
+            if (defaultRawValue.HasValue) {
+                this.rawVal = defaultRawValue.Value;
+                this.dispVal = this.rawVal * this.selUnit.Multiplier;
+                this.calcValTextBox.Text = this.dispVal.ToString();
+            }
+            else {
+                // Provided default value was null, so lets make
+                // the textbox empty
+                this.rawVal = Double.NaN;
+                this.dispVal = Double.NaN;
+                this.calcValTextBox.Text = "";
+            }           
 
             // Install event handlers
             this.RawValueChanged += (sender, EventArgs) => {
@@ -264,6 +272,10 @@ namespace NinjaCalc {
             
 
         }
+
+        //===============================================================================================//
+        //============================================ METHODS ==========================================//
+        //===============================================================================================//
 
         /// <summary>
         /// This should only be called for output variables.
@@ -308,7 +320,7 @@ namespace NinjaCalc {
         /// <summary>
         /// Call this to perform validation on this calculator variable. Will run all validators
         /// that have been added through calling AddValidator(), and populate ValidationResults with the
-        /// results.
+        /// results. Also updates UI based on these results.
         /// </summary>
         public void Validate() {
             Console.WriteLine("Validate() called from \"" + this.Name + "\" with this.RawVal = \"" + this.RawVal.ToString() + "\".");
