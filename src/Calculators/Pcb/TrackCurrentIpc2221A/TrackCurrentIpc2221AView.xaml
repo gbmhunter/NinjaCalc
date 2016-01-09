@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local_core_view="clr-namespace:NinjaCalc.Core.View"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="700"
              HorizontalAlignment="Center"
@@ -27,6 +28,10 @@
                 <SolidColorBrush Color="Orange" Opacity="0.4"/>
             </Polygon.Fill>
         </Polygon>
+        <Grid Width="30" Height="30" HorizontalAlignment="Center" Canvas.Left="-77" Canvas.Top="-43">
+            <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="2" />
+            <Ellipse Width="10" Height="10" Stroke="Black" StrokeThickness="2" Fill="Black" />
+        </Grid>
         <Polygon
             x:Name="TopPcb"
             Points="-100,50 320,50 320,120 -100,120"
@@ -38,27 +43,7 @@
         </Polygon>
 
         <Canvas Width="222" Height="20" Canvas.Left="-104" Canvas.Top="113">
-            <Line
-            X1="0" Y1="0" X2="220" Y2="0"
-            Stroke="Black"
-            StrokeThickness="3">
-            </Line>
-            <Line
-                X1="0" Y1="0" X2="10" Y2="-10"
-                Stroke="Black"
-                StrokeThickness="3"/>
-            <Line
-                X1="0" Y1="0" X2="10" Y2="10"
-                Stroke="Black"
-                StrokeThickness="3"/>
-            <Line
-                X1="220" Y1="0" X2="210" Y2="-10"
-                Stroke="Black"
-                StrokeThickness="3"/>
-            <Line
-                X1="220" Y1="0" X2="210" Y2="10"
-                Stroke="Black"
-                StrokeThickness="3"/>
+            <local_core_view:Dimension Length="200" />
         </Canvas>
 
         <Canvas Height="53" Canvas.Left="-361" Canvas.Top="-64" Width="142">
@@ -73,10 +58,15 @@
             <Image Source="temperature-icon.jpg" Height="64" Width="87" Canvas.Left="-23"/>
         </Canvas>
 
-        <Canvas Height="74" Canvas.Left="261" Canvas.Top="-64" Width="143">
-            <Label FontSize="16" Content="Track Thickness"/>
-            <TextBox x:Name="TrackThicknessValue" Width="100" BorderThickness="3" Canvas.Top="36"/>
-            <ComboBox x:Name="TrackThicknessUnits" Canvas.Left="105" Canvas.Top="36"/>
+        <Canvas Height="102" Canvas.Left="223" Canvas.Top="-80" Width="180">
+            <local_core_view:Dimension Length="45" Canvas.Left="19" Canvas.Top="30">
+                <local_core_view:Dimension.LayoutTransform>
+                    <RotateTransform Angle="90"/>
+                </local_core_view:Dimension.LayoutTransform>
+            </local_core_view:Dimension>
+            <Label FontSize="16" Content="Track Thickness" Canvas.Left="36" Canvas.Top="21"/>
+            <TextBox x:Name="TrackThicknessValue" Width="100" BorderThickness="3" Canvas.Top="57" Canvas.Left="36"/>
+            <ComboBox x:Name="TrackThicknessUnits" Canvas.Left="141" Canvas.Top="57"/>
         </Canvas>
 
         <ComboBox x:Name="TrackLayer" Width="100" Canvas.Left="123" Canvas.Top="-208" />
@@ -86,5 +76,13 @@
             <TextBox x:Name="MinTrackWidthValue" Width="100" BorderThickness="3" Canvas.Left="9" Canvas.Top="36"/>
             <ComboBox x:Name="MinTrackWidthUnits" Canvas.Top="36" Canvas.Left="130"/>
         </Canvas>
+        <Grid Width="30" Height="30" HorizontalAlignment="Center" Canvas.Left="-8" Canvas.Top="-43">
+            <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="2" />
+            <Ellipse Width="10" Height="10" Stroke="Black" StrokeThickness="2" Fill="Black" />
+        </Grid>
+        <Grid Width="30" Height="30" HorizontalAlignment="Center" Canvas.Left="61" Canvas.Top="-43">
+            <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="2" />
+            <Ellipse Width="10" Height="10" Stroke="Black" StrokeThickness="2" Fill="Black" />
+        </Grid>
     </Canvas>
 </UserControl>
