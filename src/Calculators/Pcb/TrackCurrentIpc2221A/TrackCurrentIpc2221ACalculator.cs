@@ -37,11 +37,15 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             set;
         }
 
+        //===============================================================================================//
+        //========================================== CONSTRUCTORS =======================================//
+        //===============================================================================================//
+
         public TrackCurrentIpc2221ACalculator()
             : base(
             "Track Current (IPC-2221A)",
-            "PCB track current carrying capability calculator, using IPC-2221A.",
-            "pack://application:,,,/Calculators/Basic/OhmsLaw/icon.png",
+            "PCB track current carrying capability calculator, using the IPC-2221A standard.",
+            "pack://application:,,,/Calculators/Pcb/TrackCurrentIpc2221A/grid-icon.png",
             new TrackCurrentIpc2221AView()) {
 
             // Re-cast the view so we can access it's unique properties
