@@ -95,6 +95,7 @@
     <Compile Include="Core\CalcVarNumericalInput.cs" />
     <Compile Include="Core\NumberUnit.cs" />
     <Compile Include="Core\Validator.cs" />
+    <Compile Include="Core\View\ClippingBorder.cs" />
     <Compile Include="Core\View\Dimension.xaml.cs">
       <DependentUpon>Dimension.xaml</DependentUpon>
     </Compile>

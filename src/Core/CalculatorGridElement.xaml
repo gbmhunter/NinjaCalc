@@ -3,19 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local_core_view="clr-namespace:NinjaCalc.Core.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="250">
     <Grid Width="250" Height="300">
-        <Border BorderThickness="2" BorderBrush="Gray">
-            <StackPanel Margin="10">
-                <Image Name="IconImage" Width="200" Height="100" Source="/NinjaCalc;component/Calculators/Basic/OhmsLaw/icon.png"></Image>
-                <Label Name="Title" FontSize="20">Calculator Title</Label>
-                <TextBlock Name="Description" FontStyle="Italic" TextWrapping="Wrap" Height="100">This is a description of the calculator.</TextBlock>
-                <DockPanel HorizontalAlignment="Right">
-                    <Button Name="ButtonOpen" Width="60" Height="30">Open</Button>
-                </DockPanel>
-            </StackPanel>
-        </Border>
+        <local_core_view:ClippingBorder
+            BorderBrush="Gray"
+            BorderThickness="1"
+            CornerRadius="10">
+            <local_core_view:ClippingBorder.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="6" Opacity="0.8" />
+            </local_core_view:ClippingBorder.Effect>
+            <Rectangle Fill="White" />
+        </local_core_view:ClippingBorder>
+
+     
+            
+        <StackPanel Margin="10">
+            <Image Name="IconImage" Width="200" Height="100" Source="/NinjaCalc;component/Calculators/Basic/OhmsLaw/icon.png"></Image>
+            <Label Name="Title" FontSize="20">Calculator Title</Label>
+            <TextBlock Name="Description" FontStyle="Italic" TextWrapping="Wrap" Height="100">This is a description of the calculator.</TextBlock>
+            <DockPanel HorizontalAlignment="Right">
+                <Button Name="ButtonOpen" Width="60" Height="30">Open</Button>
+            </DockPanel>
+        </StackPanel>
+   
         
     </Grid>
 </UserControl>

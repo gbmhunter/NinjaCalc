@@ -9,6 +9,7 @@ v0.3.2
 - Created a re-usable WPF dimension element, closes #26.
 - Fixed bug where inputs with failing validators where still o.k. (green) on initial calculator start-up, closes #27.
 - Output textbox-style calculator variables no longer gray when disabled, and border gets removed (to make it obvious they are outputs).
+- Added drop shadow to calculator grid elements, closes #28.
 
 v0.3.1
 ------
