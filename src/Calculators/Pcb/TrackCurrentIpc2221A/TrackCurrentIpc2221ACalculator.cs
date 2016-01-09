@@ -211,7 +211,6 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             //============================================== FINAL ==========================================//
             //===============================================================================================//
 
-
             this.FindDependenciesAndDependants();
             this.RecalculateAllOutputs();
             this.ValidateAllVariables();

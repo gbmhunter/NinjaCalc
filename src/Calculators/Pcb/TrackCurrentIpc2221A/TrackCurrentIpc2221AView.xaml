@@ -73,7 +73,7 @@
         <Label Content="Track Layer" FontSize="16" Canvas.Left="115" Canvas.Top="-244"/>
         <Canvas Height="58" Canvas.Left="-77" Canvas.Top="113" Width="158">
             <Label Content="Min. Track Width" FontSize="16" Canvas.Left="18" Canvas.Top="5"/>
-            <TextBox x:Name="MinTrackWidthValue" Width="100" BorderThickness="3" Canvas.Left="9" Canvas.Top="36"/>
+            <TextBox x:Name="MinTrackWidthValue" Width="100" Height="21" BorderThickness="0" Canvas.Left="9" Canvas.Top="36"/>
             <ComboBox x:Name="MinTrackWidthUnits" Canvas.Top="36" Canvas.Left="130"/>
         </Canvas>
         <Grid Width="30" Height="30" HorizontalAlignment="Center" Canvas.Left="-8" Canvas.Top="-43">

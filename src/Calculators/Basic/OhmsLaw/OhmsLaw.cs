@@ -121,17 +121,19 @@ namespace NinjaCalc {
                     },
                     Directions.Output,
                     null);
-
-            //this.Resistance.Direction = Direction_t.Output;
+            
             this.Resistance.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.Resistance.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
             this.CalcVars.Add(this.Resistance);
 
-            this.FindDependenciesAndDependants();
+            //===============================================================================================//
+            //============================================== FINAL ==========================================//
+            //===============================================================================================//
 
-            // Bring the calculator into a default, stable state
+            this.FindDependenciesAndDependants();
             this.RecalculateAllOutputs();
+            this.ValidateAllVariables();
 
         }
     }

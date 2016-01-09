@@ -102,7 +102,10 @@ namespace NinjaCalc {
                     // If this calc variable is being set as an output,
                     // we need to disable the input text box, check the radio button,
                     // and remove the event handler
-                    this.calcValTextBox.IsEnabled = false;
+                    //this.calcValTextBox.IsEnabled = false;
+                    this.calcValTextBox.IsReadOnly = true;
+                    this.calcValTextBox.BorderThickness = new System.Windows.Thickness(0);
+
                     this.calcValTextBox.TextChanged -= this.TextBoxChanged;
                     if (this.ioRadioButton != null) {
                         this.ioRadioButton.IsChecked = true;
@@ -110,7 +113,10 @@ namespace NinjaCalc {
 
                 }
                 else if (value == Directions.Input) {
-                    this.calcValTextBox.IsEnabled = true;
+                    //this.calcValTextBox.IsEnabled = true;
+                    this.calcValTextBox.IsReadOnly = false;
+                    this.calcValTextBox.BorderThickness = new System.Windows.Thickness(3);
+
                     this.calcValTextBox.TextChanged += this.TextBoxChanged;
                     if (this.ioRadioButton != null) {
                         this.ioRadioButton.IsChecked = false;
