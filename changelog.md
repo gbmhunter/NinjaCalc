@@ -1,3 +1,9 @@
+v0.3.3
+------
+
+- Added custom default button style (blue buttons) and added white button style.
+- Tweaked appearance of the calculator selection grid.
+
 v0.3.2 
 ------
 

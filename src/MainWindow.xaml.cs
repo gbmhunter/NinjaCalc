@@ -86,7 +86,7 @@ namespace NinjaCalc {
 
             // Create a calculator grid element
             CalculatorGridElement calculatorGridElement = new CalculatorGridElement();
-            calculatorGridElement.Title.Content = calculator.Name;
+            calculatorGridElement.Title.Text = calculator.Name;
             calculatorGridElement.Description.Text = calculator.Description;
 
             // Setup the calculator's icon
@@ -117,7 +117,7 @@ namespace NinjaCalc {
             Console.WriteLine("Open was clicked on the \"" + calculatorGridElement.Title + "\" calculator grid element.");
 
             // Find calculator associated with the grid element
-            Calculator foundCalc = this.calculatorTemplates.Find(x => x.Name == (string)calculatorGridElement.Title.Content);
+            Calculator foundCalc = this.calculatorTemplates.Find(x => x.Name == (string)calculatorGridElement.Title.Text);
             Console.WriteLine("Found calculator \"" + foundCalc.Name + "\" using the calculator grid element.");
 
             // We need to make a new calculator object here. Just adding foundCalc would result in all instances of the same calculator
@@ -132,7 +132,7 @@ namespace NinjaCalc {
 
             // Create a new tab
             var tabItem = new TabItem();
-            tabItem.Header = calculatorGridElement.Title.Content;
+            tabItem.Header = calculatorGridElement.Title.Text;
 
             // Fill in the tab with the content from the found calculator. The View() method should return a base UI element
             // to fill in the tab (it will have many children)

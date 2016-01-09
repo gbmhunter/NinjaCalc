@@ -8,11 +8,12 @@
              d:DesignHeight="300" d:DesignWidth="250">
     <Grid Width="250" Height="300">
         <local_core_view:ClippingBorder
-            BorderBrush="Gray"
+            BorderBrush="Silver"
             BorderThickness="1"
-            CornerRadius="10">
+            CornerRadius="5">
             <local_core_view:ClippingBorder.Effect>
-                <DropShadowEffect BlurRadius="10" ShadowDepth="6" Opacity="0.8" />
+                <!-- We want the shadow effect to appear equally on all four sides, so the ShadowDepth must = 0. -->
+                <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.5" />
             </local_core_view:ClippingBorder.Effect>
             <Rectangle Fill="White" />
         </local_core_view:ClippingBorder>
@@ -21,7 +22,7 @@
             
         <StackPanel Margin="10">
             <Image Name="IconImage" Width="200" Height="100" Source="/NinjaCalc;component/Calculators/Basic/OhmsLaw/icon.png"></Image>
-            <Label Name="Title" FontSize="20">Calculator Title</Label>
+            <TextBlock Name="Title" FontSize="20" TextWrapping="Wrap">Calculator Title</TextBlock>
             <TextBlock Name="Description" FontStyle="Italic" TextWrapping="Wrap" Height="100">This is a description of the calculator.</TextBlock>
             <DockPanel HorizontalAlignment="Right">
                 <Button Name="ButtonOpen" Width="60" Height="30">Open</Button>
