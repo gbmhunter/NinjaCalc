@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 
-namespace NinjaCalc.Core {
+namespace NinjaCalc.Core.View {
 
     /// <summary>
     /// Used to set the margins for a child elements of a WPF panel object, in XAML.

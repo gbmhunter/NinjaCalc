@@ -14,25 +14,31 @@ namespace NinjaCalc.Core {
     /// </summary>
     class CalcVarNumericalInput : CalcVarNumerical {
 
+        /// <summary>
+        /// Base constructor, which requires all possible arguments.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="calcValTextBox"></param>
+        /// <param name="unitsComboBox"></param>
+        /// <param name="units"></param>
+        /// <param name="defaultRawValue"></param>
         public CalcVarNumericalInput(
             String name,
             TextBox calcValTextBox,
-            ComboBox unitsComboBox,            
-            //Dictionary<string, CalcVar> calcVars,            
+            ComboBox unitsComboBox,                                    
             NumberUnit[] units,
-            double defaultRawValue)
+            System.Nullable<double> defaultRawValue)
             : base(
             name,
             calcValTextBox,
             unitsComboBox,
+            null,            
             null,
-            //calcVars,
-            null,
-            units,
-            defaultRawValue,
-            Direction_t.Input) {
+            units,            
+            Directions.Input,
+            defaultRawValue) {
 
-        }
+        }      
 
     }
 }

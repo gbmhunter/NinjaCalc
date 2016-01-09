@@ -28,9 +28,9 @@ namespace NinjaCalc.Core {
             //calcVars,
             equation,
             units,
-            0.0,
             // This is always going to be an output!
-            Direction_t.Output) {
+            Directions.Output,
+            0.0) {
 
         }
 

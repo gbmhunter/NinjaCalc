@@ -18,7 +18,11 @@ namespace NinjaCalc.Core {
                 return this.rawVal;
             }
             set {
-                this.rawVal = value;
+                // Only change if different
+                if (this.rawVal != value) {
+                    this.rawVal = value;
+                    this.OnRawValueChanged(EventArgs.Empty);
+                }
             }
         }
 
@@ -62,10 +66,11 @@ namespace NinjaCalc.Core {
             ComboBox calculatorComboBox = (ComboBox)sender;
             Console.WriteLine("ComboBoxChanged() called. Selected item is now = \"" + (string)calculatorComboBox.SelectedItem + "\".");            
 
-            // Set the raw value
+            // Set the raw value, this will raise the RawValueChanged event.
             this.RawVal = (string)calculatorComboBox.SelectedItem;
 
             // We need to notify all dependants
+            // Should these be listening to the RawValueChanged event instead???
             this.ForceDependantOutputsToRecalculate();
         }
 

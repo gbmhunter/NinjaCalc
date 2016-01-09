@@ -1,3 +1,16 @@
+v0.3.2 
+------
+
+- Improved unit tests for Ohm's Law calculator.
+- Converted CalcVars object from Dictionary to List, closes #23.
+- Removed input variable to validator function, #25.
+- Added correct validators to IPC2221A Track Current calculator, closes #24.
+- Added visual diagram to IPC2221A Track Current calculator, which includes a top PCB layer which disappears if "External" is selected as the track layer.
+- Created a re-usable WPF dimension element, closes #26.
+- Fixed bug where inputs with failing validators where still o.k. (green) on initial calculator start-up, closes #27.
+- Output textbox-style calculator variables no longer gray when disabled, and border gets removed (to make it obvious they are outputs).
+- Added drop shadow to calculator grid elements, closes #28.
+
 v0.3.1
 ------
 

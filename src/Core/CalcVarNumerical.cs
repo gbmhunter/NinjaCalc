@@ -15,7 +15,10 @@ using NinjaCalc.Core;
 
 namespace NinjaCalc {
 
-    public enum Direction_t {
+    /// <summary>
+    /// The possible directions are numerical calculator variable can be.
+    /// </summary>
+    public enum Directions {
         Input,
         Output
     }
@@ -29,10 +32,13 @@ namespace NinjaCalc {
         //==================================== VARIABLES AND PROPERTIES =================================//
         //===============================================================================================//
 
+        //============================================= RAW VAL =========================================//
+
         protected double rawVal;
 
         /// <summary>
-        /// Holds the "raw" (unscaled, unrounded) value for this variable.
+        /// Gets or sets the the "raw" (unscaled, unrounded) value for this variable. Setting will cause the displayed value, textbox, and all
+        /// dependant variables to update.
         /// </summary>
         public double RawVal {
             get {
@@ -42,12 +48,29 @@ namespace NinjaCalc {
             }
 
             set {
-                this.rawVal = value;                
-                if (!this.DisableUpdate) {
-                    this.calcValTextBox.Text = this.rawVal.ToString();
+                // Only set if new value is different from current
+                if (this.rawVal != value) {
+                    this.rawVal = value;
+                    // Fire the RawValueChanged event handler
+                    this.OnRawValueChanged(EventArgs.Empty);
                 }
             }
         }
+
+        private event EventHandler RawValueChanged;
+
+        /// <summary>
+        /// Fires the RawValueChanged event handler (as long as it's not null).
+        /// </summary>
+        /// <param name="e">The event arguments you wish to provide to listening methods.</param>
+        public virtual void OnRawValueChanged(EventArgs e) {
+            EventHandler handler = RawValueChanged;
+            if (handler != null) {
+                handler(this, e);
+            }
+        }
+
+        //============================================ DISP VAL =========================================//
 
         private double dispVal;
         public double DispVal {
@@ -67,27 +90,33 @@ namespace NinjaCalc {
 
         //private Dictionary<string, CalcVar> calcVars;
 
-        private Direction_t direction;
+        private Directions direction;
 
-        public override Direction_t Direction {
+        public override Directions Direction {
             get {
                 return this.direction;
             }
             set {
                 this.direction = value;
-                if (value == Direction_t.Output) {
+                if (value == Directions.Output) {
                     // If this calc variable is being set as an output,
                     // we need to disable the input text box, check the radio button,
                     // and remove the event handler
-                    this.calcValTextBox.IsEnabled = false;
+                    //this.calcValTextBox.IsEnabled = false;
+                    this.calcValTextBox.IsReadOnly = true;
+                    this.calcValTextBox.BorderThickness = new System.Windows.Thickness(0);
+
                     this.calcValTextBox.TextChanged -= this.TextBoxChanged;
                     if (this.ioRadioButton != null) {
                         this.ioRadioButton.IsChecked = true;
                     }
 
                 }
-                else if (value == Direction_t.Input) {
-                    this.calcValTextBox.IsEnabled = true;
+                else if (value == Directions.Input) {
+                    //this.calcValTextBox.IsEnabled = true;
+                    this.calcValTextBox.IsReadOnly = false;
+                    this.calcValTextBox.BorderThickness = new System.Windows.Thickness(3);
+
                     this.calcValTextBox.TextChanged += this.TextBoxChanged;
                     if (this.ioRadioButton != null) {
                         this.ioRadioButton.IsChecked = false;
@@ -152,24 +181,24 @@ namespace NinjaCalc {
         }
 
         //===============================================================================================//
-        //============================================ METHODS ==========================================//
+        //========================================== CONSTRUCTORS =======================================//
         //===============================================================================================//
 
         /// <summary>
-        /// Constructor.
+        /// Base constructor. Requires all possible arguments.
         /// </summary>
         /// <param name="calcValTextBox">The text box that displays this calculator variables value.</param>
         /// <param name="equation">An expression tree of a function which calculates this variables value from the other variables.</param>
+        /// <param name="defaultRawValue">Default number for raw value to be set to. Can also be set to null, in which case the displayed text will be empty.</param>
         public CalcVarNumerical(
             String name,
             TextBox calcValTextBox,
             ComboBox unitsComboBox,
-            RadioButton ioRadioButton,
-            //Dictionary<string, CalcVar> calcVars,
+            RadioButton ioRadioButton,            
             Func<double> equation,
-            NumberUnit[] units,
-            double defaultRawValue,
-            Direction_t defaultDirection) : base(name, equation) {
+            NumberUnit[] units,            
+            Directions defaultDirection,
+            System.Nullable<double> defaultRawValue) : base(name, equation) {
 
             this.calcValTextBox = calcValTextBox;            
             // The next line sets the delay before the tooltip is shown for the textboxes.
@@ -226,21 +255,40 @@ namespace NinjaCalc {
             }
 
             // Assign the default raw value
-            this.rawVal = defaultRawValue;
-            this.dispVal = this.rawVal * this.selUnit.Multiplier;
-            this.calcValTextBox.Text = this.dispVal.ToString();
-            //this.calcValTextBox.Text = this.rawVal.ToString();
+            if (defaultRawValue.HasValue) {
+                this.rawVal = defaultRawValue.Value;
+                this.dispVal = this.rawVal * this.selUnit.Multiplier;
+                this.calcValTextBox.Text = this.dispVal.ToString();
+            }
+            else {
+                // Provided default value was null, so lets make
+                // the textbox empty
+                this.rawVal = Double.NaN;
+                this.dispVal = Double.NaN;
+                this.calcValTextBox.Text = "";
+            }           
 
+            // Install event handlers
+            this.RawValueChanged += (sender, EventArgs) => {
+                // Update displayed value
+                this.dispVal = this.rawVal * this.selUnit.Multiplier;
+                // Update textbox
+                this.calcValTextBox.Text = this.dispVal.ToString();
+            };
             
 
         }
+
+        //===============================================================================================//
+        //============================================ METHODS ==========================================//
+        //===============================================================================================//
 
         /// <summary>
         /// This should only be called for output variables.
         /// </summary>
         public override void Calculate() {
             // Make sure this event only fires when this calculator variable is an output!
-            Debug.Assert(this.Direction == Direction_t.Output);
+            Debug.Assert(this.Direction == Directions.Output);
 
             Console.WriteLine("CalcVar.Calculate() called for \"" + this.Name + "\".");
 
@@ -259,10 +307,10 @@ namespace NinjaCalc {
             Console.WriteLine("RadioButtonChanged() event called for \"" + radioButton.Name + "\".");
 
             if (radioButton.IsChecked == true) {
-                this.Direction = Direction_t.Output;
+                this.Direction = Directions.Output;
             }
             else {
-                this.Direction = Direction_t.Input;
+                this.Direction = Directions.Input;
             }
 
         }
@@ -278,7 +326,7 @@ namespace NinjaCalc {
         /// <summary>
         /// Call this to perform validation on this calculator variable. Will run all validators
         /// that have been added through calling AddValidator(), and populate ValidationResults with the
-        /// results.
+        /// results. Also updates UI based on these results.
         /// </summary>
         public void Validate() {
             Console.WriteLine("Validate() called from \"" + this.Name + "\" with this.RawVal = \"" + this.RawVal.ToString() + "\".");
@@ -324,7 +372,7 @@ namespace NinjaCalc {
         /// <param name="e"></param>
         public void TextBoxChanged(object sender, EventArgs e) {
             // Make sure this event only fires when this variable is an input!
-            Debug.Assert(this.Direction == Direction_t.Input);
+            Debug.Assert(this.Direction == Directions.Input);
 
             TextBox textBox = (TextBox)sender;
             Console.WriteLine("TextBox \"" + textBox.Name + "\" changed. Text now equals = \"" + textBox.Text + "\".");
@@ -335,7 +383,7 @@ namespace NinjaCalc {
             // for example, if it had letters (a2) or was just a negative sign (-).
             try {
                 this.dispVal = Convert.ToDouble(textBox.Text);
-                this.rawVal = this.dispVal / this.selUnit.Multiplier;
+                this.rawVal = this.dispVal * this.selUnit.Multiplier;
             }
             catch (System.FormatException exception) {
                 this.dispVal = Double.NaN;
@@ -346,7 +394,7 @@ namespace NinjaCalc {
 
             // We need to re-calculate any this calculator variables dependants, if they are outputs
             for (int i = 0; i < this.Dependants.Count; i++) {
-                if (this.Dependants[i].Direction == Direction_t.Output) {
+                if (this.Dependants[i].Direction == Directions.Output) {
                     this.Dependants[i].Calculate();
                 }
             }
@@ -364,7 +412,7 @@ namespace NinjaCalc {
 
             // If the variable is an input, we need to adjust the raw value, if the
             // variable is an output, we need to adjust the displayed value
-            if (this.Direction == Direction_t.Input) {
+            if (this.Direction == Directions.Input) {
                 this.rawVal = this.DispVal * this.selUnit.Multiplier;
                 Console.WriteLine("rawVal re-scaled to \"" + this.rawVal.ToString() + "\".");
                 // We also need to force a recalculation of any dependants (which are also outputs)
@@ -372,7 +420,7 @@ namespace NinjaCalc {
                 this.ForceDependantOutputsToRecalculate();
 
             }
-            else if(this.Direction == Direction_t.Output) {
+            else if(this.Direction == Directions.Output) {
                 // Recalculate dispVal and update textbox
                 this.dispVal = this.rawVal / this.selUnit.Multiplier;
                 this.calcValTextBox.Text = this.dispVal.ToString();
