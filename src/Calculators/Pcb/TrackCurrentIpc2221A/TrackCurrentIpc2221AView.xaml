@@ -28,7 +28,7 @@
             </Polygon.Fill>
         </Polygon>
         <Polygon
-            Name="TopPcb"
+            x:Name="TopPcb"
             Points="-100,50 320,50 320,120 -100,120"
             Stroke="Black"
             StrokeThickness="3" Canvas.Left="-104" Canvas.Top="-173">

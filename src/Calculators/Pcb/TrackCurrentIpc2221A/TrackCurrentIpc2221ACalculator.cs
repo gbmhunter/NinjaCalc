@@ -201,7 +201,16 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             //=========================================== VIEW CONFIG =======================================//
             //===============================================================================================//
 
-            //this.TrackLayer.
+            // Setup the top PCB layer to dissappear if "External" is selected for the track layer,
+            // and visible if "Internal" is selected.
+            this.TrackLayer.RawValueChanged += (sender, e) => {
+                if (this.TrackLayer.RawVal == "Internal") {
+                    view.TopPcb.Visibility = System.Windows.Visibility.Visible;
+                }
+                else if (this.TrackLayer.RawVal == "External") {
+                    view.TopPcb.Visibility = System.Windows.Visibility.Collapsed;
+                }
+            };
 
 
             this.FindDependenciesAndDependants();

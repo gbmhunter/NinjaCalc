@@ -25,6 +25,19 @@ namespace NinjaCalc.Core {
         }
 
         /// <summary>
+        /// Use this to subscribe to the calculator variables "raw" value changing.
+        /// </summary>
+        public event EventHandler RawValueChanged;
+
+        protected virtual void OnRawValueChanged(EventArgs e) {
+            EventHandler handler = RawValueChanged;
+            if (handler != null) {
+                handler(this, e);
+            }
+        }
+
+
+        /// <summary>
         /// Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
         /// but rather once all calculator variables and their equations have been added to the calculator.
         /// </summary>
