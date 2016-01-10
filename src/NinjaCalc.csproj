@@ -164,7 +164,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Calculators\Basic\OhmsLaw\icon.png" />
-    <Resource Include="Calculators\Basic\OhmsLaw\ohms-law-diagram.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\menu-stack-hamburger-128x118.png" />
@@ -200,6 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Calculators\Basic\ResistorDivider\grid-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Calculators\Basic\OhmsLaw\diagram.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
