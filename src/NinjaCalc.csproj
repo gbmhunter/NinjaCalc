@@ -71,6 +71,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Calculators\Basic\ResistorDivider\ResistorDividerCalcView.xaml.cs">
+      <DependentUpon>ResistorDividerCalcView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Calculators\Basic\ResistorDivider\ResistorDividerCalc.cs" />
     <Compile Include="Calculators\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221ACalculator.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,6 +89,10 @@
     <Page Include="Calculators\Basic\OhmsLaw\OhmsLawView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Calculators\Basic\ResistorDivider\ResistorDividerCalcView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Calculators\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221AView.xaml">
       <SubType>Designer</SubType>
@@ -186,6 +194,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Calculators\Basic\ResistorDivider\diagram.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -52,7 +52,7 @@ namespace NinjaCalc.Calculators.Basic.ResistorDivider {
             ResistorDividerCalcView view = (ResistorDividerCalcView)this.View;
 
             //===============================================================================================//
-            //========================================= TRACE CURRENT =======================================//
+            //================================================= Vin =========================================//
             //===============================================================================================//
 
             this.Vin = new CalcVarNumerical(
@@ -61,9 +61,11 @@ namespace NinjaCalc.Calculators.Basic.ResistorDivider {
                     view.VinUnits,
                     view.VinRadioButton,                
                     () => {
-                        var current = this.Current.RawVal;
-                        var resistance = this.Resistance.RawVal;
-                        return current * resistance;
+                        var vOut = this.Vout.RawVal;
+                        var rTop = this.Rtop.RawVal;
+                        var rBot = this.Rbot.RawVal;
+
+                        return ((vOut * (rTop + rBot)) / rBot);                        
                     },
                     new NumberUnit[]{
                         new NumberUnit("mV", 1e-3),
@@ -79,7 +81,99 @@ namespace NinjaCalc.Calculators.Basic.ResistorDivider {
 
             this.CalcVars.Add(this.Vin);
 
-          
+            //===============================================================================================//
+            //=============================================== Rtop ==========================================//
+            //===============================================================================================//
+
+            this.Rtop = new CalcVarNumerical(
+                    "rTop",
+                    view.RtopValue,
+                    view.RtopUnits,
+                    view.RtopRadioButton,
+                    () => {
+                        var vIn = this.Vin.RawVal;
+                        var rBot = this.Rbot.RawVal;
+                        var vOut = this.Vout.RawVal;                                                
+
+                        return ((rBot * (vIn - vOut)) / vOut);
+                    },
+                    new NumberUnit[]{
+                        new NumberUnit("mΩ", 1e-3),
+                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                        new NumberUnit("kΩ", 1e3),
+                        new NumberUnit("MΩ", 1e6),
+                        new NumberUnit("GΩ", 1e9),
+                    },
+                    Directions.Input,
+                    null);
+
+            // Add validators
+            this.Rtop.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.Rtop.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(this.Rtop);
+
+            //===============================================================================================//
+            //=============================================== Rbot ==========================================//
+            //===============================================================================================//
+
+            this.Rbot = new CalcVarNumerical(
+                    "rBot",
+                    view.RbotValue,
+                    view.RbotUnits,
+                    view.RbotRadioButton,
+                    () => {
+                        var vIn = this.Vin.RawVal;
+                        var rTop = this.Rtop.RawVal;
+                        var vOut = this.Vout.RawVal;
+
+                        return ((rTop * vOut) / (vIn - vOut));
+                    },
+                    new NumberUnit[]{
+                        new NumberUnit("mΩ", 1e-3),
+                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                        new NumberUnit("kΩ", 1e3),
+                        new NumberUnit("MΩ", 1e6),
+                        new NumberUnit("GΩ", 1e9),
+                    },
+                    Directions.Input,
+                    null);
+
+            // Add validators
+            this.Rbot.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.Rbot.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(this.Rbot);
+
+            //===============================================================================================//
+            //================================================= Vout =========================================//
+            //===============================================================================================//
+
+            this.Vout = new CalcVarNumerical(
+                    "vOut",
+                    view.VoutValue,
+                    view.VoutUnits,
+                    view.VoutRadioButton,
+                    () => {
+                        var vIn = this.Vin.RawVal;
+                        var rTop = this.Rtop.RawVal;
+                        var rBot = this.Rbot.RawVal;
+
+                        return ((vIn * rBot) / (rTop + rBot));
+                    },
+                    new NumberUnit[]{
+                        new NumberUnit("mV", 1e-3),
+                        new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
+                        new NumberUnit("kV", 1e3),
+                    },
+                    Directions.Output,
+                    null);
+
+            // Add validators
+            this.Vout.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.Vout.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(this.Vout);
 
             //===============================================================================================//
             //============================================== FINAL ==========================================//
