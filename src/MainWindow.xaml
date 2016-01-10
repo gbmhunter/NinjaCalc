@@ -19,6 +19,7 @@
                     <Label HorizontalAlignment="Center" Padding="20" FontSize="20" Margin="0" FontFamily="Nirmala UI">No calculator is open. Do you want to create one?</Label>
                     <Button Name="buttonNewCalc" Width="150" Height="40">New Calculator</Button>
                 </StackPanel>
+                <!-- THE TAB CONTROL THAT DISPLAYS OPEN CALCULATORS (empty and hidden on startup) -->
                 <TabControl Name="TabControlCalculators" Margin="10" BorderThickness="0" Visibility="Collapsed">
                     <TabControl.Resources>
                         <Style TargetType="TabItem">
@@ -60,27 +61,30 @@
                 Opacity=".7"
                 MouseLeftButtonDown="Border_MouseLeftButtonDown">
             </Border>
+            
             <!-- INNER CONTENT -->
-            <Border HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="White"
-                Padding="20"
-                BorderBrush="DarkGray"
-                BorderThickness="2">
-                <StackPanel Width="800" Height="600">
-                    <DockPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="Auto">
-                        <Label VerticalAlignment="Center" Foreground="#505050">Search:</Label>
-                        <TextBox
-                            Template="{StaticResource TextBoxBaseControlTemplate}"
-                            VerticalAlignment="Center" Foreground="#505050"
-                            Width="Auto" Height="24" HorizontalAlignment="Stretch"></TextBox>
-                    </DockPanel>
-                    <!-- THE GRID OF AVAILABLE CALCULATORS -->
-                    <!-- This gets populated at run-time via the code -->
-                    <WrapPanel Orientation="Horizontal" Name="AvailableCalculatorsGrid" local_core_view:MarginSetter.Margin="10">
-                    </WrapPanel>
-                </StackPanel>
-            </Border>
+            <Grid Margin="70">
+                <Border HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="White"
+                    Padding="20"
+                    BorderBrush="DarkGray"
+                    BorderThickness="2">
+                    <StackPanel>
+                        <DockPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="Auto">
+                            <Label VerticalAlignment="Center" Foreground="#505050">Search:</Label>
+                            <TextBox
+                                Template="{StaticResource TextBoxBaseControlTemplate}"
+                                VerticalAlignment="Center" Foreground="#505050"
+                                Width="Auto" Height="24" HorizontalAlignment="Stretch"></TextBox>
+                        </DockPanel>
+                        <!-- THE GRID OF AVAILABLE CALCULATORS -->
+                        <!-- This gets populated at run-time via the code -->
+                        <WrapPanel Orientation="Horizontal" Name="AvailableCalculatorsGrid" local_core_view:MarginSetter.Margin="10">
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Grid>
 
 
