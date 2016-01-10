@@ -3,6 +3,7 @@ v0.3.4
 
 - Removed CalcDiagrams folder, now using Visio drawings and placing files in relevant calculator folders.
 - Made calculator selection grid expand to window size (with some fixed margin size), closes #31.
+- Added a resistor divider calculator, closes #30.
 
 v0.3.3
 ------

@@ -45,7 +45,7 @@ namespace NinjaCalc.Calculators.Basic.ResistorDivider {
             : base(
             "Resistor Divider",
             "Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.",
-            "pack://application:,,,/Calculators/Pcb/TrackCurrentIpc2221A/grid-icon.png",
+            "pack://application:,,,/Calculators/Basic/ResistorDivider/grid-icon.png",
             new ResistorDividerCalcView()) {
 
             // Re-cast the view so we can access it's unique properties
@@ -99,8 +99,8 @@ namespace NinjaCalc.Calculators.Basic.ResistorDivider {
                     },
                     new NumberUnit[]{
                         new NumberUnit("mΩ", 1e-3),
-                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
-                        new NumberUnit("kΩ", 1e3),
+                        new NumberUnit("Ω", 1e0),
+                        new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
                         new NumberUnit("MΩ", 1e6),
                         new NumberUnit("GΩ", 1e9),
                     },
@@ -131,8 +131,8 @@ namespace NinjaCalc.Calculators.Basic.ResistorDivider {
                     },
                     new NumberUnit[]{
                         new NumberUnit("mΩ", 1e-3),
-                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
-                        new NumberUnit("kΩ", 1e3),
+                        new NumberUnit("Ω", 1e0),
+                        new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
                         new NumberUnit("MΩ", 1e6),
                         new NumberUnit("GΩ", 1e9),
                     },
@@ -174,6 +174,35 @@ namespace NinjaCalc.Calculators.Basic.ResistorDivider {
             this.Vout.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
             this.CalcVars.Add(this.Vout);
+
+            //===============================================================================================//
+            //======================================= Iq (Quescent Current) =================================//
+            //===============================================================================================//
+
+            this.Iq = new CalcVarNumericalOutput(
+                "iQ",
+                view.IqValue,
+                view.IqUnits,
+                () => {
+                    var vIn = this.Vin.RawVal;
+                    var rTop = this.Rtop.RawVal;
+                    var rBot = this.Rbot.RawVal;
+
+                    return (vIn / (rTop + rBot));
+                },
+                new NumberUnit[]{
+                        new NumberUnit("pA", 1e-12),
+                        new NumberUnit("nA", 1e-9),
+                        new NumberUnit("uA", 1e-6),
+                        new NumberUnit("mA", 1e-3, NumberPreference.DEFAULT),
+                        new NumberUnit("A", 1e0),
+                });
+
+            // Add validators
+            this.Iq.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.Iq.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(this.Iq);
 
             //===============================================================================================//
             //============================================== FINAL ==========================================//
