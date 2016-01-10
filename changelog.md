@@ -1,3 +1,8 @@
+v0.3.4
+------
+
+- Removed CalcDiagrams folder, now using Visio drawings and placing files in relevant calculator folders.
+
 v0.3.3
 ------
 
