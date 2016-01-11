@@ -24,10 +24,12 @@ namespace NinjaCalc {
     }
 
     /// <summary>
-    /// Encapsulates a single variable in a NinjaCalc calculator. Stores the variable name, it's equation, it's state (input or output).
-    /// Designed to be used as a base class for particular calculator variable types (e.g. number, boolean, e.t.c).
+    /// Encapsulates a single numerical variable in a NinjaCalc calculator (inherits from CalcVarBase).
+    /// Stores the variable name, it's equation, it's state (input or output).
+    /// Is further inherited by specialised input and output variable classes.
     /// </summary>
     public class CalcVarNumerical : CalcVarBase {
+
         //===============================================================================================//
         //==================================== VARIABLES AND PROPERTIES =================================//
         //===============================================================================================//
@@ -415,6 +417,10 @@ namespace NinjaCalc {
             if (this.Direction == Directions.Input) {
                 this.rawVal = this.DispVal * this.selUnit.Multiplier;
                 Console.WriteLine("rawVal re-scaled to \"" + this.rawVal.ToString() + "\".");
+
+                // Since the raw value has changed, we also need to re-validate this variable
+                this.Validate();
+
                 // We also need to force a recalculation of any dependants (which are also outputs)
                 // of this variable
                 this.ForceDependantOutputsToRecalculate();
@@ -422,6 +428,8 @@ namespace NinjaCalc {
             }
             else if(this.Direction == Directions.Output) {
                 // Recalculate dispVal and update textbox
+                // We don't need to validate again if the units are changed for an input,
+                // as the actual value (raw value) does not change.
                 this.dispVal = this.rawVal / this.selUnit.Multiplier;
                 this.calcValTextBox.Text = this.dispVal.ToString();
             }

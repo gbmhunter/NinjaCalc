@@ -1,3 +1,8 @@
+v0.3.5
+------
+
+- Fixed bug where validators where not working correctly on unit change, closes #34.
+
 v0.3.4
 ------
 
