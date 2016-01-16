@@ -70,7 +70,14 @@
                     Padding="20"
                     BorderBrush="DarkGray"
                     BorderThickness="2">
-                    <StackPanel>
+                    
+                    <Grid>
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        
                         <DockPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="Auto">
                             <Label VerticalAlignment="Center" Foreground="#505050">Search:</Label>
                             <TextBox
@@ -78,11 +85,17 @@
                                 VerticalAlignment="Center" Foreground="#505050"
                                 Width="Auto" Height="24" HorizontalAlignment="Stretch"></TextBox>
                         </DockPanel>
-                        <!-- THE GRID OF AVAILABLE CALCULATORS -->
+                        <!-- CALCULATOR SELECTION GIRD (THE GRID OF AVAILABLE CALCULATORS) -->
                         <!-- This gets populated at run-time via the code -->
-                        <WrapPanel Orientation="Horizontal" Name="AvailableCalculatorsGrid" local_core_view:MarginSetter.Margin="10">
-                        </WrapPanel>
-                    </StackPanel>
+
+                        <ScrollViewer Grid.Row="1" Height="Auto">
+                            <WrapPanel 
+                                Orientation="Horizontal" Name="AvailableCalculatorsGrid"
+                                local_core_view:MarginSetter.Margin="10">
+                            </WrapPanel>
+                        </ScrollViewer>
+
+                    </Grid>
                 </Border>
             </Grid>
         </Grid>
