@@ -1,13 +1,17 @@
-﻿using System;
+﻿// SYSTEM INCLUDES
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
+// USER INCLUDES
 using NinjaCalc.Core;
+using NinjaCalc.Calculators.Electronics.Basic.OhmsLaw;
 
-namespace NinjaCalc {
+namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
+{
     public class OhmsLawCalculator : Calculator {
 
         public CalcVarNumerical Voltage {
@@ -29,10 +33,10 @@ namespace NinjaCalc {
             : base(
             "Ohm's Law",
             "The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm's law.",
-            "pack://application:,,,/Calculators/Basic/OhmsLaw/icon.png",
-            new Calculators.OhmsLawView()) {
+            "pack://application:,,,/Calculators/Electronics/Basic/OhmsLaw/icon.png",
+            new OhmsLawView()) {
 
-            Calculators.OhmsLawView view = (Calculators.OhmsLawView)this.View;
+            var view = (OhmsLawView)this.View;
 
             //===============================================================================================//
             //============================================ VOLTAGE ==========================================//

@@ -13,13 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
+namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
+{
     /// <summary>
-    /// Interaction logic for TrackCurrentIpc2152View.xaml
+    /// Interaction logic for OhmsLaw.xaml
     /// </summary>
-    public partial class TrackCurrentIpc2221AView : UserControl {
-        public TrackCurrentIpc2221AView() {
+    public partial class OhmsLawView : UserControl
+    {
+        public OhmsLawView()
+        {
             InitializeComponent();
         }
+
     }
 }

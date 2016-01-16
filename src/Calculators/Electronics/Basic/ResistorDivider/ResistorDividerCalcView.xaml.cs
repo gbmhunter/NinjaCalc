@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+// SYSTEM INCLUDES
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,14 +15,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NinjaCalc.Calculators
+namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider
 {
-    /// <summary>
-    /// Interaction logic for OhmsLaw.xaml
-    /// </summary>
-    public partial class OhmsLawView : UserControl
+    public partial class ResistorDividerCalcView : UserControl
     {
-        public OhmsLawView()
+        public ResistorDividerCalcView()
         {
             InitializeComponent();
         }

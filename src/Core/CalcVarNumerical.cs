@@ -24,10 +24,12 @@ namespace NinjaCalc {
     }
 
     /// <summary>
-    /// Encapsulates a single variable in a NinjaCalc calculator. Stores the variable name, it's equation, it's state (input or output).
-    /// Designed to be used as a base class for particular calculator variable types (e.g. number, boolean, e.t.c).
+    /// Encapsulates a single numerical variable in a NinjaCalc calculator (inherits from CalcVarBase).
+    /// Stores the variable name, it's equation, it's state (input or output).
+    /// Is further inherited by specialised input and output variable classes.
     /// </summary>
     public class CalcVarNumerical : CalcVarBase {
+
         //===============================================================================================//
         //==================================== VARIABLES AND PROPERTIES =================================//
         //===============================================================================================//
@@ -415,6 +417,10 @@ namespace NinjaCalc {
             if (this.Direction == Directions.Input) {
                 this.rawVal = this.DispVal * this.selUnit.Multiplier;
                 Console.WriteLine("rawVal re-scaled to \"" + this.rawVal.ToString() + "\".");
+
+                // Since the raw value has changed, we also need to re-validate this variable
+                this.Validate();
+
                 // We also need to force a recalculation of any dependants (which are also outputs)
                 // of this variable
                 this.ForceDependantOutputsToRecalculate();
@@ -422,6 +428,8 @@ namespace NinjaCalc {
             }
             else if(this.Direction == Directions.Output) {
                 // Recalculate dispVal and update textbox
+                // We don't need to validate again if the units are changed for an input,
+                // as the actual value (raw value) does not change.
                 this.dispVal = this.rawVal / this.selUnit.Multiplier;
                 this.calcValTextBox.Text = this.dispVal.ToString();
             }
@@ -452,6 +460,32 @@ namespace NinjaCalc {
             var toolTip = new System.Windows.Controls.Label();
             toolTip.Content = validationMsg;
             this.calcValTextBox.ToolTip = toolTip;
+        }
+
+        /// <summary>
+        /// Set the selected unit for this calculator variable by passing in a unit name. If the unit can't be found in
+        /// the units array, a System.ArgumentException exception will be thrown.
+        /// </summary>
+        /// <param name="unitName">The name (i.e. whats displayed in the combobox) of the unit you wish to be selected.</param>
+        public void SetUnits(string unitName) {
+
+            Core.NumberUnit foundUnit = null;
+
+            foreach (var unit in this.Units) {
+                if (unit.Name == unitName) {
+                    foundUnit = unit;
+                    break;
+                }
+            }
+
+            if (foundUnit == null) {
+                throw new System.ArgumentException("Unit name was not found in unit array.", "unitName");
+            }
+
+            // Valid unit in unit array found, so lets set it to the currently
+            // selected unit
+            this.SelUnit = foundUnit;
+
         }
     }
 }

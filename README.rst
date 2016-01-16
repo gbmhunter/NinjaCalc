@@ -8,8 +8,8 @@ A embedded engineering calculator suite for doing calculations in a breeze.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2016-01-10
-- Version: v0.3.4
+- Last Modified: 2016-01-16
+- Version: v0.3.5
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: C#, WPF, .NET
