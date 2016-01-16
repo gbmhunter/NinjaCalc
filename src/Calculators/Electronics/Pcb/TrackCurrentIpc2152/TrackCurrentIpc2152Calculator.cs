@@ -115,6 +115,11 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
             set;
         }
 
+        CalcVarNumericalOutput TrackThicknessModifier {
+            get;
+            set;
+        }
+
         CalcVarComboBox TrackLayer {
             get;
             set;
@@ -247,18 +252,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
             this.CalcVars.Add(this.UnadjustedTrackCrossSectionalArea);
 
 
-
-
-
-
-
-
-
-
-
-
             //===============================================================================================//
-            //======================================== TRACK THICKNESS ======================================//
+            //================================== TRACK THICKNESS (input) ====================================//
             //===============================================================================================//
             
             this.TrackThickness = new CalcVarNumericalInput(
@@ -266,26 +261,109 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 view.TrackThicknessValue,
                 view.TrackThicknessUnits,                
                 new NumberUnit[]{
-                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),                        
+                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),  
+                    new NumberUnit("oz", UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ),  
                     new NumberUnit("mm", 1e-3),                        
                 },
                 null);
 
-            //===== VALIDATORS =====//
+            //========== VALIDATORS ==========//
             this.TrackThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.TrackThickness.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
             this.TrackThickness.AddValidator(
                new Validator(() => {
                    return ((this.TrackThickness.RawVal < 17.5e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
                },
-               "Track thickness is below the recommended minimum (17.5um or 0.5oz). Equation will not be as accurate (extrapolation will occur)."));
+               "Track thickness is below the minimum value (17.5um) extracted from the track thickness modififer graph in IPC-2152." +
+               " Results might not be as accurate (extrapolation will occur)."));
             this.TrackThickness.AddValidator(
                 new Validator(() => {
                     return ((this.TrackThickness.RawVal > 105.0036e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
                 },
-                "Track thickness is above the recommended maximum (105um or 3oz). Equation will not be as accurate (extrapolation will occur)."));
+                "Track thickness is above the maximum value (105um) extracted from the track thickness modififer graph in IPC-2152." +
+                " Results might not be as accurate (extrapolation will occur)."));
 
             this.CalcVars.Add(this.TrackThickness);
+
+            //===============================================================================================//
+            //=================================== TRACK THICKNESS MODIFIER (output) =========================//
+            //===============================================================================================//
+
+            this.TrackThicknessModifier = new CalcVarNumericalOutput(
+                "TrackThicknessModifier",
+                view.TrackThicknessModifierValue,
+                view.TrackThicknessModifierUnits,
+                () => {
+
+                    // Read in variables
+                    var trackCurrentA = this.TrackCurrent.RawVal;
+                    var trackThicknessM = this.TrackThickness.RawVal;
+
+			        // Convert to "oz" units, as this is what is used in IPC-2152 graphs
+			        var trackThicknessOz = trackThicknessM*(1/UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ);
+			        //console.log("trackThicknessOz = " + trackThicknessOz);
+
+			        // Lets calculate the two co-efficients for the fixed-temp trend line 
+			        double[] trackThicknessTrendLineCoefA = new double[TRACK_THICKNESS_TREND_LINE_COEF_COEF_A.Length];
+
+			        //console.log("test = " + TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0].length);
+
+
+			        // Outer loop calculates all co-efficients
+			        for(var i = 0; i < TRACK_THICKNESS_TREND_LINE_COEF_COEF_A.GetLength(0); i++)
+			        {
+				        // Initialise array element with 0
+				        trackThicknessTrendLineCoefA[i] = 0;
+
+				        //console.log("i = " + i);
+				        //console.log("test = " + TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[i].length);
+
+				        // Inner loop calculates a single co-efficient
+				        for(var j = 0; j < TRACK_THICKNESS_TREND_LINE_COEF_COEF_A.GetLength(1); j++)
+				        {
+					        //TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0,0] = 2;
+					        //console.log("sum = " + TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0,0]);
+					        trackThicknessTrendLineCoefA[i] += TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[i,j]*Math.Pow(trackThicknessOz, j);
+				        }
+
+				        //console.log("trackThicknessTrendLineCoefA[" + i + "] = '" + trackThicknessTrendLineCoefA[i] + "'.");
+			        }
+
+			        // Now we have calculate the 5th degree polynomial co-efficients, we can finally calc the thickness modifier
+			        double trackThicknessModifierMulti = 0;
+
+			        for(var i = 0; i < trackThicknessTrendLineCoefA.Length; i++)
+			        {
+				        trackThicknessModifierMulti += trackThicknessTrendLineCoefA[i]*Math.Pow(trackCurrentA, i);
+			        }
+
+			        return trackThicknessModifierMulti; 
+                   
+                },
+                new NumberUnit[]{
+                    new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
+                });
+
+            // Add validators
+            this.TrackThicknessModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.TrackThicknessModifier.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(this.TrackThicknessModifier);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             //===============================================================================================//
             //========================================= TRACK LAYER =========================================//
