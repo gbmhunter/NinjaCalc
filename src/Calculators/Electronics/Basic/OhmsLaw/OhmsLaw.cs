@@ -34,9 +34,9 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
             "Ohm's Law",
             "The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm's law.",
             "pack://application:,,,/Calculators/Electronics/Basic/OhmsLaw/icon.png",
-            new Calculators.OhmsLawView()) {
+            new OhmsLawView()) {
 
-            Calculators.OhmsLawView view = (Calculators.OhmsLawView)this.View;
+            var view = (OhmsLawView)this.View;
 
             //===============================================================================================//
             //============================================ VOLTAGE ==========================================//

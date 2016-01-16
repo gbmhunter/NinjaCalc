@@ -1,4 +1,6 @@
-﻿using System;
+﻿// SYSTEM INCLUDES
+using System;
+using System.Windows.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using NinjaCalc;
@@ -10,7 +12,7 @@ namespace NinjaCalcUnitTests {
         [TestMethod]
         public void TestCalcVarDefaultDirection() {
 
-            OhmsLawCalculator ohmsLawCalculator = new OhmsLawCalculator();
+            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalculator();
 
             Assert.AreEqual(ohmsLawCalculator.Voltage.Direction, Directions.Input, "Voltage did not default to an input.");
             Assert.AreEqual(ohmsLawCalculator.Current.Direction, Directions.Input, "Current did not default to an input.");
@@ -21,7 +23,7 @@ namespace NinjaCalcUnitTests {
         [TestMethod]
         public void TestCalcVarDirectionChanges() {
 
-            OhmsLawCalculator ohmsLawCalculator = new OhmsLawCalculator();
+            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalculator();
 
             ohmsLawCalculator.Resistance.Direction = Directions.Output;
 
@@ -46,7 +48,7 @@ namespace NinjaCalcUnitTests {
         [TestMethod]
         public void TestOhmsLawEquation() {
 
-            OhmsLawCalculator ohmsLawCalculator = new OhmsLawCalculator();            
+            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalculator();           
 
             ohmsLawCalculator.Voltage.RawVal = 1;
             ohmsLawCalculator.Current.RawVal = 1;
@@ -65,11 +67,22 @@ namespace NinjaCalcUnitTests {
         [TestMethod]
         public void TestUnitChangeCausesRecalc() {
 
-            OhmsLawCalculator ohmsLawCalculator = new OhmsLawCalculator();
+            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalculator();
 
-            //var ohmsLawView = (NinjaCalc.Calculators.Basic)ohmsLawCalculator.vi
+            ohmsLawCalculator.Voltage.RawVal = 1;
+            ohmsLawCalculator.Current.RawVal = 1;
 
-          
+            // Get the default unit selection for the voltage
+            NinjaCalc.Core.NumberUnit selUnit = ohmsLawCalculator.Voltage.SelUnit;
+
+            Assert.AreEqual(selUnit.Name, "V", "Ohm's law voltage units did not default to \"V\".");
+            Assert.AreEqual(selUnit.Multiplier, 1.0, 0.001, "Ohm's law voltage units did not default to \"V\".");
+
+            // Now change the units for the voltage
+            ohmsLawCalculator.Voltage.SetUnits("mV");
+
+            // Make sure the resistance has changed appropriately
+            Assert.AreEqual(ohmsLawCalculator.Resistance.RawVal, 0.001, 0.001, "Resistance was not calculated correctly when voltage units where changed.");
 
         }
     }

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NinjaCalc.Calculators
+namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
 {
     /// <summary>
     /// Interaction logic for OhmsLaw.xaml

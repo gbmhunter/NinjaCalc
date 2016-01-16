@@ -13,7 +13,13 @@ namespace NinjaCalc.Core {
 
     public class NumberUnit {
 
-        private string name;
+        /// <summary>
+        /// The displayed name for this particular unit. Will be displayed in combobox.
+        /// </summary>
+        public string Name {
+            get;
+            set;
+        }
 
         private double multiplier;
         public double Multiplier {
@@ -43,7 +49,7 @@ namespace NinjaCalc.Core {
         /// <param name="name"></param>
         /// <param name="multiplier"></param>
         public NumberUnit(string name, double multiplier, NumberPreference preference) {
-            this.name = name;
+            this.Name = name;
             this.multiplier = multiplier;
             this.preference = preference;
         }
@@ -54,7 +60,7 @@ namespace NinjaCalc.Core {
         /// <param name="name"></param>
         /// <param name="multiplier"></param>
         public NumberUnit(string name, double multiplier) {
-            this.name = name;
+            this.Name = name;
             this.multiplier = multiplier;
             this.preference = NumberPreference.NOT_DEFAULT;
         }
@@ -64,7 +70,7 @@ namespace NinjaCalc.Core {
         /// </summary>
         /// <returns>A string representation of a NumberUnit object.</returns>
         public override string ToString() {
-            return this.name;
+            return this.Name;
         }
 
     }

@@ -461,5 +461,26 @@ namespace NinjaCalc {
             toolTip.Content = validationMsg;
             this.calcValTextBox.ToolTip = toolTip;
         }
+
+        public void SetUnits(string unitName) {
+
+            Core.NumberUnit foundUnit = null;
+
+            foreach (var unit in this.Units) {
+                if (unit.Name == unitName) {
+                    foundUnit = unit;
+                    break;
+                }
+            }
+
+            if (foundUnit == null) {
+                throw new System.ArgumentException("Unit name was not found in unit array.", "unitName");
+            }
+
+            // Valid unit in unit array found, so lets set it to the currently
+            // selected unit
+            this.SelUnit = foundUnit;
+
+        }
     }
 }
