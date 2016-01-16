@@ -12,7 +12,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
 
     class TrackCurrentIpc2221ACalculator : Calculator {
 
-        CalcVarNumericalInput TraceCurrent {
+        CalcVarNumericalInput TrackCurrent {
             get;
             set;
         }
@@ -57,7 +57,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
             //========================================= TRACE CURRENT =======================================//
             //===============================================================================================//
             
-           this.TraceCurrent = new CalcVarNumericalInput(
+           this.TrackCurrent = new CalcVarNumericalInput(
                 "traceCurrent",
                 view.TrackCurrentValue,
                 view.TrackCurrentUnits,                                                  
@@ -68,15 +68,15 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                 null);
 
             //===== VALIDATORS =====//
-            this.TraceCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.TraceCurrent.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-            this.TraceCurrent.AddValidator(
+            this.TrackCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.TrackCurrent.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.TrackCurrent.AddValidator(
                 new Validator(() => {
-                    return ((this.TraceCurrent.RawVal > 35.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);                                      
+                    return ((this.TrackCurrent.RawVal > 35.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);                                      
                 },
                 "Current is above recommended maximum (35A). Equation will not be as accurate (extrapolation will occur)."));
 
-            this.CalcVars.Add(this.TraceCurrent);
+            this.CalcVars.Add(this.TrackCurrent);
 
             //===============================================================================================//
             //========================================== TEMP RISE ==========================================//
@@ -161,7 +161,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                 view.MinTrackWidthUnits,
                 () => {
                     //Console.WriteLine("Equation() called for MinTrackWidth.");
-                    var traceCurrent = this.TraceCurrent.RawVal;
+                    var traceCurrent = this.TrackCurrent.RawVal;
                     var tempRise = this.TempRise.RawVal;
                     var trackThickness = this.TrackThickness.RawVal;
                     var trackLayer = this.TrackLayer.RawVal;

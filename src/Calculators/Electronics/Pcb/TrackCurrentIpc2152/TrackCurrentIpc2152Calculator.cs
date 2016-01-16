@@ -12,12 +12,100 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
 
     class TrackCurrentIpc2152Calculator : Calculator {
 
-        CalcVarNumericalInput TraceCurrent {
+
+        const double NUM_MILS_PER_MM = 1000/25.4;
+	    const double UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ = 0.0000350012;
+	    const double UNIT_CONVERSION_M_PER_MIL = 25.4/1e6;
+	    const double UNIT_CONVERSION_M2_PER_MIL2 = UNIT_CONVERSION_M_PER_MIL*UNIT_CONVERSION_M_PER_MIL;
+
+	    const double UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF = 1.73;
+
+	    // UNIVERSAL CHART CONSTANTS
+
+	    // The trendlines to calculate the co-efficients for a fixed temp takes the form y = Ax^B
+	    // where y is the co-efficient, x is the temperature.
+	    // e.g. (co-efficient A) = AA * temp ^ AB
+	    //      (co-efficient B) = BA * temp ^ BB
+	    const double UNIVERSAL_CHART_TREND_LINE_COEF_AA = 8.9710902134e-02;
+	    const double UNIVERSAL_CHART_TREND_LINE_COEF_AB = 3.9379253898e-01;
+
+	    const double UNIVERSAL_CHART_TREND_LINE_COEF_BA = 5.0382053698e-01;
+	    const double UNIVERSAL_CHART_TREND_LINE_COEF_BB = 3.8495772461e-02;
+
+	    // TRACK THICKNESS MODIFIER CONSTANTS
+
+	    // The data from the track thickness modifier graph in IPS-2152 is modelled using
+	    // a 5th degree polynomial
+
+	    // y = C0 + C1*x^1 + C2*x^2 + C3*x^3 + C4*x^4 + C5*x^5
+
+	    static readonly double[,] TRACK_THICKNESS_TREND_LINE_COEF_COEF_A =
+        {
+		    {
+			    9.8453567795e-01,	// C0C0
+			    -2.2281787548e-01,	// C0C1
+			    2.0061423196e-01,	// C0C2
+			    -4.1541116264e-02,	// C0C3
+		    },
+		    {
+			    -1.6571949210e-02,	// C1C0
+			    1.7520059279e-04,	// C1C1
+			    -5.0615234096e-03,	// C1C2
+			    2.2814836340e-03,	// C1C3
+		    },
+		    {
+			    8.8711317661e-04,	// C2C0
+			    1.3631745743e-03,	// C2C1
+			    -2.2373309710e-04,	// C2C2
+			    -1.0974218613e-04	// C2C3
+		    },
+		    {
+			    -6.6729255031e-06,	// e.t.c...
+			    -1.4976736827e-04,
+			    5.8082340133e-05,
+			    -2.4728159584e-06
+		    },
+		    {
+			    -7.9576264561e-07,	
+			    5.5788354958e-06,	
+			    -2.4912026388e-06,	
+			    2.4000295954e-07	
+		    },
+		    {
+			    1.6619678738e-08,	
+			    -7.1122635445e-08,	
+			    3.3800191741e-08,	
+			    -3.9797591878e-09	
+		    }
+        };
+
+	    // BOARD THICKNESS CONSTANTS
+
+        const double BOARD_THICKNESS_TREND_LINE_COEF_A = 2.4929779905e+01;
+        const double BOARD_THICKNESS_TREND_LINE_COEF_B = -7.5501997929e-01;
+
+	    // PLANE PROXIMITY CONSTANTS
+
+        const double PLANE_PROXIMITY_TREND_LINE_COEF_M = 3.1298662911e-03;
+        const double PLANE_PROXIMITY_TREND_LINE_COEF_C = 4.0450883823e-01;
+
+	    // THERMAL CONDUCTIVITY CONSTANTS
+
+        const double THERMAL_CONDUCTIVITY_TREND_LINE_COEF_M = -1.4210148167e+00;
+        const double THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C = 1.1958174134e+00;
+
+
+        CalcVarNumericalInput TrackCurrent {
             get;
             set;
         }
 
         CalcVarNumericalInput TempRise {
+            get;
+            set;
+        }
+
+        CalcVarNumericalOutput UnadjustedTrackCrossSectionalArea {
             get;
             set;
         }
@@ -54,32 +142,40 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
             TrackCurrentIpc2152View view = (TrackCurrentIpc2152View)this.View;
 
             //===============================================================================================//
-            //========================================= TRACE CURRENT =======================================//
+            //===================================== TRACE CURRENT (input) ===================================//
             //===============================================================================================//
             
-           this.TraceCurrent = new CalcVarNumericalInput(
+           this.TrackCurrent = new CalcVarNumericalInput(
                 "traceCurrent",
                 view.TrackCurrentValue,
                 view.TrackCurrentUnits,                                                  
                 new NumberUnit[]{
+                    new NumberUnit("uA", 1e-6),
                     new NumberUnit("mA", 1e-3),
                     new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                 },
                 null);
 
-            //===== VALIDATORS =====//
-            this.TraceCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.TraceCurrent.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-            this.TraceCurrent.AddValidator(
+            //========== VALIDATORS ===========//
+            this.TrackCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.TrackCurrent.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.TrackCurrent.AddValidator(
                 new Validator(() => {
-                    return ((this.TraceCurrent.RawVal > 35.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);                                      
+                    return ((this.TrackCurrent.RawVal < 274e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
                 },
-                "Current is above recommended maximum (35A). Equation will not be as accurate (extrapolation will occur)."));
+                "Current is below the minimum value (274mA) extracted from the universal graph in IPC-2152." +
+                " Results might not be as accurate (extrapolation will occur)."));
+            this.TrackCurrent.AddValidator(
+                new Validator(() => {
+                    return ((this.TrackCurrent.RawVal > 26.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);                                      
+                },
+                "Current is above the maximum value (26A) extracted from the universal graph in IPC-2152." +
+                " Results might not be as accurate (extrapolation will occur)."));
 
-            this.CalcVars.Add(this.TraceCurrent);
+            this.CalcVars.Add(this.TrackCurrent);
 
             //===============================================================================================//
-            //========================================== TEMP RISE ==========================================//
+            //====================================== TEMP RISE (input) ======================================//
             //===============================================================================================//
             
             this.TempRise = new CalcVarNumericalInput(
@@ -87,25 +183,79 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 view.TempRiseValue,
                 view.TempRiseUnits,                                                
                 new NumberUnit[]{
-                    new NumberUnit("C", 1e0, NumberPreference.DEFAULT),                        
+                    new NumberUnit("°C", 1e0, NumberPreference.DEFAULT),                        
                 },
                 null);
 
-            //===== VALIDATORS =====//
+            //========== VALIDATORS ==========//
             this.TempRise.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.TempRise.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
             this.TempRise.AddValidator(
                 new Validator(() => {
-                    return ((this.TempRise.RawVal < 10.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                    return ((this.TempRise.RawVal < 1.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
                 },
-                "Temperature rise is below the recommended minimum (10°C). Equation will not be as accurate (extrapolation will occur)."));
+                "Temp. rise is below the minimum value (1°C) extracted from the universal graph in IPC-2152." +
+                " Results might not be as accurate (extrapolation will occur)."));
             this.TempRise.AddValidator(
                 new Validator(() => {
                     return ((this.TempRise.RawVal > 100.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
                 },
-                "Temperature rise is above the recommended maximum (100°C). Equation will not be as accurate (extrapolation will occur)."));
+                "Temp. rise is above the maximum value (100°C) extracted from the universal graph in IPC-2152." +
+                " Results might not be as accurate (extrapolation will occur)."));
 
             this.CalcVars.Add(this.TempRise);
+
+            //===============================================================================================//
+            //============================ UN-ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ==================//
+            //===============================================================================================//
+
+            this.UnadjustedTrackCrossSectionalArea = new CalcVarNumericalOutput(
+                "unadjustedTrackCrossSectionalArea",
+                view.UnadjustedTrackCrossSectionalAreaValue,
+                view.UnadjustedTrackCrossSectionalAreaUnits,
+                () => {
+                    
+                    // Read in variables
+                    var trackCurrent = this.TrackCurrent.RawVal;
+                    var tempRise = this.TempRise.RawVal;
+
+                    // Lets calculate the two co-efficients for the fixed-temp trend line 
+                    var universalChartTrendLineCoefA = UNIVERSAL_CHART_TREND_LINE_COEF_AA * Math.Pow(tempRise, UNIVERSAL_CHART_TREND_LINE_COEF_AB);
+                    var universalChartTrendLineCoefB = UNIVERSAL_CHART_TREND_LINE_COEF_BA * Math.Pow(tempRise, UNIVERSAL_CHART_TREND_LINE_COEF_BB);
+
+                    // Now we know the two co-efficients, we can use the trend line eq. y=Ax^B to find the unadjusted cross-sectional area
+                    var unadjustedTrackCrosssectionalAreaMils2 = Math.Pow(trackCurrent / universalChartTrendLineCoefA, 1 / universalChartTrendLineCoefB);
+
+                    //console.log("unadjustedTrackCrosssectionalAreaMils2 = '" + unadjustedTrackCrosssectionalAreaMils2 + "'.");
+
+                    // Convert mils^2 to m^2 (store variable values in SI units)
+                    var unadjustedTrackCrosssectionalAreaM2 = unadjustedTrackCrosssectionalAreaMils2 * (1 / (NUM_MILS_PER_MM * NUM_MILS_PER_MM * 1e6));
+
+                    return unadjustedTrackCrosssectionalAreaM2;  
+                   
+                },
+                new NumberUnit[]{
+                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),     
+                    new NumberUnit("mils\xb2", UNIT_CONVERSION_M2_PER_MIL2),
+                    new NumberUnit("mm", 1e-3),                        
+                });
+
+            // Add validators
+            this.UnadjustedTrackCrossSectionalArea.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.UnadjustedTrackCrossSectionalArea.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(this.UnadjustedTrackCrossSectionalArea);
+
+
+
+
+
+
+
+
+
+
+
 
             //===============================================================================================//
             //======================================== TRACK THICKNESS ======================================//
@@ -161,7 +311,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 view.MinTrackWidthUnits,
                 () => {
                     //Console.WriteLine("Equation() called for MinTrackWidth.");
-                    var traceCurrent = this.TraceCurrent.RawVal;
+                    var traceCurrent = this.TrackCurrent.RawVal;
                     var tempRise = this.TempRise.RawVal;
                     var trackThickness = this.TrackThickness.RawVal;
                     var trackLayer = this.TrackLayer.RawVal;

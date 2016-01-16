@@ -87,6 +87,12 @@
                 <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="2" />
                 <Ellipse Width="10" Height="10" Stroke="Black" StrokeThickness="2" Fill="Black" />
             </Grid>
+            
+            <!-- EXTRA PARAMETERS -->
+
+            <Label FontSize="16" Content="Unadjusted Track Cross-sectional Area" Canvas.Left="73" Canvas.Top="658"/>
+            <TextBox x:Name="UnadjustedTrackCrossSectionalAreaValue" Width="100" BorderThickness="3" Canvas.Top="667" Canvas.Left="373"/>
+            <ComboBox x:Name="UnadjustedTrackCrossSectionalAreaUnits" Canvas.Left="494" Canvas.Top="667"/>
         </Canvas>
     </Viewbox>
 </UserControl>

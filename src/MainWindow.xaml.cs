@@ -63,6 +63,7 @@ namespace NinjaCalc {
 
             // PCB
             this.RegisterCalculator(new Calculators.Electronics.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221ACalculator());
+            this.RegisterCalculator(new Calculators.Electronics.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152Calculator());
             
         }
 
