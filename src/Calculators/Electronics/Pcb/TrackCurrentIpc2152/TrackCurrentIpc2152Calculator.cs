@@ -120,6 +120,25 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
             set;
         }
 
+        CalcVarNumericalInput BoardThickness {
+            get;
+            set;
+        }
+
+        CalcVarNumericalOutput BoardThicknessModifier {
+            get;
+            set;
+        }
+
+        CalcVarComboBox IsPlanePresent {
+            get;
+            set;
+        }
+
+
+
+
+
         CalcVarComboBox TrackLayer {
             get;
             set;
@@ -350,12 +369,85 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
 
             this.CalcVars.Add(this.TrackThicknessModifier);
 
+            //===============================================================================================//
+            //================================== BOARD THICKNESS (input) ====================================//
+            //===============================================================================================//
+
+            this.BoardThickness = new CalcVarNumericalInput(
+                "boardThickness",
+                view.BoardThicknessValue,
+                view.BoardThicknessUnits,
+                new NumberUnit[]{
+                    new NumberUnit("um", 1e-6),  
+                    new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
+                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
+                },
+                null);
+
+            //========== VALIDATORS ==========//
+            this.BoardThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.BoardThickness.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.BoardThickness.AddValidator(
+               new Validator(() => {
+                   return ((this.BoardThickness.RawVal < 0.72e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+               },
+               "Board thickness is below the minimum value (0.72mm) extracted from the board thickness modififer graph in IPC-2152." +
+               " Results might not be as accurate (extrapolation will occur)."));
+            this.BoardThickness.AddValidator(
+                new Validator(() => {
+                    return ((this.BoardThickness.RawVal > 2.36e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                "Board thickness is above the maximum value (2.36mm) extracted from the board thickness modififer graph in IPC-2152." +
+                " Results might not be as accurate (extrapolation will occur)."));
+
+            this.CalcVars.Add(this.BoardThickness);
+
+            //===============================================================================================//
+            //=================================== BOARD THICKNESS MODIFIER (output) =========================//
+            //===============================================================================================//
+
+            this.BoardThicknessModifier = new CalcVarNumericalOutput(
+                "boardThicknessModifier",
+                view.BoardThicknessModifierValue,
+                view.BoardThicknessModifierUnits,
+                () => {
+
+                    // Read in variables
+                    var boardThicknessM = this.BoardThickness.RawVal;
+
+                    // Convert to "mils" units, as this is what is used in IPC-2152 graphs
+                    double boardThicknessMils = boardThicknessM * (1 / UNIT_CONVERSION_M_PER_MIL);
+
+                    double boardThicknessModifierMulti = BOARD_THICKNESS_TREND_LINE_COEF_A * 
+                        Math.Pow(boardThicknessMils, BOARD_THICKNESS_TREND_LINE_COEF_B);
+
+                    return boardThicknessModifierMulti;
+                 
+                },
+                new NumberUnit[]{
+                    new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
+                });
+
+            // Add validators
+            this.BoardThicknessModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.BoardThicknessModifier.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(this.BoardThicknessModifier);
 
 
+            //===============================================================================================//
+            //========================================= IS PLANE PRESENT ====================================//
+            //===============================================================================================//
 
+            this.IsPlanePresent = new CalcVarComboBox(
+                "isPlanePresent",
+                view.IsPlanePresent,
+                new string[] {
+                    "True",
+                    "False",
+                });
 
-
-
+            this.CalcVars.Add(this.IsPlanePresent);
 
 
 

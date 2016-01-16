@@ -72,6 +72,10 @@
                 <ComboBox x:Name="TrackThicknessUnits" Canvas.Left="141" Canvas.Top="57"/>
             </Canvas>
 
+            <Label FontSize="16" Content="Board Thickness" Canvas.Left="22" Canvas.Top="158"/>
+            <TextBox x:Name="BoardThicknessValue" Width="100" BorderThickness="3" Canvas.Top="194" Canvas.Left="22"/>
+            <ComboBox x:Name="BoardThicknessUnits" Canvas.Left="127" Canvas.Top="194"/>
+
             <ComboBox x:Name="TrackLayer" Width="100" Canvas.Left="504" Canvas.Top="242" />
             <Label Content="Track Layer" FontSize="16" Canvas.Left="496" Canvas.Top="206"/>
             <Canvas Height="58" Canvas.Left="304" Canvas.Top="563" Width="158">
@@ -93,10 +97,18 @@
             <Label FontSize="16" Content="Unadjusted Track Cross-sectional Area" Canvas.Left="73" Canvas.Top="658"/>
             <TextBox x:Name="UnadjustedTrackCrossSectionalAreaValue" Width="100" BorderThickness="3" Canvas.Top="667" Canvas.Left="373"/>
             <ComboBox x:Name="UnadjustedTrackCrossSectionalAreaUnits" Canvas.Left="494" Canvas.Top="667"/>
-            
+
             <Label FontSize="16" Content="Track Thickness Modifier" Canvas.Left="73" Canvas.Top="685"/>
             <TextBox x:Name="TrackThicknessModifierValue" Width="100" BorderThickness="3" Canvas.Top="694" Canvas.Left="373"/>
             <ComboBox x:Name="TrackThicknessModifierUnits" Canvas.Left="494" Canvas.Top="694"/>
+
+            <Label FontSize="16" Content="Board Thickness Modifier" Canvas.Left="73" Canvas.Top="712"/>
+            <TextBox x:Name="BoardThicknessModifierValue" Width="100" BorderThickness="3" Canvas.Top="721" Canvas.Left="373"/>
+            <ComboBox x:Name="BoardThicknessModifierUnits" Canvas.Left="494" Canvas.Top="721"/>
+
+            <Label Content="Is Plane Present?" FontSize="16" Canvas.Left="263" Canvas.Top="136"/>
+            <ComboBox x:Name="IsPlanePresent" Width="100" Canvas.Left="277" Canvas.Top="167" />
+            
         </Canvas>
     </Viewbox>
 </UserControl>
