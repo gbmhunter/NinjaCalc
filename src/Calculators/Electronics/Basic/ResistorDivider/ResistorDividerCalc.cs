@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
+// USER INCLUDES
 using NinjaCalc.Core;
-using NinjaCalc.Calculators.Basic.ResistorDivider;
+using NinjaCalc.Calculators.Electronics.Basic.ResistorDivider;
 
-namespace NinjaCalc.Calculators.Basic.ResistorDivider {
+namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
 
     class ResistorDividerCalc : Calculator {
 
@@ -45,7 +46,7 @@ namespace NinjaCalc.Calculators.Basic.ResistorDivider {
             : base(
             "Resistor Divider",
             "Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.",
-            "pack://application:,,,/Calculators/Basic/ResistorDivider/grid-icon.png",
+            "pack://application:,,,/Calculators/Electronics/Basic/ResistorDivider/grid-icon.png",
             new ResistorDividerCalcView()) {
 
             // Re-cast the view so we can access it's unique properties

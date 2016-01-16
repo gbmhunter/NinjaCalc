@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
+namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
     /// <summary>
     /// Interaction logic for TrackCurrentIpc2152View.xaml
     /// </summary>

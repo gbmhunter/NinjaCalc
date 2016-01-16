@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 
 using NinjaCalc.Core;
-using NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A;
+using NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A;
 
-namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
+namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
 
     class TrackCurrentIpc2221ACalculator : Calculator {
 
@@ -45,7 +45,7 @@ namespace NinjaCalc.Calculators.Pcb.TrackCurrentIpc2221A {
             : base(
             "Track Current (IPC-2221A)",
             "PCB track current carrying capability calculator, using the IPC-2221A standard.",
-            "pack://application:,,,/Calculators/Pcb/TrackCurrentIpc2221A/grid-icon.png",
+            "pack://application:,,,/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/grid-icon.png",
             new TrackCurrentIpc2221AView()) {
 
             // Re-cast the view so we can access it's unique properties

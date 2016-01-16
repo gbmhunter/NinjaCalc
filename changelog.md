@@ -3,6 +3,7 @@ v0.3.5
 
 - Fixed bug where validators where not working correctly on unit change, closes #34.
 - Fixed issue where current flow symbol on the Ohm's Law calculator looked to similar to a diode symbol, closes #35.
+- Moved electronic-related calculators into "electronics" parent-level folder (and namespace), closes #37.
 
 v0.3.4
 ------

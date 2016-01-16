@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NinjaCalc;
 
 namespace NinjaCalcUnitTests {
+
     [TestClass]
     public class OhmsLawCalculatorUnitTest {
         [TestMethod]
@@ -58,6 +59,17 @@ namespace NinjaCalcUnitTests {
             ohmsLawCalculator.Voltage.RawVal = 1;
             ohmsLawCalculator.Current.RawVal = 2;
             Assert.AreEqual(ohmsLawCalculator.Resistance.RawVal, 0.5, 0.001, "Resistance was not calculated correctly.");
+
+        }
+
+        [TestMethod]
+        public void TestUnitChangeCausesRecalc() {
+
+            OhmsLawCalculator ohmsLawCalculator = new OhmsLawCalculator();
+
+            //var ohmsLawView = (NinjaCalc.Calculators.Basic)ohmsLawCalculator.vi
+
+          
 
         }
     }

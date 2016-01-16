@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+// SYSTEM INCLUDES
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NinjaCalc.Calculators.Basic.ResistorDivider
+namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider
 {
     public partial class ResistorDividerCalcView : UserControl
     {
