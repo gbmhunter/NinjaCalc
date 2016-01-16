@@ -71,10 +71,14 @@
                     BorderBrush="DarkGray"
                     BorderThickness="2">
                     
+                    <!-- This next grid is important for the ScrollViewer to work correctly.
+                    The row with the scroll viewer must have it's height set to "*", so it takes up the available
+                    view space, but also lets the user scroll it the content exceeds this -->
                     <Grid>
                         
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
+                            <!-- Height="*" is important for scroll viewer to work correctly -->
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         
