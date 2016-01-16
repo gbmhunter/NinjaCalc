@@ -462,6 +462,11 @@ namespace NinjaCalc {
             this.calcValTextBox.ToolTip = toolTip;
         }
 
+        /// <summary>
+        /// Set the selected unit for this calculator variable by passing in a unit name. If the unit can't be found in
+        /// the units array, a System.ArgumentException exception will be thrown.
+        /// </summary>
+        /// <param name="unitName">The name (i.e. whats displayed in the combobox) of the unit you wish to be selected.</param>
         public void SetUnits(string unitName) {
 
             Core.NumberUnit foundUnit = null;
