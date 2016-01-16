@@ -24,5 +24,6 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
         {
             InitializeComponent();
         }
+
     }
 }
