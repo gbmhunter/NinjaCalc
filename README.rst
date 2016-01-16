@@ -57,7 +57,7 @@ Developing
 Creating An Installable Package
 -------------------------------
 
-This project uses the open source installer `Inno Setup`_ to bundle the built application files into a single .exe installable package for Windows.
+This project uses the free installer `Inno Setup`_ to bundle the built application files into a single .exe installable package for Windows machines.
 
 The Inno Setup script is stored at :code:`install/InnoSetupScript.iss`.
 
@@ -66,7 +66,7 @@ The easiest way to generate an installable package is to:
 #. Open this project in Visual Studio.
 #. Make sure the configuration is set to "Release".
 #. Build the project.
-#. Run "Inno Script Studio", and open the script file :code:`install/InnoSetupScript.iss`.
+#. Run "Inno Script Studio" (downloadable with Inno Setup), and open the script file :code:`install/InnoSetupScript.iss`.
 #. Press the "Run" button from within Inno Script Studio.
 #. Done! All going well, an executable called "setup.exe" should of been created in :code:`install/Output/`. 
 
@@ -77,6 +77,11 @@ File Structure
 ==============
 
 Sorted by alphabetical order.
+
+install/
+--------
+
+Contains the Inno Setup script for generating a single-file installable package (.exe). When this .exe is generated, it is placed into :code:`install/Output/` by the setup script.
 
 src/
 ----
@@ -106,7 +111,7 @@ Thanks to alexcurtis_ for the time and effort he put into the `react-treebeard`_
 .. _`alexcurtis`: https://github.com/alexcurtis
 .. _`react-treebeard`: https://github.com/alexcurtis/react-treebeard
 
-Thanks to the kids at Facebook_ for the great react framework.
+Thanks to the kids at Facebook_ for the great react framework (albeit no longer used!)
 
 .. _`Facebook`: https://facebook.github.io/react/
 
