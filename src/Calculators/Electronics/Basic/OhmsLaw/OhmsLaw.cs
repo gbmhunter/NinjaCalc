@@ -34,6 +34,8 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
             "Ohm's Law",
             "The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm's law.",
             "pack://application:,,,/Calculators/Electronics/Basic/OhmsLaw/icon.png",
+            new string[]{ "Electronics", "Basic" },
+            new string[]{"ohm, resistor, resistance, voltage, current, law, vir"},
             new OhmsLawView()) {
 
             var view = (OhmsLawView)this.View;
@@ -46,8 +48,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
                     "voltage",
                     view.TextBoxVoltageValue,
                     view.VoltageUnits,
-                    view.RadioButtonVoltage,
-                    //this.CalcVars,
+                    view.RadioButtonVoltage,                    
                     () => {
                         var current = this.Current.RawVal;
                         var resistance = this.Resistance.RawVal;

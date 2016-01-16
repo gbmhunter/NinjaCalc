@@ -47,6 +47,8 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
             "Resistor Divider",
             "Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.",
             "pack://application:,,,/Calculators/Electronics/Basic/ResistorDivider/grid-icon.png",
+            new string[] { "Electronics", "Basic" },
+            new string[] { "resistor, resistance, voltage, divider, reduce" },
             new ResistorDividerCalcView()) {
 
             // Re-cast the view so we can access it's unique properties

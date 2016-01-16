@@ -1,3 +1,8 @@
+v0.3.6
+------
+
+- Added mandatory "category" and "tag" fields to the Calculator class, closes #40.
+
 v0.3.5
 ------
 
