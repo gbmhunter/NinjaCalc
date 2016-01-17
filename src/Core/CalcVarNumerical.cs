@@ -182,6 +182,8 @@ namespace NinjaCalc {
             }
         }
 
+        public int NumDigitsToRound;
+
         //===============================================================================================//
         //========================================== CONSTRUCTORS =======================================//
         //===============================================================================================//
@@ -198,7 +200,8 @@ namespace NinjaCalc {
             ComboBox unitsComboBox,
             RadioButton ioRadioButton,            
             Func<double> equation,
-            NumberUnit[] units,            
+            NumberUnit[] units,     
+            int numDigitsToRound,
             Directions defaultDirection,
             System.Nullable<double> defaultRawValue) : base(name, equation) {
 
@@ -255,6 +258,8 @@ namespace NinjaCalc {
             else {
                 this.SelUnit = this.units[0];
             }
+
+            this.NumDigitsToRound = numDigitsToRound;
 
             // Assign the default raw value
             if (defaultRawValue.HasValue) {
@@ -490,5 +495,10 @@ namespace NinjaCalc {
             this.SelUnit = foundUnit;
 
         }
+
+
+        
+
     }
+
 }

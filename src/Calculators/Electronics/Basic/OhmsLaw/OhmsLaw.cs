@@ -59,6 +59,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
                         new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
                         new NumberUnit("kV", 1e3),
                     },
+                    2,
                     Directions.Input,
                     null);
 
@@ -91,6 +92,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
                         new NumberUnit("mA", 1e-3),
                         new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                     },
+                    2,
                     Directions.Input,
                     null);
 
@@ -108,8 +110,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
                     "resistance",
                     view.TextBoxResistanceValue,
                     view.ResistanceUnits,
-                    view.RadioButtonResistance,
-                    //this.CalcVars,
+                    view.RadioButtonResistance,                    
                     () => {
                         var voltage = this.Voltage.RawVal;
                         var current = this.Current.RawVal;
@@ -122,6 +123,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
                         new NumberUnit("MΩ", 1e6),
                         new NumberUnit("GΩ", 1e9),
                     },
+                    2,
                     Directions.Output,
                     null);
             

@@ -27,6 +27,7 @@ namespace NinjaCalc.Core {
             TextBox calcValTextBox,
             ComboBox unitsComboBox,                                    
             NumberUnit[] units,
+            int numDigitsToRound,
             System.Nullable<double> defaultRawValue)
             : base(
             name,
@@ -34,8 +35,9 @@ namespace NinjaCalc.Core {
             unitsComboBox,
             null,            
             null,
-            units,            
-            Directions.Input,
+            units,           
+            numDigitsToRound,
+            Directions.Input,            
             defaultRawValue) {
 
         }      
