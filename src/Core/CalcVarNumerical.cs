@@ -302,6 +302,8 @@ namespace NinjaCalc {
 
             // Validation is done in the TextBoxChanged event handler
             this.Validate();
+
+            this.ForceDependantOutputsToRecalculate();
         }
 
         public void RadioButtonChanged(object sender, EventArgs e) {
@@ -395,11 +397,12 @@ namespace NinjaCalc {
             this.Validate();
 
             // We need to re-calculate any this calculator variables dependants, if they are outputs
-            for (int i = 0; i < this.Dependants.Count; i++) {
+            this.ForceDependantOutputsToRecalculate();
+            /*for (int i = 0; i < this.Dependants.Count; i++) {
                 if (this.Dependants[i].Direction == Directions.Output) {
                     this.Dependants[i].Calculate();
                 }
-            }
+            }*/
         }
 
         public void UnitsComboBox_SelectionChanged(object sender, EventArgs e) {

@@ -4,6 +4,7 @@ v0.3.6
 - Added mandatory "category" and "tag" fields to the Calculator class, closes #40.
 - Made the calculator selection grid scrollable, closes #41.
 - Added info to README on how to generate installer, closes #29.
+- Fixed bug where only the first level of dependencies in the chain are re-calculated on variable change, closes #45.
 
 v0.3.5
 ------
