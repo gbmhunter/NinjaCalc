@@ -45,7 +45,7 @@
                 </Polygon.Fill>
             </Polygon>
 
-            <Canvas Width="222" Height="20" Canvas.Left="277" Canvas.Top="563">
+            <Canvas Width="222" Height="20" Canvas.Left="277" Canvas.Top="538">
                 <local_core_view:Dimension Length="200" />
             </Canvas>
 
@@ -75,10 +75,7 @@
             <Label FontSize="16" Content="Board Thickness" Canvas.Left="22" Canvas.Top="158"/>
             <TextBox x:Name="BoardThicknessValue" Width="100" BorderThickness="3" Canvas.Top="194" Canvas.Left="22"/>
             <ComboBox x:Name="BoardThicknessUnits" Canvas.Left="127" Canvas.Top="194"/>
-
-            <ComboBox x:Name="TrackLayer" Width="100" Canvas.Left="504" Canvas.Top="242" />
-            <Label Content="Track Layer" FontSize="16" Canvas.Left="496" Canvas.Top="206"/>
-            <Canvas Height="58" Canvas.Left="304" Canvas.Top="563" Width="158">
+            <Canvas Height="58" Canvas.Left="304" Canvas.Top="538" Width="158">
                 <Label Content="Min. Track Width" FontSize="16" Canvas.Left="18" Canvas.Top="5"/>
                 <TextBox x:Name="MinTrackWidthValue" Width="100" Height="21" BorderThickness="0" Canvas.Left="9" Canvas.Top="36"/>
                 <ComboBox x:Name="MinTrackWidthUnits" Canvas.Top="36" Canvas.Left="130"/>
@@ -94,21 +91,41 @@
 
             <!-- EXTRA PARAMETERS -->
 
-            <Label FontSize="16" Content="Unadjusted Track Cross-sectional Area" Canvas.Left="73" Canvas.Top="658"/>
-            <TextBox x:Name="UnadjustedTrackCrossSectionalAreaValue" Width="100" BorderThickness="3" Canvas.Top="667" Canvas.Left="373"/>
-            <ComboBox x:Name="UnadjustedTrackCrossSectionalAreaUnits" Canvas.Left="494" Canvas.Top="667"/>
+            <Label FontSize="16" Content="Unadjusted Track Cross-sectional Area" Canvas.Left="83" Canvas.Top="608"/>
+            <TextBox x:Name="UnadjustedTrackCrossSectionalAreaValue" Width="100" BorderThickness="3" Canvas.Top="617" Canvas.Left="383"/>
+            <ComboBox x:Name="UnadjustedTrackCrossSectionalAreaUnits" Canvas.Left="504" Canvas.Top="617"/>
 
-            <Label FontSize="16" Content="Track Thickness Modifier" Canvas.Left="73" Canvas.Top="685"/>
-            <TextBox x:Name="TrackThicknessModifierValue" Width="100" BorderThickness="3" Canvas.Top="694" Canvas.Left="373"/>
-            <ComboBox x:Name="TrackThicknessModifierUnits" Canvas.Left="494" Canvas.Top="694"/>
+            <Label FontSize="16" Content="Track Thickness Modifier" Canvas.Left="83" Canvas.Top="635"/>
+            <TextBox x:Name="TrackThicknessModifierValue" Width="100" BorderThickness="3" Canvas.Top="644" Canvas.Left="383"/>
+            <ComboBox x:Name="TrackThicknessModifierUnits" Canvas.Left="504" Canvas.Top="644"/>
 
-            <Label FontSize="16" Content="Board Thickness Modifier" Canvas.Left="73" Canvas.Top="712"/>
-            <TextBox x:Name="BoardThicknessModifierValue" Width="100" BorderThickness="3" Canvas.Top="721" Canvas.Left="373"/>
-            <ComboBox x:Name="BoardThicknessModifierUnits" Canvas.Left="494" Canvas.Top="721"/>
+            <Label FontSize="16" Content="Board Thickness Modifier" Canvas.Left="83" Canvas.Top="662"/>
+            <TextBox x:Name="BoardThicknessModifierValue" Width="100" BorderThickness="3" Canvas.Top="671" Canvas.Left="383"/>
+            <ComboBox x:Name="BoardThicknessModifierUnits" Canvas.Left="504" Canvas.Top="671"/>
 
             <Label Content="Is Plane Present?" FontSize="16" Canvas.Left="263" Canvas.Top="136"/>
             <ComboBox x:Name="IsPlanePresent" Width="100" Canvas.Left="277" Canvas.Top="167" />
+
+            <Label FontSize="16" Content="Plane Proximity" Canvas.Left="110" Canvas.Top="41"/>
+            <TextBox x:Name="PlaneProximityValue" Width="100" BorderThickness="3" Canvas.Top="77" Canvas.Left="110"/>
+            <ComboBox x:Name="PlaneProximityUnits" Canvas.Left="215" Canvas.Top="77"/>
+
+            <Label FontSize="16" Content="Plane Proximity Modifier" Canvas.Left="83" Canvas.Top="689"/>
+            <TextBox x:Name="PlaneProximityModifierValue" Width="100" BorderThickness="3" Canvas.Top="698" Canvas.Left="383"/>
+            <ComboBox x:Name="PlaneProximityModifierUnits" Canvas.Left="504" Canvas.Top="698"/>
+
+            <Label FontSize="16" Content="Thermal Conductivity" Canvas.Left="471" Canvas.Top="61"/>
+            <TextBox x:Name="ThermalConductivityValue" Width="100" BorderThickness="3" Canvas.Top="97" Canvas.Left="471"/>
+            <ComboBox x:Name="ThermalConductivityUnits" Canvas.Left="576" Canvas.Top="97"/>
+
+            <Label FontSize="16" Content="Thermal Conductivity Modifier" Canvas.Left="83" Canvas.Top="716"/>
+            <TextBox x:Name="ThermalConductivityModifierValue" Width="100" BorderThickness="3" Canvas.Top="725" Canvas.Left="383"/>
+            <ComboBox x:Name="ThermalConductivityModifierUnits" Canvas.Left="504" Canvas.Top="725"/>
             
+            <Label FontSize="16" Content="Adjusted Cross-Sectional Area" Canvas.Left="83" Canvas.Top="743"/>
+            <TextBox x:Name="AdjustedCrossSectionalAreaValue" Width="100" BorderThickness="3" Canvas.Top="752" Canvas.Left="383"/>
+            <ComboBox x:Name="AdjustedCrossSectionalAreaUnits" Canvas.Left="504" Canvas.Top="752"/>
+
         </Canvas>
     </Viewbox>
 </UserControl>

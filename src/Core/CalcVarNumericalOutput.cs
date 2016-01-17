@@ -32,6 +32,10 @@ namespace NinjaCalc.Core {
             Directions.Output,
             0.0) {
 
+                if (equation == null) {
+                    throw new System.ArgumentException("The equation provided to a CalVarNumericalOutput cannot be null.");
+                }
+
         }
 
     }

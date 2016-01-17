@@ -118,6 +118,8 @@ namespace NinjaCalc.Core {
         /// </summary>
         protected void FindDependenciesAndDependants() {
 
+            Console.WriteLine("FindDependenciesAndDependants() called for calculator.Name = \"" + this.Name + "\".");
+
             var dependencyList = new List<CalcVarBase>();
 
             EventHandler eventHandler = (object sender, EventArgs e) => {

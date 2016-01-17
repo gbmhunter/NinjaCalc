@@ -135,7 +135,30 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
             set;
         }
 
+        CalcVarNumericalInput PlaneProximity {
+            get;
+            set;
+        }
 
+        CalcVarNumericalOutput PlaneProximityModifier {
+            get;
+            set;
+        }
+
+        CalcVarNumericalInput ThermalConductivity {
+            get;
+            set;
+        }
+
+        CalcVarNumericalOutput ThermalConductivityModifier {
+            get;
+            set;
+        }
+
+        CalcVarNumericalOutput AdjustedCrossSectionalArea {
+            get;
+            set;
+        }
 
 
 
@@ -449,27 +472,191 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
 
             this.CalcVars.Add(this.IsPlanePresent);
 
-
-
-
-
-
-
-
-
             //===============================================================================================//
-            //========================================= TRACK LAYER =========================================//
+            //================================== PLANE PROXIMITY (input) ====================================//
             //===============================================================================================//
 
-            this.TrackLayer = new CalcVarComboBox(
-                "trackLayer",
-                view.TrackLayer,
-                new string[] {
-                    "Internal",
-                    "External",
+            this.PlaneProximity = new CalcVarNumericalInput(
+                "planeProximity",
+                view.PlaneProximityValue,
+                view.PlaneProximityUnits,
+                new NumberUnit[]{
+                    new NumberUnit("um", 1e-6),  
+                    new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
+                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
+                },
+                null);
+
+            //========== VALIDATORS ==========//
+            this.PlaneProximity.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.PlaneProximity.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.PlaneProximity.AddValidator(
+               new Validator(() => {
+                   return ((this.PlaneProximity.RawVal < 144e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+               },
+               "Plane proximity is below the minimum value (144um) extracted from the plane proximity modififer graph in IPC-2152." +
+               " Results might not be as accurate (extrapolation will occur)."));
+            this.PlaneProximity.AddValidator(
+                new Validator(() => {
+                    return ((this.PlaneProximity.RawVal > 2.40e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                "Plane proximity is above the maximum value (2.40mm) extracted from the plane proximity modififer graph in IPC-2152." +
+                " Results might not be as accurate (extrapolation will occur)."));
+            // This next validator is dependent on other calculator variables
+            this.PlaneProximity.AddValidator(
+                new Validator(() => {
+                    double planeProximityM = this.PlaneProximity.RawVal;
+                    double boardThicknessM = this.BoardThickness.RawVal;
+                    return ((planeProximityM > boardThicknessM) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
+                },
+                "Plane proximity cannot be larger than total board thickness (this just does not make sense!)."));
+
+            this.CalcVars.Add(this.PlaneProximity);
+
+            //===============================================================================================//
+            //=================================== PLANE PROXIMITY MODIFIER (output) =========================//
+            //===============================================================================================//
+
+            this.PlaneProximityModifier = new CalcVarNumericalOutput(
+                "planeProximityModifier",
+                view.PlaneProximityModifierValue,
+                view.PlaneProximityModifierUnits,
+                () => {
+
+                    // Read in variables
+                    string isPlanePresent = this.IsPlanePresent.RawVal;
+                    double planeProximityM = this.PlaneProximity.RawVal;
+
+                    if (isPlanePresent == "False") {                        
+                        // Lets not modify the cross-sectional area by anything if no plane is present
+                        // (multiply by 1)
+                        return 1.0;
+                    }                   
+
+                    // Plane must be present at this point
+
+                    // Convert to "mils" units, as this is what is used in IPC-2152 graphs
+                    double planeProximityMils = planeProximityM * (1 / UNIT_CONVERSION_M_PER_MIL);
+
+                    double planeProximityModifierMulti = PLANE_PROXIMITY_TREND_LINE_COEF_M * planeProximityMils + 
+                        PLANE_PROXIMITY_TREND_LINE_COEF_C;
+
+                    return planeProximityModifierMulti;
+
+                },
+                new NumberUnit[]{
+                    new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
                 });
 
-            this.CalcVars.Add(this.TrackLayer);
+            // Add validators
+            this.PlaneProximityModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.PlaneProximityModifier.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(this.PlaneProximityModifier);
+
+            //===============================================================================================//
+            //================================= THERMAL CONDUCTIVITY (input) ================================//
+            //===============================================================================================//
+
+            this.ThermalConductivity = new CalcVarNumericalInput(
+                "boardThickness",
+                view.ThermalConductivityValue,
+                view.ThermalConductivityUnits,
+                new NumberUnit[]{
+                    new NumberUnit("W/(m*K)", 1),
+			        new NumberUnit("BTU/(hour*ft*F)", UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF)                       
+                },
+                null);
+
+            //========== VALIDATORS ==========//
+            this.ThermalConductivity.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.ThermalConductivity.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.ThermalConductivity.AddValidator(
+               new Validator(() => {
+                   return ((this.ThermalConductivity.RawVal < 180e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+               },
+               "Thermal conductivity is below the minimum value (180mW/m*C) extracted from the thermal conductivity modififer graph in IPC-2152." + 
+               " Results might not be as accurate (extrapolation will occur)."));
+            this.ThermalConductivity.AddValidator(
+                new Validator(() => {
+                    return ((this.ThermalConductivity.RawVal > 340e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                "Thermal conductivity is above the maximum value (340mW/m*C) extracted from the thermal conductivity modififer graph in IPC-2152." +
+                " Results might not be as accurate (extrapolation will occur)."));
+
+            this.CalcVars.Add(this.ThermalConductivity);
+
+            //===============================================================================================//
+            //================================ THERMAL CONDUCTIVITY MODIFIER (output) =======================//
+            //===============================================================================================//
+
+            this.ThermalConductivityModifier = new CalcVarNumericalOutput(
+                "thermalConductivityModifier",
+                view.ThermalConductivityModifierValue,
+                view.ThermalConductivityModifierUnits,
+                () => {
+
+                    // Read in variables
+                    double thermalConductivityWattnMeternDegC = this.ThermalConductivity.RawVal;
+
+                    // Convert to BTU/(ft*hour*F), as this is what the IPC-2152 graph used
+                    double thermalConductivityBtunFtnHournDegF = thermalConductivityWattnMeternDegC * 
+                        (1 / UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF);
+
+                    double thermalConductivityModifierMulti = THERMAL_CONDUCTIVITY_TREND_LINE_COEF_M * 
+                        thermalConductivityBtunFtnHournDegF + THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C;
+
+                    return thermalConductivityModifierMulti;
+
+                },
+                new NumberUnit[]{
+                    new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
+                });
+
+            // Add validators
+            this.ThermalConductivityModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.ThermalConductivityModifier.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(this.ThermalConductivityModifier);
+
+            //===============================================================================================//
+            //================================= ADJUSTED CROSS-SECTIONAL AREA (output) ======================//
+            //===============================================================================================//
+
+            this.AdjustedCrossSectionalArea = new CalcVarNumericalOutput(
+                "adjustedCrossSectionalArea",
+                view.AdjustedCrossSectionalAreaValue,
+                view.AdjustedCrossSectionalAreaUnits,
+                () => {
+
+                    double unadjustedTrackCrossSectionalArea = this.UnadjustedTrackCrossSectionalArea.RawVal;
+                    double trackThicknessModifier = this.TrackThicknessModifier.RawVal;
+                    double boardThicknessModifier = this.BoardThicknessModifier.RawVal;
+                    double planeProximityModifier = this.PlaneProximityModifier.RawVal;
+                    double thermalConductivityModifier = this.TrackThicknessModifier.RawVal;
+
+                    double adjustedTrackCrosssectionalAreaM2 =
+                        unadjustedTrackCrossSectionalArea *
+                        trackThicknessModifier *
+                        boardThicknessModifier *
+                        planeProximityModifier *
+                        thermalConductivityModifier;
+
+                    return adjustedTrackCrosssectionalAreaM2;
+
+                },
+                new NumberUnit[]{
+                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),  
+                    new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
+                    new NumberUnit("mm", 1e-3),                          
+                });
+
+            // Add validators
+            this.AdjustedCrossSectionalArea.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.AdjustedCrossSectionalArea.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+            this.CalcVars.Add(this.AdjustedCrossSectionalArea);
+
 
             //===============================================================================================//
             //======================================== MIN. TRACK WIDTH =====================================//
@@ -480,41 +667,25 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 view.MinTrackWidthValue,
                 view.MinTrackWidthUnits,
                 () => {
-                    //Console.WriteLine("Equation() called for MinTrackWidth.");
-                    var traceCurrent = this.TrackCurrent.RawVal;
-                    var tempRise = this.TempRise.RawVal;
-                    var trackThickness = this.TrackThickness.RawVal;
-                    var trackLayer = this.TrackLayer.RawVal;
-                    
-                    if(trackLayer == "External")     
-			        {
-				        Console.WriteLine("External trace selected.");
-				        double crossSectionalArea = (Math.Pow((traceCurrent/(0.048*Math.Pow(tempRise, 0.44))), 1/0.725));
-				        Console.WriteLine("Cross-sectional area = " + crossSectionalArea.ToString());
-				        double width = (crossSectionalArea/(trackThickness*1000000.0/25.4))*(25.4/1000000.0);
-				        return width;
-			        }
-			        else if(trackLayer == "Internal")
-			        {
-				        Console.WriteLine("Internal trace selected.");
-				        double crossSectionalArea = (Math.Pow((traceCurrent/(0.024*Math.Pow(tempRise, 0.44))), 1/0.725));
-                        Console.WriteLine("Cross-sectional area = " + crossSectionalArea.ToString());
-				        double width = (crossSectionalArea/(trackThickness*1000000.0/25.4))*(25.4/1000000.0);
-				        return width;
-                    }
-                    else {
-                        System.Diagnostics.Debug.Assert(false, "Track layer was invalid (should be either External or Internal).");
-                        return Double.NaN;
-                    }
+                    double minimumTrackWidthM = this.AdjustedCrossSectionalArea.RawVal / this.TrackThickness.RawVal;
+
+                    return minimumTrackWidthM;
                 },
                 new NumberUnit[]{
-                    new NumberUnit("um", 1e-6),                        
-                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
+                    new NumberUnit("um", 1e-6),  
+                    new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
+                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                           
                 });
 
             // Add validators
             this.MinTrackWidth.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.MinTrackWidth.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.MinTrackWidth.AddValidator(
+               new Validator(() => {
+                   return ((this.MinTrackWidth.RawVal <= 0) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
+               },
+               "Oh oh, one of the input variables is too far away from the data obtained from the IPC-2152 graphs, and the equations have produced a negative track width." +
+               " Try and make sure input variables are green (or if orange, not too far away from being green)."));
+
 
             this.CalcVars.Add(this.MinTrackWidth);
 
@@ -524,14 +695,14 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
 
             // Setup the top PCB layer to dissappear if "External" is selected for the track layer,
             // and visible if "Internal" is selected.
-            this.TrackLayer.RawValueChanged += (sender, e) => {
+            /*this.TrackLayer.RawValueChanged += (sender, e) => {
                 if (this.TrackLayer.RawVal == "Internal") {
                     view.TopPcb.Visibility = System.Windows.Visibility.Visible;
                 }
                 else if (this.TrackLayer.RawVal == "External") {
                     view.TopPcb.Visibility = System.Windows.Visibility.Collapsed;
                 }
-            };
+            };*/
 
             //===============================================================================================//
             //============================================== FINAL ==========================================//
@@ -540,7 +711,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
             this.FindDependenciesAndDependants();
             this.RecalculateAllOutputs();
             this.ValidateAllVariables();
-            
-        }       
+
+        } // public TrackCurrentIpc2152Calculator()      
     }
 }
