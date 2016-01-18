@@ -5,6 +5,7 @@ v0.3.6
 - Made the calculator selection grid scrollable, closes #41.
 - Added info to README on how to generate installer, closes #29.
 - Fixed bug where only the first level of dependencies in the chain are re-calculated on variable change, closes #45.
+- Added automatic rounding functionality to numerical calculator output variables, closes #44.
 
 v0.3.5
 ------

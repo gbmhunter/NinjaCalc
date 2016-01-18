@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NinjaCalc.Core {
     public static class Rounding {
 
-        static double RoundToSignificantDigits(this double d, int digits) {
+        public static double RoundToSignificantDigits(this double d, int digits) {
             if (d == 0)
                 return 0;
 
