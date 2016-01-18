@@ -8,8 +8,8 @@ A embedded engineering calculator suite for doing calculations in a breeze.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2016-01-16
-- Version: v0.3.5
+- Last Modified: 2016-01-18
+- Version: v0.3.6
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: C#, WPF, .NET
@@ -32,8 +32,9 @@ Features
 
 - Suite of useful embedded-engineering related calculators.
 - As-you-type updating
-- Dynamic unit-changing support (including various metric and imperial units).
+- Dynamic unit-changing support (including various metric and imperial units where appropriate).
 - Continuously checking validators which make sure calculator variables are within range and sensible.
+- Smart calculator resizing to cater for various screen sizes and resolutions.
 - Powerful and compact language for describing new calculators, making it easy to add your own if so wanted!
 
 
@@ -51,12 +52,36 @@ Developing
 
 #. Download/clone this repository into a folder on your computer.
 #. Open the project in Visual Studio.
+#. Develop!
+
+Creating An Installable Package
+-------------------------------
+
+This project uses the free installer `Inno Setup`_ to bundle the built application files into a single .exe installable package for Windows machines.
+
+The Inno Setup script is stored at :code:`install/InnoSetupScript.iss`.
+
+The easiest way to generate an installable package is to:
+
+#. Open this project in Visual Studio.
+#. Make sure the configuration is set to "Release".
+#. Build the project.
+#. Run "Inno Script Studio" (downloadable with Inno Setup), and open the script file :code:`install/InnoSetupScript.iss`.
+#. Press the "Run" button from within Inno Script Studio.
+#. Done! All going well, an executable called "setup.exe" should of been created in :code:`install/Output/`. 
+
+.. _`Inno Setup`: http://www.jrsoftware.org/isinfo.php
 
 
 File Structure 
 ==============
 
 Sorted by alphabetical order.
+
+install/
+--------
+
+Contains the Inno Setup script for generating a single-file installable package (.exe). When this .exe is generated, it is placed into :code:`install/Output/` by the setup script.
 
 src/
 ----
@@ -79,15 +104,17 @@ See changelog.md.
 Contributors
 ============
 
-Thanks to Phillip Abplanalp and Zac Frank for user-interaction guidance and tips!
+Thanks to Phillip Abplanalp, Zac Frank, and Brendon Le Comte for user-interaction guidance and tips!
 
 Thanks to alexcurtis_ for the time and effort he put into the `react-treebeard`_ module.
 
-.. _alexcurtis: https://github.com/alexcurtis
+.. _`alexcurtis`: https://github.com/alexcurtis
 .. _`react-treebeard`: https://github.com/alexcurtis/react-treebeard
 
-Thanks to the kids at Facebook_ for the great react framework.
+Thanks to the kids at Facebook_ for the great react framework (albeit no longer used!)
 
-.. _Facebook: https://facebook.github.io/react/
+.. _`Facebook`: https://facebook.github.io/react/
+
+Thanks to Jesse Eedrah for guidance and help with Javascript and the React/Redux stack.
 
 Thanks to Michael O'Donnell (a la Mod) for sharing some of his pro-knowledge of the C#/.NET language.

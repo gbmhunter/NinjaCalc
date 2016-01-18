@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace NinjaCalc.Core {
     /// <summary>
-    /// Base calculator class. Designed to be inherited by actual calculator implementations.
+    /// Base calculator class. Designed to be inherited by actual calculator implementations, which then define their own variables.
     /// </summary>
     public abstract class Calculator {
 
@@ -32,6 +32,20 @@ namespace NinjaCalc.Core {
             set;
         }
 
+        public string[] CategoryTree {
+            get;
+            set;
+        }
+
+        public string[] Tags {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// This holds the "view" of the calculator, the WPF UserControl object which represents what
+        /// the user can see and interact with.
+        /// </summary>
         public UserControl View {
             get;
             set;
@@ -52,11 +66,26 @@ namespace NinjaCalc.Core {
         /// </summary>
         /// <param name="name"></param>
         /// <param name="description"></param>
-        public Calculator(string name, string description, string iconImagePath, UserControl view) {
+        public Calculator(
+            string name,
+            string description,
+            string iconImagePath,
+            string[] categoryTree,
+            string[] tags,
+            UserControl view) {
+
             this.Name = name;
             this.Description = description;
 
-    
+            //========== CATEGORY ==========//
+
+            this.CategoryTree = categoryTree;
+
+            //========== TAGS ==========//
+
+            this.Tags = tags;
+
+            //========== SELECTION GRID ICON ==========//
 
             // The following is implemented to that unit tests work, as constructing a calculator outside
             // of this project (i.e. inside Unit Test project instead) causes the URI pack scheme to fail
@@ -70,8 +99,12 @@ namespace NinjaCalc.Core {
             }
             //this.IconImagePath = iconImagePath;
 
+            //========== VIEW ==========//
+
             // Internally save reference to the view
             this.View = view;
+
+            //========== MISC. ==========//
 
             // Initialise empty dictionary for the calculator variables
             // (these are not passed into the constructor for clarity reasons)
@@ -84,6 +117,8 @@ namespace NinjaCalc.Core {
         /// variables have been added to the calcVars List.
         /// </summary>
         protected void FindDependenciesAndDependants() {
+
+            Console.WriteLine("FindDependenciesAndDependants() called for calculator.Name = \"" + this.Name + "\".");
 
             var dependencyList = new List<CalcVarBase>();
 

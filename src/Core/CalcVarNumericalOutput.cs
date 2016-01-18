@@ -16,21 +16,25 @@ namespace NinjaCalc.Core {
         public CalcVarNumericalOutput(
             String name,
             TextBox calcValTextBox,
-            ComboBox unitsComboBox,            
-            //Dictionary<string, CalcVar> calcVars, 
+            ComboBox unitsComboBox,                         
             Func<double> equation,
-            NumberUnit[] units)
+            NumberUnit[] units,
+            int numDigitsToRound)
             : base(
             name,
             calcValTextBox,
-            unitsComboBox,
-            null,
-            //calcVars,
+            unitsComboBox,            
+            null,           
             equation,
             units,
+            numDigitsToRound,
             // This is always going to be an output!
             Directions.Output,
             0.0) {
+
+                if (equation == null) {
+                    throw new System.ArgumentException("The equation provided to a CalVarNumericalOutput cannot be null.");
+                }
 
         }
 

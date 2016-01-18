@@ -113,6 +113,10 @@ namespace NinjaCalc {
                         this.ioRadioButton.IsChecked = true;
                     }
 
+                    // Now the event handler is removed, update the displayed value for the raw value
+                    // (this is so rounding occurs)
+                    this.UpdateDispValFromRawVal();
+
                 }
                 else if (value == Directions.Input) {
                     //this.calcValTextBox.IsEnabled = true;
@@ -182,6 +186,8 @@ namespace NinjaCalc {
             }
         }
 
+        public int NumDigitsToRound;
+
         //===============================================================================================//
         //========================================== CONSTRUCTORS =======================================//
         //===============================================================================================//
@@ -198,7 +204,8 @@ namespace NinjaCalc {
             ComboBox unitsComboBox,
             RadioButton ioRadioButton,            
             Func<double> equation,
-            NumberUnit[] units,            
+            NumberUnit[] units,     
+            int numDigitsToRound,
             Directions defaultDirection,
             System.Nullable<double> defaultRawValue) : base(name, equation) {
 
@@ -225,10 +232,6 @@ namespace NinjaCalc {
             // Initialise empty validation results list
             this.ValidationResults = new List<CalcValidationResult>();
 
-            // Setup default direction
-            this.Direction = defaultDirection;
-
-            // Internally save reference to the units combo box
             this.unitsComboBox = unitsComboBox;
 
             // Attach event handler to the selection change for the units combo box
@@ -255,6 +258,16 @@ namespace NinjaCalc {
             else {
                 this.SelUnit = this.units[0];
             }
+
+            // Setup default direction
+            this.Direction = defaultDirection;
+
+            // Internally save reference to the units combo box
+           
+
+            
+
+            this.NumDigitsToRound = numDigitsToRound;
 
             // Assign the default raw value
             if (defaultRawValue.HasValue) {
@@ -297,11 +310,14 @@ namespace NinjaCalc {
             // Invoke the provided equation function,
             // which should return the raw value for this calculator variable
             this.rawVal = this.Equation.Invoke();
-            this.dispVal = this.rawVal / this.selUnit.Multiplier;
-            this.calcValTextBox.Text = this.dispVal.ToString();
+            //this.dispVal = this.rawVal / this.selUnit.Multiplier;
+            //this.calcValTextBox.Text = this.dispVal.ToString();
+            this.UpdateDispValFromRawVal();
 
             // Validation is done in the TextBoxChanged event handler
             this.Validate();
+
+            this.ForceDependantOutputsToRecalculate();
         }
 
         public void RadioButtonChanged(object sender, EventArgs e) {
@@ -395,11 +411,12 @@ namespace NinjaCalc {
             this.Validate();
 
             // We need to re-calculate any this calculator variables dependants, if they are outputs
-            for (int i = 0; i < this.Dependants.Count; i++) {
+            this.ForceDependantOutputsToRecalculate();
+            /*for (int i = 0; i < this.Dependants.Count; i++) {
                 if (this.Dependants[i].Direction == Directions.Output) {
                     this.Dependants[i].Calculate();
                 }
-            }
+            }*/
         }
 
         public void UnitsComboBox_SelectionChanged(object sender, EventArgs e) {
@@ -427,12 +444,17 @@ namespace NinjaCalc {
 
             }
             else if(this.Direction == Directions.Output) {
-                // Recalculate dispVal and update textbox
-                // We don't need to validate again if the units are changed for an input,
-                // as the actual value (raw value) does not change.
-                this.dispVal = this.rawVal / this.selUnit.Multiplier;
-                this.calcValTextBox.Text = this.dispVal.ToString();
+                this.UpdateDispValFromRawVal();
             }
+        }
+
+        private void UpdateDispValFromRawVal() {
+            // Recalculate dispVal and update textbox
+            // We don't need to validate again if the units are changed for an output,
+            // as the actual value (raw value) does not change.
+            double unroundedDispVal = this.rawVal / this.selUnit.Multiplier;
+            this.dispVal = Rounding.RoundToSignificantDigits(unroundedDispVal, this.NumDigitsToRound);
+            this.calcValTextBox.Text = this.dispVal.ToString();
         }
 
         public void UpdateUIBasedOnValidationResults() {
@@ -487,5 +509,10 @@ namespace NinjaCalc {
             this.SelUnit = foundUnit;
 
         }
+
+
+        
+
     }
+
 }
