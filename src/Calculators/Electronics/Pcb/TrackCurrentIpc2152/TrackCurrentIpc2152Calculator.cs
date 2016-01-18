@@ -160,13 +160,6 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
             set;
         }
 
-
-
-        CalcVarComboBox TrackLayer {
-            get;
-            set;
-        }
-
         CalcVarNumericalOutput MinTrackWidth {
             get;
             set;
@@ -284,9 +277,9 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                    
                 },
                 new NumberUnit[]{
-                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),     
-                    new NumberUnit("mils\xb2", UNIT_CONVERSION_M2_PER_MIL2),
-                    new NumberUnit("mm", 1e-3),                        
+                    new NumberUnit("um²", 1e-12, NumberPreference.DEFAULT),     
+                    new NumberUnit("mils²", UNIT_CONVERSION_M2_PER_MIL2),
+                    new NumberUnit("mm²", 1e-6),                        
                 },
                 4);
 
@@ -644,7 +637,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     double trackThicknessModifier = this.TrackThicknessModifier.RawVal;
                     double boardThicknessModifier = this.BoardThicknessModifier.RawVal;
                     double planeProximityModifier = this.PlaneProximityModifier.RawVal;
-                    double thermalConductivityModifier = this.TrackThicknessModifier.RawVal;
+                    double thermalConductivityModifier = this.ThermalConductivityModifier.RawVal;
 
                     double adjustedTrackCrosssectionalAreaM2 =
                         unadjustedTrackCrossSectionalArea *
@@ -657,9 +650,9 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
 
                 },
                 new NumberUnit[]{
-                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),  
-                    new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
-                    new NumberUnit("mm", 1e-3),                          
+                    new NumberUnit("um²", 1e-12, NumberPreference.DEFAULT),     
+                    new NumberUnit("mils²", UNIT_CONVERSION_M2_PER_MIL2),
+                    new NumberUnit("mm²", 1e-6),                        
                 },
                 4);
 
@@ -708,14 +701,18 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
 
             // Setup the top PCB layer to dissappear if "External" is selected for the track layer,
             // and visible if "Internal" is selected.
-            /*this.TrackLayer.RawValueChanged += (sender, e) => {
-                if (this.TrackLayer.RawVal == "Internal") {
-                    view.TopPcb.Visibility = System.Windows.Visibility.Visible;
+            this.IsPlanePresent.RawValueChanged += (sender, e) => {
+                if (this.IsPlanePresent.RawVal == "True") {
+                    view.Plane.Visibility = System.Windows.Visibility.Visible;
+                    view.PlaneProximityCanvas.Visibility = System.Windows.Visibility.Visible;
+                    view.BoardThicknessDimension.Length = 170;
                 }
-                else if (this.TrackLayer.RawVal == "External") {
-                    view.TopPcb.Visibility = System.Windows.Visibility.Collapsed;
+                else if (this.IsPlanePresent.RawVal == "False") {
+                    view.Plane.Visibility = System.Windows.Visibility.Collapsed;
+                    view.PlaneProximityCanvas.Visibility = System.Windows.Visibility.Collapsed;
+                    view.BoardThicknessDimension.Length = 120;
                 }
-            };*/
+            };
 
             //===============================================================================================//
             //============================================== FINAL ==========================================//
