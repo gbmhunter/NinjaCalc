@@ -59,11 +59,11 @@ namespace NinjaCalc {
 
             // BASIC
             this.RegisterCalculator(new Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalculator());
-            //this.RegisterCalculator(new Calculators.Electronics.Basic.ResistorDivider.ResistorDividerCalc());
+            this.RegisterCalculator(new Calculators.Electronics.Basic.ResistorDivider.ResistorDividerCalc());
 
             // PCB
-            //this.RegisterCalculator(new Calculators.Electronics.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221ACalculator());
-            //this.RegisterCalculator(new Calculators.Electronics.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152Calculator());
+            this.RegisterCalculator(new Calculators.Electronics.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221ACalculator());
+            this.RegisterCalculator(new Calculators.Electronics.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152Calculator());
             
         }
 

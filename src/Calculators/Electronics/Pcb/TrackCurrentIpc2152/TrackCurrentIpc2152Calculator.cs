@@ -201,6 +201,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("mA", 1e-3),
                     new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                 },
+                4,
                 null);
 
             //========== VALIDATORS ===========//
@@ -232,6 +233,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 new NumberUnit[]{
                     new NumberUnit("°C", 1e0, NumberPreference.DEFAULT),                        
                 },
+                4,
                 null);
 
             //========== VALIDATORS ==========//
@@ -285,7 +287,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),     
                     new NumberUnit("mils\xb2", UNIT_CONVERSION_M2_PER_MIL2),
                     new NumberUnit("mm", 1e-3),                        
-                });
+                },
+                4);
 
             // Add validators
             this.UnadjustedTrackCrossSectionalArea.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -307,6 +310,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("oz", UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ),  
                     new NumberUnit("mm", 1e-3),                        
                 },
+                4,
                 null);
 
             //========== VALIDATORS ==========//
@@ -384,7 +388,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 },
                 new NumberUnit[]{
                     new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
-                });
+                },
+                4);
 
             // Add validators
             this.TrackThicknessModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -405,6 +410,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
                     new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
                 },
+                4,
                 null);
 
             //========== VALIDATORS ==========//
@@ -449,7 +455,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 },
                 new NumberUnit[]{
                     new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
-                });
+                },
+                4);
 
             // Add validators
             this.BoardThicknessModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -485,6 +492,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
                     new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
                 },
+                4,
                 null);
 
             //========== VALIDATORS ==========//
@@ -546,7 +554,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 },
                 new NumberUnit[]{
                     new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
-                });
+                },
+                4);
 
             // Add validators
             this.PlaneProximityModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -566,6 +575,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("W/(m*K)", 1),
 			        new NumberUnit("BTU/(hour*ft*F)", UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF)                       
                 },
+                4,
                 null);
 
             //========== VALIDATORS ==========//
@@ -611,7 +621,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 },
                 new NumberUnit[]{
                     new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
-                });
+                },
+                4);
 
             // Add validators
             this.ThermalConductivityModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -649,7 +660,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),  
                     new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
                     new NumberUnit("mm", 1e-3),                          
-                });
+                },
+                4);
 
             // Add validators
             this.AdjustedCrossSectionalArea.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -675,7 +687,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("um", 1e-6),  
                     new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
                     new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                           
-                });
+                },
+                4);
 
             // Add validators
             this.MinTrackWidth.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));

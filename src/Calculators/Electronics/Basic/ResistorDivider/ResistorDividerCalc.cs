@@ -75,6 +75,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
                         new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
                         new NumberUnit("kV", 1e3),
                     },
+                    4,
                     Directions.Input,
                     null);
 
@@ -107,6 +108,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
                         new NumberUnit("MΩ", 1e6),
                         new NumberUnit("GΩ", 1e9),
                     },
+                    4,
                     Directions.Input,
                     null);
 
@@ -139,6 +141,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
                         new NumberUnit("MΩ", 1e6),
                         new NumberUnit("GΩ", 1e9),
                     },
+                    4,
                     Directions.Input,
                     null);
 
@@ -169,6 +172,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
                         new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
                         new NumberUnit("kV", 1e3),
                     },
+                    4,
                     Directions.Output,
                     null);
 
@@ -199,7 +203,8 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
                         new NumberUnit("uA", 1e-6),
                         new NumberUnit("mA", 1e-3, NumberPreference.DEFAULT),
                         new NumberUnit("A", 1e0),
-                });
+                },
+                4);
 
             // Add validators
             this.Iq.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));

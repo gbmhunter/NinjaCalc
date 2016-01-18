@@ -65,6 +65,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                     new NumberUnit("mA", 1e-3),
                     new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                 },
+                4,
                 null);
 
             //===== VALIDATORS =====//
@@ -89,6 +90,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                 new NumberUnit[]{
                     new NumberUnit("C", 1e0, NumberPreference.DEFAULT),                        
                 },
+                4,
                 null);
 
             //===== VALIDATORS =====//
@@ -119,6 +121,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                     new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),                        
                     new NumberUnit("mm", 1e-3),                        
                 },
+                4,
                 null);
 
             //===== VALIDATORS =====//
@@ -190,7 +193,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                 new NumberUnit[]{
                     new NumberUnit("um", 1e-6),                        
                     new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
-                });
+                },
+                4);
 
             // Add validators
             this.MinTrackWidth.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
