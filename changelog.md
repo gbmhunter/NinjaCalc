@@ -2,6 +2,7 @@ v0.3.7
 ------
 
 - Added info section to IPC-2152 track current calculator, closes #49.
+- Animated the expansion/collapse of the info section, closes #51.
 
 v0.3.6
 ------
