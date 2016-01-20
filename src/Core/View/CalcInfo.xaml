@@ -307,7 +307,7 @@
         </ControlTemplate>
     </UserControl.Resources>
     <Expander Name="Expander" Header="INFO" FontSize="20" Width="{Binding ElementName=UserControlCalcInfo, Path=Width}" Template="{StaticResource RevealExpanderTemp}">
-        <StackPanel x:Name="PART_Host" Width="{Binding ElementName=UserControlCalcInfo, Path=Width}">          
+        <StackPanel x:Name="ChildrenHost" Width="{Binding ElementName=UserControlCalcInfo, Path=Width}">          
         </StackPanel>
     </Expander>
 </UserControl>

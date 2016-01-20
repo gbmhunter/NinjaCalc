@@ -29,6 +29,8 @@ namespace NinjaCalc.Core.View {
         //====================================== FIELDS/PROPERTIES ======================================//
         //===============================================================================================//
 
+        //========== SUPPORT FOR CHILDREN ==========//
+
         public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(
             "Children",
             typeof(UIElementCollection),
@@ -46,13 +48,19 @@ namespace NinjaCalc.Core.View {
 
         public CalcInfo() {
             InitializeComponent();
-            Children = PART_Host.Children;
+
+            // Add children to the correct element in the UI.
+            Children = ChildrenHost.Children;
         }
 
        
 
     }
 
+    /// <summary>
+    /// Code behind for "slide out" animation support for the Expander UI element (so the info can
+    /// be expanded/collapsed with smooth animation)
+    /// </summary>
     public class MultiplyConverter : IMultiValueConverter {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
             double result = 1.0;
