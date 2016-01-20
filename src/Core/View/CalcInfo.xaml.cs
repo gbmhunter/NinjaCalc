@@ -13,15 +13,33 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Globalization;
+// Markup is so ContentProperty works correctly
+using System.Windows.Markup;
 
 namespace NinjaCalc.Core.View {
+
+
     /// <summary>
     /// Interaction logic for CalcInfo.xaml
     /// </summary>
+    [ContentProperty("Children")]
     public partial class CalcInfo : UserControl {
         public CalcInfo() {
             InitializeComponent();
+            Children = PART_Host.Children;
         }
+
+        public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(
+            "Children",
+            typeof(UIElementCollection),
+            typeof(CalcInfo),
+            new PropertyMetadata());
+
+        public UIElementCollection Children {
+            get { return (UIElementCollection)GetValue(ChildrenProperty.DependencyProperty); }
+            private set { SetValue(ChildrenProperty, value); }
+        }
+
     }
 
     public class MultiplyConverter : IMultiValueConverter {

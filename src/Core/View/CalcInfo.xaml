@@ -304,9 +304,8 @@
         </ControlTemplate>
     </UserControl.Resources>
     <Expander Name="Expander" Header="INFO" FontSize="20" Width="800" Template="{StaticResource RevealExpanderTemp}">
-        <StackPanel>
-            <TextBlock x:Name="InfoText" FontSize="14" TextAlignment="Justify" Padding="20" TextWrapping="Wrap" Width="{Binding ElementName=Expander, Path=Width}" Background="White">
-                                This calculator
+        <StackPanel x:Name="PART_Host">
+            <TextBlock FontSize="14" TextAlignment="Justify" Padding="20" TextWrapping="Wrap" Width="{Binding ElementName=Expander, Path=Width}" Background="White">
             </TextBlock>
         </StackPanel>
     </Expander>
