@@ -103,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Core\View\CalcInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Core\View\Dimension.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -123,6 +127,9 @@
     <Compile Include="Core\CalcVarNumerical.cs" />
     <Compile Include="Core\CalcVarNumericalOutput.cs" />
     <Compile Include="Core\Rounding.cs" />
+    <Compile Include="Core\View\CalcInfo.xaml.cs">
+      <DependentUpon>CalcInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Core\View\MarginSetter.cs" />
     <Compile Include="Core\CalcVarNumericalInput.cs" />
     <Compile Include="Core\NumberUnit.cs" />
