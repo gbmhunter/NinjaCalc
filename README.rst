@@ -46,6 +46,8 @@ Windows only...sorry Linux/iOS users!
 #. Download the latest installer release from https://github.com/mbedded-ninja/NinjaCalc/releases.
 #. Run the installer and play (or work, right?)!
 
+Installing a newer version of NinjaCalc should automatically overwrite the old one.
+
 
 Developing
 ==========
@@ -53,6 +55,16 @@ Developing
 #. Download/clone this repository into a folder on your computer.
 #. Open the project in Visual Studio.
 #. Develop!
+
+Making Your Own Calculators
+---------------------------
+
+There are many pre-built calculator view objects to make development faster and keep a consistent look and feel across the application. These are located in :code:`src/Core/View`. This includes:
+
+- CalcInfo.xaml: A WPF user control for created an expandable/collapsible "Info" section to a calculator. Supports children (normally you would add a textblock as a child element).
+- ClippingBorder.cs: Support for creating rounded borders which clip their content. Used in the "Selected Calculator" grid object.
+- Dimension.xaml: A WPF user control for adding a dimension to a calculator diagram. Supports the :code:`Length` property to change it's length.
+- MarginSetter.cs: Add the property :code:`MarginSetter.Margin="10"` to any UI element, and it will set all the elements children to have a margin of :code:`10`. Used in the "Selected Calculator" grid object.
 
 Creating An Installable Package
 -------------------------------

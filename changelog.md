@@ -5,6 +5,7 @@ v0.3.7
 - Animated the expansion/collapse of the info section, closes #51.
 - Made the application startup in maximised state (full screen size), closes #53.
 - Made a reusable "Info" WPF user control, closes #52.
+- Added note to README about how installing new version should automatically overwrite old version, closes #54.
 
 v0.3.6
 ------
