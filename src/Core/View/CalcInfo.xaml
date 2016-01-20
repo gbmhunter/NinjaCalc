@@ -1,12 +1,15 @@
-﻿<UserControl x:Class="NinjaCalc.Core.View.CalcInfo"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local ="clr-namespace:NinjaCalc.Core.View"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+﻿<!-- This is a re-usable "Info" container for displaying calculator info. It is expandable/collapsable, 
+    and animated (collapsed by default). -->
+<UserControl x:Class="NinjaCalc.Core.View.CalcInfo"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:local ="clr-namespace:NinjaCalc.Core.View"
+            xmlns:sys="clr-namespace:System;assembly=mscorlib"
+            mc:Ignorable="d" 
+            d:DesignHeight="300" d:DesignWidth="300"
+            Name="UserControlCalcInfo">
     <UserControl.Resources>
 
         <!-- Simple Expander Button's Template-->
@@ -303,10 +306,8 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </UserControl.Resources>
-    <Expander Name="Expander" Header="INFO" FontSize="20" Width="800" Template="{StaticResource RevealExpanderTemp}">
-        <StackPanel x:Name="PART_Host">
-            <TextBlock FontSize="14" TextAlignment="Justify" Padding="20" TextWrapping="Wrap" Width="{Binding ElementName=Expander, Path=Width}" Background="White">
-            </TextBlock>
+    <Expander Name="Expander" Header="INFO" FontSize="20" Width="{Binding ElementName=UserControlCalcInfo, Path=Width}" Template="{StaticResource RevealExpanderTemp}">
+        <StackPanel x:Name="PART_Host" Width="{Binding ElementName=UserControlCalcInfo, Path=Width}">          
         </StackPanel>
     </Expander>
 </UserControl>

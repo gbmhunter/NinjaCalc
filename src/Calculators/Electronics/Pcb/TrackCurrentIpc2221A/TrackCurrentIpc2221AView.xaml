@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         
         <!-- INFO -->
-        <NinjaCalcCoreView:CalcInfo>
+        <NinjaCalcCoreView:CalcInfo Width="800">
             <TextBlock>Testing!!!</TextBlock>
         </NinjaCalcCoreView:CalcInfo>
         

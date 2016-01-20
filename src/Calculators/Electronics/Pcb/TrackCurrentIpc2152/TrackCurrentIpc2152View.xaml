@@ -22,9 +22,8 @@
             </Grid.RowDefinitions>
 
             <!-- =========== INFO SECTION ========== -->
-
-            <NinjaCalcCoreView:CalcInfo ScrollViewer.CanContentScroll="False">
-                <TextBlock FontSize="14" TextAlignment="Justify" Padding="20" TextWrapping="Wrap" Width="{Binding ElementName=Expander, Path=Width}" Background="White">
+            <NinjaCalcCoreView:CalcInfo Width="800">
+                <TextBlock FontSize="14" TextAlignment="Justify" Padding="20" TextWrapping="Wrap" Background="White">
                                 This calculator can find the minimum allowed PCB track width for a given continuous current. Takes into account the allowed temperature rise, copper track thickness, proximity to planes, total thickness of the PCB, and PCB material in accordance with IPC-2152.
                                 <LineBreak /><LineBreak />
 	                            The calculator uses equations built from the data provided in the IPC-2152 graphs.Data points were extracted from the graphs using http:/arohatgi.info/WebPlotDigitizer/ (a great program by-the-way). Suitable trend lines were then fitted. In the case of the three variable graphs, trend lines were fitted to the coefficients of the first set of trend lines.

@@ -24,10 +24,10 @@ namespace NinjaCalc.Core.View {
     /// </summary>
     [ContentProperty("Children")]
     public partial class CalcInfo : UserControl {
-        public CalcInfo() {
-            InitializeComponent();
-            Children = PART_Host.Children;
-        }
+
+        //===============================================================================================//
+        //====================================== FIELDS/PROPERTIES ======================================//
+        //===============================================================================================//
 
         public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(
             "Children",
@@ -39,6 +39,17 @@ namespace NinjaCalc.Core.View {
             get { return (UIElementCollection)GetValue(ChildrenProperty.DependencyProperty); }
             private set { SetValue(ChildrenProperty, value); }
         }
+
+        //===============================================================================================//
+        //======================================== CONSTRUCTORS =========================================//
+        //===============================================================================================//
+
+        public CalcInfo() {
+            InitializeComponent();
+            Children = PART_Host.Children;
+        }
+
+       
 
     }
 
