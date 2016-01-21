@@ -464,6 +464,9 @@ namespace NinjaCalc {
             this.calcValTextBox.Text = this.dispVal.ToString();
         }
 
+        /// <summary>
+        /// Updates the tooltip text (adds help info plus validation results).
+        /// </summary>
         public void UpdateUIBasedOnValidationResults() {
             // Change the textbox's border colour
             this.calcValTextBox.BorderBrush = this.validationResult.BorderBrush;
@@ -486,11 +489,19 @@ namespace NinjaCalc {
                 validationMsg = "Value is o.k.";
             }
 
+            // We need to use a TextBlock so we can do advanced formatting
             var toolTip = new System.Windows.Controls.TextBlock();
 
             // Tooltip content is help info plus validation results
             toolTip.Inlines.Add(this.HelpText + "\r\n\r\n");
-            toolTip.Inlines.Add(new Italic(new Run(validationMsg)));            
+            toolTip.Inlines.Add(new Italic(new Run(validationMsg)));
+
+            // Setting a max width prevents the tooltip from getting rediculuosly large when there is a long help info string.
+            // Keeping this quite small also makes the tooltip easier to read.
+            toolTip.MaxWidth = 300;
+            // Important to allow wrapping as we are restricting the max. width!
+            toolTip.TextWrapping = System.Windows.TextWrapping.Wrap;
+
             this.calcValTextBox.ToolTip = toolTip;
         }
 
