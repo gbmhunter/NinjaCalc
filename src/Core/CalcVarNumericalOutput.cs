@@ -19,7 +19,8 @@ namespace NinjaCalc.Core {
             ComboBox unitsComboBox,                         
             Func<double> equation,
             NumberUnit[] units,
-            int numDigitsToRound)
+            int numDigitsToRound,
+            String helpText)
             : base(
             name,
             calcValTextBox,
@@ -30,7 +31,8 @@ namespace NinjaCalc.Core {
             numDigitsToRound,
             // This is always going to be an output!
             Directions.Output,
-            0.0) {
+            0.0,
+            helpText) {
 
                 if (equation == null) {
                     throw new System.ArgumentException("The equation provided to a CalVarNumericalOutput cannot be null.");

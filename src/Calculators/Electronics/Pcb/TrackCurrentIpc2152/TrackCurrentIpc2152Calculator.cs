@@ -191,7 +191,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
             : base(
             "Track Current (IPC-2152)",
             "PCB track current carrying capability calculator, using the IPC-2152 standard.",
-            "pack://application:,,,/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/grid-icon.png",
+            "pack://application:,,,/Calculators/Electronics/Pcb/TrackCurrentIpc2152/grid-icon.png",
             new string[] { "Electronics", "PCB" },
             new string[] { "pcb, track, current, trace, width, carry, heat, temperature, ipc, ipc2221a, ipc-2221a" },
             new TrackCurrentIpc2152View()) {
@@ -204,16 +204,17 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
             //===============================================================================================//
             
            this.TrackCurrent = new CalcVarNumericalInput(
-                "traceCurrent",
-                view.TrackCurrentValue,
-                view.TrackCurrentUnits,                                                  
-                new NumberUnit[]{
+                "traceCurrent",             // Debug name
+                view.TrackCurrentValue,     // Textbox for number
+                view.TrackCurrentUnits,     // Combobox for units                                            
+                new NumberUnit[]{           // Units
                     new NumberUnit("uA", 1e-6),
                     new NumberUnit("mA", 1e-3),
                     new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                 },
-                4,
-                null);
+                4,                          // Rounding
+                null,
+                "The current you want the PCB track to be able to handle.");                      // Default value
 
             //========== VALIDATORS ===========//
             this.TrackCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -245,7 +246,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("°C", 1e0, NumberPreference.DEFAULT),                        
                 },
                 4,
-                null);
+                null,
+                "The maximum temperature rise. 20-40°C is a commen value for this.");
 
             //========== VALIDATORS ==========//
             this.TempRise.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -299,7 +301,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("mils²", UNIT_CONVERSION_M2_PER_MIL2),
                     new NumberUnit("mm²", 1e-6),                        
                 },
-                4);
+                4,
+                "The un-adjusted cross-sectional area.");
 
             // Add validators
             this.UnadjustedTrackCrossSectionalArea.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -322,7 +325,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("mm", 1e-3),                        
                 },
                 4,
-                null);
+                null,
+                "The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on.");
 
             //========== VALIDATORS ==========//
             this.TrackThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -400,7 +404,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 new NumberUnit[]{
                     new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
                 },
-                4);
+                4,
+                "");
 
             // Add validators
             this.TrackThicknessModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -422,7 +427,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
                 },
                 4,
-                null);
+                null,
+                "The total thickness of the PCB that the track is on.");
 
             //========== VALIDATORS ==========//
             this.BoardThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -467,7 +473,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 new NumberUnit[]{
                     new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
                 },
-                4);
+                4,
+                "");
 
             // Add validators
             this.BoardThicknessModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -504,7 +511,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
                 },
                 4,
-                null);
+                null,
+                "The distance to the closest plane from the track.");
 
             //========== VALIDATORS ==========//
             this.PlaneProximity.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -566,7 +574,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 new NumberUnit[]{
                     new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
                 },
-                4);
+                4,
+                "");
 
             // Add validators
             this.PlaneProximityModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -587,7 +596,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
 			        new NumberUnit("BTU/(hour*ft*F)", UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF)                       
                 },
                 4,
-                null);
+                null,
+                "The thermal conductivity of the PCB.");
 
             //========== VALIDATORS ==========//
             this.ThermalConductivity.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -633,7 +643,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 new NumberUnit[]{
                     new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),                      
                 },
-                4);
+                4,
+                "");
 
             // Add validators
             this.ThermalConductivityModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -672,7 +683,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("mils²", UNIT_CONVERSION_M2_PER_MIL2),
                     new NumberUnit("mm²", 1e-6),                        
                 },
-                4);
+                4,
+                "The adjusted cross-sectional area.");
 
             // Add validators
             this.AdjustedCrossSectionalArea.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -699,7 +711,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
                     new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                           
                 },
-                4);
+                4,
+                "The minimum track width needed to carry the specified current without exceeding the given temperature rise.");
 
             // Add validators
             this.MinTrackWidth.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));

@@ -74,35 +74,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Calculators\Electronics\Basic\ResistorDivider\ResistorDividerCalc.cs" />
-    <Compile Include="Calculators\Electronics\Basic\ResistorDivider\ResistorDividerCalcView.xaml.cs">
-      <DependentUpon>ResistorDividerCalcView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152Calculator.cs" />
     <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152View.xaml.cs">
       <DependentUpon>TrackCurrentIpc2152View.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221ACalculator.cs" />
-    <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221AView.xaml.cs">
-      <DependentUpon>TrackCurrentIpc2221AView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\CalcVarBase.cs" />
     <Compile Include="Core\CalculatorGridElement.xaml.cs">
       <DependentUpon>CalculatorGridElement.xaml</DependentUpon>
     </Compile>
-    <Page Include="Calculators\Electronics\Basic\OhmsLaw\OhmsLawView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Calculators\Electronics\Basic\ResistorDivider\ResistorDividerCalcView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152View.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221AView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -123,9 +103,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Calculator.cs" />
-    <Compile Include="Calculators\Electronics\Basic\OhmsLaw\OhmsLawView.xaml.cs">
-      <DependentUpon>OhmsLawView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Core\CalcVarComboBox.cs" />
     <Compile Include="Core\CalcVarNumerical.cs" />
     <Compile Include="Core\CalcVarNumericalOutput.cs" />
@@ -151,7 +128,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculators\Electronics\Basic\OhmsLaw\OhmsLaw.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -169,8 +145,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Calculators\Electronics\Basic\ResistorDivider\diagram.vsd" />
-    <None Include="Calculators\Electronics\Basic\ResistorDivider\grid-icon.vsd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -180,9 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Calculators\Electronics\Basic\OhmsLaw\icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\menu-stack-hamburger-128x118.png" />
@@ -208,17 +179,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Calculators\Electronics\Basic\OhmsLaw\diagram.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Calculators\Electronics\Basic\ResistorDivider\diagram.png" />
-    <Resource Include="Calculators\Electronics\Basic\ResistorDivider\grid-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\grid-icon.png" />
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\temperature-icon.jpg" />
-    <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\grid-icon.png" />
-    <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\temperature-icon.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
