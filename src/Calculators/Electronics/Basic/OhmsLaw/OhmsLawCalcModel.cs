@@ -12,7 +12,7 @@ using NinjaCalc.Calculators.Electronics.Basic.OhmsLaw;
 
 namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
 {
-    public class OhmsLawCalculator : Calculator {
+    public class OhmsLawCalcModel : Calculator {
 
         public CalcVarNumerical Voltage {
             get;
@@ -29,7 +29,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
             set;
         }
 
-        public OhmsLawCalculator()
+        public OhmsLawCalcModel()
             : base(
             "Ohm's Law",
             "The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm's law.",
@@ -61,7 +61,9 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
                     },
                     4,
                     Directions.Input,
-                    null);
+                    null,
+                    "The voltage across the resistor." // Help text
+                    );
 
             // Add validators
             this.Voltage.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -94,7 +96,9 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
                     },
                     4,
                     Directions.Input,
-                    null);
+                    null,
+                    "The current going through the resistor" // Help text
+                    );
 
             this.Current.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.Current.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
@@ -125,7 +129,9 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
                     },
                     4,
                     Directions.Output,
-                    null);
+                    null,
+                    "The resistance of the resistor (or other circuit component)." // Help text
+                    );
             
             this.Resistance.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
             this.Resistance.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));

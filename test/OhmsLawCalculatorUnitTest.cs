@@ -12,7 +12,7 @@ namespace NinjaCalcUnitTests {
         [TestMethod]
         public void TestCalcVarDefaultDirection() {
 
-            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalculator();
+            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalcModel();
 
             Assert.AreEqual(ohmsLawCalculator.Voltage.Direction, Directions.Input, "Voltage did not default to an input.");
             Assert.AreEqual(ohmsLawCalculator.Current.Direction, Directions.Input, "Current did not default to an input.");
@@ -23,7 +23,7 @@ namespace NinjaCalcUnitTests {
         [TestMethod]
         public void TestCalcVarDirectionChanges() {
 
-            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalculator();
+            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalcModel();
 
             ohmsLawCalculator.Resistance.Direction = Directions.Output;
 
@@ -48,7 +48,7 @@ namespace NinjaCalcUnitTests {
         [TestMethod]
         public void TestOhmsLawEquation() {
 
-            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalculator();           
+            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalcModel();           
 
             ohmsLawCalculator.Voltage.RawVal = 1;
             ohmsLawCalculator.Current.RawVal = 1;
@@ -67,7 +67,7 @@ namespace NinjaCalcUnitTests {
         [TestMethod]
         public void TestUnitChangeCausesRecalc() {
 
-            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalculator();
+            var ohmsLawCalculator = new NinjaCalc.Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalcModel();
 
             ohmsLawCalculator.Voltage.RawVal = 1;
             ohmsLawCalculator.Current.RawVal = 1;

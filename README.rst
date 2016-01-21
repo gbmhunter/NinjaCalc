@@ -8,8 +8,8 @@ A embedded engineering calculator suite for doing calculations in a breeze.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2016-01-18
-- Version: v0.3.6
+- Last Modified: 2016-01-21
+- Version: v0.3.7
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: C#, WPF, .NET
@@ -34,6 +34,7 @@ Features
 - As-you-type updating
 - Dynamic unit-changing support (including various metric and imperial units where appropriate).
 - Continuously checking validators which make sure calculator variables are within range and sensible.
+- Helpful tooltip information for each calculator variable.
 - Smart calculator resizing to cater for various screen sizes and resolutions.
 - Powerful and compact language for describing new calculators, making it easy to add your own if so wanted!
 
@@ -46,6 +47,8 @@ Windows only...sorry Linux/iOS users!
 #. Download the latest installer release from https://github.com/mbedded-ninja/NinjaCalc/releases.
 #. Run the installer and play (or work, right?)!
 
+Installing a newer version of NinjaCalc should automatically overwrite the old one.
+
 
 Developing
 ==========
@@ -53,6 +56,16 @@ Developing
 #. Download/clone this repository into a folder on your computer.
 #. Open the project in Visual Studio.
 #. Develop!
+
+Making Your Own Calculators
+---------------------------
+
+There are many pre-built calculator view objects to make development faster and keep a consistent look and feel across the application. These are located in :code:`src/Core/View`. This includes:
+
+- CalcInfo.xaml: A WPF user control for created an expandable/collapsible "Info" section to a calculator. Supports children (normally you would add a textblock as a child element).
+- ClippingBorder.cs: Support for creating rounded borders which clip their content. Used in the "Selected Calculator" grid object.
+- Dimension.xaml: A WPF user control for adding a dimension to a calculator diagram. Supports the :code:`Length` property to change it's length.
+- MarginSetter.cs: Add the property :code:`MarginSetter.Margin="10"` to any UI element, and it will set all the elements children to have a margin of :code:`10`. Used in the "Selected Calculator" grid object.
 
 Creating An Installable Package
 -------------------------------

@@ -54,6 +54,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -71,37 +74,54 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Calculators\Electronics\Basic\ResistorDivider\ResistorDividerCalc.cs" />
+    <Compile Include="Calculators\Electronics\Basic\OhmsLaw\OhmsLawCalcModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Calculators\Electronics\Basic\OhmsLaw\OhmsLawCalcView.xaml.cs">
+      <DependentUpon>OhmsLawCalcView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Calculators\Electronics\Basic\ResistorDivider\ResistorDividerCalcModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Calculators\Electronics\Basic\ResistorDivider\ResistorDividerCalcView.xaml.cs">
       <DependentUpon>ResistorDividerCalcView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152Calculator.cs" />
-    <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152View.xaml.cs">
-      <DependentUpon>TrackCurrentIpc2152View.xaml</DependentUpon>
+    <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152CalcModel.cs" />
+    <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152CalcView.xaml.cs">
+      <DependentUpon>TrackCurrentIpc2152CalcView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221ACalculator.cs" />
-    <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221AView.xaml.cs">
-      <DependentUpon>TrackCurrentIpc2221AView.xaml</DependentUpon>
+    <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221ACalcModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221ACalcView.xaml.cs">
+      <DependentUpon>TrackCurrentIpc2221ACalcView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\CalcVarBase.cs" />
     <Compile Include="Core\CalculatorGridElement.xaml.cs">
       <DependentUpon>CalculatorGridElement.xaml</DependentUpon>
     </Compile>
-    <Page Include="Calculators\Electronics\Basic\OhmsLaw\OhmsLawView.xaml">
+    <Page Include="Calculators\Electronics\Basic\OhmsLaw\OhmsLawCalcView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Calculators\Electronics\Basic\ResistorDivider\ResistorDividerCalcView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152CalcView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152View.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221ACalcView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\TrackCurrentIpc2221AView.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Core\View\CalcInfo.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Core\View\Dimension.xaml">
       <SubType>Designer</SubType>
@@ -116,13 +136,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Calculator.cs" />
-    <Compile Include="Calculators\Electronics\Basic\OhmsLaw\OhmsLawView.xaml.cs">
-      <DependentUpon>OhmsLawView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Core\CalcVarComboBox.cs" />
     <Compile Include="Core\CalcVarNumerical.cs" />
     <Compile Include="Core\CalcVarNumericalOutput.cs" />
     <Compile Include="Core\Rounding.cs" />
+    <Compile Include="Core\View\CalcInfo.xaml.cs">
+      <DependentUpon>CalcInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Core\View\MarginSetter.cs" />
     <Compile Include="Core\CalcVarNumericalInput.cs" />
     <Compile Include="Core\NumberUnit.cs" />
@@ -141,7 +161,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculators\Electronics\Basic\OhmsLaw\OhmsLaw.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -159,8 +178,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Calculators\Electronics\Basic\OhmsLaw\diagram.vsd" />
     <None Include="Calculators\Electronics\Basic\ResistorDivider\diagram.vsd" />
     <None Include="Calculators\Electronics\Basic\ResistorDivider\grid-icon.vsd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -171,9 +192,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Calculators\Electronics\Basic\OhmsLaw\diagram.png" />
     <Resource Include="Calculators\Electronics\Basic\OhmsLaw\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Calculators\Electronics\Basic\ResistorDivider\diagram.png" />
+    <Resource Include="Calculators\Electronics\Basic\ResistorDivider\grid-icon.png" />
+    <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\grid-icon.png" />
+    <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\temperature-icon.jpg" />
     <Resource Include="img\menu-stack-hamburger-128x118.png" />
   </ItemGroup>
   <ItemGroup>
@@ -197,17 +221,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Calculators\Electronics\Basic\OhmsLaw\diagram.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Calculators\Electronics\Basic\ResistorDivider\diagram.png" />
-    <Resource Include="Calculators\Electronics\Basic\ResistorDivider\grid-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\grid-icon.png" />
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\temperature-icon.jpg" />
-    <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\grid-icon.png" />
-    <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\temperature-icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Calculators\Electronics\Basic\OhmsLaw\diagram%28old%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

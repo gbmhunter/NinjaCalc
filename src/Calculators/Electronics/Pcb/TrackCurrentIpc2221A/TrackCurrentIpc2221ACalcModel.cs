@@ -10,7 +10,7 @@ using NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A;
 
 namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
 
-    class TrackCurrentIpc2221ACalculator : Calculator {
+    class TrackCurrentIpc2221ACalcModel : Calculator {
 
         CalcVarNumericalInput TrackCurrent {
             get;
@@ -41,7 +41,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
         //========================================== CONSTRUCTORS =======================================//
         //===============================================================================================//
 
-        public TrackCurrentIpc2221ACalculator()
+        public TrackCurrentIpc2221ACalcModel()
             : base(
             "Track Current (IPC-2221A)",
             "PCB track current carrying capability calculator, using the IPC-2221A standard.",
@@ -56,17 +56,19 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
             //===============================================================================================//
             //========================================= TRACE CURRENT =======================================//
             //===============================================================================================//
-            
-           this.TrackCurrent = new CalcVarNumericalInput(
-                "traceCurrent",
-                view.TrackCurrentValue,
-                view.TrackCurrentUnits,                                                  
-                new NumberUnit[]{
+
+            this.TrackCurrent = new CalcVarNumericalInput(
+                 "traceCurrent",
+                 view.TrackCurrentValue,
+                 view.TrackCurrentUnits,
+                 new NumberUnit[]{
                     new NumberUnit("mA", 1e-3),
                     new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
                 },
-                4,
-                null);
+                 4,
+                 null,
+                 "The current you want the PCB track to be able to handle." // Help info
+                 );
 
             //===== VALIDATORS =====//
             this.TrackCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -91,7 +93,9 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                     new NumberUnit("C", 1e0, NumberPreference.DEFAULT),                        
                 },
                 4,
-                null);
+                null,
+                "The maximum desired temperature rise due to the current flowing through the track. 20-40°C is a common value for this." // Help info
+                );
 
             //===== VALIDATORS =====//
             this.TempRise.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -110,7 +114,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
             this.CalcVars.Add(this.TempRise);
 
             //===============================================================================================//
-            //======================================== TRACK THICKNESS ======================================//
+            //====================================== TRACK THICKNESS (input) ================================//
             //===============================================================================================//
             
             this.TrackThickness = new CalcVarNumericalInput(
@@ -122,7 +126,9 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                     new NumberUnit("mm", 1e-3),                        
                 },
                 4,
-                null);
+                null,
+                "The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz)." // Help text
+                );
 
             //===== VALIDATORS =====//
             this.TrackThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -150,7 +156,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                 new string[] {
                     "Internal",
                     "External",
-                });
+                },
+                "The type of layer that the current-carrying track is on. If the track is on the top or bottom copper layer of the PCB, set this to \"External\". If the track is on a buried layer, set this to \"Internal\".");
 
             this.CalcVars.Add(this.TrackLayer);
 
@@ -194,7 +201,9 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                     new NumberUnit("um", 1e-6),                        
                     new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
                 },
-                4);
+                4,
+                "The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text
+                );
 
             // Add validators
             this.MinTrackWidth.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));

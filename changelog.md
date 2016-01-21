@@ -1,3 +1,14 @@
+v0.3.7
+------
+
+- Added info section to IPC-2152 track current calculator, closes #49.
+- Animated the expansion/collapse of the info section, closes #51.
+- Made the application startup in maximised state (full screen size), closes #53.
+- Made a reusable "Info" WPF user control, closes #52.
+- Added note to README about how installing new version should automatically overwrite old version, closes #54.
+- Fixed bug where calculator view didn't scroll when mouse was over expanded "Info" text, closes #55.
+- Added variable info to tooltip on mouseover of input textbox or combobox, closes #56.
+
 v0.3.6
 ------
 
