@@ -11,7 +11,7 @@ using NinjaCalc.Calculators.Electronics.Basic.ResistorDivider;
 
 namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
 
-    class ResistorDividerCalc : Calculator {
+    class ResistorDividerCalcModel : Calculator {
 
         CalcVarNumerical Vin {
             get;
@@ -42,7 +42,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
         //========================================== CONSTRUCTORS =======================================//
         //===============================================================================================//
 
-        public ResistorDividerCalc()
+        public ResistorDividerCalcModel()
             : base(
             "Resistor Divider",
             "Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.",
@@ -77,7 +77,9 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
                     },
                     4,
                     Directions.Input,
-                    null);
+                    null,
+                    "The input voltage to the top of the resistor divider (also equal to the voltage across the entire resistor divider)." // Help text
+                    );
 
             // Add validators
             this.Vin.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -110,7 +112,9 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
                     },
                     4,
                     Directions.Input,
-                    null);
+                    null,
+                    "The resistance of the top resistor in the resistor divider." // Help text
+                    );
 
             // Add validators
             this.Rtop.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -143,7 +147,9 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
                     },
                     4,
                     Directions.Input,
-                    null);
+                    null,
+                    "The resistance of the bottom resistor in the resistor divider." // Help text
+                    );
 
             // Add validators
             this.Rbot.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -174,7 +180,8 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
                     },
                     4,
                     Directions.Output,
-                    null);
+                    null,
+                    "The resistor divider output voltage. The is also equal to the voltage across the bottom resistor. Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.");
 
             // Add validators
             this.Vout.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -204,7 +211,8 @@ namespace NinjaCalc.Calculators.Electronics.Basic.ResistorDivider {
                         new NumberUnit("mA", 1e-3, NumberPreference.DEFAULT),
                         new NumberUnit("A", 1e0),
                 },
-                4);
+                4,
+                "The quiscent current drawn through the resistor divider. This can be an issue in low-power designs, or can cause excessive heating in the resistors when the input voltage is high and both resistors have low resistances.");
 
             // Add validators
             this.Iq.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
