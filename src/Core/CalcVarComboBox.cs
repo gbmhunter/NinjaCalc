@@ -36,10 +36,16 @@ namespace NinjaCalc.Core {
             set;
         }
 
+        String HelpText {
+            get;
+            set;
+        }
+
         public CalcVarComboBox(
             string name,
             ComboBox comboBox,
-            string[] comboBoxOptions) 
+            string[] comboBoxOptions,
+            String helpText) 
             : base(
             name,
             // Equation function is not used, should
@@ -57,7 +63,24 @@ namespace NinjaCalc.Core {
             this.CalculatorComboBox.SelectionChanged += this.ComboBoxChanged;
 
             // Select default (make sure this is done after event handler is installed!)
-            this.CalculatorComboBox.SelectedItem = this.ComboBoxOptions[0];            
+            this.CalculatorComboBox.SelectedItem = this.ComboBoxOptions[0];
+
+            // Save the help text
+            this.HelpText = helpText;
+
+            // We need to use a TextBlock so we can do advanced formatting
+            var toolTip = new System.Windows.Controls.TextBlock();
+
+            // Tooltip content is help info plus validation results
+            toolTip.Inlines.Add(this.HelpText);
+
+            // Setting a max width prevents the tooltip from getting rediculuosly large when there is a long help info string.
+            // Keeping this quite small also makes the tooltip easier to read.
+            toolTip.MaxWidth = 300;
+            // Important to allow wrapping as we are restricting the max. width!
+            toolTip.TextWrapping = System.Windows.TextWrapping.Wrap;
+
+            this.CalculatorComboBox.ToolTip = toolTip;
 
         }
 

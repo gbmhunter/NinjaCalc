@@ -499,7 +499,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 new string[] {
                     "True",
                     "False",
-                });
+                },
+                "Set this to \"True\" if there is a copper plane either above or below the current-carrying track, and then enter the distance to it in the \"Plane Proximity\" field. If there is no plane, set this to \"False\", and the \"Plane Proximity\" variable will also dissappear.");
 
             this.CalcVars.Add(this.IsPlanePresent);
 

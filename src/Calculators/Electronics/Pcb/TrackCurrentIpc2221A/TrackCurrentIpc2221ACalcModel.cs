@@ -156,7 +156,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                 new string[] {
                     "Internal",
                     "External",
-                });
+                },
+                "The type of layer that the current-carrying track is on. If the track is on the top or bottom copper layer of the PCB, set this to \"External\". If the track is on a buried layer, set this to \"Internal\".");
 
             this.CalcVars.Add(this.TrackLayer);
 
