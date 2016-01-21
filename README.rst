@@ -8,8 +8,8 @@ A embedded engineering calculator suite for doing calculations in a breeze.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2016-01-18
-- Version: v0.3.6
+- Last Modified: 2016-01-21
+- Version: v0.3.7
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: C#, WPF, .NET
@@ -34,6 +34,7 @@ Features
 - As-you-type updating
 - Dynamic unit-changing support (including various metric and imperial units where appropriate).
 - Continuously checking validators which make sure calculator variables are within range and sensible.
+- Helpful tooltip information for each calculator variable.
 - Smart calculator resizing to cater for various screen sizes and resolutions.
 - Powerful and compact language for describing new calculators, making it easy to add your own if so wanted!
 
