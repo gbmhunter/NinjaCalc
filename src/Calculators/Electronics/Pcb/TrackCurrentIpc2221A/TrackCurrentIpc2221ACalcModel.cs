@@ -12,6 +12,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
 
     class TrackCurrentIpc2221ACalcModel : Calculator {
 
+        const double UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ = 0.0000350012;
+
         CalcVarNumericalInput TrackCurrent {
             get;
             set;
@@ -122,7 +124,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                 view.TrackThicknessValue,
                 view.TrackThicknessUnits,                
                 new NumberUnit[]{
-                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),                        
+                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),
+                    new NumberUnit("oz", UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ),   
                     new NumberUnit("mm", 1e-3),                        
                 },
                 4,
