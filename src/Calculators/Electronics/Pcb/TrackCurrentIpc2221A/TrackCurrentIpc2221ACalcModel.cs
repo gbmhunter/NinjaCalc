@@ -90,7 +90,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                 view.TempRiseValue,
                 view.TempRiseUnits,                                                
                 new NumberUnit[]{
-                    new NumberUnit("C", 1e0, NumberPreference.DEFAULT),                        
+                    new NumberUnit("°C", 1e0, NumberPreference.DEFAULT),                        
                 },
                 4,
                 null,
