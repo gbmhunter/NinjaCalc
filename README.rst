@@ -30,14 +30,7 @@ The goal of this is to provide a easy-to-use desktop application to help you wit
 Features
 --------
 
-- Suite of useful embedded-engineering related calculators.
-- As-you-type updating
-- Dynamic unit-changing support (including various metric and imperial units where appropriate).
-- Continuously checking validators which make sure calculator variables are within range and sensible.
-- Helpful tooltip information for each calculator variable.
-- Smart calculator resizing to cater for various screen sizes and resolutions.
-- Powerful and compact language for describing new calculators, making it easy to add your own if so wanted!
-
+See the `project home page`_ for a list of features.
 
 Installation
 ============
@@ -117,17 +110,6 @@ See changelog.md.
 Contributors
 ============
 
-Thanks to Phillip Abplanalp, Zac Frank, Jason Cleland and Brendon Le Comte for user-interaction guidance and tips!
+See the `project home page`_ for a list of contributors.
 
-Thanks to alexcurtis_ for the time and effort he put into the `react-treebeard`_ module.
-
-.. _`alexcurtis`: https://github.com/alexcurtis
-.. _`react-treebeard`: https://github.com/alexcurtis/react-treebeard
-
-Thanks to the kids at Facebook_ for the great react framework (albeit no longer used!)
-
-.. _`Facebook`: https://facebook.github.io/react/
-
-Thanks to Jesse Eedrah for guidance and help with Javascript and the React/Redux stack.
-
-Thanks to Michael O'Donnell (a la Mod) for sharing some of his pro-knowledge of the C#/.NET language.
+.._`project home page`: http://mbedded-ninja.github.io/NinjaCalc/
