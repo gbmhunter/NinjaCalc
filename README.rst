@@ -112,4 +112,4 @@ Contributors
 
 See the `project home page`_ for a list of contributors.
 
-.._`project home page`: http://mbedded-ninja.github.io/NinjaCalc/
+.. _`project home page`: http://mbedded-ninja.github.io/NinjaCalc/
