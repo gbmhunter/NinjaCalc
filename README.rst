@@ -117,7 +117,7 @@ See changelog.md.
 Contributors
 ============
 
-Thanks to Phillip Abplanalp, Zac Frank, and Brendon Le Comte for user-interaction guidance and tips!
+Thanks to Phillip Abplanalp, Zac Frank, Jason Cleland and Brendon Le Comte for user-interaction guidance and tips!
 
 Thanks to alexcurtis_ for the time and effort he put into the `react-treebeard`_ module.
 
