@@ -234,6 +234,10 @@
   <ItemGroup>
     <Resource Include="icon-v2.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\ipc-2152-copper-thickness-modifier-copper-weight-versus-c5-graph.png" />
+    <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\ipc-2152-copper-thickness-modifier-graph-with-trendlines.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
