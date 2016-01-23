@@ -7,7 +7,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:NinjaCalc"
         xmlns:local_core_view="clr-namespace:NinjaCalc.Core.View"
-        Title="MainWindow" Height="800" Width="1200"  
+        Title="NinjaCalc" Height="800" Width="1200"  
         WindowState="Maximized"
         FontFamily="Calibri" FontSize="16">
     <Grid>

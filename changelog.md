@@ -1,3 +1,8 @@
+v0.3.8
+------
+
+- Renamed "MainWindow" to "NinjaCalc", closes #57.
+
 v0.3.7
 ------
 
