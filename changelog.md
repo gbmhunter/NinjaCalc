@@ -2,6 +2,7 @@ v0.3.8
 ------
 
 - Renamed "MainWindow" to "NinjaCalc", closes #57.
+- Improved the image for Track Current (IPC-2152) calculator, closes #48.
 
 v0.3.7
 ------
