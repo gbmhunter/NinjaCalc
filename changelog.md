@@ -4,6 +4,7 @@ v0.3.8
 - Renamed "MainWindow" to "NinjaCalc", closes #57.
 - Improved the image for Track Current (IPC-2152) calculator, closes #48.
 - Fixed bug where you couldn't see the app icon on Windows 10 task bar, closes #36.
+- Signed the application so warnings don't occur on install, closes #47.
 
 v0.3.7
 ------

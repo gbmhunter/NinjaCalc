@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -50,6 +50,12 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icon-v2.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>NinjaCalc.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -181,6 +187,7 @@
     <None Include="Calculators\Electronics\Basic\OhmsLaw\diagram.vsd" />
     <None Include="Calculators\Electronics\Basic\ResistorDivider\diagram.vsd" />
     <None Include="Calculators\Electronics\Basic\ResistorDivider\grid-icon.vsd" />
+    <None Include="NinjaCalc.snk" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -199,9 +206,6 @@
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\grid-icon.png" />
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\temperature-icon.jpg" />
     <Resource Include="img\menu-stack-hamburger-128x118.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
