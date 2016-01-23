@@ -6,6 +6,7 @@ v0.3.8
 - Fixed bug where you couldn't see the app icon on Windows 10 task bar, closes #36.
 - Signed the application so warnings don't occur on install, closes #47.
 - Added "oz" as a unit for track thickness in the IPC-2221A calculator, closes #60.
+- Created a static class to hold unit conversion constants which are shared among calculators, closes #61.
 
 v0.3.7
 ------

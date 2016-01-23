@@ -11,6 +11,9 @@ namespace NinjaCalc.Core {
         DEFAULT
     }
 
+    /// <summary>
+    /// Encapsulates a single unit that can be added to a numerical calculator variable as part of its units array.
+    /// </summary>
     public class NumberUnit {
 
         /// <summary>
@@ -20,49 +23,39 @@ namespace NinjaCalc.Core {
             get;
             set;
         }
-
-        private double multiplier;
+        
         public double Multiplier {
-            get {
-                return this.multiplier;
-            }
-            set {
-                this.multiplier = value;
-            }
+            get;
+            set;
         }
 
         private Func<double, double> modifierFunc;
-
-        private NumberPreference preference;
+        
         public NumberPreference Preference {
-            get {
-                return this.preference;
-            }
-            set {
-                this.preference = value;
-            }
+            get;
+            set;
         }
 
         /// <summary>
         /// Simplist constructor for setting this unit as the default unit. Useful for units which are a direct multiple of the raw value (e.g. mm, cm, km).
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="multiplier"></param>
+        /// <param name="name">The display name for the unit. This will be displayed in the combobox.</param>
+        /// <param name="multiplier">The is the value, which multiplied by the number in this particular unit, will give the number in SI units (e.g. the multiplier for mm is 1e-3).</param>
         public NumberUnit(string name, double multiplier, NumberPreference preference) {
             this.Name = name;
-            this.multiplier = multiplier;
-            this.preference = preference;
+            this.Multiplier = multiplier;
+            this.Preference = preference;
         }
 
         /// <summary>
         /// Simplist constructor for not setting this unit as the default unit. Useful for units which are a direct multiple of the raw value (e.g. mm, cm, km).
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="multiplier"></param>
+        /// <param name="name">The display name for the unit. This will be displayed in the combobox.</param>
+        /// <param name="multiplier">The is the value, which multiplied by the number in this particular unit, will give the number in SI units (e.g. the multiplier for mm is 1e-3).</param>
         public NumberUnit(string name, double multiplier) {
             this.Name = name;
-            this.multiplier = multiplier;
-            this.preference = NumberPreference.NOT_DEFAULT;
+            this.Multiplier = multiplier;
+            this.Preference = NumberPreference.NOT_DEFAULT;
         }
 
         /// <summary>

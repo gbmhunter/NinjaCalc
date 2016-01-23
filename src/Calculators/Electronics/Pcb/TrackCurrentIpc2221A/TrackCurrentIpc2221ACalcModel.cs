@@ -12,8 +12,6 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
 
     class TrackCurrentIpc2221ACalcModel : Calculator {
 
-        const double UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ = 0.0000350012;
-
         CalcVarNumericalInput TrackCurrent {
             get;
             set;
@@ -84,7 +82,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
             this.CalcVars.Add(this.TrackCurrent);
 
             //===============================================================================================//
-            //========================================== TEMP RISE ==========================================//
+            //====================================== TEMP RISE (input) ======================================//
             //===============================================================================================//
             
             this.TempRise = new CalcVarNumericalInput(
@@ -122,11 +120,12 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
             this.TrackThickness = new CalcVarNumericalInput(
                 "trackThickness",
                 view.TrackThicknessValue,
-                view.TrackThicknessUnits,                
+                view.TrackThicknessUnits,
                 new NumberUnit[]{
-                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),
-                    new NumberUnit("oz", UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ),   
-                    new NumberUnit("mm", 1e-3),                        
+                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),                      
+                    new NumberUnit("mm", 1e-3),   
+                    new NumberUnit("oz", UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ),   
+                    new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),   
                 },
                 4,
                 null,
@@ -150,7 +149,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
             this.CalcVars.Add(this.TrackThickness);
 
             //===============================================================================================//
-            //========================================= TRACK LAYER =========================================//
+            //======================================== TRACK LAYER (input) ==================================//
             //===============================================================================================//
 
             this.TrackLayer = new CalcVarComboBox(
@@ -165,15 +164,14 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
             this.CalcVars.Add(this.TrackLayer);
 
             //===============================================================================================//
-            //======================================== MIN. TRACK WIDTH =====================================//
+            //=================================== MIN. TRACK WIDTH (output) =================================//
             //===============================================================================================//
             
             this.MinTrackWidth = new CalcVarNumericalOutput(
                 "minTrackWidth",
                 view.MinTrackWidthValue,
                 view.MinTrackWidthUnits,
-                () => {
-                    //Console.WriteLine("Equation() called for MinTrackWidth.");
+                () => {                    
                     var traceCurrent = this.TrackCurrent.RawVal;
                     var tempRise = this.TempRise.RawVal;
                     var trackThickness = this.TrackThickness.RawVal;
@@ -202,7 +200,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2221A {
                 },
                 new NumberUnit[]{
                     new NumberUnit("um", 1e-6),                        
-                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
+                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),
+                    new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),    
                 },
                 4,
                 "The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text
