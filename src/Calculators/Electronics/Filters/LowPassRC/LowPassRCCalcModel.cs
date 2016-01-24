@@ -13,27 +13,17 @@ namespace NinjaCalc.Calculators.Electronics.Filters.LowPassRC {
 
     class LowPassRCCalcModel : Calculator {
 
-        CalcVarNumerical Vin {
+        CalcVarNumerical R {
             get;
             set;
         }
         
-        CalcVarNumerical Rtop {
+        CalcVarNumerical C {
             get;
             set;
         }
 
-        CalcVarNumerical Rbot {
-            get;
-            set;
-        }
-
-        CalcVarNumerical Vout {
-            get;
-            set;
-        }
-
-        CalcVarNumericalOutput Iq {
+        CalcVarNumerical Fc {
             get;
             set;
         }
@@ -44,11 +34,11 @@ namespace NinjaCalc.Calculators.Electronics.Filters.LowPassRC {
 
         public LowPassRCCalcModel()
             : base(
-            "Resistor Divider",
-            "Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.",
-            "pack://application:,,,/Calculators/Electronics/Basic/ResistorDivider/grid-icon.png",
-            new string[] { "Electronics", "Basic" },
-            new string[] { "resistor, resistance, voltage, divider, reduce" },
+            "Low-pass RC Filter",
+            "The low-pass RC filter is probably the simplist and most used electronic filter. Great for input signal filtering and adding to the output of a PWM signal to make a cheap DAC.",
+            "pack://application:,,,/Calculators/Electronics/Filters/LowPassRC/grid-icon.png",
+            new string[] { "Electronics", "Filters" },
+            new string[] { "rc, filters, low-pass" },
             new LowPassRCCalcView()) {
 
             // Re-cast the view so we can access it's unique properties
@@ -58,167 +48,103 @@ namespace NinjaCalc.Calculators.Electronics.Filters.LowPassRC {
             //================================================= Vin =========================================//
             //===============================================================================================//
 
-            this.Vin = new CalcVarNumerical(
-                    "vIn",
-                    view.VinValue,
-                    view.VinUnits,
-                    view.VinRadioButton,                
-                    () => {
-                        var vOut = this.Vout.RawVal;
-                        var rTop = this.Rtop.RawVal;
-                        var rBot = this.Rbot.RawVal;
-
-                        return ((vOut * (rTop + rBot)) / rBot);                        
+            this.R = new CalcVarNumerical(
+                    "R",                // Variable name (used for debugging)
+                    view.RValue,        // Textbox for value (UI object)
+                    view.RUnits,        // Combobox for units (UI object) 
+                    view.RRadioButton,  // Radio button for changing direction (UI object)
+                    () => {             // Equation when an output
+                        var fc = this.Fc.RawVal;
+                        var c = this.C.RawVal;
+                        
+                        return (1.0 / (2*Math.PI*fc*c));                        
                     },
-                    new NumberUnit[]{
-                        new NumberUnit("mV", 1e-3),
-                        new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
-                        new NumberUnit("kV", 1e3),
-                    },
-                    4,
-                    Directions.Input,
-                    null,
-                    "The input voltage to the top of the resistor divider (also equal to the voltage across the entire resistor divider)." // Help text
-                    );
-
-            // Add validators
-            this.Vin.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.Vin.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-
-            this.CalcVars.Add(this.Vin);
-
-            //===============================================================================================//
-            //=============================================== Rtop ==========================================//
-            //===============================================================================================//
-
-            this.Rtop = new CalcVarNumerical(
-                    "rTop",
-                    view.RtopValue,
-                    view.RtopUnits,
-                    view.RtopRadioButton,
-                    () => {
-                        var vIn = this.Vin.RawVal;
-                        var rBot = this.Rbot.RawVal;
-                        var vOut = this.Vout.RawVal;                                                
-
-                        return ((rBot * (vIn - vOut)) / vOut);
-                    },
-                    new NumberUnit[]{
+                    new NumberUnit[]{   // Units
                         new NumberUnit("mΩ", 1e-3),
                         new NumberUnit("Ω", 1e0),
                         new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
                         new NumberUnit("MΩ", 1e6),
                         new NumberUnit("GΩ", 1e9),
                     },
-                    4,
-                    Directions.Input,
-                    null,
-                    "The resistance of the top resistor in the resistor divider." // Help text
+                    4,                  // Num. digits to round to
+                    Directions.Input,   // Default direction
+                    null,               // Default value
+                    "The resistance of the resistor in the low-pass LC filter." // Help text
                     );
 
             // Add validators
-            this.Rtop.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.Rtop.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.R.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.R.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-            this.CalcVars.Add(this.Rtop);
+            this.CalcVars.Add(this.R);
 
             //===============================================================================================//
-            //=============================================== Rbot ==========================================//
+            //============================================ C (i/o) ==========================================//
             //===============================================================================================//
 
-            this.Rbot = new CalcVarNumerical(
-                    "rBot",
-                    view.RbotValue,
-                    view.RbotUnits,
-                    view.RbotRadioButton,
-                    () => {
-                        var vIn = this.Vin.RawVal;
-                        var rTop = this.Rtop.RawVal;
-                        var vOut = this.Vout.RawVal;
+            this.C = new CalcVarNumerical(
+                    "C",                // Variable name (used for debugging)
+                    view.CValue,        // Textbox for value (UI object)
+                    view.CUnits,        // Combobox for units (UI object)
+                    view.CRadioButton,  // Radio button for changing direction (UI object)
+                    () => {             // Equation when an output
+                        var r = this.R.RawVal;                        
+                        var fc = this.Fc.RawVal;
 
-                        return ((rTop * vOut) / (vIn - vOut));
+                        return (1.0 / (2 * Math.PI * fc * r));  
                     },
-                    new NumberUnit[]{
-                        new NumberUnit("mΩ", 1e-3),
-                        new NumberUnit("Ω", 1e0),
-                        new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
-                        new NumberUnit("MΩ", 1e6),
-                        new NumberUnit("GΩ", 1e9),
+                    new NumberUnit[]{   // Units
+                        new NumberUnit("pF", 1e-12),
+                        new NumberUnit("nF", 1e-9, NumberPreference.DEFAULT),
+                        new NumberUnit("uF", 1e-6),
+                        new NumberUnit("mF", 1e-3),
+                        new NumberUnit("F", 1e0),
                     },
-                    4,
-                    Directions.Input,
-                    null,
-                    "The resistance of the bottom resistor in the resistor divider." // Help text
+                    4,                  // Num. digits to round to
+                    Directions.Input,   // Default direction
+                    null,               // Default value
+                    "The capacitance of the capacitor in the low-pass LC filter." // Help text
                     );
 
             // Add validators
-            this.Rbot.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.Rbot.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.C.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.C.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-            this.CalcVars.Add(this.Rbot);
+            this.CalcVars.Add(this.C);
+          
 
             //===============================================================================================//
-            //================================================= Vout =========================================//
+            //============================================== fc (i/o) =======================================//
             //===============================================================================================//
 
-            this.Vout = new CalcVarNumerical(
-                    "vOut",
-                    view.VoutValue,
-                    view.VoutUnits,
-                    view.VoutRadioButton,
-                    () => {
-                        var vIn = this.Vin.RawVal;
-                        var rTop = this.Rtop.RawVal;
-                        var rBot = this.Rbot.RawVal;
+            this.Fc = new CalcVarNumerical(
+                    "fc",               // Variable name (used for debugging)
+                    view.FcValue,       // Textbox for value (UI object)
+                    view.FcUnits,       // Combobox for units (UI object)
+                    view.FcRadioButton, // Radio button for changing direction (UI object)
+                    () => {             // Equation when an output
+                        var r = this.R.RawVal;
+                        var c = this.C.RawVal;
 
-                        return ((vIn * rBot) / (rTop + rBot));
+                        return (1.0 / (2 * Math.PI * r * c)); 
                     },
-                    new NumberUnit[]{
-                        new NumberUnit("mV", 1e-3),
-                        new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
-                        new NumberUnit("kV", 1e3),
+                    new NumberUnit[]{   // Units
+                        new NumberUnit("mHz", 1e-3),
+                        new NumberUnit("Hz", 1e0),
+                        new NumberUnit("kHz", 1e3, NumberPreference.DEFAULT),
+                        new NumberUnit("MHz", 1e6),
+                        new NumberUnit("GHz", 1e9),
                     },
-                    4,
-                    Directions.Output,
-                    null,
-                    "The resistor divider output voltage. The is also equal to the voltage across the bottom resistor. Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.");
+                    4,                  // Num. digits to round to
+                    Directions.Output,  // Default direction
+                    null,               // Default value
+                    "The cut-off frequency of the low-pass RC filter. This is the point where the output signal is attenuated by -3dB (70.7%) of the input. Also known as the corner or breakpoint frequency.");
 
             // Add validators
-            this.Vout.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.Vout.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            this.Fc.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
+            this.Fc.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-            this.CalcVars.Add(this.Vout);
-
-            //===============================================================================================//
-            //======================================= Iq (Quescent Current) =================================//
-            //===============================================================================================//
-
-            this.Iq = new CalcVarNumericalOutput(
-                "iQ",
-                view.IqValue,
-                view.IqUnits,
-                () => {
-                    var vIn = this.Vin.RawVal;
-                    var rTop = this.Rtop.RawVal;
-                    var rBot = this.Rbot.RawVal;
-
-                    return (vIn / (rTop + rBot));
-                },
-                new NumberUnit[]{
-                        new NumberUnit("pA", 1e-12),
-                        new NumberUnit("nA", 1e-9),
-                        new NumberUnit("uA", 1e-6),
-                        new NumberUnit("mA", 1e-3, NumberPreference.DEFAULT),
-                        new NumberUnit("A", 1e0),
-                },
-                4,
-                "The quiscent current drawn through the resistor divider. This can be an issue in low-power designs, or can cause excessive heating in the resistors when the input voltage is high and both resistors have low resistances.");
-
-            // Add validators
-            this.Iq.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-            this.Iq.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-
-            this.CalcVars.Add(this.Iq);
+            this.CalcVars.Add(this.Fc);         
 
             //===============================================================================================//
             //============================================== FINAL ==========================================//

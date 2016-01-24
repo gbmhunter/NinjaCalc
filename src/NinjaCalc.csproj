@@ -211,9 +211,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Calculators\Electronics\Basic\OhmsLaw\diagram.png" />
-    <Resource Include="Calculators\Electronics\Basic\OhmsLaw\icon.png" />
+    <Resource Include="Calculators\Electronics\Basic\OhmsLaw\grid-icon.png" />
     <Resource Include="Calculators\Electronics\Basic\ResistorDivider\diagram.png" />
     <Resource Include="Calculators\Electronics\Basic\ResistorDivider\grid-icon.png" />
+    <Resource Include="Calculators\Electronics\Filters\LowPassRC\diagram.png" />
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\grid-icon.png" />
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\temperature-icon.jpg" />
     <Resource Include="img\menu-stack-hamburger-128x118.png" />
@@ -250,10 +251,10 @@
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\ipc-2152-copper-thickness-modifier-graph-with-trendlines.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Calculators\Electronics\Filters\LowPassRC\diagram.png" />
+    <Resource Include="Calculators\Electronics\Filters\LowPassRC\grid-icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Calculators\Electronics\Filters\LowPassRC\grid-icon.png" />
+    <Resource Include="Calculators\Electronics\Filters\LowPassRC\basic-equation.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

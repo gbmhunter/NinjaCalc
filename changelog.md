@@ -8,6 +8,7 @@ v0.3.8
 - Added "oz" as a unit for track thickness in the IPC-2221A calculator, closes #60.
 - Created a static class to hold unit conversion constants which are shared among calculators, closes #61.
 - Added info about the Visio calculator diagrams to the README, closes #33.
+- Added low pass RC filter calculator, closes #50.
 
 v0.3.7
 ------
