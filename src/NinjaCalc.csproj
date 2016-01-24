@@ -94,6 +94,10 @@
       <DependentUpon>ResistorDividerCalcView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Calculators\Electronics\Filters\LowPassRC\LowPassRCCalcModel.cs" />
+    <Compile Include="Calculators\Electronics\Filters\LowPassRC\LowPassRCCalcView.xaml.cs">
+      <DependentUpon>LowPassRCCalcView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152CalcModel.cs" />
     <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152CalcView.xaml.cs">
       <DependentUpon>TrackCurrentIpc2152CalcView.xaml</DependentUpon>
@@ -116,6 +120,10 @@
     <Page Include="Calculators\Electronics\Basic\ResistorDivider\ResistorDividerCalcView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Calculators\Electronics\Filters\LowPassRC\LowPassRCCalcView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152CalcView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -188,6 +196,8 @@
     <None Include="Calculators\Electronics\Basic\OhmsLaw\diagram.vsd" />
     <None Include="Calculators\Electronics\Basic\ResistorDivider\diagram.vsd" />
     <None Include="Calculators\Electronics\Basic\ResistorDivider\grid-icon.vsd" />
+    <None Include="Calculators\Electronics\Filters\LowPassRC\diagram.vsd" />
+    <None Include="Calculators\Electronics\Filters\LowPassRC\grid-icon.vsd" />
     <None Include="NinjaCalc.snk" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -238,6 +248,12 @@
   <ItemGroup>
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\ipc-2152-copper-thickness-modifier-copper-weight-versus-c5-graph.png" />
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\ipc-2152-copper-thickness-modifier-graph-with-trendlines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Calculators\Electronics\Filters\LowPassRC\diagram.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Calculators\Electronics\Filters\LowPassRC\grid-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

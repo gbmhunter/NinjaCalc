@@ -60,6 +60,13 @@ There are many pre-built calculator view objects to make development faster and 
 - Dimension.xaml: A WPF user control for adding a dimension to a calculator diagram. Supports the :code:`Length` property to change it's length.
 - MarginSetter.cs: Add the property :code:`MarginSetter.Margin="10"` to any UI element, and it will set all the elements children to have a margin of :code:`10`. Used in the "Selected Calculator" grid object.
 
+Creating A Calculator Diagram
+-----------------------------
+
+Creating a static diagram image and laying the calculator variable UI elements overtop of this is the easiest method to create a diagram when dynamic visual changes to the diagram are not required.
+
+All calculators that use static images for their background diagrams have a Visio file called :code:`diagram.vsd` in their respective folder. Microsoft Visio is used to create the diagram, which is then exported as an image and used inside the NinjaCalc application.
+
 Creating An Installable Package
 -------------------------------
 
