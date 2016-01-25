@@ -1,0 +1,50 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.TilePane?>
+
+
+<AnchorPane fx:controller="MainWindow.Controller"
+            fx:id="anchorPane"
+            xmlns:fx="http://javafx.com/fxml"
+            style="-fx-background-color: green">
+    <StackPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <HBox maxWidth="Infinity" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" style="-fx-background-color: red">
+                <GridPane minWidth="50" maxWidth="50" alignment="TOP_CENTER" style="-fx-background-color: darkgrey">
+                    <Button>New</Button>
+                </GridPane>
+                <GridPane maxWidth="Infinity" HBox.hgrow="ALWAYS" alignment="CENTER">
+                        <Label GridPane.rowIndex="0" alignment="CENTER">No calculator is open. Do you wish to create one?</Label>
+                        <Button onAction="#handleButtonOnAction" GridPane.rowIndex="1" alignment="CENTER">New Calculator</Button>
+                </GridPane>
+        </HBox>
+        <!-- OVERLAY -->
+        <GridPane
+                fx:id="calcGridOverlay"
+                visible="false"
+                AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                style="-fx-background-color: #404040A0; -fx-padding: 40px;">
+            <!-- MIDDLE OF OVERLAY (NOT THE BORDER) -->
+            <GridPane
+                    GridPane.hgrow="ALWAYS"
+                    GridPane.vgrow="ALWAYS"
+                    style="-fx-background-color: white;">
+                    <!-- CALCULATOR TEMPLATE HOLDER -->
+                    <!-- This will lay the calculator template elements out in equal sized tiles -->
+                    <TilePane
+                        fx:id="calculatorGridTilePane">
+
+                    </TilePane>
+            </GridPane>
+        </GridPane>
+    </StackPane>
+</AnchorPane>

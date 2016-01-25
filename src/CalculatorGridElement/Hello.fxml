@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml">
+    <bottom>
+        <Label fx:id="lblHello" alignment="CENTER" contentDisplay="CENTER" prefHeight="67.0" prefWidth="510.0" text="..." />
+    </bottom>
+    <center>
+        <Button fx:id="btnHello" mnemonicParsing="false" onAction="#btnHelloOnAction" text="Say hello" />
+    </center>
+</fx:root>
