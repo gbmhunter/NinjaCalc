@@ -9,7 +9,7 @@ interface HelloListener {
 }
 
 
-public class CalcVarBase extends Observable {
+public class CalcVarBase {
 
     public String Name;
 
@@ -85,7 +85,7 @@ public class CalcVarBase extends Observable {
     /// Gets and sets the equation function which is used to calculate the value
     /// of this calculator variable when it is an output.
     /// </summary>
-    public IFunction Equation;
+    public IEquation Equation;
 
     public Directions Direction;
 
@@ -98,7 +98,7 @@ public class CalcVarBase extends Observable {
 
 
 
-    public CalcVarBase(String name, IFunction equation) {
+    public CalcVarBase(String name, IEquation equation) {
         this.Name = name;
 
         this.Dependencies = new ArrayList<CalcVarBase>();
