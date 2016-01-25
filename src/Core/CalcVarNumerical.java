@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*
 import javafx.scene.layout.Border;
+import javafx.util.StringConverter;
 
 import java.util.ArrayList;
 //import javafx.scene.control.RadioButton;
@@ -35,7 +36,7 @@ public class CalcVarNumerical extends CalcVarBase {
         return this.rawVal;
     }
 
-    public double setRawVal(double value) {
+    public setRawVal(double value) {
         // Only set if new value is different from current
         if (this.rawVal != value) {
             this.rawVal = value;
@@ -44,18 +45,18 @@ public class CalcVarNumerical extends CalcVarBase {
         }
     }
 
-    private event EventHandler RawValueChanged;
+    //private event EventHandler RawValueChanged;
 
     /// <summary>
     /// Fires the RawValueChanged event handler (as long as it's not null).
     /// </summary>
     /// <param name="e">The event arguments you wish to provide to listening methods.</param>
-    public virtual void OnRawValueChanged(EventArgs e) {
+    /*public virtual void OnRawValueChanged(EventArgs e) {
         EventHandler handler = RawValueChanged;
         if (handler != null) {
             handler(this, e);
         }
-    }
+    }*/
 
     //============================================ DISP VAL =========================================//
 
@@ -68,7 +69,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
     private Directions direction;
 
-    public Directions getDirection {
+    public Directions getDirection() {
         return this.direction;
     }
 
@@ -149,7 +150,7 @@ public class CalcVarNumerical extends CalcVarBase {
     public void setSelUnit(NumberUnit value) {
         this.selUnit = value;
         // Anytime this is set, also update selected value in combobox
-        this.unitsComboBox.SelectedItem = this.selUnit;
+        this.unitsComboBox.getSelectionModel().select(this.selUnit);
     }
 
 
@@ -206,11 +207,15 @@ public class CalcVarNumerical extends CalcVarBase {
         // Initialise empty validation results list
         this.ValidationResults = new ArrayList<CalcValidationResult>();
 
+        //===============================================================================================//
+        //====================================== UNITS AND COMBOBOX =====================================//
+        //===============================================================================================//
+
         this.unitsComboBox = unitsComboBox;
 
         // Attach event handler to the selection change for the units combo box
         //this.unitsComboBox.SelectionChanged += this.UnitsComboBox_SelectionChanged;
-        this.unitsComboBox.onActionProperty(this::UnitsComboBox_SelectionChanged);
+        this.unitsComboBox.setOnAction(this::UnitsComboBox_SelectionChanged);
 
         // Initialise empty units list
         this.Units = FXCollections.observableArrayList();
@@ -228,6 +233,43 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Bind the combo-box to the observable collection
         this.unitsComboBox.setItems(this.Units);
+
+        //============ LET THE COMBOBOX KNOW HOW TO RENDER NUMBER UNITS ============//
+
+        this.unitsComboBox.setCellFactory((combobox) -> {
+
+            // Define rendering of the list of values in ComboBox drop down.
+            return new ListCell<NumberUnit>() {
+                @Override
+                protected void updateItem(NumberUnit item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(item.Name);
+                    }
+                }
+            };
+        });
+
+        // Define rendering of selected value shown in ComboBox.
+        this.unitsComboBox.setConverter(new StringConverter<NumberUnit>() {
+            @Override
+            public String toString(NumberUnit numberUnit) {
+                if (numberUnit == null) {
+                    return null;
+                } else {
+                    return numberUnit.Name;
+                }
+            }
+
+            @Override
+            public NumberUnit fromString(String numberUnitString) {
+                return null; // No conversion fromString needed.
+            }
+        });
+
 
         // Set current combobox selection to default unit
         if (defaultUnit != null) {
@@ -259,12 +301,18 @@ public class CalcVarNumerical extends CalcVarBase {
         }
 
         // Install event handlers
-        this.RawValueChanged += (sender, EventArgs) => {
+        /*this.RawValueChanged += (sender, EventArgs) => {
             // Update displayed value
             this.dispVal = this.rawVal * this.selUnit.Multiplier;
             // Update textbox
             this.calcValTextBox.Text = this.dispVal.ToString();
-        };
+        };*/
+        this.addRawValueChangedListener(calcVarBase -> {
+            // Update displayed value
+            this.dispVal = this.rawVal * this.selUnit.Multiplier;
+            // Update textbox
+            this.calcValTextBox.setText(String.valueOf(this.dispVal));
+        });
 
         // Save the help text (displayed in the tooltip)
         this.HelpText = helpText;
@@ -403,16 +451,16 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Need to update the selected unit, bypassing the property (otherwise
         // we will create an infinite loop)
-        ComboBox units = (ComboBox)sender;
-        this.selUnit = (NumberUnit)units.SelectedItem;
+        //ComboBox units = (ComboBox)sender;
+        this.selUnit = (NumberUnit)this.unitsComboBox.getSelectionModel().getSelectedItem();
 
-        Console.WriteLine("Selected unit is now \"" + this.selUnit + "\".");
+        System.out.println("Selected unit is now \"" + this.selUnit + "\".");
 
         // If the variable is an input, we need to adjust the raw value, if the
         // variable is an output, we need to adjust the displayed value
         if (this.Direction == Directions.Input) {
-            this.rawVal = this.DispVal * this.selUnit.Multiplier;
-            Console.WriteLine("rawVal re-scaled to \"" + this.rawVal.ToString() + "\".");
+            this.rawVal = this.dispVal * this.selUnit.Multiplier;
+            System.out.println("rawVal re-scaled to \"" + String.valueOf(this.rawVal) + "\".");
 
             // Since the raw value has changed, we also need to re-validate this variable
             this.Validate();
@@ -433,7 +481,7 @@ public class CalcVarNumerical extends CalcVarBase {
         // as the actual value (raw value) does not change.
         double unroundedDispVal = this.rawVal / this.selUnit.Multiplier;
         this.dispVal = Rounding.RoundToSignificantDigits(unroundedDispVal, this.NumDigitsToRound);
-        this.calcValTextBox.Text = this.dispVal.ToString();
+        this.calcValTextBox.setText(String.valueOf(this.dispVal));
     }
 
     /// <summary>
@@ -441,14 +489,14 @@ public class CalcVarNumerical extends CalcVarBase {
     /// </summary>
     public void UpdateUIBasedOnValidationResults() {
         // Change the textbox's border colour
-        this.calcValTextBox.BorderBrush = this.validationResult.BorderBrush;
-        this.calcValTextBox.Background = this.validationResult.BackgroundBrush;
+        //this.calcValTextBox.BorderBrush = this.validationResult.BorderBrush;
+        //this.calcValTextBox.Background = this.validationResult.BackgroundBrush;
 
         // Build up string from all of the validators which are at the same validation
         // level as the worse one
         String validationMsg = "";
         if (this.WorstValidationLevel != CalcValidationLevels.Ok) {
-            foreach (var validationResult in this.ValidationResults) {
+            for(CalcValidationResult validationResult : this.ValidationResults) {
                 // Check to see if this validation result was just as bad as the worse one
                 // (i.e. the same level of validation)
                 if (validationResult.CalcValidationLevel == this.WorstValidationLevel) {
@@ -462,19 +510,19 @@ public class CalcVarNumerical extends CalcVarBase {
         }
 
         // We need to use a TextBlock so we can do advanced formatting
-        var toolTip = new System.Windows.Controls.TextBlock();
+        //var toolTip = new System.Windows.Controls.TextBlock();
 
         // Tooltip content is help info plus validation results
-        toolTip.Inlines.Add(this.HelpText + "\r\n\r\n");
-        toolTip.Inlines.Add(new Italic(new Run(validationMsg)));
+        //toolTip.Inlines.Add(this.HelpText + "\r\n\r\n");
+        //toolTip.Inlines.Add(new Italic(new Run(validationMsg)));
 
         // Setting a max width prevents the tooltip from getting rediculuosly large when there is a long help info string.
         // Keeping this quite small also makes the tooltip easier to read.
-        toolTip.MaxWidth = 300;
+        //toolTip.MaxWidth = 300;
         // Important to allow wrapping as we are restricting the max. width!
-        toolTip.TextWrapping = System.Windows.TextWrapping.Wrap;
+        //toolTip.TextWrapping = System.Windows.TextWrapping.Wrap;
 
-        this.calcValTextBox.ToolTip = toolTip;
+        //this.calcValTextBox.ToolTip = toolTip;
     }
 
     /// <summary>
@@ -482,11 +530,11 @@ public class CalcVarNumerical extends CalcVarBase {
     /// the units array, a System.ArgumentException exception will be thrown.
     /// </summary>
     /// <param name="unitName">The name (i.e. whats displayed in the combobox) of the unit you wish to be selected.</param>
-    public void SetUnits(string unitName) {
+    public void SetUnits(String unitName) {
 
         Core.NumberUnit foundUnit = null;
 
-        foreach (var unit in this.Units) {
+        for(NumberUnit unit : this.Units) {
             if (unit.Name == unitName) {
                 foundUnit = unit;
                 break;
@@ -494,16 +542,13 @@ public class CalcVarNumerical extends CalcVarBase {
         }
 
         if (foundUnit == null) {
-            throw new System.ArgumentException("Unit name was not found in unit array.", "unitName");
+            throw new IllegalArgumentException("Unit name was not found in unit array.");
         }
 
         // Valid unit in unit array found, so lets set it to the currently
         // selected unit
-        this.SelUnit = foundUnit;
+        this.selUnit = foundUnit;
 
     }
-
-
-
 
 }
