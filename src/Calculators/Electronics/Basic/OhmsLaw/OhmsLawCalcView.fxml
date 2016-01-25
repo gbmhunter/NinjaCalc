@@ -1,0 +1,42 @@
+﻿
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+    <!-- Allows calculator content to scroll vertically when "Info" is expanded -->
+    <!--<ScrollViewer VerticalScrollBarVisibility="Auto">-->
+<GridPane fx:controller="Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalcModel"
+            fx:id="gridPane"
+            xmlns:fx="http://javafx.com/fxml"
+            style="-fx-background-color: green">
+
+    <!-- =========== INFO SECTION ========== -->
+
+    <TextArea Padding="20" Background="White">
+        The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:
+
+        \( V = IR \)
+
+        where:
+        \( V \) = voltage across the resistor
+        \( I \) = current through the resistor
+        \( R \) = resistance of the resistor
+    </TextArea>
+
+
+    <Pane Width="600" Height="600">
+        <!--<Image Source="diagram.png" Width="500" layoutX="34" layoutY="25" />-->
+
+        <TextField fx:id="TextBoxVoltageValue" Width="80" Height="25" layoutX="20" layoutY="292"></TextField>
+        <RadioButton fx:id="RadioButtonVoltage" layoutX="117" layoutY="250"></RadioButton>
+        <ComboBox fx:id="VoltageUnits" Width="55" Height="25" layoutX="105" layoutY="292" />
+        <TextField fx:id="TextBoxCurrentValue" Width="80" Height="25" layoutX="420" layoutY="401"></TextField>
+        <RadioButton fx:id="RadioButtonCurrent" layoutX="519" layoutY="354"></RadioButton>
+        <ComboBox fx:id="CurrentUnits" Width="55" Height="25" layoutX="505" layoutY="401"/>
+        <TextField fx:id="TextBoxResistanceValue" Width="80" Height="25" layoutX="417" layoutY="184"></TextField>
+        <RadioButton fx:id="RadioButtonResistance" layoutX="519" layoutY="131"></RadioButton>
+        <ComboBox fx:id="ResistanceUnits" Width="55" Height="25" layoutX="505" layoutY="184"/>
+
+
+    </Pane>
+</GridPane>
+
