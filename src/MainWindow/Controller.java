@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.*;
 
-import CalculatorGridElement.Hello;
+import CalculatorGridElement.CalculatorGridElementController;
 
 public class Controller {
 
@@ -24,7 +24,7 @@ public class Controller {
         // Show the calculator grid overlay
         calcGridOverlay.setVisible(true);
 
-        Hello gridElement = new Hello();
+        CalculatorGridElementController gridElement = new CalculatorGridElementController();
         calculatorGridTilePane.getChildren().add(gridElement);
 
     }

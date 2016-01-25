@@ -14,15 +14,15 @@ import javafx.scene.layout.BorderPane;
  *
  * @author Vladislav Korecký
  */
-public class Hello extends BorderPane {
+public class CalculatorGridElementController extends BorderPane {
 
-    private static final Logger logger = Logger.getLogger(Hello.class.getName());
+    private static final Logger logger = Logger.getLogger(CalculatorGridElementController.class.getName());
     @FXML
     private Label lblHello;
 
-    public Hello() {
+    public CalculatorGridElementController() {
         super();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Hello.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CalculatorGridElementView.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {
@@ -34,6 +34,6 @@ public class Hello extends BorderPane {
 
     // Handler for Button[id="btnHello"] onAction
     public void btnHelloOnAction(ActionEvent event) {
-        lblHello.setText("Hello");
+        lblHello.setText("CalculatorGridElementController");
     }
 }
