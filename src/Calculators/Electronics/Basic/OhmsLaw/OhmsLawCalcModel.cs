@@ -33,7 +33,7 @@ namespace NinjaCalc.Calculators.Electronics.Basic.OhmsLaw
             : base(
             "Ohm's Law",
             "The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm's law.",
-            "pack://application:,,,/Calculators/Electronics/Basic/OhmsLaw/icon.png",
+            "pack://application:,,,/Calculators/Electronics/Basic/OhmsLaw/grid-icon.png",
             new string[]{ "Electronics", "Basic" },
             new string[]{"ohm, resistor, resistance, voltage, current, law, vir"},
             new OhmsLawView()) {

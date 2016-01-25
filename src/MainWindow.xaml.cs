@@ -61,6 +61,9 @@ namespace NinjaCalc {
             this.RegisterCalculator(new Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalcModel());
             this.RegisterCalculator(new Calculators.Electronics.Basic.ResistorDivider.ResistorDividerCalcModel());
 
+            // FILTERS
+            this.RegisterCalculator(new Calculators.Electronics.Filters.LowPassRC.LowPassRCCalcModel());
+
             // PCB
             this.RegisterCalculator(new Calculators.Electronics.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221ACalcModel());
             this.RegisterCalculator(new Calculators.Electronics.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152CalcModel());

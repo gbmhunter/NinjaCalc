@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -49,9 +49,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>icon-v2.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>NinjaCalc.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DynamicDataDisplay">
+      <HintPath>packages\DynamicDataDisplay.0.3.0.1\lib\net45\DynamicDataDisplay.dll</HintPath>
+    </Reference>
+    <Reference Include="Sparrow.Chart.Wpf.40">
+      <HintPath>packages\Sparrow.Chart.Wpf.13.1.0.118\lib\net40\Sparrow.Chart.Wpf.40.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -68,6 +80,24 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
+      <HintPath>packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
+      <HintPath>packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
+      <HintPath>packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -87,6 +117,10 @@
     <Compile Include="Calculators\Electronics\Basic\ResistorDivider\ResistorDividerCalcView.xaml.cs">
       <DependentUpon>ResistorDividerCalcView.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Calculators\Electronics\Filters\LowPassRC\LowPassRCCalcModel.cs" />
+    <Compile Include="Calculators\Electronics\Filters\LowPassRC\LowPassRCCalcView.xaml.cs">
+      <DependentUpon>LowPassRCCalcView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152CalcModel.cs" />
     <Compile Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152CalcView.xaml.cs">
@@ -110,6 +144,10 @@
     <Page Include="Calculators\Electronics\Basic\ResistorDivider\ResistorDividerCalcView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Calculators\Electronics\Filters\LowPassRC\LowPassRCCalcView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\TrackCurrentIpc2152CalcView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -140,6 +178,7 @@
     <Compile Include="Core\CalcVarNumerical.cs" />
     <Compile Include="Core\CalcVarNumericalOutput.cs" />
     <Compile Include="Core\Rounding.cs" />
+    <Compile Include="Core\UnitConversionConstants.cs" />
     <Compile Include="Core\View\CalcInfo.xaml.cs">
       <DependentUpon>CalcInfo.xaml</DependentUpon>
     </Compile>
@@ -181,6 +220,9 @@
     <None Include="Calculators\Electronics\Basic\OhmsLaw\diagram.vsd" />
     <None Include="Calculators\Electronics\Basic\ResistorDivider\diagram.vsd" />
     <None Include="Calculators\Electronics\Basic\ResistorDivider\grid-icon.vsd" />
+    <None Include="Calculators\Electronics\Filters\LowPassRC\diagram.vsd" />
+    <None Include="Calculators\Electronics\Filters\LowPassRC\grid-icon.vsd" />
+    <None Include="NinjaCalc.snk" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -193,15 +235,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Calculators\Electronics\Basic\OhmsLaw\diagram.png" />
-    <Resource Include="Calculators\Electronics\Basic\OhmsLaw\icon.png" />
+    <Resource Include="Calculators\Electronics\Basic\OhmsLaw\grid-icon.png" />
     <Resource Include="Calculators\Electronics\Basic\ResistorDivider\diagram.png" />
     <Resource Include="Calculators\Electronics\Basic\ResistorDivider\grid-icon.png" />
+    <Resource Include="Calculators\Electronics\Filters\LowPassRC\diagram.png" />
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\grid-icon.png" />
     <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2221A\temperature-icon.jpg" />
     <Resource Include="img\menu-stack-hamburger-128x118.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -226,6 +266,19 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Calculators\Electronics\Basic\OhmsLaw\diagram%28old%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon-v2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\ipc-2152-copper-thickness-modifier-copper-weight-versus-c5-graph.png" />
+    <Resource Include="Calculators\Electronics\Pcb\TrackCurrentIpc2152\ipc-2152-copper-thickness-modifier-graph-with-trendlines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Calculators\Electronics\Filters\LowPassRC\grid-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Calculators\Electronics\Filters\LowPassRC\basic-equation.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,100 +8,126 @@
              d:DesignHeight="800" d:DesignWidth="800"
              HorizontalAlignment="Center"
              VerticalAlignment="Center">
-    <Grid>
-        <Grid.RowDefinitions>
-            <!-- "Info" section takes up the minimum space it needs -->
-            <RowDefinition Height="Auto" />
-            <!-- Let calculator take up remaining space -->
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        
-        <!-- INFO -->
-        <NinjaCalcCoreView:CalcInfo Width="800">
-            <TextBlock>Testing!!!</TextBlock>
-        </NinjaCalcCoreView:CalcInfo>
-        
-        <!-- VARIABLES AND DIAGRAM -->
-        <Viewbox Grid.Row="1" Name="MainViewbox" Stretch="Uniform" MinWidth="400" MinHeight="400" MaxWidth="800" MaxHeight="800">
-            <Canvas Background="White" 
+    <!-- Allows calculator content to scroll vertically when "Info" is expanded -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- "Info" section takes up the minimum space it needs -->
+                <RowDefinition Height="Auto" />
+                <!-- Let calculator take up remaining space -->
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- INFO -->
+            <NinjaCalcCoreView:CalcInfo Grid.Row="0" Width="800">
+                <TextBlock>
+                This calculator can find the minimum PCB track width (external or internal layer) given the track current, the allowed temperatur rise, and copper layer thickness.
+                <LineBreak /><LineBreak />
+                Calculated in accordance with the equations in IPC-2221A Section 6.2 (formerly IPC-D-275, the equation has not changed between these two standards amd you can get similar values by curve-fitting to the graphs provided in IPC-D-275, drawn in 1954, woah!).
+                <LineBreak /><LineBreak />
+                $$ I = k\Delta T^b A^c $$
+                <LineBreak /><LineBreak />
+            	where:<LineBreak />
+	            \( k \) = 0.048 for external traces, 0.024 for internal tracks<LineBreak />
+	            \( \Delta T \) = the change in temperature (temperature rise) in \( ^{\circ}C \)<LineBreak />
+	            \( b \) = 0.44<LineBreak />
+	            \( A \) = cross-sectional area in \( mils^2 \)<LineBreak />
+	            \( c \) = 0.725
+                <LineBreak /><LineBreak />
+                The standard only covers values where the current is 0-35A, track width is 0-10.16mm, temperature rise is from 10-100C, and the copper from 0.5-3oz. Values outside this range are extrapolated (and there more error-prone) and will turn orange.
+                <LineBreak /><LineBreak />
+                This also assumes the track is sufficiently long enough the the end-points do not have a significant effect on the heatsinking. For example, this calcultor should not be used for calculating the width of thermal-relief style connections from a copper pour to a via, in where the track is very short (0.2-1.0mm). It also assumes there are no vias along the length of the track.
+                <LineBreak /><LineBreak />
+                The current in assumed to be constant (DC). However, you can use the RMS value for a pulsed current as long as the pulses are fast enough.
+                <LineBreak /><LineBreak />
+                The temperature of the PCB material should NEVER exceed the relative thermal index (RTI) of the material. This is defined in UL746B as the temperature at which 50% of the materials properties are retained after 100,000 hours.
+                <LineBreak /><LineBreak />
+                Remember this calculator does not take into account other nearby heat sources.
+                </TextBlock>
+            </NinjaCalcCoreView:CalcInfo>
+
+            <!-- VARIABLES AND DIAGRAM -->
+            <Viewbox Grid.Row="1" Name="MainViewbox" Stretch="Uniform" MinWidth="400" MinHeight="400" MaxWidth="800" MaxHeight="800">
+                <Canvas Background="White" 
                 Width="800" Height="800"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                <Polygon
-            Name="BottomPcb"
-            Points="-100,50 320,50 320,120 -100,120"
-            Stroke="Black"
-            StrokeThickness="3" Canvas.Left="277" Canvas.Top="397">
-                    <Polygon.Fill>
-                        <SolidColorBrush Color="Green" Opacity="0.4"/>
-                    </Polygon.Fill>
-                </Polygon>
-                <Polygon
+                    <Polygon
+                        Name="BottomPcb"
+                        Points="-100,50 320,50 320,120 -100,120"
+                        Stroke="Black"
+                        StrokeThickness="3" Canvas.Left="277" Canvas.Top="397">
+                        <Polygon.Fill>
+                            <SolidColorBrush Color="Green" Opacity="0.4"/>
+                        </Polygon.Fill>
+                    </Polygon>
+                    <Polygon
             Name="Track"
             Points="20,0 200,0 220,50 0,50"
             Stroke="Black" 
             StrokeThickness="3" Canvas.Left="277" Canvas.Top="397">
-                    <Polygon.Fill>
-                        <SolidColorBrush Color="Orange" Opacity="0.4"/>
-                    </Polygon.Fill>
-                </Polygon>
-                <Grid Width="30" Height="30" HorizontalAlignment="Center" Canvas.Left="304" Canvas.Top="407">
-                    <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="2" />
-                    <Ellipse Width="10" Height="10" Stroke="Black" StrokeThickness="2" Fill="Black" />
-                </Grid>
-                <Polygon
+                        <Polygon.Fill>
+                            <SolidColorBrush Color="Orange" Opacity="0.4"/>
+                        </Polygon.Fill>
+                    </Polygon>
+                    <Grid Width="30" Height="30" HorizontalAlignment="Center" Canvas.Left="304" Canvas.Top="407">
+                        <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="2" />
+                        <Ellipse Width="10" Height="10" Stroke="Black" StrokeThickness="2" Fill="Black" />
+                    </Grid>
+                    <Polygon
             x:Name="TopPcb"
             Points="-100,50 320,50 320,120 -100,120"
             Stroke="Black"
             StrokeThickness="3" Canvas.Left="277" Canvas.Top="277">
-                    <Polygon.Fill>
-                        <SolidColorBrush Color="Green" Opacity="0.4"/>
-                    </Polygon.Fill>
-                </Polygon>
+                        <Polygon.Fill>
+                            <SolidColorBrush Color="Green" Opacity="0.4"/>
+                        </Polygon.Fill>
+                    </Polygon>
 
-                <Canvas Width="222" Height="20" Canvas.Left="277" Canvas.Top="563">
-                    <NinjaCalcCoreView:Dimension Length="200" />
-                </Canvas>
+                    <Canvas Width="222" Height="20" Canvas.Left="277" Canvas.Top="563">
+                        <NinjaCalcCoreView:Dimension Length="200" />
+                    </Canvas>
 
-                <Canvas Height="53" Canvas.Left="20" Canvas.Top="386" Width="142">
-                    <Label FontSize="16" Content="Track Current"/>
-                    <TextBox x:Name="TrackCurrentValue" Width="100" BorderThickness="3" Canvas.Top="31"/>
-                    <ComboBox x:Name="TrackCurrentUnits" Canvas.Left="114" Canvas.Top="31"/>
-                </Canvas>
-                <Canvas Height="53" Canvas.Left="142" Canvas.Top="228" Width="220">
-                    <Label FontSize="16" Content="Temp. Rise" Canvas.Left="55"/>
-                    <TextBox x:Name="TempRiseValue" Width="100" BorderThickness="3" Canvas.Top="31" Canvas.Left="55"/>
-                    <ComboBox x:Name="TempRiseUnits" Canvas.Left="160" Canvas.Top="31"/>
-                    <Image Source="temperature-icon.jpg" Height="64" Width="87" Canvas.Left="-23"/>
-                </Canvas>
+                    <Canvas Height="53" Canvas.Left="20" Canvas.Top="386" Width="142">
+                        <Label FontSize="16" Content="Track Current"/>
+                        <TextBox x:Name="TrackCurrentValue" Width="100" BorderThickness="3" Canvas.Top="31"/>
+                        <ComboBox x:Name="TrackCurrentUnits" Canvas.Left="114" Canvas.Top="31"/>
+                    </Canvas>
+                    <Canvas Height="53" Canvas.Left="142" Canvas.Top="228" Width="220">
+                        <Label FontSize="16" Content="Temp. Rise" Canvas.Left="55"/>
+                        <TextBox x:Name="TempRiseValue" Width="100" BorderThickness="3" Canvas.Top="31" Canvas.Left="55"/>
+                        <ComboBox x:Name="TempRiseUnits" Canvas.Left="160" Canvas.Top="31"/>
+                        <Image Source="temperature-icon.jpg" Height="64" Width="87" Canvas.Left="-23"/>
+                    </Canvas>
 
-                <Canvas Height="102" Canvas.Left="604" Canvas.Top="370" Width="180">
-                    <NinjaCalcCoreView:Dimension Length="45" Canvas.Left="19" Canvas.Top="30">
-                        <NinjaCalcCoreView:Dimension.LayoutTransform>
-                            <RotateTransform Angle="90"/>
-                        </NinjaCalcCoreView:Dimension.LayoutTransform>
-                    </NinjaCalcCoreView:Dimension>
-                    <Label FontSize="16" Content="Track Thickness" Canvas.Left="36" Canvas.Top="21"/>
-                    <TextBox x:Name="TrackThicknessValue" Width="100" BorderThickness="3" Canvas.Top="57" Canvas.Left="36"/>
-                    <ComboBox x:Name="TrackThicknessUnits" Canvas.Left="141" Canvas.Top="57"/>
-                </Canvas>
+                    <Canvas Height="102" Canvas.Left="604" Canvas.Top="370" Width="180">
+                        <NinjaCalcCoreView:Dimension Length="45" Canvas.Left="19" Canvas.Top="30">
+                            <NinjaCalcCoreView:Dimension.LayoutTransform>
+                                <RotateTransform Angle="90"/>
+                            </NinjaCalcCoreView:Dimension.LayoutTransform>
+                        </NinjaCalcCoreView:Dimension>
+                        <Label FontSize="16" Content="Track Thickness" Canvas.Left="36" Canvas.Top="21"/>
+                        <TextBox x:Name="TrackThicknessValue" Width="100" BorderThickness="3" Canvas.Top="57" Canvas.Left="36"/>
+                        <ComboBox x:Name="TrackThicknessUnits" Canvas.Left="141" Canvas.Top="57"/>
+                    </Canvas>
 
-                <ComboBox x:Name="TrackLayer" Width="100" Canvas.Left="504" Canvas.Top="242" />
-                <Label Content="Track Layer" FontSize="16" Canvas.Left="496" Canvas.Top="206"/>
-                <Canvas Height="58" Canvas.Left="304" Canvas.Top="563" Width="158">
-                    <Label Content="Min. Track Width" FontSize="16" Canvas.Left="18" Canvas.Top="5"/>
-                    <TextBox x:Name="MinTrackWidthValue" Width="100" Height="21" BorderThickness="0" Canvas.Left="9" Canvas.Top="36"/>
-                    <ComboBox x:Name="MinTrackWidthUnits" Canvas.Top="36" Canvas.Left="130"/>
+                    <ComboBox x:Name="TrackLayer" Width="100" Canvas.Left="504" Canvas.Top="242" />
+                    <Label Content="Track Layer" FontSize="16" Canvas.Left="496" Canvas.Top="206"/>
+                    <Canvas Height="58" Canvas.Left="304" Canvas.Top="563" Width="158">
+                        <Label Content="Min. Track Width" FontSize="16" Canvas.Left="18" Canvas.Top="5"/>
+                        <TextBox x:Name="MinTrackWidthValue" Width="100" Height="21" BorderThickness="0" Canvas.Left="9" Canvas.Top="36"/>
+                        <ComboBox x:Name="MinTrackWidthUnits" Canvas.Top="36" Canvas.Left="130"/>
+                    </Canvas>
+                    <Grid Width="30" Height="30" HorizontalAlignment="Center" Canvas.Left="373" Canvas.Top="407">
+                        <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="2" />
+                        <Ellipse Width="10" Height="10" Stroke="Black" StrokeThickness="2" Fill="Black" />
+                    </Grid>
+                    <Grid Width="30" Height="30" HorizontalAlignment="Center" Canvas.Left="442" Canvas.Top="407">
+                        <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="2" />
+                        <Ellipse Width="10" Height="10" Stroke="Black" StrokeThickness="2" Fill="Black" />
+                    </Grid>
                 </Canvas>
-                <Grid Width="30" Height="30" HorizontalAlignment="Center" Canvas.Left="373" Canvas.Top="407">
-                    <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="2" />
-                    <Ellipse Width="10" Height="10" Stroke="Black" StrokeThickness="2" Fill="Black" />
-                </Grid>
-                <Grid Width="30" Height="30" HorizontalAlignment="Center" Canvas.Left="442" Canvas.Top="407">
-                    <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="2" />
-                    <Ellipse Width="10" Height="10" Stroke="Black" StrokeThickness="2" Fill="Black" />
-                </Grid>
-            </Canvas>
-        </Viewbox>
-    </Grid>
+            </Viewbox>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

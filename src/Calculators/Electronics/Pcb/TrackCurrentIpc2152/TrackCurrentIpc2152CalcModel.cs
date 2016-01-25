@@ -32,7 +32,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
 
 
         const double NUM_MILS_PER_MM = 1000/25.4;
-	    const double UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ = 0.0000350012;
+	    //const double UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ = 0.0000350012;
 	    const double UNIT_CONVERSION_M_PER_MIL = 25.4/1e6;
 	    const double UNIT_CONVERSION_M2_PER_MIL2 = UNIT_CONVERSION_M_PER_MIL*UNIT_CONVERSION_M_PER_MIL;
 
@@ -322,9 +322,10 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 view.TrackThicknessValue,
                 view.TrackThicknessUnits,                
                 new NumberUnit[]{
-                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),  
-                    new NumberUnit("oz", UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ),  
-                    new NumberUnit("mm", 1e-3),                        
+                    new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),                      
+                    new NumberUnit("mm", 1e-3),   
+                    new NumberUnit("oz", UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ),   
+                    new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),   
                 },
                 4,
                 null,
@@ -364,7 +365,7 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                     var trackThicknessM = this.TrackThickness.RawVal;
 
 			        // Convert to "oz" units, as this is what is used in IPC-2152 graphs
-			        var trackThicknessOz = trackThicknessM*(1/UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ);
+			        var trackThicknessOz = trackThicknessM*(1/UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ);
 			        //console.log("trackThicknessOz = " + trackThicknessOz);
 
 			        // Lets calculate the two co-efficients for the fixed-temp trend line 
@@ -427,8 +428,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 view.BoardThicknessUnits,
                 new NumberUnit[]{
                     new NumberUnit("um", 1e-6),  
-                    new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
-                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
+                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),         
+                    new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),
                 },
                 4,
                 null,
@@ -514,8 +515,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 view.PlaneProximityUnits,
                 new NumberUnit[]{
                     new NumberUnit("um", 1e-6),  
-                    new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
-                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                        
+                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT), 
+                    new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),   
                 },
                 4,
                 null,
@@ -720,8 +721,8 @@ namespace NinjaCalc.Calculators.Electronics.Pcb.TrackCurrentIpc2152 {
                 },
                 new NumberUnit[]{
                     new NumberUnit("um", 1e-6),  
-                    new NumberUnit("mils", UNIT_CONVERSION_M_PER_MIL),
-                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),                           
+                    new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),
+                    new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),       
                 },
                 4,
                 "The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text

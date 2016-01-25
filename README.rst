@@ -8,8 +8,8 @@ A embedded engineering calculator suite for doing calculations in a breeze.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2016-01-21
-- Version: v0.3.7
+- Last Modified: 2016-01-25
+- Version: v0.3.8
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: C#, WPF, .NET
@@ -30,14 +30,7 @@ The goal of this is to provide a easy-to-use desktop application to help you wit
 Features
 --------
 
-- Suite of useful embedded-engineering related calculators.
-- As-you-type updating
-- Dynamic unit-changing support (including various metric and imperial units where appropriate).
-- Continuously checking validators which make sure calculator variables are within range and sensible.
-- Helpful tooltip information for each calculator variable.
-- Smart calculator resizing to cater for various screen sizes and resolutions.
-- Powerful and compact language for describing new calculators, making it easy to add your own if so wanted!
-
+See the `project home page`_ for a list of features.
 
 Installation
 ============
@@ -66,6 +59,13 @@ There are many pre-built calculator view objects to make development faster and 
 - ClippingBorder.cs: Support for creating rounded borders which clip their content. Used in the "Selected Calculator" grid object.
 - Dimension.xaml: A WPF user control for adding a dimension to a calculator diagram. Supports the :code:`Length` property to change it's length.
 - MarginSetter.cs: Add the property :code:`MarginSetter.Margin="10"` to any UI element, and it will set all the elements children to have a margin of :code:`10`. Used in the "Selected Calculator" grid object.
+
+Creating A Calculator Diagram
+-----------------------------
+
+Creating a static diagram image and laying the calculator variable UI elements overtop of this is the easiest method to create a diagram when dynamic visual changes to the diagram are not required.
+
+All calculators that use static images for their background diagrams have a Visio file called :code:`diagram.vsd` in their respective folder. Microsoft Visio is used to create the diagram, which is then exported as an image and used inside the NinjaCalc application.
 
 Creating An Installable Package
 -------------------------------
@@ -117,17 +117,6 @@ See changelog.md.
 Contributors
 ============
 
-Thanks to Phillip Abplanalp, Zac Frank, and Brendon Le Comte for user-interaction guidance and tips!
+See the `project home page`_ for a list of contributors.
 
-Thanks to alexcurtis_ for the time and effort he put into the `react-treebeard`_ module.
-
-.. _`alexcurtis`: https://github.com/alexcurtis
-.. _`react-treebeard`: https://github.com/alexcurtis/react-treebeard
-
-Thanks to the kids at Facebook_ for the great react framework (albeit no longer used!)
-
-.. _`Facebook`: https://facebook.github.io/react/
-
-Thanks to Jesse Eedrah for guidance and help with Javascript and the React/Redux stack.
-
-Thanks to Michael O'Donnell (a la Mod) for sharing some of his pro-knowledge of the C#/.NET language.
+.. _`project home page`: http://mbedded-ninja.github.io/NinjaCalc/
