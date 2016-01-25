@@ -11,11 +11,13 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml">
-    <bottom>
-        <Label fx:id="lblHello" alignment="CENTER" contentDisplay="CENTER" prefHeight="67.0" prefWidth="510.0" text="..." />
-    </bottom>
-    <center>
-        <Button fx:id="btnHello" mnemonicParsing="false" onAction="#btnHelloOnAction" text="Say hello" />
-    </center>
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml"
+         prefWidth="300" prefHeight="400" maxWidth="300" maxHeight="400"
+         style="-fx-background-color: yellow">
+        <Label fx:id="labelCalculatorName"
+               GridPane.rowIndex="0"
+               alignment="CENTER" contentDisplay="CENTER" prefHeight="67.0" prefWidth="510.0" text="Calculator Name" />
+        <Button fx:id="btnOpenCalc"
+                GridPane.rowIndex="1"
+                mnemonicParsing="false" onAction="#btnOpenOnAction" text="Open" />
 </fx:root>
