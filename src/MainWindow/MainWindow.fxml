@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.TilePane?>
 
 
-<AnchorPane fx:controller="MainWindow.Controller"
+<AnchorPane fx:controller="MainWindow.MainWindowController"
             fx:id="anchorPane"
             xmlns:fx="http://javafx.com/fxml"
             style="-fx-background-color: green">
