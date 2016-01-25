@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "NinjaCalc"
-#define MyAppVersion "0.3.7"
+#define MyAppVersion "0.3.8"
 #define MyAppPublisher "Geoffrey Hunter"
 #define MyAppURL "http://www.mbedded.ninja"
 #define MyAppExeName "NinjaCalc.exe"
