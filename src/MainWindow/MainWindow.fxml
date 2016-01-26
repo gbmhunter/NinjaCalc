@@ -31,7 +31,7 @@
                 <VBox minWidth="50" maxWidth="50" alignment="TOP_CENTER" style="-fx-background-color: darkgrey">
                     <padding><Insets top="10"></Insets></padding>
                     <!-- MENU BUTTON (hamburger shape) -->
-                    <Button>
+                    <Button onMouseClicked="#onMenuButtonClick">
                         <graphic>
                             <ImageView fitHeight="25.0" fitWidth="25.0"><image><Image url="/img/menu-stack-hamburger-128x118.png" /></image></ImageView>
                         </graphic>
