@@ -54,10 +54,10 @@
                     <!-- Stacked with "No calculator" view. Not visible until a calculator is opened -->
                     <GridPane fx:id="gridPaneCalculatorTabsContainer"
                               visible="false" maxWidth="Infinity" maxHeight="Infinity">
-                        <TabPane fx:id="tabPaneCalculatorInstances" style="-fx-background-color: orange" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-                            <Tab text="Testing"><content>
+                        <TabPane fx:id="tabPaneCalculatorInstances" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                            <!--<Tab text="Testing"><content>
                                 <GridPane style="-fx-background-color: purple"><TextArea>hfhfhf</TextArea></GridPane>
-                            </content></Tab>
+                            </content></Tab>-->
                         </TabPane>
                     </GridPane>
 
