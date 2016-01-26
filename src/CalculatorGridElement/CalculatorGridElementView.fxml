@@ -12,12 +12,19 @@
 <?import javafx.scene.text.*?>
 
 <fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml"
-         prefWidth="300" prefHeight="400" maxWidth="300" maxHeight="400"
+         prefWidth="250" prefHeight="300"
          style="-fx-background-color: yellow">
-        <Label fx:id="labelCalculatorName"
-               GridPane.rowIndex="0"
-               alignment="CENTER" contentDisplay="CENTER" prefHeight="67.0" prefWidth="510.0" text="Calculator Name" />
-        <Button fx:id="btnOpenCalc"
-                GridPane.rowIndex="1"
-                mnemonicParsing="false" onAction="#btnOpenOnAction" text="Open" />
+        <VBox>
+            <ImageView fx:id="calculatorIcon">
+            </ImageView>
+            <Label fx:id="labelCalculatorName"
+                   GridPane.rowIndex="0"
+                   alignment="CENTER" contentDisplay="CENTER" prefHeight="67.0" prefWidth="510.0" text="Calculator Name" />
+            <Label>
+                Calculator description.
+            </Label>
+            <Button fx:id="btnOpenCalc"
+                    GridPane.rowIndex="1"
+                    mnemonicParsing="false" onAction="#btnOpenOnAction" text="Open" />
+        </VBox>
 </fx:root>
