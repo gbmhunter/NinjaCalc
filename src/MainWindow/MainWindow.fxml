@@ -15,6 +15,8 @@
 <?import javafx.scene.layout.TilePane?>
 
 
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 <AnchorPane fx:controller="MainWindow.MainWindowController"
             fx:id="anchorPane"
             xmlns:fx="http://javafx.com/fxml"
@@ -24,12 +26,26 @@
                 <GridPane minWidth="50" maxWidth="50" alignment="TOP_CENTER" style="-fx-background-color: darkgrey">
                     <Button>New</Button>
                 </GridPane>
-                <GridPane maxWidth="Infinity" HBox.hgrow="ALWAYS" alignment="CENTER">
-                        <Label GridPane.rowIndex="0" alignment="CENTER">No calculator is open. Do you wish to create one?</Label>
-                        <Button onAction="#handleButtonOnAction" GridPane.rowIndex="1" alignment="CENTER">New Calculator</Button>
-                </GridPane>
+                <StackPane HBox.hgrow="ALWAYS">
+                    <GridPane maxWidth="Infinity" alignment="CENTER">
+                            <Label GridPane.rowIndex="0" alignment="CENTER">No calculator is open. Do you wish to create one?</Label>
+                            <Button onAction="#handleButtonOnAction" GridPane.rowIndex="1" alignment="CENTER">New Calculator</Button>
+                    </GridPane>
+                    <!-- CALCULATOR TABS -->
+                    <!-- Stacked with "No calculator" view. Not visible until a calculator is opened -->
+                    <GridPane fx:id="gridPaneCalculatorTabsContainer"
+                              visible="false" maxWidth="Infinity" maxHeight="Infinity">
+                        <TabPane fx:id="tabPaneCalculatorInstances" style="-fx-background-color: orange" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                            <Tab text="Testing"><content>
+                                <GridPane style="-fx-background-color: purple"><TextArea>hfhfhf</TextArea></GridPane>
+                            </content></Tab>
+                        </TabPane>
+                    </GridPane>
+
+                </StackPane>
         </HBox>
-        <!-- OVERLAY -->
+
+        <!-- OVERLAY (stacked ontop of calculator tabs) -->
         <GridPane
                 fx:id="calcGridOverlay"
                 visible="false"
