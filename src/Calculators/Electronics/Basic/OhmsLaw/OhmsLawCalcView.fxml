@@ -1,17 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
-
-    <!-- Allows calculator content to scroll vertically when "Info" is expanded -->
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
-
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <?import Core.AutoScalingStackPane?>
-<GridPane
-        fx:id="gridPane"
-        xmlns:fx="http://javafx.com/fxml"
-        style="-fx-background-color: green">
+<GridPane fx:id="gridPane" style="-fx-background-color: green" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null">
 
     <!-- =========== INFO SECTION ========== -->
 
@@ -28,21 +28,20 @@
 
 
     <AutoScalingStackPane prefWidth="600" prefHeight="600">
-        <Pane prefWidth="600" prefHeight="600">
+        <Pane prefHeight="600" prefWidth="600">
 
-            <ImageView fitWidth="700" fitHeight="700"><image><Image url="@diagram.png"/></image></ImageView>
+            <ImageView fitHeight="600.0" fitWidth="600.0"><image><Image url="@diagram.png" /></image></ImageView>
 
-            <TextField fx:id="textFieldVoltageValue" prefWidth="80" prefHeight="25" layoutX="20" layoutY="292"></TextField>
-            <RadioButton fx:id="radioButtonVoltageIO" layoutX="117" layoutY="250"></RadioButton>
-            <ComboBox fx:id="comboBoxVoltageUnits" prefWidth="55" prefHeight="25" layoutX="105" layoutY="292" />
-            <TextField fx:id="textFieldCurrentValue" prefWidth="80" prefHeight="25" layoutX="420" layoutY="401"></TextField>
-            <RadioButton fx:id="radioButtonCurrentIO" layoutX="519" layoutY="354"></RadioButton>
-            <ComboBox fx:id="comboBoxCurrentUnits" prefWidth="55" prefHeight="25" layoutX="505" layoutY="401"/>
-            <TextField fx:id="textFieldResistanceValue" prefWidth="80" prefHeight="25" layoutX="417" layoutY="184"></TextField>
-            <RadioButton fx:id="radioButtonResistanceIO" layoutX="519" layoutY="131"></RadioButton>
-            <ComboBox fx:id="comboBoxResistanceUnits" prefWidth="55" prefHeight="25" layoutX="505" layoutY="184"/>
+            <TextField fx:id="textFieldVoltageValue" layoutX="14.0" layoutY="300.0" prefHeight="25" prefWidth="80" />
+            <RadioButton fx:id="radioButtonVoltageIO" layoutX="111.0" layoutY="258.0" />
+            <ComboBox fx:id="comboBoxVoltageUnits" layoutX="99.0" layoutY="300.0" prefHeight="25" prefWidth="55" />
+            <TextField fx:id="textFieldCurrentValue" layoutX="449.0" layoutY="431.0" prefHeight="25" prefWidth="80" />
+            <RadioButton fx:id="radioButtonCurrentIO" layoutX="489.0" layoutY="370.0" />
+            <ComboBox fx:id="comboBoxCurrentUnits" layoutX="534.0" layoutY="431.0" prefHeight="25" prefWidth="55" />
+            <TextField fx:id="textFieldResistanceValue" layoutX="448.0" layoutY="183.0" prefHeight="25" prefWidth="80" />
+            <RadioButton fx:id="radioButtonResistanceIO" layoutX="478.0" layoutY="128.0" />
+            <ComboBox fx:id="comboBoxResistanceUnits" layoutX="536.0" layoutY="183.0" prefHeight="25" prefWidth="55" />
 
         </Pane>
     </AutoScalingStackPane>
 </GridPane>
-
