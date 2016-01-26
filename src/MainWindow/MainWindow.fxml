@@ -81,8 +81,11 @@
                     <!-- CALCULATOR TEMPLATE HOLDER -->
                     <!-- This will lay the calculator template elements out in equal sized tiles -->
                     <TilePane
-                        fx:id="calculatorGridTilePane">
-
+                        fx:id="calculatorGridTilePane"
+                        hgap="20" vgap="20">
+                        <padding>
+                            <Insets top="20" bottom="20" left="20" right="20" />
+                        </padding>
                     </TilePane>
             </GridPane>
         </GridPane>

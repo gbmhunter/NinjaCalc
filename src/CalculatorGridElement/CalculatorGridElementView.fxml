@@ -10,21 +10,36 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+
 
 <fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml"
          prefWidth="250" prefHeight="300"
-         style="-fx-background-color: yellow">
-        <VBox>
-            <ImageView fx:id="calculatorIcon">
-            </ImageView>
+         style="-fx-background-color: yellow; -fx-font-family: Calibri; -fx-text-fill: #505050">
+        <VBox style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0.5, 0.0, 0.0); -fx-background-color: white;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <HBox alignment="CENTER">
+                <ImageView fx:id="calculatorIcon" fitWidth="200" fitHeight="100" preserveRatio="true"/>
+            </HBox>
             <Label fx:id="labelCalculatorName"
-                   GridPane.rowIndex="0"
-                   alignment="CENTER" contentDisplay="CENTER" prefHeight="67.0" prefWidth="510.0" text="Calculator Name" />
-            <Label>
+                   alignment="CENTER_LEFT" text="Calculator Name"
+                    style="-fx-font-size: 20pt;"/>
+            <Label
+                    fx:id="calculatorDescription"
+                    VBox.vgrow="ALWAYS"
+                    maxHeight="Infinity"
+                    prefHeight="1000"
+                    wrapText="true"
+                    style="-fx-font-size: 11pt; -fx-font-style: italic">
                 Calculator description.
             </Label>
-            <Button fx:id="btnOpenCalc"
-                    GridPane.rowIndex="1"
-                    mnemonicParsing="false" onAction="#btnOpenOnAction" text="Open" />
+            <HBox alignment="CENTER_RIGHT">
+                <Button fx:id="btnOpenCalc"
+                        GridPane.rowIndex="1"
+                        minHeight="35" prefWidth="80"
+                        mnemonicParsing="false" onAction="#btnOpenOnAction" text="Open" />
+            </HBox>
         </VBox>
 </fx:root>
