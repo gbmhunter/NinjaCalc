@@ -39,9 +39,16 @@
                 </VBox>
                 <!-- MAIN DISPLAY MINUS MENU BAR -->
                 <StackPane HBox.hgrow="ALWAYS">
-                    <GridPane maxWidth="Infinity" alignment="CENTER">
-                            <Label GridPane.rowIndex="0" alignment="CENTER">No calculator is open. Do you wish to create one?</Label>
-                            <Button onAction="#handleButtonOnAction" GridPane.rowIndex="1" alignment="CENTER">New Calculator</Button>
+                    <GridPane maxWidth="Infinity" alignment="CENTER" vgap="10" style="-fx-font-family: Calibri; -fx-font-size: 20pt;">
+                            <Label GridPane.rowIndex="0" alignment="CENTER"
+                                   style="-fx-font-family: Calibri; -fx-font-size: 20pt; -fx-text-fill: #505050">
+                                No calculator is open. Do you wish to create one?
+                            </Label>
+                            <Button onAction="#handleButtonOnAction" GridPane.rowIndex="1" alignment="CENTER"
+                                prefWidth="170" prefHeight="50"
+                                    style="-fx-font-size: 12pt;">
+                                New Calculator
+                            </Button>
                     </GridPane>
                     <!-- CALCULATOR TABS -->
                     <!-- Stacked with "No calculator" view. Not visible until a calculator is opened -->
