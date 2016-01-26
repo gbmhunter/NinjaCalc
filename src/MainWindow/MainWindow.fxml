@@ -17,15 +17,27 @@
 
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane fx:controller="MainWindow.MainWindowController"
             fx:id="anchorPane"
             xmlns:fx="http://javafx.com/fxml"
             style="-fx-background-color: green">
     <StackPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <HBox maxWidth="Infinity" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" style="-fx-background-color: red">
-                <GridPane minWidth="50" maxWidth="50" alignment="TOP_CENTER" style="-fx-background-color: darkgrey">
-                    <Button>New</Button>
-                </GridPane>
+
+        <!-- MAIN DISPLAY (when overlay isn't showing) -->
+        <HBox maxWidth="Infinity" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" style="-fx-background-color: white">
+                <!-- LEFT-HAND SIDE MENU BAR -->
+                <VBox minWidth="50" maxWidth="50" alignment="TOP_CENTER" style="-fx-background-color: darkgrey">
+                    <padding><Insets top="10"></Insets></padding>
+                    <!-- MENU BUTTON (hamburger shape) -->
+                    <Button>
+                        <graphic>
+                            <ImageView fitHeight="25.0" fitWidth="25.0"><image><Image url="/img/menu-stack-hamburger-128x118.png" /></image></ImageView>
+                        </graphic>
+                    </Button>
+                </VBox>
+                <!-- MAIN DISPLAY MINUS MENU BAR -->
                 <StackPane HBox.hgrow="ALWAYS">
                     <GridPane maxWidth="Infinity" alignment="CENTER">
                             <Label GridPane.rowIndex="0" alignment="CENTER">No calculator is open. Do you wish to create one?</Label>
