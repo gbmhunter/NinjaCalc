@@ -14,23 +14,26 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TitledPane?>
 <GridPane fx:id="gridPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/null" alignment="CENTER"
-      style="-fx-font-family: Calibri; -fx-text-fill: #505050">
+          style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" >
 
     <!-- =========== INFO SECTION ========== -->
 
-    <Label GridPane.rowIndex="0" wrapText="true"
-        maxWidth="500"
-           style="-fx-font-size: 15pt;" textAlignment="JUSTIFY">
-        The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:
+    <TitledPane GridPane.rowIndex="0" text="Info" style="-fx-font-size: 16pt;" >
+        <Label  wrapText="true"
+            maxWidth="500"
+               style="-fx-font-size: 14pt;" textAlignment="JUSTIFY">
+            The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:
 
-        \( V = IR \)
+            \( V = IR \)
 
-        where:
-        \( V \) = voltage across the resistor
-        \( I \) = current through the resistor
-        \( R \) = resistance of the resistor
-    </Label>
+            where:
+            \( V \) = voltage across the resistor
+            \( I \) = current through the resistor
+            \( R \) = resistance of the resistor
+        </Label>
+    </TitledPane>
 
 
     <AutoScalingStackPane GridPane.rowIndex="1" prefWidth="600" prefHeight="600">
