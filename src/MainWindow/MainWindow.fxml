@@ -39,7 +39,7 @@
                 </VBox>
                 <!-- MAIN DISPLAY MINUS MENU BAR -->
                 <StackPane HBox.hgrow="ALWAYS">
-                    <GridPane maxWidth="Infinity" alignment="CENTER" vgap="10" style="-fx-font-family: Calibri; -fx-font-size: 20pt;">
+                    <VBox maxWidth="Infinity" alignment="CENTER" spacing="20" style="-fx-font-family: Calibri; -fx-font-size: 20pt;">
                             <Label GridPane.rowIndex="0" alignment="CENTER"
                                    style="-fx-font-family: Calibri; -fx-font-size: 20pt; -fx-text-fill: #505050">
                                 No calculator is open. Do you wish to create one?
@@ -49,7 +49,7 @@
                                     style="-fx-font-size: 12pt;">
                                 New Calculator
                             </Button>
-                    </GridPane>
+                    </VBox>
                     <!-- CALCULATOR TABS -->
                     <!-- Stacked with "No calculator" view. Not visible until a calculator is opened -->
                     <GridPane fx:id="gridPaneCalculatorTabsContainer"
@@ -65,16 +65,19 @@
         </HBox>
 
         <!-- OVERLAY (stacked ontop of calculator tabs) -->
+        <!-- The semi-transparent grey border -->
         <GridPane
                 fx:id="calcGridOverlay"
                 visible="false"
                 AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                style="-fx-background-color: #404040A0; -fx-padding: 40px;">
+                style="-fx-background-color: #404040A0; -fx-padding: 100px;"
+                onMouseClicked="#handleCalcSelectionBorderMouseClicked">
             <!-- MIDDLE OF OVERLAY (NOT THE BORDER) -->
             <GridPane
                     GridPane.hgrow="ALWAYS"
                     GridPane.vgrow="ALWAYS"
-                    style="-fx-background-color: white;">
+                    style="-fx-background-color: white;"
+                    onMouseClicked="#handleCalcSelectionMouseClicked">
                     <!-- CALCULATOR TEMPLATE HOLDER -->
                     <!-- This will lay the calculator template elements out in equal sized tiles -->
                     <TilePane
