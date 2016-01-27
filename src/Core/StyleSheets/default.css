@@ -1,4 +1,6 @@
 /* Override the default button style */
+/* This makes the default button have a blue background
+and white text */
 .button{
     -fx-text-fill: #FFFFFF;
     -fx-font-size: 13pt;
@@ -8,8 +10,44 @@
     -fx-padding: 3 6 6 6;
 }
 
-.custom-button {
-    -fx-font: 16px "Serif";
-    -fx-padding: 10;
-    -fx-background-color: #CCFF99;
+/* ============================================================================================= */
+/* ============================ CALCULATOR VARIABLE TEXT FIELD STYLING ========================= */
+/* ============================================================================================= */
+
+.ok {
+    /* Border colour */
+    -fx-text-box-border: #00B300;
+    /* Background colour */
+    -fx-control-inner-background: #AAFFAA;
+    /* Border colour when text field is focused */
+    /*-fx-focus-color: #FF2020 ;
+    -fx-faint-focus-color: #FF202020; */
+    /* This next property sets the border thickness */
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3, 2;
+}
+
+.warning {
+    /* Border colour */
+    -fx-text-box-border: #CC5200;
+    /* Background colour */
+    -fx-control-inner-background: #FF8533;
+    /* Border colour when text field is focused */
+    /*-fx-focus-color: #FF2020 ;
+    -fx-faint-focus-color: #FF202020; */
+    /* This next property sets the border thickness */
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3, 2;
+}
+
+.error {
+    /* Border colour */
+    -fx-text-box-border: #ff0000;
+    /* Background colour */
+    -fx-control-inner-background: #FFAAAA;
+    /*-fx-focus-color: #FF2020 ;
+    -fx-faint-focus-color: #FF202020 ;*/
+    /* This next property sets the border thickness */
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3, 2;
 }
