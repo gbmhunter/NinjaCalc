@@ -1,0 +1,15 @@
+/* Override the default button style */
+.button{
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 13pt;
+    /*-fx-border-color: rgb(49, 89, 23);*/
+    -fx-background-color: #0099FF;
+    -fx-border-radius: 5;
+    -fx-padding: 3 6 6 6;
+}
+
+.custom-button {
+    -fx-font: 16px "Serif";
+    -fx-padding: 10;
+    -fx-background-color: #CCFF99;
+}
