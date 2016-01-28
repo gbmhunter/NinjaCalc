@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="Core.View.MyComponent.MyComponentController">
+    <children>
+        <TextField fx:id="textField" prefWidth="200.0" />
+        <Button mnemonicParsing="false" onAction="#doSomething" text="B" />
+    </children>
+</VBox>
