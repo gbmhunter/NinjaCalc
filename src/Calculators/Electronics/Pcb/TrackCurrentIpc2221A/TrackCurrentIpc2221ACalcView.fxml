@@ -14,7 +14,7 @@
 
     <!-- =========== INFO SECTION ========== -->
 
-    <TitledPane style="-fx-font-size: 16pt;" text="Info">
+    <TitledPane maxWidth="600" style="-fx-font-size: 16pt;" text="Info">
         <Label maxWidth="500" style="-fx-font-size: 14pt;" textAlignment="JUSTIFY" wrapText="true">
             The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:
 
@@ -29,7 +29,7 @@
 
 
     <!--<AutoScalingStackPane GridPane.rowIndex="1" prefWidth="600" prefHeight="600">-->
-        <Pane prefHeight="600" prefWidth="600">
+        <Pane prefHeight="600" prefWidth="600" maxWidth="600">
 
             <Label layoutX="39.0" layoutY="220.0">Track Current</Label>
             <TextField fx:id="trackCurrentValue" layoutX="39.0" layoutY="245.0" prefHeight="25" prefWidth="80" />
