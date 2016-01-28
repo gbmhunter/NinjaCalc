@@ -20,9 +20,11 @@
 <?import javafx.scene.control.ScrollPane?>
 <ScrollPane
         fitToWidth="true"
+        styleClass="scrollPane"
         xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <padding><Insets top="40" /></padding>
     <VBox alignment="CENTER" spacing="20"
+          styleClass="vbox"
           style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" >
 
         <!-- =========== INFO SECTION ========== -->

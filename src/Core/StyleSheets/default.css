@@ -1,3 +1,15 @@
+/* ============================================================================================= */
+/* ====================================== GENERIC PANE STYLING ================================= */
+/* ============================================================================================= */
+
+.pane, .hbox, .vbox, .scrollPane {
+    -fx-background-color: white;
+}
+
+/* ============================================================================================= */
+/* ==================================== GENERIC BUTTON STYLING ================================= */
+/* ============================================================================================= */
+
 /* Override the default button style */
 /* This makes the default button have a blue background
 and white text */
@@ -45,6 +57,56 @@ and white text */
 .combo-box {
     -fx-font-size: 10pt;
 }
+
+/* ============================================================================================= */
+/* ========================================= TAB PANE STYLING ================================== */
+/* ============================================================================================= */
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-header-area {
+    -fx-background-color: #EEEEEE;
+}
+
+/* Width and height of the "tabs" in the tab header */
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+    -fx-tab-min-height: 45px;
+    /*-fx-border-radius: 10;*/
+}
+
+.tab{
+    -fx-background-insets: 0 3 0 3,0,0;
+    //-fx-border-radius: 10;
+}
+
+.tab-pane .tab
+{
+    -fx-background-color: #BBBBBB;
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: white;
+}
+
+/* Styling of text in tab header */
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #505050;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    /*-fx-text-fill: #96b946;*/
+}
+
 
 /* ============================================================================================= */
 /* ============================ CALCULATOR VARIABLE TEXT FIELD STYLING ========================= */
