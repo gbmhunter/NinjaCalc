@@ -1,13 +1,44 @@
 /* Override the default button style */
 /* This makes the default button have a blue background
 and white text */
-.button{
-    -fx-text-fill: #FFFFFF;
-    -fx-font-size: 13pt;
-    /*-fx-border-color: rgb(49, 89, 23);*/
-    -fx-background-color: #0099FF;
-    -fx-border-radius: 5;
-    -fx-padding: 3 6 6 6;
+.button {
+    -fx-background-color:
+        #0099FF,
+        linear-gradient(#0088FF 0%, #0077FF 20%, #0066FF 100%),
+        linear-gradient(#0088EE, #0077DD),
+        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+}
+.button Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
+}
+
+.button:hover {
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #00AAFF 0%, #00BBFF 100%),
+        #000044,
+        #000033,
+        radial-gradient(center 50% 50%, radius 100%, #003399, #003399);
+}
+
+/* Styling for the white menu button on the left-hand side pane. */
+.menuButton {
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0;
+    -fx-padding: 5 5 5 5;
+}
+
+.menuButton:hover {
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #DDDDDD 0%, #EEEEEE 100%);
 }
 
 /* Style applies to all comboboxes */

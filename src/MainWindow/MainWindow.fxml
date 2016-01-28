@@ -31,10 +31,11 @@
                 <VBox minWidth="50" maxWidth="50" alignment="TOP_CENTER" style="-fx-background-color: darkgrey">
                     <padding><Insets top="10"></Insets></padding>
                     <!-- MENU BUTTON (hamburger shape) -->
-                    <Button onMouseClicked="#onMenuButtonClick"
-                            prefWidth="25" prefHeight="25"
-                            alignment="CENTER" textAlignment="CENTER" contentDisplay="CENTER"
-                        style="-fx-background-color: white;">
+                    <Button
+                        onMouseClicked="#onMenuButtonClick"
+                        maxWidth="25" maxHeight="25"
+                        alignment="CENTER" textAlignment="CENTER" contentDisplay="CENTER"
+                        styleClass="menuButton">
                         <graphic>
                             <ImageView fitHeight="20.0" fitWidth="20.0"><image><Image url="/img/menu-stack-hamburger-128x118.png" /></image></ImageView>
                         </graphic>
