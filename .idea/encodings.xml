@@ -26,8 +26,8 @@
     <file url="file://$PROJECT_DIR$/src/Core/Rounding.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Core/UnitConversionConstants.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Core/Validator.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/src/Core/View/MyComponent/MyComponent.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/src/Core/View/MyComponent/MyComponentController.java" charset="UTF-16" />
+    <file url="file://$PROJECT_DIR$/src/Core/View/Dimension/Dimension.java" charset="UTF-16" />
+    <file url="file://$PROJECT_DIR$/src/Core/View/Dimension/DimensionController.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/MainWindow/Main.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/MainWindow/MainWindowController.java" charset="UTF-16" />
     <file url="PROJECT" charset="UTF-8" />

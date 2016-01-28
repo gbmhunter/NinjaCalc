@@ -22,7 +22,7 @@
 
 <!-- ========== USER IMPORTS ========== -->
 <?import Core.AutoScalingStackPane?>
-<?import Core.View.MyComponent.*?>
+<?import Core.View.Dimension.*?>
 
 <VBox fx:id="gridPane" alignment="CENTER" spacing="20"
       style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
@@ -81,7 +81,7 @@
             <TextField fx:id="minTrackWidthValue" layoutX="260.0" layoutY="401.0" prefHeight="25" prefWidth="80" />
             <ComboBox fx:id="minTrackWidthUnits" layoutX="260.0" layoutY="439.0" prefHeight="30.0" prefWidth="80.0" />
 
-            <MyComponent welcome="1234" />
+            <Dimension welcome="1234" length="100" />
 
 
             <Polygon fill="#ffd8a9" layoutX="200.0" layoutY="285.0" stroke="black" strokeWidth="2">
