@@ -14,9 +14,10 @@
 
 
 <fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml"
-         prefWidth="250" prefHeight="300"
-         style="-fx-font-family: Calibri; -fx-text-fill: #505050">
-        <VBox style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0.5, 0.0, 0.0); -fx-background-color: white; -fx-background-radius: 10;">
+         minWidth="250" minHeight="320" prefWidth="250" prefHeight="320" maxWidth="250" maxHeight="320"
+         style="-fx-font-family: Calibri; -fx-text-fill: #505050;">
+        <VBox minWidth="250" minHeight="320" prefWidth="250" prefHeight="320" maxWidth="250" maxHeight="320"
+                style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0.5, 0.0, 0.0); -fx-background-color: white; -fx-background-radius: 10;">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
@@ -24,15 +25,15 @@
                 <ImageView fx:id="calculatorIcon" fitWidth="200" fitHeight="100" preserveRatio="true"/>
             </HBox>
             <Label fx:id="labelCalculatorName"
-                   alignment="CENTER_LEFT" text="Calculator Name"
+                   alignment="CENTER_LEFT" text="Calculator Name" wrapText="true"
                     style="-fx-font-size: 20pt;"/>
             <Label
                     fx:id="calculatorDescription"
                     VBox.vgrow="ALWAYS"
                     maxHeight="Infinity"
-                    prefHeight="1000"
+
                     wrapText="true"
-                    style="-fx-font-size: 11pt; -fx-font-style: italic">
+                    style="-fx-font-size: 11pt; -fx-font-style: italic; -fx-text-fill: #808080">
                 Calculator description.
             </Label>
             <HBox alignment="CENTER_RIGHT">
