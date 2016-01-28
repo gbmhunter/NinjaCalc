@@ -42,7 +42,7 @@
                 </VBox>
                 <!-- MAIN DISPLAY MINUS MENU BAR -->
                 <StackPane HBox.hgrow="ALWAYS">
-                    <VBox maxWidth="Infinity" alignment="CENTER" spacing="20" style="-fx-font-family: Calibri; -fx-font-size: 20pt;">
+                    <VBox fx:id="noCalculatorIsOpenPane" maxWidth="Infinity" alignment="CENTER" spacing="20" style="-fx-font-family: Calibri; -fx-font-size: 20pt;">
                             <Label GridPane.rowIndex="0" alignment="CENTER"
                                    style="-fx-font-family: Calibri; -fx-font-size: 20pt; -fx-text-fill: #505050">
                                 No calculator is open. Do you wish to create one?
