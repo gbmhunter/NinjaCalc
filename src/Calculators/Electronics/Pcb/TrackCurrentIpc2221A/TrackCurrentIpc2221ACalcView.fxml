@@ -7,10 +7,11 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 
-<VBox fx:id="gridPane" alignment="CENTER" style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="gridPane" alignment="CENTER" style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
 
     <!-- =========== INFO SECTION ========== -->
 
@@ -29,26 +30,26 @@
 
 
     <!--<AutoScalingStackPane GridPane.rowIndex="1" prefWidth="600" prefHeight="600">-->
-        <Pane prefHeight="600" prefWidth="600" maxWidth="600">
+        <Pane maxWidth="600" prefHeight="600" prefWidth="600">
 
-            <Label layoutX="39.0" layoutY="220.0">Track Current</Label>
+            <Label layoutX="39.0" layoutY="220.0" text="Track Current">Track Current</Label>
             <TextField fx:id="trackCurrentValue" layoutX="39.0" layoutY="245.0" prefHeight="25" prefWidth="80" />
-            <ComboBox fx:id="trackCurrentUnits" layoutX="50.0" layoutY="281.0" prefHeight="25" />
+            <ComboBox fx:id="trackCurrentUnits" layoutX="39.0" layoutY="285.0" prefHeight="30.0" prefWidth="80.0" />
 
             <Label layoutX="128.0" layoutY="75.0">Temp. Rise</Label>
             <TextField fx:id="tempRiseValue" layoutX="124.0" layoutY="99.0" prefHeight="25" prefWidth="80" />
-            <ComboBox fx:id="tempRiseUnits" layoutX="135.0" layoutY="136.0" prefHeight="25" />
+            <ComboBox fx:id="tempRiseUnits" layoutX="128.0" layoutY="137.0" prefHeight="30.0" prefWidth="71.0" />
 
             <Label layoutX="473.0" layoutY="211.0">Track Thickness</Label>
             <TextField fx:id="trackThicknessValue" layoutX="494.0" layoutY="235.0" prefHeight="25" prefWidth="80" />
-            <ComboBox fx:id="trackThicknessUnits" layoutX="505.0" layoutY="272.0" prefHeight="25" />
+            <ComboBox fx:id="trackThicknessUnits" layoutX="495.0" layoutY="272.0" prefHeight="30.0" prefWidth="80.0" />
 
             <Label layoutX="355.0" layoutY="75.0">Track Layer</Label>
-            <ComboBox fx:id="trackLayer" layoutX="363.0" layoutY="99.0" prefHeight="25" />
+            <ComboBox fx:id="trackLayer" layoutX="334.0" layoutY="99.0" prefHeight="30.0" prefWidth="126.0" />
 
             <Label layoutX="244.0" layoutY="377.0">Min. Track Width</Label>
             <TextField fx:id="minTrackWidthValue" layoutX="260.0" layoutY="401.0" prefHeight="25" prefWidth="80" />
-            <ComboBox fx:id="minTrackWidthUnits" layoutX="271.0" layoutY="438.0" prefHeight="25" />
+            <ComboBox fx:id="minTrackWidthUnits" layoutX="260.0" layoutY="439.0" prefHeight="30.0" prefWidth="80.0" />
 
 
             <Polygon fill="#ffd8a9" layoutX="200.0" layoutY="285.0" stroke="black" strokeWidth="2">
@@ -71,6 +72,16 @@
             </Polygon>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fc687" height="50.0" layoutX="150.0" layoutY="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="300.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fc687" height="50.0" layoutX="150.0" layoutY="284.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="300.0" />
+      <Line endX="150.0" layoutX="250.0" layoutY="360.0" startX="-50.0" />
+      <Line endX="15.0" endY="15.0" layoutX="200.0" layoutY="360.0" />
+      <Line endX="-15.0" endY="15.0" layoutX="400.0" layoutY="360.0" />
+      <Line endX="15.0" endY="-15.0" layoutX="200.0" layoutY="360.0" />
+      <Line endY="-35.0" layoutX="470.0" layoutY="285.0" />
+      <Line endX="10.0" endY="-10.0" layoutX="470.0" layoutY="285.0" />
+      <Line endX="-10.0" endY="-10.0" layoutX="470.0" layoutY="285.0" />
+      <Line endX="10.0" endY="10.0" layoutX="470.0" layoutY="250.0" />
+      <Line endX="-10.0" endY="10.0" layoutX="470.0" layoutY="250.0" />
+      <Line endX="-15.0" endY="-15.0" layoutX="400.0" layoutY="360.0" />
 
 
         </Pane>
