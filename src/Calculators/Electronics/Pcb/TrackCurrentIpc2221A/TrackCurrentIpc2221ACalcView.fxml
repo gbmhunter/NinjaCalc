@@ -81,7 +81,7 @@
             <TextField fx:id="minTrackWidthValue" layoutX="260.0" layoutY="401.0" prefHeight="25" prefWidth="80" />
             <ComboBox fx:id="minTrackWidthUnits" layoutX="260.0" layoutY="439.0" prefHeight="30.0" prefWidth="80.0" />
 
-            <Dimension welcome="1234" length="100" />
+            <Dimension layoutX="100" layoutY="100" length="100" />
 
 
             <Polygon fill="#ffd8a9" layoutX="200.0" layoutY="285.0" stroke="black" strokeWidth="2">

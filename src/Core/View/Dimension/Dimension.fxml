@@ -7,10 +7,12 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.shape.Line?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="Core.View.Dimension.DimensionController">
+<Pane xmlns:fx="http://javafx.com/fxml" fx:controller="Core.View.Dimension.DimensionController">
     <children>
-        <TextField fx:id="textField" prefWidth="200.0" />
-        <Button mnemonicParsing="false" onAction="#doSomething" text="B" />
         <Line fx:id="mainLine" />
+        <Line fx:id="leftTopArrowLine" />
+        <Line fx:id="leftBotArrowLine" />
+        <Line fx:id="rightTopArrowLine" />
+        <Line fx:id="rightBotArrowLine" />
     </children>
-</VBox>
+</Pane>
