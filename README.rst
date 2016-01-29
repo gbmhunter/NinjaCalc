@@ -8,15 +8,15 @@ A embedded engineering calculator suite for doing calculations in a breeze.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2016-01-25
-- Version: v0.3.8
+- Last Modified: 2016-01-29
+- Version: v0.4.0
 - Company: mbedded.ninja
 - Project: NinjaTerm
-- Language: C#, WPF, .NET
-- Compiler: Visual Studio
+- Language: Java
+- IDE: IntelliJ IDEA
 - uC Model: n/a
 - Computer Architecture: Any
-- Operating System: Windows
+- Operating System: Any
 - Documentation Format: n/a
 - License: GPLv3
 
@@ -55,10 +55,7 @@ Making Your Own Calculators
 
 There are many pre-built calculator view objects to make development faster and keep a consistent look and feel across the application. These are located in :code:`src/Core/View`. This includes:
 
-- CalcInfo.xaml: A WPF user control for created an expandable/collapsible "Info" section to a calculator. Supports children (normally you would add a textblock as a child element).
-- ClippingBorder.cs: Support for creating rounded borders which clip their content. Used in the "Selected Calculator" grid object.
-- Dimension.xaml: A WPF user control for adding a dimension to a calculator diagram. Supports the :code:`Length` property to change it's length.
-- MarginSetter.cs: Add the property :code:`MarginSetter.Margin="10"` to any UI element, and it will set all the elements children to have a margin of :code:`10`. Used in the "Selected Calculator" grid object.
+
 
 Creating A Calculator Diagram
 -----------------------------
