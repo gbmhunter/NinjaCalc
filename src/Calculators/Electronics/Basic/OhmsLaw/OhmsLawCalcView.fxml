@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<?import Core.AutoScalingStackPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TitledPane?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<ScrollPane
+        fitToWidth="true"
+        styleClass="scrollPane"
+        xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+    <padding><Insets top="40" /></padding>
+    <VBox alignment="CENTER" spacing="20"
+          styleClass="vbox"
+          style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" >
+
+        <!-- =========== INFO SECTION ========== -->
+
+        <TitledPane text="Info" expanded="false"
+                    maxWidth="700"
+                    style="-fx-font-size: 16pt;" >
+            <Label
+                    wrapText="true" textAlignment="JUSTIFY"
+                    maxWidth="600"
+                    style="-fx-font-size: 13pt;">
+                The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:
+
+                \( V = IR \)
+
+                where:
+                \( V \) = voltage across the resistor
+                \( I \) = current through the resistor
+                \( R \) = resistance of the resistor
+            </Label>
+        </TitledPane>
+
+
+        <!--<AutoScalingStackPane prefWidth="600" prefHeight="600">-->
+            <Pane maxWidth="600" maxHeight="600">
+
+                <ImageView fitHeight="600.0" fitWidth="600.0"><image><Image url="@diagram.png" /></image></ImageView>
+
+                <TextField fx:id="textFieldVoltageValue" layoutX="14.0" layoutY="300.0" prefHeight="25" prefWidth="80" />
+                <RadioButton fx:id="radioButtonVoltageIO" layoutX="111.0" layoutY="258.0" />
+                <ComboBox fx:id="comboBoxVoltageUnits" layoutX="99.0" layoutY="300.0" prefHeight="25" />
+                <TextField fx:id="textFieldCurrentValue" layoutX="449.0" layoutY="431.0" prefHeight="25" prefWidth="80" />
+                <RadioButton fx:id="radioButtonCurrentIO" layoutX="489.0" layoutY="370.0" />
+                <ComboBox fx:id="comboBoxCurrentUnits" layoutX="534.0" layoutY="431.0" prefHeight="25" />
+                <TextField fx:id="textFieldResistanceValue" layoutX="448.0" layoutY="183.0" prefHeight="25" prefWidth="80" />
+                <RadioButton fx:id="radioButtonResistanceIO" layoutX="478.0" layoutY="128.0" />
+                <ComboBox fx:id="comboBoxResistanceUnits" layoutX="536.0" layoutY="183.0" prefHeight="25" />
+
+            </Pane>
+        <!--</AutoScalingStackPane>-->
+    </VBox>
+</ScrollPane>

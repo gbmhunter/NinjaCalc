@@ -1,0 +1,169 @@
+/* ============================================================================================= */
+/* ====================================== GENERIC PANE STYLING ================================= */
+/* ============================================================================================= */
+
+.pane, .hbox, .vbox, .scrollPane {
+    -fx-background-color: white;
+}
+
+/* ============================================================================================= */
+/* ==================================== GENERIC BUTTON STYLING ================================= */
+/* ============================================================================================= */
+
+.button {
+    -fx-base: #0077DD;
+    -fx-text-fill: white;
+    -fx-font-family: "Calibri";
+    -fx-font-size: 12px;
+}
+
+/* Override the default button style */
+/* This makes the default button have a blue background
+and white text */
+/*.button {
+    -fx-base: #0099FF;
+    -fx-background-color:
+        #0099FF,
+        linear-gradient(#0088FF 0%, #0077FF 20%, #0066FF 100%),
+        linear-gradient(#0088EE, #0077DD),
+        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+}
+.button Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
+}
+
+.button:hover {
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #00AAFF 0%, #00BBFF 100%),
+        #000044,
+        #000033,
+        radial-gradient(center 50% 50%, radius 100%, #003399, #003399);
+}
+
+.button:pressed {
+    -fx-background-color:
+        #003399,
+        linear-gradient(to bottom, derive(-fx-color,-90%) 0%, derive(-fx-color,-60%) 100%),
+        linear-gradient(to bottom, derive(-fx-color,-60%) 0%, derive(-fx-color,-35%) 50%, derive(-fx-color,-30%) 98%, derive(-fx-color,-50%) 100%),
+        linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 10%, rgba(0,0,0,0) 90%, rgba(0,0,0,0.3) 100%);
+    -fx-background-insets: 0 0 -1 0, 0, 1, 1;
+    -fx-text-fill: -fx-light-text-color;
+}*/
+
+/* Styling for the white menu button on the left-hand side pane. */
+.menuButton {
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0;
+    -fx-padding: 5 5 5 5;
+}
+
+.menuButton:hover {
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #DDDDDD 0%, #EEEEEE 100%);
+}
+
+/* Style applies to all comboboxes */
+.combo-box {
+    -fx-font-size: 10pt;
+}
+
+/* ============================================================================================= */
+/* ========================================= TAB PANE STYLING ================================== */
+/* ============================================================================================= */
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-header-area {
+    -fx-background-color: #EEEEEE;
+}
+
+/* Width and height of the "tabs" in the tab header */
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+    -fx-tab-min-height: 45px;
+    /*-fx-border-radius: 10;*/
+}
+
+.tab{
+    -fx-background-insets: 0 3 0 3,0,0;
+    //-fx-border-radius: 10;
+}
+
+.tab-pane .tab
+{
+    -fx-background-color: #BBBBBB;
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: white;
+}
+
+/* Styling of text in tab header */
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #505050;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    /*-fx-text-fill: #96b946;*/
+}
+
+
+/* ============================================================================================= */
+/* ============================ CALCULATOR VARIABLE TEXT FIELD STYLING ========================= */
+/* ============================================================================================= */
+
+.ok {
+    /* Border colour */
+    -fx-text-box-border: #00B300;
+    /* Background colour */
+    -fx-control-inner-background: #AAFFAA;
+    /* Border colour when text field is focused */
+    /*-fx-focus-color: #FF2020 ;
+    -fx-faint-focus-color: #FF202020; */
+    /* This next property sets the border thickness */
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3, 2;
+}
+
+.warning {
+    /* Border colour */
+    -fx-text-box-border: #CC5200;
+    /* Background colour */
+    -fx-control-inner-background: #FF8533;
+    /* Border colour when text field is focused */
+    /*-fx-focus-color: #FF2020 ;
+    -fx-faint-focus-color: #FF202020; */
+    /* This next property sets the border thickness */
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3, 2;
+}
+
+.error {
+    /* Border colour */
+    -fx-text-box-border: #ff0000;
+    /* Background colour */
+    -fx-control-inner-background: #FFAAAA;
+    /*-fx-focus-color: #FF2020 ;
+    -fx-faint-focus-color: #FF202020 ;*/
+    /* This next property sets the border thickness */
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3, 2;
+}
