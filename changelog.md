@@ -7,6 +7,7 @@ v0.4.1
 - Added logo to installed executable, closes #71.
 - The scaling of the calculator diagrams now works correctly, closes #72.
 - Rendered equations in info sections of calculators, closes #73.
+- Added link to install4j's website to both README and website, closes #75.
 
 v0.4.0
 ------

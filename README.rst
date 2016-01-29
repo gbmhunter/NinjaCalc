@@ -67,20 +67,14 @@ All calculators that use static images for their background diagrams have a Visi
 Creating An Installable Package
 -------------------------------
 
-This project uses the free installer `Inno Setup`_ to bundle the built application files into a single .exe installable package for Windows machines.
+This project uses an open-source licensed version of `|install4j|, the multi-platform installer builder for Java applications 
+<http://www.ej-technologies.com/products/install4j/overview.html>`_.
 
-The Inno Setup script is stored at :code:`install/InnoSetupScript.iss`.
+Myself (gbmhunter) currently holds the license for this software, and so I am the only one that can currently create installable packages for NinjaCalc releases.
 
-The easiest way to generate an installable package is to:
+The install4j script is located at :code:`NinjaCalc.install4j`.
 
-#. Open this project in Visual Studio.
-#. Make sure the configuration is set to "Release".
-#. Build the project.
-#. Run "Inno Script Studio" (downloadable with Inno Setup), and open the script file :code:`install/InnoSetupScript.iss`.
-#. Press the "Run" button from within Inno Script Studio.
-#. Done! All going well, an executable called "setup.exe" should of been created in :code:`install/Output/`. 
-
-.. _`Inno Setup`: http://www.jrsoftware.org/isinfo.php
+.. |install4j| image:: https://www.ej-technologies.com/images/product_banners/install4j_small.png
 
 
 File Structure 
