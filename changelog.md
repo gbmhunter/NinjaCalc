@@ -5,6 +5,7 @@ v0.4.1
 - Turned the entire grid element in the calculator selection grid into an "Open" button, closes #66.
 - Moved main class outside of class name "MainWindow", closes #70.
 - Added logo to installed executable, closes #71.
+- The scaling of the calculator diagrams now works correctly, closes #72.
 
 v0.4.0
 ------
