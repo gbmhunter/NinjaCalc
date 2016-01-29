@@ -67,7 +67,7 @@ All calculators that use static images for their background diagrams have a Visi
 Creating An Installable Package
 -------------------------------
 
-This project uses an open-source licensed version of `|install4j|, the multi-platform installer builder for Java applications 
+This project uses an open-source licensed version of |install4j|, `the multi-platform installer builder for Java applications 
 <http://www.ej-technologies.com/products/install4j/overview.html>`_.
 
 Myself (gbmhunter) currently holds the license for this software, and so I am the only one that can currently create installable packages for NinjaCalc releases.
