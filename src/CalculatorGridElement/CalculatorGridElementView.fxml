@@ -37,11 +37,11 @@
                     style="-fx-font-size: 11pt; -fx-font-style: italic; -fx-text-fill: #808080">
                 Calculator description.
             </Label>
-            <!--<HBox alignment="CENTER_RIGHT">
+            <HBox alignment="CENTER_RIGHT">
                 <Button fx:id="btnOpenCalc"
                         GridPane.rowIndex="1"
                         minHeight="35" prefWidth="80"
                         mnemonicParsing="false" onAction="#btnOpenOnAction" text="Open" />
-            </HBox>-->
+            </HBox>
         </VBox>
 </fx:root>

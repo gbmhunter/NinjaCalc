@@ -118,7 +118,7 @@ and white text */
     -fx-alignment: CENTER;
     -fx-text-fill: #505050;
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
+    /*-fx-font-weight: bold;*/
 }
 
 .tab:selected .tab-label {
