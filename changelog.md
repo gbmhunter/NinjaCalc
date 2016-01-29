@@ -1,3 +1,8 @@
+v0.4.1
+------
+
+- Ported low-pass RC filter calculator to Java, closes #68.
+
 v0.4.0
 ------
 

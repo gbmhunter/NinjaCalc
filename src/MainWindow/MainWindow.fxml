@@ -23,7 +23,8 @@
             fx:id="anchorPane"
             xmlns:fx="http://javafx.com/fxml"
             style="-fx-background-color: green">
-    <StackPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+    <StackPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+               style="-fx-background-color: red;">
 
         <!-- MAIN DISPLAY (when overlay isn't showing) -->
         <HBox maxWidth="Infinity" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" style="-fx-background-color: white">
@@ -57,8 +58,10 @@
                     <!-- CALCULATOR TABS -->
                     <!-- Stacked with "No calculator" view. Not visible until a calculator is opened -->
                     <GridPane fx:id="gridPaneCalculatorTabsContainer"
-                              visible="false" maxWidth="Infinity" maxHeight="Infinity">
-                        <TabPane fx:id="tabPaneCalculatorInstances" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                              visible="false" maxWidth="Infinity" maxHeight="Infinity"
+                              style="-fx-background-color: red;">
+                        <TabPane fx:id="tabPaneCalculatorInstances" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+                            style="-fx-background-color: red;">
                             <!--<Tab text="Testing"><content>
                                 <GridPane style="-fx-background-color: purple"><TextArea>hfhfhf</TextArea></GridPane>
                             </content></Tab>-->

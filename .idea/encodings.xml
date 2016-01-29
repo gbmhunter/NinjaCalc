@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/src/CalculatorGridElement/CalculatorGridElementController.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcModel.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java" charset="UTF-16" />
+    <file url="file://$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcModel.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Core/AutoScalingStackPane.java" charset="UTF-16" />
@@ -12,6 +13,7 @@
     <file url="file://$PROJECT_DIR$/src/Core/CalcValidationResult.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Core/CalcVarBase.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Core/CalcVarComboBox.java" charset="UTF-16" />
+    <file url="file://$PROJECT_DIR$/src/Core/CalcVarDirections.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Core/CalcVarNumericalInput.java" charset="UTF-16" />
     <file url="file://$PROJECT_DIR$/src/Core/CalcVarNumericalOutput.java" charset="UTF-16" />

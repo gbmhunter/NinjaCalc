@@ -84,6 +84,7 @@ and white text */
     -fx-opacity: 0;
 }
 
+/* This targets the background area behind the "tab" tags */
 .tab-header-area {
     -fx-background-color: #EEEEEE;
 }
