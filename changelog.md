@@ -1,3 +1,8 @@
+v0.4.0
+------
+
+- Ported application from C# to Java, closes #65.
+
 v0.3.8
 ------
 
