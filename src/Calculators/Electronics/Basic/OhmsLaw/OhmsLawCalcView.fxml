@@ -16,6 +16,7 @@
 
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.web.WebView?>
 <ScrollPane
         fitToWidth="true"
         styleClass="scrollPane"
@@ -29,19 +30,7 @@
         <TitledPane text="Info" expanded="false"
                     maxWidth="700"
                     style="-fx-font-size: 16pt;" >
-            <Label
-                    wrapText="true" textAlignment="JUSTIFY"
-                    maxWidth="600"
-                    style="-fx-font-size: 13pt;">
-                The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:
-
-                \( V = IR \)
-
-                where:
-                \( V \) = voltage across the resistor
-                \( I \) = current through the resistor
-                \( R \) = resistance of the resistor
-            </Label>
+            <WebView fx:id="infoWebView" prefHeight="300"></WebView>
         </TitledPane>
 
         <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->

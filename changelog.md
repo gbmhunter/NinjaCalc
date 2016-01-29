@@ -6,6 +6,7 @@ v0.4.1
 - Moved main class outside of class name "MainWindow", closes #70.
 - Added logo to installed executable, closes #71.
 - The scaling of the calculator diagrams now works correctly, closes #72.
+- Rendered equations in info sections of calculators, closes #73.
 
 v0.4.0
 ------

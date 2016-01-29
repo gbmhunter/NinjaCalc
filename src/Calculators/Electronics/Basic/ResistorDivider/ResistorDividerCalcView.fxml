@@ -19,6 +19,8 @@
 <?import Core.AutoScalingStackPane?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.web.WebView?>
 <ScrollPane
         fitToWidth="true"
         styleClass="scrollPane"
@@ -30,25 +32,9 @@
 
         <!-- =========== INFO SECTION ========== -->
         <TitledPane text="Info" expanded="false"
-                    maxWidth="600"
+                    maxWidth="800"
                     style="-fx-font-size: 16pt;">
-            <Label maxWidth="500" textAlignment="JUSTIFY" wrapText="true"
-                   style="-fx-font-size: 13pt;">
-                The following calculator works out either \( V_{in} \), \( R_1 \)$, \( R_2 \), or \( V_{out}\), given the other three parameters, using the resistive voltage divider equation:
-
-                \( V_{out}=\frac{R_2}{R_1+R_2}V_{in} \)
-
-                where:
-                \( V_{in} \) = input voltage
-                \( R_1 \) = resistance of resistor 1 (see diagram)
-                \( R_2 \) = resistance of resistor 2 (see diagram)
-                \( V_{out} \) = output voltage
-
-                It is assumed that the output impedance on \( V_{out} \) is significantly higher than \( R_2 \) so that it doesn't matter (for example, \( V_{out} \) is connected to an op-amp input, analogue microcontroller input or similar).
-                The quiescent current through the divider, \( I_q \), is also calculated, which can be useful to know when designing power-saving circuits. The equation to find \( I_q \) is:
-
-                \( I_q = \frac{V_{in}}{R_1+R_2} \)
-            </Label>
+            <WebView fx:id="infoWebView" prefHeight="400"></WebView>
         </TitledPane>
 
         <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
