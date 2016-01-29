@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="6.0.4" transformSequenceNumber="5">
   <directoryPresets config="C:/Users/gbmhunter/GoogleDrive/Projects/NinjaCalc/out/artifacts/NinjaCalc_jar/NinjaCalc.jar" />
-  <application name="NinjaCalc" distributionSourceDir="" applicationId="7231-2225-0472-1196" mediaDir="C:/Users/gbmhunter/GoogleDrive/Projects/NinjaCalc/install" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="NinjaCal" publisher="Geoffrey Hunter" publisherWeb="http://mbedded-ninja.github.io/NinjaCalc/" version="v0.4.0" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="false" macSignature="????" macVolumeId="8b8be1286580b078" javaMinVersion="1.8" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
+  <application name="NinjaCalc" distributionSourceDir="" applicationId="7231-2225-0472-1196" mediaDir="C:/Users/gbmhunter/GoogleDrive/Projects/NinjaCalc/install" mediaFilePattern="${compiler:sys.shortName}_${compiler:sys.platform}_${compiler:sys.version}" compression="6" lzmaCompression="false" pack200Compression="false" excludeSignedFromPacking="true" commonExternalFiles="false" createMd5Sums="true" shrinkRuntime="true" shortName="NinjaCal" publisher="Geoffrey Hunter" publisherWeb="http://mbedded-ninja.github.io/NinjaCalc/" version="v0.4.1" allPathsRelative="false" backupOnSave="false" autoSave="false" convertDotsToUnderscores="false" macSignature="????" macVolumeId="8b8be1286580b078" javaMinVersion="1.8" javaMaxVersion="" allowBetaVM="false" jdkMode="runtimeJre" jdkName="">
     <languages skipLanguageSelection="false" languageSelectionInPrincipalLanguage="false">
       <principalLanguage id="en" customLocalizationFile="" />
       <additionalLanguages />
@@ -37,7 +37,7 @@
           <versionLine x="20" y="40" text="version ${compiler:sys.version}" fontSize="8" fontColor="0,0,0" bold="false" />
         </text>
       </splashScreen>
-      <java mainClass="MainWindow.Main" vmParameters="" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true">
+      <java mainClass="Main" vmParameters="" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true">
         <classPath>
           <scanDirectory location="." failOnError="false" />
         </classPath>

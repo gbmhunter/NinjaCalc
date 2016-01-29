@@ -3,6 +3,7 @@ v0.4.1
 
 - Ported low-pass RC filter calculator to Java, closes #68.
 - Turned the entire grid element in the calculator selection grid into an "Open" button, closes #66.
+- Moved main class outside of class name "MainWindow", closes #70.
 
 v0.4.0
 ------
