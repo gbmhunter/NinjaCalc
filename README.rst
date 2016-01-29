@@ -35,9 +35,7 @@ See the `project home page`_ for a list of features.
 Installation
 ============
 
-Windows only...sorry Linux/iOS users!
-
-#. Download the latest installer release from https://github.com/mbedded-ninja/NinjaCalc/releases.
+#. Download the latest installer-based release from http://mbedded-ninja.github.io/NinjaCalc/.
 #. Run the installer and play (or work, right?)!
 
 Installing a newer version of NinjaCalc should automatically overwrite the old one.
@@ -55,6 +53,7 @@ Making Your Own Calculators
 
 There are many pre-built calculator view objects to make development faster and keep a consistent look and feel across the application. These are located in :code:`src/Core/View`. This includes:
 
+#. A Dimension object
 
 
 Creating A Calculator Diagram
@@ -72,7 +71,7 @@ This project uses an open-source licensed version of |install4j|, `the multi-pla
 
 Myself (gbmhunter) currently holds the license for this software, and so I am the only one that can currently create installable packages for NinjaCalc releases.
 
-The install4j script is located at :code:`NinjaCalc.install4j`.
+The install4j script is located at :code:`/NinjaCalc.install4j`.
 
 .. |install4j| image:: https://www.ej-technologies.com/images/product_banners/install4j_small.png
 
