@@ -49,22 +49,22 @@ public abstract class CalcVarBase {
     }
 
 
-    /// <summary>
-    /// Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
-    /// but rather once all calculator variables and their equations have been added to the calculator.
-    /// </summary>
-    public ArrayList<CalcVarBase> Dependencies;
+    /**
+     * Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
+     * but rather once all calculator variables and their equations have been added to the calculator.
+     */
+    public ArrayList<CalcVarBase> dependencies;
 
-    /// <summary>
-    /// Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
-    /// but rather once all calculator variables and their equations have been added to the calculator.
-    /// </summary>
-    public ArrayList<CalcVarBase> Dependants;
+    /**
+     * Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
+     * but rather once all calculator variables and their equations have been added to the calculator.
+     */
+    public ArrayList<CalcVarBase> dependants;
 
-    /// <summary>
-    /// Set to true to disable the updating of the text box when this CalcVar's Calculate() method
-    /// is called.
-    /// </summary>
+    /**
+     * Set to true to disable the updating of the text box when this CalcVar's Calculate() method
+     * is called.
+     */
     public Boolean DisableUpdate;
 
     /// <summary>
@@ -100,8 +100,8 @@ public abstract class CalcVarBase {
 
         // Initialise empty lists to keep track of this calculators dependencies
         // and dependants
-        this.Dependencies = new ArrayList<CalcVarBase>();
-        this.Dependants = new ArrayList<CalcVarBase>();
+        this.dependencies = new ArrayList<CalcVarBase>();
+        this.dependants = new ArrayList<CalcVarBase>();
 
         // Save equation function
         this.equationFunction = equationFunction;
@@ -114,10 +114,10 @@ public abstract class CalcVarBase {
     public void ForceDependantOutputsToRecalculate() {
         System.out.println("ForceDependantOutputsToRecalculate() called.");
         // We need to re-calculate any this calculator variables dependants, if they are outputs
-        for (int i = 0; i < this.Dependants.size(); i++) {
-            if (this.Dependants.get(i).direction == CalcVarDirections.Output) {
-                System.out.println("Calling Calculate() on variable \"" + this.Dependants.get(i).name + "\".");
-                this.Dependants.get(i).Calculate();
+        for (int i = 0; i < this.dependants.size(); i++) {
+            if (this.dependants.get(i).direction == CalcVarDirections.Output) {
+                System.out.println("Calling Calculate() on variable \"" + this.dependants.get(i).name + "\".");
+                this.dependants.get(i).Calculate();
             }
         }
     }

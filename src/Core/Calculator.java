@@ -77,7 +77,7 @@ public abstract class Calculator {
 
     /**
      * This finds all the dependencies and dependants for all calculator variables,
-     * and populates the Dependancies and Dependants lists for each. Must be called after all
+     * and populates the Dependancies and dependants lists for each. Must be called after all
      * variables have been added to the calcVars List.
      */
     protected void findDependenciesAndDependants() {
@@ -117,7 +117,7 @@ public abstract class Calculator {
                 // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
                 for (int j = 0; j < dependencyList.size(); j++) {
                     System.out.println("\"" + dependencyList.get(j).name + "\" is a dependency of \"" + calcVar.name + "\".");
-                    dependencyList.get(j).Dependants.add(calcVar);
+                    dependencyList.get(j).dependants.add(calcVar);
                 }
             }
             else {
@@ -127,7 +127,7 @@ public abstract class Calculator {
             System.out.println("Finished finding dependencies for CalcVar \"" + calcVar.name + "\".");
 
             // Save the dependencies to the calculator variable
-            calcVar.Dependencies = dependencyList;
+            calcVar.dependencies = dependencyList;
         }
 
         // Now remove event handler that we added at start of function, and
@@ -136,10 +136,10 @@ public abstract class Calculator {
             //calcVar.RawValueRead -= eventHandler;
             calcVar.DisableUpdate = false;
 
-            System.out.println("Dependants of \"" + calcVar.name + "\" are:");
+            System.out.println("dependants of \"" + calcVar.name + "\" are:");
 
-            for (int j = 0; j < calcVar.Dependants.size(); j++) {
-                System.out.println("\t\"" + calcVar.Dependants.get(j).name + "\"");
+            for (int j = 0; j < calcVar.dependants.size(); j++) {
+                System.out.println("\t\"" + calcVar.dependants.get(j).name + "\"");
             }
         }
     }
