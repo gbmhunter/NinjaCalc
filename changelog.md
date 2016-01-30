@@ -3,6 +3,7 @@ v1.0.0
 
 - Changed all source code file encodings to UTF-8, closes #79.
 - Added Javadoc comments to all classes, closes #64.
+- Removed workspace.xml from repo (it changes very frequently), closes #69.
 
 v0.4.1
 ------
