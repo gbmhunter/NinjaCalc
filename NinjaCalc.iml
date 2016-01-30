@@ -7,6 +7,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="com.proudapes:jlatexmathfx:0.3.2" level="project" />
   </component>
 </module>

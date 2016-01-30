@@ -1,3 +1,8 @@
+v1.0.0
+------
+
+- Changed all source code file encodings to UTF-8, closes #79.
+
 v0.4.1
 ------
 
