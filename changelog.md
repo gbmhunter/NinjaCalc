@@ -9,6 +9,7 @@ v0.4.1
 - Rendered equations in info sections of calculators, closes #73.
 - Added link to install4j's website to both README and website, closes #75.
 - Fixed up the equations in each calculators info section, closes #62.
+- Added significant figure rounding to the numerical calculator variables, closes #76.
 
 v0.4.0
 ------
