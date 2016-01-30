@@ -13,41 +13,67 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.text.TextFlow?>
-<ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
-    <padding><Insets top="40" /></padding>
-    <VBox alignment="CENTER" spacing="20" style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" styleClass="vbox" >
+<?import Core.AutoScalingStackPane?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.StackPane?>
 
-        <!-- =========== INFO SECTION ========== -->
+<VBox>
+    <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null"
+                xmlns:fx="http://javafx.com/fxml/1">
+        <padding>
+            <Insets top="40"/>
+        </padding>
+        <VBox alignment="CENTER" spacing="20"
+              style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;"
+              styleClass="vbox">
 
-        <TitledPane expanded="false" maxWidth="700" style="-fx-font-size: 16pt;" text="Info">
-            <VBox fillWidth="true" alignment="CENTER">
-                <Label maxWidth="600" style="-fx-font-size: 13pt;" textAlignment="JUSTIFY" wrapText="true">
-                    The low-pass RC filter is probably one of the simplist and most used electronics filters ever. The equation that relates the cut-off frequency to the resistance and capacitance is given by:
-                </Label>
+            <!-- =========== INFO SECTION ========== -->
 
-                <ImageView fitHeight="50" preserveRatio="true"><image><Image url="@basic-equation.gif" /></image></ImageView>
-            </VBox>
-        </TitledPane>
+            <TitledPane expanded="false" maxWidth="700" style="-fx-font-size: 16pt;" text="Info">
+                <VBox fillWidth="true" alignment="CENTER">
+                    <Label maxWidth="600" style="-fx-font-size: 13pt;" textAlignment="JUSTIFY" wrapText="true">
+                        The low-pass RC filter is probably one of the simplist and most used electronics filters ever.
+                        The
+                        equation that relates the cut-off frequency to the resistance and capacitance is given by:
+                    </Label>
 
+                    <ImageView fitHeight="50" preserveRatio="true">
+                        <image>
+                            <Image url="@basic-equation.gif"/>
+                        </image>
+                    </ImageView>
+                </VBox>
+            </TitledPane>
 
-        <!--<AutoScalingStackPane prefWidth="600" prefHeight="600">-->
-        <Pane maxHeight="600" maxWidth="600">
+            <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
+            <StackPane>
+                <padding>
+                    <Insets top="20" bottom="20" left="20" right="20"/>
+                </padding>
+                <AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="800" maxHeight="800" alignment="CENTER">
+                    <Group>
 
-            <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="29.0" preserveRatio="true"><image><Image url="@diagram.png" /></image></ImageView>
+                        <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="29.0" preserveRatio="true">
+                            <image>
+                                <Image url="@diagram.png"/>
+                            </image>
+                        </ImageView>
 
-            <TextField fx:id="rValue" layoutX="233.0" layoutY="46.0" prefWidth="80" prefHeight="30" />
-            <ComboBox fx:id="rUnits" layoutX="320.0" layoutY="46.0" prefHeight="30" />
-            <RadioButton fx:id="rIO" layoutX="144.0" layoutY="40.0" />
+                        <TextField fx:id="rValue" layoutX="233.0" layoutY="46.0" prefWidth="80" prefHeight="30"/>
+                        <ComboBox fx:id="rUnits" layoutX="320.0" layoutY="46.0" prefHeight="30"/>
+                        <RadioButton fx:id="rIO" layoutX="144.0" layoutY="40.0"/>
 
-            <TextField fx:id="cValue" layoutX="220.0" layoutY="381.0" prefHeight="30" prefWidth="80" />
-            <ComboBox fx:id="cUnits" layoutX="313.0" layoutY="381.0" prefHeight="30" />
-            <RadioButton fx:id="cIO" layoutX="130.0" layoutY="385.0" />
+                        <TextField fx:id="cValue" layoutX="220.0" layoutY="381.0" prefHeight="30" prefWidth="80"/>
+                        <ComboBox fx:id="cUnits" layoutX="313.0" layoutY="381.0" prefHeight="30"/>
+                        <RadioButton fx:id="cIO" layoutX="130.0" layoutY="385.0"/>
 
-            <TextField fx:id="fcValue" layoutX="398.0" layoutY="201.0" prefHeight="30" prefWidth="80" />
-            <ComboBox fx:id="fcUnits" layoutX="489.0" layoutY="201.0" prefHeight="30" />
-            <RadioButton fx:id="fcIO" layoutX="435.0" layoutY="163.0" />
+                        <TextField fx:id="fcValue" layoutX="398.0" layoutY="201.0" prefHeight="30" prefWidth="80"/>
+                        <ComboBox fx:id="fcUnits" layoutX="489.0" layoutY="201.0" prefHeight="30"/>
+                        <RadioButton fx:id="fcIO" layoutX="435.0" layoutY="163.0"/>
 
-        </Pane>
-        <!--</AutoScalingStackPane>-->
-    </VBox>
-</ScrollPane>
+                    </Group>
+                </AutoScalingStackPane>
+            </StackPane>
+        </VBox>
+    </ScrollPane>
+</VBox>

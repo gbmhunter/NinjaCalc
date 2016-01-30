@@ -19,152 +19,182 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.geometry.Insets?>
 
-<ScrollPane
-        fitToWidth="true"
-        xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1"
-        styleClass="scrollPane">
-    <padding><Insets top="40" /></padding>
-    <VBox fx:id="gridPane" alignment="CENTER" spacing="20"
-          styleClass="vbox"
-          style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" >
+<?import javafx.scene.web.WebView?>
+<?import Core.AutoScalingStackPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.Group?>
+<VBox>
+    <ScrollPane
+            fitToWidth="true"
+            xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1"
+            styleClass="scrollPane">
+        <padding>
+            <Insets top="40"/>
+        </padding>
+        <VBox fx:id="gridPane" alignment="CENTER" spacing="20"
+              styleClass="vbox"
+              style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;">
 
-        <!-- =========== INFO SECTION ========== -->
-        <TitledPane expanded="false" maxWidth="1000" style="-fx-font-size: 16pt;" text="Info">
-            <VBox maxWidth="1000" style="-fx-font-size: 12pt;">
-                <Label wrapText="true">This calculator can find the minimum allowed PCB track width for a given continuous current. Takes into account the allowed temperature rise, copper track thickness, proximity to planes, total thickness of the PCB, and PCB material in accordance with IPC-2152.</Label>
-
-                <Label wrapText="true">The calculator uses equations built from the data provided in the IPC-2152 graphs.Data points were extracted from the graphs using <Hyperlink>http://arohatgi.info/WebPlotDigitizer/</Hyperlink> WebPlotDigitizer (a great program by-the-way). Suitable trend lines were then fitted. In the case of the three variable graphs, trend lines were fitted to the coefficients of the first set of trend lines.</Label>
-
-                <Label wrapText="true">I believe the accuracy of the calculator (w.r.t. the IPC-2152 graphs) to be quite high, within the range of data provided by these graphs. Outside of this, extrapolation could become inaccurate quickly, due to the use of 5th order polynomial's being used to model some of the data (this was the best choice). Other graph were modelled with power equations of the form y=Ax^B, and are likely to be more accurate that the polynomial during extrapolation.</Label>
-
-                <Label wrapText="true">Below is an example of the trend-line fitting process. This image shows the "Copper Thickness Modifier" data from IPC-2152, along with 5th order polynomials being fitted to each data set. The data for the 3oz. copper weight is a horizontal line at y=1 by definition.</Label>
-
-                <ImageView fitWidth="400" preserveRatio="true"><image><Image url="@ipc-2152-copper-thickness-modifier-graph-with-trendlines.png" /></image></ImageView>
-
-                <Label wrapText="true">The co-efficients of the above trend lines were then plotted against copper weight (aka. track thickness). The graph below is co-efficient C5 (the co-efficient infront of x^5) against copper weight. These had their own trend lines fitted. Note that there are only four data points, AND the fitted trend-line is a third-degree polynomial, which is guaranteed to fit the data perfectly. This is probably the most dangerous part of the "discrete graphed data sets to continuous equations" conversion.</Label>
-
-                <ImageView fitWidth="400" preserveRatio="true"><image><Image url="@ipc-2152-copper-thickness-modifier-copper-weight-versus-c5-graph.png" /></image></ImageView>
-
-                <Label wrapText="true">The current in assumed to be constant (DC). However, you can use the RMS value for a pulsed current as long as the pulses are fast enough.</Label>
-
-                <Label wrapText="true">The temperature of the PCB material should NEVER exceed the relative thermal index (RTI) of the material. This is defined in UL746B as the temperature at which 50% of the materials properties are retained after 100,000 hours.</Label>
-
-                <Label wrapText="true">Remember this calculator does not take into account other nearby heat sources.</Label>
-            </VBox>
-        </TitledPane>
+            <!-- =========== INFO SECTION ========== -->
+            <TitledPane expanded="false" maxWidth="1000" style="-fx-font-size: 16pt;" text="Info">
+                <WebView fx:id="infoWebView" prefHeight="700"/>
+            </TitledPane>
 
 
-        <!--<AutoScalingStackPane prefWidth="600" prefHeight="600">-->
-            <Pane maxWidth="800" prefHeight="600" prefWidth="800">
+            <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
+            <StackPane>
+                <padding>
+                    <Insets top="20" bottom="20" left="20" right="20"/>
+                </padding>
+                <!-- prefHeight sets the maximum size the auto-scaling pane will grow too -->
+                <AutoScalingStackPane minWidth="450" minHeight="450" prefHeight="600" alignment="CENTER">
+                    <Group>
 
-                <!-- ========== TRACK CURRENT ========== -->
-                <Label layoutX="159.0" layoutY="92.0" text="Track Current">Track Current</Label>
-                <TextField fx:id="trackCurrentValue" layoutX="159.0" layoutY="117.0" prefHeight="25" prefWidth="80" />
-                <ComboBox fx:id="trackCurrentUnits" layoutX="159.0" layoutY="153.0" prefHeight="30.0" prefWidth="80.0" />
+                        <!-- ========== TRACK CURRENT ========== -->
+                        <Label layoutX="159.0" layoutY="92.0" text="Track Current">Track Current</Label>
+                        <TextField fx:id="trackCurrentValue" layoutX="159.0" layoutY="117.0" prefHeight="25"
+                                   prefWidth="80"/>
+                        <ComboBox fx:id="trackCurrentUnits" layoutX="159.0" layoutY="153.0" prefHeight="30.0"
+                                  prefWidth="80.0"/>
 
-                <!-- ========== TEMP. RISE ========== -->
-                <ImageView fitHeight="50" fitWidth="50" layoutX="500.0" layoutY="39.0"><image><Image url="@temperature-icon.jpg" /></image></ImageView>
-                <Label layoutX="559.0" layoutY="25.0">Temp. Rise</Label>
-                <TextField fx:id="tempRiseValue" layoutX="555.0" layoutY="49.0" prefHeight="25" prefWidth="80" />
-                <ComboBox fx:id="tempRiseUnits" layoutX="559.0" layoutY="87.0" prefHeight="30.0" prefWidth="71.0" />
+                        <!-- ========== TEMP. RISE ========== -->
+                        <ImageView fitHeight="50" fitWidth="50" layoutX="500.0" layoutY="39.0">
+                            <image>
+                                <Image url="@temperature-icon.jpg"/>
+                            </image>
+                        </ImageView>
+                        <Label layoutX="559.0" layoutY="25.0">Temp. Rise</Label>
+                        <TextField fx:id="tempRiseValue" layoutX="555.0" layoutY="49.0" prefHeight="25" prefWidth="80"/>
+                        <ComboBox fx:id="tempRiseUnits" layoutX="559.0" layoutY="87.0" prefHeight="30.0"
+                                  prefWidth="71.0"/>
 
-                <!-- ========== TRACK THICKNESS ========== -->
-                <Label layoutX="622.0" layoutY="159.0">Track Thickness</Label>
-                <TextField fx:id="trackThicknessValue" layoutX="593.0" layoutY="182.0" prefHeight="25" prefWidth="80" />
-                <ComboBox fx:id="trackThicknessUnits" layoutX="683.0" layoutY="182.0" prefHeight="30.0" prefWidth="80.0" />
+                        <!-- ========== TRACK THICKNESS ========== -->
+                        <Label layoutX="622.0" layoutY="159.0">Track Thickness</Label>
+                        <TextField fx:id="trackThicknessValue" layoutX="593.0" layoutY="182.0" prefHeight="25"
+                                   prefWidth="80"/>
+                        <ComboBox fx:id="trackThicknessUnits" layoutX="683.0" layoutY="182.0" prefHeight="30.0"
+                                  prefWidth="80.0"/>
 
-                <!-- ========== BOARD THICKNESS ========== -->
-                <Label layoutX="82.0" layoutY="238.0">Board Thickness</Label>
-                <TextField fx:id="boardThicknessValue" layoutX="99.0" layoutY="265.0" prefHeight="25" prefWidth="80" />
-                <ComboBox fx:id="boardThicknessUnits" layoutX="99.0" layoutY="299.0" prefHeight="30.0" prefWidth="80.0" />
+                        <!-- ========== BOARD THICKNESS ========== -->
+                        <Label layoutX="82.0" layoutY="238.0">Board Thickness</Label>
+                        <TextField fx:id="boardThicknessValue" layoutX="99.0" layoutY="265.0" prefHeight="25"
+                                   prefWidth="80"/>
+                        <ComboBox fx:id="boardThicknessUnits" layoutX="99.0" layoutY="299.0" prefHeight="30.0"
+                                  prefWidth="80.0"/>
 
-                <!-- ========== IS PLANE PRESENT ========== -->
-                <Label layoutX="518.0" layoutY="405.0">Is Plane Present?</Label>
-                <ComboBox fx:id="isPlanePresentComboBox" layoutX="519.0" layoutY="429.0" prefHeight="30.0" prefWidth="126.0" />
+                        <!-- ========== IS PLANE PRESENT ========== -->
+                        <Label layoutX="518.0" layoutY="405.0">Is Plane Present?</Label>
+                        <ComboBox fx:id="isPlanePresentComboBox" layoutX="519.0" layoutY="429.0" prefHeight="30.0"
+                                  prefWidth="126.0"/>
 
-                <!-- ========== PLANE PROXIMITY ========== -->
-                <Label fx:id="planeProximityLabel" layoutX="622.0" layoutY="257.0">Plane Proximity</Label>
-                <TextField fx:id="planeProximityValue" layoutX="593.0" layoutY="288.0" prefHeight="25" prefWidth="80" />
-                <ComboBox fx:id="planeProximityUnits" layoutX="683.0" layoutY="288.0" prefHeight="30.0" prefWidth="80.0" />
+                        <!-- ========== PLANE PROXIMITY ========== -->
+                        <Label fx:id="planeProximityLabel" layoutX="622.0" layoutY="257.0">Plane Proximity</Label>
+                        <TextField fx:id="planeProximityValue" layoutX="593.0" layoutY="288.0" prefHeight="25"
+                                   prefWidth="80"/>
+                        <ComboBox fx:id="planeProximityUnits" layoutX="683.0" layoutY="288.0" prefHeight="30.0"
+                                  prefWidth="80.0"/>
 
-                <!-- ========== THERMAL CONDUCTIVITY ========== -->
-                <Label layoutX="148.0" layoutY="452.0">Thermal Conductivity</Label>
-                <TextField fx:id="thermalConductivityValue" layoutX="148.0" layoutY="470.0" prefHeight="25" prefWidth="80" />
-                <ComboBox fx:id="thermalConductivityUnits" layoutX="234.0" layoutY="470.0" prefHeight="30.0" prefWidth="130.0" />
+                        <!-- ========== THERMAL CONDUCTIVITY ========== -->
+                        <Label layoutX="148.0" layoutY="452.0">Thermal Conductivity</Label>
+                        <TextField fx:id="thermalConductivityValue" layoutX="148.0" layoutY="470.0" prefHeight="25"
+                                   prefWidth="80"/>
+                        <ComboBox fx:id="thermalConductivityUnits" layoutX="234.0" layoutY="470.0" prefHeight="30.0"
+                                  prefWidth="130.0"/>
 
-                <!-- ========== MIN. TRACK WIDTH ========== -->
-                <Label layoutX="296.0" layoutY="47.0">Min. Track Width</Label>
-                <TextField fx:id="minTrackWidthValue" layoutX="312.0" layoutY="65.0" prefHeight="25" prefWidth="80" />
-                <ComboBox fx:id="minTrackWidthUnits" layoutX="312.0" layoutY="102.0" prefHeight="30.0" prefWidth="80.0" />
+                        <!-- ========== MIN. TRACK WIDTH ========== -->
+                        <Label layoutX="296.0" layoutY="47.0">Min. Track Width</Label>
+                        <TextField fx:id="minTrackWidthValue" layoutX="312.0" layoutY="65.0" prefHeight="25"
+                                   prefWidth="80"/>
+                        <ComboBox fx:id="minTrackWidthUnits" layoutX="312.0" layoutY="102.0" prefHeight="30.0"
+                                  prefWidth="80.0"/>
 
-                <!-- ========== TRACK SHAPE ========== -->
-                <Polygon fill="#ffd8a9" layoutX="298.0" layoutY="238.0" stroke="black" strokeWidth="2">
-                    <points>
-                        <Double fx:value="0" />
-                        <Double fx:value="0" />
+                        <!-- ========== TRACK SHAPE ========== -->
+                        <Polygon fill="#ffd8a9" layoutX="298.0" layoutY="238.0" stroke="black" strokeWidth="2">
+                            <points>
+                                <Double fx:value="0"/>
+                                <Double fx:value="0"/>
 
-                        <Double fx:value="20.0" />
-                        <Double fx:value="-40.0" />
+                                <Double fx:value="20.0"/>
+                                <Double fx:value="-40.0"/>
 
-                        <Double fx:value="180.0" />
-                        <Double fx:value="-40.0" />
+                                <Double fx:value="180.0"/>
+                                <Double fx:value="-40.0"/>
 
-                        <Double fx:value="200.0" />
-                        <Double fx:value="0.0" />
+                                <Double fx:value="200.0"/>
+                                <Double fx:value="0.0"/>
 
-                        <Double fx:value="0.0" />
-                        <Double fx:value="0.0" />
-                    </points>
-                </Polygon>
-              <Rectangle fx:id="bottomPlane" arcHeight="5.0" arcWidth="5.0" fill="#ffd8a9" height="40.0" layoutX="248.0" layoutY="283.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="300.0" />
-              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fc687" height="50.0" layoutX="248.0" layoutY="237.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="300.0" />
+                                <Double fx:value="0.0"/>
+                                <Double fx:value="0.0"/>
+                            </points>
+                        </Polygon>
+                        <Rectangle fx:id="bottomPlane" arcHeight="5.0" arcWidth="5.0" fill="#ffd8a9" height="40.0"
+                                   layoutX="248.0" layoutY="283.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0"
+                                   width="300.0"/>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fc687" height="50.0" layoutX="248.0"
+                                   layoutY="237.0"
+                                   stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="300.0"/>
 
-                <!-- BOARD THICKNESS DIMENSION -->
-                <Dimension fx:id="boardThicknessDimension" arrowSize="10" layoutX="140" layoutY="245" length="120" lineThickness="2" rotate="90" />
+                        <!-- BOARD THICKNESS DIMENSION -->
+                        <Dimension fx:id="boardThicknessDimension" arrowSize="10" layoutX="140" layoutY="245"
+                                   length="120"
+                                   lineThickness="2" rotate="90"/>
 
-                <!-- TRACK THICKNESS DIMENSION -->
-                <Dimension arrowSize="10" layoutX="540" layoutY="190" length="40" lineThickness="2" rotate="90" />
+                        <!-- TRACK THICKNESS DIMENSION -->
+                        <Dimension arrowSize="10" layoutX="540" layoutY="190" length="40" lineThickness="2"
+                                   rotate="90"/>
 
-                <!-- PLANE PROXIMITY DIMENSION -->
-                <Dimension fx:id="planeProximityDimension" arrowSize="10" layoutX="538" layoutY="237" length="45" lineThickness="2" rotate="90" />
+                        <!-- PLANE PROXIMITY DIMENSION -->
+                        <Dimension fx:id="planeProximityDimension" arrowSize="10" layoutX="538" layoutY="237"
+                                   length="45"
+                                   lineThickness="2" rotate="90"/>
 
-                <!-- TRACK WIDTH DIMENSION -->
-                <Dimension arrowSize="10" layoutX="320" layoutY="160" length="160" lineThickness="2" />
+                        <!-- TRACK WIDTH DIMENSION -->
+                        <Dimension arrowSize="10" layoutX="320" layoutY="160" length="160" lineThickness="2"/>
+                    </Group>
+                </AutoScalingStackPane>
+            </StackPane>
 
+            <TitledPane expanded="false" maxWidth="600" style="-fx-font-size: 16pt;" text="Intermediate Variables">
+                <GridPane hgap="10" maxWidth="500" style="-fx-font-size: 10pt;" vgap="10">
 
+                    <Label GridPane.columnIndex="0" GridPane.rowIndex="0">Unadjusted Track Cross-Sectional Area</Label>
+                    <TextField fx:id="unadjustedTrackCrossSectionalAreaValue" maxWidth="100" prefHeight="30"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <ComboBox fx:id="unadjustedTrackCrossSectionalAreaUnits" prefHeight="30" prefWidth="100"
+                              GridPane.columnIndex="2" GridPane.rowIndex="0"/>
 
+                    <Label GridPane.columnIndex="0" GridPane.rowIndex="1">Track Thickness Modifier</Label>
+                    <TextField fx:id="trackThicknessModifierValue" maxWidth="100" prefHeight="30"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <ComboBox fx:id="trackThicknessModifierUnits" prefHeight="30" prefWidth="100"
+                              GridPane.columnIndex="2" GridPane.rowIndex="1"/>
 
-            </Pane>
-        <!--</AutoScalingStackPane>-->
+                    <Label GridPane.columnIndex="0" GridPane.rowIndex="2">Board Thickness Modifier</Label>
+                    <TextField fx:id="boardThicknessModifierValue" maxWidth="100" prefHeight="30"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <ComboBox fx:id="boardThicknessModifierUnits" prefHeight="30" prefWidth="100"
+                              GridPane.columnIndex="2" GridPane.rowIndex="2"/>
 
-        <TitledPane expanded="false" maxWidth="600" style="-fx-font-size: 16pt;" text="Intermediate Variables">
-            <GridPane hgap="10" maxWidth="500" style="-fx-font-size: 10pt;" vgap="10">
+                    <Label GridPane.columnIndex="0" GridPane.rowIndex="3">Plane Proximity Modifier</Label>
+                    <TextField fx:id="planeProximityModifierValue" maxWidth="100" prefHeight="30"
+                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <ComboBox fx:id="planeProximityModifierUnits" prefHeight="30" prefWidth="100"
+                              GridPane.columnIndex="2" GridPane.rowIndex="3"/>
 
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="0">Unadjusted Track Cross-Sectional Area</Label>
-                <TextField fx:id="unadjustedTrackCrossSectionalAreaValue" maxWidth="100" prefHeight="30" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                <ComboBox fx:id="unadjustedTrackCrossSectionalAreaUnits" prefHeight="30" prefWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                    <Label GridPane.columnIndex="0" GridPane.rowIndex="4">Thermal Conductivity Modifier</Label>
+                    <TextField fx:id="thermalConductivityModifierValue" maxWidth="100" prefHeight="30"
+                               GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                    <ComboBox fx:id="thermalConductivityModifierUnits" prefHeight="30" prefWidth="100"
+                              GridPane.columnIndex="2" GridPane.rowIndex="4"/>
 
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="1">Track Thickness Modifier</Label>
-                <TextField fx:id="trackThicknessModifierValue" maxWidth="100" prefHeight="30" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <ComboBox fx:id="trackThicknessModifierUnits" prefHeight="30" prefWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                    <Label GridPane.columnIndex="0" GridPane.rowIndex="5">Adjusted Track Cross-Sectional Area</Label>
+                    <TextField fx:id="adjustedTrackCrossSectionalAreaValue" maxWidth="100" prefHeight="30"
+                               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                    <ComboBox fx:id="adjustedTrackCrossSectionalAreaUnits" prefHeight="30" prefWidth="100"
+                              GridPane.columnIndex="2" GridPane.rowIndex="5"/>
 
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="2">Board Thickness Modifier</Label>
-                <TextField fx:id="boardThicknessModifierValue" maxWidth="100" prefHeight="30" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <ComboBox fx:id="boardThicknessModifierUnits" prefHeight="30" prefWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="3">Plane Proximity Modifier</Label>
-                <TextField fx:id="planeProximityModifierValue" maxWidth="100" prefHeight="30" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <ComboBox fx:id="planeProximityModifierUnits" prefHeight="30" prefWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="4">Thermal Conductivity Modifier</Label>
-                <TextField fx:id="thermalConductivityModifierValue" maxWidth="100" prefHeight="30" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <ComboBox fx:id="thermalConductivityModifierUnits" prefHeight="30" prefWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="5">Adjusted Track Cross-Sectional Area</Label>
-                <TextField fx:id="adjustedTrackCrossSectionalAreaValue" maxWidth="100" prefHeight="30" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <ComboBox fx:id="adjustedTrackCrossSectionalAreaUnits" prefHeight="30" prefWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-
-            </GridPane>
-        </TitledPane>
-    </VBox>
-</ScrollPane>
+                </GridPane>
+            </TitledPane>
+        </VBox>
+    </ScrollPane>
+</VBox>

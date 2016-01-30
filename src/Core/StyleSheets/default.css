@@ -131,6 +131,13 @@ and white text */
 /* ============================ CALCULATOR VARIABLE TEXT FIELD STYLING ========================= */
 /* ============================================================================================= */
 
+/* This targets the calculator variable text fields which are currently
+outputs. We want to reduce the severity of the disable feature so that the user
+can still easily read the value */
+.text-field:readonly {
+    -fx-opacity: 0.6;
+}
+
 .ok {
     /* Border colour */
     -fx-text-box-border: #00B300;

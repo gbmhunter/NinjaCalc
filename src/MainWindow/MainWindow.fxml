@@ -61,7 +61,7 @@
                               visible="false" maxWidth="Infinity" maxHeight="Infinity"
                               style="-fx-background-color: red;">
                         <TabPane fx:id="tabPaneCalculatorInstances" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
-                            style="-fx-background-color: red;">
+                            style="-fx-background-color: white;">
                             <!--<Tab text="Testing"><content>
                                 <GridPane style="-fx-background-color: purple"><TextArea>hfhfhf</TextArea></GridPane>
                             </content></Tab>-->

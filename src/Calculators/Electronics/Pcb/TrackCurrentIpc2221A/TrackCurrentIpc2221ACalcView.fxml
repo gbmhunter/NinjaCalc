@@ -26,95 +26,102 @@
 <?import Core.View.Dimension.*?>
 
 
-<ScrollPane
-        fitToWidth="true"
-        styleClass="scrollPane"
-        xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
-    <padding><Insets top="40" /></padding>
-    <VBox fx:id="gridPane" alignment="CENTER" spacing="20"
-          styleClass="vbox"
-          style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;">
+<?import javafx.scene.web.WebView?>
 
-        <!-- =========== INFO SECTION ========== -->
+<?import javafx.scene.layout.StackPane?>
+<?import Core.AutoScalingStackPane?>
+<?import javafx.scene.Group?>
+<VBox>
+    <ScrollPane
+            fitToWidth="true"
+            styleClass="scrollPane"
+            xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+        <padding>
+            <Insets top="40"/>
+        </padding>
+        <VBox fx:id="gridPane" alignment="CENTER" spacing="20"
+              styleClass="vbox"
+              style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;">
 
-        <TitledPane maxWidth="800" style="-fx-font-size: 16pt;" text="Info" expanded="false">
-            <VBox maxWidth="750" style="-fx-font-size: 12pt;">
-                <Label wrapText="true">This calculator can find the minimum PCB track width (external or internal layer) given the track current, the allowed temperature rise, and copper layer thickness.</Label>
+            <!-- =========== INFO SECTION ========== -->
 
-                <Label wrapText="true">Calculated in accordance with the equations in IPC-2221A Section 6.2 (formerly IPC-D-275, the equation has not changed between these two standards amd you can get similar values by curve-fitting to the graphs provided in IPC-D-275, drawn in 1954, woah!</Label>
+            <TitledPane maxWidth="800" style="-fx-font-size: 16pt;" text="Info" expanded="false">
+                <WebView fx:id="infoWebView" prefHeight="600"/>
+            </TitledPane>
 
-                <Label wrapText="true">$$ I = k\Delta T^b A^c $$</Label>
+            <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
+            <StackPane>
+                <padding>
+                    <Insets top="20" bottom="20" left="20" right="20"/>
+                </padding>
+                <!-- prefHeight sets the maximum size the auto-scaling pane will grow too -->
+                <AutoScalingStackPane minWidth="400" minHeight="400" prefHeight="500" alignment="CENTER">
+                    <Group>
 
-                <Label wrapText="true">
-                where:
-                \( k \) = 0.048 for external traces, 0.024 for internal tracks
-                \( \Delta T \) = the change in temperature (temperature rise) in \( ^{\circ}C \)
-                \( b \) = 0.44
-                \( A \) = cross-sectional area in \( mils^2 \)
-                \( c \) = 0.725</Label>
+                        <Label layoutX="39.0" layoutY="220.0" text="Track Current">Track Current</Label>
+                        <TextField fx:id="trackCurrentValue" layoutX="39.0" layoutY="245.0" prefHeight="25"
+                                   prefWidth="80"/>
+                        <ComboBox fx:id="trackCurrentUnits" layoutX="39.0" layoutY="285.0" prefHeight="30.0"
+                                  prefWidth="80.0"/>
 
-                <Label wrapText="true">The standard only covers values where the current is 0-35A, track width is 0-10.16mm, temperature rise is from 10-100C, and the copper from 0.5-3oz. Values outside this range are extrapolated (and there more error-prone) and will turn orange.</Label>
+                        <ImageView fitHeight="50" fitWidth="50" layoutX="69.0" layoutY="89.0">
+                            <image>
+                                <Image url="@temperature-icon.jpg"/>
+                            </image>
+                        </ImageView>
+                        <Label layoutX="128.0" layoutY="75.0">Temp. Rise</Label>
+                        <TextField fx:id="tempRiseValue" layoutX="124.0" layoutY="99.0" prefHeight="25" prefWidth="80"/>
+                        <ComboBox fx:id="tempRiseUnits" layoutX="128.0" layoutY="137.0" prefHeight="30.0"
+                                  prefWidth="71.0"/>
 
-                <Label wrapText="true">This also assumes the track is sufficiently long enough the the end-points do not have a significant effect on the heatsinking. For example, this calcultor should not be used for calculating the width of thermal-relief style connections from a copper pour to a via, in where the track is very short (0.2-1.0mm). It also assumes there are no vias along the length of the track.</Label>
+                        <Label layoutX="473.0" layoutY="211.0">Track Thickness</Label>
+                        <TextField fx:id="trackThicknessValue" layoutX="494.0" layoutY="235.0" prefHeight="25"
+                                   prefWidth="80"/>
+                        <ComboBox fx:id="trackThicknessUnits" layoutX="495.0" layoutY="272.0" prefHeight="30.0"
+                                  prefWidth="80.0"/>
 
-                <Label wrapText="true">The current in assumed to be constant (DC). However, you can use the RMS value for a pulsed current as long as the pulses are fast enough.</Label>
+                        <Label layoutX="355.0" layoutY="75.0">Track Layer</Label>
+                        <ComboBox fx:id="trackLayer" layoutX="334.0" layoutY="99.0" prefHeight="30.0"
+                                  prefWidth="126.0"/>
 
-                <Label wrapText="true">The temperature of the PCB material should NEVER exceed the relative thermal index (RTI) of the material. This is defined in UL746B as the temperature at which 50% of the materials properties are retained after 100,000 hours.</Label>
+                        <Label layoutX="244.0" layoutY="377.0">Min. Track Width</Label>
+                        <TextField fx:id="minTrackWidthValue" layoutX="260.0" layoutY="401.0" prefHeight="25"
+                                   prefWidth="80"/>
+                        <ComboBox fx:id="minTrackWidthUnits" layoutX="260.0" layoutY="439.0" prefHeight="30.0"
+                                  prefWidth="80.0"/>
 
-                <Label wrapText="true">Remember this calculator does not take into account other nearby heat sources.</Label>
-            </VBox>
-        </TitledPane>
+                        <Polygon fill="#ffd8a9" layoutX="200.0" layoutY="285.0" stroke="black" strokeWidth="2">
+                            <points>
+                                <Double fx:value="0"/>
+                                <Double fx:value="0"/>
 
+                                <Double fx:value="20.0"/>
+                                <Double fx:value="-40.0"/>
 
-        <!--<AutoScalingStackPane prefWidth="600" prefHeight="600">-->
-        <Pane maxWidth="600" prefHeight="600" prefWidth="600">
+                                <Double fx:value="180.0"/>
+                                <Double fx:value="-40.0"/>
 
-            <Label layoutX="39.0" layoutY="220.0" text="Track Current">Track Current</Label>
-            <TextField fx:id="trackCurrentValue" layoutX="39.0" layoutY="245.0" prefHeight="25" prefWidth="80" />
-            <ComboBox fx:id="trackCurrentUnits" layoutX="39.0" layoutY="285.0" prefHeight="30.0" prefWidth="80.0" />
+                                <Double fx:value="200.0"/>
+                                <Double fx:value="0.0"/>
 
-            <ImageView fitHeight="50" fitWidth="50" layoutX="69.0" layoutY="89.0"><image><Image url="@temperature-icon.jpg" /></image></ImageView>
-            <Label layoutX="128.0" layoutY="75.0">Temp. Rise</Label>
-            <TextField fx:id="tempRiseValue" layoutX="124.0" layoutY="99.0" prefHeight="25" prefWidth="80" />
-            <ComboBox fx:id="tempRiseUnits" layoutX="128.0" layoutY="137.0" prefHeight="30.0" prefWidth="71.0" />
+                                <Double fx:value="0.0"/>
+                                <Double fx:value="0.0"/>
+                            </points>
+                        </Polygon>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fc687" height="50.0" layoutX="150.0"
+                                   layoutY="200.0"
+                                   stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="300.0"/>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fc687" height="50.0" layoutX="150.0"
+                                   layoutY="284.0"
+                                   stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="300.0"/>
 
-            <Label layoutX="473.0" layoutY="211.0">Track Thickness</Label>
-            <TextField fx:id="trackThicknessValue" layoutX="494.0" layoutY="235.0" prefHeight="25" prefWidth="80" />
-            <ComboBox fx:id="trackThicknessUnits" layoutX="495.0" layoutY="272.0" prefHeight="30.0" prefWidth="80.0" />
+                        <Dimension layoutX="200" layoutY="360" length="200" arrowSize="10" lineThickness="2"/>
+                        <Dimension layoutX="440" layoutY="255" length="35" arrowSize="10" lineThickness="2"
+                                   rotate="90"/>
 
-            <Label layoutX="355.0" layoutY="75.0">Track Layer</Label>
-            <ComboBox fx:id="trackLayer" layoutX="334.0" layoutY="99.0" prefHeight="30.0" prefWidth="126.0" />
-
-            <Label layoutX="244.0" layoutY="377.0">Min. Track Width</Label>
-            <TextField fx:id="minTrackWidthValue" layoutX="260.0" layoutY="401.0" prefHeight="25" prefWidth="80" />
-            <ComboBox fx:id="minTrackWidthUnits" layoutX="260.0" layoutY="439.0" prefHeight="30.0" prefWidth="80.0" />
-
-            <Polygon fill="#ffd8a9" layoutX="200.0" layoutY="285.0" stroke="black" strokeWidth="2">
-                <points>
-                    <Double fx:value="0" />
-                    <Double fx:value="0" />
-
-                    <Double fx:value="20.0" />
-                    <Double fx:value="-40.0" />
-
-                    <Double fx:value="180.0" />
-                    <Double fx:value="-40.0" />
-
-                    <Double fx:value="200.0" />
-                    <Double fx:value="0.0" />
-
-                    <Double fx:value="0.0" />
-                    <Double fx:value="0.0" />
-                </points>
-            </Polygon>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fc687" height="50.0" layoutX="150.0" layoutY="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="300.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fc687" height="50.0" layoutX="150.0" layoutY="284.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="300.0" />
-
-            <Dimension layoutX="200" layoutY="360" length="200" arrowSize="10" lineThickness="2" />
-            <Dimension layoutX="440" layoutY="255" length="35" arrowSize="10" lineThickness="2" rotate="90" />
-
-        </Pane>
-
-        <!--</AutoScalingStackPane>-->
-    </VBox>
-</ScrollPane>
+                    </Group>
+                </AutoScalingStackPane>
+            </StackPane>
+        </VBox>
+    </ScrollPane>
+</VBox>

@@ -8,6 +8,7 @@ v0.4.1
 - The scaling of the calculator diagrams now works correctly, closes #72.
 - Rendered equations in info sections of calculators, closes #73.
 - Added link to install4j's website to both README and website, closes #75.
+- Fixed up the equations in each calculators info section, closes #62.
 
 v0.4.0
 ------
