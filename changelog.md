@@ -11,6 +11,8 @@ v0.4.1
 - Fixed up the equations in each calculators info section, closes #62.
 - Added significant figure rounding to the numerical calculator variables, closes #76.
 - User is now asked if they want to open a new calculator if all tabs are closed, closes #74.
+- Renamed installer files so they follow a Name -> Version -> Platform syntax, closes #78.
+- Created installer for Mac OS X, closes #77.
 
 v0.4.0
 ------
