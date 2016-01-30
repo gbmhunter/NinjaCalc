@@ -253,15 +253,15 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		//========== VALIDATORS ===========//
-		this.TrackCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.TrackCurrent.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.TrackCurrent.AddValidator(
+		this.TrackCurrent.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.TrackCurrent.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.TrackCurrent.addValidator(
 			new Validator(() -> {
 				return ((this.TrackCurrent.getRawVal() < 274e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 			},
 			"Current is below the minimum value (274mA) extracted from the universal graph in IPC-2152." +
 			" Results might not be as accurate (extrapolation will occur)."));
-		this.TrackCurrent.AddValidator(
+		this.TrackCurrent.addValidator(
 			new Validator(() -> {
 				return ((this.TrackCurrent.getRawVal() > 26.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 			},
@@ -287,15 +287,15 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		//========== VALIDATORS ==========//
-		this.TempRise.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.TempRise.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.TempRise.AddValidator(
+		this.TempRise.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.TempRise.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.TempRise.addValidator(
 			new Validator(() -> {
 				return ((this.TempRise.getRawVal() < 1.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 			},
 			"Temp. rise is below the minimum value (1°c) extracted from the universal graph in IPC-2152." +
 			" Results might not be as accurate (extrapolation will occur)."));
-		this.TempRise.AddValidator(
+		this.TempRise.addValidator(
 			new Validator(() -> {
 				return ((this.TempRise.getRawVal() > 100.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 			},
@@ -342,8 +342,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The unadjusted cross-sectional area. This gets multiplied by the many modifiers to give an adjusted cross-sectional area.");
 
 		// Add validators
-		this.UnadjustedTrackCrossSectionalArea.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.UnadjustedTrackCrossSectionalArea.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.UnadjustedTrackCrossSectionalArea.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.UnadjustedTrackCrossSectionalArea.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
 		this.calcVars.add(this.UnadjustedTrackCrossSectionalArea);
 
@@ -368,15 +368,15 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		//========== VALIDATORS ==========//
-		this.TrackThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.TrackThickness.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.TrackThickness.AddValidator(
+		this.TrackThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.TrackThickness.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.TrackThickness.addValidator(
 		   new Validator(() -> {
 			   return ((this.TrackThickness.getRawVal() < 17.5e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 		   },
 		   "Track thickness is below the minimum value (17.5um) extracted from the track thickness modififer graph in IPC-2152." +
 		   " Results might not be as accurate (extrapolation will occur)."));
-		this.TrackThickness.AddValidator(
+		this.TrackThickness.addValidator(
 			new Validator(() -> {
 				return ((this.TrackThickness.getRawVal() > 105.0036e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 			},
@@ -448,8 +448,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		// Add validators
-		this.TrackThicknessModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.TrackThicknessModifier.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.TrackThicknessModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.TrackThicknessModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
 		this.calcVars.add(this.TrackThicknessModifier);
 
@@ -472,15 +472,15 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		//========== VALIDATORS ==========//
-		this.BoardThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.BoardThickness.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.BoardThickness.AddValidator(
+		this.BoardThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.BoardThickness.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.BoardThickness.addValidator(
 		   new Validator(() -> {
 			   return ((this.BoardThickness.getRawVal() < 0.72e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 		   },
 		   "Board thickness is below the minimum value (0.72mm) extracted from the board thickness modififer graph in IPC-2152." +
 		   " Results might not be as accurate (extrapolation will occur)."));
-		this.BoardThickness.AddValidator(
+		this.BoardThickness.addValidator(
 			new Validator(() -> {
 				return ((this.BoardThickness.getRawVal() > 2.36e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 			},
@@ -519,8 +519,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		// Add validators
-		this.BoardThicknessModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.BoardThicknessModifier.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.BoardThicknessModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.BoardThicknessModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
 		this.calcVars.add(this.BoardThicknessModifier);
 
@@ -560,22 +560,22 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		//========== VALIDATORS ==========//
-		this.PlaneProximity.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.PlaneProximity.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.PlaneProximity.AddValidator(
+		this.PlaneProximity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.PlaneProximity.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.PlaneProximity.addValidator(
 		   new Validator(() -> {
 			   return ((this.PlaneProximity.getRawVal() < 144e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 		   },
 		   "Plane proximity is below the minimum value (144um) extracted from the plane proximity modififer graph in IPC-2152." +
 		   " Results might not be as accurate (extrapolation will occur)."));
-		this.PlaneProximity.AddValidator(
+		this.PlaneProximity.addValidator(
 			new Validator(() -> {
 				return ((this.PlaneProximity.getRawVal() > 2.40e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 			},
 			"Plane proximity is above the maximum value (2.40mm) extracted from the plane proximity modififer graph in IPC-2152." +
 			" Results might not be as accurate (extrapolation will occur)."));
 		// This next validator is dependent on other calculator variables
-		this.PlaneProximity.AddValidator(
+		this.PlaneProximity.addValidator(
 			new Validator(() -> {
 				double planeProximityM = this.PlaneProximity.getRawVal();
 				double boardThicknessM = this.BoardThickness.getRawVal();
@@ -624,8 +624,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		// Add validators
-		this.PlaneProximityModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.PlaneProximityModifier.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.PlaneProximityModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.PlaneProximityModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
 		this.calcVars.add(this.PlaneProximityModifier);
 
@@ -647,15 +647,15 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		//========== VALIDATORS ==========//
-		this.ThermalConductivity.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.ThermalConductivity.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.ThermalConductivity.AddValidator(
+		this.ThermalConductivity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.ThermalConductivity.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.ThermalConductivity.addValidator(
 		   new Validator(() -> {
 			   return ((this.ThermalConductivity.getRawVal() < 180e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 		   },
 		   "Thermal conductivity is below the minimum value (180mW/m*c) extracted from the thermal conductivity modififer graph in IPC-2152." +
 		   " Results might not be as accurate (extrapolation will occur)."));
-		this.ThermalConductivity.AddValidator(
+		this.ThermalConductivity.addValidator(
 			new Validator(() -> {
 				return ((this.ThermalConductivity.getRawVal() > 340e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
 			},
@@ -695,8 +695,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		// Add validators
-		this.ThermalConductivityModifier.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.ThermalConductivityModifier.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.ThermalConductivityModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.ThermalConductivityModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
 		this.calcVars.add(this.ThermalConductivityModifier);
 
@@ -736,8 +736,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		// Add validators
-		this.AdjustedCrossSectionalArea.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.AdjustedCrossSectionalArea.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+		this.AdjustedCrossSectionalArea.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.AdjustedCrossSectionalArea.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
 		this.calcVars.add(this.AdjustedCrossSectionalArea);
 
@@ -765,8 +765,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			);
 
 		// Add validators
-		this.MinTrackWidth.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.MinTrackWidth.AddValidator(
+		this.MinTrackWidth.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+		this.MinTrackWidth.addValidator(
 		   new Validator(() -> {
 			   return ((this.MinTrackWidth.getRawVal() <= 0) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
 		   },

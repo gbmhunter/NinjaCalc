@@ -160,8 +160,8 @@ public class ResistorDividerCalcModel extends Calculator {
         );
 
         // Add validators
-        this.Vin.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.Vin.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.Vin.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.Vin.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.Vin);
 
@@ -197,8 +197,8 @@ public class ResistorDividerCalcModel extends Calculator {
         );
 
         // Add validators
-        this.Rtop.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.Rtop.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.Rtop.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.Rtop.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.Rtop);
 
@@ -234,8 +234,8 @@ public class ResistorDividerCalcModel extends Calculator {
         );
 
         // Add validators
-        this.Rbot.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.Rbot.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.Rbot.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.Rbot.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.Rbot);
 
@@ -268,8 +268,8 @@ public class ResistorDividerCalcModel extends Calculator {
                 "The resistor divider output voltage. The is also equal to the voltage across the bottom resistor. Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.");
 
         // Add validators
-        this.Vout.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.Vout.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.Vout.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.Vout.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.Vout);
 
@@ -299,8 +299,8 @@ public class ResistorDividerCalcModel extends Calculator {
                 "The quiscent current drawn through the resistor divider. This can be an issue in low-power designs, or can cause excessive heating in the resistors when the input voltage is high and both resistors have low resistances.");
 
         // Add validators
-        this.Iq.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.Iq.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.Iq.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.Iq.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.Iq);
 

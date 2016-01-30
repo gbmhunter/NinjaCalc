@@ -126,8 +126,8 @@ public class LowPassRCCalcModel extends Calculator {
         );
 
         // Add validators
-        this.r.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.r.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.r.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.r.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.r);
 
@@ -162,8 +162,8 @@ public class LowPassRCCalcModel extends Calculator {
             );
 
         // Add validators
-        this.c.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.c.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.c.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.c.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.c);
 
@@ -198,8 +198,8 @@ public class LowPassRCCalcModel extends Calculator {
             "The cut-off frequency of the low-pass RC filter. This is the point where the output signal is attenuated by -3dB (70.7%) of the input. Also known as the corner or breakpoint frequency.");
 
         // Add validators
-        this.fc.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.fc.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.fc.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.fc.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.fc);
 

@@ -1,5 +1,12 @@
 package  Core;
 
+/**
+ * Static class containing useful unit conversion constants that can be used in the
+ * equation functions for calculator variables.
+ *
+ * @author gbmhunter
+ * @since 2015-11-02
+ */
 public class UnitConversionConstants {
 
     public static double METERS_PER_INCH = 25.4 / 1000;

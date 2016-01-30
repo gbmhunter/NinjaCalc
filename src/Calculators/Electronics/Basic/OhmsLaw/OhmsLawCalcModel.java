@@ -58,7 +58,7 @@ public class OhmsLawCalcModel extends Calculator {
     public OhmsLawCalcModel() {
 
         super( "Ohm's Law",
-                "The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm's law.",
+                "The hammer in any electrical engineers toolbox. calculate voltage, resistance and current using Ohm's law.",
                 "/Calculators/Electronics/Basic/OhmsLaw/grid-icon.png",
                 new String[]{ "Electronics", "Basic" },
                 new String[]{"ohm, resistor, resistance, voltage, current, law, vir"});
@@ -146,8 +146,8 @@ public class OhmsLawCalcModel extends Calculator {
             );
 
         // Add validators
-        this.voltage.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.voltage.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.voltage.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.voltage.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.voltage);
 
@@ -181,8 +181,8 @@ public class OhmsLawCalcModel extends Calculator {
             "The current going through the resistor" // Help text
             );
 
-        this.current.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.current.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.current.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.current.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.current);
 
@@ -216,8 +216,8 @@ public class OhmsLawCalcModel extends Calculator {
             "The resistance of the resistor (or other circuit component)." // Help text
             );
 
-        this.resistance.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.resistance.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.resistance);
 

@@ -6,6 +6,12 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
 
+/**
+ * A combobox-style calculator variable. Currently this only supports being an input.
+ *
+ * @author gbmhunter
+ * @since 2015-11-02
+ */
 public class CalcVarComboBox extends CalcVarBase {
 
     protected String rawVal;
@@ -128,7 +134,7 @@ public class CalcVarComboBox extends CalcVarBase {
         //var toolTip = new System.Windows.Controls.TextBlock();
 
         // Tooltip content is help info plus validation results
-        //toolTip.Inlines.Add(this.HelpText);
+        //toolTip.Inlines.Add(this.helpText);
 
         // Setting a max width prevents the tooltip from getting rediculuosly large when there is a long help info string.
         // Keeping this quite small also makes the tooltip easier to read.

@@ -23,8 +23,6 @@ public class CalculatorGridElementController extends GridPane {
 
     private static final Logger logger = Logger.getLogger(CalculatorGridElementController.class.getName());
 
-
-
     @FXML
     private ImageView calculatorIcon;
 

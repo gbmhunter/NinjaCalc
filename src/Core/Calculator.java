@@ -93,7 +93,7 @@ public abstract class Calculator {
         };*/
 
         // Attach event handlers onto the read-of-value for each calculator variable,
-        // and also disable updating of the textboxes when we call Calculate().
+        // and also disable updating of the textboxes when we call calculate().
         for (CalcVarBase calcVar : this.calcVars) {
             //calcVar.RawValueRead += eventHandler;
             calcVar.addRawValueReadListener((calcVarBase) -> {
@@ -111,7 +111,7 @@ public abstract class Calculator {
             if (calcVar.equationFunction != null) {
                 // Invoke the equation, this will fire ReadRawValue events
                 // for all variables it needs, and add to the dependancy list
-                // DO NOT call pair.Value.Calculate() directly!
+                // DO NOT call pair.Value.calculate() directly!
                 calcVar.equationFunction.execute();
 
                 // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
@@ -155,7 +155,7 @@ public abstract class Calculator {
             // (this may change in the future)
             if (calcVar instanceof CalcVarNumerical) {
                 CalcVarNumerical calcVarNumerical = (CalcVarNumerical)calcVar;
-                calcVarNumerical.Validate();
+                calcVarNumerical.validate();
             }
         }
     }
@@ -167,10 +167,10 @@ public abstract class Calculator {
     public void recalculateAllOutputs() {
         System.out.println("recalculateAllOutputs() called for calculator \"" + this.name + "\".");
         for(CalcVarBase calcVar : this.calcVars) {
-            // We only want to call Calculate() on outputs
+            // We only want to call calculate() on outputs
             if (calcVar.direction == CalcVarDirections.Output) {
                 // Call calculate, this will update the textboxes automatically
-                calcVar.Calculate();
+                calcVar.calculate();
             }
         }
     }

@@ -120,9 +120,9 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
              );
 
         //===== VALIDATORS =====//
-        this.TrackCurrent.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.TrackCurrent.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-        this.TrackCurrent.AddValidator(
+        this.TrackCurrent.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.TrackCurrent.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.TrackCurrent.addValidator(
             new Validator(() -> {
                 return ((this.TrackCurrent.getRawVal() > 35.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
             },
@@ -147,14 +147,14 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
             );
 
         //===== VALIDATORS =====//
-        this.TempRise.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.TempRise.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-        this.TempRise.AddValidator(
+        this.TempRise.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.TempRise.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.TempRise.addValidator(
             new Validator(() -> {
                 return ((this.TempRise.getRawVal() < 10.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
             },
             "Temperature rise is below the recommended minimum (10°c). Equation will not be as accurate (extrapolation will occur)."));
-        this.TempRise.AddValidator(
+        this.TempRise.addValidator(
             new Validator(() -> {
                 return ((this.TempRise.getRawVal() > 100.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
             },
@@ -182,14 +182,14 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
             );
 
         //===== VALIDATORS =====//
-        this.TrackThickness.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.TrackThickness.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-        this.TrackThickness.AddValidator(
+        this.TrackThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.TrackThickness.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.TrackThickness.addValidator(
            new Validator(() -> {
                return ((this.TrackThickness.getRawVal() < 17.5e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
            },
            "Track thickness is below the recommended minimum (17.5um or 0.5oz). Equation will not be as accurate (extrapolation will occur)."));
-        this.TrackThickness.AddValidator(
+        this.TrackThickness.addValidator(
             new Validator(() -> {
                 return ((this.TrackThickness.getRawVal() > 105.0036e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
             },
@@ -258,8 +258,8 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
             );
 
         // Add validators
-        this.MinTrackWidth.AddValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.MinTrackWidth.AddValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.MinTrackWidth.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.MinTrackWidth.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.MinTrackWidth);
 

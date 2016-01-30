@@ -60,7 +60,7 @@ public abstract class CalcVarBase {
     public ArrayList<CalcVarBase> dependants;
 
     /**
-     * Set to true to disable the updating of the text box when this CalcVar's Calculate() method
+     * Set to true to disable the updating of the text box when this CalcVar's calculate() method
      * is called.
      */
     public Boolean disableUpdate;
@@ -77,10 +77,10 @@ public abstract class CalcVarBase {
 
 
 
-    public void Calculate() {
+    public void calculate() {
         // Default implementation is to just return
         // (and do nothing)
-        System.err.println("WARNING: BaseCalcVar.Calculate() called, this is an empty function.");
+        System.err.println("WARNING: BaseCalcVar.calculate() called, this is an empty function.");
         return;
     }
 
@@ -114,8 +114,8 @@ public abstract class CalcVarBase {
         // We need to re-calculate any this calculator variables dependants, if they are outputs
         for (int i = 0; i < this.dependants.size(); i++) {
             if (this.dependants.get(i).direction == CalcVarDirections.Output) {
-                System.out.println("Calling Calculate() on variable \"" + this.dependants.get(i).name + "\".");
-                this.dependants.get(i).Calculate();
+                System.out.println("Calling calculate() on variable \"" + this.dependants.get(i).name + "\".");
+                this.dependants.get(i).calculate();
             }
         }
     }

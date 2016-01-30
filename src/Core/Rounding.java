@@ -3,6 +3,8 @@ package Core;
 /**
  * Static class to help with the rounding of calculator variables, especially
  * with significant figure-based rounding.
+ * @author gbmhunter
+ * @since 2015-11-02
  */
 public class Rounding {
 

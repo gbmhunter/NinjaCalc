@@ -10,17 +10,17 @@ import javafx.event.Event;
 import javafx.scene.control.*;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-//import javafx.scene.control.RadioButton;
 
-
-/// <summary>
-/// Encapsulates a single numerical variable in a NinjaCalc calculator (inherits from CalcVarBase).
-/// Stores the variable name, it's equation, it's state (input or output).
-/// Is further inherited by specialised input and output variable classes.
-/// </summary>
+/**
+ * Encapsulates a single numerical variable in a NinjaCalc calculator (inherits from CalcVarBase).
+ * Stores the variable name, it's equation, it's state (input or output).
+ * Is further inherited by specialised input and output variable classes.
+ *
+ * @author gbmhunter
+ * @since 2015-11-02
+ */
 public class CalcVarNumerical extends CalcVarBase {
 
     //===============================================================================================//
@@ -31,84 +31,18 @@ public class CalcVarNumerical extends CalcVarBase {
 
     protected double rawVal;
 
-    /// <summary>
-    /// Gets or sets the the "raw" (unscaled, unrounded) value for this variable. Setting will cause the displayed value, textbox, and all
-    /// dependant variables to update.
-    /// </summary>
-    public double getRawVal() {
-        this.OnRawValueRead();
 
-        return this.rawVal;
-    }
-
-    public void setRawVal(double value) {
-        // Only set if new value is different from current
-        if (this.rawVal != value) {
-            this.rawVal = value;
-            // Fire the RawValueChanged event handler
-            this.onRawValueChanged();
-        }
-    }
 
     //============================================ DISP VAL =========================================//
 
     public double dispVal;
 
-    private TextField calcValTextBox;
+    private TextField valueTextField;
     private ChangeListener<String> textListener;
-
-    private RadioButton ioRadioButton;
-
-    //private Dictionary<string, CalcVar> calcVars;
-
-    //private Directions direction;
 
     public CalcVarDirections getDirection() {
         return this.direction;
     }
-
-    /*public void setDirection(Directions value){
-        System.out.println("setDirection() called with direction = \"" + value.toString() + "\" for variable \"" + this.name + "\".");
-        this.direction = value;
-        if (value == Directions.Output) {
-            // If this calc variable is being set as an output,
-            // we need to disable the input text box, check the radio button,
-            // and remove the event handler
-            this.calcValTextBox.setDisable(true);
-            //this.calcValTextBox.setBorder(new Border()) = new System.Windows.Thickness(0);
-
-            // Remove event handler from output
-
-            this.calcValTextBox.textProperty().removeListener(this.textListener);
-            /*this.calcValTextBox.onActionProperty() -= this.TextBoxChanged;
-            if (this.ioRadioButton != null) {
-                this.ioRadioButton.IsChecked = true;
-            }*/
-
-            // Now the event handler is removed, update the displayed value for the raw value
-            // (this is so rounding occurs)
-            /*this.UpdateDispValFromRawVal();
-
-        }
-        else if (value == Directions.Input) {
-
-            this.calcValTextBox.setDisable(false);
-            //this.calcValTextBox.BorderThickness = new System.Windows.Thickness(3);
-
-            //this.calcValTextBox.setOnAction(this::TextBoxChanged);
-
-            //this.calcValTextBox.setOnAction(this.calcValTextBoxChanged);
-
-            this.calcValTextBox.textProperty().addListener(textListener);
-
-            /*this.calcValTextBox.TextChanged += this.TextBoxChanged;
-            if (this.ioRadioButton != null) {
-                this.ioRadioButton.IsChecked = false;
-            }*/
-        /*}
-
-    }*/
-
 
     private ArrayList<Validator> validators;
 
@@ -143,39 +77,33 @@ public class CalcVarNumerical extends CalcVarBase {
         return this.selUnit;
     }
 
-    /**
-     *
-     * @param value
-     */
-    public void setSelUnit(NumberUnit value) {
-        this.selUnit = value;
-        // Anytime this is set, also update selected value in combobox
-        this.unitsComboBox.getSelectionModel().select(this.selUnit);
-    }
 
+    public int numDigitsToRound;
 
-    public int NumDigitsToRound;
+    public String helpText;
 
-    public String HelpText;
-
-    private ToggleGroup radioButtonToggleGroup;
+    //private ToggleGroup radioButtonToggleGroup;
 
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
     //===============================================================================================//
 
-    /// <summary>
-    /// Base constructor. Requires all possible arguments.
-    /// </summary>
-    /// <param name="calcValTextBox">The text box that displays this calculator variables value.</param>
-    /// <param name="equation">An expression tree of a function which calculates this variables value from the other variables.</param>
-    /// <param name="defaultRawValue">Default number for raw value to be set to. Can also be set to null, in which case the displayed text will be empty.</param>
+    /**
+     * Base constructor. Requires all possible arguments.
+     * @param name
+     * @param valueTextField        The text field that displays this calculator variables value (UI element).
+     * @param unitsComboBox
+     * @param equation              An expression tree of a function which calculates this variables value from the other variables.
+     * @param units                 An array of units for this calculator variable, to display in the units combobox.
+     * @param numDigitsToRound      The number of significant figures you want the calculator variable rounded to, when it is an output.
+     * @param directionFunction
+     * @param defaultRawValue       Default number for raw value to be set to. Can also be set to null, in which case the displayed text will be empty.
+     * @param helpText
+     */
     public CalcVarNumerical(
         String name,
-        TextField calcValTextBox,
+        TextField valueTextField,
         ComboBox unitsComboBox,
-        //RadioButton ioRadioButton,
-        //ToggleGroup radioButtonToggleGroup,
         IEquationFunction equation,
         NumberUnit[] units,
         int numDigitsToRound,
@@ -186,11 +114,11 @@ public class CalcVarNumerical extends CalcVarBase {
 
         super(name, equation, directionFunction);
 
-        System.out.println("CalcVarNumerical constructor called.");
+        //System.out.println("CalcVarNumerical constructor called.");
 
         // Create text field listener
         this.textListener = (observable, oldValue, newValue) -> {
-            System.out.println("CalcVarNumerical.TextBoxChanged() called. Text changed from \"" + oldValue + "\" to \"" + newValue + "\".");
+            //System.out.println("CalcVarNumerical.TextBoxChanged() called. Text changed from \"" + oldValue + "\" to \"" + newValue + "\".");
 
             // Make sure this event only fires when this variable is an input!
             if(this.getDirection() == CalcVarDirections.Input) {
@@ -201,33 +129,24 @@ public class CalcVarNumerical extends CalcVarBase {
                 // for example, if it had letters (a2) or was just a negative sign (-).
                 try {
                     this.dispVal = Double.valueOf(newValue);
-                    this.rawVal = this.dispVal * this.selUnit.Multiplier;
+                    this.rawVal = this.dispVal * this.selUnit.multiplier;
                 }
                 catch (NumberFormatException exception) {
                     this.dispVal = Double.NaN;
                     this.rawVal = Double.NaN;
                 }
 
-                this.Validate();
+                this.validate();
 
                 // We need to re-calculate any this calculator variables dependants, if they are outputs
                 this.forceDependantOutputsToRecalculate();
             }
         };
 
-        this.calcValTextBox = calcValTextBox;
+        this.valueTextField = valueTextField;
 
         // Attach this new listener to the text field
-        this.calcValTextBox.textProperty().addListener(textListener);
-
-
-
-        // The next line sets the delay before the tooltip is shown for the textboxes.
-        // The delay (2nd argument) is in milli-seconds
-        //ToolTipService.SetInitialShowDelay(this.calcValTextBox, 50);
-        // We want to show the tooltip for disabled textboxes (textboxes belonging
-        // to output calculator variables are disabled)
-        //ToolTipService.SetShowOnDisabled(this.calcValTextBox, true);
+        this.valueTextField.textProperty().addListener(textListener);
 
         //===============================================================================================//
         //========================================== VALIDATORS =========================================//
@@ -244,11 +163,8 @@ public class CalcVarNumerical extends CalcVarBase {
         //====================================== UNITS AND COMBOBOX =====================================//
         //===============================================================================================//
 
+        // Save reference to the units combobox
         this.unitsComboBox = unitsComboBox;
-
-        // Attach event handler to the selection change for the units combo box
-        //this.unitsComboBox.SelectionChanged += this.unitsComboBoxSelectionChanged;
-        //this.unitsComboBox.setOnAction(this::unitsComboBoxSelectionChanged);
 
         // Initialise empty units list
         this.Units = FXCollections.observableArrayList();
@@ -259,7 +175,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
         for(NumberUnit unit : units) {
             this.Units.add(unit);
-            if (unit.Preference == NumberPreference.DEFAULT) {
+            if (unit.preference == NumberPreference.DEFAULT) {
                 defaultUnit = unit;
             }
         }
@@ -280,7 +196,7 @@ public class CalcVarNumerical extends CalcVarBase {
                     if (item == null || empty) {
                         setText(null);
                     } else {
-                        setText(item.Name);
+                        setText(item.name);
                     }
                 }
             };
@@ -293,7 +209,7 @@ public class CalcVarNumerical extends CalcVarBase {
                 if (numberUnit == null) {
                     return null;
                 } else {
-                    return numberUnit.Name;
+                    return numberUnit.name;
                 }
             }
 
@@ -319,63 +235,121 @@ public class CalcVarNumerical extends CalcVarBase {
         //============================================ ROUNDING =========================================//
         //===============================================================================================//
 
-        this.NumDigitsToRound = numDigitsToRound;
+        this.numDigitsToRound = numDigitsToRound;
 
         // Assign the default raw value
         if (defaultRawValue != null) {
             this.rawVal = defaultRawValue;
-            this.dispVal = this.rawVal * this.selUnit.Multiplier;
-            this.calcValTextBox.setText(String.valueOf(this.dispVal));
+            this.dispVal = this.rawVal * this.selUnit.multiplier;
+            this.valueTextField.setText(String.valueOf(this.dispVal));
         }
         else {
             // Provided default value was null, so lets make
             // the textbox empty
             this.rawVal = Double.NaN;
             this.dispVal = Double.NaN;
-            this.calcValTextBox.setText("");
+            this.valueTextField.setText("");
         }
 
         // Install event handlers
         /*this.RawValueChanged += (sender, EventArgs) => {
             // Update displayed value
-            this.dispVal = this.rawVal * this.selUnit.Multiplier;
+            this.dispVal = this.rawVal * this.selUnit.multiplier;
             // Update textbox
-            this.calcValTextBox.Text = this.dispVal.ToString();
+            this.valueTextField.Text = this.dispVal.ToString();
         };*/
         this.addRawValueChangedListener(calcVarBase -> {
             // Update displayed value
-            this.dispVal = this.rawVal * this.selUnit.Multiplier;
+            this.dispVal = this.rawVal * this.selUnit.multiplier;
             // Update textbox
-            this.calcValTextBox.setText(String.valueOf(this.dispVal));
+            this.valueTextField.setText(String.valueOf(this.dispVal));
         });
 
         // Save the help text (displayed in the tooltip)
-        this.HelpText = helpText;
+        this.helpText = helpText;
 
     }
 
     //===============================================================================================//
-    //============================================ METHODS ==========================================//
+    //======================================== GETTERS/SETTERS ======================================//
     //===============================================================================================//
 
-    /// <summary>
-    /// This should only be called for output variables.
-    /// </summary>
-    public void Calculate() {
+    /**
+     * Gets or sets the the "raw" (unscaled, unrounded) value for this variable. Setting will cause the displayed value, textbox, and all
+     * dependant variables to update.
+     * @return      The raw value of the calculator variable.
+     */
+    public double getRawVal() {
+        this.OnRawValueRead();
+
+        return this.rawVal;
+    }
+
+    public void setRawVal(double value) {
+        // Only set if new value is different from current
+        if (this.rawVal != value) {
+            this.rawVal = value;
+            // Fire the RawValueChanged event handler
+            this.onRawValueChanged();
+        }
+    }
+
+    /**
+     * Set the selected unit for this calculator variable by passing in a unit name. If the unit can't be found in
+     * the units array, a System.ArgumentException exception will be thrown.
+     * @param unitName      The name (i.e. whats displayed in the combobox) of the unit you wish to be selected.
+     */
+    /*public void setUnits(String unitName) {
+
+        Core.NumberUnit foundUnit = null;
+
+        for(NumberUnit unit : this.Units) {
+            if (unit.name == unitName) {
+                foundUnit = unit;
+                break;
+            }
+        }
+
+        if (foundUnit == null) {
+            throw new IllegalArgumentException("Unit name was not found in unit array.");
+        }
+
+        // Valid unit in unit array found, so lets set it to the currently
+        // selected unit
+        this.selUnit = foundUnit;
+
+    }*/
+
+    /**
+     * Sets the selected unit in the unit combobox.
+     * @param value     The unit you wish to change the combobox selection to.
+     */
+    public void setSelUnit(NumberUnit value) {
+        this.selUnit = value;
+        // Anytime this is set, also update selected value in combobox
+        this.unitsComboBox.getSelectionModel().select(this.selUnit);
+    }
+
+    /**
+     * Calculates the raw value from the provided equation, calculates the displayed value from the raw value,
+     * then updates the UI and forces all dependent outputs to recalculate also.
+     * @warning     This should only be called for output variables.
+     */
+    public void calculate() {
         // Make sure this event only fires when this calculator variable is an output!
         assert this.getDirection() == CalcVarDirections.Output;
 
-        System.out.println("CalcVar.Calculate() called for \"" + this.name + "\".");
+        System.out.println("CalcVar.calculate() called for \"" + this.name + "\".");
 
         // Invoke the provided equation function,
         // which should return the raw value for this calculator variable
         this.rawVal = this.equationFunction.execute();
-        //this.dispVal = this.rawVal / this.selUnit.Multiplier;
-        //this.calcValTextBox.Text = this.dispVal.ToString();
-        this.UpdateDispValFromRawVal();
+        //this.dispVal = this.rawVal / this.selUnit.multiplier;
+        //this.valueTextField.Text = this.dispVal.ToString();
+        this.updateDispValFromRawVal();
 
         // Validation is done in the TextBoxChanged event handler
-        this.Validate();
+        this.validate();
 
         this.forceDependantOutputsToRecalculate();
     }
@@ -385,25 +359,25 @@ public class CalcVarNumerical extends CalcVarBase {
      * Use this to add a specific validator to this calculator variable.
      * @param validator     The validator to add.
      */
-    public void AddValidator(Validator validator) {
+    public void addValidator(Validator validator) {
         // Add provided validator to the internal list
         this.validators.add(validator);
     }
 
     /**
      * Call this to perform validation on this calculator variable. Will run all validators
-     * that have been added through calling AddValidator(), and populate validationResults with the
+     * that have been added through calling addValidator(), and populate validationResults with the
      * results. Also updates UI based on these results.
      */
-    public void Validate() {
-        System.out.println("Validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
+    public void validate() {
+        System.out.println("validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
 
         // Clear the old validation results
         this.validationResults.clear();
 
         CalcValidationLevel worstValidationLevel = CalcValidationLevels.Ok;
 
-        // Validate this value (if validators are provided)
+        // validate this value (if validators are provided)
         for(Validator validator : this.validators) {
             // Run the validation function
             CalcValidationLevel validationLevel = validator.ValidationFunction.execute(this.rawVal);
@@ -427,7 +401,7 @@ public class CalcVarNumerical extends CalcVarBase {
         this.worstValidationLevel = worstValidationLevel;
 
         // Finally, force an update of the UI based on these validation results
-        this.UpdateUIBasedOnValidationResults();
+        this.updateUIBasedOnValidationResults();
     }
 
     /**
@@ -448,11 +422,11 @@ public class CalcVarNumerical extends CalcVarBase {
         // If the variable is an input, we need to adjust the raw value, if the
         // variable is an output, we need to adjust the displayed value
         if (this.getDirection() == CalcVarDirections.Input) {
-            this.rawVal = this.dispVal * this.selUnit.Multiplier;
+            this.rawVal = this.dispVal * this.selUnit.multiplier;
             System.out.println("rawVal re-scaled to \"" + String.valueOf(this.rawVal) + "\".");
 
             // Since the raw value has changed, we also need to re-validate this variable
-            this.Validate();
+            this.validate();
 
             // We also need to force a recalculation of any dependants (which are also outputs)
             // of this variable
@@ -460,41 +434,41 @@ public class CalcVarNumerical extends CalcVarBase {
 
         }
         else if(this.getDirection() == CalcVarDirections.Output) {
-            this.UpdateDispValFromRawVal();
+            this.updateDispValFromRawVal();
         }
     }
 
-    private void UpdateDispValFromRawVal() {
+    private void updateDispValFromRawVal() {
 
-        System.out.println("UpdateDispValFromRawVal() called for variable \"" + this.name + "\".");
+        System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\".");
 
         // Recalculate dispVal and update textbox
         // We don't need to validate again if the units are changed for an output,
         // as the actual value (raw value) does not change.
-        double unroundedDispVal = this.rawVal / this.selUnit.Multiplier;
-        this.dispVal = Rounding.RoundToSignificantDigits(unroundedDispVal, this.NumDigitsToRound);
-        this.calcValTextBox.setText(String.valueOf(this.dispVal));
+        double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
+        this.dispVal = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
+        this.valueTextField.setText(String.valueOf(this.dispVal));
     }
 
     /**
      * Updates the tooltip text (adds help info plus validation results).
      */
-    public void UpdateUIBasedOnValidationResults() {
+    public void updateUIBasedOnValidationResults() {
         // Change the textbox's border colour
-        //this.calcValTextBox.borderColor = this.validationResult.borderColor;
-        //this.calcValTextBox.Background = this.validationResult.backgroundColor;
+        //this.valueTextField.borderColor = this.validationResult.borderColor;
+        //this.valueTextField.Background = this.validationResult.backgroundColor;
 
         //================= UPDATE COLOURS ON TEXT FIELD ================//
 
         //final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
 
 
-        //this.calcValTextBox.pseudoClassStateChanged(this.worstValidationLevel.pseudoClass, true); // or false to unset it
-        this.calcValTextBox.getStyleClass().remove("ok");
-        this.calcValTextBox.getStyleClass().remove("warning");
-        this.calcValTextBox.getStyleClass().remove("error");
-        this.calcValTextBox.getStyleClass().add(this.worstValidationLevel.name);
-        /*this.calcValTextBox.setStyle(
+        //this.valueTextField.pseudoClassStateChanged(this.worstValidationLevel.pseudoClass, true); // or false to unset it
+        this.valueTextField.getStyleClass().remove("ok");
+        this.valueTextField.getStyleClass().remove("warning");
+        this.valueTextField.getStyleClass().remove("error");
+        this.valueTextField.getStyleClass().add(this.worstValidationLevel.name);
+        /*this.valueTextField.setStyle(
                 "-fx-background-color: " + this.worstValidationLevel.backgroundColor + ";" +
                 "-fx-border-color: " + this.worstValidationLevel.borderColor + ";");*/
 
@@ -521,7 +495,7 @@ public class CalcVarNumerical extends CalcVarBase {
         Tooltip toolTip = new Tooltip();
 
         // Tooltip content is help info plus validation results
-        toolTip.setText(this.HelpText + "\r\n\r\n" + validationMsg);
+        toolTip.setText(this.helpText + "\r\n\r\n" + validationMsg);
         toolTip.setWrapText(true);
         //toolTip.Inlines.Add(new Italic(new Run(validationMsg)));
 
@@ -532,8 +506,8 @@ public class CalcVarNumerical extends CalcVarBase {
         // Important to allow wrapping as we are restricting the max. width!
         //toolTip.TextWrapping = System.Windows.TextWrapping.Wrap;
 
-        this.calcValTextBox.setTooltip(toolTip);
-        //this.calcValTextBox.ToolTip = toolTip;
+        this.valueTextField.setTooltip(toolTip);
+        //this.valueTextField.ToolTip = toolTip;
     }
 
     public static void hackTooltipStartTiming(Tooltip tooltip) {
@@ -553,31 +527,7 @@ public class CalcVarNumerical extends CalcVarBase {
         }
     }
 
-    /**
-     * Set the selected unit for this calculator variable by passing in a unit name. If the unit can't be found in
-     /// the units array, a System.ArgumentException exception will be thrown.
-     * @param unitName      The name (i.e. whats displayed in the combobox) of the unit you wish to be selected.
-     */
-    public void SetUnits(String unitName) {
 
-        Core.NumberUnit foundUnit = null;
-
-        for(NumberUnit unit : this.Units) {
-            if (unit.Name == unitName) {
-                foundUnit = unit;
-                break;
-            }
-        }
-
-        if (foundUnit == null) {
-            throw new IllegalArgumentException("Unit name was not found in unit array.");
-        }
-
-        // Valid unit in unit array found, so lets set it to the currently
-        // selected unit
-        this.selUnit = foundUnit;
-
-    }
 
     /**
      * This method makes the text fields of output variables slightly transparent to indicate
@@ -589,12 +539,12 @@ public class CalcVarNumerical extends CalcVarBase {
 
         switch(this.direction) {
             case Input:
-                //this.calcValTextBox.setDisable(false);
-                this.calcValTextBox.setEditable(true);
+                //this.valueTextField.setDisable(false);
+                this.valueTextField.setEditable(true);
                 break;
             case Output:
-                //this.calcValTextBox.setDisable(true);
-                this.calcValTextBox.setEditable(false);
+                //this.valueTextField.setDisable(true);
+                this.valueTextField.setEditable(false);
                 break;
         }
     }

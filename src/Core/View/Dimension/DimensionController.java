@@ -7,6 +7,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Line;
 
+/**
+ * Controller for the Dimension UI object.
+ *
+ * @author gbmhunter
+ * @since 2015-11-02
+ */
 public class DimensionController implements Initializable {
 
     @FXML

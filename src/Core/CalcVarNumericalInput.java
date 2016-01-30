@@ -6,17 +6,11 @@ import javafx.scene.control.*;
  * A specialisation of a generic CalcVar which is for variables which are always
  * an input. Removes the ability to add a input/output radio button and provide
  * an equation.
+ * @author gbmhunter
+ * @since 2015-11-02
  */
 public class CalcVarNumericalInput extends CalcVarNumerical {
 
-    /// <summary>
-    /// Base constructor, which requires all possible arguments.
-    /// </summary>
-    /// <param name="name"></param>
-    /// <param name="calcValTextBox"></param>
-    /// <param name="unitsComboBox"></param>
-    /// <param name="units"></param>
-    /// <param name="defaultRawValue"></param>
     public CalcVarNumericalInput(
         String name,
         TextField calcValTextBox,

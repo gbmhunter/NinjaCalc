@@ -10,6 +10,9 @@ import javafx.util.Callback;
 
 /***
  * This is the model for the dimension UI object.
+ *
+ * @author gbmhunter
+ * @since 2015-11-02
  */
 public class Dimension extends Pane {
 

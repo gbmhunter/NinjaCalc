@@ -5,6 +5,8 @@ import javafx.scene.control.*;
 /**
  * A specialisation of a generic CalcVar which is for variables which are always
  * an output. Removes the ability to add a input/output radio button, or a default value.
+ * @author gbmhunter
+ * @since 2015-11-02
  */
 public class CalcVarNumericalOutput extends CalcVarNumerical {
 
@@ -21,8 +23,6 @@ public class CalcVarNumericalOutput extends CalcVarNumerical {
             name,
             calcValTextBox,
             unitsComboBox,
-            //null,
-            //null,
             equation,
             units,
             numDigitsToRound,

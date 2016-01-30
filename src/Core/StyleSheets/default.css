@@ -132,7 +132,6 @@ and white text */
 /* ============================================================================================= */
 
 
-
 .ok {
     /* Border colour */
     -fx-text-box-border: #00B300;
@@ -174,7 +173,9 @@ and white text */
 /* This targets the calculator variable text fields which are currently
 outputs. We want to reduce the severity of the disable feature so that the user
 can still easily read the value */
+/* THIS MUST COME AFTER SETTING .ok, .warning, .error STYLES */
 .text-field:readonly {
     -fx-opacity: 0.6;
+    /* Let's remove the border all-together for calculator outputs */
     -fx-background-insets: 0, 0;
 }
