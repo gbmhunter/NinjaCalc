@@ -8,8 +8,8 @@ A embedded engineering calculator suite for doing calculations in a breeze.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2016-01-29
-- Version: v0.4.0
+- Last Modified: 2016-01-30
+- Version: v0.4.1
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: Java
@@ -35,9 +35,7 @@ See the `project home page`_ for a list of features.
 Installation
 ============
 
-Windows only...sorry Linux/iOS users!
-
-#. Download the latest installer release from https://github.com/mbedded-ninja/NinjaCalc/releases.
+#. Download the latest installer-based release from http://mbedded-ninja.github.io/NinjaCalc/.
 #. Run the installer and play (or work, right?)!
 
 Installing a newer version of NinjaCalc should automatically overwrite the old one.
@@ -55,6 +53,7 @@ Making Your Own Calculators
 
 There are many pre-built calculator view objects to make development faster and keep a consistent look and feel across the application. These are located in :code:`src/Core/View`. This includes:
 
+#. A Dimension object
 
 
 Creating A Calculator Diagram
@@ -67,20 +66,14 @@ All calculators that use static images for their background diagrams have a Visi
 Creating An Installable Package
 -------------------------------
 
-This project uses the free installer `Inno Setup`_ to bundle the built application files into a single .exe installable package for Windows machines.
+The team at `ej-technologies <https://www.ej-technologies.com/>`_ have graciously donated me an open-source licensed version of |install4j|, `the multi-platform installer builder for Java applications 
+<http://www.ej-technologies.com/products/install4j/overview.html>`_.
 
-The Inno Setup script is stored at :code:`install/InnoSetupScript.iss`.
+Myself (gbmhunter) currently holds the license for this software, and so I am the only one that can currently create installable packages for NinjaCalc releases.
 
-The easiest way to generate an installable package is to:
+The install4j script is located at :code:`/NinjaCalc.install4j`.
 
-#. Open this project in Visual Studio.
-#. Make sure the configuration is set to "Release".
-#. Build the project.
-#. Run "Inno Script Studio" (downloadable with Inno Setup), and open the script file :code:`install/InnoSetupScript.iss`.
-#. Press the "Run" button from within Inno Script Studio.
-#. Done! All going well, an executable called "setup.exe" should of been created in :code:`install/Output/`. 
-
-.. _`Inno Setup`: http://www.jrsoftware.org/isinfo.php
+.. |install4j| image:: https://www.ej-technologies.com/images/product_banners/install4j_small.png
 
 
 File Structure 

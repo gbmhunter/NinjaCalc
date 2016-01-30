@@ -16,58 +16,66 @@
 
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.geometry.Insets?>
-<ScrollPane
-        fitToWidth="true"
-        styleClass="scrollPane"
-        xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
-    <padding><Insets top="40" /></padding>
-    <VBox alignment="CENTER" spacing="20"
-          styleClass="vbox"
-          style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;">
+<?import Core.AutoScalingStackPane?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.StackPane?>
 
-        <!-- =========== INFO SECTION ========== -->
+<?import javafx.scene.web.WebView?>
+<VBox>
+    <ScrollPane
+            fitToWidth="true"
+            styleClass="scrollPane"
+            xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+        <padding>
+            <Insets top="40" bottom="20" left="20" right="20"/>
+        </padding>
+        <VBox alignment="CENTER" spacing="20"
+              styleClass="vbox"
+              style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;">
 
-        <TitledPane text="Info" expanded="false"
-                    maxWidth="600"
-                    style="-fx-font-size: 16pt;">
-            <Label maxWidth="500" style="-fx-font-size: 13pt;" textAlignment="JUSTIFY" wrapText="true">
-                The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:
+            <!-- =========== INFO SECTION ========== -->
+            <TitledPane text="Info" expanded="false"
+                        maxWidth="800"
+                        style="-fx-font-size: 16pt;">
+                <WebView fx:id="infoWebView" prefHeight="400"></WebView>
+            </TitledPane>
 
-                \( V = IR \)
+            <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
+            <StackPane>
+                <padding>
+                    <Insets top="20" bottom="20" left="20" right="20"/>
+                </padding>
+                <AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="800" maxHeight="800" alignment="CENTER">
+                    <Group>
 
-                where:
-                \( V \) = voltage across the resistor
-                \( I \) = current through the resistor
-                \( R \) = resistance of the resistor
-            </Label>
-        </TitledPane>
+                        <ImageView fitHeight="600.0" fitWidth="600.0">
+                            <image>
+                                <Image url="@diagram.png"/>
+                            </image>
+                        </ImageView>
 
+                        <TextField fx:id="vInValue" layoutX="14.0" layoutY="300.0" prefHeight="25" prefWidth="80"/>
+                        <RadioButton fx:id="vInIO" layoutX="94.0" layoutY="256.0"/>
+                        <ComboBox fx:id="vInUnits" layoutX="25.0" layoutY="336.0" prefHeight="25"/>
 
-        <!--<AutoScalingStackPane GridPane.rowIndex="1" prefWidth="600" prefHeight="600">-->
-            <Pane maxWidth="600" maxHeight="600">
+                        <TextField fx:id="rTopValue" layoutX="300.0" layoutY="140.0" prefHeight="25" prefWidth="80"/>
+                        <RadioButton fx:id="rTopIO" layoutX="384.0" layoutY="99.0"/>
+                        <ComboBox fx:id="rTopUnits" layoutX="311.0" layoutY="179.0" prefHeight="25"/>
 
-                <ImageView fitHeight="600.0" fitWidth="600.0"><image><Image url="@diagram.png" /></image></ImageView>
+                        <TextField fx:id="rBotValue" layoutX="318.0" layoutY="351.0" prefHeight="25" prefWidth="80"/>
+                        <RadioButton fx:id="rBotIO" layoutX="384.0" layoutY="315.0"/>
+                        <ComboBox fx:id="rBotUnits" layoutX="329.0" layoutY="391.0" prefHeight="25"/>
 
-                <TextField fx:id="vInValue" layoutX="14.0" layoutY="300.0" prefHeight="25" prefWidth="80" />
-                <RadioButton fx:id="vInIO" layoutX="94.0" layoutY="256.0" />
-                <ComboBox fx:id="vInUnits" layoutX="25.0" layoutY="336.0" prefHeight="25" />
+                        <TextField fx:id="vOutValue" layoutX="473.0" layoutY="413.0" prefHeight="25" prefWidth="80"/>
+                        <RadioButton fx:id="vOutIO" layoutX="473.0" layoutY="370.0"/>
+                        <ComboBox fx:id="vOutUnits" layoutX="484.0" layoutY="450.0" prefHeight="25"/>
 
-                <TextField fx:id="rTopValue" layoutX="300.0" layoutY="140.0" prefHeight="25" prefWidth="80" />
-                <RadioButton fx:id="rTopIO" layoutX="384.0" layoutY="99.0" />
-                <ComboBox fx:id="rTopUnits" layoutX="311.0" layoutY="179.0" prefHeight="25" />
+                        <TextField fx:id="iQValue" layoutX="137.0" layoutY="450.0" prefHeight="25" prefWidth="80"/>
+                        <ComboBox fx:id="iQUnits" layoutX="148.0" layoutY="490.0" prefHeight="25"/>
 
-                <TextField fx:id="rBotValue" layoutX="318.0" layoutY="351.0" prefHeight="25" prefWidth="80" />
-                <RadioButton fx:id="rBotIO" layoutX="384.0" layoutY="315.0" />
-                <ComboBox fx:id="rBotUnits" layoutX="329.0" layoutY="391.0" prefHeight="25" />
-
-                <TextField fx:id="vOutValue" layoutX="473.0" layoutY="413.0" prefHeight="25" prefWidth="80" />
-                <RadioButton fx:id="vOutIO" layoutX="473.0" layoutY="370.0" />
-                <ComboBox fx:id="vOutUnits" layoutX="484.0" layoutY="450.0" prefHeight="25" />
-
-                <TextField fx:id="iQValue" layoutX="137.0" layoutY="450.0" prefHeight="25" prefWidth="80" />
-                <ComboBox fx:id="iQUnits" layoutX="148.0" layoutY="490.0" prefHeight="25" />
-
-            </Pane>
-        <!--</AutoScalingStackPane>-->
-    </VBox>
-</ScrollPane>
+                    </Group>
+                </AutoScalingStackPane>
+            </StackPane>
+        </VBox>
+    </ScrollPane>
+</VBox>

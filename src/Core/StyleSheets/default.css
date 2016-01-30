@@ -84,6 +84,7 @@ and white text */
     -fx-opacity: 0;
 }
 
+/* This targets the background area behind the "tab" tags */
 .tab-header-area {
     -fx-background-color: #EEEEEE;
 }
@@ -117,7 +118,7 @@ and white text */
     -fx-alignment: CENTER;
     -fx-text-fill: #505050;
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
+    /*-fx-font-weight: bold;*/
 }
 
 .tab:selected .tab-label {
@@ -129,6 +130,13 @@ and white text */
 /* ============================================================================================= */
 /* ============================ CALCULATOR VARIABLE TEXT FIELD STYLING ========================= */
 /* ============================================================================================= */
+
+/* This targets the calculator variable text fields which are currently
+outputs. We want to reduce the severity of the disable feature so that the user
+can still easily read the value */
+.text-field:readonly {
+    -fx-opacity: 0.6;
+}
 
 .ok {
     /* Border colour */

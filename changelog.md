@@ -1,3 +1,24 @@
+v0.4.1
+------
+
+- Ported low-pass RC filter calculator to Java, closes #68.
+- Turned the entire grid element in the calculator selection grid into an "Open" button, closes #66.
+- Moved main class outside of class name "MainWindow", closes #70.
+- Added logo to installed executable, closes #71.
+- The scaling of the calculator diagrams now works correctly, closes #72.
+- Rendered equations in info sections of calculators, closes #73.
+- Added link to install4j's website to both README and website, closes #75.
+- Fixed up the equations in each calculators info section, closes #62.
+- Added significant figure rounding to the numerical calculator variables, closes #76.
+- User is now asked if they want to open a new calculator if all tabs are closed, closes #74.
+- Renamed installer files so they follow a Name -> Version -> Platform syntax, closes #78.
+- Created installer for Mac OS X, closes #77.
+
+v0.4.0
+------
+
+- Ported application from C# to Java, closes #65.
+
 v0.3.8
 ------
 
