@@ -75,7 +75,6 @@ public class CalculatorGridElementController extends GridPane {
      */
     public void btnOpenOnAction(ActionEvent event) {
 
-        //lblHello.setText("CalculatorGridElementController");
         this.openCalcListener.execute(this.calculatorName);
     }
 
