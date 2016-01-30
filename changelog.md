@@ -10,6 +10,7 @@ v0.4.1
 - Added link to install4j's website to both README and website, closes #75.
 - Fixed up the equations in each calculators info section, closes #62.
 - Added significant figure rounding to the numerical calculator variables, closes #76.
+- User is now asked if they want to open a new calculator if all tabs are closed, closes #74.
 
 v0.4.0
 ------

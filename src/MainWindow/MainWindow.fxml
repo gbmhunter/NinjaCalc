@@ -58,10 +58,9 @@
                     <!-- CALCULATOR TABS -->
                     <!-- Stacked with "No calculator" view. Not visible until a calculator is opened -->
                     <GridPane fx:id="gridPaneCalculatorTabsContainer"
-                              visible="false" maxWidth="Infinity" maxHeight="Infinity"
-                              style="-fx-background-color: red;">
+                              visible="false" maxWidth="Infinity" maxHeight="Infinity">
                         <TabPane fx:id="tabPaneCalculatorInstances" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
-                            style="-fx-background-color: white;">
+                            style="-fx-background-color: white; -fx-opacity: 1">
                             <!--<Tab text="Testing"><content>
                                 <GridPane style="-fx-background-color: purple"><TextArea>hfhfhf</TextArea></GridPane>
                             </content></Tab>-->
