@@ -100,7 +100,7 @@ public abstract class Calculator {
                 System.out.println("CalcVar \"" + calcVar.name + "\" was read.");
                 dependencyList.add(calcVar);
             });
-            calcVar.DisableUpdate = true;
+            calcVar.disableUpdate = true;
         }
 
 
@@ -134,7 +134,7 @@ public abstract class Calculator {
         // re-enable updates for all variables
         for(CalcVarBase calcVar : this.calcVars) {
             //calcVar.RawValueRead -= eventHandler;
-            calcVar.DisableUpdate = false;
+            calcVar.disableUpdate = false;
 
             System.out.println("dependants of \"" + calcVar.name + "\" are:");
 

@@ -23,7 +23,7 @@ public class CalcVarComboBox extends CalcVarBase {
         // Only change if different
         if (this.rawVal != value) {
             this.rawVal = value;
-            this.OnRawValueChanged();
+            this.onRawValueChanged();
         }
     }
 
@@ -150,7 +150,7 @@ public class CalcVarComboBox extends CalcVarBase {
 
         System.out.println("Selected unit is now \"" + this.getRawVal() + "\".");
 
-        this.ForceDependantOutputsToRecalculate();
+        this.forceDependantOutputsToRecalculate();
     }
 
 

@@ -1,6 +1,5 @@
 package Core.View.Dimension;
 
-
 import java.io.IOException;
 
 import javafx.beans.property.DoubleProperty;

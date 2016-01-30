@@ -1,4 +1,4 @@
-package CalculatorGridElement;
+package Core.View.CalculatorGridElement;
 
 import java.io.IOException;
 import java.util.logging.Logger;

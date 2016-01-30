@@ -46,7 +46,7 @@ public class CalcVarNumerical extends CalcVarBase {
         if (this.rawVal != value) {
             this.rawVal = value;
             // Fire the RawValueChanged event handler
-            this.OnRawValueChanged();
+            this.onRawValueChanged();
         }
     }
 
@@ -211,7 +211,7 @@ public class CalcVarNumerical extends CalcVarBase {
                 this.Validate();
 
                 // We need to re-calculate any this calculator variables dependants, if they are outputs
-                this.ForceDependantOutputsToRecalculate();
+                this.forceDependantOutputsToRecalculate();
             }
         };
 
@@ -377,7 +377,7 @@ public class CalcVarNumerical extends CalcVarBase {
         // Validation is done in the TextBoxChanged event handler
         this.Validate();
 
-        this.ForceDependantOutputsToRecalculate();
+        this.forceDependantOutputsToRecalculate();
     }
 
 
@@ -456,7 +456,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
             // We also need to force a recalculation of any dependants (which are also outputs)
             // of this variable
-            this.ForceDependantOutputsToRecalculate();
+            this.forceDependantOutputsToRecalculate();
 
         }
         else if(this.getDirection() == CalcVarDirections.Output) {

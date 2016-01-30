@@ -1,6 +1,5 @@
 package Core;
 
-
 import java.util.*;
 
 /**
@@ -42,12 +41,11 @@ public abstract class CalcVarBase {
         rawValueChangedListeners.add(toAdd);
     }
 
-    protected void OnRawValueChanged() {
+    protected void onRawValueChanged() {
         // Notify everybody that may be interested.
-        for (ICalcVarBaseCallback hl : rawValueChangedListeners)
-            hl.execute(this);
+        for (ICalcVarBaseCallback listener : rawValueChangedListeners)
+            listener.execute(this);
     }
-
 
     /**
      * Designed to be assigned to when Calculator.CalculateDependencies() is run. This is not calculated in this class's constructor,
@@ -65,12 +63,12 @@ public abstract class CalcVarBase {
      * Set to true to disable the updating of the text box when this CalcVar's Calculate() method
      * is called.
      */
-    public Boolean DisableUpdate;
+    public Boolean disableUpdate;
 
-    /// <summary>
-    /// Gets and sets the equation function which is used to calculate the value
-    /// of this calculator variable when it is an output.
-    /// </summary>
+    /**
+     * Gets and sets the equation function which is used to calculate the value
+     * of this calculator variable when it is an output.
+     */
     public IEquationFunction equationFunction;
 
     public CalcVarDirections direction;
@@ -82,7 +80,7 @@ public abstract class CalcVarBase {
     public void Calculate() {
         // Default implementation is to just return
         // (and do nothing)
-        System.out.println("WARNING: BaseCalcVar.Calculate() called, this is an empty function.");
+        System.err.println("WARNING: BaseCalcVar.Calculate() called, this is an empty function.");
         return;
     }
 
@@ -111,8 +109,8 @@ public abstract class CalcVarBase {
     }
 
 
-    public void ForceDependantOutputsToRecalculate() {
-        System.out.println("ForceDependantOutputsToRecalculate() called.");
+    public void forceDependantOutputsToRecalculate() {
+        //System.out.println("forceDependantOutputsToRecalculate() called.");
         // We need to re-calculate any this calculator variables dependants, if they are outputs
         for (int i = 0; i < this.dependants.size(); i++) {
             if (this.dependants.get(i).direction == CalcVarDirections.Output) {
@@ -122,6 +120,10 @@ public abstract class CalcVarBase {
         }
     }
 
+    /**
+     * All non-virtual calculator variables must implement this method which updates
+     * the UI based on the current direction of the variable.
+     */
     public abstract void updateUIFromDirection();
 
 }

@@ -9,7 +9,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import CalculatorGridElement.CalculatorGridElementController;
+import Core.View.CalculatorGridElement.CalculatorGridElementController;
 
 import java.util.ArrayList;
 
