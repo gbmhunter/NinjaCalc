@@ -69,11 +69,13 @@
                                   prefWidth="71.0"/>
 
                         <!-- ========== TRACK THICKNESS ========== -->
-                        <Label layoutX="622.0" layoutY="159.0">Track Thickness</Label>
-                        <TextField fx:id="trackThicknessValue" layoutX="593.0" layoutY="182.0" prefHeight="25"
+                        <Label layoutX="622.0" layoutY="174.0">Track Thickness</Label>
+                        <TextField fx:id="trackThicknessValue" layoutX="593.0" layoutY="197.0" prefHeight="25"
                                    prefWidth="80"/>
-                        <ComboBox fx:id="trackThicknessUnits" layoutX="683.0" layoutY="182.0" prefHeight="30.0"
+                        <ComboBox fx:id="trackThicknessUnits" layoutX="683.0" layoutY="197.0" prefHeight="30.0"
                                   prefWidth="80.0"/>
+                        <Dimension arrowSize="10" layoutX="540" layoutY="205" length="40" lineThickness="2"
+                                   rotate="90"/>
 
                         <!-- ========== BOARD THICKNESS ========== -->
                         <Label layoutX="82.0" layoutY="238.0">Board Thickness</Label>
@@ -89,10 +91,13 @@
 
                         <!-- ========== PLANE PROXIMITY ========== -->
                         <Label fx:id="planeProximityLabel" layoutX="622.0" layoutY="257.0">Plane Proximity</Label>
-                        <TextField fx:id="planeProximityValue" layoutX="593.0" layoutY="288.0" prefHeight="25"
+                        <TextField fx:id="planeProximityValue" layoutX="593.0" layoutY="280.0" prefHeight="25"
                                    prefWidth="80"/>
-                        <ComboBox fx:id="planeProximityUnits" layoutX="683.0" layoutY="288.0" prefHeight="30.0"
+                        <ComboBox fx:id="planeProximityUnits" layoutX="683.0" layoutY="280.0" prefHeight="30.0"
                                   prefWidth="80.0"/>
+                        <Dimension fx:id="planeProximityDimension" arrowSize="10" layoutX="538" layoutY="253"
+                                   length="45"
+                                   lineThickness="2" rotate="90"/>
 
                         <!-- ========== THERMAL CONDUCTIVITY ========== -->
                         <Label layoutX="148.0" layoutY="452.0">Thermal Conductivity</Label>
@@ -137,15 +142,6 @@
                         <!-- BOARD THICKNESS DIMENSION -->
                         <Dimension fx:id="boardThicknessDimension" arrowSize="10" layoutX="140" layoutY="245"
                                    length="120"
-                                   lineThickness="2" rotate="90"/>
-
-                        <!-- TRACK THICKNESS DIMENSION -->
-                        <Dimension arrowSize="10" layoutX="540" layoutY="190" length="40" lineThickness="2"
-                                   rotate="90"/>
-
-                        <!-- PLANE PROXIMITY DIMENSION -->
-                        <Dimension fx:id="planeProximityDimension" arrowSize="10" layoutX="538" layoutY="237"
-                                   length="45"
                                    lineThickness="2" rotate="90"/>
 
                         <!-- TRACK WIDTH DIMENSION -->
