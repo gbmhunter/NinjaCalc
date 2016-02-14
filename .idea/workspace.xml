@@ -7,7 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcView.fxml" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcView.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -99,14 +99,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrackCurrentIpc2152CalcView.fxml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TrackCurrentIpc2152CalcView.fxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcView.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5780142">
-              <caret line="116" column="52" selection-start-line="116" selection-start-column="52" selection-end-line="116" selection-end-column="52" />
+            <state vertical-scroll-proportion="-4.072727">
+              <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LowPassRCCalcView.fxml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.4219858">
+              <caret line="50" column="45" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -202,7 +215,6 @@
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/info.html" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcView.fxml" />
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/info.html" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/info.html" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcView.fxml" />
@@ -242,6 +254,7 @@
         <option value="$PROJECT_DIR$/src/Core/View/Dimension/DimensionController.java" />
         <option value="$PROJECT_DIR$/src/Core/View/CalculatorGridElement/CalculatorGridElementController.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcView.fxml" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml" />
       </list>
     </option>
   </component>
@@ -356,10 +369,6 @@
               <option name="myItemId" value="Electronics" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Pcb" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -379,29 +388,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Pcb" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TrackCurrentIpc2152" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Electronics" />
+              <option name="myItemId" value="LowPassRC" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -894,16 +881,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.7636364">
-          <caret line="29" column="56" selection-start-line="29" selection-start-column="56" selection-end-line="29" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/info.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
@@ -1220,8 +1197,19 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5780142">
-          <caret line="116" column="52" selection-start-line="116" selection-start-column="52" selection-end-line="116" selection-end-column="52" />
+        <state vertical-scroll-proportion="-4.072727">
+          <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4219858">
+          <caret line="50" column="45" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
           <folding />
         </state>
       </provider>
