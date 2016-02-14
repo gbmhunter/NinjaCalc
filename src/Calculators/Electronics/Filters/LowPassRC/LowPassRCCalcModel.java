@@ -8,8 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 
 import Core.*;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class LowPassRCCalcModel extends Calculator {
 
@@ -28,6 +31,8 @@ public class LowPassRCCalcModel extends Calculator {
     @FXML private TextField fcValue;
     @FXML private ComboBox fcUnits;
     @FXML private RadioButton fcIO;
+
+    @FXML private WebView infoWebView;
 
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
@@ -65,6 +70,15 @@ public class LowPassRCCalcModel extends Calculator {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+
+        //===============================================================================================//
+        //================================ LOAD WEB VIEW FOR INFO SECTION ===============================//
+        //===============================================================================================//
+
+        WebEngine engine = this.infoWebView.getEngine();
+        final String htmlFile= "info.html";
+        URL url = getClass().getResource(htmlFile);
+        engine.load(url.toExternalForm());
 
         //===============================================================================================//
         //================================ INPUT/OUTPUT TOGGLE GROUP ====================================//

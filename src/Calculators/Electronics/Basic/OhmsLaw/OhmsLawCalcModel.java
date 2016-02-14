@@ -22,6 +22,7 @@ import java.net.URL;
  *
  * @author gbmhunter
  * @since 2015-11-02
+ * @last-modified 2016-02-14
  */
 public class OhmsLawCalcModel extends Calculator {
 

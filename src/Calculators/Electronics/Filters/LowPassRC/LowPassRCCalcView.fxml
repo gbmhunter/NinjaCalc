@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.web.WebView?>
 <VBox xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
         <padding>
@@ -21,21 +22,10 @@
         <VBox alignment="CENTER" spacing="20" style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" styleClass="vbox">
 
             <!-- =========== INFO SECTION ========== -->
-
-            <TitledPane expanded="false" maxWidth="700" style="-fx-font-size: 16pt;" text="Info">
-                <VBox alignment="CENTER" fillWidth="true">
-                    <Label maxWidth="600" style="-fx-font-size: 13pt;" textAlignment="JUSTIFY" wrapText="true">
-                        The low-pass RC filter is probably one of the simplist and most used electronics filters ever.
-                        The
-                        equation that relates the cut-off frequency to the resistance and capacitance is given by:
-                    </Label>
-
-                    <ImageView fitHeight="50" preserveRatio="true">
-                        <image>
-                            <Image url="@basic-equation.gif" />
-                        </image>
-                    </ImageView>
-                </VBox>
+            <TitledPane text="Info" expanded="false"
+                        maxWidth="700"
+                        style="-fx-font-size: 16pt;" >
+                <WebView fx:id="infoWebView" prefHeight="300"></WebView>
             </TitledPane>
 
             <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
