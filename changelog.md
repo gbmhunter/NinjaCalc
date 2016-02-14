@@ -3,6 +3,7 @@ v1.0.1
 
 - Fixed position of track thickness and plane proximity variables in the IPC-2152 track thickness calculator, closes #82.
 - Fixed bug where capacitance and frequency UI elements were swapped in the Low-Pass RC Filter calculator, closes #80.
+- Grid images can now be passed as a relative path to a calculators constructor, closes #86.
 
 v1.0.0
 ------

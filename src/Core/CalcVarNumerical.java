@@ -20,6 +20,7 @@ import java.util.ArrayList;
  *
  * @author gbmhunter
  * @since 2015-11-02
+ * @last-modified 2016-02-14
  */
 public class CalcVarNumerical extends CalcVarBase {
 
@@ -339,7 +340,7 @@ public class CalcVarNumerical extends CalcVarBase {
         // Make sure this event only fires when this calculator variable is an output!
         assert this.getDirection() == CalcVarDirections.Output;
 
-        System.out.println("CalcVar.calculate() called for \"" + this.name + "\".");
+        //System.out.println("CalcVar.calculate() called for \"" + this.name + "\".");
 
         // Invoke the provided equation function,
         // which should return the raw value for this calculator variable
@@ -370,7 +371,7 @@ public class CalcVarNumerical extends CalcVarBase {
      * results. Also updates UI based on these results.
      */
     public void validate() {
-        System.out.println("validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
+        //System.out.println("validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
 
         // Clear the old validation results
         this.validationResults.clear();
@@ -395,7 +396,7 @@ public class CalcVarNumerical extends CalcVarBase {
             }
         }
 
-        System.out.println("Worst validation level was \"" + worstValidationLevel.name + "\".");
+        //System.out.println("Worst validation level was \"" + worstValidationLevel.name + "\".");
 
         // Save this to the internal variable
         this.worstValidationLevel = worstValidationLevel;
@@ -410,20 +411,20 @@ public class CalcVarNumerical extends CalcVarBase {
      * @param event
      */
     private void unitsComboBoxSelectionChanged(Event event) {
-        System.out.println("unitsComboBoxSelectionChanged() called for calculator variable \"" + this.name + "\".");
+        //System.out.println("unitsComboBoxSelectionChanged() called for calculator variable \"" + this.name + "\".");
 
         // Need to update the selected unit, bypassing the property (otherwise
         // we will create an infinite loop)
         //ComboBox units = (ComboBox)sender;
         this.selUnit = (NumberUnit)this.unitsComboBox.getSelectionModel().getSelectedItem();
 
-        System.out.println("Selected unit is now \"" + this.selUnit + "\".");
+        //System.out.println("Selected unit is now \"" + this.selUnit + "\".");
 
         // If the variable is an input, we need to adjust the raw value, if the
         // variable is an output, we need to adjust the displayed value
         if (this.getDirection() == CalcVarDirections.Input) {
             this.rawVal = this.dispVal * this.selUnit.multiplier;
-            System.out.println("rawVal re-scaled to \"" + String.valueOf(this.rawVal) + "\".");
+            //System.out.println("rawVal re-scaled to \"" + String.valueOf(this.rawVal) + "\".");
 
             // Since the raw value has changed, we also need to re-validate this variable
             this.validate();
@@ -440,7 +441,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
     private void updateDispValFromRawVal() {
 
-        System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\".");
+        //System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\".");
 
         // Recalculate dispVal and update textbox
         // We don't need to validate again if the units are changed for an output,

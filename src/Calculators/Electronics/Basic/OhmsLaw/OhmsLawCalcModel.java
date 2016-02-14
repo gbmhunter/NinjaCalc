@@ -60,9 +60,11 @@ public class OhmsLawCalcModel extends Calculator {
 
         super( "Ohm's Law",
                 "The hammer in any electrical engineers toolbox. calculate voltage, resistance and current using Ohm's law.",
-                "/Calculators/Electronics/Basic/OhmsLaw/grid-icon.png",
                 new String[]{ "Electronics", "Basic" },
                 new String[]{"ohm, resistor, resistance, voltage, current, law, vir"});
+
+        super.setIconImagePath(getClass().getResource("grid-icon.png"));
+
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//
@@ -102,7 +104,7 @@ public class OhmsLawCalcModel extends Calculator {
         toggleGroup.selectToggle(radioButtonResistanceIO);
 
         // Following code provides lambda function which listens to radiobuttons changes and modifies direction accordingly
-        System.out.println("Adding listener for radiobutton toggle change.");
+        //System.out.println("Adding listener for radiobutton toggle change.");
         toggleGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> {
                     System.out.println("Listener called for radio button toggle group.");
                     // old_toggle might be null if it is the first time something has been selected

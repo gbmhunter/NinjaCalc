@@ -58,9 +58,10 @@ public class StandardResistanceFinder extends Calculator {
 
         super( "Standard Resistance Finder",
                 ".",
-                "@grid-icon.png",
                 new String[]{ "Electronics", "Basic" },
                 new String[]{"ohm, resistor, resistance, voltage, current, law, vir"});
+
+        super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//

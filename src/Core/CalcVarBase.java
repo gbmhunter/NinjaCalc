@@ -114,7 +114,7 @@ public abstract class CalcVarBase {
         // We need to re-calculate any this calculator variables dependants, if they are outputs
         for (int i = 0; i < this.dependants.size(); i++) {
             if (this.dependants.get(i).direction == CalcVarDirections.Output) {
-                System.out.println("Calling calculate() on variable \"" + this.dependants.get(i).name + "\".");
+                //System.out.println("Calling calculate() on variable \"" + this.dependants.get(i).name + "\".");
                 this.dependants.get(i).calculate();
             }
         }

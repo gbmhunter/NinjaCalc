@@ -205,9 +205,11 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         super(
             "Track Current (IPC-2152)",
             "PCB track current carrying capability calculator, using the IPC-2152 standard.",
-            "/Calculators/Electronics/Pcb/TrackCurrentIpc2152/grid-icon.png",
+            //"/Calculators/Electronics/Pcb/TrackCurrentIpc2152/grid-icon.png",
             new String[] { "Electronics", "PCB" },
             new String[] { "pcb, track, current, trace, width, carry, heat, temperature, ipc, ipc2221a, ipc-2221a" });
+
+		super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//

@@ -15,6 +15,7 @@ import java.net.URL;
  * A calculator based around the resistor divider circuit.
  * @author gbmhunter
  * @since 2015-11-02
+ * @last-modified 2016-02-14
  */
 public class ResistorDividerCalcModel extends Calculator {
 
@@ -80,9 +81,11 @@ public class ResistorDividerCalcModel extends Calculator {
 
         super("Resistor Divider",
                 "Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.",
-                "/Calculators/Electronics/Basic/ResistorDivider/grid-icon.png",
+                //"/Calculators/Electronics/Basic/ResistorDivider/grid-icon.png",
                 new String[]{"Electronics", "Basic"},
                 new String[]{"resistor, resistance, voltage, divider, reduce"});
+
+        super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//
@@ -123,7 +126,7 @@ public class ResistorDividerCalcModel extends Calculator {
         toggleGroup.selectToggle(vOutIO);
 
         // Following code provides lambda function which listens to radiobuttons changes and modifies direction accordingly
-        System.out.println("Adding listener for radiobutton toggle change.");
+        //System.out.println("Adding listener for radiobutton toggle change.");
         toggleGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> {
                     this.refreshDirectionsAndUpdateUI();
                     this.recalculateAllOutputs();

@@ -11,6 +11,7 @@ import javafx.util.StringConverter;
  *
  * @author gbmhunter
  * @since 2015-11-02
+ * @last-modified 2016-02-14
  */
 public class CalcVarComboBox extends CalcVarBase {
 
@@ -147,14 +148,14 @@ public class CalcVarComboBox extends CalcVarBase {
     }
 
     private void comboBoxSelectionChanged() {
-        System.out.println("comboBoxSelectionChanged() called for calculator variable \"" + this.name + "\".");
+        //System.out.println("comboBoxSelectionChanged() called for calculator variable \"" + this.name + "\".");
 
         // Need to update the selected unit, bypassing the property (otherwise
         // we will create an infinite loop)
         //ComboBox units = (ComboBox)sender;
         this.setRawVal((String) this.calculatorComboBox.getSelectionModel().getSelectedItem());
 
-        System.out.println("Selected unit is now \"" + this.getRawVal() + "\".");
+        //System.out.println("Selected unit is now \"" + this.getRawVal() + "\".");
 
         this.forceDependantOutputsToRecalculate();
     }

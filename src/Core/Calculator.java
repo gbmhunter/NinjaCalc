@@ -2,6 +2,7 @@ package Core;
 
 import javafx.scene.layout.*;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -42,14 +43,12 @@ public abstract class Calculator {
      * Default (and only) constructor for a calculator.
      * @param name              The name of the calculator. This will be displayed in the selection grid.
      * @param description       The description for the calculator. This will be displayed in the selection grid.
-     * @param iconImagePath     Path to the image you wish to be displayed in the selection grid for this calculator.
      * @param categoryTree      An array of strings corresponding to the branch you wish this calculator to be inserted into on the category tree.
      * @param tags              Relevant word-based tags for this calculator, to be used when searching.
      */
     public Calculator(
             String name,
             String description,
-            String iconImagePath,
             String[] categoryTree,
             String[] tags) {
 
@@ -66,7 +65,7 @@ public abstract class Calculator {
 
         //========== SELECTION GRID ICON ==========//
 
-        this.iconImagePath = iconImagePath;
+        //this.iconImagePath = iconImagePath;
 
         //========== MISC. ==========//
 
@@ -82,7 +81,7 @@ public abstract class Calculator {
      */
     protected void findDependenciesAndDependants() {
 
-        System.out.println("findDependenciesAndDependants() called for calculator \"" + this.name + "\".");
+        //System.out.println("findDependenciesAndDependants() called for calculator \"" + this.name + "\".");
 
         ArrayList<CalcVarBase> dependencyList = new ArrayList<CalcVarBase>();
 
@@ -97,7 +96,7 @@ public abstract class Calculator {
         for (CalcVarBase calcVar : this.calcVars) {
             //calcVar.RawValueRead += eventHandler;
             calcVar.addRawValueReadListener((calcVarBase) -> {
-                System.out.println("CalcVar \"" + calcVar.name + "\" was read.");
+                //System.out.println("CalcVar \"" + calcVar.name + "\" was read.");
                 dependencyList.add(calcVar);
             });
             calcVar.disableUpdate = true;
@@ -105,7 +104,7 @@ public abstract class Calculator {
 
 
         for(CalcVarBase calcVar : this.calcVars) {
-            System.out.println("Finding dependencies for CalcVar \"" + calcVar.name + "\".");
+            //System.out.println("Finding dependencies for CalcVar \"" + calcVar.name + "\".");
             dependencyList.clear();
 
             if (calcVar.equationFunction != null) {
@@ -116,15 +115,15 @@ public abstract class Calculator {
 
                 // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
                 for (int j = 0; j < dependencyList.size(); j++) {
-                    System.out.println("\"" + dependencyList.get(j).name + "\" is a dependency of \"" + calcVar.name + "\".");
+                    //System.out.println("\"" + dependencyList.get(j).name + "\" is a dependency of \"" + calcVar.name + "\".");
                     dependencyList.get(j).dependants.add(calcVar);
                 }
             }
             else {
-                System.out.println("equationFunction was null, so \"" + calcVar.name + "\" has no dependancies.");
+                //System.out.println("equationFunction was null, so \"" + calcVar.name + "\" has no dependancies.");
             }
 
-            System.out.println("Finished finding dependencies for CalcVar \"" + calcVar.name + "\".");
+            //System.out.println("Finished finding dependencies for CalcVar \"" + calcVar.name + "\".");
 
             // Save the dependencies to the calculator variable
             calcVar.dependencies = dependencyList;
@@ -136,7 +135,7 @@ public abstract class Calculator {
             //calcVar.RawValueRead -= eventHandler;
             calcVar.disableUpdate = false;
 
-            System.out.println("dependants of \"" + calcVar.name + "\" are:");
+            //System.out.println("dependants of \"" + calcVar.name + "\" are:");
 
             for (int j = 0; j < calcVar.dependants.size(); j++) {
                 System.out.println("\t\"" + calcVar.dependants.get(j).name + "\"");
@@ -149,7 +148,7 @@ public abstract class Calculator {
      * Useful for bringing calculator into a default state.
      */
     public void validateAllVariables() {
-        System.out.println("validateAllVariables() called for calculator \"" + this.name + "\".");
+        //System.out.println("validateAllVariables() called for calculator \"" + this.name + "\".");
         for(CalcVarBase calcVar : this.calcVars) {
             // We can only validate numerical calculator variables
             // (this may change in the future)
@@ -165,7 +164,7 @@ public abstract class Calculator {
      * into a default state once all the variables have been set up correctly.
      */
     public void recalculateAllOutputs() {
-        System.out.println("recalculateAllOutputs() called for calculator \"" + this.name + "\".");
+        //System.out.println("recalculateAllOutputs() called for calculator \"" + this.name + "\".");
         for(CalcVarBase calcVar : this.calcVars) {
             // We only want to call calculate() on outputs
             if (calcVar.direction == CalcVarDirections.Output) {
@@ -180,11 +179,21 @@ public abstract class Calculator {
      * based upon this result.
      */
     public void refreshDirectionsAndUpdateUI() {
-        System.out.println("refreshDirectionsAndUpdateUI() called for calculator \"" + this.name + "\".");
+        //System.out.println("refreshDirectionsAndUpdateUI() called for calculator \"" + this.name + "\".");
         for(CalcVarBase calcVar : this.calcVars) {
             calcVar.direction = calcVar.directionFunction.execute();
             calcVar.updateUIFromDirection();
         }
+    }
+
+    /**
+     * Sets the path to the image that will be used as an "icon" as part of the calculator selection grid.
+     * This path can't be passed into the constructor because you cannot use "getClass().getResource("grid-icon.png")"
+     * until after the super() constructor has been called.
+     * @param url   Path to the image you wish to be displayed in the selection grid for this calculator.
+     */
+    public void setIconImagePath(URL url) {
+        this.iconImagePath = url.toString();
     }
 
 }

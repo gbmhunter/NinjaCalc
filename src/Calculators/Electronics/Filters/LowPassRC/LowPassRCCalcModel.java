@@ -14,6 +14,10 @@ import javafx.scene.web.WebView;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * @since 2014-05-22
+ * @last-modified 2016-02-14
+ */
 public class LowPassRCCalcModel extends Calculator {
 
     //===============================================================================================//
@@ -51,9 +55,11 @@ public class LowPassRCCalcModel extends Calculator {
         super(
             "Low-pass RC Filter",
             "The low-pass RC filter is probably the simplist and most used electronic filter. Great for input signal filtering and adding to the output of a PWM signal to make a cheap DAC.",
-            "/Calculators/Electronics/Filters/LowPassRC/grid-icon.png",
+            //"/Calculators/Electronics/Filters/LowPassRC/grid-icon.png",
             new String[] { "Electronics", "Filters" },
             new String[] { "rc, filters, low-pass" });
+
+        super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//
@@ -93,7 +99,7 @@ public class LowPassRCCalcModel extends Calculator {
         toggleGroup.selectToggle(fcIO);
 
         // Following code provides lambda function which listens to radiobuttons changes and modifies direction accordingly
-        System.out.println("Adding listener for radiobutton toggle change.");
+        //System.out.println("Adding listener for radiobutton toggle change.");
         toggleGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> {
                 //System.out.println("Listener called for radio button toggle group.");
                 // old_toggle might be null if it is the first time something has been selected
