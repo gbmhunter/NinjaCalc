@@ -4,7 +4,6 @@ package Calculators.Electronics.Basic.StandardResistanceFinder;
 // SYSTEM INCLUDES
 
 import Core.*;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -24,7 +23,7 @@ import java.net.URL;
  * @since 2013-09-17
  * @last-modified 2016-02-14
  */
-public class StandardResistanceFinder extends Calculator {
+public class StandardResistanceFinderModel extends Calculator {
 
     //===============================================================================================//
     //========================================= FXML Bindings =======================================//
@@ -40,8 +39,6 @@ public class StandardResistanceFinder extends Calculator {
     @FXML private TextField actualResistanceValue;
     @FXML private ComboBox actualResistanceUnits;
 
-    @FXML private TextField textFieldResistanceValue;
-
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
@@ -54,10 +51,10 @@ public class StandardResistanceFinder extends Calculator {
     //=========================================== CONSTRUCTOR =======================================//
     //===============================================================================================//
 
-    public StandardResistanceFinder() {
+    public StandardResistanceFinderModel() {
 
         super( "Standard Resistance Finder",
-                ".",
+                "Find the closest E-series (e.g. E12, E96) resistor to your desired resistance.",
                 new String[]{ "Electronics", "Basic" },
                 new String[]{"ohm, resistor, resistance, voltage, current, law, vir"});
 
@@ -67,7 +64,7 @@ public class StandardResistanceFinder extends Calculator {
         //======================================== LOAD .FXML FILE ======================================//
         //===============================================================================================//
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StandardResistanceFinder.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StandardResistanceFinderView.fxml"));
         //fxmlLoader.setRoot(this.view);
         fxmlLoader.setController(this);
         try {
