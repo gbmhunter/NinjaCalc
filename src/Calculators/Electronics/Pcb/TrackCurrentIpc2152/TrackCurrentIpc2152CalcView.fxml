@@ -83,6 +83,9 @@
                                    prefWidth="80"/>
                         <ComboBox fx:id="boardThicknessUnits" layoutX="99.0" layoutY="299.0" prefHeight="30.0"
                                   prefWidth="80.0"/>
+                        <Dimension fx:id="boardThicknessDimension" arrowSize="10" layoutX="140" layoutY="245"
+                                   length="120"
+                                   lineThickness="2" rotate="90"/>
 
                         <!-- ========== IS PLANE PRESENT ========== -->
                         <Label layoutX="518.0" layoutY="405.0">Is Plane Present?</Label>
@@ -112,6 +115,7 @@
                                    prefWidth="80"/>
                         <ComboBox fx:id="minTrackWidthUnits" layoutX="312.0" layoutY="102.0" prefHeight="30.0"
                                   prefWidth="80.0"/>
+                        <Dimension arrowSize="10" layoutX="320" layoutY="160" length="160" lineThickness="2"/>
 
                         <!-- ========== TRACK SHAPE ========== -->
                         <Polygon fill="#ffd8a9" layoutX="298.0" layoutY="238.0" stroke="black" strokeWidth="2">
@@ -138,14 +142,6 @@
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fc687" height="50.0" layoutX="248.0"
                                    layoutY="237.0"
                                    stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="300.0"/>
-
-                        <!-- BOARD THICKNESS DIMENSION -->
-                        <Dimension fx:id="boardThicknessDimension" arrowSize="10" layoutX="140" layoutY="245"
-                                   length="120"
-                                   lineThickness="2" rotate="90"/>
-
-                        <!-- TRACK WIDTH DIMENSION -->
-                        <Dimension arrowSize="10" layoutX="320" layoutY="160" length="160" lineThickness="2"/>
                     </Group>
                 </AutoScalingStackPane>
             </StackPane>
