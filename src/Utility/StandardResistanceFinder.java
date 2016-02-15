@@ -27,6 +27,7 @@ public class StandardResistanceFinder {
 
     public static double Find(double desiredResistance, eSeriesOptions eSeries) {
 
+
         Double[] selectedRange = new Double[]{};
 
         // Find out what resistance series was selected

@@ -4,6 +4,7 @@ package Calculators.Electronics.Basic.StandardResistanceFinder;
 // SYSTEM INCLUDES
 
 import Core.*;
+import Utility.StandardResistanceFinder;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -122,8 +123,11 @@ public class StandardResistanceFinderModel extends Calculator {
                 "eSeries",                          // Debug name
                 eSeriesComboBox,                    // Combobox to attach to (UI element)
                 new String[] {                      // Options for Combobox
-                        "E6",
                         "E12",
+                        "E24",
+                        "E48",
+                        "E96",
+                        "E192",
                 },
                 () -> CalcVarDirections.Input,      // Always an input
                 "The E-series you wish to select a resistance from.");  // Tooltip text
@@ -144,8 +148,36 @@ public class StandardResistanceFinderModel extends Calculator {
                     Double desiredResistance = this.desiredResistance.getRawVal();
                     String selectedESeries = this.eSeries.getRawVal();
 
-                    //return unadjustedTrackCrosssectionalAreaM2;
-                    return 0.0;
+                    if(Double.isNaN(desiredResistance)) {
+                        return 0;
+                    }
+
+
+                    StandardResistanceFinder.eSeriesOptions eSeries;
+
+                    switch(selectedESeries) {
+                        case "E12":
+                            eSeries = StandardResistanceFinder.eSeriesOptions.E12;
+                            break;
+                        case "E24":
+                            eSeries = StandardResistanceFinder.eSeriesOptions.E24;
+                            break;
+                        case "E48":
+                            eSeries = StandardResistanceFinder.eSeriesOptions.E48;
+                            break;
+                        case "E96":
+                            eSeries = StandardResistanceFinder.eSeriesOptions.E96;
+                            break;
+                        case "E192":
+                            eSeries = StandardResistanceFinder.eSeriesOptions.E192;
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Unrecognised eSeries combobox option.");
+                    }
+
+                    double actualResistance = StandardResistanceFinder.Find(desiredResistance, eSeries);
+
+                    return actualResistance;
 
                 },
                 new NumberUnit[]{
