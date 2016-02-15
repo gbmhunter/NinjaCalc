@@ -47,6 +47,9 @@ public class StandardResistanceFinderModel extends Calculator {
     public CalcVarComboBox eSeries;
     public CalcVarNumericalOutput actualResistance;
 
+
+
+
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
     //===============================================================================================//
@@ -56,7 +59,7 @@ public class StandardResistanceFinderModel extends Calculator {
         super( "Standard Resistance Finder",
                 "Find the closest E-series (e.g. E12, E96) resistor to your desired resistance.",
                 new String[]{ "Electronics", "Basic" },
-                new String[]{"ohm, resistor, resistance, voltage, current, law, vir"});
+                new String[]{"ohm, resistor, resistance, e, series"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
@@ -108,18 +111,6 @@ public class StandardResistanceFinderModel extends Calculator {
         //========== VALIDATORS ===========//
         this.desiredResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.desiredResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-        this.desiredResistance.addValidator(
-                new Validator(() -> {
-                    return ((this.desiredResistance.getRawVal() < 274e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-                },
-                        "Current is below the minimum value (274mA) extracted from the universal graph in IPC-2152." +
-                                " Results might not be as accurate (extrapolation will occur)."));
-        this.desiredResistance.addValidator(
-                new Validator(() -> {
-                    return ((this.desiredResistance.getRawVal() > 26.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-                },
-                        "Current is above the maximum value (26A) extracted from the universal graph in IPC-2152." +
-                                " Results might not be as accurate (extrapolation will occur)."));
 
         this.calcVars.add(this.desiredResistance);
 
@@ -150,8 +141,8 @@ public class StandardResistanceFinderModel extends Calculator {
                 () -> {
 
                     // Read in variables
-                    //Double trackCurrent = this.TrackCurrent.getRawVal();
-                    //Double tempRise = this.TempRise.getRawVal();
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+                    String selectedESeries = this.eSeries.getRawVal();
 
                     //return unadjustedTrackCrosssectionalAreaM2;
                     return 0.0;
