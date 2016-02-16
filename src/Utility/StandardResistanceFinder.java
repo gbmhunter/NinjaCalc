@@ -25,6 +25,19 @@ public class StandardResistanceFinder {
     // E24 resistance array
     static Double[] e24 = new Double[]{1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1, 10.0};
 
+    static Double[] e48;
+    static Double[] e96;
+    static Double[] e192;
+
+    /**
+     * Static initialiser for this class. Builds the E48, E96 and E192 arrays from the existing E12 and E24 arrays
+     */
+    static {
+        e48 = BuildResArray(48);
+        e96 = BuildResArray(96);
+        e192 = BuildResArray(192);
+    }
+
     public static double Find(double desiredResistance, eSeriesOptions eSeries) {
 
 
@@ -44,17 +57,17 @@ public class StandardResistanceFinder {
         else if(eSeries == eSeriesOptions.E48)
         {
             //Log('E48 range selected.');
-            selectedRange = BuildResArray(48);
+            selectedRange = e48;
         }
         else if(eSeries == eSeriesOptions.E96)
         {
             //Log('E96 range selected.');
-            selectedRange = BuildResArray(96);
+            selectedRange = e96;
         }
         else if(eSeries == eSeriesOptions.E192)
         {
             //Log('E192 range selected.');
-            selectedRange = BuildResArray(192);
+            selectedRange = e192;
         }
 
         Integer order = FindOrder(desiredResistance);
@@ -80,14 +93,15 @@ public class StandardResistanceFinder {
      */
     public static Double[] BuildResArray(int numElements)
     {
-        //array = new Array();
+        System.out.println("StandardResistanceFinder::BuildResArray() called.");
 
         Double[] array = new Double[numElements];
 
         // Generate array elements
         for(int i = 0; i < numElements; i++)
         {
-            array[i] = (double)Math.round(Math.pow(10, i/numElements)*100.0)/100.0;
+            array[i] = (double)Math.round(Math.pow(10, ((double)i)/((double)numElements))*100.0)/100.0;
+            //System.out.println();
         }
         return array;
     }
@@ -119,19 +133,34 @@ public class StandardResistanceFinder {
     public static double FindClosestMatch(Double val, Double[] array)
     {
         Integer i = 0;
-        while(val > array[i])
+
+        // Iterate through array until we hit the first element which is bigger than the value we are
+        // trying to find.
+        // NOTE: Start of 2nd element of array!
+        i = 1;
+        while(true)
         {
+            if(array[i] > val) break;
+
+            if(i == array.length - 1) break;
+
             i++;
         }
 
+        // At this point either:
+        // 1) We have stopped somewhere in the middle of the array. val will be higher than array[i-1]
+        //    and lower than array[i]. We need to find which one is closer (based on percentage difference)
+        // 2) We have stopped either on the second or last element of the array. If it is the second, val will
+        //    be closest to array[i-1], if it is the last, val will be closest to array[i].
+
         System.out.println("Stopped when i = " + i);
-        System.out.println("Closest lower value = " + array[i-1]);
-        System.out.println("Closest higher value = " + array[i]);
+        System.out.println("Closest value 1 = " + array[i-1]);
+        System.out.println("Closest value 2 = " + array[i]);
 
         Double lowerPercDiff = ((val - array[i-1])/array[i-1])*100.0;
-        System.out.println("Lower percentage diff = " + lowerPercDiff);
+        System.out.println("Percentage diff 1 = " + lowerPercDiff);
         Double higherPercDiff = ((val - array[i])/array[i])*100.0;
-        System.out.println("Higher percentage diff = " + higherPercDiff);
+        System.out.println("Percentage diff 2 = " + higherPercDiff);
 
         if(Math.abs(lowerPercDiff) < Math.abs(higherPercDiff))
             return array[i-1];
