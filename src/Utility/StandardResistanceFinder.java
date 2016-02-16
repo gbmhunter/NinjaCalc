@@ -1,16 +1,20 @@
 package Utility;
 
 /**
- * Calculator for finding a E-series resistance (standard resistance) which is closest to the user's
+ * Static utility class for finding a E-series resistance (standard resistance) which is closest to the user's
  * desired resistance.
+ *
+ * Can be used by many calculators (including the "Standard Resistance Finder" calculator).
  *
  * @author gbmhunter
  * @since 2016-02-15
- * @last-modified 2016-02-15
+ * @last-modified 2016-02-16
  */
 public class StandardResistanceFinder {
 
-
+    /**
+     * The different E-Series that you can search through.
+     */
     public enum eSeriesOptions {
         E12,
         E24,
@@ -20,14 +24,14 @@ public class StandardResistanceFinder {
     }
 
     // E12 resistance array
-    static Double[] e12 = new Double[]{1.0, 1.2, 1.5, 1.8, 2.2, 2.7, 3.3, 3.9, 4.7, 5.6, 6.8, 8.2, 10.0};
+    private static Double[] e12 = new Double[]{1.0, 1.2, 1.5, 1.8, 2.2, 2.7, 3.3, 3.9, 4.7, 5.6, 6.8, 8.2, 10.0};
 
     // E24 resistance array
-    static Double[] e24 = new Double[]{1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1, 10.0};
+    private static Double[] e24 = new Double[]{1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1, 10.0};
 
-    static Double[] e48;
-    static Double[] e96;
-    static Double[] e192;
+    private static Double[] e48;
+    private static Double[] e96;
+    private static Double[] e192;
 
     /**
      * Static initialiser for this class. Builds the E48, E96 and E192 arrays from the existing E12 and E24 arrays
@@ -38,6 +42,12 @@ public class StandardResistanceFinder {
         e192 = BuildResArray(192);
     }
 
+    /**
+     * Use to find the closest E-series resistance to your desired resistance.
+     * @param desiredResistance The desired resistance to search for.
+     * @param eSeries           The E-Series to use.
+     * @return The closest E-series resistance to desiredResistance.
+     */
     public static double Find(double desiredResistance, eSeriesOptions eSeries) {
 
 
@@ -88,10 +98,11 @@ public class StandardResistanceFinder {
 
     /**
      * Use to build an array of E-series values based on the number of elements provided.
-     * @param numElements
-     * @return
+     * @param numElements The number of elements PER DECADE you want to have. Typical values for this
+     *                    would be 12, 24, 48, 92, e.t.c.
+     * @return The populated array of E-series values.
      */
-    public static Double[] BuildResArray(int numElements)
+    private static Double[] BuildResArray(int numElements)
     {
         System.out.println("StandardResistanceFinder::BuildResArray() called.");
 
@@ -106,9 +117,16 @@ public class StandardResistanceFinder {
         return array;
     }
 
-    // Finds the order of magnitude of a given input variable
-    // if var in range 1-10, order = 0, if var in range 10-100, order = 1, e.t.c
-    public static int FindOrder(double desRes)
+    //
+    //
+
+    /***
+     * Finds the order of magnitude of a given resistance.
+     * e.g. if var in range 1-10, order = 0, if var in range 10-100, order = 1
+     * @param desRes The resistance you wish to find the magnitude of.
+     * @return The magnitude of the resistance.
+     */
+    private static int FindOrder(double desRes)
     {
         //Log('Desired resistance = ' + desRes);
         // Find the order of magnitude by using log()
@@ -121,16 +139,20 @@ public class StandardResistanceFinder {
         return order.intValue();
     }
 
-    public static double ScaleWrtOrder(Double desRes, Integer order)
+    private static double ScaleWrtOrder(Double desRes, Integer order)
     {
         // Scale value so it is between 1-10
         return desRes/Math.pow(10, order);
     }
 
-    // Finds the closest array entry to the provided value
-    // For computational efficiency, this function
-    // assumes array values are sorted from smallest to highest
-    public static double FindClosestMatch(Double val, Double[] array)
+    /**
+     * Finds the closest array entry (in terms of percentage difference) to the provided value.
+     * For computational efficiency, this function assumes array values are sorted from smallest to highest
+     * @param val       The value to look for in array.
+     * @param array     The array of values to compare with val.
+     * @return          The closest array entry (in terms of percentage difference).
+     */
+    private static double FindClosestMatch(Double val, Double[] array)
     {
         Integer i = 0;
 
