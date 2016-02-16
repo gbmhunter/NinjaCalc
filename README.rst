@@ -81,10 +81,20 @@ File Structure
 
 Sorted by alphabetical order.
 
+(root level)
+------------
+
+Contains the install4j script for generating single-file installable packages for the various operating systems.
+
 install/
 --------
 
-Contains the Inno Setup script for generating a single-file installable package (.exe). When this .exe is generated, it is placed into :code:`install/Output/` by the setup script.
+The install4j script in the repo's root directory will instruct install4j to place deployment-ready NinjaCalc installers for the various operating systems here.
+
+out/
+----
+
+IntelliJ IDEA will place output Java files when debugging/building in this directory.
 
 src/
 ----
@@ -93,10 +103,13 @@ Contains the source code. This is split into the following sub-directories:
 
 calculators/ - Contains all of the data to create each calculator type.
 
-core/ - Contains all the "core", non-calculator specific classes that make up the Calculator app.
+Core/ - Contains all the "core", non-calculator specific classes that make up the backend calculator engine and front-end visual elements.
 
-img/ - Contains images which are incorporated into the app.
+Img/ - Contains images which are incorporated into the app.
 
+MainWindow/ - Contains the Java code and .fxml file describing the main window of NinjaCalc.
+
+Utility/ - Contains helper Java classes which are not considered "core", but still used by multiple calculators. This includes things such as a class to help you find the closest standard E-series resistance. 
 
 
 Changelog
