@@ -40,6 +40,9 @@ public class StandardResistanceFinderModel extends Calculator {
     @FXML private TextField actualResistanceValue;
     @FXML private ComboBox actualResistanceUnits;
 
+    @FXML private TextField percentageDiffValue;
+    @FXML private ComboBox percentageDiffUnits;
+
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
@@ -47,9 +50,7 @@ public class StandardResistanceFinderModel extends Calculator {
     public CalcVarNumericalInput desiredResistance;
     public CalcVarComboBox eSeries;
     public CalcVarNumericalOutput actualResistance;
-
-
-
+    public CalcVarNumericalOutput percentageDiff;
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -195,6 +196,37 @@ public class StandardResistanceFinderModel extends Calculator {
         this.actualResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.actualResistance);
+
+        //===============================================================================================//
+        //==================================== PERCENTAGE DIFFERENCE (output) ===========================//
+        //===============================================================================================//
+
+        this.percentageDiff = new CalcVarNumericalOutput(
+                "actualResistance",
+                this.percentageDiffValue,
+                this.percentageDiffUnits,
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+                    Double closestStandardResistance = this.actualResistance.getRawVal();
+
+                    // Calculate percentage difference
+                    double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+                    return percentageDiff;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                "The percentage difference between the closest standard resistance and your desired resistance.");
+
+        // Add validators. The percentage difference is allowed to be 0.
+        this.percentageDiff.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.percentageDiff);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

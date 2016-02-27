@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import Core.AutoScalingStackPane?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
-<VBox fillWidth="true">
-    <ScrollPane
-            fitToWidth="true"
-            styleClass="scrollPane"
-            xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
-        <padding><Insets top="40" bottom="20" left="20" right="20" /></padding>
-        <VBox alignment="CENTER" spacing="20"
-              styleClass="vbox"
-              style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" >
+
+<VBox fillWidth="true" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+    <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+        <padding><Insets bottom="20" left="20" right="20" top="40" /></padding>
+        <VBox alignment="CENTER" spacing="20" style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" styleClass="vbox">
 
             <!-- =========== INFO SECTION ========== -->
-            <TitledPane text="Info" expanded="false"
-                        maxWidth="700"
-                        style="-fx-font-size: 16pt;" >
-                <WebView fx:id="infoWebView" prefHeight="300"></WebView>
+            <TitledPane expanded="false" maxWidth="700" style="-fx-font-size: 16pt;" text="Info">
+                <WebView fx:id="infoWebView" prefHeight="300" />
             </TitledPane>
 
             <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
             <StackPane>
-                <padding><Insets top="20" bottom="20" left="20" right="20" /></padding>
-                <AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="600" prefHeight="600" alignment="CENTER">
+                <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+                <!--<AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="600" prefHeight="600" alignment="CENTER">-->
                     <Group>
-                        <ImageView fitHeight="600.0" fitWidth="600.0"><image><Image url="@diagram.png" /></image></ImageView>
+                        <!--<ImageView fitHeight="600.0" fitWidth="600.0"><image><Image url="@diagram.png" /></image></ImageView>-->
 
-                        <TextField fx:id="desiredResistanceValue" layoutX="14.0" layoutY="300.0" prefHeight="25" prefWidth="80" />
-                        <ComboBox fx:id="desiredResistanceUnits" layoutX="99.0" layoutY="300.0" prefHeight="25" />
+                        <Label layoutX="111.0" layoutY="230.0">Desired Resistance</Label>
+                        <TextField fx:id="desiredResistanceValue" layoutX="303.0" layoutY="224.0" prefHeight="25" prefWidth="80" />
+                        <ComboBox fx:id="desiredResistanceUnits" layoutX="388.0" layoutY="224.0" prefHeight="25" />
 
-                        <ComboBox fx:id="eSeriesComboBox" layoutX="534.0" layoutY="431.0" prefHeight="25" />
+                        <Label layoutX="178.0" layoutY="296.0">Series</Label>
+                        <ComboBox fx:id="eSeriesComboBox" layoutX="233.0" layoutY="290.0" prefHeight="30.0" prefWidth="144.0" />
+   
+                        <Label layoutX="111.0" layoutY="372.0">Closest Standard Resistance</Label>
+                        <TextField fx:id="actualResistanceValue" layoutX="303.0" layoutY="366.0" prefHeight="25" prefWidth="80" />
+                        <ComboBox fx:id="actualResistanceUnits" layoutX="391.0" layoutY="366.0" prefHeight="25" />
 
-                        <TextField fx:id="actualResistanceValue" layoutX="448.0" layoutY="183.0" prefHeight="25" prefWidth="80" />
-                        <ComboBox fx:id="actualResistanceUnits" layoutX="536.0" layoutY="183.0" prefHeight="25" />
+                        <Label layoutX="111.0" layoutY="410.0">Percentage Difference</Label>
+                        <TextField fx:id="percentageDiffValue" layoutX="303.0" layoutY="404.0" prefHeight="25" prefWidth="80" />
+                        <ComboBox fx:id="percentageDiffUnits" layoutX="391.0" layoutY="404.0" prefHeight="25" />
+   
+
                     </Group>
-                </AutoScalingStackPane>
+                <!--</AutoScalingStackPane>-->
             </StackPane>
         </VBox>
     </ScrollPane>
