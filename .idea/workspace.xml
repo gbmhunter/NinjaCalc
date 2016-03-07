@@ -7,6 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/junit_junit_4_12.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NinjaCalc.iml" afterPath="$PROJECT_DIR$/NinjaCalc.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" afterPath="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -83,7 +86,7 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-0.3090909">
               <caret line="60" column="86" selection-start-line="60" selection-start-column="86" selection-end-line="60" selection-end-column="86" />
               <folding />
             </state>
@@ -95,7 +98,11 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="35" column="131" selection-start-line="35" selection-start-column="131" selection-end-line="35" selection-end-column="131" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#2556#2557#0" expanded="false" />
+                <element signature="e#2584#2585#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -105,15 +112,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="148" column="53" selection-start-line="148" selection-start-column="53" selection-end-line="148" selection-end-column="53" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1490#1491#0" expanded="false" />
-                <element signature="e#1527#1528#0" expanded="false" />
-                <element signature="e#2511#2512#0" expanded="false" />
-                <element signature="e#2546#2547#0" expanded="false" />
-                <element signature="e#8395#8396#0" expanded="false" />
-                <element signature="e#8474#8475#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -122,7 +121,7 @@
         <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="37" column="43" selection-start-line="37" selection-start-column="43" selection-end-line="37" selection-end-column="43" />
+              <caret line="89" column="51" selection-start-line="89" selection-start-column="51" selection-end-line="89" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -132,7 +131,7 @@
         <entry file="file://$PROJECT_DIR$/NinjaCalc.iml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
+              <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -141,24 +140,11 @@
       <file leaf-file-name="StandardResistanceFinderModelTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38403615">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.7183735">
+              <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StandardResistanceFinderView.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="37" column="89" selection-start-line="37" selection-start-column="89" selection-end-line="37" selection-end-column="89" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -329,6 +315,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="StandardResistanceFinder" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -377,7 +381,7 @@
       <recent name="C:\Users\gbmhunter\GoogleDrive\Projects\NinjaCalc\src\Calculators\Electronics\Pcb\TrackCurrentIpc2221A" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in NinjaCalc">
+  <component name="RunManager" selected="JUnit.StandardResistanceFinderModelTest.e12SeriesTest10k0">
     <configuration default="false" name="All in NinjaCalc" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="NinjaCalc" />
@@ -387,6 +391,84 @@
       <option name="MAIN_CLASS_NAME" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="Calculators.Electronics.Basic.StandardResistanceFinder in NinjaCalc" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="Calculators.Electronics.Basic.StandardResistanceFinder.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="NinjaCalc" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="Calculators.Electronics.Basic.StandardResistanceFinder" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="StandardResistanceFinderModelTest.should_drag_file_into_trashcan" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="Calculators.Electronics.Basic.StandardResistanceFinder.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="NinjaCalc" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="Calculators.Electronics.Basic.StandardResistanceFinder" />
+      <option name="MAIN_CLASS_NAME" value="Calculators.Electronics.Basic.StandardResistanceFinder.StandardResistanceFinderModelTest" />
+      <option name="METHOD_NAME" value="should_drag_file_into_trashcan" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="StandardResistanceFinderModelTest.e12SeriesTest10k0" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="Calculators.Electronics.Basic.StandardResistanceFinder.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="NinjaCalc" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="Calculators.Electronics.Basic.StandardResistanceFinder" />
+      <option name="MAIN_CLASS_NAME" value="Calculators.Electronics.Basic.StandardResistanceFinder.StandardResistanceFinderModelTest" />
+      <option name="METHOD_NAME" value="e12SeriesTest10k0" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -678,13 +760,19 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="2">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.Main" />
       <item index="1" class="java.lang.String" itemvalue="JUnit.All in NinjaCalc" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.Calculators.Electronics.Basic.StandardResistanceFinder in NinjaCalc" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.StandardResistanceFinderModelTest.should_drag_file_into_trashcan" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.StandardResistanceFinderModelTest.e12SeriesTest10k0" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.All in NinjaCalc" />
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="JUnit.StandardResistanceFinderModelTest.e12SeriesTest10k0" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.StandardResistanceFinderModelTest.should_drag_file_into_trashcan" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.All in NinjaCalc" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.Calculators.Electronics.Basic.StandardResistanceFinder in NinjaCalc" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -707,14 +795,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_NinjaCalc - 2016.03.07 at 22h 41m 42s.xml">
+    <history-entry file="All_in_NinjaCalc - 2016.03.07 at 23h 10m 44s.xml">
       <configuration name="All in NinjaCalc" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_NinjaCalc - 2016.03.07 at 22h 42m 11s.xml">
+    <history-entry file="All_in_NinjaCalc - 2016.03.07 at 23h 17m 41s.xml">
       <configuration name="All in NinjaCalc" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_NinjaCalc - 2016.03.07 at 22h 54m 49s.xml">
+    <history-entry file="All_in_NinjaCalc - 2016.03.07 at 23h 19m 24s.xml">
       <configuration name="All in NinjaCalc" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_NinjaCalc - 2016.03.07 at 23h 20m 02s.xml">
+      <configuration name="All in NinjaCalc" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="StandardResistanceFinderModelTest_e12SeriesTest10k0 - 2016.03.07 at 23h 25m 59s.xml">
+      <configuration name="StandardResistanceFinderModelTest.e12SeriesTest10k0" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="StandardResistanceFinderModelTest_should_drag_file_into_trashcan - 2016.03.07 at 23h 22m 43s.xml">
+      <configuration name="StandardResistanceFinderModelTest.should_drag_file_into_trashcan" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="StandardResistanceFinderModelTest_should_drag_file_into_trashcan - 2016.03.07 at 23h 23m 12s.xml">
+      <configuration name="StandardResistanceFinderModelTest.should_drag_file_into_trashcan" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="StandardResistanceFinderModelTest_should_drag_file_into_trashcan - 2016.03.07 at 23h 23m 27s.xml">
+      <configuration name="StandardResistanceFinderModelTest.should_drag_file_into_trashcan" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="StandardResistanceFinderModelTest_should_drag_file_into_trashcan - 2016.03.07 at 23h 24m 47s.xml">
+      <configuration name="StandardResistanceFinderModelTest.should_drag_file_into_trashcan" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="StandardResistanceFinderModelTest_should_drag_file_into_trashcan - 2016.03.07 at 23h 24m 59s.xml">
+      <configuration name="StandardResistanceFinderModelTest.should_drag_file_into_trashcan" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
@@ -1094,45 +1203,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MainWindow/MainWindow.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="60" column="86" selection-start-line="60" selection-start-column="86" selection-end-line="60" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/MainWindow/MainWindowController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="160" column="36" selection-start-line="160" selection-start-column="36" selection-end-line="160" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="35" column="131" selection-start-line="35" selection-start-column="131" selection-end-line="35" selection-end-column="131" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="148" column="53" selection-start-line="148" selection-start-column="53" selection-end-line="148" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#1490#1491#0" expanded="false" />
-            <element signature="e#1527#1528#0" expanded="false" />
-            <element signature="e#2511#2512#0" expanded="false" />
-            <element signature="e#2546#2547#0" expanded="false" />
-            <element signature="e#8395#8396#0" expanded="false" />
-            <element signature="e#8474#8475#0" expanded="false" />
+            <element signature="e#2556#2557#0" expanded="false" />
+            <element signature="e#2584#2585#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1153,21 +1231,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="148" column="53" selection-start-line="148" selection-start-column="53" selection-end-line="148" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MainWindow/MainWindow.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.3090909">
+          <caret line="60" column="86" selection-start-line="60" selection-start-column="86" selection-end-line="60" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MainWindow/MainWindowController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="160" column="36" selection-start-line="160" selection-start-column="36" selection-end-line="160" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.41379312">
           <caret line="37" column="89" selection-start-line="37" selection-start-column="89" selection-end-line="37" selection-end-column="89" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="43" selection-start-line="37" selection-start-column="43" selection-end-line="37" selection-end-column="43" />
           <folding />
         </state>
       </provider>
@@ -1175,15 +1272,23 @@
     <entry file="file://$PROJECT_DIR$/NinjaCalc.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="89" column="51" selection-start-line="89" selection-start-column="51" selection-end-line="89" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38403615">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7183735">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1256,7 +1361,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>junit:junit:4.12</last-edited>
+          <last-edited>org.testfx:testfx-core:4.0.2-alpha</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
