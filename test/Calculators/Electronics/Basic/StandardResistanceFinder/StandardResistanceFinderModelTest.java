@@ -11,6 +11,13 @@ public class StandardResistanceFinderModelTest {
     @Test
     public void firstTest() {
         assertTrue(true);
+
+        StandardResistanceFinderModel standardResistanceFinderModel = new StandardResistanceFinderModel();
+
+        standardResistanceFinderModel.desiredResistance.setRawVal(10);
+        standardResistanceFinderModel.eSeries.setRawVal("E96");
+        assert 10.0 == standardResistanceFinderModel.actualResistance.getRawVal();
+
     }
 
 }
