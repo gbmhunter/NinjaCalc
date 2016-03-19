@@ -36,6 +36,9 @@ public class StandardResistanceFinderModelTest extends ApplicationTest {
         standardResistanceFinderModel.desiredResistance.setRawVal(10.0);
         System.out.println("Value = " + standardResistanceFinderModel.eSeries.getRawVal());
 
+        // Set E-series
+        //standardResistanceFinderModel.eSeries.setRawVal("E12");
+
         assert 10.0 == standardResistanceFinderModel.actualResistance.getRawVal();
 
 

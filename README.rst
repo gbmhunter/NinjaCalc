@@ -109,8 +109,14 @@ Img/ - Contains images which are incorporated into the app.
 
 MainWindow/ - Contains the Java code and .fxml file describing the main window of NinjaCalc.
 
+test/ - Unit tests for each of the calculators. The unit tests include the testing of the UI.
+
 Utility/ - Contains helper Java classes which are not considered "core", but still used by multiple calculators. This includes things such as a class to help you find the closest standard E-series resistance. 
 
+Unit Tests
+==========
+
+Unit tests are under the :code:`src/test/` directory. They use the `TestFX library<https://github.com/TestFX/TestFX>`_ to test the JavaFX UI for each calculator.
 
 Changelog
 =========

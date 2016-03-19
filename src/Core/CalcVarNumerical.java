@@ -144,6 +144,9 @@ public class CalcVarNumerical extends CalcVarBase {
             }
         };
 
+        // Make sure the provided text field is not null
+        assert valueTextField != null;
+
         this.valueTextField = valueTextField;
 
         // Attach this new listener to the text field
