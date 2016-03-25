@@ -7,6 +7,10 @@ public class EngineeringNotation {
 
 
     private final static int PREFIX_OFFSET = 5;
+
+    /***
+     * This holds the allowable suffixes for engineering notation.
+     */
     private final static String[] PREFIX_ARRAY = {"f", "p", "n", "µ", "m", "", "k", "M", "G", "T"};
 
     public static String convert(double val, int dp)

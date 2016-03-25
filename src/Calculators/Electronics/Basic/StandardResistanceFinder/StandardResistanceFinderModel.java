@@ -145,7 +145,9 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("GΩ", 1e9),
                 },
                 4,
-                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance).");
+                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+        );
+        this.e6Resistance.setIsEngineeringNotationEnabled(true);
 
         // Add validators
         this.e6Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));

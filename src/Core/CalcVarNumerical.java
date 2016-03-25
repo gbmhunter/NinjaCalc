@@ -1,6 +1,7 @@
 
 package Core;
 
+import Utility.EngineeringNotation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -42,7 +43,28 @@ public class CalcVarNumerical extends CalcVarBase {
 
     //============================================ DISP VAL =========================================//
 
-    public double dispVal;
+    /**
+     * Holds the currently displayed value, as a number.
+     * This does not include any engineering suffix
+     */
+    public double dispValAsNumber;
+
+    /**
+     * Holds the currently displayed value, as a string
+     * This DOES include engineering suffixes
+     */
+    public String dispValAsString;
+
+    /***
+     * Determines if engineering notation is enabled for this variable.
+     */
+    private Boolean isEngineeringNotationEnabled;
+    public Boolean getIsEngineeringNotationEnabled(){
+        return this.isEngineeringNotationEnabled;
+    }
+    public void setIsEngineeringNotationEnabled(Boolean value) {
+        this.isEngineeringNotationEnabled = value;
+    }
 
     private TextField valueTextField;
     private ChangeListener<String> textListener;
@@ -118,6 +140,10 @@ public class CalcVarNumerical extends CalcVarBase {
 
         //System.out.println("CalcVarNumerical constructor called.");
 
+        //===============================================================================================//
+        //============================================== VALUE ==========================================//
+        //===============================================================================================//
+
         // Create text field listener
         this.textListener = (observable, oldValue, newValue) -> {
             //System.out.println("CalcVarNumerical.TextBoxChanged() called. Text changed from \"" + oldValue + "\" to \"" + newValue + "\".");
@@ -130,11 +156,11 @@ public class CalcVarNumerical extends CalcVarBase {
                 // This could throw a System.FormatException if the value can't be converted into a double,
                 // for example, if it had letters (a2) or was just a negative sign (-).
                 try {
-                    this.dispVal = Double.valueOf(newValue);
-                    this.rawVal = this.dispVal * this.selUnit.multiplier;
+                    this.dispValAsNumber = Double.valueOf(newValue);
+                    this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
                 }
                 catch (NumberFormatException exception) {
-                    this.dispVal = Double.NaN;
+                    this.dispValAsNumber = Double.NaN;
                     this.rawVal = Double.NaN;
                 }
 
@@ -152,6 +178,9 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Attach this new listener to the text field
         this.valueTextField.textProperty().addListener(textListener);
+
+        // Engineering notation is disabled by default
+        this.isEngineeringNotationEnabled = false;
 
         //===============================================================================================//
         //========================================== VALIDATORS =========================================//
@@ -249,35 +278,35 @@ public class CalcVarNumerical extends CalcVarBase {
         // Assign the default raw value
         if (defaultRawValue != null) {
             this.rawVal = defaultRawValue;
-            this.dispVal = this.rawVal * this.selUnit.multiplier;
-            this.valueTextField.setText(String.valueOf(this.dispVal));
+            this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
+            this.valueTextField.setText(String.valueOf(this.dispValAsNumber));
         }
         else {
             // Provided default value was null, so lets make
             // the textbox empty
             this.rawVal = Double.NaN;
-            this.dispVal = Double.NaN;
+            this.dispValAsNumber = Double.NaN;
             this.valueTextField.setText("");
         }
 
         // Install event handlers
         /*this.RawValueChanged += (sender, EventArgs) => {
             // Update displayed value
-            this.dispVal = this.rawVal * this.selUnit.multiplier;
+            this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
             // Update textbox
-            this.valueTextField.Text = this.dispVal.ToString();
+            this.valueTextField.Text = this.dispValAsNumber.ToString();
         };*/
         this.addRawValueChangedListener(calcVarBase -> {
             // Update displayed value
-            this.dispVal = this.rawVal * this.selUnit.multiplier;
+            this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
             // Update textbox
-            this.valueTextField.setText(String.valueOf(this.dispVal));
+            this.valueTextField.setText(String.valueOf(this.dispValAsNumber));
         });
 
         // Save the help text (displayed in the tooltip)
         this.helpText = helpText;
 
-    }
+    } // public CalcVarNumerical()
 
     //===============================================================================================//
     //======================================== GETTERS/SETTERS ======================================//
@@ -356,8 +385,8 @@ public class CalcVarNumerical extends CalcVarBase {
         // Invoke the provided equation function,
         // which should return the raw value for this calculator variable
         this.rawVal = this.equationFunction.execute();
-        //this.dispVal = this.rawVal / this.selUnit.multiplier;
-        //this.valueTextField.Text = this.dispVal.ToString();
+        //this.dispValAsNumber = this.rawVal / this.selUnit.multiplier;
+        //this.valueTextField.Text = this.dispValAsNumber.ToString();
         this.updateDispValFromRawVal();
 
         // Validation is done in the TextBoxChanged event handler
@@ -434,7 +463,7 @@ public class CalcVarNumerical extends CalcVarBase {
         // If the variable is an input, we need to adjust the raw value, if the
         // variable is an output, we need to adjust the displayed value
         if (this.getDirection() == CalcVarDirections.Input) {
-            this.rawVal = this.dispVal * this.selUnit.multiplier;
+            this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
             //System.out.println("rawVal re-scaled to \"" + String.valueOf(this.rawVal) + "\".");
 
             // Since the raw value has changed, we also need to re-validate this variable
@@ -452,14 +481,22 @@ public class CalcVarNumerical extends CalcVarBase {
 
     private void updateDispValFromRawVal() {
 
-        //System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\".");
+        System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\".");
 
-        // Recalculate dispVal and update textbox
+        // Recalculate dispValAsNumber and update textbox
         // We don't need to validate again if the units are changed for an output,
         // as the actual value (raw value) does not change.
         double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
-        this.dispVal = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
-        this.valueTextField.setText(String.valueOf(this.dispVal));
+        this.dispValAsNumber = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
+
+        if(this.isEngineeringNotationEnabled) {
+            this.dispValAsString = EngineeringNotation.convert(dispValAsNumber, this.numDigitsToRound);
+        } else {
+            this.dispValAsString = String.valueOf(this.dispValAsNumber);
+        }
+
+        //this.valueTextField.setText(String.valueOf(this.dispValAsNumber));
+        this.valueTextField.setText(this.dispValAsString);
     }
 
     /**
