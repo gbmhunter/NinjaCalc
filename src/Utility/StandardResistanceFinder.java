@@ -2,8 +2,6 @@ package Utility;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
 
 /**
  * Static utility class for finding a E-series resistance (standard resistance) which is closest to the user's
@@ -45,6 +43,8 @@ public class StandardResistanceFinder {
 
         e24 = new ArrayList<Double>(Arrays.asList(1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1, 10.0));
 
+        // Construct E12 and E6 arrays from every second and fourth element of
+        // the E24 array, respectively
         for(int i = 0; i < e24.size(); i++) {
             if(i % 2 == 0) {
                 e12.add(e24.get(i));
@@ -54,8 +54,6 @@ public class StandardResistanceFinder {
                 e6.add(e24.get(i));
             }
         }
-
-        //e12 = new List<Double>(Arrays.asList(1.0, 1.2, 1.5, 1.8, 2.2, 2.7, 3.3, 3.9, 4.7, 5.6, 6.8, 8.2, 10.0);
 
         e192 = new ArrayList<Double>(
                 Arrays.asList(
@@ -72,6 +70,8 @@ public class StandardResistanceFinder {
                         6.81,6.90,6.98,7.06,7.15,7.23,7.32,7.41,7.50,7.59,7.68,7.77,7.87,7.96,8.06,8.16,
                         8.25,8.35,8.45,8.56,8.66,8.76,8.87,8.98,9.09,9.20,9.31,9.42,9.53,9.65,9.76,9.88));
 
+        // Construct E96 and E48 arrays from every second and fourth element of
+        // the E192 array, respectively
         for(int i = 0; i < e192.size(); i++) {
             if(i % 2 == 0) {
                 e96.add(e192.get(i));
@@ -150,6 +150,7 @@ public class StandardResistanceFinder {
      * @param numElements The number of elements PER DECADE you want to have. Typical values for this
      *                    would be 12, 24, 48, 92, e.t.c.
      * @return The populated array of E-series values.
+     * @note Not used anymore.
      */
     private static Double[] BuildResArray(int numElements)
     {

@@ -20,13 +20,19 @@ import java.util.ArrayList;
  *
  * @author gbmhunter
  * @since 2015-11-02
- * @last-modified 2016-02-14
+ * @last-modified 2016-03-25
  */
 public class CalcVarNumerical extends CalcVarBase {
 
     //===============================================================================================//
     //==================================== VARIABLES AND PROPERTIES =================================//
     //===============================================================================================//
+
+    /**
+     * The time from when the mouse is hovered over the variables value textbox to when
+     * the tooltip is displayed.
+     */
+    private static final double TOOLTIP_OPEN_TIME_MS = 100.0;
 
     //============================================= RAW VAL =========================================//
 
@@ -40,10 +46,6 @@ public class CalcVarNumerical extends CalcVarBase {
 
     private TextField valueTextField;
     private ChangeListener<String> textListener;
-
-    public CalcVarDirections getDirection() {
-        return this.direction;
-    }
 
     private ArrayList<Validator> validators;
 
@@ -83,7 +85,6 @@ public class CalcVarNumerical extends CalcVarBase {
 
     public String helpText;
 
-    //private ToggleGroup radioButtonToggleGroup;
 
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
@@ -532,7 +533,9 @@ public class CalcVarNumerical extends CalcVarBase {
             Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
 
             objTimer.getKeyFrames().clear();
-            objTimer.getKeyFrames().add(new KeyFrame(new Duration(100)));
+
+            // This is where the new "time to open" gets assigned
+            objTimer.getKeyFrames().add(new KeyFrame(new Duration(TOOLTIP_OPEN_TIME_MS)));
         } catch (Exception e) {
             e.printStackTrace();
         }

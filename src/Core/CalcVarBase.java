@@ -74,6 +74,9 @@ public abstract class CalcVarBase {
     public IEquationFunction equationFunction;
 
     public CalcVarDirections direction;
+    public CalcVarDirections getDirection() {
+        return this.direction;
+    }
 
     public IDirectionFunction directionFunction;
 
