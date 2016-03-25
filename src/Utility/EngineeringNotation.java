@@ -1,116 +1,102 @@
 package Utility;
 
-
-import org.apache.commons.lang3.math.NumberUtils;
-import java.text.DecimalFormat;
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParsePosition;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 
-/**
- * Created by gbmhunter on 2016-03-25.
- * Converts a number to a string in <a href="http://en.wikipedia.org/wiki/Metric_prefix">metric prefix</a> format.
- * For example, 7800000 will be formatted as '7.8M'. Numbers under 1000 will be unchanged. Refer to the tests for further examples.
- * Original code from http://stackoverflow.com/questions/4753251/how-to-go-about-formatting-1200-to-1-2k-in-java
- */
-public class EngineeringNotation extends Format {
+public enum EngineeringNotation {
+    yocto('y', 1e-24),
+    zepto('z', 1e-21),
+    atta('a', 1e-18),
+    femto('f', 1e-15),
+    pico('p', 1e-12),
+    nano('n', 1e-9),
+    micro('μ', 1e-6),
+    milli('m', 1e-3),
+    unit(null, 1e0),
+    kilo('k', 1e3),
+    mega('M', 1e6),
+    giga('G', 1e9),
+    terra('T', 1e12),
+    peta('P', 1e15),
+    exa('E', 1e18),
+    zetta('Z', 1e21),
+    yotta('Y', 1e24);
 
-    private static final String[] METRIC_PREFIXES = new String[]{"", "k", "M", "G", "T"};
+    final Character symbol;
+    final double multiplier;
 
-    /**
-     * The maximum number of characters in the output, excluding the negative sign
-     */
-    private static final Integer MAX_LENGTH = 4;
-
-    private static final Pattern TRAILING_DECIMAL_POINT = Pattern.compile("[0-9]+\\.[kMGT]");
-
-    private static final Pattern METRIC_PREFIXED_NUMBER = Pattern.compile("\\-?[0-9]+(\\.[0-9])?[kMGT]");
-
-    @Override
-    public StringBuffer format(Object obj, StringBuffer output, FieldPosition pos) {
-
-        Double number = Double.valueOf(obj.toString());
-
-        // if the number is negative, convert it to a positive number and add the minus sign to the output at the end
-        boolean isNegative = number < 0;
-        number = Math.abs(number);
-
-        String result = new DecimalFormat("##0E0").format(number);
-
-        Integer index = Character.getNumericValue(result.charAt(result.length() - 1)) / 3;
-        result = result.replaceAll("E[0-9]", METRIC_PREFIXES[index]);
-
-        while (result.length() > MAX_LENGTH || TRAILING_DECIMAL_POINT.matcher(result).matches()) {
-            int length = result.length();
-            result = result.substring(0, length - 2) + result.substring(length - 1);
-        }
-
-        return output.append(isNegative ? "-" + result : result);
+    private EngineeringNotation(final Character symbol, final double multiplier) {
+        this.symbol = symbol;
+        this.multiplier = multiplier;
     }
 
-    /**
-     * Convert a String produced by <tt>format()</tt> back to a number. This will generally not restore
-     * the original number because <tt>format()</tt> is a lossy operation, e.g.
-     *
-     * <pre>
-     * {@code
-     * def formatter = new RoundedMetricPrefixFormat()
-     * Long number = 5821L
-     * String formattedNumber = formatter.format(number)
-     * assert formattedNumber == '5.8k'
-     *
-     * Long parsedNumber = formatter.parseObject(formattedNumber)
-     * assert parsedNumber == 5800
-     * assert parsedNumber != number
-     * }
-     * </pre>
-     *
-     * @param source a number that may have a metric prefix
-     * @param pos if parsing succeeds, this should be updated to the index after the last parsed character
-     * @return a Number if the the string is a number without a metric prefix, or a Long if it has a metric prefix
-     */
-    @Override
-    public Object parseObject(String source, ParsePosition pos) {
+    public Character getSymbol() {
+        return symbol;
+    }
 
-        if (NumberUtils.isNumber(source)) {
+    public double getMultiplier() {
+        return multiplier;
+    }
 
-            // if the value is a number (without a prefix) don't return it as a Long or we'll lose any decimals
-            pos.setIndex(source.length());
-            return toNumber(source);
+    private static final Pattern REGEX;
 
-        } else if (METRIC_PREFIXED_NUMBER.matcher(source).matches()) {
+    static {
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append("^([+-]?[1-9]\\d*\\.?\\d*|[+-]?0?\\.\\d+)(?:([");
+        for (final EngineeringNotation e : values())
+            if (e.getSymbol() != null)
+                buffer.append(e.getSymbol());
+        buffer.append("]?)|E([+-]?[1-9]\\d*))$");
+        REGEX = Pattern.compile(buffer.toString());
+    }
 
-            boolean isNegative = source.charAt(0) == '-';
-            int length = source.length();
-
-            String number = isNegative ? source.substring(1, length - 1) : source.substring(0, length - 1);
-            String metricPrefix = Character.toString(source.charAt(length - 1));
-
-            Number absoluteNumber = toNumber(number);
-
-            int index = 0;
-
-            for (; index < METRIC_PREFIXES.length; index++) {
-                if (METRIC_PREFIXES[index].equals(metricPrefix)) {
-                    break;
-                }
-            }
-
-            Integer exponent = 3 * index;
-            Double factor = Math.pow(10, exponent);
-            factor *= isNegative ? -1 : 1;
-
-            pos.setIndex(source.length());
-            Float result = absoluteNumber.floatValue() * factor.longValue();
-            return result.longValue();
-        }
-
+    public static Double parse(final String value) {
+        final Matcher m = REGEX.matcher(value);
+        if (!m.matches())
+            return null;
+        Double result = Double.parseDouble(m.group(1));
+        if (m.group(3) != null)
+            return result * Math.pow(10, Integer.parseInt(m.group(3)));
+        if (m.group(2) == null)
+            return result; // Units
+        final Character c = m.group(2).charAt(0);
+        for (final EngineeringNotation e : values())
+            if (e.getSymbol() == c)
+                return result * e.getMultiplier();
         return null;
     }
 
-    private static Number toNumber(String number) {
-        return NumberUtils.createNumber(number);
+    private static String doubleToString(final double value) {
+        if (value == (long) value)
+            return String.format("%d", (long) value);
+        return String.format("%s", value);
     }
+
+    public static String toEngineeringNotation(
+            final double value,
+            final EngineeringNotation notation
+    ) {
+        if (notation == null || notation == unit)
+            return doubleToString(value);
+        return doubleToString(value / notation.getMultiplier()) + notation.getSymbol();
+    }
+
+    public static String toScientificNotation(
+            final double value
+    ) {
+        final long exponent = (long) Math.floor(Math.log10(Math.abs(value)));
+        return doubleToString(value / Math.pow(10, exponent)) + 'E' + exponent;
+    }
+
+    public static String toEngineeringNotation(final double value) {
+        final double abs = Math.abs(value);
+        double multiplier;
+        for (final EngineeringNotation e : values()) {
+            multiplier = e.getMultiplier();
+            if (multiplier < abs && abs < multiplier * 1000)
+                return toEngineeringNotation(value, e);
+        }
+        return toScientificNotation(value);
+    }
+
 }

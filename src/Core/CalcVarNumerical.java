@@ -492,8 +492,8 @@ public class CalcVarNumerical extends CalcVarBase {
 
         if(this.isEngineeringNotationEnabled) {
             //this.dispValAsString = EngineeringNotation.convert(dispValAsNumber, this.numDigitsToRound);
-            Format roundedMetricPrefixFormat = new EngineeringNotation();
-            this.dispValAsString = roundedMetricPrefixFormat.format(dispValAsNumber);
+            //Format roundedMetricPrefixFormat = new EngineeringNotation();
+            this.dispValAsString = EngineeringNotation.toEngineeringNotation(dispValAsNumber);
         } else {
             this.dispValAsString = String.valueOf(this.dispValAsNumber);
         }
