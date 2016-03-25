@@ -37,6 +37,8 @@ public class StandardResistanceFinderModel extends Calculator {
 
     @FXML private TextField e6ResistanceValue;
     @FXML private TextField e6ErrorValue;
+    @FXML private TextField e12ResistanceValue;
+    @FXML private TextField e12ErrorValue;
 
 
     //===============================================================================================//
@@ -46,6 +48,8 @@ public class StandardResistanceFinderModel extends Calculator {
     public CalcVarNumericalInput desiredResistance;
     public CalcVarNumericalOutput e6Resistance;
     public CalcVarNumericalOutput e6Error;
+    public CalcVarNumericalOutput e12Resistance;
+    public CalcVarNumericalOutput e12Error;
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -128,7 +132,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         return 0;
                     }
 
-                    double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E12);
+                    double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E6);
 
                     return actualResistance;
 
@@ -179,6 +183,75 @@ public class StandardResistanceFinderModel extends Calculator {
         this.e6Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e6Error);
+
+        //===============================================================================================//
+        //======================================= E12 RESISTANCE (output) ================================//
+        //===============================================================================================//
+
+        this.e12Resistance = new CalcVarNumericalOutput(
+                "e12Resistance",
+                this.e12ResistanceValue,     // Textbox
+                null,                       // No units for this variable
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+
+                    if(Double.isNaN(desiredResistance)) {
+                        return 0;
+                    }
+
+                    double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E12);
+
+                    return actualResistance;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("mΩ", 1e-3),
+                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                        new NumberUnit("kΩ", 1e3),
+                        new NumberUnit("MΩ", 1e6),
+                        new NumberUnit("GΩ", 1e9),
+                },
+                4,
+                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance).");
+
+        // Add validators
+        this.e6Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.e6Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.e12Resistance);
+
+        //===============================================================================================//
+        //================================= E6 PERCENTAGE DIFFERENCE (output) ===========================//
+        //===============================================================================================//
+
+        this.e12Error = new CalcVarNumericalOutput(
+                "e12Error",         // Debug name
+                this.e12ErrorValue,      // Textbox for variable value
+                null,                   // No units combobox for this variable
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+                    Double closestStandardResistance = this.e12Resistance.getRawVal();
+
+                    // Calculate percentage difference
+                    double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+                    return percentageDiff;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                "The percentage difference between the closest standard resistance and your desired resistance.");
+
+        // Add validators. The percentage difference is allowed to be 0.
+        this.e12Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.e12Error);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

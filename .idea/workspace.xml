@@ -7,16 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Core/CalcVarBase.java" afterPath="$PROJECT_DIR$/src/Core/CalcVarBase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Core/CalcVarComboBox.java" afterPath="$PROJECT_DIR$/src/Core/CalcVarComboBox.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" afterPath="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Core/CalcVarNumericalOutput.java" afterPath="$PROJECT_DIR$/src/Core/CalcVarNumericalOutput.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" afterPath="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java" afterPath="$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -91,18 +83,18 @@
       <file leaf-file-name="CalcVarBase.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Core/CalcVarBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+            <state relative-caret-position="313">
+              <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StandardResistanceFinderView.fxml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="StandardResistanceFinderView.fxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/out/production/NinjaCalc/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="41" column="108" selection-start-line="41" selection-start-column="108" selection-end-line="41" selection-end-column="108" />
+            <state relative-caret-position="426">
+              <caret line="50" column="100" selection-start-line="50" selection-start-column="100" selection-end-line="50" selection-end-column="100" />
               <folding />
             </state>
           </provider>
@@ -114,8 +106,8 @@
       <file leaf-file-name="StandardResistanceFinderModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
+            <state relative-caret-position="665">
+              <caret line="128" column="82" selection-start-line="128" selection-start-column="82" selection-end-line="128" selection-end-column="82" />
               <folding />
             </state>
           </provider>
@@ -124,8 +116,8 @@
       <file leaf-file-name="CalcVarNumerical.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="142" column="58" selection-start-line="142" selection-start-column="58" selection-end-line="142" selection-end-column="58" />
+            <state relative-caret-position="206">
+              <caret line="142" column="0" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -144,54 +136,9 @@
       <file leaf-file-name="ModifiableObservableListBase.java" pinned="false" current-in-tab="false">
         <entry file="jar://C:/Program Files/Java/jdk1.8.0_72/javafx-src.zip!/javafx/collections/ModifiableObservableListBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2448">
+            <state relative-caret-position="187">
               <caret line="170" column="0" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#10257#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#6476#6477#0" expanded="false" />
-                <element signature="e#6522#6523#0" expanded="false" />
-                <element signature="e#6602#6603#0" expanded="false" />
-                <element signature="e#6647#6648#0" expanded="false" />
-                <element signature="e#6701#6702#0" expanded="false" />
-                <element signature="e#6749#6750#0" expanded="false" />
-                <element signature="e#6812#6813#0" expanded="false" />
-                <element signature="e#6862#6863#0" expanded="false" />
-                <element signature="e#6921#6922#0" expanded="false" />
-                <element signature="e#6970#6971#0" expanded="false" />
-                <element signature="e#7025#7026#0" expanded="false" />
-                <element signature="e#7073#7074#0" expanded="false" />
-                <element signature="e#7132#7133#0" expanded="false" />
-                <element signature="e#7181#7182#0" expanded="false" />
-                <element signature="e#7234#7235#0" expanded="false" />
-                <element signature="e#7279#7280#0" expanded="false" />
-                <element signature="e#7340#7341#0" expanded="false" />
-                <element signature="e#7388#7389#0" expanded="false" />
-                <element signature="e#7461#7462#0" expanded="false" />
-                <element signature="e#7514#7515#0" expanded="false" />
-                <element signature="e#8889#8890#0" expanded="false" />
-                <element signature="e#8938#8939#0" expanded="false" />
-                <element signature="e#9002#9003#0" expanded="false" />
-                <element signature="e#9060#9061#0" expanded="false" />
-                <element signature="e#9127#9128#0" expanded="false" />
-                <element signature="e#9178#9179#0" expanded="false" />
-                <element signature="e#9234#9235#0" expanded="false" />
-                <element signature="e#9286#9287#0" expanded="false" />
-                <element signature="e#9344#9345#0" expanded="false" />
-                <element signature="e#9393#9394#0" expanded="false" />
-                <element signature="e#9455#9456#0" expanded="false" />
-                <element signature="e#9508#9509#0" expanded="false" />
-                <element signature="e#9575#9576#0" expanded="false" />
-                <element signature="e#9628#9629#0" expanded="false" />
-                <element signature="e#9704#9705#0" expanded="false" />
-                <element signature="e#9762#9763#0" expanded="false" />
-                <element signature="e#9994#9995#0" expanded="false" />
-                <element signature="e#10044#10045#0" expanded="false" />
-                <element signature="e#10095#10096#0" expanded="false" />
-                <element signature="e#10144#10145#0" expanded="false" />
-                <element signature="e#10198#10199#0" expanded="false" />
-                <element signature="e#10247#10248#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -206,12 +153,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StandardResistanceFinder.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="StandardResistanceFinder.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
-              <folding />
+            <state relative-caret-position="7">
+              <caret line="72" column="102" selection-start-line="72" selection-start-column="102" selection-end-line="72" selection-end-column="102" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3872#3880#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -297,16 +247,16 @@
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinder.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/Core/UnitConversionConstants.java" />
-        <option value="$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java" />
         <option value="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.groovy" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml" />
         <option value="$PROJECT_DIR$/src/Core/CalcVarComboBox.java" />
         <option value="$PROJECT_DIR$/src/Core/CalcVarNumericalOutput.java" />
         <option value="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
         <option value="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" />
         <option value="$PROJECT_DIR$/src/Core/CalcVarBase.java" />
         <option value="$PROJECT_DIR$/out/production/NinjaCalc/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
+        <option value="$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java" />
       </list>
     </option>
   </component>
@@ -402,7 +352,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Core" />
+              <option name="myItemId" value="Utility" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -990,11 +940,14 @@
           <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="34" />
+      <option name="time" value="36" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="JUnit">
         <watch expression="standardResistanceFinderModel" />
+      </configuration>
+      <configuration name="Application">
+        <watch expression="e12" />
       </configuration>
     </watches-manager>
   </component>
@@ -1320,59 +1273,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_72/javafx-src.zip!/javafx/collections/ModifiableObservableListBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2448">
-          <caret line="170" column="0" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#10257#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#6476#6477#0" expanded="false" />
-            <element signature="e#6522#6523#0" expanded="false" />
-            <element signature="e#6602#6603#0" expanded="false" />
-            <element signature="e#6647#6648#0" expanded="false" />
-            <element signature="e#6701#6702#0" expanded="false" />
-            <element signature="e#6749#6750#0" expanded="false" />
-            <element signature="e#6812#6813#0" expanded="false" />
-            <element signature="e#6862#6863#0" expanded="false" />
-            <element signature="e#6921#6922#0" expanded="false" />
-            <element signature="e#6970#6971#0" expanded="false" />
-            <element signature="e#7025#7026#0" expanded="false" />
-            <element signature="e#7073#7074#0" expanded="false" />
-            <element signature="e#7132#7133#0" expanded="false" />
-            <element signature="e#7181#7182#0" expanded="false" />
-            <element signature="e#7234#7235#0" expanded="false" />
-            <element signature="e#7279#7280#0" expanded="false" />
-            <element signature="e#7340#7341#0" expanded="false" />
-            <element signature="e#7388#7389#0" expanded="false" />
-            <element signature="e#7461#7462#0" expanded="false" />
-            <element signature="e#7514#7515#0" expanded="false" />
-            <element signature="e#8889#8890#0" expanded="false" />
-            <element signature="e#8938#8939#0" expanded="false" />
-            <element signature="e#9002#9003#0" expanded="false" />
-            <element signature="e#9060#9061#0" expanded="false" />
-            <element signature="e#9127#9128#0" expanded="false" />
-            <element signature="e#9178#9179#0" expanded="false" />
-            <element signature="e#9234#9235#0" expanded="false" />
-            <element signature="e#9286#9287#0" expanded="false" />
-            <element signature="e#9344#9345#0" expanded="false" />
-            <element signature="e#9393#9394#0" expanded="false" />
-            <element signature="e#9455#9456#0" expanded="false" />
-            <element signature="e#9508#9509#0" expanded="false" />
-            <element signature="e#9575#9576#0" expanded="false" />
-            <element signature="e#9628#9629#0" expanded="false" />
-            <element signature="e#9704#9705#0" expanded="false" />
-            <element signature="e#9762#9763#0" expanded="false" />
-            <element signature="e#9994#9995#0" expanded="false" />
-            <element signature="e#10044#10045#0" expanded="false" />
-            <element signature="e#10095#10096#0" expanded="false" />
-            <element signature="e#10144#10145#0" expanded="false" />
-            <element signature="e#10198#10199#0" expanded="false" />
-            <element signature="e#10247#10248#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/ICalcVarBaseCallback.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1381,34 +1281,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/UnitConversionConstants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumericalOutput.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="10" selection-start-line="32" selection-start-column="10" selection-end-line="32" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="142" column="58" selection-start-line="142" selection-start-column="58" selection-end-line="142" selection-end-column="58" />
           <folding />
         </state>
       </provider>
@@ -1425,29 +1301,64 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/CalcVarBase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+        <state relative-caret-position="313">
+          <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_72/javafx-src.zip!/javafx/collections/ModifiableObservableListBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="170" column="0" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumericalOutput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="10" selection-start-line="32" selection-start-column="10" selection-end-line="32" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="142" column="0" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
+        <state relative-caret-position="665">
+          <caret line="128" column="82" selection-start-line="128" selection-start-column="82" selection-end-line="128" selection-end-column="82" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/out/production/NinjaCalc/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="41" column="108" selection-start-line="41" selection-start-column="108" selection-end-line="41" selection-end-column="108" />
+        <state relative-caret-position="426">
+          <caret line="50" column="100" selection-start-line="50" selection-start-column="100" selection-end-line="50" selection-end-column="100" />
           <folding />
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7">
+          <caret line="72" column="102" selection-start-line="72" selection-start-column="102" selection-end-line="72" selection-end-column="102" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3872#3880#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
   </component>
