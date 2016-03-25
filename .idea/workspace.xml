@@ -7,9 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" afterPath="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Utility/EngineeringNotation.java" afterPath="$PROJECT_DIR$/src/Utility/EngineeringNotation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" afterPath="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/Utility/EngineeringNotationTests.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Utility/EngineeringNotationTest.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,7 +72,7 @@
       <file leaf-file-name="StandardResistanceFinderModelTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
+            <state relative-caret-position="629">
               <caret line="37" column="10" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -81,11 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EngineeringNotationTest.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test/Utility/EngineeringNotationTest.java">
+      <file leaf-file-name="EngineeringNotationTests.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/Utility/EngineeringNotationTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
+            <state relative-caret-position="374">
+              <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -119,8 +119,8 @@
       <file leaf-file-name="StandardResistanceFinderModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="148" column="10" selection-start-line="148" selection-start-column="10" selection-end-line="148" selection-end-column="10" />
+            <state relative-caret-position="153">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="25" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -223,7 +223,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/info.html" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcView.fxml" />
         <option value="$PROJECT_DIR$/src/CalculatorGridElement/CalculatorGridElementController.java" />
         <option value="$PROJECT_DIR$/src/Core/AutoScalingStackPane.java" />
@@ -271,9 +270,10 @@
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
         <option value="$PROJECT_DIR$/src/Utility/RoundedMetricPrefixFormat.java" />
         <option value="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" />
-        <option value="$PROJECT_DIR$/test/Utility/EngineeringNotationTest.java" />
         <option value="$PROJECT_DIR$/src/Utility/EngineeringNotation.java" />
         <option value="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
+        <option value="$PROJECT_DIR$/test/Utility/EngineeringNotationTest.java" />
+        <option value="$PROJECT_DIR$/test/Utility/EngineeringNotationTests.java" />
       </list>
     </option>
   </component>
@@ -471,7 +471,7 @@
       <recent name="C:\Users\gbmhunter\GoogleDrive\Projects\NinjaCalc\src\Calculators\Electronics\Pcb\TrackCurrentIpc2221A" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.EngineeringNotationTest">
+  <component name="RunManager">
     <configuration default="false" name="All in NinjaCalc" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="NinjaCalc" />
@@ -571,7 +571,7 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="false" name="EngineeringNotationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="EngineeringNotationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="Utility.*" />
@@ -582,7 +582,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="Utility" />
-      <option name="MAIN_CLASS_NAME" value="Utility.EngineeringNotationTest" />
+      <option name="MAIN_CLASS_NAME" value="Utility.EngineeringNotationTests" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -860,11 +860,11 @@
       <item index="2" class="java.lang.String" itemvalue="JUnit.StandardResistanceFinderModelTest.e12SeriesTest10k0" />
       <item index="3" class="java.lang.String" itemvalue="JUnit.StandardResistanceFinderModelTest.e96SeriesTest246k" />
       <item index="4" class="java.lang.String" itemvalue="JUnit.StandardResistanceFinderModelTest" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.EngineeringNotationTest" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.EngineeringNotationTests" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.EngineeringNotationTest" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.EngineeringNotationTests" />
         <item index="1" class="java.lang.String" itemvalue="JUnit.All in NinjaCalc" />
         <item index="2" class="java.lang.String" itemvalue="JUnit.StandardResistanceFinderModelTest.e12SeriesTest10k0" />
         <item index="3" class="java.lang.String" itemvalue="JUnit.StandardResistanceFinderModelTest.e96SeriesTest246k" />
@@ -894,35 +894,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_NinjaCalc - 2016.03.20 at 14h 12m 40s.xml">
-      <configuration name="All in NinjaCalc" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_NinjaCalc - 2016.03.20 at 14h 14m 19s.xml">
-      <configuration name="All in NinjaCalc" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_NinjaCalc - 2016.03.25 at 22h 12m 05s.xml">
-      <configuration name="All in NinjaCalc" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_NinjaCalc - 2016.03.25 at 22h 12m 36s.xml">
-      <configuration name="All in NinjaCalc" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 12m 43s.xml">
+    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 25m 45s.xml">
       <configuration name="EngineeringNotationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 21m 05s.xml">
+    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 26m 28s.xml">
       <configuration name="EngineeringNotationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="StandardResistanceFinderModelTest_e12SeriesTest10k0 - 2016.03.20 at 13h 51m 49s.xml">
-      <configuration name="StandardResistanceFinderModelTest.e12SeriesTest10k0" configurationId="JUnit" />
+    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 27m 47s.xml">
+      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="StandardResistanceFinderModelTest_e12SeriesTest10k0 - 2016.03.20 at 14h 16m 51s.xml">
-      <configuration name="StandardResistanceFinderModelTest.e12SeriesTest10k0" configurationId="JUnit" />
+    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 28m 00s.xml">
+      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="StandardResistanceFinderModelTest_e96SeriesTest246k - 2016.03.19 at 18h 10m 48s.xml">
-      <configuration name="StandardResistanceFinderModelTest.e96SeriesTest246k" configurationId="JUnit" />
+    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 28m 39s.xml">
+      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="StandardResistanceFinderModelTest_e96SeriesTest246k - 2016.03.19 at 18h 12m 52s.xml">
-      <configuration name="StandardResistanceFinderModelTest.e96SeriesTest246k" configurationId="JUnit" />
+    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 28m 54s.xml">
+      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 29m 07s.xml">
+      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 31m 03s.xml">
+      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="EngineeringNotationTests - 2016.03.25 at 22h 32m 12s.xml">
+      <configuration name="EngineeringNotationTests" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="EngineeringNotationTests - 2016.03.25 at 22h 33m 50s.xml">
+      <configuration name="EngineeringNotationTests" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
@@ -930,7 +930,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -944,7 +944,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24791667" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24791667" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1330,25 +1330,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="148" column="10" selection-start-line="148" selection-start-column="10" selection-end-line="148" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/out/production/NinjaCalc/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" column="108" selection-start-line="41" selection-start-column="108" selection-end-line="41" selection-end-column="108" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/CalcVarBase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="466">
@@ -1362,16 +1343,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="37" column="10" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1413,10 +1384,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/Utility/EngineeringNotationTest.java">
+    <entry file="file://$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
+        <state relative-caret-position="629">
+          <caret line="37" column="10" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/out/production/NinjaCalc/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="41" column="108" selection-start-line="41" selection-start-column="108" selection-end-line="41" selection-end-column="108" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="25" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/Utility/EngineeringNotationTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
