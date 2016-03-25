@@ -3,7 +3,7 @@ package Utility;
 import java.util.regex.*;
 
 
-public enum EngineeringNotation {
+public enum MetricPrefixes {
     yocto('y', 1e-24),
     zepto('z', 1e-21),
     atta('a', 1e-18),
@@ -25,7 +25,7 @@ public enum EngineeringNotation {
     final Character symbol;
     final double multiplier;
 
-    private EngineeringNotation(final Character symbol, final double multiplier) {
+    private MetricPrefixes(final Character symbol, final double multiplier) {
         this.symbol = symbol;
         this.multiplier = multiplier;
     }
@@ -43,7 +43,7 @@ public enum EngineeringNotation {
     static {
         final StringBuffer buffer = new StringBuffer();
         buffer.append("^([+-]?[1-9]\\d*\\.?\\d*|[+-]?0?\\.\\d+)(?:([");
-        for (final EngineeringNotation e : values())
+        for (final MetricPrefixes e : values())
             if (e.getSymbol() != null)
                 buffer.append(e.getSymbol());
         buffer.append("]?)|E([+-]?[1-9]\\d*))$");
@@ -60,7 +60,7 @@ public enum EngineeringNotation {
         if (m.group(2) == null)
             return result; // Units
         final Character c = m.group(2).charAt(0);
-        for (final EngineeringNotation e : values())
+        for (final MetricPrefixes e : values())
             if (e.getSymbol() == c)
                 return result * e.getMultiplier();
         return null;
@@ -74,7 +74,7 @@ public enum EngineeringNotation {
 
     public static String toEngineeringNotation(
             final double value,
-            final EngineeringNotation notation
+            final MetricPrefixes notation
     ) {
         if (notation == null || notation == unit)
             return doubleToString(value);
@@ -91,7 +91,7 @@ public enum EngineeringNotation {
     public static String toEngineeringNotation(final double value) {
         final double abs = Math.abs(value);
         double multiplier;
-        for (final EngineeringNotation e : values()) {
+        for (final MetricPrefixes e : values()) {
             multiplier = e.getMultiplier();
             if (multiplier < abs && abs < multiplier * 1000)
                 return toEngineeringNotation(value, e);

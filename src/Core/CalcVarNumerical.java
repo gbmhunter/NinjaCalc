@@ -1,7 +1,7 @@
 
 package Core;
 
-import Utility.EngineeringNotation;
+import Utility.MetricPrefixes;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -12,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import java.lang.reflect.Field;
-import java.text.Format;
 import java.util.ArrayList;
 
 /**
@@ -491,9 +490,9 @@ public class CalcVarNumerical extends CalcVarBase {
         this.dispValAsNumber = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
 
         if(this.isEngineeringNotationEnabled) {
-            //this.dispValAsString = EngineeringNotation.convert(dispValAsNumber, this.numDigitsToRound);
-            //Format roundedMetricPrefixFormat = new EngineeringNotation();
-            this.dispValAsString = EngineeringNotation.toEngineeringNotation(dispValAsNumber);
+            //this.dispValAsString = MetricPrefixes.convert(dispValAsNumber, this.numDigitsToRound);
+            //Format roundedMetricPrefixFormat = new MetricPrefixes();
+            this.dispValAsString = MetricPrefixes.toEngineeringNotation(dispValAsNumber);
         } else {
             this.dispValAsString = String.valueOf(this.dispValAsNumber);
         }
