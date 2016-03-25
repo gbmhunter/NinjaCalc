@@ -1,6 +1,5 @@
 package Calculators.Electronics.Basic.StandardResistanceFinder;
 
-import Utility.StandardResistanceFinder;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.junit.Test;
@@ -22,32 +21,21 @@ public class StandardResistanceFinderModelTest extends ApplicationTest {
 
     @Test
     public void e12SeriesTest10k0() {
-        // given:
-        //rightClickOn("#desktop").moveTo("New").clickOn("Text Document");
-        //write("myTextfile.txt").push(ENTER);
-
-        // when:
-        //drag(".file").dropTo("#trash-can");
-
-        // then:
-        //verifyThat("#desktop", hasChildren(0, ".file"));
-        //verifyThat("#desktop", hasChildren(0, ".file"));
         //System.out.println("Setting desiredResistance.setRawVal().");
         standardResistanceFinderModel.desiredResistance.setRawVal(10.1);
         //System.out.println("Value = " + standardResistanceFinderModel.eSeries.getRawVal());
-
         // Set E-series
-        standardResistanceFinderModel.eSeries.setRawVal("E12");
-
-
-        assertEquals(10.0, standardResistanceFinderModel.actualResistance.getRawVal(), 0.0);
+        //standardResistanceFinderModel.eSeries.setRawVal("E12");
+        assertEquals(10.0, standardResistanceFinderModel.e6Resistance.getRawVal(), 0.0);
     }
 
     @Test
     public void e96SeriesTest246k() {
         standardResistanceFinderModel.desiredResistance.setRawVal(246);
-        standardResistanceFinderModel.eSeries.setRawVal("E96");
-        assertEquals(243, standardResistanceFinderModel.actualResistance.getRawVal(), 0.0);
+        System.out.println("Calling eSeries.setRawVal()...");
+        //standardResistanceFinderModel.eSeries.setRawVal("E96");
+        //
+        assertEquals(249, standardResistanceFinderModel.e6Resistance.getRawVal(), 0.01);
     }
 
 }

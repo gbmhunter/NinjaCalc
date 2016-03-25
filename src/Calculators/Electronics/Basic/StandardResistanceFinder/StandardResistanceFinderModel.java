@@ -35,22 +35,17 @@ public class StandardResistanceFinderModel extends Calculator {
     @FXML private TextField desiredResistanceValue;
     @FXML private ComboBox desiredResistanceUnits;
 
-    @FXML private ComboBox eSeriesComboBox;
+    @FXML private TextField e6ResistanceValue;
+    @FXML private TextField e6ErrorValue;
 
-    @FXML private TextField actualResistanceValue;
-    @FXML private ComboBox actualResistanceUnits;
-
-    @FXML private TextField percentageDiffValue;
-    @FXML private ComboBox percentageDiffUnits;
 
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
     public CalcVarNumericalInput desiredResistance;
-    public CalcVarComboBox eSeries;
-    public CalcVarNumericalOutput actualResistance;
-    public CalcVarNumericalOutput percentageDiff;
+    public CalcVarNumericalOutput e6Resistance;
+    public CalcVarNumericalOutput e6Error;
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -117,66 +112,23 @@ public class StandardResistanceFinderModel extends Calculator {
         this.calcVars.add(this.desiredResistance);
 
         //===============================================================================================//
-        //========================================= IS PLANE PRESENT ====================================//
+        //======================================= E6 RESISTANCE (output) ================================//
         //===============================================================================================//
 
-        this.eSeries = new CalcVarComboBox(
-                "eSeries",                          // Debug name
-                eSeriesComboBox,                    // Combobox to attach to (UI element)
-                new String[] {                      // Options for Combobox
-                        "E12",
-                        "E24",
-                        "E48",
-                        "E96",
-                        "E192",
-                },
-                () -> CalcVarDirections.Input,      // Always an input
-                "The E-series you wish to select a resistance from.");  // Tooltip text
-
-        this.calcVars.add(this.eSeries);
-
-        //===============================================================================================//
-        //===================================== ACTUAL RESISTANCE (output) ==============================//
-        //===============================================================================================//
-
-        this.actualResistance = new CalcVarNumericalOutput(
-                "actualResistance",
-                this.actualResistanceValue,
-                this.actualResistanceUnits,
+        this.e6Resistance = new CalcVarNumericalOutput(
+                "e6Resistance",
+                this.e6ResistanceValue,     // Textbox
+                null,                       // No units for this variable
                 () -> {
 
                     // Read in variables
                     Double desiredResistance = this.desiredResistance.getRawVal();
-                    String selectedESeries = this.eSeries.getRawVal();
 
                     if(Double.isNaN(desiredResistance)) {
                         return 0;
                     }
 
-
-                    StandardResistanceFinder.eSeriesOptions eSeries;
-
-                    switch(selectedESeries) {
-                        case "E12":
-                            eSeries = StandardResistanceFinder.eSeriesOptions.E12;
-                            break;
-                        case "E24":
-                            eSeries = StandardResistanceFinder.eSeriesOptions.E24;
-                            break;
-                        case "E48":
-                            eSeries = StandardResistanceFinder.eSeriesOptions.E48;
-                            break;
-                        case "E96":
-                            eSeries = StandardResistanceFinder.eSeriesOptions.E96;
-                            break;
-                        case "E192":
-                            eSeries = StandardResistanceFinder.eSeriesOptions.E192;
-                            break;
-                        default:
-                            throw new IllegalArgumentException("Unrecognised eSeries combobox option.");
-                    }
-
-                    double actualResistance = StandardResistanceFinder.Find(desiredResistance, eSeries);
+                    double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E12);
 
                     return actualResistance;
 
@@ -192,24 +144,24 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance).");
 
         // Add validators
-        this.actualResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.actualResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.e6Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.e6Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.actualResistance);
+        this.calcVars.add(this.e6Resistance);
 
         //===============================================================================================//
-        //==================================== PERCENTAGE DIFFERENCE (output) ===========================//
+        //================================= E6 PERCENTAGE DIFFERENCE (output) ===========================//
         //===============================================================================================//
 
-        this.percentageDiff = new CalcVarNumericalOutput(
-                "actualResistance",
-                this.percentageDiffValue,
-                this.percentageDiffUnits,
+        this.e6Error = new CalcVarNumericalOutput(
+                "e6Resistance",         // Debug name
+                this.e6ErrorValue,      // Textbox for variable value
+                null,                   // No units combobox for this variable
                 () -> {
 
                     // Read in variables
                     Double desiredResistance = this.desiredResistance.getRawVal();
-                    Double closestStandardResistance = this.actualResistance.getRawVal();
+                    Double closestStandardResistance = this.e6Resistance.getRawVal();
 
                     // Calculate percentage difference
                     double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
@@ -224,9 +176,9 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The percentage difference between the closest standard resistance and your desired resistance.");
 
         // Add validators. The percentage difference is allowed to be 0.
-        this.percentageDiff.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.e6Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.percentageDiff);
+        this.calcVars.add(this.e6Error);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

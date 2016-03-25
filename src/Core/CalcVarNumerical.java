@@ -61,7 +61,7 @@ public class CalcVarNumerical extends CalcVarBase {
      * Uses an observable list so that it can be bound to the combo box.
      * See http://code.makery.ch/blog/javafx-8-event-handling-examples/
      */
-    public ObservableList<NumberUnit> Units;
+    public ObservableList<NumberUnit> units;
 
     /// <summary>
     /// Do NOT access this from anything put the SelectionChanged event handler for
@@ -164,67 +164,71 @@ public class CalcVarNumerical extends CalcVarBase {
         this.validationResults = new ArrayList<CalcValidationResult>();
 
         //===============================================================================================//
-        //====================================== UNITS AND COMBOBOX =====================================//
+        //====================================== UNITS AND UNITS COMBOBOX =====================================//
         //===============================================================================================//
 
         // Save reference to the units combobox
         this.unitsComboBox = unitsComboBox;
 
         // Initialise empty units list
-        this.Units = FXCollections.observableArrayList();
+        this.units = FXCollections.observableArrayList();
 
-        // Internally save the units
+        // Internally save the units, and find the default unit at the same time
         // Note we can't implictly convert from an array of NumberUnit to a List<NumberUnit>
         NumberUnit defaultUnit = null;
-
         for(NumberUnit unit : units) {
-            this.Units.add(unit);
+            this.units.add(unit);
             if (unit.preference == NumberPreference.DEFAULT) {
                 defaultUnit = unit;
             }
         }
 
-        // Bind the combo-box to the observable collection
-        this.unitsComboBox.setItems(this.Units);
+        // The combobox is allowed to be null, so only interact with it
+        // if combobox was provided
+        if(this.unitsComboBox != null) {
 
-        //============ LET THE COMBOBOX KNOW HOW TO RENDER NUMBER UNITS ============//
+            // Bind the combo-box to the observable collection
+            this.unitsComboBox.setItems(this.units);
 
-        this.unitsComboBox.setCellFactory((combobox) -> {
+            //============ LET THE COMBOBOX KNOW HOW TO RENDER NUMBER UNITS ============//
 
-            // Define rendering of the list of values in ComboBox drop down.
-            return new ListCell<NumberUnit>() {
+            this.unitsComboBox.setCellFactory((combobox) -> {
+
+                // Define rendering of the list of values in ComboBox drop down.
+                return new ListCell<NumberUnit>() {
+                    @Override
+                    protected void updateItem(NumberUnit item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.name);
+                        }
+                    }
+                };
+            });
+
+            // Define rendering of selected value shown in ComboBox.
+            this.unitsComboBox.setConverter(new StringConverter<NumberUnit>() {
                 @Override
-                protected void updateItem(NumberUnit item, boolean empty) {
-                    super.updateItem(item, empty);
-
-                    if (item == null || empty) {
-                        setText(null);
+                public String toString(NumberUnit numberUnit) {
+                    if (numberUnit == null) {
+                        return null;
                     } else {
-                        setText(item.name);
+                        return numberUnit.name;
                     }
                 }
-            };
-        });
 
-        // Define rendering of selected value shown in ComboBox.
-        this.unitsComboBox.setConverter(new StringConverter<NumberUnit>() {
-            @Override
-            public String toString(NumberUnit numberUnit) {
-                if (numberUnit == null) {
-                    return null;
-                } else {
-                    return numberUnit.name;
+                @Override
+                public NumberUnit fromString(String numberUnitString) {
+                    return null; // No conversion fromString needed.
                 }
-            }
+            });
 
-            @Override
-            public NumberUnit fromString(String numberUnitString) {
-                return null; // No conversion fromString needed.
-            }
-        });
-
-        // Connect up event handler for when combobox units change
-        this.unitsComboBox.setOnAction(this::unitsComboBoxSelectionChanged);
+            // Connect up event handler for when combobox units change
+            this.unitsComboBox.setOnAction(this::unitsComboBoxSelectionChanged);
+        } // if(this.unitsComboBox != null) {
 
 
         // Set current combobox selection to default unit
@@ -232,7 +236,7 @@ public class CalcVarNumerical extends CalcVarBase {
             this.setSelUnit(defaultUnit);
         }
         else {
-            this.setSelUnit(this.Units.get(0));
+            this.setSelUnit(this.units.get(0));
         }
 
         //===============================================================================================//
@@ -307,7 +311,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
         Core.NumberUnit foundUnit = null;
 
-        for(NumberUnit unit : this.Units) {
+        for(NumberUnit unit : this.units) {
             if (unit.name == unitName) {
                 foundUnit = unit;
                 break;
@@ -330,8 +334,11 @@ public class CalcVarNumerical extends CalcVarBase {
      */
     public void setSelUnit(NumberUnit value) {
         this.selUnit = value;
-        // Anytime this is set, also update selected value in combobox
-        this.unitsComboBox.getSelectionModel().select(this.selUnit);
+        // Anytime this is set, also update selected value in combobox,
+        // if one has been provided
+        if(this.unitsComboBox != null) {
+            this.unitsComboBox.getSelectionModel().select(this.selUnit);
+        }
     }
 
     /**

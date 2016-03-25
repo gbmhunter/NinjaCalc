@@ -10,6 +10,16 @@ import javafx.scene.control.*;
  */
 public class CalcVarNumericalOutput extends CalcVarNumerical {
 
+    /**
+     *
+     * @param name              Debug name for variable
+     * @param calcValTextBox    The textbox used for the variables value
+     * @param unitsComboBox     The combobox used to select the variables units. Can be null.
+     * @param equation
+     * @param units
+     * @param numDigitsToRound
+     * @param helpText
+     */
     public CalcVarNumericalOutput(
         String name,
         TextField calcValTextBox,
@@ -19,6 +29,7 @@ public class CalcVarNumericalOutput extends CalcVarNumerical {
         int numDigitsToRound,
         String helpText) {
 
+        // The CalcVarNumerical constructor
         super(
             name,
             calcValTextBox,

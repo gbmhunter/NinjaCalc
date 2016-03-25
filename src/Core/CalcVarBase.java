@@ -42,9 +42,11 @@ public abstract class CalcVarBase {
     }
 
     protected void onRawValueChanged() {
+
         // Notify everybody that may be interested.
         for (ICalcVarBaseCallback listener : rawValueChangedListeners)
             listener.execute(this);
+
     }
 
     /**

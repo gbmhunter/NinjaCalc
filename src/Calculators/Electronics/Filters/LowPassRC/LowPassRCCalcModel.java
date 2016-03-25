@@ -129,7 +129,7 @@ public class LowPassRCCalcModel extends Calculator {
 
                 return (1.0 / (2*Math.PI*fc*c));
             },
-            new NumberUnit[]{   // Units
+            new NumberUnit[]{   // units
                 new NumberUnit("mΩ", 1e-3),
                 new NumberUnit("Ω", 1e0),
                 new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
@@ -165,7 +165,7 @@ public class LowPassRCCalcModel extends Calculator {
 
                 return (1.0 / (2 * Math.PI * fc * r));
             },
-            new NumberUnit[]{   // Units
+            new NumberUnit[]{   // units
                 new NumberUnit("pF", 1e-12),
                 new NumberUnit("nF", 1e-9, NumberPreference.DEFAULT),
                 new NumberUnit("uF", 1e-6),
@@ -202,7 +202,7 @@ public class LowPassRCCalcModel extends Calculator {
 
                 return (1.0 / (2 * Math.PI * r * c));
             },
-            new NumberUnit[]{   // Units
+            new NumberUnit[]{   // units
                 new NumberUnit("mHz", 1e-3),
                 new NumberUnit("Hz", 1e0),
                 new NumberUnit("kHz", 1e3, NumberPreference.DEFAULT),

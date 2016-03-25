@@ -244,7 +244,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"traceCurrent",             // Debug name
 			trackCurrentValue,     // Textbox for value (UI object)
 			trackCurrentUnits,     // Combobox for units (UI object)
-			new NumberUnit[]{           // Units
+			new NumberUnit[]{           // units
 				new NumberUnit("uA", 1e-6),
 				new NumberUnit("mA", 1e-3),
 				new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
@@ -280,7 +280,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"tempRise",             // Debug name
 			tempRiseValue,     // Textbox for value (UI object)
 			tempRiseUnits,     // Combobox for units (UI object)
-			new NumberUnit[]{       // Units
+			new NumberUnit[]{       // units
 				new NumberUnit("°c", 1e0, NumberPreference.DEFAULT),
 			},
 			4,                      // Num. digits to round to

@@ -11,6 +11,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableRow?>
+<?import javafx.scene.layout.GridPane?>
 <VBox fillWidth="true" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
         <padding><Insets bottom="20" left="20" right="20" top="40" /></padding>
@@ -32,16 +36,27 @@
                         <TextField fx:id="desiredResistanceValue" layoutX="303.0" layoutY="224.0" prefHeight="25" prefWidth="80" />
                         <ComboBox fx:id="desiredResistanceUnits" layoutX="388.0" layoutY="224.0" prefHeight="25" />
 
-                        <Label layoutX="178.0" layoutY="296.0">Series</Label>
-                        <ComboBox fx:id="eSeriesComboBox" layoutX="233.0" layoutY="290.0" prefHeight="30.0" prefWidth="144.0" />
-   
-                        <Label layoutX="111.0" layoutY="372.0">Closest Standard Resistance</Label>
-                        <TextField fx:id="actualResistanceValue" layoutX="303.0" layoutY="366.0" prefHeight="25" prefWidth="80" />
-                        <ComboBox fx:id="actualResistanceUnits" layoutX="391.0" layoutY="366.0" prefHeight="25" />
+                        <GridPane layoutX="150" layoutY="300" hgap="10" vgap="10">
 
-                        <Label layoutX="111.0" layoutY="410.0">Percentage Difference</Label>
-                        <TextField fx:id="percentageDiffValue" layoutX="303.0" layoutY="404.0" prefHeight="25" prefWidth="80" />
-                        <ComboBox fx:id="percentageDiffUnits" layoutX="391.0" layoutY="404.0" prefHeight="25" />
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Series</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="1">Closest Resistance</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="2">Percentage Error</Label>
+
+                            <Label GridPane.rowIndex="1" GridPane.columnIndex="0">E6</Label>
+                            <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="e6Resistance" prefHeight="25" prefWidth="80" />
+                            <TextField GridPane.rowIndex="1" GridPane.columnIndex="2" fx:id="e6ErrorValue" prefHeight="25" prefWidth="80" />
+
+                            <Label GridPane.rowIndex="2" GridPane.columnIndex="0">E12</Label>
+                            <TextField GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="e12ResistanceValue" prefHeight="25" prefWidth="80" />
+                            <TextField GridPane.rowIndex="2" GridPane.columnIndex="2" fx:id="e12ErrorValue" prefHeight="25" prefWidth="80" />
+
+                        </GridPane>
+
+                        <ComboBox GridPane.rowIndex="1" GridPane.columnIndex="2"
+                                  fx:id="percentageDiffUnits" layoutX="391.0" layoutY="404.0" prefHeight="25" />
+
+                        <ComboBox GridPane.rowIndex="0" GridPane.columnIndex="2"
+                                  fx:id="actualResistanceUnits" layoutX="391.0" layoutY="366.0" prefHeight="25" />
    
 
                     </Group>
