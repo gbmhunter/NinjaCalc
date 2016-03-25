@@ -1,141 +1,116 @@
 package Utility;
 
+
+import org.apache.commons.lang3.math.NumberUtils;
+import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
+import java.util.regex.Pattern;
+
+
 /**
  * Created by gbmhunter on 2016-03-25.
+ * Converts a number to a string in <a href="http://en.wikipedia.org/wiki/Metric_prefix">metric prefix</a> format.
+ * For example, 7800000 will be formatted as '7.8M'. Numbers under 1000 will be unchanged. Refer to the tests for further examples.
+ * Original code from http://stackoverflow.com/questions/4753251/how-to-go-about-formatting-1200-to-1-2k-in-java
  */
-public class EngineeringNotation {
+public class EngineeringNotation extends Format {
 
+    private static final String[] METRIC_PREFIXES = new String[]{"", "k", "M", "G", "T"};
 
-    private final static int PREFIX_OFFSET = 5;
-
-    /***
-     * This holds the allowable suffixes for engineering notation.
+    /**
+     * The maximum number of characters in the output, excluding the negative sign
      */
-    private final static String[] PREFIX_ARRAY = {"f", "p", "n", "µ", "m", "", "k", "M", "G", "T"};
+    private static final Integer MAX_LENGTH = 4;
 
-    public static String convert(double val, int dp)
-    {
-        // If the value is zero, then simply return 0 with the correct number of dp
-        if (val == 0) return String.format("%." + dp + "f", 0.0);
+    private static final Pattern TRAILING_DECIMAL_POINT = Pattern.compile("[0-9]+\\.[kMGT]");
 
-        // If the value is negative, make it positive so the log10 works
-        double posVal = (val<0) ? -val : val;
-        double log10 = Math.log10(posVal);
+    private static final Pattern METRIC_PREFIXED_NUMBER = Pattern.compile("\\-?[0-9]+(\\.[0-9])?[kMGT]");
 
-        // Determine how many orders of 3 magnitudes the value is
-        int count = (int) Math.floor(log10/3);
+    @Override
+    public StringBuffer format(Object obj, StringBuffer output, FieldPosition pos) {
 
-        // Calculate the index of the prefix symbol
-        int index = count + PREFIX_OFFSET;
+        Double number = Double.valueOf(obj.toString());
 
-        // Scale the value into the range 1<=val<1000
-        val /= Math.pow(10, count * 3);
+        // if the number is negative, convert it to a positive number and add the minus sign to the output at the end
+        boolean isNegative = number < 0;
+        number = Math.abs(number);
 
-        if (index >= 0 && index < PREFIX_ARRAY.length)
-        {
-            // If a prefix exists use it to create the correct string
-            return String.format("%." + dp + "f%s", val, PREFIX_ARRAY[index]);
+        String result = new DecimalFormat("##0E0").format(number);
+
+        Integer index = Character.getNumericValue(result.charAt(result.length() - 1)) / 3;
+        result = result.replaceAll("E[0-9]", METRIC_PREFIXES[index]);
+
+        while (result.length() > MAX_LENGTH || TRAILING_DECIMAL_POINT.matcher(result).matches()) {
+            int length = result.length();
+            result = result.substring(0, length - 2) + result.substring(length - 1);
         }
-        else
-        {
-            // If no prefix exists just make a string of the form 000e000
-            return String.format("%." + dp + "fe%d", val, count * 3);
-        }
+
+        return output.append(isNegative ? "-" + result : result);
     }
 
-    private final static char[] PREFIX_TEST_ARRAY = {'f', 'p', 'n', 'u', 'µ', 'm', 'k', 'K', 'M', 'G', 'T'};
-    private final static int[] PREFIX_EXP_ARRAY = {-15, -12, -9, -6, -6, -3, 3, 3, 6, 9, 12};
+    /**
+     * Convert a String produced by <tt>format()</tt> back to a number. This will generally not restore
+     * the original number because <tt>format()</tt> is a lossy operation, e.g.
+     *
+     * <pre>
+     * {@code
+     * def formatter = new RoundedMetricPrefixFormat()
+     * Long number = 5821L
+     * String formattedNumber = formatter.format(number)
+     * assert formattedNumber == '5.8k'
+     *
+     * Long parsedNumber = formatter.parseObject(formattedNumber)
+     * assert parsedNumber == 5800
+     * assert parsedNumber != number
+     * }
+     * </pre>
+     *
+     * @param source a number that may have a metric prefix
+     * @param pos if parsing succeeds, this should be updated to the index after the last parsed character
+     * @return a Number if the the string is a number without a metric prefix, or a Long if it has a metric prefix
+     */
+    @Override
+    public Object parseObject(String source, ParsePosition pos) {
 
-    public static double parse(String str)
-    {
-        return parse(str.toCharArray());
-    }
+        if (NumberUtils.isNumber(source)) {
 
-    public static double parse(char[] chars) throws NumberFormatException
-    {
-        int exponent = 0;
-        double value = 0;
+            // if the value is a number (without a prefix) don't return it as a Long or we'll lose any decimals
+            pos.setIndex(source.length());
+            return toNumber(source);
 
-        boolean gotChar = false;      // Set to true once any non-whitespace, or minus character has been found
-        boolean gotMinus = false;     // Set to true once a minus character has been found
-        boolean gotDP = false;        // Set to true once a decimal place character has been found
-        boolean gotPrefix = false;    // Set to true once a prefix character has been found
-        boolean gotDigit = false;     // Set to true once a digit character has been found
+        } else if (METRIC_PREFIXED_NUMBER.matcher(source).matches()) {
 
-        // Search for start of string
-        int start = 0;
-        while (start < chars.length) {
-            if (chars[start] != ' ' && chars[start] != '\t') break;
-            start ++;
-        }
+            boolean isNegative = source.charAt(0) == '-';
+            int length = source.length();
 
-        if (start == chars.length) throw new NumberFormatException("Empty string");
+            String number = isNegative ? source.substring(1, length - 1) : source.substring(0, length - 1);
+            String metricPrefix = Character.toString(source.charAt(length - 1));
 
-        // Search for end of string
-        int end = chars.length - 1;
-        while (end >= 0) {
-            if (chars[end] != ' ' && chars[end] != '\t') break;
-            end --;
-        }
+            Number absoluteNumber = toNumber(number);
 
-        // Iterate through characters
-        CharLoop: for (int c=start ; c<=end ; c++)
-        {
-            // Check for a minus symbol
-            if (chars[c] == '-')
-            {
-                if (gotChar) throw new NumberFormatException("Can only have minus symbol at the start");
-                if (gotMinus) throw new NumberFormatException("Too many minus symbols");
-                gotMinus = true;
-                continue CharLoop;
-            }
+            int index = 0;
 
-            gotChar = true;
-
-            // Check for a numerical digit
-            if (chars[c] >= '0' && chars[c] <= '9')
-            {
-                if (gotPrefix || gotDP) exponent --;
-                if (gotPrefix && gotDP) throw new NumberFormatException("Cannot have digits after prefix when number includes decimal point");
-                value *= 10;
-                value += chars[c] - '0';
-                gotDigit = true;
-                continue CharLoop;
-            }
-
-            // Check for a decimal place
-            if (chars[c] == '.')
-            {
-                if (gotDP) throw new NumberFormatException("Too many decimal points");
-                if (gotPrefix) throw new NumberFormatException("Cannot have decimal point after prefix");
-                gotDP = true;
-                continue CharLoop;
-            }
-
-            // Check for a match with a prefix character
-            for (int p=0 ; p<PREFIX_TEST_ARRAY.length ; p++)
-            {
-                if (PREFIX_TEST_ARRAY[p] == chars[c])
-                {
-                    if (gotPrefix) throw new NumberFormatException("Too many prefixes");
-                    exponent += PREFIX_EXP_ARRAY[p];
-                    gotPrefix = true;
-                    continue CharLoop;
+            for (; index < METRIC_PREFIXES.length; index++) {
+                if (METRIC_PREFIXES[index].equals(metricPrefix)) {
+                    break;
                 }
             }
 
-            // All other characters are invalid
-            throw new NumberFormatException("Invalid character '" + chars[c] + "'");
+            Integer exponent = 3 * index;
+            Double factor = Math.pow(10, exponent);
+            factor *= isNegative ? -1 : 1;
+
+            pos.setIndex(source.length());
+            Float result = absoluteNumber.floatValue() * factor.longValue();
+            return result.longValue();
         }
 
-        // Check if any digits were found
-        if (!gotDigit) throw new NumberFormatException("No digits");
-
-        // Apply negation if required
-        if (gotMinus) value *= -1;
-
-        return value * Math.pow(10, exponent);
+        return null;
     }
 
-
+    private static Number toNumber(String number) {
+        return NumberUtils.createNumber(number);
+    }
 }

@@ -10,5 +10,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="org.testfx:testfx-core:4.0.2-alpha" level="project" />
     <orderEntry type="library" name="org.testfx:testfx-junit:4.0.2-alpha" level="project" />
+    <orderEntry type="library" name="org.apache.commons:commons-lang3:3.3.2" level="project" />
   </component>
 </module>
