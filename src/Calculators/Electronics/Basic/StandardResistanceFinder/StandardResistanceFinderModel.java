@@ -38,7 +38,14 @@ public class StandardResistanceFinderModel extends Calculator {
     @FXML private TextField e6ErrorValue;
     @FXML private TextField e12ResistanceValue;
     @FXML private TextField e12ErrorValue;
-
+    @FXML private TextField e24ResistanceValue;
+    @FXML private TextField e24ErrorValue;
+    @FXML private TextField e48ResistanceValue;
+    @FXML private TextField e48ErrorValue;
+    @FXML private TextField e96ResistanceValue;
+    @FXML private TextField e96ErrorValue;
+    @FXML private TextField e192ResistanceValue;
+    @FXML private TextField e192ErrorValue;
 
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
@@ -49,6 +56,14 @@ public class StandardResistanceFinderModel extends Calculator {
     public CalcVarNumericalOutput e6Error;
     public CalcVarNumericalOutput e12Resistance;
     public CalcVarNumericalOutput e12Error;
+    public CalcVarNumericalOutput e24Resistance;
+    public CalcVarNumericalOutput e24Error;
+    public CalcVarNumericalOutput e48Resistance;
+    public CalcVarNumericalOutput e48Error;
+    public CalcVarNumericalOutput e96Resistance;
+    public CalcVarNumericalOutput e96Error;
+    public CalcVarNumericalOutput e192Resistance;
+    public CalcVarNumericalOutput e192Error;
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -225,7 +240,7 @@ public class StandardResistanceFinderModel extends Calculator {
         this.calcVars.add(this.e12Resistance);
 
         //===============================================================================================//
-        //================================= E6 PERCENTAGE DIFFERENCE (output) ===========================//
+        //================================= E12 PERCENTAGE DIFFERENCE (output) ==========================//
         //===============================================================================================//
 
         this.e12Error = new CalcVarNumericalOutput(
@@ -261,6 +276,306 @@ public class StandardResistanceFinderModel extends Calculator {
         this.e12Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e12Error);
+
+        //===============================================================================================//
+        //======================================= E24 RESISTANCE (output) ================================//
+        //===============================================================================================//
+
+        this.e24Resistance = new CalcVarNumericalOutput(
+                "e24Resistance",
+                this.e24ResistanceValue,     // Textbox
+                null,                       // No units for this variable
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+
+                    if(Double.isNaN(desiredResistance)) {
+                        return Double.NaN;
+                    }
+
+                    double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E24);
+
+                    return actualResistance;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+        );
+
+        this.e24Resistance.setIsEngineeringNotationEnabled(true);
+
+        // Add validators
+        this.e24Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.e24Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.e24Resistance);
+
+        //===============================================================================================//
+        //================================= E24 PERCENTAGE DIFFERENCE (output) ==========================//
+        //===============================================================================================//
+
+        this.e24Error = new CalcVarNumericalOutput(
+                "e24Error",         // Debug name
+                this.e24ErrorValue,      // Textbox for variable value
+                null,                   // No units combobox for this variable
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+                    Double closestStandardResistance = this.e24Resistance.getRawVal();
+
+                    if(Double.isNaN(desiredResistance)) {
+                        return Double.NaN;
+                    }
+
+                    // Calculate percentage difference
+                    double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+                    return percentageDiff;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                "The percentage difference between the closest standard resistance and your desired resistance."
+        );
+
+        this.e24Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+
+        // Add validators. The percentage difference is allowed to be 0.
+        this.e24Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.e24Error);
+
+        //===============================================================================================//
+        //======================================= E48 RESISTANCE (output) ================================//
+        //===============================================================================================//
+
+        this.e48Resistance = new CalcVarNumericalOutput(
+                "e48Resistance",
+                this.e48ResistanceValue,     // Textbox
+                null,                       // No units for this variable
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+
+                    if(Double.isNaN(desiredResistance)) {
+                        return Double.NaN;
+                    }
+
+                    double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E48);
+
+                    return actualResistance;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+        );
+
+        this.e48Resistance.setIsEngineeringNotationEnabled(true);
+
+        // Add validators
+        this.e48Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.e48Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.e48Resistance);
+
+        //===============================================================================================//
+        //================================= E48 PERCENTAGE DIFFERENCE (output) ==========================//
+        //===============================================================================================//
+
+        this.e48Error = new CalcVarNumericalOutput(
+                "e48Error",         // Debug name
+                this.e48ErrorValue,      // Textbox for variable value
+                null,                   // No units combobox for this variable
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+                    Double closestStandardResistance = this.e48Resistance.getRawVal();
+
+                    if(Double.isNaN(desiredResistance)) {
+                        return Double.NaN;
+                    }
+
+                    // Calculate percentage difference
+                    double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+                    return percentageDiff;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                "The percentage difference between the closest standard resistance and your desired resistance."
+        );
+
+        this.e48Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+
+        // Add validators. The percentage difference is allowed to be 0.
+        this.e48Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.e48Error);
+
+        //===============================================================================================//
+        //======================================= E96 RESISTANCE (output) ===============================//
+        //===============================================================================================//
+
+        this.e96Resistance = new CalcVarNumericalOutput(
+                "e96Resistance",
+                this.e96ResistanceValue,     // Textbox
+                null,                       // No units for this variable
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+
+                    if(Double.isNaN(desiredResistance)) {
+                        return Double.NaN;
+                    }
+
+                    double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E96);
+
+                    return actualResistance;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+        );
+
+        this.e96Resistance.setIsEngineeringNotationEnabled(true);
+
+        // Add validators
+        this.e96Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.e96Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.e96Resistance);
+
+        //===============================================================================================//
+        //================================= E96 PERCENTAGE DIFFERENCE (output) ==========================//
+        //===============================================================================================//
+
+        this.e96Error = new CalcVarNumericalOutput(
+                "e96Error",         // Debug name
+                this.e96ErrorValue,      // Textbox for variable value
+                null,                   // No units combobox for this variable
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+                    Double closestStandardResistance = this.e96Resistance.getRawVal();
+
+                    if(Double.isNaN(desiredResistance)) {
+                        return Double.NaN;
+                    }
+
+                    // Calculate percentage difference
+                    double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+                    return percentageDiff;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                "The percentage difference between the closest standard resistance and your desired resistance."
+        );
+
+        this.e96Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+
+        // Add validators. The percentage difference is allowed to be 0.
+        this.e96Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.e96Error);
+
+        //===============================================================================================//
+        //===================================== E192 RESISTANCE (output) ================================//
+        //===============================================================================================//
+
+        this.e192Resistance = new CalcVarNumericalOutput(
+                "e192Resistance",
+                this.e192ResistanceValue,     // Textbox
+                null,                       // No units for this variable
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+
+                    if(Double.isNaN(desiredResistance)) {
+                        return Double.NaN;
+                    }
+
+                    double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E192);
+
+                    return actualResistance;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+        );
+
+        this.e192Resistance.setIsEngineeringNotationEnabled(true);
+
+        // Add validators
+        this.e192Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.e192Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.e192Resistance);
+
+        //===============================================================================================//
+        //================================= E192 PERCENTAGE DIFFERENCE (output) ==========================//
+        //===============================================================================================//
+
+        this.e192Error = new CalcVarNumericalOutput(
+                "e192Error",         // Debug name
+                this.e192ErrorValue,      // Textbox for variable value
+                null,                   // No units combobox for this variable
+                () -> {
+
+                    // Read in variables
+                    Double desiredResistance = this.desiredResistance.getRawVal();
+                    Double closestStandardResistance = this.e192Resistance.getRawVal();
+
+                    if(Double.isNaN(desiredResistance)) {
+                        return Double.NaN;
+                    }
+
+                    // Calculate percentage difference
+                    double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+                    return percentageDiff;
+
+                },
+                new NumberUnit[]{
+                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                "The percentage difference between the closest standard resistance and your desired resistance."
+        );
+
+        this.e192Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+
+        // Add validators. The percentage difference is allowed to be 0.
+        this.e192Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.e192Error);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

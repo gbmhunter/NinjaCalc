@@ -121,17 +121,17 @@ public class StandardResistanceFinder {
         else if(eSeries == eSeriesOptions.E48)
         {
             //Log('E48 range selected.');
-            selectedRange = e12;
+            selectedRange = e48;
         }
         else if(eSeries == eSeriesOptions.E96)
         {
             //Log('E96 range selected.');
-            selectedRange = e12;
+            selectedRange = e96;
         }
         else if(eSeries == eSeriesOptions.E192)
         {
             //Log('E192 range selected.');
-            selectedRange = e12;
+            selectedRange = e192;
         }
 
         Integer order = FindOrder(desiredResistance) - 2;
