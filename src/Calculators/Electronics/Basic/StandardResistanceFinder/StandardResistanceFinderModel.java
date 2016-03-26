@@ -5,13 +5,28 @@ package Calculators.Electronics.Basic.StandardResistanceFinder;
 
 import Core.*;
 import Utility.StandardResistanceFinder;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.concurrent.Worker.State;
 
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.html.HTMLAnchorElement;
+
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 // USER INCLUDES
@@ -101,6 +116,49 @@ public class StandardResistanceFinderModel extends Calculator {
         WebEngine engine = this.infoWebView.getEngine();
         final String htmlFile= "info.html";
         URL url = getClass().getResource(htmlFile);
+
+        engine.getLoadWorker().stateProperty().addListener(
+                new ChangeListener<State>() {
+                    public void changed(ObservableValue ov, State oldState, State newState) {
+                        if (newState == State.SUCCEEDED) {
+                            //stage.setTitle(engine.getLocation());
+
+                            NodeList nodeList = engine.getDocument().getElementsByTagName("a");
+                            for (int i = 0; i < nodeList.getLength(); i++)
+                            {
+                                Node node= nodeList.item(i);
+                                EventTarget eventTarget = (EventTarget) node;
+                                eventTarget.addEventListener("click", new EventListener()
+                                {
+                                    @Override
+                                    public void handleEvent(Event evt)
+                                    {
+                                        EventTarget target = evt.getCurrentTarget();
+                                        HTMLAnchorElement anchorElement = (HTMLAnchorElement) target;
+                                        String href = anchorElement.getHref();
+                                        //handle opening URL outside JavaFX WebView
+                                        Desktop d = Desktop.getDesktop();
+
+                                        try {
+                                            URI uriToBrowseTo = new URI(href);
+                                            d.browse(uriToBrowseTo);
+                                        } catch (URISyntaxException e) {
+                                            System.err.println("URI had incorrect syntax.");
+                                        } catch (IOException e) {
+                                            System.err.println("An IOException occurred while trying to open link in system browser..");
+                                        }
+
+                                        System.out.println(href);
+                                        evt.preventDefault();
+                                    }
+                                }, false);
+                            }
+
+
+                        }
+                    }
+                });
+
         engine.load(url.toExternalForm());
 
         //===============================================================================================//
