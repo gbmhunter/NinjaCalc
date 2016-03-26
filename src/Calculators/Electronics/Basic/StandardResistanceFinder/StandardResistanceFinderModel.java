@@ -98,11 +98,7 @@ public class StandardResistanceFinderModel extends Calculator {
                 this.desiredResistanceValue,     // Textbox for value (UI object)
                 this.desiredResistanceUnits,     // Combobox for units (UI object)
                 new NumberUnit[]{
-                        new NumberUnit("mΩ", 1e-3),
                         new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
-                        new NumberUnit("kΩ", 1e3),
-                        new NumberUnit("MΩ", 1e6),
-                        new NumberUnit("GΩ", 1e9),
                 },
                 4,                          // Num. digits to round to
                 null,                       // Default value
@@ -138,15 +134,12 @@ public class StandardResistanceFinderModel extends Calculator {
 
                 },
                 new NumberUnit[]{
-                        new NumberUnit("mΩ", 1e-3),
                         new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
-                        new NumberUnit("kΩ", 1e3),
-                        new NumberUnit("MΩ", 1e6),
-                        new NumberUnit("GΩ", 1e9),
                 },
                 4,
                 "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
         );
+
         this.e6Resistance.setIsEngineeringNotationEnabled(true);
 
         // Add validators
@@ -169,6 +162,10 @@ public class StandardResistanceFinderModel extends Calculator {
                     Double desiredResistance = this.desiredResistance.getRawVal();
                     Double closestStandardResistance = this.e6Resistance.getRawVal();
 
+                    if(Double.isNaN(desiredResistance)) {
+                        return Double.NaN;
+                    }
+
                     // Calculate percentage difference
                     double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
 
@@ -179,7 +176,10 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The percentage difference between the closest standard resistance and your desired resistance.");
+                "The percentage difference between the closest standard resistance and your desired resistance."
+        );
+
+        //this.e6Error.setIsEngineeringNotationEnabled(true);
 
         // Add validators. The percentage difference is allowed to be 0.
         this.e6Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -200,7 +200,7 @@ public class StandardResistanceFinderModel extends Calculator {
                     Double desiredResistance = this.desiredResistance.getRawVal();
 
                     if(Double.isNaN(desiredResistance)) {
-                        return 0;
+                        return Double.NaN;
                     }
 
                     double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E12);
@@ -209,18 +209,17 @@ public class StandardResistanceFinderModel extends Calculator {
 
                 },
                 new NumberUnit[]{
-                        new NumberUnit("mΩ", 1e-3),
                         new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
-                        new NumberUnit("kΩ", 1e3),
-                        new NumberUnit("MΩ", 1e6),
-                        new NumberUnit("GΩ", 1e9),
                 },
                 4,
-                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance).");
+                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+        );
+
+        this.e12Resistance.setIsEngineeringNotationEnabled(true);
 
         // Add validators
-        this.e6Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.e6Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.e12Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.e12Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e12Resistance);
 
@@ -238,6 +237,10 @@ public class StandardResistanceFinderModel extends Calculator {
                     Double desiredResistance = this.desiredResistance.getRawVal();
                     Double closestStandardResistance = this.e12Resistance.getRawVal();
 
+                    if(Double.isNaN(desiredResistance)) {
+                        return Double.NaN;
+                    }
+
                     // Calculate percentage difference
                     double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
 
@@ -248,7 +251,10 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The percentage difference between the closest standard resistance and your desired resistance.");
+                "The percentage difference between the closest standard resistance and your desired resistance."
+        );
+
+        //this.e12Error.setIsEngineeringNotationEnabled(true);
 
         // Add validators. The percentage difference is allowed to be 0.
         this.e12Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
