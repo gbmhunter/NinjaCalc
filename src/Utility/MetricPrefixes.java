@@ -1,5 +1,6 @@
 package Utility;
 
+import java.math.BigDecimal;
 import java.util.regex.*;
 
 
@@ -82,10 +83,17 @@ public enum MetricPrefixes {
         System.out.println("Finding character...");
 
         try {
+            // Retrieve the metric prefix character
             final Character c = m.group(2).charAt(0);
-            for (final MetricPrefixes e : values())
-                if (e.getSymbol() == c)
-                    return result * e.getMultiplier();
+            // Search through all valid prefixes
+            for (final MetricPrefixes e : values()) {
+                if (e.getSymbol() == c) {
+                    // Found valid prefix!!!
+                    Double returnValue = result * e.getMultiplier();
+                    System.out.println("Returning the number " + returnValue);
+                    return returnValue;
+                }
+            }
         } catch (StringIndexOutOfBoundsException e) {
             System.out.println("StringIndexOutOfBoundsException occurred! Assuming no metric prefix was present, and returning result...");
             return result;
@@ -115,6 +123,17 @@ public enum MetricPrefixes {
     }
 
     /***
+     * Converts a double into a string in scientific notation.
+     * @param value     The number to convert into scientific notation.
+     * @return          The converted number in scientific notation.
+     */
+    public static String toSci(
+            final BigDecimal value
+    ) {
+        return value.toString();
+    }
+
+    /***
      * Convert from a number to a string in engineering notation, using the provided metric prefix.
      * @param value
      * @param notation
@@ -128,8 +147,51 @@ public enum MetricPrefixes {
         if (notation == null || notation == unit)
             return doubleToString(value);
 
+        double scaledValue = value / notation.getMultiplier();
+
         // Convert the double to a string, and add the symbol
-        return doubleToString(value / notation.getMultiplier()) + notation.getSymbol();
+        return doubleToString(scaledValue) + notation.getSymbol();
+    }
+
+    /***
+     * Convert from a number to a string in engineering notation, using the provided metric prefix.
+     * @param value
+     * @param notation
+     * @return
+     */
+    public static String toEng(
+            final double value,
+            final MetricPrefixes notation,
+            final Integer roundTo
+    ) {
+        System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString());
+        if (notation == null || notation == unit)
+            return doubleToString(value);
+
+        double scaledValue = value / notation.getMultiplier();
+
+        double scaledRoundedValue = Rounding.RoundToSignificantDigits(scaledValue, roundTo);
+
+        // Convert the double to a string, and add the symbol
+        return doubleToString(scaledRoundedValue) + notation.getSymbol();
+    }
+
+    /***
+     * Convert from a number to a string in engineering notation, using the provided metric prefix.
+     * @param value
+     * @param notation
+     * @return
+     */
+    public static String toEng(
+            final BigDecimal value,
+            final MetricPrefixes notation
+    ) {
+        System.out.println("toEng() (BigDecimal version) called with value = " + value + ", notation = " + notation.toString());
+        if (notation == null || notation == unit)
+            return value.toString();
+
+        // Convert the double to a string, and add the symbol
+        return value.divide(new BigDecimal(notation.getMultiplier())).toString() + notation.getSymbol();
     }
 
     /***
@@ -141,6 +203,46 @@ public enum MetricPrefixes {
 
         // Get the absolute value of the provided value
         final double abs = Math.abs(value);
+
+        double multiplier;
+        for (final MetricPrefixes e : values()) {
+            multiplier = e.getMultiplier();
+            if (multiplier < abs && abs < multiplier * 1000)
+                // Call the base method
+                return toEng(value, e);
+        }
+        return toSci(value);
+    }
+
+    /***
+     * Convert from a number to a string in engineering notation, automatically finding the suitable metric prefix.
+     * @param value
+     * @return
+     */
+    public static String toEng(final double value, int roundTo) {
+
+        // Get the absolute value of the provided value
+        final double abs = Math.abs(value);
+
+        double multiplier;
+        for (final MetricPrefixes e : values()) {
+            multiplier = e.getMultiplier();
+            if (multiplier < abs && abs < multiplier * 1000)
+                // Call the base method
+                return toEng(value, e, roundTo);
+        }
+        return toSci(value);
+    }
+
+    /***
+     * Convert from a number to a string in engineering notation, automatically finding the suitable metric prefix.
+     * @param value
+     * @return
+     */
+    public static String toEng(final BigDecimal value) {
+
+        // Get the absolute value of the provided value
+        final double abs = Math.abs(value.doubleValue());
 
         double multiplier;
         for (final MetricPrefixes e : values()) {

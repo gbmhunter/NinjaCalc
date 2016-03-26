@@ -1,5 +1,6 @@
 package Utility;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -11,7 +12,7 @@ import java.util.Arrays;
  *
  * @author gbmhunter
  * @since 2016-02-15
- * @last-modified 2016-03-25
+ * @last-modified 2016-03-26
  */
 public class StandardResistanceFinder {
 
@@ -27,12 +28,12 @@ public class StandardResistanceFinder {
         E192,
     }
 
-    private static ArrayList<Double> e6 = new ArrayList<>();
-    private static ArrayList<Double> e12 = new ArrayList<>();
-    private static ArrayList<Double> e24 = new ArrayList<>();
-    private static ArrayList<Double> e48 = new ArrayList<>();
-    private static ArrayList<Double> e96 = new ArrayList<>();
-    private static ArrayList<Double> e192 = new ArrayList<>();
+    private static ArrayList<Integer> e6 = new ArrayList<>();
+    private static ArrayList<Integer> e12 = new ArrayList<>();
+    private static ArrayList<Integer> e24 = new ArrayList<>();
+    private static ArrayList<Integer> e48 = new ArrayList<>();
+    private static ArrayList<Integer> e96 = new ArrayList<>();
+    private static ArrayList<Integer> e192 = new ArrayList<>();
 
     /**
      * Static initialiser for this class. Builds the E48, E96 and E192 arrays from the existing E12 and E24 arrays
@@ -41,7 +42,7 @@ public class StandardResistanceFinder {
 
         System.out.println("Building resistor E-series arrays.");
 
-        e24 = new ArrayList<Double>(Arrays.asList(1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1, 10.0));
+        e24 = new ArrayList<Integer>(Arrays.asList(100, 110, 120, 130, 150, 160, 180, 200, 220, 240, 270, 300, 330, 360, 390, 430, 470, 510, 560, 620, 680, 750, 820, 910, 1000));
 
         // Construct E12 and E6 arrays from every second and fourth element of
         // the E24 array, respectively
@@ -55,20 +56,20 @@ public class StandardResistanceFinder {
             }
         }
 
-        e192 = new ArrayList<Double>(
+        e192 = new ArrayList<Integer>(
                 Arrays.asList(
-                        1.00,1.01,1.02,1.04,1.05,1.06,1.07,1.09,1.10,1.11,1.13,1.14,1.15,1.17,1.18,1.20,
-                        1.21,1.23,1.24,1.26,1.27,1.29,1.30,1.32,1.33,1.35,1.37,1.38,1.40,1.42,1.43,1.45,
-                        1.47,1.49,1.50,1.52,1.54,1.56,1.58,1.60,1.62,1.64,1.65,1.67,1.69,1.72,1.74,1.76,
-                        1.78,1.80,1.82,1.84,1.87,1.89,1.91,1.93,1.96,1.98,2.00,2.03,2.05,2.08,2.10,2.13,
-                        2.15,2.18,2.21,2.23,2.26,2.29,2.32,2.34,2.37,2.40,2.43,2.46,2.49,2.52,2.55,2.58,
-                        2.61,2.64,2.67,2.71,2.74,2.77,2.80,2.84,2.87,2.91,2.94,2.98,3.01,3.05,3.09,3.12,
-                        3.16,3.20,3.24,3.28,3.32,3.36,3.40,3.44,3.48,3.52,3.57,3.61,3.65,3.70,3.74,3.79,
-                        3.83,3.88,3.92,3.97,4.02,4.07,4.12,4.17,4.22,4.27,4.32,4.37,4.42,4.48,4.53,4.59,
-                        4.64,4.70,4.75,4.81,4.87,4.93,4.99,5.05,5.11,5.17,5.23,5.30,5.36,5.42,5.49,5.56,
-                        5.62,5.69,5.76,5.83,5.90,5.97,6.04,6.12,6.19,6.26,6.34,6.42,6.49,6.57,6.65,6.73,
-                        6.81,6.90,6.98,7.06,7.15,7.23,7.32,7.41,7.50,7.59,7.68,7.77,7.87,7.96,8.06,8.16,
-                        8.25,8.35,8.45,8.56,8.66,8.76,8.87,8.98,9.09,9.20,9.31,9.42,9.53,9.65,9.76,9.88));
+                        100,101,102,104,105,106,107,109,110,111,113,114,115,117,118,120,
+                        121,123,124,126,127,129,130,132,133,135,137,138,140,142,143,145,
+                        147,149,150,152,154,156,158,160,162,164,165,167,169,172,174,176,
+                        178,180,182,184,187,189,191,193,196,198,200,203,205,208,210,213,
+                        215,218,221,223,226,229,232,234,237,240,243,246,249,252,255,258,
+                        261,264,267,271,274,277,280,284,287,291,294,298,301,305,309,312,
+                        316,320,324,328,332,336,340,344,348,352,357,361,365,370,374,379,
+                        383,388,392,397,402,407,412,417,422,427,432,437,442,448,453,459,
+                        464,470,475,481,487,493,499,505,511,517,523,530,536,542,549,556,
+                        562,569,576,583,590,597,604,612,619,626,634,642,649,657,665,673,
+                        681,690,698,706,715,723,732,741,750,759,768,777,787,796,806,816,
+                        825,835,845,856,866,876,887,898,909,920,931,942,953,965,976,988));
 
         // Construct E96 and E48 arrays from every second and fourth element of
         // the E192 array, respectively
@@ -96,8 +97,9 @@ public class StandardResistanceFinder {
      */
     public static double Find(double desiredResistance, eSeriesOptions eSeries) {
 
+        System.out.println("StandardResistanceFinder::Find() called with desiredResistance = " + desiredResistance + "and eSeries = " + eSeries.toString());
 
-        ArrayList<Double> selectedRange = new ArrayList<Double>();
+        ArrayList<Integer> selectedRange = new ArrayList<>();
 
         // Find out what resistance series was selected
 
@@ -132,16 +134,23 @@ public class StandardResistanceFinder {
             selectedRange = e12;
         }
 
-        Integer order = FindOrder(desiredResistance);
+        Integer order = FindOrder(desiredResistance) - 2;
         Double scaledDesRes = ScaleWrtOrder(desiredResistance, order);
         System.out.println("Scaled resistance = " + scaledDesRes);
-        Double closestMatch = FindClosestMatch(scaledDesRes, selectedRange);
-        System.out.println("Closest match 1 = " + closestMatch);
-        System.out.println("Closest match 2 = " + closestMatch*Math.pow(10, order));
+        Double closestScaledResistance = FindClosestMatch(scaledDesRes, selectedRange);
+        System.out.println("Closest scaled (between 1-10) resistance = " + closestScaledResistance);
 
-        // Return the actual resistance
-        System.out.println("Returning closest resistance = " + scaledDesRes);
-        return (closestMatch*Math.pow(10, order));
+        BigDecimal closestScaledResistanceBD = new BigDecimal(closestScaledResistance);
+        System.out.println("closestScaledResistanceBD = " + closestScaledResistanceBD.toString());
+
+        // Convert back to a non-scaled resistance
+        BigDecimal scaleFactor = new BigDecimal(Math.pow(10, order));
+        System.out.println("scaleFactor = " + scaleFactor.toString());
+
+        BigDecimal closestResistance = closestScaledResistanceBD.multiply(scaleFactor);
+
+        System.out.println("Closest non-scaled resistance = " + closestResistance);
+        return closestResistance.doubleValue();
 
     }
 
@@ -202,7 +211,7 @@ public class StandardResistanceFinder {
      * @param array     The array of values to compare with val.
      * @return          The closest array entry (in terms of percentage difference).
      */
-    private static double FindClosestMatch(Double val, ArrayList<Double> array)
+    private static double FindClosestMatch(Double val, ArrayList<Integer> array)
     {
         Integer i = 0;
 

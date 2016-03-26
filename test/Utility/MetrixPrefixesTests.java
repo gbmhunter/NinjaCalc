@@ -45,6 +45,17 @@ public class MetrixPrefixesTests {
     }
 
     @Test
+    public void largeNumberToPrefixTest() {
+
+        // Test the large number 220 million
+        assertEquals("220M", MetricPrefixes.toEng(220000000.0));
+    }
+
+    //===========================================================================================//
+    //========================= FROM PREFIX NOTATION TO NUMBER TESTS ============================//
+    //===========================================================================================//
+
+    @Test
     public void noPrefixPresentParseTest() {
         assertEquals(2.0, MetricPrefixes.toDouble("2"), 0.1);
     }

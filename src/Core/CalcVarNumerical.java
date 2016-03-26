@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -552,17 +553,15 @@ public class CalcVarNumerical extends CalcVarBase {
         // Recalculate dispValAsNumber and update textbox
         // We don't need to validate again if the units are changed for an output,
         // as the actual value (raw value) does not change.
-        double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
+        Double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
 
         if(this.roundingType == RoundingTypes.SIGNIFICANT_FIGURES) {
             this.dispValAsNumber = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
 
-
-
             if (this.isEngineeringNotationEnabled) {
                 //this.dispValAsString = MetricPrefixes.convert(dispValAsNumber, this.numDigitsToRound);
                 //Format roundedMetricPrefixFormat = new MetricPrefixes();
-                this.dispValAsString = MetricPrefixes.toEng(dispValAsNumber);
+                this.dispValAsString = MetricPrefixes.toEng(dispValAsNumber, this.numDigitsToRound);
             } else {
                 this.dispValAsString = String.valueOf(this.dispValAsNumber);
             }
