@@ -104,6 +104,8 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The current you want the PCB track to be able to handle." // Help info
         );
 
+        this.desiredResistance.setIsEngineeringNotationEnabled(true);
+
         //========== VALIDATORS ===========//
         this.desiredResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.desiredResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));

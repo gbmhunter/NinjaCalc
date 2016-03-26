@@ -159,29 +159,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Create text field listener
         this.textListener = (observable, oldValue, newValue) -> {
-            //System.out.println("CalcVarNumerical.TextBoxChanged() called. Text changed from \"" + oldValue + "\" to \"" + newValue + "\".");
-
-            // Make sure this event only fires when this variable is an input!
-            if(this.getDirection() == CalcVarDirections.Input) {
-
-                // Save this to the raw value
-                // (bypass setting the property as we don't want to update the TextBox)
-                // This could throw a System.FormatException if the value can't be converted into a double,
-                // for example, if it had letters (a2) or was just a negative sign (-).
-                try {
-                    this.dispValAsNumber = Double.valueOf(newValue);
-                    this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
-                }
-                catch (NumberFormatException exception) {
-                    this.dispValAsNumber = Double.NaN;
-                    this.rawVal = Double.NaN;
-                }
-
-                this.validate();
-
-                // We need to re-calculate any this calculator variables dependants, if they are outputs
-                this.forceDependantOutputsToRecalculate();
-            }
+            this.valueTextFieldChanged(newValue);
         };
 
         // Make sure the provided text field is not null
@@ -316,6 +294,36 @@ public class CalcVarNumerical extends CalcVarBase {
     } // public CalcVarNumerical()
 
     //===============================================================================================//
+    //=============================== EVENT HANDLER FOR TEXT FIELD CHANGE ===========================//
+    //===============================================================================================//
+
+    private void valueTextFieldChanged(String newValue){
+        //System.out.println("CalcVarNumerical.TextBoxChanged() called. Text changed from \"" + oldValue + "\" to \"" + newValue + "\".");
+
+        // Make sure this event only fires when this variable is an input!
+        if(this.getDirection() == CalcVarDirections.Input) {
+
+            // Save this to the raw value
+            // (bypass setting the property as we don't want to update the TextBox)
+            // This could throw a System.FormatException if the value can't be converted into a double,
+            // for example, if it had letters (a2) or was just a negative sign (-).
+            try {
+                this.dispValAsNumber = Double.valueOf(newValue);
+                this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
+            }
+            catch (NumberFormatException exception) {
+                this.dispValAsNumber = Double.NaN;
+                this.rawVal = Double.NaN;
+            }
+
+            this.validate();
+
+            // We need to re-calculate any this calculator variables dependants, if they are outputs
+            this.forceDependantOutputsToRecalculate();
+        }
+    }
+
+    //===============================================================================================//
     //============================================ ROUNDING =========================================//
     //===============================================================================================//
 
@@ -324,7 +332,13 @@ public class CalcVarNumerical extends CalcVarBase {
      */
     private RoundingTypes roundingType;
 
-
+    /***
+     * Changes the current rounding method.
+     * @param roundingType      The type of rounding you want for this calculator variable.
+     * @param numDigitsToRound  The number of digits to round to. For significant figure type rounding, this
+     *                          is the number of significant figures to round to, for decimal point type
+     *                          rounding, this is the number of digits after the decimal point.
+     */
     public void setRounding(RoundingTypes roundingType, int numDigitsToRound) {
         this.roundingType = roundingType;
         this.numDigitsToRound = numDigitsToRound;
