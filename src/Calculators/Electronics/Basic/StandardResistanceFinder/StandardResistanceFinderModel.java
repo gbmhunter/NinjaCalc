@@ -37,7 +37,7 @@ import java.net.URL;
  *
  * @author gbmhunter
  * @since 2013-09-17
- * @last-modified 2016-02-14
+ * @last-modified 2016-03-27
  */
 public class StandardResistanceFinderModel extends Calculator {
 
