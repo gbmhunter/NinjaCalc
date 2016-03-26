@@ -32,8 +32,10 @@ import java.net.URL;
 // USER INCLUDES
 
 /**
- * Calculator for finding a E-series resistance (standard resistance) which is closest to the user's
+ * Calculator for finding a E-series resistance (standard resistance, preferred value) which is closest to the user's
  * desired resistance.
+ *
+ * Lists closest resistance and percentage error in each EIA E series from E6 to E192.
  *
  * @author gbmhunter
  * @since 2013-09-17
