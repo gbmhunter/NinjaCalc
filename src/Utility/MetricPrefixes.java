@@ -25,6 +25,11 @@ public enum MetricPrefixes {
     final Character symbol;
     final double multiplier;
 
+    /***
+     * Constructor, private as this is a static class.
+     * @param symbol
+     * @param multiplier
+     */
     private MetricPrefixes(final Character symbol, final double multiplier) {
         this.symbol = symbol;
         this.multiplier = multiplier;
@@ -41,6 +46,8 @@ public enum MetricPrefixes {
     private static final Pattern REGEX;
 
     static {
+        System.out.println("MetricPrefixes::static() called.");
+
         final StringBuffer buffer = new StringBuffer();
         buffer.append("^([+-]?[1-9]\\d*\\.?\\d*|[+-]?0?\\.\\d+)(?:([");
         for (final MetricPrefixes e : values())
@@ -50,7 +57,13 @@ public enum MetricPrefixes {
         REGEX = Pattern.compile(buffer.toString());
     }
 
-    public static Double parse(final String value) {
+    /**
+     * Converts from a string in engineering notation (with or without metrix prefix), into
+     * a raw double.
+     * @param value     The string in engineering notation (which is allowed to have a metric prefix).
+     * @return          The converted raw value of the provided string.
+     */
+    public static Double toDouble(final String value) {
         final Matcher m = REGEX.matcher(value);
         if (!m.matches())
             return null;
@@ -72,31 +85,55 @@ public enum MetricPrefixes {
         return String.format("%s", value);
     }
 
-    public static String toEngineeringNotation(
-            final double value,
-            final MetricPrefixes notation
-    ) {
-        if (notation == null || notation == unit)
-            return doubleToString(value);
-        return doubleToString(value / notation.getMultiplier()) + notation.getSymbol();
-    }
 
-    public static String toScientificNotation(
+    /***
+     * Converts a double into a string in scientific notation.
+     * @param value     The number to convert into scientific notation.
+     * @return          The converted number in scientific notation.
+     */
+    public static String toSci(
             final double value
     ) {
         final long exponent = (long) Math.floor(Math.log10(Math.abs(value)));
         return doubleToString(value / Math.pow(10, exponent)) + 'E' + exponent;
     }
 
-    public static String toEngineeringNotation(final double value) {
+    /***
+     * Convert from a number to a string in engineering notation, using the provided metric prefix.
+     * @param value
+     * @param notation
+     * @return
+     */
+    public static String toEng(
+            final double value,
+            final MetricPrefixes notation
+    ) {
+        System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString());
+        if (notation == null || notation == unit)
+            return doubleToString(value);
+
+        // Convert the double to a string, and add the symbol
+        return doubleToString(value / notation.getMultiplier()) + notation.getSymbol();
+    }
+
+    /***
+     * Convert from a number to a string in engineering notation, automatically finding the suitable metric prefix.
+     * @param value
+     * @return
+     */
+    public static String toEng(final double value) {
+
+        // Get the absolute value of the provided value
         final double abs = Math.abs(value);
+
         double multiplier;
         for (final MetricPrefixes e : values()) {
             multiplier = e.getMultiplier();
             if (multiplier < abs && abs < multiplier * 1000)
-                return toEngineeringNotation(value, e);
+                // Call the base method
+                return toEng(value, e);
         }
-        return toScientificNotation(value);
+        return toSci(value);
     }
 
 }

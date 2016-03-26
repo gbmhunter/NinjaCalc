@@ -385,13 +385,14 @@ public class CalcVarNumerical extends CalcVarBase {
         // Invoke the provided equation function,
         // which should return the raw value for this calculator variable
         this.rawVal = this.equationFunction.execute();
-        //this.dispValAsNumber = this.rawVal / this.selUnit.multiplier;
-        //this.valueTextField.Text = this.dispValAsNumber.ToString();
+
+        // Update the displayed value based on this newly calculated raw value
         this.updateDispValFromRawVal();
 
-        // Validation is done in the TextBoxChanged event handler
+        // Validate this new value
         this.validate();
 
+        // Force all calculator variables which are dependent on this one to recalculate.
         this.forceDependantOutputsToRecalculate();
     }
 
@@ -481,7 +482,15 @@ public class CalcVarNumerical extends CalcVarBase {
 
     private void updateDispValFromRawVal() {
 
-        System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\".");
+        System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\". this.rawVal = " + this.rawVal);
+
+        // Special treatment if raw value is NaN
+        if(Double.isNaN(this.rawVal)) {
+            this.dispValAsNumber = Double.NaN;
+            this.dispValAsString = String.valueOf(Double.NaN);
+            this.valueTextField.setText(this.dispValAsString);
+            return;
+        }
 
         // Recalculate dispValAsNumber and update textbox
         // We don't need to validate again if the units are changed for an output,
@@ -492,7 +501,7 @@ public class CalcVarNumerical extends CalcVarBase {
         if(this.isEngineeringNotationEnabled) {
             //this.dispValAsString = MetricPrefixes.convert(dispValAsNumber, this.numDigitsToRound);
             //Format roundedMetricPrefixFormat = new MetricPrefixes();
-            this.dispValAsString = MetricPrefixes.toEngineeringNotation(dispValAsNumber);
+            this.dispValAsString = MetricPrefixes.toEng(dispValAsNumber);
         } else {
             this.dispValAsString = String.valueOf(this.dispValAsNumber);
         }

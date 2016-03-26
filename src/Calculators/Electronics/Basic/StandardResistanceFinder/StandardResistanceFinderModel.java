@@ -129,7 +129,7 @@ public class StandardResistanceFinderModel extends Calculator {
                     Double desiredResistance = this.desiredResistance.getRawVal();
 
                     if(Double.isNaN(desiredResistance)) {
-                        return 0;
+                        return Double.NaN;
                     }
 
                     double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E6);

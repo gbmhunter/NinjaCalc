@@ -7,11 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Utility/EngineeringNotationTests.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Utility/EngineeringNotation.java" afterPath="$PROJECT_DIR$/src/Utility/MetricPrefixes.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" afterPath="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Utility/MetricPrefixes.java" afterPath="$PROJECT_DIR$/src/Utility/MetricPrefixes.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java" afterPath="$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,8 +85,8 @@
       <file leaf-file-name="MetrixPrefixesTests.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+            <state relative-caret-position="170">
+              <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -121,33 +120,33 @@
       <file leaf-file-name="StandardResistanceFinderModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="25" selection-end-column="3" />
+            <state relative-caret-position="374">
+              <caret line="130" column="56" selection-start-line="130" selection-start-column="56" selection-end-line="130" selection-end-column="56" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MetricPrefixes.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MetricPrefixes.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Utility/MetricPrefixes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="2091">
+              <caret line="123" column="47" selection-start-line="123" selection-start-column="47" selection-end-line="123" selection-end-column="47" />
               <folding>
-                <element signature="e#686#687#0" expanded="true" />
-                <element signature="e#715#716#0" expanded="true" />
-                <element signature="e#752#753#0" expanded="true" />
-                <element signature="e#785#786#0" expanded="true" />
+                <element signature="e#804#805#0" expanded="true" />
+                <element signature="e#833#834#0" expanded="true" />
+                <element signature="e#870#871#0" expanded="true" />
+                <element signature="e#903#904#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CalcVarNumerical.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CalcVarNumerical.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="750">
-              <caret line="598" column="27" selection-start-line="598" selection-start-column="27" selection-end-line="598" selection-end-column="27" />
+            <state relative-caret-position="189">
+              <caret line="490" column="62" selection-start-line="490" selection-start-column="62" selection-end-line="490" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2067#2068#0" expanded="true" />
@@ -225,7 +224,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/CalculatorGridElement/CalculatorGridElementController.java" />
         <option value="$PROJECT_DIR$/src/Core/AutoScalingStackPane.java" />
         <option value="$PROJECT_DIR$/src/Core/CalcValidationLevel.java" />
         <option value="$PROJECT_DIR$/src/Core/CalcValidationLevels.java" />
@@ -268,14 +266,15 @@
         <option value="$PROJECT_DIR$/out/production/NinjaCalc/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml" />
         <option value="$PROJECT_DIR$/src/Core/CalcVarBase.java" />
         <option value="$PROJECT_DIR$/src/MainWindow/MainWindow.fxml" />
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
         <option value="$PROJECT_DIR$/src/Utility/RoundedMetricPrefixFormat.java" />
         <option value="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" />
         <option value="$PROJECT_DIR$/src/Utility/EngineeringNotation.java" />
-        <option value="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
         <option value="$PROJECT_DIR$/test/Utility/EngineeringNotationTest.java" />
         <option value="$PROJECT_DIR$/test/Utility/EngineeringNotationTests.java" />
         <option value="$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java" />
+        <option value="$PROJECT_DIR$/src/Utility/MetricPrefixes.java" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
+        <option value="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
       </list>
     </option>
   </component>
@@ -410,6 +409,72 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Utility" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Electronics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Electronics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Basic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="StandardResistanceFinder" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Electronics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Basic" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -896,21 +961,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 25m 45s.xml">
-      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 26m 28s.xml">
-      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 27m 47s.xml">
-      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 28m 00s.xml">
-      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 28m 39s.xml">
-      <configuration name="EngineeringNotationTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="EngineeringNotationTest - 2016.03.25 at 22h 28m 54s.xml">
       <configuration name="EngineeringNotationTest" configurationId="JUnit" />
     </history-entry>
@@ -925,6 +975,21 @@
     </history-entry>
     <history-entry file="EngineeringNotationTests - 2016.03.25 at 22h 33m 50s.xml">
       <configuration name="EngineeringNotationTests" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetrixPrefixesTests - 2016.03.26 at 12h 42m 43s.xml">
+      <configuration name="MetrixPrefixesTests" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetrixPrefixesTests - 2016.03.26 at 12h 50m 31s.xml">
+      <configuration name="MetrixPrefixesTests" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetrixPrefixesTests - 2016.03.26 at 12h 51m 47s.xml">
+      <configuration name="MetrixPrefixesTests" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetrixPrefixesTests - 2016.03.26 at 12h 52m 08s.xml">
+      <configuration name="MetrixPrefixesTests" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MetrixPrefixesTests - 2016.03.26 at 12h 53m 04s.xml">
+      <configuration name="MetrixPrefixesTests" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
@@ -942,7 +1007,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37526426" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37526426" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -952,7 +1017,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31606767" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31606767" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1348,27 +1413,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java">
+    <entry file="file://$PROJECT_DIR$/out/production/NinjaCalc/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3930#3938#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="697">
+          <caret line="41" column="108" selection-start-line="41" selection-start-column="108" selection-end-line="41" selection-end-column="108" />
+          <folding />
         </state>
       </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
+    <entry file="file://$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="598" column="27" selection-start-line="598" selection-start-column="27" selection-end-line="598" selection-end-column="27" />
+        <state relative-caret-position="170">
+          <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2067#2068#0" expanded="true" />
-            <element signature="e#2123#2124#0" expanded="true" />
-            <element signature="e#2188#2189#0" expanded="true" />
-            <element signature="e#2245#2246#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1383,44 +1444,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/out/production/NinjaCalc/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
+    <entry file="file://$PROJECT_DIR$/src/Utility/MetricPrefixes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" column="108" selection-start-line="41" selection-start-column="108" selection-end-line="41" selection-end-column="108" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="25" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+        <state relative-caret-position="2091">
+          <caret line="123" column="47" selection-start-line="123" selection-start-column="47" selection-end-line="123" selection-end-column="47" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#804#805#0" expanded="true" />
+            <element signature="e#833#834#0" expanded="true" />
+            <element signature="e#870#871#0" expanded="true" />
+            <element signature="e#903#904#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utility/MetricPrefixes.java">
+    <entry file="file://$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state relative-caret-position="202">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
           <folding>
-            <element signature="e#686#687#0" expanded="true" />
-            <element signature="e#715#716#0" expanded="true" />
-            <element signature="e#752#753#0" expanded="true" />
-            <element signature="e#785#786#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3930#3938#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="130" column="56" selection-start-line="130" selection-start-column="56" selection-end-line="130" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="490" column="62" selection-start-line="490" selection-start-column="62" selection-end-line="490" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2067#2068#0" expanded="true" />
+            <element signature="e#2123#2124#0" expanded="true" />
+            <element signature="e#2188#2189#0" expanded="true" />
+            <element signature="e#2245#2246#0" expanded="true" />
           </folding>
         </state>
       </provider>
