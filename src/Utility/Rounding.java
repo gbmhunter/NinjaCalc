@@ -1,5 +1,8 @@
 package Utility;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * Static class to help with the rounding of calculator variables, especially
  * with significant figure-based rounding.
@@ -29,6 +32,19 @@ public class Rounding {
         final long shifted = Math.round(numberToRound*magnitude);
         return shifted/magnitude;
     }
+
+    public static BigDecimal ToSignificantDigits(BigDecimal value, int digits) {
+
+        System.out.println("ToSignificantDigits(), BigDecimal overload called.");
+
+        int newScale = digits - value.precision()+value.scale();
+        BigDecimal bd2 = value.setScale(newScale, RoundingMode.HALF_UP);
+
+        System.out.println("Rounded number = " + bd2);
+
+        return bd2;
+    }
+
 
     public static double ToDecimalPlaces(double numberToRound, int digits) {
 

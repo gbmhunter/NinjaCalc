@@ -557,6 +557,8 @@ public class CalcVarNumerical extends CalcVarBase {
         if(this.roundingType == RoundingTypes.SIGNIFICANT_FIGURES) {
             this.dispValAsNumber = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
 
+
+
             if (this.isEngineeringNotationEnabled) {
                 //this.dispValAsString = MetricPrefixes.convert(dispValAsNumber, this.numDigitsToRound);
                 //Format roundedMetricPrefixFormat = new MetricPrefixes();
