@@ -31,15 +31,15 @@ public class OhmsLawCalcModel extends Calculator {
     //===============================================================================================//
 
     @FXML private TextField textFieldVoltageValue;
-    @FXML private ComboBox comboBoxVoltageUnits;
+    //@FXML private ComboBox comboBoxVoltageUnits;
     @FXML private RadioButton radioButtonVoltageIO;
 
     @FXML private TextField textFieldCurrentValue;
-    @FXML private ComboBox comboBoxCurrentUnits;
+    //@FXML private ComboBox comboBoxCurrentUnits;
     @FXML private RadioButton radioButtonCurrentIO;
 
     @FXML private TextField textFieldResistanceValue;
-    @FXML private ComboBox comboBoxResistanceUnits;
+    //@FXML private ComboBox comboBoxResistanceUnits;
     @FXML private RadioButton radioButtonResistanceIO;
 
     @FXML private WebView infoWebView;
@@ -127,16 +127,16 @@ public class OhmsLawCalcModel extends Calculator {
         this.voltage = new CalcVarNumerical(
             "voltage",
             textFieldVoltageValue,
-            comboBoxVoltageUnits,
+            null,
             () -> {
                 Double current = this.current.getRawVal();
                 Double resistance = this.resistance.getRawVal();
                 return current * resistance;
             },
             new NumberUnit[]{
-                new NumberUnit("mV", 1e-3),
+                //new NumberUnit("mV", 1e-3),
                 new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
-                new NumberUnit("kV", 1e3),
+                //new NumberUnit("kV", 1e3),
             },
             4,
             () -> {
@@ -147,6 +147,8 @@ public class OhmsLawCalcModel extends Calculator {
             null,
             "The voltage across the resistor." // Help text
             );
+
+        this.voltage.setIsEngineeringNotationEnabled(true);
 
         // Add validators
         this.voltage.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -162,17 +164,17 @@ public class OhmsLawCalcModel extends Calculator {
         this.current = new CalcVarNumerical(
             "current",
             textFieldCurrentValue,
-            comboBoxCurrentUnits,
+            null,
             () -> {
                 Double voltage = this.voltage.getRawVal();
                 Double resistance = this.resistance.getRawVal();
                 return voltage / resistance;
             },
             new NumberUnit[]{
-                new NumberUnit("pA", 1e-12),
-                new NumberUnit("nA", 1e-9),
-                new NumberUnit("uA", 1e-6),
-                new NumberUnit("mA", 1e-3),
+                //new NumberUnit("pA", 1e-12),
+                //new NumberUnit("nA", 1e-9),
+                //new NumberUnit("uA", 1e-6),
+                //new NumberUnit("mA", 1e-3),
                 new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
             },
             4,
@@ -183,6 +185,8 @@ public class OhmsLawCalcModel extends Calculator {
             null,
             "The current going through the resistor" // Help text
             );
+
+        this.current.setIsEngineeringNotationEnabled(true);
 
         this.current.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.current.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
@@ -197,18 +201,18 @@ public class OhmsLawCalcModel extends Calculator {
         this.resistance = new CalcVarNumerical(
             "resistance",
             textFieldResistanceValue,
-            comboBoxResistanceUnits,
+            null,
             () -> {
                 Double voltage = this.voltage.getRawVal();
                 Double current = this.current.getRawVal();
                 return voltage / current;
             },
             new NumberUnit[]{
-                new NumberUnit("mΩ", 1e-3),
+                //new NumberUnit("mΩ", 1e-3),
                 new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
-                new NumberUnit("kΩ", 1e3),
-                new NumberUnit("MΩ", 1e6),
-                new NumberUnit("GΩ", 1e9),
+                //new NumberUnit("kΩ", 1e3),
+                //new NumberUnit("MΩ", 1e6),
+                //new NumberUnit("GΩ", 1e9),
             },
             4,
             () -> {
@@ -218,6 +222,8 @@ public class OhmsLawCalcModel extends Calculator {
             null,
             "The resistance of the resistor (or other circuit component)." // Help text
             );
+
+        this.resistance.setIsEngineeringNotationEnabled(true);
 
         this.resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
