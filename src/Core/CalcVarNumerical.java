@@ -1,7 +1,8 @@
 
 package Core;
 
-import Utility.MetricPrefixes;
+import Utility.MetricPrefixes.MetricPrefixes;
+import Utility.MetricPrefixes.RoundingMethods;
 import Utility.Rounding;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -561,7 +561,7 @@ public class CalcVarNumerical extends CalcVarBase {
             if (this.isEngineeringNotationEnabled) {
                 //this.dispValAsString = MetricPrefixes.convert(dispValAsNumber, this.numDigitsToRound);
                 //Format roundedMetricPrefixFormat = new MetricPrefixes();
-                this.dispValAsString = MetricPrefixes.toEng(dispValAsNumber, this.numDigitsToRound);
+                this.dispValAsString = MetricPrefixes.toEng(dispValAsNumber, RoundingMethods.SIGNIFICANT_FIGURES, this.numDigitsToRound);
             } else {
                 this.dispValAsString = String.valueOf(this.dispValAsNumber);
             }

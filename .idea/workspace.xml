@@ -7,9 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Utility/MetricPrefixes.java" afterPath="$PROJECT_DIR$/src/Utility/MetricPrefixes.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java" afterPath="$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Utility/MetricPrefixes.java" afterPath="$PROJECT_DIR$/src/Utility/MetricPrefixes/MetricPrefixes.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" afterPath="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java" afterPath="$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,11 +74,11 @@
         <entry file="file://$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
-              <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+              <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1685#1686#0" expanded="true" />
-                <element signature="e#1753#1754#0" expanded="true" />
+                <element signature="e#1731#1732#0" expanded="true" />
+                <element signature="e#1799#1800#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -99,35 +100,45 @@
       <file leaf-file-name="StandardResistanceFinderModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="446" column="72" selection-start-line="446" selection-start-column="72" selection-end-line="446" selection-end-column="72" />
+            <state relative-caret-position="153">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="25" selection-end-column="3" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CalcVarNumericalOutput.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumericalOutput.java">
+      <file leaf-file-name="MetricPrefixes.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Utility/MetricPrefixes/MetricPrefixes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="35" column="26" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MetricPrefixes.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Utility/MetricPrefixes.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="17" column="19" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+            <state relative-caret-position="393">
+              <caret line="254" column="29" selection-start-line="254" selection-start-column="29" selection-end-line="254" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#857#858#0" expanded="true" />
-                <element signature="e#886#887#0" expanded="true" />
-                <element signature="e#923#924#0" expanded="true" />
-                <element signature="e#956#957#0" expanded="true" />
+                <element signature="e#1067#1068#0" expanded="true" />
+                <element signature="e#1096#1097#0" expanded="true" />
+                <element signature="e#1133#1134#0" expanded="true" />
+                <element signature="e#1166#1167#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RoundingMethods.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Utility/MetricPrefixes/RoundingMethods.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IValidationFunction.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Core/IValidationFunction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="116" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -135,14 +146,14 @@
       <file leaf-file-name="CalcVarNumerical.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="457">
-              <caret line="576" column="0" selection-start-line="576" selection-start-column="0" selection-end-line="576" selection-end-column="0" />
+            <state relative-caret-position="219">
+              <caret line="558" column="12" selection-start-line="558" selection-start-column="12" selection-end-line="558" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2644#2645#0" expanded="true" />
-                <element signature="e#2700#2701#0" expanded="true" />
-                <element signature="e#2765#2766#0" expanded="true" />
-                <element signature="e#2822#2823#0" expanded="true" />
+                <element signature="e#2677#2678#0" expanded="true" />
+                <element signature="e#2733#2734#0" expanded="true" />
+                <element signature="e#2798#2799#0" expanded="true" />
+                <element signature="e#2855#2856#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -151,7 +162,7 @@
       <file leaf-file-name="Rounding.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Utility/Rounding.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="138">
               <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -160,11 +171,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RoundingTests.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RoundingTests.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/Utility/RoundingTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+            <state relative-caret-position="444">
+              <caret line="27" column="1" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -190,9 +201,9 @@
         <option value="JavaFXApplication" />
         <option value="XSLT Stylesheet" />
         <option value="Interface" />
-        <option value="Enum" />
         <option value="JUnit4 Test Class" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -212,9 +223,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Core/CalcValidationLevels.java" />
-        <option value="$PROJECT_DIR$/src/Core/CalcValidationResult.java" />
-        <option value="$PROJECT_DIR$/src/Core/Validator.java" />
         <option value="$PROJECT_DIR$/src/Core/StyleSheets/default.css" />
         <option value="$PROJECT_DIR$/src/Core/CalcVarDirections.java" />
         <option value="$PROJECT_DIR$/src/Core/CalcVarNumericalInput.java" />
@@ -258,11 +266,14 @@
         <option value="$PROJECT_DIR$/src/Utility/Rounding.java" />
         <option value="$PROJECT_DIR$/test/Utility/RoundingTests.java" />
         <option value="$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java" />
-        <option value="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
         <option value="$PROJECT_DIR$/out/production/NinjaCalc/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml" />
         <option value="$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java" />
+        <option value="$PROJECT_DIR$/src/Utility/RoundingMethods.java" />
         <option value="$PROJECT_DIR$/src/Utility/MetricPrefixes.java" />
+        <option value="$PROJECT_DIR$/src/Utility/MetricPrefixes/RoundingMethods.java" />
+        <option value="$PROJECT_DIR$/src/Utility/MetricPrefixes/MetricPrefixes.java" />
+        <option value="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
       </list>
     </option>
   </component>
@@ -414,6 +425,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Utility" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MetricPrefixes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -545,7 +578,7 @@
       <recent name="C:\Users\gbmhunter\GoogleDrive\Projects\NinjaCalc\src\Calculators\Electronics\Pcb\TrackCurrentIpc2221A" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.All in NinjaCalc">
     <configuration default="false" name="All in NinjaCalc" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="NinjaCalc" />
@@ -570,7 +603,7 @@
     <configuration default="false" name="MetrixPrefixesTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="Utility.*" />
+          <option name="PATTERN" value="Utility.MetricPrefixes.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -596,7 +629,7 @@
     <configuration default="false" name="MetrixPrefixesTests.noPrefixPresentParseTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="Utility.*" />
+          <option name="PATTERN" value="Utility.MetricPrefixes.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -622,7 +655,7 @@
     <configuration default="false" name="RoundingTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="Utility.*" />
+          <option name="PATTERN" value="Utility.MetricPrefixes.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -648,7 +681,7 @@
     <configuration default="false" name="MetrixPrefixesTests.largeNumberToPrefixTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="Utility.*" />
+          <option name="PATTERN" value="Utility.MetricPrefixes.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -974,6 +1007,9 @@
     <history-entry file="All_in_NinjaCalc - 2016.03.27 at 09h 15m 55s.xml">
       <configuration name="All in NinjaCalc" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_NinjaCalc - 2016.03.27 at 09h 38m 28s.xml">
+      <configuration name="All in NinjaCalc" configurationId="JUnit" />
+    </history-entry>
     <history-entry file="MetrixPrefixesTests - 2016.03.26 at 18h 43m 48s.xml">
       <configuration name="MetrixPrefixesTests" configurationId="JUnit" />
     </history-entry>
@@ -985,9 +1021,6 @@
     </history-entry>
     <history-entry file="MetrixPrefixesTests_largeNumberToPrefixTest - 2016.03.26 at 18h 42m 48s.xml">
       <configuration name="MetrixPrefixesTests.largeNumberToPrefixTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RoundingTests - 2016.03.26 at 18h 19m 05s.xml">
-      <configuration name="RoundingTests" configurationId="JUnit" />
     </history-entry>
     <history-entry file="RoundingTests - 2016.03.26 at 18h 19m 19s.xml">
       <configuration name="RoundingTests" configurationId="JUnit" />
@@ -1081,13 +1114,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Core/StyleSheets/default.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="131" column="99" selection-start-line="131" selection-start-column="99" selection-end-line="131" selection-end-column="99" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/CalcVarDirections.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1106,13 +1132,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="4" column="8" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/IValidationFunction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="116" />
         </state>
       </provider>
     </entry>
@@ -1423,37 +1442,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utility/Rounding.java">
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/Utility/RoundingTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="576" column="0" selection-start-line="576" selection-start-column="0" selection-end-line="576" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2644#2645#0" expanded="true" />
-            <element signature="e#2700#2701#0" expanded="true" />
-            <element signature="e#2765#2766#0" expanded="true" />
-            <element signature="e#2822#2823#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="153">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="25" selection-end-column="3" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1468,11 +1461,25 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
+    <entry file="file://$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="446" column="72" selection-start-line="446" selection-start-column="72" selection-end-line="446" selection-end-column="72" />
-          <folding />
+        <state relative-caret-position="272">
+          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1731#1732#0" expanded="true" />
+            <element signature="e#1799#1800#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utility/Rounding.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1484,28 +1491,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/Utility/MetrixPrefixesTests.java">
+    <entry file="file://$PROJECT_DIR$/src/Core/IValidationFunction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+        <state relative-caret-position="51">
+          <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="116" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utility/MetricPrefixes/RoundingMethods.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utility/MetricPrefixes/MetricPrefixes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="254" column="29" selection-start-line="254" selection-start-column="29" selection-end-line="254" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1685#1686#0" expanded="true" />
-            <element signature="e#1753#1754#0" expanded="true" />
+            <element signature="e#1067#1068#0" expanded="true" />
+            <element signature="e#1096#1097#0" expanded="true" />
+            <element signature="e#1133#1134#0" expanded="true" />
+            <element signature="e#1166#1167#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utility/MetricPrefixes.java">
+    <entry file="file://$PROJECT_DIR$/src/Core/CalcVarNumerical.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="17" column="19" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+        <state relative-caret-position="219">
+          <caret line="558" column="12" selection-start-line="558" selection-start-column="12" selection-end-line="558" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#857#858#0" expanded="true" />
-            <element signature="e#886#887#0" expanded="true" />
-            <element signature="e#923#924#0" expanded="true" />
-            <element signature="e#956#957#0" expanded="true" />
+            <element signature="e#2677#2678#0" expanded="true" />
+            <element signature="e#2733#2734#0" expanded="true" />
+            <element signature="e#2798#2799#0" expanded="true" />
+            <element signature="e#2855#2856#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/Utility/RoundingTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="444">
+          <caret line="27" column="1" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,9 +1,17 @@
-package Utility;
+package Utility.MetricPrefixes;
+
+import Utility.Rounding;
 
 import java.math.BigDecimal;
 import java.util.regex.*;
 
-
+/**
+ * Utility class for converting numbers to strings with metric prefixes and back again.
+ *
+ * @author gbmhunter
+ * @since 2016-03-26
+ * @last-modified 2016-03-27
+ */
 public enum MetricPrefixes {
     yocto('y', 1e-24),
     zepto('z', 1e-21),
@@ -158,11 +166,13 @@ public enum MetricPrefixes {
      * Convert from a number to a string in engineering notation, using the provided metric prefix.
      * @param value
      * @param notation
+     * @param roundTo   Number to significant figures to round number to.
      * @return
      */
     public static String toEng(
             final double value,
             final MetricPrefixes notation,
+            final RoundingMethods roundingMethod,
             final Integer roundTo
     ) {
         System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString());
@@ -171,7 +181,19 @@ public enum MetricPrefixes {
 
         double scaledValue = value / notation.getMultiplier();
 
-        double scaledRoundedValue = Rounding.RoundToSignificantDigits(scaledValue, roundTo);
+        double scaledRoundedValue = 0.0;
+
+        switch(roundingMethod) {
+            case DECIMAL_PLACES:
+                scaledRoundedValue = Rounding.ToDecimalPlaces(scaledValue, roundTo);
+                break;
+            case SIGNIFICANT_FIGURES:
+                scaledRoundedValue = Rounding.RoundToSignificantDigits(scaledValue, roundTo);
+                break;
+            default:
+                throw new IllegalArgumentException("RoundingMethod choice not handled in switch.");
+        }
+
 
         // Convert the double to a string, and add the symbol
         return doubleToString(scaledRoundedValue) + notation.getSymbol();
@@ -183,7 +205,7 @@ public enum MetricPrefixes {
      * @param notation
      * @return
      */
-    public static String toEng(
+    /*public static String toEng(
             final BigDecimal value,
             final MetricPrefixes notation
     ) {
@@ -193,7 +215,7 @@ public enum MetricPrefixes {
 
         // Convert the double to a string, and add the symbol
         return value.divide(new BigDecimal(notation.getMultiplier())).toString() + notation.getSymbol();
-    }
+    }*/
 
     /***
      * Convert from a number to a string in engineering notation, automatically finding the suitable metric prefix.
@@ -220,7 +242,10 @@ public enum MetricPrefixes {
      * @param value
      * @return
      */
-    public static String toEng(final double value, int roundTo) {
+    public static String toEng(
+            final double value,
+            final RoundingMethods roundingMethod,
+            final int roundTo) {
 
         // Get the absolute value of the provided value
         final double abs = Math.abs(value);
@@ -230,7 +255,7 @@ public enum MetricPrefixes {
             multiplier = e.getMultiplier();
             if (multiplier < abs && abs < multiplier * 1000)
                 // Call the base method
-                return toEng(value, e, roundTo);
+                return toEng(value, e, roundingMethod, roundTo);
         }
         return toSci(value);
     }
@@ -240,7 +265,7 @@ public enum MetricPrefixes {
      * @param value
      * @return
      */
-    public static String toEng(final BigDecimal value) {
+    /*public static String toEng(final BigDecimal value) {
 
         // Get the absolute value of the provided value
         final double abs = Math.abs(value.doubleValue());
@@ -253,6 +278,6 @@ public enum MetricPrefixes {
                 return toEng(value, e);
         }
         return toSci(value);
-    }
+    }*/
 
 }
