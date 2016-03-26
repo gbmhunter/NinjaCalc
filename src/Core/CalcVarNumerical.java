@@ -2,6 +2,7 @@
 package Core;
 
 import Utility.MetricPrefixes;
+import Utility.Rounding;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -24,6 +25,18 @@ import java.util.ArrayList;
  * @last-modified 2016-03-25
  */
 public class CalcVarNumerical extends CalcVarBase {
+
+    //===============================================================================================//
+    //========================================= ENUMS ===============================================//
+    //===============================================================================================//
+
+    /**
+     * The different types of precision that can be specified for this numerical calculator variable.
+     */
+    public enum RoundingTypes {
+        DECIMAL_PLACES,
+        SIGNIFICANT_FIGURES,
+    }
 
     //===============================================================================================//
     //==================================== VARIABLES AND PROPERTIES =================================//
@@ -269,10 +282,10 @@ public class CalcVarNumerical extends CalcVarBase {
             this.setSelUnit(this.units.get(0));
         }
 
-        //===============================================================================================//
-        //============================================ ROUNDING =========================================//
-        //===============================================================================================//
+        //======================== ROUNDING =========================//
 
+        // Set the default rounding type to use significant figures
+        this.roundingType = RoundingTypes.SIGNIFICANT_FIGURES;
         this.numDigitsToRound = numDigitsToRound;
 
         // Assign the default raw value
@@ -290,12 +303,6 @@ public class CalcVarNumerical extends CalcVarBase {
         }
 
         // Install event handlers
-        /*this.RawValueChanged += (sender, EventArgs) => {
-            // Update displayed value
-            this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
-            // Update textbox
-            this.valueTextField.Text = this.dispValAsNumber.ToString();
-        };*/
         this.addRawValueChangedListener(calcVarBase -> {
             // Update displayed value
             this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
@@ -309,8 +316,25 @@ public class CalcVarNumerical extends CalcVarBase {
     } // public CalcVarNumerical()
 
     //===============================================================================================//
+    //============================================ ROUNDING =========================================//
+    //===============================================================================================//
+
+    /***
+     * Stores the current rounding type this calculator variable is set to.
+     */
+    private RoundingTypes roundingType;
+
+
+    public void SetRounding(RoundingTypes roundingType, int numDigitsToRound) {
+        this.roundingType = roundingType;
+        this.numDigitsToRound = numDigitsToRound;
+    }
+
+    //===============================================================================================//
     //======================================== GETTERS/SETTERS ======================================//
     //===============================================================================================//
+
+
 
     /**
      * Gets or sets the the "raw" (unscaled, unrounded) value for this variable. Setting will cause the displayed value, textbox, and all
@@ -480,6 +504,9 @@ public class CalcVarNumerical extends CalcVarBase {
         }
     }
 
+    /**
+     * Rounding also occurs in this function.
+     */
     private void updateDispValFromRawVal() {
 
         System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\". this.rawVal = " + this.rawVal);
@@ -496,14 +523,19 @@ public class CalcVarNumerical extends CalcVarBase {
         // We don't need to validate again if the units are changed for an output,
         // as the actual value (raw value) does not change.
         double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
-        this.dispValAsNumber = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
 
-        if(this.isEngineeringNotationEnabled) {
-            //this.dispValAsString = MetricPrefixes.convert(dispValAsNumber, this.numDigitsToRound);
-            //Format roundedMetricPrefixFormat = new MetricPrefixes();
-            this.dispValAsString = MetricPrefixes.toEng(dispValAsNumber);
-        } else {
-            this.dispValAsString = String.valueOf(this.dispValAsNumber);
+        if(this.roundingType == RoundingTypes.SIGNIFICANT_FIGURES) {
+            this.dispValAsNumber = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
+
+            if (this.isEngineeringNotationEnabled) {
+                //this.dispValAsString = MetricPrefixes.convert(dispValAsNumber, this.numDigitsToRound);
+                //Format roundedMetricPrefixFormat = new MetricPrefixes();
+                this.dispValAsString = MetricPrefixes.toEng(dispValAsNumber);
+            } else {
+                this.dispValAsString = String.valueOf(this.dispValAsNumber);
+            }
+        } else if(this.roundingType == RoundingTypes.DECIMAL_PLACES) {
+
         }
 
         //this.valueTextField.setText(String.valueOf(this.dispValAsNumber));

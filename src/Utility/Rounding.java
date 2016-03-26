@@ -1,10 +1,11 @@
-package Core;
+package Utility;
 
 /**
  * Static class to help with the rounding of calculator variables, especially
  * with significant figure-based rounding.
  * @author gbmhunter
  * @since 2015-11-02
+ * @last-modified 2016-03-26
  */
 public class Rounding {
 
