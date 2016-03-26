@@ -325,7 +325,7 @@ public class CalcVarNumerical extends CalcVarBase {
     private RoundingTypes roundingType;
 
 
-    public void SetRounding(RoundingTypes roundingType, int numDigitsToRound) {
+    public void setRounding(RoundingTypes roundingType, int numDigitsToRound) {
         this.roundingType = roundingType;
         this.numDigitsToRound = numDigitsToRound;
     }
@@ -535,7 +535,9 @@ public class CalcVarNumerical extends CalcVarBase {
                 this.dispValAsString = String.valueOf(this.dispValAsNumber);
             }
         } else if(this.roundingType == RoundingTypes.DECIMAL_PLACES) {
-
+            // Rounding to fixed number of decimal places
+            this.dispValAsNumber = Rounding.ToDecimalPlaces(unroundedDispVal, this.numDigitsToRound);
+            this.dispValAsString = String.valueOf(this.dispValAsNumber);
         }
 
         //this.valueTextField.setText(String.valueOf(this.dispValAsNumber));

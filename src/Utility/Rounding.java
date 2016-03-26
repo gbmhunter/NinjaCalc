@@ -30,5 +30,20 @@ public class Rounding {
         return shifted/magnitude;
     }
 
+    public static double ToDecimalPlaces(double numberToRound, int digits) {
+
+        //final int magnitude = (int)Math.floor(Math.log10(numberToRound));
+
+        int scaleFactor = digits*10;
+        double scaledValue = numberToRound * scaleFactor;
+
+        double roundedScaledValue = Math.round(scaledValue);
+
+        double roundedValue = roundedScaledValue / scaleFactor;
+
+        return roundedValue;
+
+    }
+
 }
 

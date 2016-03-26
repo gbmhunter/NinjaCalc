@@ -33,7 +33,6 @@ public class StandardResistanceFinderModel extends Calculator {
     @FXML private WebView infoWebView;
 
     @FXML private TextField desiredResistanceValue;
-    @FXML private ComboBox desiredResistanceUnits;
 
     @FXML private TextField e6ResistanceValue;
     @FXML private TextField e6ErrorValue;
@@ -94,9 +93,9 @@ public class StandardResistanceFinderModel extends Calculator {
         //===============================================================================================//
 
         this.desiredResistance = new CalcVarNumericalInput(
-                "desiredResistance",             // Debug name
-                this.desiredResistanceValue,     // Textbox for value (UI object)
-                this.desiredResistanceUnits,     // Combobox for units (UI object)
+                "desiredResistance",                // Debug name
+                this.desiredResistanceValue,        // Textbox for value (UI object)
+                null,                               // No units for this variable
                 new NumberUnit[]{
                         new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
                 },
@@ -179,7 +178,7 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The percentage difference between the closest standard resistance and your desired resistance."
         );
 
-        //this.e6Error.setIsEngineeringNotationEnabled(true);
+        this.e6Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
 
         // Add validators. The percentage difference is allowed to be 0.
         this.e6Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -254,7 +253,7 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The percentage difference between the closest standard resistance and your desired resistance."
         );
 
-        //this.e12Error.setIsEngineeringNotationEnabled(true);
+        this.e12Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
 
         // Add validators. The percentage difference is allowed to be 0.
         this.e12Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
