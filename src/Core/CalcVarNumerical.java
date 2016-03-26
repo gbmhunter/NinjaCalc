@@ -308,10 +308,26 @@ public class CalcVarNumerical extends CalcVarBase {
             // This could throw a System.FormatException if the value can't be converted into a double,
             // for example, if it had letters (a2) or was just a negative sign (-).
             try {
-                this.dispValAsNumber = Double.valueOf(newValue);
-                this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
+
+                if(this.isEngineeringNotationEnabled) {
+
+                    Double convertedValue = MetricPrefixes.toDouble(newValue);
+                    if(convertedValue != null) {
+                        this.dispValAsNumber = convertedValue;
+                        this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
+                    } else {
+                        this.dispValAsNumber = Double.NaN;
+                        this.rawVal = Double.NaN;
+                    }
+
+
+                } else {
+                    this.dispValAsNumber = Double.valueOf(newValue);
+                    this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
+                }
             }
             catch (NumberFormatException exception) {
+                // We couldn't convert into a number
                 this.dispValAsNumber = Double.NaN;
                 this.rawVal = Double.NaN;
             }

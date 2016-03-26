@@ -59,23 +59,39 @@ public enum MetricPrefixes {
 
     /**
      * Converts from a string in engineering notation (with or without metrix prefix), into
-     * a raw double.
+     * a raw double. Returns null if input value is not valid.
      * @param value     The string in engineering notation (which is allowed to have a metric prefix).
      * @return          The converted raw value of the provided string.
      */
     public static Double toDouble(final String value) {
+
+        System.out.println("MetricPrefixes::toDouble() called with value = " + value);
+
         final Matcher m = REGEX.matcher(value);
-        if (!m.matches())
+        if (!m.matches()) {
+            System.out.println("MetricPrefixes::toDouble() is going to return null!");
             return null;
+        }
+
         Double result = Double.parseDouble(m.group(1));
         if (m.group(3) != null)
             return result * Math.pow(10, Integer.parseInt(m.group(3)));
         if (m.group(2) == null)
             return result; // Units
-        final Character c = m.group(2).charAt(0);
-        for (final MetricPrefixes e : values())
-            if (e.getSymbol() == c)
-                return result * e.getMultiplier();
+
+        System.out.println("Finding character...");
+
+        try {
+            final Character c = m.group(2).charAt(0);
+            for (final MetricPrefixes e : values())
+                if (e.getSymbol() == c)
+                    return result * e.getMultiplier();
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("StringIndexOutOfBoundsException occurred! Assuming no metric prefix was present, and returning result...");
+            return result;
+        }
+
+        System.out.println("MetricPrefixes::toDouble() is going to return null!");
         return null;
     }
 
