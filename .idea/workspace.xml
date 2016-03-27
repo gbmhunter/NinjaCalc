@@ -7,13 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/org_apache_commons_commons_lang3_3_3_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/commons-lang3-3.3.2-javadoc.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/commons-lang3-3.3.2-sources.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/commons-lang3-3.3.2.jar" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NinjaCalc.iml" afterPath="$PROJECT_DIR$/NinjaCalc.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.rst" afterPath="$PROJECT_DIR$/README.rst" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -109,8 +103,8 @@
       <file leaf-file-name="LowPassRCCalcView.fxml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+            <state relative-caret-position="408">
+              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -970,7 +964,7 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1483,8 +1477,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+        <state relative-caret-position="408">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding />
         </state>
       </provider>
