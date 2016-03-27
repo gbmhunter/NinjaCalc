@@ -90,11 +90,13 @@ function showStats(data) {
         html += "</div>";
     }
 
-    var resultDiv = $("#stats-result");
-    resultDiv.hide();
-    resultDiv.html(html);
+    resultDiv.html("<span>" + totalDownloadCount + "</span>");
+
+    //var resultDiv = $("#stats-result");
+    //resultDiv.hide();
+    //resultDiv.html(html);
     //$("#loader-gif").hide();
-    resultDiv.slideDown();
+    //resultDiv.slideDown();
 }
 
 // Callback function for getting release stats
