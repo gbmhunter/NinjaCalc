@@ -8,8 +8,8 @@ A embedded engineering calculator suite for doing calculations in a breeze.
 
 - Author: gbmhunter <gbmhunter@gmail.com> (http://www.mbedded.ninja)
 - Created: 2015-11-02
-- Last Modified: 2016-01-31
-- Version: v1.0.0
+- Last Modified: 2016-03-27
+- Version: v1.1.0
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: Java
@@ -24,13 +24,14 @@ A embedded engineering calculator suite for doing calculations in a breeze.
 Motivation
 ==========
 
-The goal of this is to provide a easy-to-use desktop application to help you with all those small, frequent calculations you do while doing embedded engineering (or other forms of engineering). Whether it be a low-pass LC filter, a resistor divider, or even just Ohm's law (o.k., I hope you don't forget that one, but it is included none-the-less), this app makes them easy to find, use, and have confidence in the answers.
+The goal of this is to provide a easy-to-use desktop application to help you with all those small, frequent calculations you do while doing embedded engineering (or other forms of engineering). Whether it be a low-pass LC filter, a resistor divider, trying to find PCB track current, or even just Ohm's law (o.k., I hope you don't forget that one, but it is included none-the-less), this app makes them easy to find, use, and have confidence in the answers.
 
 
 Features
---------
+========
 
 See the `project home page`_ for a list of features.
+
 
 Installation
 ============
@@ -45,7 +46,7 @@ Developing
 ==========
 
 #. Download/clone this repository into a folder on your computer.
-#. Open the project in Visual Studio.
+#. Open the project in IntelliJ (:code:`.idea/workspace.xml` file included in repo).
 #. Develop!
 
 Making Your Own Calculators
@@ -63,8 +64,8 @@ Creating a static diagram image and laying the calculator variable UI elements o
 
 All calculators that use static images for their background diagrams have a Visio file called :code:`diagram.vsd` in their respective folder. Microsoft Visio is used to create the diagram, which is then exported as an image and used inside the NinjaCalc application.
 
-Creating An Installable Package
--------------------------------
+Creating Installable Packages
+-----------------------------
 
 The team at `ej-technologies <https://www.ej-technologies.com/>`_ have graciously donated me an open-source licensed version of |install4j|, `the multi-platform installer builder for Java applications 
 <http://www.ej-technologies.com/products/install4j/overview.html>`_.
@@ -74,6 +75,13 @@ Myself (gbmhunter) currently holds the license for this software, and so I am th
 The install4j script is located at :code:`/NinjaCalc.install4j`.
 
 .. |install4j| image:: https://www.ej-technologies.com/images/product_banners/install4j_small.png
+
+#. Open the :code:`/NinjaCalc.install4j` file in "install4j Multi-Platform Edition".
+#. Update the "Version" field as appropriate.
+#. Click the "Build Project" button.
+#. Wait until build completes. install4j should have created installer files for each supported platform (currently Windows and Mac OS) in the :code:`install` directory.
+#. Upload the installable packages to GitHub as a new release (if appropriate).
+#. Update the download button links on the homepage in the :code:`gh-pages` branch of the repo to point to the new release files.
 
 
 File Structure 
@@ -109,9 +117,9 @@ Img/ - Contains images which are incorporated into the app.
 
 MainWindow/ - Contains the Java code and .fxml file describing the main window of NinjaCalc.
 
-test/ - Unit tests for each of the calculators. The unit tests include the testing of the UI.
+test/ - Unit tests for each of the calculators, core modules and utility modules. The unit tests include the testing of the UI (more on this below).
 
-Utility/ - Contains helper Java classes which are not considered "core", but still used by multiple calculators. This includes things such as a class to help you find the closest standard E-series resistance. 
+Utility/ - Contains helper Java classes which are not considered "core", but still used by multiple calculators. This includes things such as a library to help you find the closest standard E-series resistance (preferred value), and a library to convert from doubles to strings with metric prefixes and back again.
 
 Unit Tests
 ==========
