@@ -22,7 +22,7 @@ import java.net.URL;
  *
  * @author gbmhunter
  * @since 2015-11-02
- * @last-modified 2016-02-14
+ * @last-modified 2016-03-27
  */
 public class OhmsLawCalcModel extends Calculator {
 
@@ -31,15 +31,12 @@ public class OhmsLawCalcModel extends Calculator {
     //===============================================================================================//
 
     @FXML private TextField textFieldVoltageValue;
-    //@FXML private ComboBox comboBoxVoltageUnits;
     @FXML private RadioButton radioButtonVoltageIO;
 
     @FXML private TextField textFieldCurrentValue;
-    //@FXML private ComboBox comboBoxCurrentUnits;
     @FXML private RadioButton radioButtonCurrentIO;
 
     @FXML private TextField textFieldResistanceValue;
-    //@FXML private ComboBox comboBoxResistanceUnits;
     @FXML private RadioButton radioButtonResistanceIO;
 
     @FXML private WebView infoWebView;
