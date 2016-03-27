@@ -100,37 +100,13 @@ function showStats(data) {
     //resultDiv.slideDown();
 }
 
-// Callback function for getting release stats
-function getStats() {
+// The main function
+$(function() {
+
     var user = "mbedded-ninja";
     var repository = "NinjaCalc";
 
     var url = apiRoot + "repos/" + user + "/" + repository + "/releases";
     $.getJSON(url, showStats).fail(showStats);
-}
 
-// The main function
-$(function() {
-    //$("#loader-gif").hide();
-
-    //validateInput();
-    //$("#username, #repository").keyup(validateInput);
-
-    //$("#username").change(getUserRepos);
-
-    //$("#get-stats-button").click(function() {
-    //    window.location = "?username=" + $("#username").val() +
-    //        "&repository=" + $("#repository").val();
-    //});
-
-    //var username = getQueryVariable("username");
-    //var repository = getQueryVariable("repository");
-
-    //if(username != "" && repository != "") {
-
-        //$(".output").hide();
-        //$("#description").hide();
-        //$("#loader-gif").show();
-        getStats();
-    //}
 });
