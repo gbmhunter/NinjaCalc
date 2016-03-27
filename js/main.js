@@ -90,8 +90,8 @@ function showStats(data) {
         html += "</div>";
     }
 
-    var resultDiv = $("#stats-result");
-    resultDiv.html("<span>" + totalDownloadCount + "</span>");
+    var resultDiv = $("#total-download-count");
+    resultDiv.html(totalDownloadCount);
 
     
     //resultDiv.hide();
