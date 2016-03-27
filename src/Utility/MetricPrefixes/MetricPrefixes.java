@@ -176,15 +176,13 @@ public enum MetricPrefixes {
             final RoundingMethods roundingMethod,
             final Integer roundTo
     ) {
-        System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString());
+        System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString() + ", roundingMethod = " + roundingMethod.toString() + ", roundTo = " + roundTo);
         /*if (notation == null || notation == unit)
             return doubleToString(value);*/
 
         double scaledValue = value / notation.getMultiplier();
 
-        double scaledRoundedValue = 0.0;
-
-        String convertedString = "";
+        String convertedString;
 
         switch(roundingMethod) {
             case DECIMAL_PLACES: {
@@ -208,6 +206,7 @@ public enum MetricPrefixes {
         if(notation.getSymbol() != null){
             return convertedString + notation.getSymbol();
         } else {
+            // This is a special case for when the value is between 1-1000 and no prefix is needed
             return convertedString;
         }
 
@@ -268,13 +267,15 @@ public enum MetricPrefixes {
         // Get the absolute value of the provided value
         final double abs = Math.abs(value);
 
+        // Search for the applicable multiplier
         double multiplier;
         for (final MetricPrefixes e : values()) {
             multiplier = e.getMultiplier();
-            if (multiplier < abs && abs < multiplier * 1000)
+            if (multiplier <= abs && abs < multiplier * 1000)
                 // Call the base method
                 return toEng(value, e, roundingMethod, roundTo);
         }
+
         return toSci(value);
     }
 
