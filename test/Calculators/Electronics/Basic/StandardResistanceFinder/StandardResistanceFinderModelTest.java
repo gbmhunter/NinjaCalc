@@ -21,21 +21,16 @@ public class StandardResistanceFinderModelTest extends ApplicationTest {
 
     @Test
     public void e12SeriesTest10k0() {
-        //System.out.println("Setting desiredResistance.setRawVal().");
         standardResistanceFinderModel.desiredResistance.setRawVal(10.1);
-        //System.out.println("Value = " + standardResistanceFinderModel.eSeries.getRawVal());
-        // Set E-series
-        //standardResistanceFinderModel.eSeries.setRawVal("E12");
-        assertEquals(10.0, standardResistanceFinderModel.e6Resistance.getRawVal(), 0.0);
+        assertEquals("10", standardResistanceFinderModel.e12Resistance.getDispValAsString());
+        assertEquals("0.99", standardResistanceFinderModel.e12Error.getDispValAsString());
     }
 
     @Test
     public void e96SeriesTest246k() {
         standardResistanceFinderModel.desiredResistance.setRawVal(246);
-        System.out.println("Calling eSeries.setRawVal()...");
-        //standardResistanceFinderModel.eSeries.setRawVal("E96");
-        //
-        //assertEquals(249, standardResistanceFinderModel.e6Resistance.getRawVal(), 0.01);
+        assertEquals("249", standardResistanceFinderModel.e96Resistance.getDispValAsString());
+        assertEquals("1.22", standardResistanceFinderModel.e96Error.getDispValAsString());
     }
 
 }

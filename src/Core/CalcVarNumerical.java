@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
@@ -61,13 +63,16 @@ public class CalcVarNumerical extends CalcVarBase {
      * Holds the currently displayed value, as a number.
      * This does not include any engineering suffix
      */
-    public double dispValAsNumber;
+    //public double dispValAsNumber;
 
     /**
      * Holds the currently displayed value, as a string
      * This DOES include engineering suffixes
      */
-    public String dispValAsString;
+    private String dispValAsString;
+    public String getDispValAsString() {
+        return this.dispValAsString;
+    }
 
     /***
      * Determines if engineering notation is enabled for this variable.
@@ -270,23 +275,24 @@ public class CalcVarNumerical extends CalcVarBase {
         // Assign the default raw value
         if (defaultRawValue != null) {
             this.rawVal = defaultRawValue;
-            this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
-            this.valueTextField.setText(String.valueOf(this.dispValAsNumber));
+            this.dispValAsString = String.valueOf(this.rawVal * this.selUnit.multiplier);
+            this.valueTextField.setText(this.dispValAsString);
         }
         else {
             // Provided default value was null, so lets make
             // the textbox empty
             this.rawVal = Double.NaN;
-            this.dispValAsNumber = Double.NaN;
+            //this.dispValAsNumber = Double.NaN;
             this.valueTextField.setText("");
         }
 
         // Install event handlers
         this.addRawValueChangedListener(calcVarBase -> {
             // Update displayed value
-            this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
+            //this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
+            this.dispValAsString = String.valueOf(this.rawVal * this.selUnit.multiplier);
             // Update textbox
-            this.valueTextField.setText(String.valueOf(this.dispValAsNumber));
+            this.valueTextField.setText(this.dispValAsString);
         });
 
         // Save the help text (displayed in the tooltip)
@@ -303,41 +309,50 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Make sure this event only fires when this variable is an input!
         if(this.getDirection() == CalcVarDirections.Input) {
+            this.updateRawValueFromDispValue();
 
-            // Save this to the raw value
-            // (bypass setting the property as we don't want to update the TextBox)
-            // This could throw a System.FormatException if the value can't be converted into a double,
-            // for example, if it had letters (a2) or was just a negative sign (-).
-            try {
-
-                if(this.isEngineeringNotationEnabled) {
-
-                    Double convertedValue = MetricPrefixes.toDouble(newValue);
-                    if(convertedValue != null) {
-                        this.dispValAsNumber = convertedValue;
-                        this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
-                    } else {
-                        this.dispValAsNumber = Double.NaN;
-                        this.rawVal = Double.NaN;
-                    }
-
-
-                } else {
-                    this.dispValAsNumber = Double.valueOf(newValue);
-                    this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
-                }
-            }
-            catch (NumberFormatException exception) {
-                // We couldn't convert into a number
-                this.dispValAsNumber = Double.NaN;
-                this.rawVal = Double.NaN;
-            }
-
-            this.validate();
-
-            // We need to re-calculate any this calculator variables dependants, if they are outputs
-            this.forceDependantOutputsToRecalculate();
         }
+    }
+
+    private void updateRawValueFromDispValue() {
+
+        String newValue = this.valueTextField.getText();
+
+
+        // Save this to the raw value
+        // (bypass setting the property as we don't want to update the TextBox)
+        // This could throw a System.FormatException if the value can't be converted into a double,
+        // for example, if it had letters (a2) or was just a negative sign (-).
+        try {
+
+            Double convertedValue;
+            if(this.isEngineeringNotationEnabled) {
+
+                convertedValue = MetricPrefixes.toDouble(newValue);
+                if(convertedValue != null) {
+                    //this.dispValAsNumber = convertedValue;
+                    this.rawVal = convertedValue * this.selUnit.multiplier;
+                } else {
+                    //this.dispValAsNumber = Double.NaN;
+                    this.rawVal = Double.NaN;
+                }
+
+
+            } else {
+                convertedValue = Double.valueOf(newValue);
+                this.rawVal = convertedValue * this.selUnit.multiplier;
+            }
+        }
+        catch (NumberFormatException exception) {
+            // We couldn't convert into a number
+            //this.dispValAsNumber = Double.NaN;
+            this.rawVal = Double.NaN;
+        }
+
+        this.validate();
+
+        // We need to re-calculate any this calculator variables dependants, if they are outputs
+        this.forceDependantOutputsToRecalculate();
     }
 
     //===============================================================================================//
@@ -519,7 +534,10 @@ public class CalcVarNumerical extends CalcVarBase {
         // If the variable is an input, we need to adjust the raw value, if the
         // variable is an output, we need to adjust the displayed value
         if (this.getDirection() == CalcVarDirections.Input) {
-            this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
+
+            this.updateRawValueFromDispValue();
+
+            /*this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
             //System.out.println("rawVal re-scaled to \"" + String.valueOf(this.rawVal) + "\".");
 
             // Since the raw value has changed, we also need to re-validate this variable
@@ -527,7 +545,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
             // We also need to force a recalculation of any dependants (which are also outputs)
             // of this variable
-            this.forceDependantOutputsToRecalculate();
+            this.forceDependantOutputsToRecalculate();*/
 
         }
         else if(this.getDirection() == CalcVarDirections.Output) {
@@ -544,7 +562,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Special treatment if raw value is NaN
         if(Double.isNaN(this.rawVal)) {
-            this.dispValAsNumber = Double.NaN;
+            //this.dispValAsNumber = Double.NaN;
             this.dispValAsString = String.valueOf(Double.NaN);
             this.valueTextField.setText(this.dispValAsString);
             return;
@@ -556,19 +574,21 @@ public class CalcVarNumerical extends CalcVarBase {
         Double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
 
         if(this.roundingType == RoundingTypes.SIGNIFICANT_FIGURES) {
-            this.dispValAsNumber = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
+            //this.dispValAsNumber = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
 
             if (this.isEngineeringNotationEnabled) {
                 //this.dispValAsString = MetricPrefixes.convert(dispValAsNumber, this.numDigitsToRound);
                 //Format roundedMetricPrefixFormat = new MetricPrefixes();
-                this.dispValAsString = MetricPrefixes.toEng(dispValAsNumber, RoundingMethods.SIGNIFICANT_FIGURES, this.numDigitsToRound);
+                this.dispValAsString = MetricPrefixes.toEng(unroundedDispVal, RoundingMethods.SIGNIFICANT_FIGURES, this.numDigitsToRound);
             } else {
-                this.dispValAsString = String.valueOf(this.dispValAsNumber);
+                this.dispValAsString = String.valueOf(unroundedDispVal);
             }
         } else if(this.roundingType == RoundingTypes.DECIMAL_PLACES) {
             // Rounding to fixed number of decimal places
-            this.dispValAsNumber = Rounding.ToDecimalPlaces(unroundedDispVal, this.numDigitsToRound);
-            this.dispValAsString = String.valueOf(this.dispValAsNumber);
+            //this.dispValAsNumber = Rounding.ToDecimalPlaces(unroundedDispVal, this.numDigitsToRound);
+            BigDecimal bd = new BigDecimal(unroundedDispVal);
+            bd = bd.setScale(this.numDigitsToRound, RoundingMode.HALF_UP);
+            this.dispValAsString = bd.toString();
         }
 
         //this.valueTextField.setText(String.valueOf(this.dispValAsNumber));
