@@ -1,3 +1,8 @@
+v?.?.?
+------
+
+- Fixed bug where the MetricPrefix library did not round correctly when no prefix was required (i.e. value is between 1-1000), closes #92.
+
 v1.1.0
 ------
 
