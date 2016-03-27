@@ -1,3 +1,13 @@
+v1.1.0
+------
+
+- Fixed position of track thickness and plane proximity variables in the IPC-2152 track thickness calculator, closes #82.
+- Fixed bug where capacitance and frequency UI elements were swapped in the Low-Pass RC Filter calculator, closes #80.
+- Grid images can now be passed as a relative path to a calculators constructor, closes #86.
+- Added "Standard Resistance Finder" calculator, closes #87.
+- Closest values from all available series are listed all at once in the standard resistance calculator, closes #88.
+- Added "metric-prefix" capability so that the user can use standard metric prefixes in the calculator variable textfields directly, closes #84.
+
 v1.0.0
 ------
 

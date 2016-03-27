@@ -18,6 +18,7 @@ import java.util.ArrayList;
  *
  * @author gbmhunter
  * @since 2015-11-02
+ * @last-modified 2016-02-14
  */
 public class MainWindowController implements Initializable {
 
@@ -88,7 +89,7 @@ public class MainWindowController implements Initializable {
     }
 
     public void handleCalcSelectionBorderMouseClicked(MouseEvent event) {
-        System.out.println("handleCalcSelectionBorderMouseClicked() called.");
+        //System.out.println("handleCalcSelectionBorderMouseClicked() called.");
         calcGridOverlay.setVisible(false);
         event.consume();
     }
@@ -100,7 +101,7 @@ public class MainWindowController implements Initializable {
     }
 
     public void addCalculatorTemplate(Calculator calculator) {
-        System.out.println("addCalculatorTemplate() called.");
+        //System.out.println("addCalculatorTemplate() called.");
 
         // Save to internal list
         this.calculatorTemplates.add(calculator);
@@ -120,7 +121,7 @@ public class MainWindowController implements Initializable {
     }
 
     public void openCalculatorButtonPressed(String calculatorName) {
-        System.out.println("openCalculatorButtonPressed() called, with calculatorName = \"" + calculatorName +  "\" .");
+        //System.out.println("openCalculatorButtonPressed() called, with calculatorName = \"" + calculatorName +  "\" .");
 
 
         Calculator foundCalculator = null;

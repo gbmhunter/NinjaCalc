@@ -1,3 +1,4 @@
+import Calculators.Electronics.Basic.StandardResistanceFinder.StandardResistanceFinderModel;
 import Core.Calculator;
 import MainWindow.MainWindowController;
 import javafx.application.Application;
@@ -32,6 +33,7 @@ public class Main extends Application {
         //========== BASIC ==========//
         controller.addCalculatorTemplate(new Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalcModel());
         controller.addCalculatorTemplate(new Calculators.Electronics.Basic.ResistorDivider.ResistorDividerCalcModel());
+        controller.addCalculatorTemplate(new Calculators.Electronics.Basic.StandardResistanceFinder.StandardResistanceFinderModel());
 
         //========== FILTERS ==========//
         controller.addCalculatorTemplate(new Calculators.Electronics.Filters.LowPassRC.LowPassRCCalcModel());

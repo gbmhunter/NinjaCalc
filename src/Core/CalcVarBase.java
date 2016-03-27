@@ -42,9 +42,11 @@ public abstract class CalcVarBase {
     }
 
     protected void onRawValueChanged() {
+
         // Notify everybody that may be interested.
         for (ICalcVarBaseCallback listener : rawValueChangedListeners)
             listener.execute(this);
+
     }
 
     /**
@@ -72,6 +74,9 @@ public abstract class CalcVarBase {
     public IEquationFunction equationFunction;
 
     public CalcVarDirections direction;
+    public CalcVarDirections getDirection() {
+        return this.direction;
+    }
 
     public IDirectionFunction directionFunction;
 
@@ -114,7 +119,7 @@ public abstract class CalcVarBase {
         // We need to re-calculate any this calculator variables dependants, if they are outputs
         for (int i = 0; i < this.dependants.size(); i++) {
             if (this.dependants.get(i).direction == CalcVarDirections.Output) {
-                System.out.println("Calling calculate() on variable \"" + this.dependants.get(i).name + "\".");
+                //System.out.println("Calling calculate() on variable \"" + this.dependants.get(i).name + "\".");
                 this.dependants.get(i).calculate();
             }
         }

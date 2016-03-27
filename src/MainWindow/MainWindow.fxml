@@ -70,7 +70,7 @@
                 </StackPane>
         </HBox>
 
-        <!-- OVERLAY (stacked ontop of calculator tabs) -->
+        <!-- "SELECT CALCULATOR" OVERLAY (stacked ontop of calculator tabs) -->
         <!-- The semi-transparent grey border -->
         <GridPane
                 fx:id="calcGridOverlay"

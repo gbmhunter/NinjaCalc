@@ -15,6 +15,7 @@ import java.net.URL;
  * A calculator based around the resistor divider circuit.
  * @author gbmhunter
  * @since 2015-11-02
+ * @last-modified 2016-02-14
  */
 public class ResistorDividerCalcModel extends Calculator {
 
@@ -25,35 +26,25 @@ public class ResistorDividerCalcModel extends Calculator {
     @FXML
     private TextField vInValue;
     @FXML
-    private ComboBox vInUnits;
-    @FXML
     private RadioButton vInIO;
 
     @FXML
     private TextField rTopValue;
-    @FXML
-    private ComboBox rTopUnits;
     @FXML
     private RadioButton rTopIO;
 
     @FXML
     private TextField rBotValue;
     @FXML
-    private ComboBox rBotUnits;
-    @FXML
     private RadioButton rBotIO;
 
     @FXML
     private TextField vOutValue;
     @FXML
-    private ComboBox vOutUnits;
-    @FXML
     private RadioButton vOutIO;
 
     @FXML
     private TextField iQValue;
-    @FXML
-    private ComboBox iQUnits;
 
     @FXML
     private WebView infoWebView;
@@ -62,15 +53,15 @@ public class ResistorDividerCalcModel extends Calculator {
     //============================================ VARIABLES ========================================//
     //===============================================================================================//
 
-    CalcVarNumerical Vin;
+    CalcVarNumerical vIn;
 
-    CalcVarNumerical Rtop;
+    CalcVarNumerical rTop;
 
-    CalcVarNumerical Rbot;
+    CalcVarNumerical rBot;
 
-    CalcVarNumerical Vout;
+    CalcVarNumerical vOut;
 
-    CalcVarNumericalOutput Iq;
+    CalcVarNumericalOutput iQ;
 
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
@@ -80,9 +71,11 @@ public class ResistorDividerCalcModel extends Calculator {
 
         super("Resistor Divider",
                 "Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.",
-                "/Calculators/Electronics/Basic/ResistorDivider/grid-icon.png",
+                //"/Calculators/Electronics/Basic/ResistorDivider/grid-icon.png",
                 new String[]{"Electronics", "Basic"},
                 new String[]{"resistor, resistance, voltage, divider, reduce"});
+
+        super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//
@@ -123,7 +116,7 @@ public class ResistorDividerCalcModel extends Calculator {
         toggleGroup.selectToggle(vOutIO);
 
         // Following code provides lambda function which listens to radiobuttons changes and modifies direction accordingly
-        System.out.println("Adding listener for radiobutton toggle change.");
+        //System.out.println("Adding listener for radiobutton toggle change.");
         toggleGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> {
                     this.refreshDirectionsAndUpdateUI();
                     this.recalculateAllOutputs();
@@ -131,24 +124,24 @@ public class ResistorDividerCalcModel extends Calculator {
         );
 
         //===============================================================================================//
-        //================================================= Vin =========================================//
+        //================================================= vIn =========================================//
         //===============================================================================================//
 
-        this.Vin = new CalcVarNumerical(
+        this.vIn = new CalcVarNumerical(
                 "vIn",
                 vInValue,
-                vInUnits,
+                null,
                 () -> {
-                    Double vOut = this.Vout.getRawVal();
-                    Double rTop = this.Rtop.getRawVal();
-                    Double rBot = this.Rbot.getRawVal();
+                    Double vOut = this.vOut.getRawVal();
+                    Double rTop = this.rTop.getRawVal();
+                    Double rBot = this.rBot.getRawVal();
 
                     return ((vOut * (rTop + rBot)) / rBot);
                 },
                 new NumberUnit[]{
-                        new NumberUnit("mV", 1e-3),
+                        //new NumberUnit("mV", 1e-3),
                         new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
-                        new NumberUnit("kV", 1e3),
+                        //new NumberUnit("kV", 1e3),
                 },
                 4,
                 () -> {
@@ -159,33 +152,35 @@ public class ResistorDividerCalcModel extends Calculator {
                 "The input voltage to the top of the resistor divider (also equal to the voltage across the entire resistor divider)." // Help text
         );
 
+        this.vIn.setIsEngineeringNotationEnabled(true);
+
         // Add validators
-        this.Vin.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.Vin.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.vIn.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.vIn.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.Vin);
+        this.calcVars.add(this.vIn);
 
         //===============================================================================================//
-        //=============================================== Rtop ==========================================//
+        //=============================================== rTop ==========================================//
         //===============================================================================================//
 
-        this.Rtop = new CalcVarNumerical(
+        this.rTop = new CalcVarNumerical(
                 "rTop",
                 rTopValue,
-                rTopUnits,
+                null,
                 () -> {
-                    Double vIn = this.Vin.getRawVal();
-                    Double rBot = this.Rbot.getRawVal();
-                    Double vOut = this.Vout.getRawVal();
+                    Double vIn = this.vIn.getRawVal();
+                    Double rBot = this.rBot.getRawVal();
+                    Double vOut = this.vOut.getRawVal();
 
                     return ((rBot * (vIn - vOut)) / vOut);
                 },
                 new NumberUnit[]{
-                        new NumberUnit("mΩ", 1e-3),
+                        //new NumberUnit("mΩ", 1e-3),
                         new NumberUnit("Ω", 1e0),
-                        new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
-                        new NumberUnit("MΩ", 1e6),
-                        new NumberUnit("GΩ", 1e9),
+                        //new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
+                        //new NumberUnit("MΩ", 1e6),
+                        //new NumberUnit("GΩ", 1e9),
                 },
                 4,
                 () -> {
@@ -196,33 +191,35 @@ public class ResistorDividerCalcModel extends Calculator {
                 "The resistance of the top resistor in the resistor divider." // Help text
         );
 
+        this.rTop.setIsEngineeringNotationEnabled(true);
+
         // Add validators
-        this.Rtop.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.Rtop.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.rTop.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.rTop.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.Rtop);
+        this.calcVars.add(this.rTop);
 
         //===============================================================================================//
-        //=============================================== Rbot ==========================================//
+        //=============================================== rBot ==========================================//
         //===============================================================================================//
 
-        this.Rbot = new CalcVarNumerical(
+        this.rBot = new CalcVarNumerical(
                 "rBot",
                 rBotValue,
-                rBotUnits,
+                null,
                 () -> {
-                    Double vIn = this.Vin.getRawVal();
-                    Double rTop = this.Rtop.getRawVal();
-                    Double vOut = this.Vout.getRawVal();
+                    Double vIn = this.vIn.getRawVal();
+                    Double rTop = this.rTop.getRawVal();
+                    Double vOut = this.vOut.getRawVal();
 
                     return ((rTop * vOut) / (vIn - vOut));
                 },
                 new NumberUnit[]{
-                        new NumberUnit("mΩ", 1e-3),
+                        //new NumberUnit("mΩ", 1e-3),
                         new NumberUnit("Ω", 1e0),
-                        new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
-                        new NumberUnit("MΩ", 1e6),
-                        new NumberUnit("GΩ", 1e9),
+                        //new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
+                        //new NumberUnit("MΩ", 1e6),
+                        //new NumberUnit("GΩ", 1e9),
                 },
                 4,
                 () -> {
@@ -233,31 +230,33 @@ public class ResistorDividerCalcModel extends Calculator {
                 "The resistance of the bottom resistor in the resistor divider." // Help text
         );
 
+        this.rBot.setIsEngineeringNotationEnabled(true);
+
         // Add validators
-        this.Rbot.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.Rbot.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.rBot.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.rBot.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.Rbot);
+        this.calcVars.add(this.rBot);
 
         //===============================================================================================//
-        //================================================= Vout =========================================//
+        //================================================= vOut =========================================//
         //===============================================================================================//
 
-        this.Vout = new CalcVarNumerical(
+        this.vOut = new CalcVarNumerical(
                 "vOut",
                 vOutValue,
-                vOutUnits,
+                null,
                 () -> {
-                    Double vIn = this.Vin.getRawVal();
-                    Double rTop = this.Rtop.getRawVal();
-                    Double rBot = this.Rbot.getRawVal();
+                    Double vIn = this.vIn.getRawVal();
+                    Double rTop = this.rTop.getRawVal();
+                    Double rBot = this.rBot.getRawVal();
 
                     return ((vIn * rBot) / (rTop + rBot));
                 },
                 new NumberUnit[]{
-                        new NumberUnit("mV", 1e-3),
+                        //new NumberUnit("mV", 1e-3),
                         new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
-                        new NumberUnit("kV", 1e3),
+                        //new NumberUnit("kV", 1e3),
                 },
                 4,
                 () -> {
@@ -267,42 +266,46 @@ public class ResistorDividerCalcModel extends Calculator {
                 null,
                 "The resistor divider output voltage. The is also equal to the voltage across the bottom resistor. Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.");
 
+        this.vOut.setIsEngineeringNotationEnabled(true);
+
         // Add validators
-        this.Vout.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.Vout.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.vOut.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.vOut.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.Vout);
+        this.calcVars.add(this.vOut);
 
         //===============================================================================================//
-        //======================================= Iq (Quescent Current) =================================//
+        //====================================== iQ (Quiescent Current) =================================//
         //===============================================================================================//
 
-        this.Iq = new CalcVarNumericalOutput(
+        this.iQ = new CalcVarNumericalOutput(
                 "iQ",
                 iQValue,
-                iQUnits,
+                null,
                 () -> {
-                    Double vIn = this.Vin.getRawVal();
-                    Double rTop = this.Rtop.getRawVal();
-                    Double rBot = this.Rbot.getRawVal();
+                    Double vIn = this.vIn.getRawVal();
+                    Double rTop = this.rTop.getRawVal();
+                    Double rBot = this.rBot.getRawVal();
 
                     return (vIn / (rTop + rBot));
                 },
                 new NumberUnit[]{
-                        new NumberUnit("pA", 1e-12),
-                        new NumberUnit("nA", 1e-9),
-                        new NumberUnit("uA", 1e-6),
-                        new NumberUnit("mA", 1e-3, NumberPreference.DEFAULT),
+                        //new NumberUnit("pA", 1e-12),
+                        //new NumberUnit("nA", 1e-9),
+                        //new NumberUnit("uA", 1e-6),
+                        //new NumberUnit("mA", 1e-3, NumberPreference.DEFAULT),
                         new NumberUnit("A", 1e0),
                 },
                 4,
-                "The quiscent current drawn through the resistor divider. This can be an issue in low-power designs, or can cause excessive heating in the resistors when the input voltage is high and both resistors have low resistances.");
+                "The quiescent current drawn through the resistor divider. This can be an issue in low-power designs, or can cause excessive heating in the resistors when the input voltage is high and both resistors have low resistances.");
+
+        this.iQ.setIsEngineeringNotationEnabled(true);
 
         // Add validators
-        this.Iq.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.Iq.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.iQ.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.iQ.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.Iq);
+        this.calcVars.add(this.iQ);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

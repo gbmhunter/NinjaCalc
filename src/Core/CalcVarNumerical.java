@@ -1,6 +1,9 @@
 
 package Core;
 
+import Utility.MetricPrefixes.MetricPrefixes;
+import Utility.MetricPrefixes.RoundingMethods;
+import Utility.Rounding;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -20,12 +23,31 @@ import java.util.ArrayList;
  *
  * @author gbmhunter
  * @since 2015-11-02
+ * @last-modified 2016-03-25
  */
 public class CalcVarNumerical extends CalcVarBase {
 
     //===============================================================================================//
+    //========================================= ENUMS ===============================================//
+    //===============================================================================================//
+
+    /**
+     * The different types of precision that can be specified for this numerical calculator variable.
+     */
+    public enum RoundingTypes {
+        DECIMAL_PLACES,
+        SIGNIFICANT_FIGURES,
+    }
+
+    //===============================================================================================//
     //==================================== VARIABLES AND PROPERTIES =================================//
     //===============================================================================================//
+
+    /**
+     * The time from when the mouse is hovered over the variables value textbox to when
+     * the tooltip is displayed.
+     */
+    private static final double TOOLTIP_OPEN_TIME_MS = 100.0;
 
     //============================================= RAW VAL =========================================//
 
@@ -35,14 +57,31 @@ public class CalcVarNumerical extends CalcVarBase {
 
     //============================================ DISP VAL =========================================//
 
-    public double dispVal;
+    /**
+     * Holds the currently displayed value, as a number.
+     * This does not include any engineering suffix
+     */
+    public double dispValAsNumber;
+
+    /**
+     * Holds the currently displayed value, as a string
+     * This DOES include engineering suffixes
+     */
+    public String dispValAsString;
+
+    /***
+     * Determines if engineering notation is enabled for this variable.
+     */
+    private Boolean isEngineeringNotationEnabled;
+    public Boolean getIsEngineeringNotationEnabled(){
+        return this.isEngineeringNotationEnabled;
+    }
+    public void setIsEngineeringNotationEnabled(Boolean value) {
+        this.isEngineeringNotationEnabled = value;
+    }
 
     private TextField valueTextField;
     private ChangeListener<String> textListener;
-
-    public CalcVarDirections getDirection() {
-        return this.direction;
-    }
 
     private ArrayList<Validator> validators;
 
@@ -60,7 +99,7 @@ public class CalcVarNumerical extends CalcVarBase {
      * Uses an observable list so that it can be bound to the combo box.
      * See http://code.makery.ch/blog/javafx-8-event-handling-examples/
      */
-    public ObservableList<NumberUnit> Units;
+    public ObservableList<NumberUnit> units;
 
     /// <summary>
     /// Do NOT access this from anything put the SelectionChanged event handler for
@@ -82,7 +121,6 @@ public class CalcVarNumerical extends CalcVarBase {
 
     public String helpText;
 
-    //private ToggleGroup radioButtonToggleGroup;
 
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
@@ -116,37 +154,25 @@ public class CalcVarNumerical extends CalcVarBase {
 
         //System.out.println("CalcVarNumerical constructor called.");
 
+        //===============================================================================================//
+        //============================================== VALUE ==========================================//
+        //===============================================================================================//
+
         // Create text field listener
         this.textListener = (observable, oldValue, newValue) -> {
-            //System.out.println("CalcVarNumerical.TextBoxChanged() called. Text changed from \"" + oldValue + "\" to \"" + newValue + "\".");
-
-            // Make sure this event only fires when this variable is an input!
-            if(this.getDirection() == CalcVarDirections.Input) {
-
-                // Save this to the raw value
-                // (bypass setting the property as we don't want to update the TextBox)
-                // This could throw a System.FormatException if the value can't be converted into a double,
-                // for example, if it had letters (a2) or was just a negative sign (-).
-                try {
-                    this.dispVal = Double.valueOf(newValue);
-                    this.rawVal = this.dispVal * this.selUnit.multiplier;
-                }
-                catch (NumberFormatException exception) {
-                    this.dispVal = Double.NaN;
-                    this.rawVal = Double.NaN;
-                }
-
-                this.validate();
-
-                // We need to re-calculate any this calculator variables dependants, if they are outputs
-                this.forceDependantOutputsToRecalculate();
-            }
+            this.valueTextFieldChanged(newValue);
         };
+
+        // Make sure the provided text field is not null
+        assert valueTextField != null;
 
         this.valueTextField = valueTextField;
 
         // Attach this new listener to the text field
         this.valueTextField.textProperty().addListener(textListener);
+
+        // Engineering notation is disabled by default
+        this.isEngineeringNotationEnabled = false;
 
         //===============================================================================================//
         //========================================== VALIDATORS =========================================//
@@ -160,67 +186,71 @@ public class CalcVarNumerical extends CalcVarBase {
         this.validationResults = new ArrayList<CalcValidationResult>();
 
         //===============================================================================================//
-        //====================================== UNITS AND COMBOBOX =====================================//
+        //====================================== UNITS AND UNITS COMBOBOX =====================================//
         //===============================================================================================//
 
         // Save reference to the units combobox
         this.unitsComboBox = unitsComboBox;
 
         // Initialise empty units list
-        this.Units = FXCollections.observableArrayList();
+        this.units = FXCollections.observableArrayList();
 
-        // Internally save the units
+        // Internally save the units, and find the default unit at the same time
         // Note we can't implictly convert from an array of NumberUnit to a List<NumberUnit>
         NumberUnit defaultUnit = null;
-
         for(NumberUnit unit : units) {
-            this.Units.add(unit);
+            this.units.add(unit);
             if (unit.preference == NumberPreference.DEFAULT) {
                 defaultUnit = unit;
             }
         }
 
-        // Bind the combo-box to the observable collection
-        this.unitsComboBox.setItems(this.Units);
+        // The combobox is allowed to be null, so only interact with it
+        // if combobox was provided
+        if(this.unitsComboBox != null) {
 
-        //============ LET THE COMBOBOX KNOW HOW TO RENDER NUMBER UNITS ============//
+            // Bind the combo-box to the observable collection
+            this.unitsComboBox.setItems(this.units);
 
-        this.unitsComboBox.setCellFactory((combobox) -> {
+            //============ LET THE COMBOBOX KNOW HOW TO RENDER NUMBER UNITS ============//
 
-            // Define rendering of the list of values in ComboBox drop down.
-            return new ListCell<NumberUnit>() {
+            this.unitsComboBox.setCellFactory((combobox) -> {
+
+                // Define rendering of the list of values in ComboBox drop down.
+                return new ListCell<NumberUnit>() {
+                    @Override
+                    protected void updateItem(NumberUnit item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.name);
+                        }
+                    }
+                };
+            });
+
+            // Define rendering of selected value shown in ComboBox.
+            this.unitsComboBox.setConverter(new StringConverter<NumberUnit>() {
                 @Override
-                protected void updateItem(NumberUnit item, boolean empty) {
-                    super.updateItem(item, empty);
-
-                    if (item == null || empty) {
-                        setText(null);
+                public String toString(NumberUnit numberUnit) {
+                    if (numberUnit == null) {
+                        return null;
                     } else {
-                        setText(item.name);
+                        return numberUnit.name;
                     }
                 }
-            };
-        });
 
-        // Define rendering of selected value shown in ComboBox.
-        this.unitsComboBox.setConverter(new StringConverter<NumberUnit>() {
-            @Override
-            public String toString(NumberUnit numberUnit) {
-                if (numberUnit == null) {
-                    return null;
-                } else {
-                    return numberUnit.name;
+                @Override
+                public NumberUnit fromString(String numberUnitString) {
+                    return null; // No conversion fromString needed.
                 }
-            }
+            });
 
-            @Override
-            public NumberUnit fromString(String numberUnitString) {
-                return null; // No conversion fromString needed.
-            }
-        });
-
-        // Connect up event handler for when combobox units change
-        this.unitsComboBox.setOnAction(this::unitsComboBoxSelectionChanged);
+            // Connect up event handler for when combobox units change
+            this.unitsComboBox.setOnAction(this::unitsComboBoxSelectionChanged);
+        } // if(this.unitsComboBox != null) {
 
 
         // Set current combobox selection to default unit
@@ -228,51 +258,114 @@ public class CalcVarNumerical extends CalcVarBase {
             this.setSelUnit(defaultUnit);
         }
         else {
-            this.setSelUnit(this.Units.get(0));
+            this.setSelUnit(this.units.get(0));
         }
 
-        //===============================================================================================//
-        //============================================ ROUNDING =========================================//
-        //===============================================================================================//
+        //======================== ROUNDING =========================//
 
+        // Set the default rounding type to use significant figures
+        this.roundingType = RoundingTypes.SIGNIFICANT_FIGURES;
         this.numDigitsToRound = numDigitsToRound;
 
         // Assign the default raw value
         if (defaultRawValue != null) {
             this.rawVal = defaultRawValue;
-            this.dispVal = this.rawVal * this.selUnit.multiplier;
-            this.valueTextField.setText(String.valueOf(this.dispVal));
+            this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
+            this.valueTextField.setText(String.valueOf(this.dispValAsNumber));
         }
         else {
             // Provided default value was null, so lets make
             // the textbox empty
             this.rawVal = Double.NaN;
-            this.dispVal = Double.NaN;
+            this.dispValAsNumber = Double.NaN;
             this.valueTextField.setText("");
         }
 
         // Install event handlers
-        /*this.RawValueChanged += (sender, EventArgs) => {
-            // Update displayed value
-            this.dispVal = this.rawVal * this.selUnit.multiplier;
-            // Update textbox
-            this.valueTextField.Text = this.dispVal.ToString();
-        };*/
         this.addRawValueChangedListener(calcVarBase -> {
             // Update displayed value
-            this.dispVal = this.rawVal * this.selUnit.multiplier;
+            this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
             // Update textbox
-            this.valueTextField.setText(String.valueOf(this.dispVal));
+            this.valueTextField.setText(String.valueOf(this.dispValAsNumber));
         });
 
         // Save the help text (displayed in the tooltip)
         this.helpText = helpText;
 
+    } // public CalcVarNumerical()
+
+    //===============================================================================================//
+    //=============================== EVENT HANDLER FOR TEXT FIELD CHANGE ===========================//
+    //===============================================================================================//
+
+    private void valueTextFieldChanged(String newValue){
+        //System.out.println("CalcVarNumerical.TextBoxChanged() called. Text changed from \"" + oldValue + "\" to \"" + newValue + "\".");
+
+        // Make sure this event only fires when this variable is an input!
+        if(this.getDirection() == CalcVarDirections.Input) {
+
+            // Save this to the raw value
+            // (bypass setting the property as we don't want to update the TextBox)
+            // This could throw a System.FormatException if the value can't be converted into a double,
+            // for example, if it had letters (a2) or was just a negative sign (-).
+            try {
+
+                if(this.isEngineeringNotationEnabled) {
+
+                    Double convertedValue = MetricPrefixes.toDouble(newValue);
+                    if(convertedValue != null) {
+                        this.dispValAsNumber = convertedValue;
+                        this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
+                    } else {
+                        this.dispValAsNumber = Double.NaN;
+                        this.rawVal = Double.NaN;
+                    }
+
+
+                } else {
+                    this.dispValAsNumber = Double.valueOf(newValue);
+                    this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
+                }
+            }
+            catch (NumberFormatException exception) {
+                // We couldn't convert into a number
+                this.dispValAsNumber = Double.NaN;
+                this.rawVal = Double.NaN;
+            }
+
+            this.validate();
+
+            // We need to re-calculate any this calculator variables dependants, if they are outputs
+            this.forceDependantOutputsToRecalculate();
+        }
+    }
+
+    //===============================================================================================//
+    //============================================ ROUNDING =========================================//
+    //===============================================================================================//
+
+    /***
+     * Stores the current rounding type this calculator variable is set to.
+     */
+    private RoundingTypes roundingType;
+
+    /***
+     * Changes the current rounding method.
+     * @param roundingType      The type of rounding you want for this calculator variable.
+     * @param numDigitsToRound  The number of digits to round to. For significant figure type rounding, this
+     *                          is the number of significant figures to round to, for decimal point type
+     *                          rounding, this is the number of digits after the decimal point.
+     */
+    public void setRounding(RoundingTypes roundingType, int numDigitsToRound) {
+        this.roundingType = roundingType;
+        this.numDigitsToRound = numDigitsToRound;
     }
 
     //===============================================================================================//
     //======================================== GETTERS/SETTERS ======================================//
     //===============================================================================================//
+
+
 
     /**
      * Gets or sets the the "raw" (unscaled, unrounded) value for this variable. Setting will cause the displayed value, textbox, and all
@@ -303,7 +396,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
         Core.NumberUnit foundUnit = null;
 
-        for(NumberUnit unit : this.Units) {
+        for(NumberUnit unit : this.units) {
             if (unit.name == unitName) {
                 foundUnit = unit;
                 break;
@@ -326,8 +419,11 @@ public class CalcVarNumerical extends CalcVarBase {
      */
     public void setSelUnit(NumberUnit value) {
         this.selUnit = value;
-        // Anytime this is set, also update selected value in combobox
-        this.unitsComboBox.getSelectionModel().select(this.selUnit);
+        // Anytime this is set, also update selected value in combobox,
+        // if one has been provided
+        if(this.unitsComboBox != null) {
+            this.unitsComboBox.getSelectionModel().select(this.selUnit);
+        }
     }
 
     /**
@@ -339,18 +435,19 @@ public class CalcVarNumerical extends CalcVarBase {
         // Make sure this event only fires when this calculator variable is an output!
         assert this.getDirection() == CalcVarDirections.Output;
 
-        System.out.println("CalcVar.calculate() called for \"" + this.name + "\".");
+        //System.out.println("CalcVar.calculate() called for \"" + this.name + "\".");
 
         // Invoke the provided equation function,
         // which should return the raw value for this calculator variable
         this.rawVal = this.equationFunction.execute();
-        //this.dispVal = this.rawVal / this.selUnit.multiplier;
-        //this.valueTextField.Text = this.dispVal.ToString();
+
+        // Update the displayed value based on this newly calculated raw value
         this.updateDispValFromRawVal();
 
-        // Validation is done in the TextBoxChanged event handler
+        // Validate this new value
         this.validate();
 
+        // Force all calculator variables which are dependent on this one to recalculate.
         this.forceDependantOutputsToRecalculate();
     }
 
@@ -370,7 +467,7 @@ public class CalcVarNumerical extends CalcVarBase {
      * results. Also updates UI based on these results.
      */
     public void validate() {
-        System.out.println("validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
+        //System.out.println("validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
 
         // Clear the old validation results
         this.validationResults.clear();
@@ -395,7 +492,7 @@ public class CalcVarNumerical extends CalcVarBase {
             }
         }
 
-        System.out.println("Worst validation level was \"" + worstValidationLevel.name + "\".");
+        //System.out.println("Worst validation level was \"" + worstValidationLevel.name + "\".");
 
         // Save this to the internal variable
         this.worstValidationLevel = worstValidationLevel;
@@ -410,20 +507,20 @@ public class CalcVarNumerical extends CalcVarBase {
      * @param event
      */
     private void unitsComboBoxSelectionChanged(Event event) {
-        System.out.println("unitsComboBoxSelectionChanged() called for calculator variable \"" + this.name + "\".");
+        //System.out.println("unitsComboBoxSelectionChanged() called for calculator variable \"" + this.name + "\".");
 
         // Need to update the selected unit, bypassing the property (otherwise
         // we will create an infinite loop)
         //ComboBox units = (ComboBox)sender;
         this.selUnit = (NumberUnit)this.unitsComboBox.getSelectionModel().getSelectedItem();
 
-        System.out.println("Selected unit is now \"" + this.selUnit + "\".");
+        //System.out.println("Selected unit is now \"" + this.selUnit + "\".");
 
         // If the variable is an input, we need to adjust the raw value, if the
         // variable is an output, we need to adjust the displayed value
         if (this.getDirection() == CalcVarDirections.Input) {
-            this.rawVal = this.dispVal * this.selUnit.multiplier;
-            System.out.println("rawVal re-scaled to \"" + String.valueOf(this.rawVal) + "\".");
+            this.rawVal = this.dispValAsNumber * this.selUnit.multiplier;
+            //System.out.println("rawVal re-scaled to \"" + String.valueOf(this.rawVal) + "\".");
 
             // Since the raw value has changed, we also need to re-validate this variable
             this.validate();
@@ -438,16 +535,44 @@ public class CalcVarNumerical extends CalcVarBase {
         }
     }
 
+    /**
+     * Rounding also occurs in this function.
+     */
     private void updateDispValFromRawVal() {
 
-        System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\".");
+        System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\". this.rawVal = " + this.rawVal);
 
-        // Recalculate dispVal and update textbox
+        // Special treatment if raw value is NaN
+        if(Double.isNaN(this.rawVal)) {
+            this.dispValAsNumber = Double.NaN;
+            this.dispValAsString = String.valueOf(Double.NaN);
+            this.valueTextField.setText(this.dispValAsString);
+            return;
+        }
+
+        // Recalculate dispValAsNumber and update textbox
         // We don't need to validate again if the units are changed for an output,
         // as the actual value (raw value) does not change.
-        double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
-        this.dispVal = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
-        this.valueTextField.setText(String.valueOf(this.dispVal));
+        Double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
+
+        if(this.roundingType == RoundingTypes.SIGNIFICANT_FIGURES) {
+            this.dispValAsNumber = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);
+
+            if (this.isEngineeringNotationEnabled) {
+                //this.dispValAsString = MetricPrefixes.convert(dispValAsNumber, this.numDigitsToRound);
+                //Format roundedMetricPrefixFormat = new MetricPrefixes();
+                this.dispValAsString = MetricPrefixes.toEng(dispValAsNumber, RoundingMethods.SIGNIFICANT_FIGURES, this.numDigitsToRound);
+            } else {
+                this.dispValAsString = String.valueOf(this.dispValAsNumber);
+            }
+        } else if(this.roundingType == RoundingTypes.DECIMAL_PLACES) {
+            // Rounding to fixed number of decimal places
+            this.dispValAsNumber = Rounding.ToDecimalPlaces(unroundedDispVal, this.numDigitsToRound);
+            this.dispValAsString = String.valueOf(this.dispValAsNumber);
+        }
+
+        //this.valueTextField.setText(String.valueOf(this.dispValAsNumber));
+        this.valueTextField.setText(this.dispValAsString);
     }
 
     /**
@@ -521,7 +646,9 @@ public class CalcVarNumerical extends CalcVarBase {
             Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
 
             objTimer.getKeyFrames().clear();
-            objTimer.getKeyFrames().add(new KeyFrame(new Duration(100)));
+
+            // This is where the new "time to open" gets assigned
+            objTimer.getKeyFrames().add(new KeyFrame(new Duration(TOOLTIP_OPEN_TIME_MS)));
         } catch (Exception e) {
             e.printStackTrace();
         }

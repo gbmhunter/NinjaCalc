@@ -6,6 +6,7 @@ package  Core;
  *
  * @author gbmhunter
  * @since 2015-11-02
+ * @last-modified 2016-02-15
  */
 public class UnitConversionConstants {
 

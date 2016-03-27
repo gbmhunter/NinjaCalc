@@ -73,9 +73,11 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
         super(
             "Track Current (IPC-2221A)",
             "PCB track current carrying capability calculator, using the IPC-2221A standard.",
-            "/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/grid-icon.png",
+            //"/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/grid-icon.png",
             new String[] { "Electronics", "PCB" },
             new String[] { "pcb, track, current, trace, width, carry, heat, temperature, ipc, ipc2221a, ipc-2221a" });
+
+        super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//
@@ -229,17 +231,17 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
 
                 if(trackLayer == "External")
                 {
-                    System.out.println("External trace selected.");
+                    //System.out.println("External trace selected.");
                     double crossSectionalArea = (Math.pow((traceCurrent/(0.048*Math.pow(tempRise, 0.44))), 1/0.725));
-                    System.out.println("Cross-sectional area = " + String.valueOf(crossSectionalArea));
+                    //System.out.println("Cross-sectional area = " + String.valueOf(crossSectionalArea));
                     double width = (crossSectionalArea/(trackThickness*1000000.0/25.4))*(25.4/1000000.0);
                     return width;
                 }
                 else if(trackLayer == "Internal")
                 {
-                    System.out.println("Internal trace selected.");
+                    //System.out.println("Internal trace selected.");
                     double crossSectionalArea = (Math.pow((traceCurrent/(0.024*Math.pow(tempRise, 0.44))), 1/0.725));
-                    System.out.println("Cross-sectional area = " + String.valueOf(crossSectionalArea));
+                    //System.out.println("Cross-sectional area = " + String.valueOf(crossSectionalArea));
                     double width = (crossSectionalArea/(trackThickness*1000000.0/25.4))*(25.4/1000000.0);
                     return width;
                 }

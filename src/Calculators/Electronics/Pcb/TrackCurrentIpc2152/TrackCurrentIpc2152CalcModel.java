@@ -205,9 +205,11 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         super(
             "Track Current (IPC-2152)",
             "PCB track current carrying capability calculator, using the IPC-2152 standard.",
-            "/Calculators/Electronics/Pcb/TrackCurrentIpc2152/grid-icon.png",
+            //"/Calculators/Electronics/Pcb/TrackCurrentIpc2152/grid-icon.png",
             new String[] { "Electronics", "PCB" },
             new String[] { "pcb, track, current, trace, width, carry, heat, temperature, ipc, ipc2221a, ipc-2221a" });
+
+		super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//
@@ -242,7 +244,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"traceCurrent",             // Debug name
 			trackCurrentValue,     // Textbox for value (UI object)
 			trackCurrentUnits,     // Combobox for units (UI object)
-			new NumberUnit[]{           // Units
+			new NumberUnit[]{           // units
 				new NumberUnit("uA", 1e-6),
 				new NumberUnit("mA", 1e-3),
 				new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
@@ -278,7 +280,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"tempRise",             // Debug name
 			tempRiseValue,     // Textbox for value (UI object)
 			tempRiseUnits,     // Combobox for units (UI object)
-			new NumberUnit[]{       // Units
+			new NumberUnit[]{       // units
 				new NumberUnit("°c", 1e0, NumberPreference.DEFAULT),
 			},
 			4,                      // Num. digits to round to

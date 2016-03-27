@@ -11,6 +11,7 @@ import javafx.util.StringConverter;
  *
  * @author gbmhunter
  * @since 2015-11-02
+ * @last-modified 2016-03-19
  */
 public class CalcVarComboBox extends CalcVarBase {
 
@@ -26,15 +27,21 @@ public class CalcVarComboBox extends CalcVarBase {
 
     public void setRawVal(String value) {
 
+        System.out.println("CalcVarComboBox.setRawVal() called.");
+
         // Only change if different
         if (this.rawVal != value) {
+            System.out.println("New value is different to current value, so calling onRawValueChanged().");
             this.rawVal = value;
             this.onRawValueChanged();
+
+            // Also, force all dependant outputs to recalculate
+            this.forceDependantOutputsToRecalculate();
         }
     }
 
 
-    ComboBox calculatorComboBox;
+    ComboBox comboBox;
 
     public ObservableList<String> comboBoxOptions;
 
@@ -59,13 +66,16 @@ public class CalcVarComboBox extends CalcVarBase {
                 directionFunction
         );
 
-        this.calculatorComboBox = comboBox;
+        this.comboBox = comboBox;
         //this.comboBoxOptions = comboBoxOptions;
 
         //===============================================================================================//
         //====================================== UNITS AND COMBOBOX =====================================//
         //===============================================================================================//
 
+        if(this.comboBox == null) {
+            throw new IllegalArgumentException("comboBox must not be null.");
+        }
 
         // Attach event handler to the selection change for the units combo box
         //this.unitsComboBox.SelectionChanged += this.unitsComboBoxSelectionChanged;
@@ -79,11 +89,11 @@ public class CalcVarComboBox extends CalcVarBase {
         }
 
         // Bind the combo-box to the observable collection
-        this.calculatorComboBox.setItems(this.comboBoxOptions);
+        this.comboBox.setItems(this.comboBoxOptions);
 
         //============ LET THE COMBOBOX KNOW HOW TO RENDER NUMBER UNITS ============//
 
-        this.calculatorComboBox.setCellFactory((combobox) -> {
+        this.comboBox.setCellFactory((combobox) -> {
 
             // Define rendering of the list of values in ComboBox drop down.
             return new ListCell<String>() {
@@ -101,7 +111,7 @@ public class CalcVarComboBox extends CalcVarBase {
         });
 
         // Define rendering of selected value shown in ComboBox.
-        this.calculatorComboBox.setConverter(new StringConverter<String>() {
+        this.comboBox.setConverter(new StringConverter<String>() {
             @Override
             public String toString(String numberUnit) {
                 if (numberUnit == null) {
@@ -118,13 +128,13 @@ public class CalcVarComboBox extends CalcVarBase {
         });
 
         // Connect up event handler for when combobox units change
-        this.calculatorComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        this.comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             this.comboBoxSelectionChanged();
         });
 
 
         // Set current combobox selection to default unit
-        this.calculatorComboBox.getSelectionModel().select(0);
+        this.comboBox.getSelectionModel().select(0);
 
 
         // Save the help text
@@ -142,17 +152,17 @@ public class CalcVarComboBox extends CalcVarBase {
         // Important to allow wrapping as we are restricting the max. width!
         //toolTip.TextWrapping = System.Windows.TextWrapping.Wrap;
 
-        //this.calculatorComboBox.ToolTip = toolTip;
+        //this.comboBox.ToolTip = toolTip;
 
     }
 
     private void comboBoxSelectionChanged() {
-        System.out.println("comboBoxSelectionChanged() called for calculator variable \"" + this.name + "\".");
+        //System.out.println("comboBoxSelectionChanged() called for calculator variable \"" + this.name + "\".");
 
         // Need to update the selected unit, bypassing the property (otherwise
         // we will create an infinite loop)
         //ComboBox units = (ComboBox)sender;
-        this.setRawVal((String) this.calculatorComboBox.getSelectionModel().getSelectedItem());
+        this.setRawVal((String) this.comboBox.getSelectionModel().getSelectedItem());
 
         System.out.println("Selected unit is now \"" + this.getRawVal() + "\".");
 

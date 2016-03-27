@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
+
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableRow?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.HBox?>
+
+<VBox fillWidth="true" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+    <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+        <padding><Insets bottom="20" left="20" right="20" top="40" /></padding>
+        <VBox alignment="CENTER" spacing="20" style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" styleClass="vbox">
+
+            <!-- =========== INFO SECTION ========== -->
+            <TitledPane expanded="false" maxWidth="700" style="-fx-font-size: 16pt;" text="Info">
+                <WebView fx:id="infoWebView" prefHeight="300" />
+            </TitledPane>
+
+            <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
+            <StackPane>
+                <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+                <!--<AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="600" prefHeight="600" alignment="CENTER">-->
+                <Group>
+                    <!--<ImageView fitHeight="600.0" fitWidth="600.0"><image><Image url="@diagram.png" /></image></ImageView>-->
+
+                    <HBox layoutX="150.0" layoutY="220.0" spacing="10" alignment="CENTER">
+                        <Label>Desired Resistance</Label>
+                        <TextField fx:id="desiredResistanceValue" prefHeight="25" prefWidth="80" />
+                        <Label prefHeight="25">Ω</Label>
+                    </HBox>
+
+                    <GridPane layoutX="150" layoutY="300" hgap="10" vgap="10">
+
+                        <columnConstraints>
+                            <ColumnConstraints />
+                            <ColumnConstraints />
+                            <ColumnConstraints />
+                            <ColumnConstraints />
+                            <ColumnConstraints />
+                        </columnConstraints>
+
+                        <children>
+
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Series</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="2">Closest Resistance</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.columnSpan="2">Percentage Error</Label>
+
+                            <Label      GridPane.rowIndex="1" GridPane.columnIndex="0">E6</Label>
+                            <TextField  GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="e6ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="1" GridPane.columnIndex="2" ><padding><Insets right="20"/></padding>Ω</Label>
+                            <TextField  GridPane.rowIndex="1" GridPane.columnIndex="3" fx:id="e6ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="1" GridPane.columnIndex="4">%</Label>
+
+                            <Label      GridPane.rowIndex="2" GridPane.columnIndex="0">E12</Label>
+                            <TextField  GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="e12ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="2" GridPane.columnIndex="2"><padding><Insets right="20"/></padding>Ω</Label>
+                            <TextField  GridPane.rowIndex="2" GridPane.columnIndex="3" fx:id="e12ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="2" GridPane.columnIndex="4">%</Label>
+
+                            <Label      GridPane.rowIndex="3" GridPane.columnIndex="0">E24</Label>
+                            <TextField  GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="e24ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="3" GridPane.columnIndex="2"><padding><Insets right="20"/></padding>Ω</Label>
+                            <TextField  GridPane.rowIndex="3" GridPane.columnIndex="3" fx:id="e24ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="3" GridPane.columnIndex="4">%</Label>
+
+                            <Label      GridPane.rowIndex="4" GridPane.columnIndex="0">E48</Label>
+                            <TextField  GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="e48ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="4" GridPane.columnIndex="2"><padding><Insets right="20"/></padding>Ω</Label>
+                            <TextField  GridPane.rowIndex="4" GridPane.columnIndex="3" fx:id="e48ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="4" GridPane.columnIndex="4">%</Label>
+
+                            <Label      GridPane.rowIndex="5" GridPane.columnIndex="0">E96</Label>
+                            <TextField  GridPane.rowIndex="5" GridPane.columnIndex="1" fx:id="e96ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="5" GridPane.columnIndex="2"><padding><Insets right="20"/></padding>Ω</Label>
+                            <TextField  GridPane.rowIndex="5" GridPane.columnIndex="3" fx:id="e96ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="5" GridPane.columnIndex="4">%</Label>
+
+                            <Label      GridPane.rowIndex="6" GridPane.columnIndex="0">E192</Label>
+                            <TextField  GridPane.rowIndex="6" GridPane.columnIndex="1" fx:id="e192ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="6" GridPane.columnIndex="2"><padding><Insets right="20"/></padding>Ω</Label>
+                            <TextField  GridPane.rowIndex="6" GridPane.columnIndex="3" fx:id="e192ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <Label      GridPane.rowIndex="6" GridPane.columnIndex="4">%</Label>
+                        </children>
+
+                    </GridPane>
+
+                </Group>
+                <!--</AutoScalingStackPane>-->
+            </StackPane>
+        </VBox>
+    </ScrollPane>
+</VBox>
