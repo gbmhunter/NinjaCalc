@@ -90,9 +90,10 @@ function showStats(data) {
         html += "</div>";
     }
 
+    var resultDiv = $("#stats-result");
     resultDiv.html("<span>" + totalDownloadCount + "</span>");
 
-    //var resultDiv = $("#stats-result");
+    
     //resultDiv.hide();
     //resultDiv.html(html);
     //$("#loader-gif").hide();
