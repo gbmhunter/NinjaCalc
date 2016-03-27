@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
@@ -12,9 +11,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.web.WebView?>
 <?import javafx.scene.layout.HBox?>
+
+<?import Core.AutoScalingStackPane?>
+
 <VBox xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
         <padding>
@@ -34,7 +35,7 @@
                 <padding>
                     <Insets bottom="20" left="20" right="20" top="20" />
                 </padding>
-                <!--<AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="800" maxHeight="800" alignment="CENTER">-->
+                <AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="800" maxHeight="800" alignment="CENTER">
                     <Group>
 
                         <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="29.0" preserveRatio="true">
@@ -62,7 +63,7 @@
                         <RadioButton fx:id="fcIO" layoutX="130.0" layoutY="383.0" />
 
                     </Group>
-                <!--</AutoScalingStackPane>-->
+                </AutoScalingStackPane>
             </StackPane>
         </VBox>
     </ScrollPane>
