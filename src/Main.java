@@ -30,6 +30,9 @@ public class Main extends Application {
         //======================================= REGISTER CALCULATORS ==================================//
         //===============================================================================================//
 
+        //======== SCIENTIFIC =========//
+        controller.addCalculatorTemplate(new Calculators.Scientific.ScientificCalcModel());
+
         //========== BASIC ==========//
         controller.addCalculatorTemplate(new Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalcModel());
         controller.addCalculatorTemplate(new Calculators.Electronics.Basic.ResistorDivider.ResistorDividerCalcModel());

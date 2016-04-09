@@ -39,7 +39,7 @@ import java.net.URL;
  *
  * @author gbmhunter
  * @since 2013-09-17
- * @last-modified 2016-03-27
+ * @last-modified 2016-04-10
  */
 public class StandardResistanceFinderModel extends Calculator {
 
@@ -216,6 +216,7 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
         );
 
+        this.e6Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
         this.e6Resistance.setIsEngineeringNotationEnabled(true);
 
         // Add validators
@@ -291,6 +292,7 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
         );
 
+        this.e12Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
         this.e12Resistance.setIsEngineeringNotationEnabled(true);
 
         // Add validators
@@ -366,6 +368,7 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
         );
 
+        this.e24Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
         this.e24Resistance.setIsEngineeringNotationEnabled(true);
 
         // Add validators
@@ -441,6 +444,7 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
         );
 
+        this.e48Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 3);
         this.e48Resistance.setIsEngineeringNotationEnabled(true);
 
         // Add validators
@@ -516,6 +520,7 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
         );
 
+        this.e96Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 3);
         this.e96Resistance.setIsEngineeringNotationEnabled(true);
 
         // Add validators
@@ -591,6 +596,7 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
         );
 
+        this.e192Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 3);
         this.e192Resistance.setIsEngineeringNotationEnabled(true);
 
         // Add validators
