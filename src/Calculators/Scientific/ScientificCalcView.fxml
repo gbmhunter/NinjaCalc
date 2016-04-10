@@ -39,7 +39,7 @@
                 <!-- This VBox gets populated with the expression results each time the user presses enter -->
                 <VBox fx:id="expressionsVBox" maxWidth="800" spacing="10">
                     <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
-                    <TextArea fx:id="calculatorTextArea"></TextArea>
+                    <TextField fx:id="expressionInput"></TextField>
                 </VBox>
 
                 <!--</AutoScalingStackPane>-->

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -31,7 +32,7 @@ public class ScientificCalcModel extends Calculator{
 
     @FXML private VBox expressionsVBox;
 
-    @FXML private TextArea calculatorTextArea;
+    @FXML private TextField expressionInput;
 
     public ScientificCalcModel() {
 
@@ -86,7 +87,7 @@ public class ScientificCalcModel extends Calculator{
         URL url = getClass().getResource(htmlFile);
         webEngine.load(url.toExternalForm());
 
-        this.calculatorTextArea.setText("Testing...");
+        this.expressionInput.setText("Testing...");
 
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("JavaScript");
@@ -114,7 +115,7 @@ public class ScientificCalcModel extends Calculator{
 
 
         // Setup listener for text area
-        calculatorTextArea.setOnKeyPressed((event) -> {
+        this.expressionInput.setOnKeyPressed((event) -> {
             //System.out.println("setOnKeyPressed(). called.");
 
             if(event.getCode() == KeyCode.ENTER) {
@@ -131,7 +132,7 @@ public class ScientificCalcModel extends Calculator{
         System.out.println("parseExpression() called.");
 
         // We need to extract the last line of text from the text area.
-        String calculatorText = this.calculatorTextArea.getText();
+        String calculatorText = this.expressionInput.getText();
 
         System.out.println("***TextArea text = ***");
         System.out.print(calculatorText);
@@ -142,12 +143,12 @@ public class ScientificCalcModel extends Calculator{
         Expression expression = new Expression(calculatorText);
         BigDecimal result = expression.eval();
         System.out.println("Result of expression = " + result.toString());
-            //this.calculatorTextArea.setText(result.toString());
+            //this.expressionInput.setText(result.toString());
 
         this.addExpressionResultToUI(calculatorText, result.toString());
 
         // Now clear the text
-        calculatorTextArea.clear();
+        expressionInput.clear();
 
     }
 
@@ -162,6 +163,9 @@ public class ScientificCalcModel extends Calculator{
         Text textHolder = new Text();
 
         textArea.setMinHeight(20);
+
+        // We don't want the user to be able to edit the previous expression displays
+        textArea.setEditable(false);
 
         textHolder.textProperty().bind(textArea.textProperty());
 
