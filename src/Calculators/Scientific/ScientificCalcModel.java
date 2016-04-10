@@ -1,7 +1,5 @@
 package Calculators.Scientific;
 
-import Core.Calculator;
-import com.udojava.evalex.Expression;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,10 +9,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+// USER LIBRARIES
+import Core.Calculator;
+import com.udojava.evalex.Expression;
 
 /**
  * A general purpose scientific calculator for doing day-to-day calculations. Uses expression parsing to calculate
@@ -57,6 +62,34 @@ public class ScientificCalcModel extends Calculator{
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("JavaScript");
+        if (!(engine instanceof Invocable)) {
+            System.out.println("Invoking methods is not supported.");
+            return;
+        }
+        Invocable inv = (Invocable) engine;
+        String scriptPath = getClass().getResource("math.min.js").getPath();
+
+        try {
+            engine.eval("load('" + scriptPath + "')");
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+
+        Object calculator = engine.get("math");
+
+
+        try {
+            Object addResult = inv.invokeMethod(calculator, "eval", "2");
+            System.out.println(addResult.toString());
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+
+
+
 
         //===============================================================================================//
         //============================== LOAD CALCULATOR-SPECIFIC STYLING ===============================//
