@@ -7,7 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcView.fxml" afterPath="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcView.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Scientific/style.css" afterPath="$PROJECT_DIR$/src/Calculators/Scientific/style.css" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -68,25 +68,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ScientificCalcModel.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ScientificCalcModel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+            <state relative-caret-position="376">
+              <caret line="177" column="21" selection-start-line="177" selection-start-column="21" selection-end-line="177" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#692#693#0" expanded="true" />
-                <element signature="e#732#733#0" expanded="true" />
+                <element signature="e#500#501#0" expanded="true" />
+                <element signature="e#540#541#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="33" selection-start-line="1" selection-start-column="33" selection-end-line="1" selection-end-column="33" />
+            <state relative-caret-position="102">
+              <caret line="6" column="32" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -98,8 +98,8 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="36" column="45" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
+            <state relative-caret-position="374">
+              <caret line="32" column="23" selection-start-line="31" selection-start-column="52" selection-end-line="32" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -225,9 +225,9 @@
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Scientific/calculatorWebView.html" />
-        <option value="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Scientific/style.css" />
+        <option value="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java" />
       </list>
     </option>
   </component>
@@ -967,7 +967,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37526426" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37526426" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1441,15 +1441,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java">
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#692#693#0" expanded="true" />
-            <element signature="e#732#733#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="102">
+          <caret line="6" column="32" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1458,17 +1454,21 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="36" column="45" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
+        <state relative-caret-position="374">
+          <caret line="32" column="23" selection-start-line="31" selection-start-column="52" selection-end-line="32" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/style.css">
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="33" selection-start-line="1" selection-start-column="33" selection-end-line="1" selection-end-column="33" />
-          <folding />
+        <state relative-caret-position="376">
+          <caret line="177" column="21" selection-start-line="177" selection-start-column="21" selection-end-line="177" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#500#501#0" expanded="true" />
+            <element signature="e#540#541#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

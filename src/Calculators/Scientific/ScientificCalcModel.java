@@ -2,13 +2,9 @@ package Calculators.Scientific;
 
 import Core.Calculator;
 import com.udojava.evalex.Expression;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
@@ -18,7 +14,6 @@ import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.concurrent.Callable;
 
 class JavaBridge {
     public void log(String text) {
@@ -149,7 +144,7 @@ public class ScientificCalcModel extends Calculator{
         System.out.println("Result of expression = " + result.toString());
             //this.calculatorTextArea.setText(result.toString());
 
-        this.addNewResultToUI(result.toString());
+        this.addExpressionResultToUI(calculatorText, result.toString());
 
         // Now clear the text
         calculatorTextArea.clear();
@@ -160,7 +155,7 @@ public class ScientificCalcModel extends Calculator{
      * Adds the provided result of an expression to the correct place in the VBox
      * which holds all the the expression history.
      */
-    private void addNewResultToUI(String expressionResult) {
+    private void addExpressionResultToUI(String expressionInput, String expressionResult) {
 
         // Create a new UI object to display to the user
         TextArea textArea = new TextArea();
@@ -179,7 +174,8 @@ public class ScientificCalcModel extends Calculator{
         });
 
         // The text MUST be set after the text properties have been bound AND the listener has been added to the textHolder
-        textArea.setText(expressionResult);
+        String textToDisplay = expressionInput + "\n\t" + expressionResult;
+        textArea.setText(textToDisplay);
 
         ObservableList<Node> vBoxChildren = this.expressionsVBox.getChildren();
 

@@ -10,11 +10,13 @@
 
   /* Silver is equal to #c0c0c0 */
   -fx-border-color: silver;
-
-  -fx-background-color: transparent;
-
   -fx-border-radius: 10;
 
+}
+
+/* The next four rules are required to make TextAreas fully transparent */
+.text-area {
+    -fx-background-color: transparent;
 }
 
 .text-area .scroll-pane {
@@ -24,7 +26,6 @@
 .text-area .scroll-pane .viewport{
     -fx-background-color: transparent;
 }
-
 
 .text-area .scroll-pane .content{
     -fx-background-color: transparent;
