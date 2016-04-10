@@ -30,3 +30,8 @@
 .text-area .scroll-pane .content{
     -fx-background-color: transparent;
 }
+
+/* This hides the vertical scroll bars */
+.text-area .scroll-bar:vertical:disabled {
+    -fx-opacity: 0;
+}

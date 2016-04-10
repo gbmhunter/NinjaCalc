@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -12,6 +13,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 
+// Libraries for running javascript
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -23,6 +25,10 @@ import Core.Calculator;
 /**
  * A general purpose scientific calculator for doing day-to-day calculations. Uses expression parsing to calculate
  * the result of a mathematic formula entered as a string.
+ *
+ * This calculator is quite different to most other calculators.
+ *
+ * Uses a javascript library, math.js, to parse mathematical expressions that the user inputs.
  *
  * @author gbmhunter
  * @since 2013-04-09
@@ -127,6 +133,9 @@ public class ScientificCalcModel extends Calculator{
         }
     }
 
+    /**
+     * Grabs the user-entered expression from the GUI, parses it, and displays the result.
+     */
     private void parseExpression() {
 
         System.out.println("parseExpression() called.");
@@ -138,30 +147,26 @@ public class ScientificCalcModel extends Calculator{
         }
 
 
-        // We need to extract the last line of text from the text area.
-        String calculatorText = this.expressionInput.getText();
+        // Grab the expression input text and store in local variable
+        String expressionInputString = this.expressionInput.getText();
 
         System.out.println("***TextArea text = ***");
-        System.out.print(calculatorText);
+        System.out.print(expressionInputString);
         System.out.println("***End of TextArea text***");
 
-
-        //Expression expression = new Expression(calculatorText);
         String expressionResult = "";
-
+        //Expression expression = new Expression(expressionInputString);
         /*try {
             BigDecimal result = expression.eval();
             expressionResult = result.toString();
         } catch(RuntimeException e) {
-
-
             expressionResult = "ERROR: " + e.getMessage();
         }*/
 
         try {
-            Object addResult = inv.invokeMethod(mathJsParserObj, "eval", calculatorText);
-            System.out.println(addResult.toString());
-            expressionResult = addResult.toString();
+            Object evalResult = inv.invokeMethod(mathJsParserObj, "eval", expressionInputString);
+            System.out.println(evalResult.toString());
+            expressionResult = evalResult.toString();
         } catch (ScriptException e) {
             // ScriptExceptions usually occur if there is an unrecognised
             // variable in the expression (or the syntax is just bad)
@@ -183,11 +188,11 @@ public class ScientificCalcModel extends Calculator{
         System.out.println("expressionResult = " + expressionResult);
 
         // Display the result of the expression to the user
-        this.addExpressionResultToUI(calculatorText, expressionResult);
+        this.addExpressionResultToUI(expressionInputString, expressionResult);
 
         // Now we have added the result of the expression to the GUI, clear the
         // input for user to enter the next expression
-        expressionInput.clear();
+        this.expressionInput.clear();
 
     }
 
@@ -199,6 +204,9 @@ public class ScientificCalcModel extends Calculator{
 
         // Create a new UI object to display to the user
         TextArea textArea = new TextArea();
+
+        // We also use a Text object so we can size each text area to the minimum height required to display
+        // it's text contents
         Text textHolder = new Text();
 
         textArea.setMinHeight(20);
@@ -206,8 +214,8 @@ public class ScientificCalcModel extends Calculator{
         // We don't want the user to be able to edit the previous expression displays
         textArea.setEditable(false);
 
-        textHolder.textProperty().bind(textArea.textProperty());
 
+        textHolder.textProperty().bind(textArea.textProperty());
         textHolder.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
             //if (oldHeight != newValue.getHeight()) {
                 System.out.println("newValue = " + newValue.getHeight());
@@ -220,13 +228,18 @@ public class ScientificCalcModel extends Calculator{
         String textToDisplay = expressionInput + "\n\t" + expressionResult;
         textArea.setText(textToDisplay);
 
+        ScrollBar scrollBarv = (ScrollBar)textArea.lookup(".scroll-bar:vertical");
+        if(scrollBarv != null)
+            scrollBarv.setDisable(true);
+
         ObservableList<Node> vBoxChildren = this.expressionsVBox.getChildren();
 
-        Integer numVBoxChildren = vBoxChildren.size();
+        //Integer numVBoxChildren = vBoxChildren.size();
 
         // Insert new UI object as second to last object (last object being the text area
         // to enter new expressions into
-        vBoxChildren.add(numVBoxChildren - 1, textArea);
+        //vBoxChildren.add(numVBoxChildren - 1, textArea);
+        vBoxChildren.add(textArea);
     }
 
 
