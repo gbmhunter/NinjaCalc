@@ -15,6 +15,7 @@ import java.io.IOException;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 // USER LIBRARIES
 import Core.Calculator;
@@ -153,12 +154,7 @@ public class ScientificCalcModel extends Calculator{
             expressionResult = result.toString();
         } catch(RuntimeException e) {
 
-            // RunTimeExceptions usually occur if there is an unrecognised
-            // variable in the expression (or the syntax is just bad)
 
-            // We want to set the expression result to an error message. We
-            // don't want to include the java.lang.RunTimeException... bit,
-            // so just get the message part of the exception
             expressionResult = "ERROR: " + e.getMessage();
         }*/
 
@@ -166,11 +162,22 @@ public class ScientificCalcModel extends Calculator{
             Object addResult = inv.invokeMethod(mathJsParserObj, "eval", calculatorText);
             System.out.println(addResult.toString());
             expressionResult = addResult.toString();
-        } catch (Exception e) {
+        } catch (ScriptException e) {
+            // RunTimeExceptions usually occur if there is an unrecognised
+            // variable in the expression (or the syntax is just bad)
+
+            // We want to set the expression result to an error message. We
+            // don't want to include the java.lang.RunTimeException... bit,
+            // so just get the message part of the exception
             System.err.println(e.toString());
+            // Calling e.getCause().getMessage() provides a short error useful for displaying
+            // to the user, without the filepath.
+            expressionResult = e.getCause().getMessage();
+        } catch (NoSuchMethodException e) {
+            System.err.println(e.toString());
+            return;
         }
-
-
+        
         System.out.println("expressionResult = " + expressionResult);
 
         // Display the result of the expression to the user
