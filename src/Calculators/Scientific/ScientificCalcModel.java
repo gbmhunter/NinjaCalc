@@ -67,6 +67,15 @@ public class ScientificCalcModel extends Calculator{
         }
 
         //===============================================================================================//
+        //============================== LOAD CALCULATOR-SPECIFIC STYLING ===============================//
+        //===============================================================================================//
+
+        // Grab .css file and convert contents to string
+        String css = getClass().getResource("style.css").toExternalForm();
+        // Add this css data to this calculator node
+        this.view.getStylesheets().add(css);
+
+        //===============================================================================================//
         //================================ LOAD WEB VIEW FOR INFO SECTION ===============================//
         //===============================================================================================//
 
@@ -148,7 +157,7 @@ public class ScientificCalcModel extends Calculator{
     }
 
     /***
-     * Adds the provided result of an expression (a UI object) to the correct place in the VBox
+     * Adds the provided result of an expression to the correct place in the VBox
      * which holds all the the expression history.
      */
     private void addNewResultToUI(String expressionResult) {
