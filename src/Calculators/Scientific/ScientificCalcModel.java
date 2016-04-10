@@ -163,21 +163,23 @@ public class ScientificCalcModel extends Calculator{
             System.out.println(addResult.toString());
             expressionResult = addResult.toString();
         } catch (ScriptException e) {
-            // RunTimeExceptions usually occur if there is an unrecognised
+            // ScriptExceptions usually occur if there is an unrecognised
             // variable in the expression (or the syntax is just bad)
+            System.err.println(e.toString());
 
             // We want to set the expression result to an error message. We
             // don't want to include the java.lang.RunTimeException... bit,
             // so just get the message part of the exception
-            System.err.println(e.toString());
             // Calling e.getCause().getMessage() provides a short error useful for displaying
             // to the user, without the filepath.
             expressionResult = e.getCause().getMessage();
         } catch (NoSuchMethodException e) {
+            // This is a bad error! We shouldn't get this, as we know the
+            // math.eval() function exists.
             System.err.println(e.toString());
             return;
         }
-        
+
         System.out.println("expressionResult = " + expressionResult);
 
         // Display the result of the expression to the user
