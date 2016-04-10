@@ -5,13 +5,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.stage.Stage;
 
 /**
  * Entry class for NinjaCalc application.
  *
- * @author gbmhunter
- * @since 2015-11-02
+ * @author          gbmhunter <gbmhunter@gmail.com>
+ * @since           2015-11-02
+ * @last-modified   2016-04-10
  */
 public class Main extends Application {
 
@@ -50,7 +52,7 @@ public class Main extends Application {
         //===============================================================================================//
 
         primaryStage.setTitle("NinjaCalc");
-        primaryStage.setScene(new Scene(root, 1000, 800));
+        primaryStage.setScene(new Scene(root, 1000, 800, false, SceneAntialiasing.BALANCED));
         primaryStage.setMaximized(true);
 
         primaryStage.show();

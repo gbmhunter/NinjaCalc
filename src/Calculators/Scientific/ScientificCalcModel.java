@@ -16,19 +16,15 @@ import javafx.scene.web.WebView;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-class JavaBridge {
-    public void log(String text) {
-        System.out.println(text);
-    }
-}
-
 /**
- * Created by gbmhunter on 2016-04-09.
+ * A general purpose scientific calculator for doing day-to-day calculations. Uses expression parsing to calculate
+ * the result of a mathematic formula entered as a string.
+ *
+ * @author gbmhunter
+ * @since 2013-04-09
+ * @last-modified 2016-04-10
  */
 public class ScientificCalcModel extends Calculator{
-
-    @FXML
-    private WebView calculatorWebView;
 
     @FXML private VBox expressionsVBox;
 
@@ -37,11 +33,11 @@ public class ScientificCalcModel extends Calculator{
     public ScientificCalcModel() {
 
         super("Scientific Calculator",
-                "A generic scientific calculator for doing basic calculations.",
+                "A generic scientific calculator for doing basic mathematical calculations.",
                 new String[]{"Scientific"},
                 new String[]{"scientific, generic, general, mathematics, calculations, equations"});
 
-        super.setIconImagePath(getClass().getResource("grid-icon.png"));
+        super.setIconImagePath(getClass().getResource("grid-icon.jpg"));
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//
@@ -72,47 +68,8 @@ public class ScientificCalcModel extends Calculator{
         this.view.getStylesheets().add(css);
 
         //===============================================================================================//
-        //================================ LOAD WEB VIEW FOR INFO SECTION ===============================//
+        //====================================== INSTALL EVENT HANDLERS =================================//
         //===============================================================================================//
-
-        /*WebEngine webEngine = this.calculatorWebView.getEngine();
-
-        webEngine.documentProperty().addListener(new ChangeListener<Document>() {
-            @Override public void changed(ObservableValue<? extends Document> prop, Document oldDoc, Document newDoc) {
-                enableFirebug(webEngine);
-            }
-        });
-
-        final String htmlFile= "calculatorWebView.html";
-        URL url = getClass().getResource(htmlFile);
-        webEngine.load(url.toExternalForm());
-
-        this.expressionInput.setText("Testing...");
-
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("JavaScript");
-        // read script file
-        try {
-            URL fileUrl = getClass().getResource("math.js");
-            engine.eval(Files.newBufferedReader(Paths.get(fileUrl.toURI()),StandardCharsets.UTF_8));
-
-        } catch (IOException e) {
-            System.err.println("Could not read javascript file.");
-        } catch (URISyntaxException e) {
-            System.err.println("Could not read javascript file.");
-        } catch (ScriptException e) {
-            System.err.println("Javascript error occurred while parsing script.");
-        }
-        Invocable inv = (Invocable) engine;
-        // call function from script file
-        try {
-            inv.invokeFunction("math.eval", "2+2");
-        } catch (ScriptException e) {
-            System.err.println("Javascript error occurred while trying to invoke function.");
-        } catch (NoSuchMethodException e) {
-            System.err.println("Desired javascript method does not exist.");
-        }*/
-
 
         // Setup listener for text area
         this.expressionInput.setOnKeyPressed((event) -> {
@@ -122,7 +79,6 @@ public class ScientificCalcModel extends Calculator{
                 //System.out.println("Enter key pressed.");
                 this.parseExpression();
             }
-
         });
 
     }

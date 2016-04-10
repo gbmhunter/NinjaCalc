@@ -7,9 +7,10 @@ import java.util.ArrayList;
 
 /**
  * Base calculator class. Designed to be inherited by actual calculator implementations, which then define their own variables.
+ *
  * @author gbmhunter
  * @since 2015-11-02
- * @last-modified 2016-03-27
+ * @last-modified 2016-04-10
  */
 public abstract class Calculator {
 
@@ -76,8 +77,18 @@ public abstract class Calculator {
     }
 
     /**
+     * Sets the path to the image that will be used as an "icon" as part of the calculator selection grid.
+     * This path can't be passed into the constructor because you cannot use "getClass().getResource("grid-icon.png")"
+     * until after the super() constructor has been called.
+     * @param url   Path to the image you wish to be displayed in the selection grid for this calculator.
+     */
+    public void setIconImagePath(URL url) {
+        this.iconImagePath = url.toString();
+    }
+
+    /**
      * This finds all the dependencies and dependants for all calculator variables,
-     * and populates the Dependancies and dependants lists for each. Must be called after all
+     * and populates the Dependencies and dependants lists for each. Must be called after all
      * variables have been added to the calcVars List.
      */
     protected void findDependenciesAndDependants() {
@@ -185,16 +196,6 @@ public abstract class Calculator {
             calcVar.direction = calcVar.directionFunction.execute();
             calcVar.updateUIFromDirection();
         }
-    }
-
-    /**
-     * Sets the path to the image that will be used as an "icon" as part of the calculator selection grid.
-     * This path can't be passed into the constructor because you cannot use "getClass().getResource("grid-icon.png")"
-     * until after the super() constructor has been called.
-     * @param url   Path to the image you wish to be displayed in the selection grid for this calculator.
-     */
-    public void setIconImagePath(URL url) {
-        this.iconImagePath = url.toString();
     }
 
 }

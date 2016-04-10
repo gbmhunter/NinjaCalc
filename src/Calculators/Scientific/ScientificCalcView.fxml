@@ -1,48 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.web.WebView?>
 
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableRow?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.HBox?>
-
-<?import javafx.scene.control.TextArea?>
 <VBox fillWidth="true" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
         <padding><Insets bottom="20" left="20" right="20" top="40" /></padding>
         <VBox alignment="CENTER" spacing="20" style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" styleClass="vbox">
 
-            <!-- =========== INFO SECTION ========== -->
-            <TitledPane expanded="false" maxWidth="700" style="-fx-font-size: 16pt;" text="Info">
-                <WebView fx:id="infoWebView" prefHeight="300" />
-            </TitledPane>
-
-            <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
             <StackPane>
                 <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
-                <!--<AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="600" prefHeight="600" alignment="CENTER">-->
-                <!-- Text area to enter calculations into -->
-                <WebView fx:id="calculatorWebView" minHeight="800"></WebView>
 
                 <!-- This VBox gets populated with the expression results each time the user presses enter -->
                 <VBox fx:id="expressionsVBox" maxWidth="800" spacing="10">
                     <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
                     <TextField fx:id="expressionInput"></TextField>
                 </VBox>
-
-                <!--</AutoScalingStackPane>-->
             </StackPane>
         </VBox>
     </ScrollPane>

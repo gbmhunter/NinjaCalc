@@ -8,11 +8,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.effect.*?>
 
-
+<!--
+    View for a grid element in the "Select Calculator" view.
+ *
+ * @author gbmhunter
+ * @since 2013-09-17
+ * @last-modified 2016-04-10
+ */
+-->
 <fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml"
          minWidth="250" minHeight="320" prefWidth="250" prefHeight="320" maxWidth="250" maxHeight="320"
          style="-fx-font-family: Calibri; -fx-text-fill: #505050;">
@@ -23,7 +27,7 @@
                 <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
             <HBox alignment="CENTER">
-                <ImageView fx:id="calculatorIcon" fitWidth="200" fitHeight="100" preserveRatio="true"/>
+                <ImageView fx:id="calculatorIcon" fitWidth="200" fitHeight="120" preserveRatio="true" smooth="true"/>
             </HBox>
             <Label fx:id="labelCalculatorName"
                    alignment="CENTER_LEFT" text="Calculator Name" wrapText="true"
