@@ -11,7 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -19,7 +18,6 @@ import javax.script.ScriptEngineManager;
 
 // USER LIBRARIES
 import Core.Calculator;
-import com.udojava.evalex.Expression;
 
 /**
  * A general purpose scientific calculator for doing day-to-day calculations. Uses expression parsing to calculate
@@ -34,6 +32,14 @@ public class ScientificCalcModel extends Calculator{
     @FXML private VBox expressionsVBox;
 
     @FXML private TextField expressionInput;
+
+    // The following variables get assigned in
+    // loadJavascript().
+    ScriptEngineManager scriptEngineManager;
+    ScriptEngine scriptEngine;
+    Invocable inv;
+    Object mathJsObj;
+    Object mathJsParserObj;
 
     public ScientificCalcModel() {
 
@@ -63,34 +69,6 @@ public class ScientificCalcModel extends Calculator{
             throw new RuntimeException(exception);
         }
 
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("JavaScript");
-        if (!(engine instanceof Invocable)) {
-            System.out.println("Invoking methods is not supported.");
-            return;
-        }
-        Invocable inv = (Invocable) engine;
-        String scriptPath = getClass().getResource("math.min.js").getPath();
-
-        try {
-            engine.eval("load('" + scriptPath + "')");
-        } catch (Exception e) {
-            System.err.println(e.toString());
-        }
-
-        Object calculator = engine.get("math");
-
-
-        try {
-            Object addResult = inv.invokeMethod(calculator, "eval", "2");
-            System.out.println(addResult.toString());
-        } catch (Exception e) {
-            System.err.println(e.toString());
-        }
-
-
-
-
         //===============================================================================================//
         //============================== LOAD CALCULATOR-SPECIFIC STYLING ===============================//
         //===============================================================================================//
@@ -116,9 +94,48 @@ public class ScientificCalcModel extends Calculator{
 
     }
 
+    /**
+     * Loading the javascript was removed from the constructor because it takes many
+     * seconds to complete and causes the UI to lag. Lazily initialised by parseExpression().
+     */
+    private void loadJavascript() {
+        scriptEngineManager = new ScriptEngineManager();
+        scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
+        if (!(scriptEngine instanceof Invocable)) {
+            System.out.println("Invoking methods is not supported.");
+            return;
+        }
+        this.inv = (Invocable) scriptEngine;
+        String scriptPath = getClass().getResource("math.min.js").getPath();
+
+        try {
+            // This next line takes many seconds to execute
+            scriptEngine.eval("load('" + scriptPath + "')");
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+
+        this.mathJsObj = scriptEngine.get("math");
+
+        // Get a math.js parser object (a parser object remembers variable/function
+        // history)
+        try {
+            this.mathJsParserObj = inv.invokeMethod(mathJsObj, "parser");
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+    }
+
     private void parseExpression() {
 
         System.out.println("parseExpression() called.");
+
+        // Lazily initialise the javascript engine if this is the first time
+        // parseExpression has been called
+        if(this.mathJsObj == null) {
+            this.loadJavascript();
+        }
+
 
         // We need to extract the last line of text from the text area.
         String calculatorText = this.expressionInput.getText();
@@ -128,10 +145,10 @@ public class ScientificCalcModel extends Calculator{
         System.out.println("***End of TextArea text***");
 
 
-        Expression expression = new Expression(calculatorText);
-        String expressionResult;
+        //Expression expression = new Expression(calculatorText);
+        String expressionResult = "";
 
-        try {
+        /*try {
             BigDecimal result = expression.eval();
             expressionResult = result.toString();
         } catch(RuntimeException e) {
@@ -143,7 +160,17 @@ public class ScientificCalcModel extends Calculator{
             // don't want to include the java.lang.RunTimeException... bit,
             // so just get the message part of the exception
             expressionResult = "ERROR: " + e.getMessage();
+        }*/
+
+        try {
+            Object addResult = inv.invokeMethod(mathJsParserObj, "eval", calculatorText);
+            System.out.println(addResult.toString());
+            expressionResult = addResult.toString();
+        } catch (Exception e) {
+            System.err.println(e.toString());
         }
+
+
         System.out.println("expressionResult = " + expressionResult);
 
         // Display the result of the expression to the user
