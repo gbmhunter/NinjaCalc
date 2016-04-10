@@ -1,7 +1,31 @@
+#expressionsVBox {
+    -fx-background-color: #f5f5f5;
+}
+
 .text-area {
   -fx-font-family: Consolas;
-  -fx-highlight-fill: #00ff00;
-  -fx-highlight-text-fill: #000000;
-  -fx-text-fill: #00ff00;
-  -fx-background-color: #000000;
+  /*-fx-highlight-fill: #00ff00;
+  -fx-highlight-text-fill: #000000;*/
+  -fx-text-fill: gray;
+
+  /* Silver is equal to #c0c0c0 */
+  -fx-border-color: silver;
+
+  -fx-background-color: transparent;
+
+  -fx-border-radius: 10;
+
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
 }
