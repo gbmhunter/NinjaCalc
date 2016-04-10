@@ -2,14 +2,23 @@ package Calculators.Scientific;
 
 import Core.Calculator;
 import com.udojava.evalex.Expression;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.concurrent.Callable;
 
 class JavaBridge {
     public void log(String text) {
@@ -24,6 +33,8 @@ public class ScientificCalcModel extends Calculator{
 
     @FXML
     private WebView calculatorWebView;
+
+    @FXML private VBox expressionsVBox;
 
     @FXML private TextArea calculatorTextArea;
 
@@ -98,34 +109,22 @@ public class ScientificCalcModel extends Calculator{
         }*/
 
 
-        Expression expression = new Expression("2+2");
-        BigDecimal result = expression.eval();
-        this.calculatorTextArea.setText(result.toString());
-
         // Setup listener for text area
-        calculatorTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("TextField Text Changed (newValue: " + newValue + ")");
-        });
-
-        /*calculatorTextArea.setOnKeyTyped((event) -> {
-            System.out.println("setOnKeyTyped() called with event = " + event.toString());
-        });*/
-
         calculatorTextArea.setOnKeyPressed((event) -> {
-            System.out.println("setOnKeyPressed(). called.");
+            //System.out.println("setOnKeyPressed(). called.");
 
             if(event.getCode() == KeyCode.ENTER) {
-                System.out.println("Enter key pressed.");
-                this.processLastLineInCalculatorTextArea();
+                //System.out.println("Enter key pressed.");
+                this.parseExpression();
             }
 
         });
 
     }
 
-    private void processLastLineInCalculatorTextArea() {
+    private void parseExpression() {
 
-        System.out.println("processLastLineInCalculatorTextArea() called.");
+        System.out.println("parseExpression() called.");
 
         // We need to extract the last line of text from the text area.
         String calculatorText = this.calculatorTextArea.getText();
@@ -134,21 +133,53 @@ public class ScientificCalcModel extends Calculator{
         System.out.print(calculatorText);
         System.out.println("***End of TextArea text***");
 
-        // Search backwards from end of string and find first enter character
-        Integer indexOfLastEnterChar = calculatorText.lastIndexOf("\n");
 
-        System.out.println("indexOfLastEnterChar = " + indexOfLastEnterChar);
 
-        if(indexOfLastEnterChar > 0) {
-            // Extract last line, excluding the newline character that was found
-            String lastLine = calculatorText.substring(indexOfLastEnterChar + 1);
-            System.out.println("lastLine = \"" + lastLine + "\".");
-
-            Expression expression = new Expression(lastLine);
-            BigDecimal result = expression.eval();
-            System.out.println("Result of expression = " + result.toString());
+        Expression expression = new Expression(calculatorText);
+        BigDecimal result = expression.eval();
+        System.out.println("Result of expression = " + result.toString());
             //this.calculatorTextArea.setText(result.toString());
-        }
+
+        this.addNewResultToUI(result.toString());
+
+        // Now clear the text
+        calculatorTextArea.clear();
 
     }
+
+    /***
+     * Adds the provided result of an expression (a UI object) to the correct place in the VBox
+     * which holds all the the expression history.
+     */
+    private void addNewResultToUI(String expressionResult) {
+
+        // Create a new UI object to display to the user
+        TextArea textArea = new TextArea();
+        Text textHolder = new Text();
+
+        textArea.setMinHeight(20);
+
+        textHolder.textProperty().bind(textArea.textProperty());
+
+        textHolder.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
+            //if (oldHeight != newValue.getHeight()) {
+                System.out.println("newValue = " + newValue.getHeight());
+                //oldHeight = newValue.getHeight();
+                textArea.setPrefHeight(textHolder.getLayoutBounds().getHeight() + 20); // +20 is for paddings
+            //}
+        });
+
+        // The text MUST be set after the text properties have been bound AND the listener has been added to the textHolder
+        textArea.setText(expressionResult);
+
+        ObservableList<Node> vBoxChildren = this.expressionsVBox.getChildren();
+
+        Integer numVBoxChildren = vBoxChildren.size();
+
+        // Insert new UI object as second to last object (last object being the text area
+        // to enter new expressions into
+        vBoxChildren.add(numVBoxChildren - 1, textArea);
+    }
+
+
 }
