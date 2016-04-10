@@ -2,43 +2,14 @@ package Calculators.Scientific;
 
 import Core.Calculator;
 import com.udojava.evalex.Expression;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.web.WebView;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.html.HTMLAnchorElement;
 
-import java.awt.*;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import netscape.javascript.JSObject;
-
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 class JavaBridge {
     public void log(String text) {
@@ -136,9 +107,48 @@ public class ScientificCalcModel extends Calculator{
             System.out.println("TextField Text Changed (newValue: " + newValue + ")");
         });
 
-        calculatorTextArea.setOnKeyTyped((event) -> {
-            System.out.println("setOnKeyTyped");
+        /*calculatorTextArea.setOnKeyTyped((event) -> {
+            System.out.println("setOnKeyTyped() called with event = " + event.toString());
+        });*/
+
+        calculatorTextArea.setOnKeyPressed((event) -> {
+            System.out.println("setOnKeyPressed(). called.");
+
+            if(event.getCode() == KeyCode.ENTER) {
+                System.out.println("Enter key pressed.");
+                this.processLastLineInCalculatorTextArea();
+            }
+
         });
+
+    }
+
+    private void processLastLineInCalculatorTextArea() {
+
+        System.out.println("processLastLineInCalculatorTextArea() called.");
+
+        // We need to extract the last line of text from the text area.
+        String calculatorText = this.calculatorTextArea.getText();
+
+        System.out.println("***TextArea text = ***");
+        System.out.print(calculatorText);
+        System.out.println("***End of TextArea text***");
+
+        // Search backwards from end of string and find first enter character
+        Integer indexOfLastEnterChar = calculatorText.lastIndexOf("\n");
+
+        System.out.println("indexOfLastEnterChar = " + indexOfLastEnterChar);
+
+        if(indexOfLastEnterChar > 0) {
+            // Extract last line, excluding the newline character that was found
+            String lastLine = calculatorText.substring(indexOfLastEnterChar + 1);
+            System.out.println("lastLine = \"" + lastLine + "\".");
+
+            Expression expression = new Expression(lastLine);
+            BigDecimal result = expression.eval();
+            System.out.println("Result of expression = " + result.toString());
+            //this.calculatorTextArea.setText(result.toString());
+        }
 
     }
 }
