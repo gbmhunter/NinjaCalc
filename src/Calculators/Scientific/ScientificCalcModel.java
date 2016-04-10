@@ -95,15 +95,29 @@ public class ScientificCalcModel extends Calculator{
         System.out.println("***End of TextArea text***");
 
 
-
         Expression expression = new Expression(calculatorText);
-        BigDecimal result = expression.eval();
-        System.out.println("Result of expression = " + result.toString());
-            //this.expressionInput.setText(result.toString());
+        String expressionResult;
 
-        this.addExpressionResultToUI(calculatorText, result.toString());
+        try {
+            BigDecimal result = expression.eval();
+            expressionResult = result.toString();
+        } catch(RuntimeException e) {
 
-        // Now clear the text
+            // RunTimeExceptions usually occur if there is an unrecognised
+            // variable in the expression (or the syntax is just bad)
+
+            // We want to set the expression result to an error message. We
+            // don't want to include the java.lang.RunTimeException... bit,
+            // so just get the message part of the exception
+            expressionResult = "ERROR: " + e.getMessage();
+        }
+        System.out.println("expressionResult = " + expressionResult);
+
+        // Display the result of the expression to the user
+        this.addExpressionResultToUI(calculatorText, expressionResult);
+
+        // Now we have added the result of the expression to the GUI, clear the
+        // input for user to enter the next expression
         expressionInput.clear();
 
     }
