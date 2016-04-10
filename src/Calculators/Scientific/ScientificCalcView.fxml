@@ -35,6 +35,7 @@
                 <!--<AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="600" prefHeight="600" alignment="CENTER">-->
                 <!-- Text area to enter calculations into -->
                 <WebView fx:id="calculatorWebView" minHeight="800"></WebView>
+                <TextArea fx:id="calculatorTextArea"></TextArea>
 
                 <!--</AutoScalingStackPane>-->
             </StackPane>

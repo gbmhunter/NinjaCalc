@@ -1,6 +1,7 @@
 package Calculators.Scientific;
 
 import Core.Calculator;
+import com.udojava.evalex.Expression;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -22,11 +23,22 @@ import org.w3c.dom.html.HTMLAnchorElement;
 
 import java.awt.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import netscape.javascript.JSObject;
+
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 class JavaBridge {
     public void log(String text) {
@@ -41,6 +53,8 @@ public class ScientificCalcModel extends Calculator{
 
     @FXML
     private WebView calculatorWebView;
+
+    @FXML private TextArea calculatorTextArea;
 
     public ScientificCalcModel() {
 
@@ -74,7 +88,7 @@ public class ScientificCalcModel extends Calculator{
         //================================ LOAD WEB VIEW FOR INFO SECTION ===============================//
         //===============================================================================================//
 
-        WebEngine webEngine = this.calculatorWebView.getEngine();
+        /*WebEngine webEngine = this.calculatorWebView.getEngine();
 
         webEngine.documentProperty().addListener(new ChangeListener<Document>() {
             @Override public void changed(ObservableValue<? extends Document> prop, Document oldDoc, Document newDoc) {
@@ -86,15 +100,45 @@ public class ScientificCalcModel extends Calculator{
         URL url = getClass().getResource(htmlFile);
         webEngine.load(url.toExternalForm());
 
+        this.calculatorTextArea.setText("Testing...");
+
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("JavaScript");
+        // read script file
+        try {
+            URL fileUrl = getClass().getResource("math.js");
+            engine.eval(Files.newBufferedReader(Paths.get(fileUrl.toURI()),StandardCharsets.UTF_8));
+
+        } catch (IOException e) {
+            System.err.println("Could not read javascript file.");
+        } catch (URISyntaxException e) {
+            System.err.println("Could not read javascript file.");
+        } catch (ScriptException e) {
+            System.err.println("Javascript error occurred while parsing script.");
+        }
+        Invocable inv = (Invocable) engine;
+        // call function from script file
+        try {
+            inv.invokeFunction("math.eval", "2+2");
+        } catch (ScriptException e) {
+            System.err.println("Javascript error occurred while trying to invoke function.");
+        } catch (NoSuchMethodException e) {
+            System.err.println("Desired javascript method does not exist.");
+        }*/
 
 
-    }
+        Expression expression = new Expression("2+2");
+        BigDecimal result = expression.eval();
+        this.calculatorTextArea.setText(result.toString());
 
-    /**
-     * Enables Firebug Lite for debugging a webEngine.
-     * @param engine the webEngine for which debugging is to be enabled.
-     */
-    private static void enableFirebug(final WebEngine engine) {
-        engine.executeScript("if (!document.getElementById('FirebugLite')){E = document['createElement' + 'NS'] && document.documentElement.namespaceURI;E = E ? document['createElement' + 'NS'](E, 'script') : document['createElement']('script');E['setAttribute']('id', 'FirebugLite');E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');E['setAttribute']('FirebugLite', '4');(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);E = new Image;E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');}");
+        // Setup listener for text area
+        calculatorTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("TextField Text Changed (newValue: " + newValue + ")");
+        });
+
+        calculatorTextArea.setOnKeyTyped((event) -> {
+            System.out.println("setOnKeyTyped");
+        });
+
     }
 }

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="com.udojava:EvalEx:1.1" type="repository">
+    <properties maven-id="com.udojava:EvalEx:1.1" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/EvalEx-1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/EvalEx-1.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/EvalEx-1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
