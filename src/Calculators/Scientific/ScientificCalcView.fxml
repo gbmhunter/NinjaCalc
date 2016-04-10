@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.HBox?>
 
+<?import javafx.scene.control.TextArea?>
 <VBox fillWidth="true" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
         <padding><Insets bottom="20" left="20" right="20" top="40" /></padding>
@@ -32,10 +33,9 @@
             <StackPane>
                 <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
                 <!--<AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="600" prefHeight="600" alignment="CENTER">-->
-                <Group>
+                <!-- Text area to enter calculations into -->
+                <WebView fx:id="calculatorWebView" minHeight="800"></WebView>
 
-
-                </Group>
                 <!--</AutoScalingStackPane>-->
             </StackPane>
         </VBox>
