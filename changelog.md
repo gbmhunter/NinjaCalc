@@ -3,6 +3,7 @@ v?.?.?
 
 - Fixed bug where the MetricPrefix library did not round correctly when no prefix was required (i.e. value is between 1-1000), closes #92.
 - Fixed bug where setting V = 1V, R = 1R gives I = 1E0 in the "Ohm's Law" calculator, closes #89.
+- Fixed bug where math.min.js not loaded when app is deployed, but did work when app is run from IntelliJ, closes #101.
 
 v1.1.0
 ------

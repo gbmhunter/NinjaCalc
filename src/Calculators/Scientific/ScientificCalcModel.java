@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 // Libraries for running javascript
 import javax.script.Invocable;
@@ -109,17 +110,20 @@ public class ScientificCalcModel extends Calculator{
         scriptEngineManager = new ScriptEngineManager();
         scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
         if (!(scriptEngine instanceof Invocable)) {
-            System.out.println("Invoking methods is not supported.");
-            return;
+            throw new RuntimeException("Invoking methods is not supported.");
         }
         this.inv = (Invocable) scriptEngine;
-        String scriptPath = getClass().getResource("math.min.js").getPath();
+        //String scriptPath = getClass().getResource("math.min.js").getPath();
 
         try {
-            // This next line takes many seconds to execute
-            scriptEngine.eval("load('" + scriptPath + "')");
+            // This next line of code takes many seconds to execute
+            // Make sure to use getResourceAsStream, otherwise the loading the javascript may work when loading
+            // from IntelliJ, but NOT when deployed.
+            // e.g. DO NOT USE scriptEngine.eval("load('" + scriptPath + "')");
+            scriptEngine.eval(new InputStreamReader(getClass().getResourceAsStream("math.min.js")));
         } catch (Exception e) {
-            System.err.println(e.toString());
+            //System.err.println(e.toString());
+            throw new RuntimeException(e.toString());
         }
 
         this.mathJsObj = scriptEngine.get("math");
@@ -129,7 +133,8 @@ public class ScientificCalcModel extends Calculator{
         try {
             this.mathJsParserObj = inv.invokeMethod(mathJsObj, "parser");
         } catch (Exception e) {
-            System.err.println(e.toString());
+            //System.err.println(e.toString());
+            throw new RuntimeException(e.toString());
         }
     }
 
@@ -182,7 +187,7 @@ public class ScientificCalcModel extends Calculator{
             // This is a bad error! We shouldn't get this, as we know the
             // math.eval() function exists.
             System.err.println(e.toString());
-            return;
+            throw new RuntimeException(e.toString());
         }
 
         System.out.println("expressionResult = " + expressionResult);
