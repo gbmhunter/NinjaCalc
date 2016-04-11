@@ -83,6 +83,13 @@ The install4j script is located at :code:`/NinjaCalc.install4j`.
 #. Upload the installable packages to GitHub as a new release (if appropriate).
 #. Update the download button links on the homepage in the :code:`gh-pages` branch of the repo to point to the new release files.
 
+Debugging A Deployed App (Locally)
+----------------------------------
+
+You can get the :code:`System.out` and :code:`System.err` streams by running the NinjaCalc.jar file from the commandline. For example, in Windows you would type at the command-line:
+
+::
+    C:\Program Files (x86)\NinjaCal\java -jar NinjaCalc.jar
 
 File Structure 
 ==============
