@@ -15,8 +15,9 @@ import java.net.URL;
 /**
  * A track current calculator based of the IPC-2221A standard.
  *
- * @author gbmhunter
- * @since 2015-11-02
+ * @author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
+ * @since           2015-11-02
+ * @last-modified   2016-04-12
  */
 public class TrackCurrentIpc2221ACalcModel extends Calculator {
 
@@ -51,7 +52,7 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
     private ComboBox minTrackWidthUnits;
 
     //===============================================================================================//
-    //============================================ VARIABLES ========================================//
+    //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
     public CalcVarNumericalInput TrackCurrent;
@@ -73,9 +74,8 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
         super(
             "Track Current (IPC-2221A)",
             "PCB track current carrying capability calculator, using the IPC-2221A standard.",
-            //"/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/grid-icon.png",
             new String[] { "Electronics", "PCB" },
-            new String[] { "pcb, track, current, trace, width, carry, heat, temperature, ipc, ipc2221a, ipc-2221a" });
+            new String[] { "pcb", "track", "current", "trace", "width", "carry", "heat", "temperature", "ipc", "ipc2221a", "ipc-2221a" });
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 

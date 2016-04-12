@@ -12,10 +12,11 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * A calculator based around the resistor divider circuit.
- * @author gbmhunter
+ * A calculator based around the basic resistor divider circuit.
+ *
+ * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
  * @since 2015-11-02
- * @last-modified 2016-02-14
+ * @last-modified 2016-04-12
  */
 public class ResistorDividerCalcModel extends Calculator {
 
@@ -50,7 +51,7 @@ public class ResistorDividerCalcModel extends Calculator {
     private WebView infoWebView;
 
     //===============================================================================================//
-    //============================================ VARIABLES ========================================//
+    //======================================= CALCULATOR VARIABLES ==================================//
     //===============================================================================================//
 
     CalcVarNumerical vIn;
@@ -73,7 +74,7 @@ public class ResistorDividerCalcModel extends Calculator {
                 "Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.",
                 //"/Calculators/Electronics/Basic/ResistorDivider/grid-icon.png",
                 new String[]{"Electronics", "Basic"},
-                new String[]{"resistor, resistance, voltage, divider, reduce"});
+                new String[]{"resistor", "resistance", "voltage", "divider", "reduce", "adc", "translate", "level", "shift"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 

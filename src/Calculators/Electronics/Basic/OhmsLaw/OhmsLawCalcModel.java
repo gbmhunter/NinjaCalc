@@ -20,9 +20,9 @@ import java.net.URL;
 /**
  * A simple Ohm's law calculator which allows you to calculate voltage, resistance or current.
  *
- * @author gbmhunter
+ * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
  * @since 2015-11-02
- * @last-modified 2016-03-27
+ * @last-modified 2016-04-12
  */
 public class OhmsLawCalcModel extends Calculator {
 
@@ -58,7 +58,7 @@ public class OhmsLawCalcModel extends Calculator {
         super( "Ohm's Law",
                 "The hammer in any electrical engineers toolbox. calculate voltage, resistance and current using Ohm's law.",
                 new String[]{ "Electronics", "Basic" },
-                new String[]{"ohm, resistor, resistance, voltage, current, law, vir"});
+                new String[]{"ohm", "resistor", "resistance", "voltage", "current", "law", "v=ir"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 

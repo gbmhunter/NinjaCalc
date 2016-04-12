@@ -31,9 +31,9 @@ import Core.Calculator;
  *
  * Uses a javascript library, math.js, to parse mathematical expressions that the user inputs.
  *
- * @author gbmhunter
- * @since 2013-04-09
- * @last-modified 2016-04-10
+ * @author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
+ * @since           2016-04-09
+ * @last-modified   2016-04-12
  */
 public class ScientificCalcModel extends Calculator{
 
@@ -54,7 +54,7 @@ public class ScientificCalcModel extends Calculator{
         super("Scientific Calculator",
                 "A generic scientific calculator for doing basic mathematical calculations.",
                 new String[]{"Scientific"},
-                new String[]{"scientific, generic, general, mathematics, calculations, equations"});
+                new String[]{"scientific", "generic", "general", "mathematics", "calculations", "equations", "add", "subtract", "multiply", "divide", "variables", "functions"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.jpg"));
 

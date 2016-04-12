@@ -1,25 +1,24 @@
 package Calculators.Electronics.Filters.LowPassRC;
 
-
-import Core.CalcVarDirections;
+// SYSTEM IMPORTS
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-
-import Core.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-
 import java.io.IOException;
 import java.net.URL;
+
+// USER IMPORTS
+import Core.*;
 
 /**
  * The model (code behind) for the low-pass RC filter calculator.
  *
- * @author gbmhunter
+ * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
  * @since 2014-05-22
- * @last-modified 2016-03-27
+ * @last-modified 2016-04-12
  */
 public class LowPassRCCalcModel extends Calculator {
 
@@ -55,9 +54,8 @@ public class LowPassRCCalcModel extends Calculator {
         super(
             "Low-pass RC Filter",
             "The low-pass RC filter is probably the simplist and most used electronic filter. Great for input signal filtering and adding to the output of a PWM signal to make a cheap DAC.",
-            //"/Calculators/Electronics/Filters/LowPassRC/grid-icon.png",
             new String[] { "Electronics", "Filters" },
-            new String[] { "rc, filters, low-pass" });
+            new String[] { "rc", "filters", "low-pass", "adc", "signal", "conditioning" });
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 

@@ -3,14 +3,11 @@ package Calculators.Electronics.Basic.StandardResistanceFinder;
 
 // SYSTEM INCLUDES
 
-import Core.*;
 import Utility.StandardResistanceFinder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -31,15 +28,17 @@ import java.net.URL;
 
 // USER INCLUDES
 
+import Core.*;
+
 /**
  * Calculator for finding a E-series resistance (standard resistance, preferred value) which is closest to the user's
  * desired resistance.
  *
  * Lists closest resistance and percentage error in each EIA E series from E6 to E192.
  *
- * @author gbmhunter
+ * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
  * @since 2013-09-17
- * @last-modified 2016-04-10
+ * @last-modified 2016-04-12
  */
 public class StandardResistanceFinderModel extends Calculator {
 
@@ -89,9 +88,9 @@ public class StandardResistanceFinderModel extends Calculator {
     public StandardResistanceFinderModel() {
 
         super( "Standard Resistance Finder",
-                "Find the closest E-series (e.g. E12, E96) resistor to your desired resistance.",
+                "Find the closest E-series (e.g. E12, E96) resistor (preferred value) to your desired resistance.",
                 new String[]{ "Electronics", "Basic" },
-                new String[]{"ohm, resistor, resistance, e, series"});
+                new String[]{"ohm", "resistor", "resistance", "e", "series", "standard", "preferred", "e6", "e12", "e24", "e48", "e96", "e128"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 

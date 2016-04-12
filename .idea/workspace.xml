@@ -7,8 +7,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/changelog.md" afterPath="$PROJECT_DIR$/changelog.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,41 +73,7 @@
     <favorites_list name="JavaFxApplication" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="StandardResistanceFinderModel.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="187" column="37" selection-start-line="187" selection-start-column="37" selection-end-line="187" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TrackCurrentIpc2152CalcModel.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="265" column="8" selection-start-line="265" selection-start-column="8" selection-end-line="270" selection-end-column="78" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="changelog.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/changelog.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="204">
-                <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
-                <folding />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -140,8 +112,6 @@
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/info.html" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/OhmsLawCalcModel.java" />
         <option value="$PROJECT_DIR$/src/MainWindow/MainWindowController.java" />
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java" />
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinder.java" />
         <option value="$PROJECT_DIR$/src/Core/UnitConversionConstants.java" />
         <option value="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.groovy" />
@@ -162,11 +132,8 @@
         <option value="$PROJECT_DIR$/src/Utility/MetricPrefixes/RoundingMethods.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/info.html" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml" />
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcView.fxml" />
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java" />
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Core/CalcVarNumerical.java" />
         <option value="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" />
@@ -178,10 +145,15 @@
         <option value="$PROJECT_DIR$/src/Core/View/CalculatorGridElement/CalculatorGridElementView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Scientific/style.css" />
-        <option value="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java" />
         <option value="$PROJECT_DIR$/README.rst" />
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
         <option value="$PROJECT_DIR$/changelog.md" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcModel.java" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcModel.java" />
+        <option value="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java" />
       </list>
     </option>
   </component>
@@ -283,6 +255,10 @@
               <option name="myItemId" value="Calculators" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Scientific" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -359,6 +335,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Electronics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Calculators" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Electronics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Basic" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -893,8 +895,8 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -992,13 +994,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="89" column="41" selection-start-line="89" selection-start-column="41" selection-end-line="89" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -1135,13 +1130,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="209" column="23" selection-start-line="209" selection-start-column="23" selection-end-line="209" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcView.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -1150,13 +1138,6 @@
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3689">
-          <caret line="228" column="0" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml">
@@ -1227,13 +1208,6 @@
         <state relative-caret-position="527">
           <caret line="232" column="21" selection-start-line="232" selection-start-column="21" selection-end-line="232" selection-end-column="21" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="81" column="8" selection-start-line="81" selection-start-column="8" selection-end-line="88" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -1328,14 +1302,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1700">
-          <caret line="121" column="32" selection-start-line="121" selection-start-column="32" selection-end-line="121" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.rst">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -1360,22 +1326,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="265" column="8" selection-start-line="265" selection-start-column="8" selection-end-line="270" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="187" column="37" selection-start-line="187" selection-start-column="37" selection-end-line="187" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/changelog.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -1389,6 +1339,66 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="22" column="62" selection-start-line="22" selection-start-column="62" selection-end-line="22" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
           <folding />
         </state>
       </provider>
