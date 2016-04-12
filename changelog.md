@@ -7,6 +7,7 @@ v?.?.?
 - Fixed bug where math.min.js not loaded when app is deployed, but did work when app is run from IntelliJ, closes #101.
 - Fixed bug where tooltip was incorrect for "Desired Resistance" variable in "Standard Resistance Finder" calculator, closes #95.
 - Improved the tooltip help text for variables in the "Standard Resistance Finder" calculator.
+- Added warning if the "Desired Resistance" in the "Standard Resistance Finder" calculator exceeds the normal purchasable resistance range, closes #96.
 
 v1.1.0
 ------

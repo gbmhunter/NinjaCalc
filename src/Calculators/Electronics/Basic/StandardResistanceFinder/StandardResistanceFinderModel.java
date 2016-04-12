@@ -184,6 +184,11 @@ public class StandardResistanceFinderModel extends Calculator {
         //========== VALIDATORS ===========//
         this.desiredResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.desiredResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.desiredResistance.addValidator(
+                new Validator(() -> {
+                    return ((this.desiredResistance.getRawVal() < 1.0 || this.desiredResistance.getRawVal() >10.0e6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                "The desired resistance is outside the \"normal\" purchasable resistance range of 1Ω to 10MΩ. Some or all of the standard E-series may not have a resistor available with the desired resistance."));
 
         this.calcVars.add(this.desiredResistance);
 
