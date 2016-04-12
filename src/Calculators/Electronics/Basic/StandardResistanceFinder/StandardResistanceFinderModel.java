@@ -176,7 +176,7 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,                          // Num. digits to round to
                 null,                       // Default value
-                "The current you want the PCB track to be able to handle." // Help info
+                "The resistance you actually want. The closest value to this resistance will be found in each resistor series." // Help info
         );
 
         this.desiredResistance.setIsEngineeringNotationEnabled(true);
@@ -213,7 +213,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+                "The closest resistance in the E6 series to your desired resistance."
         );
 
         this.e6Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
@@ -253,7 +253,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The percentage difference between the closest standard resistance and your desired resistance."
+                "The percentage difference between the closest E6 series resistance and your desired resistance." // Tooltip help text
         );
 
         this.e6Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
@@ -289,7 +289,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+                "The closest resistance in the E12 series to your desired resistance." // Tooltip help text
         );
 
         this.e12Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
@@ -329,7 +329,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The percentage difference between the closest standard resistance and your desired resistance."
+                "The percentage difference between the closest E12 series resistance and your desired resistance." // Tooltip help text
         );
 
         this.e12Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
@@ -365,7 +365,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+                "The closest resistance in the E24 series to your desired resistance." // Tooltip help text
         );
 
         this.e24Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
@@ -405,7 +405,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The percentage difference between the closest standard resistance and your desired resistance."
+                "The percentage difference between the closest E24 series resistance and your desired resistance." // Tooltip help text
         );
 
         this.e24Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
@@ -441,7 +441,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+                "The closest resistance in the E48 series to your desired resistance." // Tooltip help text
         );
 
         this.e48Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 3);
@@ -481,7 +481,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The percentage difference between the closest standard resistance and your desired resistance."
+                "The percentage difference between the closest E48 series resistance and your desired resistance." // Tooltip help text
         );
 
         this.e48Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
@@ -517,7 +517,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+                "The closest resistance in the E96 series to your desired resistance." // Tooltip help text
         );
 
         this.e96Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 3);
@@ -557,7 +557,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The percentage difference between the closest standard resistance and your desired resistance."
+                "The percentage difference between the closest E96 series resistance and your desired resistance." // Tooltip help text
         );
 
         this.e96Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
@@ -593,7 +593,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The closest resistance to your desired resistance that belongs to an E-series (which normally means you can by a resistor with this exact resistance)."
+                "The closest resistance in the E192 series to your desired resistance." // Tooltip help text
         );
 
         this.e192Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 3);
@@ -633,7 +633,7 @@ public class StandardResistanceFinderModel extends Calculator {
                         new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
-                "The percentage difference between the closest standard resistance and your desired resistance."
+                "The percentage difference between the closest E192 series resistance and your desired resistance." // Tooltip help text
         );
 
         this.e192Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
