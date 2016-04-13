@@ -1,6 +1,6 @@
-import Calculators.Electronics.Basic.StandardResistanceFinder.StandardResistanceFinderModel;
-import Core.Calculator;
-import MainWindow.MainWindowController;
+
+
+// SYSTEM IMPORTS
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,12 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.stage.Stage;
 
+// USER IMPORTS
+import MainWindow.MainWindowController;
+
 /**
  * Entry class for NinjaCalc application.
  *
- * @author          gbmhunter <gbmhunter@gmail.com>
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-10
+ * @last-modified   2016-04-13
  */
 public class Main extends Application {
 
@@ -26,11 +29,14 @@ public class Main extends Application {
         // Load the default style sheet
         root.getStylesheets().add("/Core/StyleSheets/default.css");
 
+        // Get a handle of the controller (backend) for the MainWindow.fxml file
         MainWindowController controller = loader.getController();
 
         //===============================================================================================//
         //======================================= REGISTER CALCULATORS ==================================//
         //===============================================================================================//
+
+        // Any of the following can be commented out to remove the calculator(s) from the app
 
         //======== SCIENTIFIC =========//
         controller.addCalculatorTemplate(new Calculators.Scientific.ScientificCalcModel());
@@ -52,9 +58,14 @@ public class Main extends Application {
         //===============================================================================================//
 
         primaryStage.setTitle("NinjaCalc");
-        primaryStage.setScene(new Scene(root, 1000, 800, false, SceneAntialiasing.BALANCED));
-        primaryStage.setMaximized(true);
 
+        // Setup the dimensions for the NinjaCalc window. By default, it should be large enough to display and operate
+        // comfortably, but not take up the entire window (e.g. not maximised), to give it a "calculator" feel.
+        primaryStage.setScene(new Scene(root, 1200, 800, false, SceneAntialiasing.BALANCED));
+
+        //primaryStage.setMaximized(true);
+
+        // Show the NinjaCalc app
         primaryStage.show();
 
     }

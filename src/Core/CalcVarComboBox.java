@@ -9,9 +9,9 @@ import javafx.util.StringConverter;
 /**
  * A combobox-style calculator variable. Currently this only supports being an input.
  *
- * @author gbmhunter
- * @since 2015-11-02
- * @last-modified 2016-03-19
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2015-11-02
+ * @last-modified   2016-04-13
  */
 public class CalcVarComboBox extends CalcVarBase {
 

@@ -23,9 +23,9 @@ import java.util.ArrayList;
  * Stores the variable name, it's equation, it's state (input or output).
  * Is further inherited by specialised input and output variable classes.
  *
- * @author gbmhunter
- * @since 2015-11-02
- * @last-modified 2016-03-25
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2015-11-02
+ * @last-modified   2016-04-13
  */
 public class CalcVarNumerical extends CalcVarBase {
 

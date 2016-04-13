@@ -8,9 +8,9 @@ import java.util.ArrayList;
 /**
  * Base calculator class. Designed to be inherited by actual calculator implementations, which then define their own variables.
  *
- * @author gbmhunter
- * @since 2015-11-02
- * @last-modified 2016-04-10
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2015-11-02
+ * @last-modified   2016-04-13
  */
 public abstract class Calculator {
 

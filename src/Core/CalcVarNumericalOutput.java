@@ -5,8 +5,10 @@ import javafx.scene.control.*;
 /**
  * A specialisation of a generic CalcVar which is for variables which are always
  * an output. Removes the ability to add a input/output radio button, or a default value.
- * @author gbmhunter
- * @since 2015-11-02
+ *
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2015-11-02
+ * @last-modified   2016-04-13
  */
 public class CalcVarNumericalOutput extends CalcVarNumerical {
 

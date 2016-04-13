@@ -2,8 +2,10 @@ package Core;
 
 /**
  * Encapsulates a single unit that can be added to a numerical calculator variable as part of its units array.
- * @author gbmhunter
- * @since 2015-11-02
+ *
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2015-11-02
+ * @last-modified   2016-04-13
  */
 public class NumberUnit {
 
