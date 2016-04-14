@@ -2,7 +2,6 @@ package Calculators.Environmental.DewPointMagnus;
 
 // SYSTEM IMPORTS
 
-import Core.*;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,8 +17,16 @@ import java.net.URL;
 
 // USER IMPORTS
 
+import Core.*;
+
 /**
  * The model (code behind) for the dew-point calculator based upon the Magnus equation.
+ *
+ * RH: =100*(EXP((17.625*TD)/(243.04+TD))/EXP((17.625*T)/(243.04+T))
+ * T: =243.04*(((17.625*TD)/(243.04+TD))-LN(RH/100))/(17.625+LN(RH/100)-((17.625*TD)/(243.04+TD)))
+ * TD: =243.04*(LN(RH/100)+((17.625*T)/(243.04+T)))/(17.625-LN(RH/100)-((17.625*T)/(243.04+T)))
+ *
+ * RH is expressed as a percentage, T and TD are both in degrees Celcius
  *
  * @author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
  * @since           2016-04-14
@@ -31,24 +38,28 @@ public class DewPointMagnusCalcModel extends Calculator {
     //========================================= FXML Bindings =======================================//
     //===============================================================================================//
 
-    @FXML private TextField rValue;
-    @FXML private RadioButton rIO;
+    @FXML private TextField relativeHumidityTextField;
+    @FXML private RadioButton relativeHumidityRadioButton;
 
-    @FXML private TextField cValue;
-    @FXML private RadioButton cIO;
+    @FXML private TextField airTemperatureTextField;
+    @FXML private RadioButton airTemperatureRadioButton;
 
-    @FXML private TextField fcValue;
-    @FXML private RadioButton fcIO;
+    @FXML private TextField dewPointTextField;
+    @FXML private RadioButton dewPointRadioButton;
 
     @FXML private WebView infoWebView;
+
+    // ADJUSTABLE "CONSTANTS"
+    @FXML private TextField bCoefficient;
+    @FXML private TextField cCoefficient;
 
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
-    public CalcVarNumerical r;
-    public CalcVarNumerical c;
-    public CalcVarNumerical fc;
+    public CalcVarNumerical relativeHumidity;
+    public CalcVarNumerical airTemperature;
+    public CalcVarNumerical dewPoint;
 
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
@@ -96,10 +107,10 @@ public class DewPointMagnusCalcModel extends Calculator {
         ToggleGroup toggleGroup = new ToggleGroup();
 
         // Add all calculator variables to toggle group
-        rIO.setToggleGroup(toggleGroup);
-        cIO.setToggleGroup(toggleGroup);
-        fcIO.setToggleGroup(toggleGroup);
-        toggleGroup.selectToggle(fcIO);
+        relativeHumidityRadioButton.setToggleGroup(toggleGroup);
+        airTemperatureRadioButton.setToggleGroup(toggleGroup);
+        dewPointRadioButton.setToggleGroup(toggleGroup);
+        toggleGroup.selectToggle(dewPointRadioButton);
 
         // Following code provides lambda function which listens to radiobuttons changes and modifies direction accordingly
         //System.out.println("Adding listener for radiobutton toggle change.");
@@ -122,13 +133,13 @@ public class DewPointMagnusCalcModel extends Calculator {
         //====================================== R (resistance) (I/O)====================================//
         //===============================================================================================//
 
-        this.r = new CalcVarNumerical(
-            "r",                // Variable name (used for debugging)
-            rValue,             // Textbox for value (UI object)
+        this.relativeHumidity = new CalcVarNumerical(
+            "relativeHumidity",                // Variable name (used for debugging)
+                relativeHumidityTextField,             // Textbox for value (UI object)
             null,             // Combobox for units (UI object)
             () -> {             // Equation when an output
-                Double fc = this.fc.getRawVal();
-                Double c = this.c.getRawVal();
+                Double fc = this.dewPoint.getRawVal();
+                Double c = this.airTemperature.getRawVal();
 
                 return (1.0 / (2*Math.PI*fc*c));
             },
@@ -141,32 +152,32 @@ public class DewPointMagnusCalcModel extends Calculator {
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
-                if(rIO.isSelected()) return CalcVarDirections.Output;
+                if(relativeHumidityRadioButton.isSelected()) return CalcVarDirections.Output;
                 else return CalcVarDirections.Input;
             },   // Default direction
             null,               // Default value
             "The resistance of the resistor in the low-pass LC filter." // Help text
         );
 
-        this.r.setIsEngineeringNotationEnabled(true);
+        this.relativeHumidity.setIsEngineeringNotationEnabled(true);
 
         // Add validators
-        this.r.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.r.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.relativeHumidity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.relativeHumidity.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.r);
+        this.calcVars.add(this.relativeHumidity);
 
         //===============================================================================================//
         //======================================= C (capacitance) (I/O) =================================//
         //===============================================================================================//
 
-        this.c = new CalcVarNumerical(
-            "c",                // Variable name (used for debugging)
-            cValue,        // Textbox for value (UI object)
+        this.airTemperature = new CalcVarNumerical(
+            "airTemperature",                // Variable name (used for debugging)
+                airTemperatureTextField,        // Textbox for value (UI object)
             null,        // Combobox for units (UI object)
             () -> {             // Equation when an output
-                Double r = this.r.getRawVal();
-                Double fc = this.fc.getRawVal();
+                Double r = this.relativeHumidity.getRawVal();
+                Double fc = this.dewPoint.getRawVal();
 
                 return (1.0 / (2 * Math.PI * fc * r));
             },
@@ -179,33 +190,33 @@ public class DewPointMagnusCalcModel extends Calculator {
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
-                if(cIO.isSelected()) return CalcVarDirections.Output;
+                if(airTemperatureRadioButton.isSelected()) return CalcVarDirections.Output;
                 else return CalcVarDirections.Input;
             },
             null,               // Default value
             "The capacitance of the capacitor in the low-pass LC filter." // Help text
             );
 
-        this.c.setIsEngineeringNotationEnabled(true);
+        this.airTemperature.setIsEngineeringNotationEnabled(true);
 
         // Add validators
-        this.c.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.c.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.airTemperature.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.airTemperature.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.c);
+        this.calcVars.add(this.airTemperature);
 
 
         //===============================================================================================//
-        //===================================== fc (cut-off frequency) (I/O) ============================//
+        //===================================== dewPoint (cut-off frequency) (I/O) ============================//
         //===============================================================================================//
 
-        this.fc = new CalcVarNumerical(
-            "fc",               // Variable name (used for debugging)
-            fcValue,       // Textbox for value (UI object)
+        this.dewPoint = new CalcVarNumerical(
+            "dewPoint",               // Variable name (used for debugging)
+                dewPointTextField,       // Textbox for value (UI object)
             null,       // Combobox for units (UI object)
             () -> {             // Equation when an output
-                Double r = this.r.getRawVal();
-                Double c = this.c.getRawVal();
+                Double r = this.relativeHumidity.getRawVal();
+                Double c = this.airTemperature.getRawVal();
 
                 return (1.0 / (2 * Math.PI * r * c));
             },
@@ -218,19 +229,19 @@ public class DewPointMagnusCalcModel extends Calculator {
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
-                if(fcIO.isSelected()) return CalcVarDirections.Output;
+                if(dewPointRadioButton.isSelected()) return CalcVarDirections.Output;
                 else return CalcVarDirections.Input;
             },
             null,               // Default value
             "The cut-off frequency of the low-pass RC filter. This is the point where the output signal is attenuated by -3dB (70.7%) of the input. Also known as the corner or breakpoint frequency.");
 
-        this.fc.setIsEngineeringNotationEnabled(true);
+        this.dewPoint.setIsEngineeringNotationEnabled(true);
 
         // Add validators
-        this.fc.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.fc.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.dewPoint.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.dewPoint.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.fc);
+        this.calcVars.add(this.dewPoint);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//
