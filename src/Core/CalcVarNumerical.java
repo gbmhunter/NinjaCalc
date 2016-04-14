@@ -3,7 +3,6 @@ package Core;
 
 import Utility.MetricPrefixes.MetricPrefixes;
 import Utility.MetricPrefixes.RoundingMethods;
-import Utility.Rounding;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -388,7 +387,7 @@ public class CalcVarNumerical extends CalcVarBase {
      * @return      The raw value of the calculator variable.
      */
     public double getRawVal() {
-        this.OnRawValueRead();
+        this.onRawValueRead();
 
         return this.rawVal;
     }

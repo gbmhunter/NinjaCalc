@@ -29,7 +29,7 @@ public abstract class CalcVarBase {
         rawValueReadListeners.add(toAdd);
     }
 
-    protected void OnRawValueRead() {
+    protected void onRawValueRead() {
         // Notify everybody that may be interested.
         for (ICalcVarBaseCallback listener : rawValueReadListeners)
             listener.execute(this);
