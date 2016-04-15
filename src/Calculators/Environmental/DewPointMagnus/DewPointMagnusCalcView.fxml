@@ -9,20 +9,14 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
-<?import javafx.scene.layout.HBox?>
 
-<!--<?import Core.AutoScalingStackPane?>-->
-
-<!--
-The view for the dew-point calculator based upon the Magnus equation.
-
-@author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
-@since           2016-04-14
-@last-modified   2016-04-14
--->
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.ComboBox?>
 <VBox xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
         <padding>
@@ -31,10 +25,8 @@ The view for the dew-point calculator based upon the Magnus equation.
         <VBox alignment="CENTER" spacing="20" style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" styleClass="vbox">
 
             <!-- =========== INFO SECTION ========== -->
-            <TitledPane text="Info" expanded="false"
-                        maxWidth="700"
-                        style="-fx-font-size: 16pt;" >
-                <WebView fx:id="infoWebView" prefHeight="300"></WebView>
+            <TitledPane expanded="false" maxWidth="700" style="-fx-font-size: 16pt;" text="Info">
+                <WebView fx:id="infoWebView" prefHeight="300" />
             </TitledPane>
 
             <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
@@ -45,29 +37,46 @@ The view for the dew-point calculator based upon the Magnus equation.
                 <!--<AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="800" maxHeight="800" alignment="CENTER">-->
                     <Group>
 
-                        <ImageView fitHeight="600.0" fitWidth="600.0" layoutY="29.0" preserveRatio="true">
-                            <image>
-                                <Image url="@diagram.png" />
-                            </image>
-                        </ImageView>
 
-                        <HBox layoutX="233.0" layoutY="46.0" alignment="CENTER" spacing="5">
-                            <TextField fx:id="rValue" prefHeight="30" prefWidth="80" alignment="CENTER_RIGHT"/>
-                            <Label>Ω</Label>
-                        </HBox>
-                        <RadioButton fx:id="rIO" layoutX="144.0" layoutY="40.0" />
+                        <GridPane hgap="10" vgap="10">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="CENTER"></ColumnConstraints>
+                                <ColumnConstraints />
+                                <ColumnConstraints />
+                                <ColumnConstraints />
+                            </columnConstraints>
 
-                        <HBox layoutX="397.0" layoutY="200.0" alignment="CENTER" spacing="5">
-                            <TextField fx:id="cValue" prefHeight="30" prefWidth="80" alignment="CENTER_RIGHT"/>
-                            <Label>F</Label>
-                        </HBox>
-                        <RadioButton fx:id="cIO" layoutX="448.0" layoutY="163.0" />
+                            <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="airTemperatureRadioButton"  />
+                            <ImageView GridPane.rowIndex="0" GridPane.columnIndex="1" fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@hot-temperature-guage.png" />
+                                </image>
+                            </ImageView>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="2">Air Temperature</Label>
+                            <TextField GridPane.rowIndex="0" GridPane.columnIndex="3" fx:id="rValue" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                            <ComboBox GridPane.rowIndex="0" GridPane.columnIndex="4" fx:id="airTemperatureComboBox" />
 
-                        <HBox layoutX="214.0" layoutY="379.0" alignment="CENTER" spacing="5">
-                            <TextField fx:id="fcValue" prefHeight="30" prefWidth="80" alignment="CENTER_RIGHT"/>
-                            <Label>Hz</Label>
-                        </HBox>
-                        <RadioButton fx:id="fcIO" layoutX="130.0" layoutY="383.0" />
+                            <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="relativeHumidityRadioButton" />
+                            <ImageView GridPane.rowIndex="1" GridPane.columnIndex="1" fitHeight="100.0" fitWidth="70.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@water-drop-and-percentage-icon.png" />
+                                </image>
+                            </ImageView>
+                            <Label GridPane.rowIndex="1" GridPane.columnIndex="2">Relative Humidity</Label>
+                            <TextField GridPane.rowIndex="1" GridPane.columnIndex="3" fx:id="relativeHumidityTextbox" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+
+                            <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="0" fx:id="dewPointTemperatureRadioButton"  />
+                            <ImageView GridPane.rowIndex="2" GridPane.columnIndex="1" fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@cold-temperature-guage.png" />
+                                </image>
+                            </ImageView>
+                            <Label GridPane.rowIndex="2" GridPane.columnIndex="2">Dew Point Temperature</Label>
+                            <TextField GridPane.rowIndex="2" GridPane.columnIndex="3" fx:id="dewPointTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                            <ComboBox GridPane.rowIndex="2" GridPane.columnIndex="4" fx:id="dewPointComboBox" />
+
+
+                        </GridPane>
 
                     </Group>
                 <!--</AutoScalingStackPane>-->

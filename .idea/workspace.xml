@@ -7,8 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/diagram.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/diagram.vsd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/grid-icon.vsd" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/grid-icon.png" afterPath="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/grid-icon.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcView.fxml" afterPath="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcView.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -69,14 +72,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DewPointMagnusCalcModel.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DewPointMagnusCalcModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
+            <state relative-caret-position="357">
               <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DewPointMagnusCalcView.fxml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcView.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="56" column="83" selection-start-line="56" selection-start-column="83" selection-end-line="56" selection-end-column="83" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StandardResistanceFinderView.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="51" selection-end-column="44" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -160,8 +189,8 @@
         <option value="$PROJECT_DIR$/src/Core/Validator.java" />
         <option value="$PROJECT_DIR$/src/Core/CalcVarBase.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/LowPassRCCalcView.fxml" />
-        <option value="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcModel.java" />
+        <option value="$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcView.fxml" />
       </list>
     </option>
   </component>
@@ -209,6 +238,11 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -325,7 +359,37 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="LowPassRC" />
+              <option name="myItemId" value="Basic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="StandardResistanceFinder" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NinjaCalc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Calculators" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Electronics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Basic" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -344,11 +408,6 @@
             </PATH_ELEMENT>
           </PATH>
         </subPane>
-      </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="PackagesPane">
-        <subPane />
       </pane>
     </panes>
   </component>
@@ -382,19 +441,19 @@
       <recent name="Utility" />
       <recent name="Core.View" />
     </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="Calculators.Environmental.DewPointMagnus" />
-    </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-      <recent name="groovy.util.GroovyTestCase" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\gbmhunter\GoogleDrive\Projects\NinjaCalc\src\Calculators\Environmental\DewPointMagnus" />
       <recent name="C:\Users\gbmhunter\GoogleDrive\Projects\NinjaCalc\src\Calculators\Scientific" />
       <recent name="C:\Users\gbmhunter\GoogleDrive\Projects\NinjaCalc\src\Calculators\Electronics\Basic\StandardResistanceFinder" />
       <recent name="C:\Users\gbmhunter\GoogleDrive\Projects\NinjaCalc\src\Calculators\Electronics\Basic" />
       <recent name="C:\Users\gbmhunter\GoogleDrive\Projects\NinjaCalc\src\Calculators\Electronics\Filters\LowPassRC" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Calculators.Environmental.DewPointMagnus" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+      <recent name="groovy.util.GroovyTestCase" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -958,21 +1017,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Utility/MetricPrefixes/MetricPrefixes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="232" column="21" selection-start-line="232" selection-start-column="21" selection-end-line="232" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/StyleSheets/default.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/View/CalculatorGridElement/CalculatorGridElementController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -996,34 +1040,33 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/View/CalculatorGridElement/CalculatorGridElementView.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="25" column="12" selection-start-line="25" selection-start-column="12" selection-end-line="27" selection-end-column="22" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcView.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcView.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="93" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcView.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcView.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/style.css">
@@ -1056,12 +1099,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/changelog.md">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="204">
@@ -1069,6 +1106,12 @@
             <folding />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1100,7 +1143,7 @@
         <state relative-caret-position="340">
           <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="28" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1146,7 +1189,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="680">
           <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1184,7 +1226,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
           <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1221,7 +1262,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1229,7 +1269,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1295,18 +1334,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/LowPassRCCalcModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/LowPassRCCalcModel.java" />
     <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/basic-equation.gif">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -1326,39 +1357,44 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/LowPassRCCalcView.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcView.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/LowPassRCCalcView.fxml" />
     <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
+        <state relative-caret-position="357">
           <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/hot-temperature-guage.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="51" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Environmental/DewPointMagnus/DewPointMagnusCalcView.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="56" column="83" selection-start-line="56" selection-start-column="83" selection-end-line="56" selection-end-column="83" />
+          <folding />
         </state>
       </provider>
     </entry>
