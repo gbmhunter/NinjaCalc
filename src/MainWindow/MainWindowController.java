@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 import Core.View.CalculatorGridElement.CalculatorGridElementController;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 class CalculatorAndGridElementPair {
     Calculator calculator;
@@ -107,7 +108,10 @@ public class MainWindowController implements Initializable {
 
         // Iterate over all the registered calculator templates
         for(CalculatorAndGridElementPair calculatorAndGridElementPair : this.calculatorTemplates) {
-            if(calculatorAndGridElementPair.calculator.name.contains(searchText)) {
+
+
+
+            if(this.doesCalculatorMatchSearchText(calculatorAndGridElementPair.calculator, searchText)) {
                 System.out.println("Calculator \"" + calculatorAndGridElementPair.calculator.name + "\" included by search text.");
 
                 if(!calculatorGridTilePane.getChildren().contains(calculatorAndGridElementPair.gridElement))
@@ -120,6 +124,38 @@ public class MainWindowController implements Initializable {
             }
         }
     }
+
+    /**
+     * Searches through the relevant String fields of the provided calculator to see if the calculator is a suitable
+     * match for the provided search text.
+     * @param calculator    The calculator that will be searched through.
+     * @param searchText    The search text to use on the calculator.
+     * @return              True if the calculator is a suitable match for the search text, otherwise false.
+     */
+    public boolean doesCalculatorMatchSearchText(Calculator calculator, String searchText) {
+
+        /*if(calculator.name.contains(searchText))
+            return true;*/
+
+        // Search name
+        if(Pattern.compile(Pattern.quote(searchText), Pattern.CASE_INSENSITIVE).matcher(calculator.name).find())
+            return true;
+
+        // Search description
+        if(Pattern.compile(Pattern.quote(searchText), Pattern.CASE_INSENSITIVE).matcher(calculator.description).find())
+            return true;
+
+        // Search through tags
+        for(String tag : calculator.tags) {
+            if(Pattern.compile(Pattern.quote(searchText), Pattern.CASE_INSENSITIVE).matcher(tag).find())
+                return true;
+        }
+
+        // If we get here, no match has been found in any of the relevant string fields of the
+        // calculator, so the calculator is NOT a suitable match.
+        return false;
+    }
+
 
     public void handleButtonOnAction(ActionEvent actionEvent) {
         //Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "blah");
