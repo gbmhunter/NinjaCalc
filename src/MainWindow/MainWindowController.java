@@ -98,14 +98,25 @@ public class MainWindowController implements Initializable {
 
     }
 
+    /***
+     * Filters the calculator templates visible in the selection grid by the provided search text
+     * (which comes the the search TextField).
+     * @param searchText
+     */
     public void filterCalculatorSelectionGrid(String searchText) {
 
         // Iterate over all the registered calculator templates
         for(CalculatorAndGridElementPair calculatorAndGridElementPair : this.calculatorTemplates) {
             if(calculatorAndGridElementPair.calculator.name.contains(searchText)) {
                 System.out.println("Calculator \"" + calculatorAndGridElementPair.calculator.name + "\" included by search text.");
+
+                if(!calculatorGridTilePane.getChildren().contains(calculatorAndGridElementPair.gridElement))
+                    calculatorGridTilePane.getChildren().add(calculatorAndGridElementPair.gridElement);
+
             } else {
                 System.out.println("Calculator \"" + calculatorAndGridElementPair.calculator.name + "\" excluded by search text.");
+                if(calculatorGridTilePane.getChildren().contains(calculatorAndGridElementPair.gridElement))
+                    calculatorGridTilePane.getChildren().remove(calculatorAndGridElementPair.gridElement);
             }
         }
     }
