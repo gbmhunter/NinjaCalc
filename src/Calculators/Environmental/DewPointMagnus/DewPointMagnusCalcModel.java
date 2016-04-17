@@ -189,7 +189,7 @@ public class DewPointMagnusCalcModel extends Calculator {
                     else return CalcVarDirections.Input;
                 },   // Default direction
                 null,               // Default value
-                "The resistance of the resistor in the low-pass LC filter." // Help text
+                "The relative humidity the the air, expressed as a percentage of the total amount of water the air could hold at the current temperature." // Help text
         );
 
         this.relativeHumidity.setIsEngineeringNotationEnabled(true);
@@ -252,7 +252,7 @@ public class DewPointMagnusCalcModel extends Calculator {
                 this.bCoefficientTextField,       // Textbox for value (UI object)
                 null,               // Combobox for units (UI object)
                 new NumberUnit[]{   // units
-                    new NumberUnit("Hz", 1e0),
+                    new NumberUnit("no unit", 1e0),
                 },
                 5,                  // Num. digits to round to
                 17.625,               // Default value
@@ -274,7 +274,7 @@ public class DewPointMagnusCalcModel extends Calculator {
                 this.cCoefficientTextField,       // Textbox for value (UI object)
                 null,       // Combobox for units (UI object)
                 new NumberUnit[]{   // units
-                        new NumberUnit("Hz", 1e0),
+                        new NumberUnit("°C", 1e0),
                 },
                 5,                  // Num. digits to round to
                 243.04,              // Default value
