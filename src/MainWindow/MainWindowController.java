@@ -48,9 +48,6 @@ public class MainWindowController implements Initializable {
 
     public MainWindowController() {
         this.calculatorTemplates = new ArrayList<Calculator>();
-
-        //assert this.tabPaneCalculatorInstances != null;
-        //assert this.tabPaneCalculatorInstances.getSelectionModel() != null;
     }
 
     /**

@@ -23,13 +23,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainWindow/MainWindow.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainWindow/MainWindowView.fxml"));
         Parent root = loader.load();
 
         // Load the default style sheet
         root.getStylesheets().add("/Core/StyleSheets/default.css");
 
-        // Get a handle of the controller (backend) for the MainWindow.fxml file
+        // Get a handle of the controller (backend) for the MainWindowView.fxml file
         MainWindowController controller = loader.getController();
 
         //===============================================================================================//
