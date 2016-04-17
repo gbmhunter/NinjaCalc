@@ -19,6 +19,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.control.ScrollPane?>
 <AnchorPane fx:controller="MainWindow.MainWindowController"
             fx:id="anchorPane"
             xmlns:fx="http://javafx.com/fxml"
@@ -84,15 +85,19 @@
                     GridPane.vgrow="ALWAYS"
                     style="-fx-background-color: white;"
                     onMouseClicked="#handleCalcSelectionMouseClicked">
-                    <!-- CALCULATOR TEMPLATE HOLDER -->
-                    <!-- This will lay the calculator template elements out in equal sized tiles -->
-                    <TilePane
-                        fx:id="calculatorGridTilePane"
-                        hgap="20" vgap="20">
-                        <padding>
-                            <Insets top="20" bottom="20" left="20" right="20" />
-                        </padding>
-                    </TilePane>
+                    <!-- SCROLLPANE FOR CALCULATOR TEMPLATES -->
+                    <!-- This operates with a fixed width, but variable height -->
+                    <ScrollPane hbarPolicy="NEVER" fitToWidth="true" >
+                        <!-- CALCULATOR TEMPLATE HOLDER -->
+                        <!-- This will lay the calculator template elements out in equal sized tiles -->
+                        <TilePane
+                            fx:id="calculatorGridTilePane"
+                            hgap="20" vgap="20">
+                            <padding>
+                                <Insets top="20" bottom="20" left="20" right="20" />
+                            </padding>
+                        </TilePane>
+                    </ScrollPane>
             </GridPane>
         </GridPane>
     </StackPane>
