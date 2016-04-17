@@ -69,11 +69,13 @@ public class Main extends Application {
 
         primaryStage.setTitle("NinjaCalc");
 
-        // Setup the dimensions for the NinjaCalc window. By default, it should be large enough to display and operate
+        // Setup the dimensions for the NinjaCalc window.
+        // By default, it should be large enough to display and operate
         // comfortably, but not take up the entire window (e.g. not maximised), to give it a "calculator" feel.
+        // EDIT: NinjaCalc is now shown full-screen to give user a better experience with the app
         primaryStage.setScene(new Scene(root, 1200, 800, false, SceneAntialiasing.BALANCED));
 
-        //primaryStage.setMaximized(true);
+        primaryStage.setMaximized(true);
 
         // Show the NinjaCalc app
         primaryStage.show();

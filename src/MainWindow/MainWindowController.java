@@ -162,8 +162,12 @@ public class MainWindowController implements Initializable {
         //alert.showAndWait();
 
         // Show the calculator grid overlay
-        calcGridOverlay.setVisible(true);
+        this.showCalcSelectionGridOverlay();
+    }
 
+    private void showCalcSelectionGridOverlay() {
+        calcGridOverlay.setVisible(true);
+        this.searchTextField.requestFocus();
     }
 
     public void handleCalcSelectionBorderMouseClicked(MouseEvent event) {
@@ -201,7 +205,7 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private void onMenuButtonClick(MouseEvent mouseEvent) {
-        calcGridOverlay.setVisible(true);
+        this.showCalcSelectionGridOverlay();
         mouseEvent.consume();
     }
 
