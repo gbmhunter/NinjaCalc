@@ -118,15 +118,6 @@ public class DewPointMagnusCalcModel extends Calculator {
         // Following code provides lambda function which listens to radiobuttons changes and modifies direction accordingly
         //System.out.println("Adding listener for radiobutton toggle change.");
         toggleGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> {
-                //System.out.println("Listener called for radio button toggle group.");
-                // old_toggle might be null if it is the first time something has been selected
-                if(old_toggle != null) {
-                    //System.out.println("oldToggle = \"" + old_toggle.toString() + "\".");
-                } else {
-                    //System.out.println("oldToggle is null.");
-                }
-                //System.out.println(" newToggle = \"" + new_toggle + "\".");
-
                 this.refreshDirectionsAndUpdateUI();
                 this.recalculateAllOutputs();
             }
@@ -226,7 +217,12 @@ public class DewPointMagnusCalcModel extends Calculator {
                     Double bCoefficient = this.bCoefficicent.getRawVal();
                     Double cCoefficient = this.cCoefficicent.getRawVal();
 
-                    return bCoefficient*(Math.log(relativeHumidity_Perc/100.0)+((bCoefficient*airTemperature_DegC)/(cCoefficient+airTemperature_DegC)))/(bCoefficient-Math.log(relativeHumidity_Perc/100.0)-((bCoefficient*airTemperature_DegC)/(cCoefficient+airTemperature_DegC)));
+                    //Math.log(rh/100*6.112/6.1078*Math.exp((17.67*temp)/(temp-0+243.5)));
+                    Double dewPointNumerator = cCoefficient*(Math.log(relativeHumidity_Perc/100.0)+((bCoefficient*airTemperature_DegC)/(airTemperature_DegC+cCoefficient)));
+                    Double dewPointDenominator = bCoefficient-Math.log(relativeHumidity_Perc/100.0)-((bCoefficient*airTemperature_DegC)/(airTemperature_DegC+cCoefficient));
+                    Double dewPoint_DegC = dewPointNumerator/dewPointDenominator;
+
+                    return dewPoint_DegC;
                 },
                 new NumberUnit[]{   // units
                         new NumberUnit("°C", 1e0),
@@ -237,13 +233,13 @@ public class DewPointMagnusCalcModel extends Calculator {
                     else return CalcVarDirections.Input;
                 },
                 null,               // Default value
-                "If the air is cooled to the dew point temperature, then dew will start to form.");
+                "If the air is cooled to the dew point temperature, then dew (condensation) will start to form. This value is allowed to be below the freezing point of water.");
 
         this.dewPoint.setIsEngineeringNotationEnabled(true);
 
         // Add validators
         this.dewPoint.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.dewPoint.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        //this.dewPoint.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.dewPoint);
 
@@ -254,12 +250,12 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.bCoefficicent = new CalcVarNumericalInput(
                 "bCoefficient",          // Variable name (used for debugging)
                 this.bCoefficientTextField,       // Textbox for value (UI object)
-                null,       // Combobox for units (UI object)
+                null,               // Combobox for units (UI object)
                 new NumberUnit[]{   // units
                     new NumberUnit("Hz", 1e0),
                 },
-                4,                  // Num. digits to round to
-                17.67,               // Default value
+                5,                  // Num. digits to round to
+                17.625,               // Default value
                 "The b coefficient of the Magnus equation.");
 
         this.bCoefficicent.setIsEngineeringNotationEnabled(true);
@@ -280,8 +276,8 @@ public class DewPointMagnusCalcModel extends Calculator {
                 new NumberUnit[]{   // units
                         new NumberUnit("Hz", 1e0),
                 },
-                4,                  // Num. digits to round to
-                243.5,              // Default value
+                5,                  // Num. digits to round to
+                243.04,              // Default value
                 "The c coefficient of the Magnus equation.");
 
         this.cCoefficicent.setIsEngineeringNotationEnabled(true);

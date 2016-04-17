@@ -11,7 +11,7 @@ import javafx.util.StringConverter;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-13
+ * @last-modified   2016-04-17
  */
 public class CalcVarComboBox extends CalcVarBase {
 
@@ -27,11 +27,11 @@ public class CalcVarComboBox extends CalcVarBase {
 
     public void setRawVal(String value) {
 
-        System.out.println("CalcVarComboBox.setRawVal() called.");
+        //System.out.println("CalcVarComboBox.setRawVal() called.");
 
         // Only change if different
         if (this.rawVal != value) {
-            System.out.println("New value is different to current value, so calling onRawValueChanged().");
+            //System.out.println("New value is different to current value, so calling onRawValueChanged().");
             this.rawVal = value;
             this.onRawValueChanged();
 

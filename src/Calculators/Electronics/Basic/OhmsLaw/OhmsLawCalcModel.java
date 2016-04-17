@@ -20,9 +20,9 @@ import java.net.URL;
 /**
  * A simple Ohm's law calculator which allows you to calculate voltage, resistance or current.
  *
- * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
+ * @author gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since 2015-11-02
- * @last-modified 2016-04-12
+ * @last-modified 2016-04-17
  */
 public class OhmsLawCalcModel extends Calculator {
 
@@ -103,15 +103,6 @@ public class OhmsLawCalcModel extends Calculator {
         // Following code provides lambda function which listens to radiobuttons changes and modifies direction accordingly
         //System.out.println("Adding listener for radiobutton toggle change.");
         toggleGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> {
-                    System.out.println("Listener called for radio button toggle group.");
-                    // old_toggle might be null if it is the first time something has been selected
-                    if(old_toggle != null) {
-                        System.out.println("oldToggle = \"" + old_toggle.toString() + "\".");
-                    } else {
-                        System.out.println("oldToggle is null.");
-                    }
-                    System.out.println(" newToggle = \"" + new_toggle + "\".");
-
                     this.refreshDirectionsAndUpdateUI();
                     this.recalculateAllOutputs();
                 }

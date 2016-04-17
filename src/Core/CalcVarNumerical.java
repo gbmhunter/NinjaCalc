@@ -554,11 +554,12 @@ public class CalcVarNumerical extends CalcVarBase {
     }
 
     /**
-     * Rounding also occurs in this function.
+     * Gets the raw value, finds a scaled display value, rounds the scaled display value, converts to string and then puts
+     * the string the the variables TextField on the UI.
      */
     private void updateDispValFromRawVal() {
 
-        System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\". this.rawVal = " + this.rawVal);
+        //System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\". this.rawVal = " + this.rawVal);
 
         // Special treatment if raw value is NaN
         if(Double.isNaN(this.rawVal)) {

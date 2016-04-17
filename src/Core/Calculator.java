@@ -149,9 +149,9 @@ public abstract class Calculator {
 
             //System.out.println("dependants of \"" + calcVar.name + "\" are:");
 
-            for (int j = 0; j < calcVar.dependants.size(); j++) {
-                System.out.println("\t\"" + calcVar.dependants.get(j).name + "\"");
-            }
+            //for (int j = 0; j < calcVar.dependants.size(); j++) {
+            //    System.out.println("\t\"" + calcVar.dependants.get(j).name + "\"");
+            //}
         }
     }
 
