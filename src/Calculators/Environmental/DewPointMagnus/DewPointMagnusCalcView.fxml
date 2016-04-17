@@ -45,6 +45,9 @@
                                 <ColumnConstraints />
                                 <ColumnConstraints />
                             </columnConstraints>
+                            <padding>
+                                <Insets bottom="20"/>
+                            </padding>
 
                             <RadioButton GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="airTemperatureRadioButton"  />
                             <ImageView GridPane.rowIndex="0" GridPane.columnIndex="1" fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
@@ -64,26 +67,31 @@
                             </ImageView>
                             <Label GridPane.rowIndex="1" GridPane.columnIndex="2">Relative Humidity</Label>
                             <TextField GridPane.rowIndex="1" GridPane.columnIndex="3" fx:id="relativeHumidityTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                            <ComboBox GridPane.rowIndex="1" GridPane.columnIndex="4" fx:id="relativeHumidityComboBox" />
 
                             <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="0" fx:id="dewPointRadioButton"  />
                             <ImageView GridPane.rowIndex="2" GridPane.columnIndex="1" fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
-                                <image>
-                                    <Image url="@cold-temperature-guage.png" />
-                                </image>
+                                <image><Image url="@cold-temperature-guage.png" /></image>
                             </ImageView>
-                            <Label GridPane.rowIndex="2" GridPane.columnIndex="2">Dew Point Temperature</Label>
+                            <Label GridPane.rowIndex="2" GridPane.columnIndex="2">Dew Point</Label>
                             <TextField GridPane.rowIndex="2" GridPane.columnIndex="3" fx:id="dewPointTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
                             <ComboBox GridPane.rowIndex="2" GridPane.columnIndex="4" fx:id="dewPointComboBox" />
 
-
                         </GridPane>
 
-                        <Label>Coefficients</Label>
+                        <Label style="-fx-font-weight: bold;">Coefficients</Label>
                         <GridPane hgap="10" vgap="10">
+                            <padding>
+                                <Insets bottom="0" left="20" top="0" />
+                            </padding>
+
                             <Label GridPane.rowIndex="0" GridPane.columnIndex="0">b</Label>
                             <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="bCoefficientTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="2">no unit</Label>
+
                             <Label GridPane.rowIndex="1" GridPane.columnIndex="0">c</Label>
                             <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="cCoefficientTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                            <Label GridPane.rowIndex="1" GridPane.columnIndex="2">°C</Label>
                         </GridPane>
                         </VBox>
 

@@ -5,10 +5,7 @@ package Calculators.Environmental.DewPointMagnus;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -38,14 +35,17 @@ public class DewPointMagnusCalcModel extends Calculator {
     //========================================= FXML Bindings =======================================//
     //===============================================================================================//
 
-    @FXML private TextField relativeHumidityTextField;
-    @FXML private RadioButton relativeHumidityRadioButton;
-
     @FXML private TextField airTemperatureTextField;
     @FXML private RadioButton airTemperatureRadioButton;
+    @FXML private ComboBox airTemperatureComboBox;
+
+    @FXML private TextField relativeHumidityTextField;
+    @FXML private RadioButton relativeHumidityRadioButton;
+    @FXML private ComboBox relativeHumidityComboBox;
 
     @FXML private TextField dewPointTextField;
     @FXML private RadioButton dewPointRadioButton;
+    @FXML private ComboBox dewPointComboBox;
 
     @FXML private WebView infoWebView;
 
@@ -130,7 +130,7 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.airTemperature = new CalcVarNumerical(
             "airTemperature",                // Variable name (used for debugging)
             this.airTemperatureTextField,        // Textbox for value (UI object)
-            null,        // Combobox for units (UI object)
+            this.airTemperatureComboBox,        // Combobox for units (UI object)
             () -> {             // Equation when an output
 
                 // Read dependency variables
@@ -169,7 +169,7 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.relativeHumidity = new CalcVarNumerical(
                 "relativeHumidity",                // Variable name (used for debugging)
                 this.relativeHumidityTextField,          // Textbox for value (UI object)
-                null,             // Combobox for units (UI object)
+                this.relativeHumidityComboBox,             // Combobox for units (UI object)
                 () -> {             // Equation when an output
                     // Read dependency variables
                     Double airTemperature_DegC = this.airTemperature.getRawVal();
@@ -207,7 +207,7 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.dewPoint = new CalcVarNumerical(
                 "dewPoint",               // Variable name (used for debugging)
                 this.dewPointTextField,       // Textbox for value (UI object)
-                null,       // Combobox for units (UI object)
+                this.dewPointComboBox,       // Combobox for units (UI object)
                 () -> {             // Equation when an output
 
                     // Read dependency variables
