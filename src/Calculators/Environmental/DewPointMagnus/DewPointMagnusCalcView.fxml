@@ -37,11 +37,11 @@
                 <!--<AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="800" maxHeight="800" alignment="CENTER">-->
                     <Group>
 
-
+                        <VBox spacing="10">
                         <GridPane hgap="10" vgap="10">
                             <columnConstraints>
                                 <ColumnConstraints halignment="CENTER"></ColumnConstraints>
-                                <ColumnConstraints />
+                                <ColumnConstraints halignment="CENTER"/>
                                 <ColumnConstraints />
                                 <ColumnConstraints />
                             </columnConstraints>
@@ -53,7 +53,7 @@
                                 </image>
                             </ImageView>
                             <Label GridPane.rowIndex="0" GridPane.columnIndex="2">Air Temperature</Label>
-                            <TextField GridPane.rowIndex="0" GridPane.columnIndex="3" fx:id="rValue" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                            <TextField GridPane.rowIndex="0" GridPane.columnIndex="3" fx:id="airTemperatureTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
                             <ComboBox GridPane.rowIndex="0" GridPane.columnIndex="4" fx:id="airTemperatureComboBox" />
 
                             <RadioButton GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="relativeHumidityRadioButton" />
@@ -63,9 +63,9 @@
                                 </image>
                             </ImageView>
                             <Label GridPane.rowIndex="1" GridPane.columnIndex="2">Relative Humidity</Label>
-                            <TextField GridPane.rowIndex="1" GridPane.columnIndex="3" fx:id="relativeHumidityTextbox" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                            <TextField GridPane.rowIndex="1" GridPane.columnIndex="3" fx:id="relativeHumidityTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
 
-                            <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="0" fx:id="dewPointTemperatureRadioButton"  />
+                            <RadioButton GridPane.rowIndex="2" GridPane.columnIndex="0" fx:id="dewPointRadioButton"  />
                             <ImageView GridPane.rowIndex="2" GridPane.columnIndex="1" fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
                                 <image>
                                     <Image url="@cold-temperature-guage.png" />
@@ -77,6 +77,15 @@
 
 
                         </GridPane>
+
+                        <Label>Coefficients</Label>
+                        <GridPane hgap="10" vgap="10">
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="0">b</Label>
+                            <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="bCoefficientTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                            <Label GridPane.rowIndex="1" GridPane.columnIndex="0">c</Label>
+                            <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="cCoefficientTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                        </GridPane>
+                        </VBox>
 
                     </Group>
                 <!--</AutoScalingStackPane>-->

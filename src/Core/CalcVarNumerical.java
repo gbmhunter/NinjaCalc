@@ -168,7 +168,8 @@ public class CalcVarNumerical extends CalcVarBase {
         };
 
         // Make sure the provided text field is not null
-        assert valueTextField != null;
+        if(valueTextField == null)
+            throw new IllegalArgumentException("Provided TextField for calculator variable \"" + name + "\" value was null. Is the @FXML binding name the same as the fx:id?");
 
         this.valueTextField = valueTextField;
 

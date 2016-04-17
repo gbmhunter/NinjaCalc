@@ -41,6 +41,10 @@ public class Main extends Application {
         //======== SCIENTIFIC =========//
         controller.addCalculatorTemplate(new Calculators.Scientific.ScientificCalcModel());
 
+        //===============================================================================================//
+        //========================================== ELECTRONICS ========================================//
+        //===============================================================================================//
+
         //========== BASIC ==========//
         controller.addCalculatorTemplate(new Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalcModel());
         controller.addCalculatorTemplate(new Calculators.Electronics.Basic.ResistorDivider.ResistorDividerCalcModel());
@@ -52,6 +56,12 @@ public class Main extends Application {
         //========== PCB ==========//
         controller.addCalculatorTemplate(new Calculators.Electronics.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221ACalcModel());
         controller.addCalculatorTemplate(new Calculators.Electronics.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152CalcModel());
+
+        //===============================================================================================//
+        //========================================= ENVIRONMENTAL =======================================//
+        //===============================================================================================//
+
+        controller.addCalculatorTemplate(new Calculators.Environmental.DewPointMagnus.DewPointMagnusCalcModel());
 
         //===============================================================================================//
         //================================== SETUP AND SHOW APPLICATION =================================//

@@ -50,16 +50,19 @@ public class DewPointMagnusCalcModel extends Calculator {
     @FXML private WebView infoWebView;
 
     // ADJUSTABLE "CONSTANTS"
-    @FXML private TextField bCoefficient;
-    @FXML private TextField cCoefficient;
+    @FXML private TextField bCoefficientTextField;
+    @FXML private TextField cCoefficientTextField;
 
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
-    public CalcVarNumerical relativeHumidity;
     public CalcVarNumerical airTemperature;
+    public CalcVarNumerical relativeHumidity;
     public CalcVarNumerical dewPoint;
+
+    public CalcVarNumericalInput bCoefficicent;
+    public CalcVarNumericalInput cCoefficicent;
 
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
@@ -130,33 +133,72 @@ public class DewPointMagnusCalcModel extends Calculator {
         );
 
         //===============================================================================================//
-        //====================================== R (resistance) (I/O)====================================//
+        //======================================= Air Temperature (I/O) =================================//
         //===============================================================================================//
 
-        this.relativeHumidity = new CalcVarNumerical(
-            "relativeHumidity",                // Variable name (used for debugging)
-                relativeHumidityTextField,             // Textbox for value (UI object)
-            null,             // Combobox for units (UI object)
+        this.airTemperature = new CalcVarNumerical(
+            "airTemperature",                // Variable name (used for debugging)
+            this.airTemperatureTextField,        // Textbox for value (UI object)
+            null,        // Combobox for units (UI object)
             () -> {             // Equation when an output
-                Double fc = this.dewPoint.getRawVal();
-                Double c = this.airTemperature.getRawVal();
 
-                return (1.0 / (2*Math.PI*fc*c));
+                // Read dependency variables
+                Double relativeHumidity = this.relativeHumidity.getRawVal();
+                Double dewPoint = this.dewPoint.getRawVal();
+
+                Double bCoefficient = this.bCoefficicent.getRawVal();
+                Double cCoefficient = this.cCoefficicent.getRawVal();
+
+                return cCoefficient*(((bCoefficient*dewPoint)/(cCoefficient+dewPoint))-Math.log(relativeHumidity/100.0))/(bCoefficient+Math.log(relativeHumidity/100.0)-((bCoefficient*dewPoint)/(cCoefficient+dewPoint)));
             },
             new NumberUnit[]{   // units
-                //new NumberUnit("mΩ", 1e-3),
-                new NumberUnit("Ω", 1e0),
-                //new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
-                //new NumberUnit("MΩ", 1e6),
-                //new NumberUnit("GΩ", 1e9),
+                new NumberUnit("°C", 1e0),
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
-                if(relativeHumidityRadioButton.isSelected()) return CalcVarDirections.Output;
+                if(airTemperatureRadioButton.isSelected()) return CalcVarDirections.Output;
                 else return CalcVarDirections.Input;
-            },   // Default direction
+            },
             null,               // Default value
-            "The resistance of the resistor in the low-pass LC filter." // Help text
+            "The temperature of the air. This must be the same temperature at which the relative humidity was measured at." // Help text
+            );
+
+        this.airTemperature.setIsEngineeringNotationEnabled(true);
+
+        // Add validators
+        this.airTemperature.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.airTemperature.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.airTemperature);
+
+        //===============================================================================================//
+        //====================================== Relative Humidity (I/O) ================================//
+        //===============================================================================================//
+
+        this.relativeHumidity = new CalcVarNumerical(
+                "relativeHumidity",                // Variable name (used for debugging)
+                this.relativeHumidityTextField,          // Textbox for value (UI object)
+                null,             // Combobox for units (UI object)
+                () -> {             // Equation when an output
+                    // Read dependency variables
+                    Double airTemperature_DegC = this.airTemperature.getRawVal();
+                    Double dewPoint_DegC = this.dewPoint.getRawVal();
+
+                    Double bCoefficient = this.bCoefficicent.getRawVal();
+                    Double cCoefficient = this.cCoefficicent.getRawVal();
+
+                    return 100.0*(Math.exp((bCoefficient*dewPoint_DegC)/(cCoefficient+dewPoint_DegC))/Math.exp((bCoefficient*airTemperature_DegC)/(cCoefficient+airTemperature_DegC)));
+                },
+                new NumberUnit[]{   // units
+                        new NumberUnit("%", 1e0),
+                },
+                4,                  // Num. digits to round to
+                () -> {             // Direction-determining function
+                    if(relativeHumidityRadioButton.isSelected()) return CalcVarDirections.Output;
+                    else return CalcVarDirections.Input;
+                },   // Default direction
+                null,               // Default value
+                "The resistance of the resistor in the low-pass LC filter." // Help text
         );
 
         this.relativeHumidity.setIsEngineeringNotationEnabled(true);
@@ -168,72 +210,34 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.calcVars.add(this.relativeHumidity);
 
         //===============================================================================================//
-        //======================================= C (capacitance) (I/O) =================================//
-        //===============================================================================================//
-
-        this.airTemperature = new CalcVarNumerical(
-            "airTemperature",                // Variable name (used for debugging)
-                airTemperatureTextField,        // Textbox for value (UI object)
-            null,        // Combobox for units (UI object)
-            () -> {             // Equation when an output
-                Double r = this.relativeHumidity.getRawVal();
-                Double fc = this.dewPoint.getRawVal();
-
-                return (1.0 / (2 * Math.PI * fc * r));
-            },
-            new NumberUnit[]{   // units
-                //new NumberUnit("pF", 1e-12),
-                //new NumberUnit("nF", 1e-9, NumberPreference.DEFAULT),
-                //new NumberUnit("uF", 1e-6),
-                //new NumberUnit("mF", 1e-3),
-                new NumberUnit("F", 1e0),
-            },
-            4,                  // Num. digits to round to
-            () -> {             // Direction-determining function
-                if(airTemperatureRadioButton.isSelected()) return CalcVarDirections.Output;
-                else return CalcVarDirections.Input;
-            },
-            null,               // Default value
-            "The capacitance of the capacitor in the low-pass LC filter." // Help text
-            );
-
-        this.airTemperature.setIsEngineeringNotationEnabled(true);
-
-        // Add validators
-        this.airTemperature.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.airTemperature.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-
-        this.calcVars.add(this.airTemperature);
-
-
-        //===============================================================================================//
-        //===================================== dewPoint (cut-off frequency) (I/O) ============================//
+        //=========================================== Dew Point (I/O) ===================================//
         //===============================================================================================//
 
         this.dewPoint = new CalcVarNumerical(
-            "dewPoint",               // Variable name (used for debugging)
-                dewPointTextField,       // Textbox for value (UI object)
-            null,       // Combobox for units (UI object)
-            () -> {             // Equation when an output
-                Double r = this.relativeHumidity.getRawVal();
-                Double c = this.airTemperature.getRawVal();
+                "dewPoint",               // Variable name (used for debugging)
+                this.dewPointTextField,       // Textbox for value (UI object)
+                null,       // Combobox for units (UI object)
+                () -> {             // Equation when an output
 
-                return (1.0 / (2 * Math.PI * r * c));
-            },
-            new NumberUnit[]{   // units
-                //new NumberUnit("mHz", 1e-3),
-                new NumberUnit("Hz", 1e0),
-                //new NumberUnit("kHz", 1e3, NumberPreference.DEFAULT),
-                //new NumberUnit("MHz", 1e6),
-                //new NumberUnit("GHz", 1e9),
-            },
-            4,                  // Num. digits to round to
-            () -> {             // Direction-determining function
-                if(dewPointRadioButton.isSelected()) return CalcVarDirections.Output;
-                else return CalcVarDirections.Input;
-            },
-            null,               // Default value
-            "The cut-off frequency of the low-pass RC filter. This is the point where the output signal is attenuated by -3dB (70.7%) of the input. Also known as the corner or breakpoint frequency.");
+                    // Read dependency variables
+                    Double airTemperature_DegC = this.airTemperature.getRawVal();
+                    Double relativeHumidity_Perc = this.relativeHumidity.getRawVal();
+
+                    Double bCoefficient = this.bCoefficicent.getRawVal();
+                    Double cCoefficient = this.cCoefficicent.getRawVal();
+
+                    return bCoefficient*(Math.log(relativeHumidity_Perc/100.0)+((bCoefficient*airTemperature_DegC)/(cCoefficient+airTemperature_DegC)))/(bCoefficient-Math.log(relativeHumidity_Perc/100.0)-((bCoefficient*airTemperature_DegC)/(cCoefficient+airTemperature_DegC)));
+                },
+                new NumberUnit[]{   // units
+                        new NumberUnit("°C", 1e0),
+                },
+                4,                  // Num. digits to round to
+                () -> {             // Direction-determining function
+                    if(dewPointRadioButton.isSelected()) return CalcVarDirections.Output;
+                    else return CalcVarDirections.Input;
+                },
+                null,               // Default value
+                "If the air is cooled to the dew point temperature, then dew will start to form.");
 
         this.dewPoint.setIsEngineeringNotationEnabled(true);
 
@@ -242,6 +246,50 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.dewPoint.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.dewPoint);
+
+        //===============================================================================================//
+        //===================================== B Coefficient (INPUT) ===================================//
+        //===============================================================================================//
+
+        this.bCoefficicent = new CalcVarNumericalInput(
+                "bCoefficient",          // Variable name (used for debugging)
+                this.bCoefficientTextField,       // Textbox for value (UI object)
+                null,       // Combobox for units (UI object)
+                new NumberUnit[]{   // units
+                    new NumberUnit("Hz", 1e0),
+                },
+                4,                  // Num. digits to round to
+                17.67,               // Default value
+                "The b coefficient of the Magnus equation.");
+
+        this.bCoefficicent.setIsEngineeringNotationEnabled(true);
+
+        // Add validators
+        this.bCoefficicent.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.bCoefficicent);
+
+        //===============================================================================================//
+        //===================================== C Coefficient (INPUT) ===================================//
+        //===============================================================================================//
+
+        this.cCoefficicent = new CalcVarNumericalInput(
+                "cCoefficient",          // Variable name (used for debugging)
+                this.cCoefficientTextField,       // Textbox for value (UI object)
+                null,       // Combobox for units (UI object)
+                new NumberUnit[]{   // units
+                        new NumberUnit("Hz", 1e0),
+                },
+                4,                  // Num. digits to round to
+                243.5,              // Default value
+                "The c coefficient of the Magnus equation.");
+
+        this.cCoefficicent.setIsEngineeringNotationEnabled(true);
+
+        // Add validators
+        this.cCoefficicent.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.cCoefficicent);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//
