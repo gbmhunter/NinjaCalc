@@ -86,9 +86,10 @@
                     GridPane.vgrow="ALWAYS"
                     style="-fx-background-color: white;"
                     onMouseClicked="#handleCalcSelectionMouseClicked">
-                    <GridPane style="-fx-background-color: white;">
+                    <GridPane style="-fx-background-color: white;" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                         <!-- SEARCH FUNCTIONALITY -->
-                        <HBox GridPane.rowIndex="0" spacing="20">
+                        <HBox GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" spacing="20" alignment="CENTER"
+                              style="-fx-background-color: white;">
                             <padding>
                             <Insets top="20" bottom="20" left="20" right="20" />
                             </padding>
@@ -98,7 +99,7 @@
                         <!-- SCROLLPANE FOR CALCULATOR TEMPLATES -->
                         <!-- This operates with a fixed width, but variable height -->
                         <ScrollPane hbarPolicy="NEVER" fitToWidth="true" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS"
-                                style="-fx-background-color:transparent;">
+                                style="-fx-background-color: transparent;">
                             <!-- CALCULATOR TEMPLATE HOLDER -->
                             <!-- This will lay the calculator template elements out in equal sized tiles -->
                             <TilePane
