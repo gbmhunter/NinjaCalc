@@ -1,5 +1,6 @@
 package Calculators.Scientific;
 
+// SYSTEM LIBRARIES
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 // USER LIBRARIES
+import com.udojava.evalex.*;
 import Core.Calculator;
 
 /**
@@ -147,9 +149,9 @@ public class ScientificCalcModel extends Calculator{
 
         // Lazily initialise the javascript engine if this is the first time
         // parseExpression has been called
-        if(this.mathJsObj == null) {
+        /*if(this.mathJsObj == null) {
             this.loadJavascript();
-        }
+        }*/
 
 
         // Grab the expression input text and store in local variable
@@ -168,7 +170,7 @@ public class ScientificCalcModel extends Calculator{
             expressionResult = "ERROR: " + e.getMessage();
         }*/
 
-        try {
+        /*try {
             Object evalResult = inv.invokeMethod(mathJsParserObj, "eval", expressionInputString);
             System.out.println(evalResult.toString());
             expressionResult = evalResult.toString();
@@ -188,7 +190,9 @@ public class ScientificCalcModel extends Calculator{
             // math.eval() function exists.
             System.err.println(e.toString());
             throw new RuntimeException(e.toString());
-        }
+        }*/
+
+        expressionResult = new Expression(expressionInputString).eval().toPlainString();
 
         System.out.println("expressionResult = " + expressionResult);
 
