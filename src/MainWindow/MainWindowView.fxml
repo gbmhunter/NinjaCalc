@@ -93,7 +93,7 @@
                             <Insets top="20" bottom="20" left="20" right="20" />
                             </padding>
                            <Label>Search:</Label>
-                            <TextField prefWidth="300"></TextField>
+                            <TextField fx:id="searchTextField" prefWidth="300"></TextField>
                         </HBox>
                         <!-- SCROLLPANE FOR CALCULATOR TEMPLATES -->
                         <!-- This operates with a fixed width, but variable height -->

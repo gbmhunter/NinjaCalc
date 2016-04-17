@@ -6,12 +6,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import Core.View.CalculatorGridElement.CalculatorGridElementController;
 
 import java.util.ArrayList;
+
+class CalculatorAndGridElementPair {
+    Calculator calculator;
+    CalculatorGridElementController gridElement;
+
+    public CalculatorAndGridElementPair(Calculator calculator, CalculatorGridElementController gridElement) {
+        this.calculator = calculator;
+        this.gridElement = gridElement;
+    }
+}
 
 /**
  * The controller for the main window.
@@ -40,14 +51,17 @@ public class MainWindowController implements Initializable {
     @FXML
     private VBox noCalculatorIsOpenPane;
 
-    private ArrayList<Calculator> calculatorTemplates;
+    @FXML
+    private TextField searchTextField;
+
+    private ArrayList<CalculatorAndGridElementPair> calculatorTemplates;
 
     //===============================================================================================//
     //======================================== CONSTRUCTORS =========================================//
     //===============================================================================================//
 
     public MainWindowController() {
-        this.calculatorTemplates = new ArrayList<Calculator>();
+        this.calculatorTemplates = new ArrayList<CalculatorAndGridElementPair>();
     }
 
     /**
@@ -74,6 +88,26 @@ public class MainWindowController implements Initializable {
             }
 
         });
+
+        this.searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("searchTextField.textProperty listener called with newValue = " + newValue + ".");
+
+            this.filterCalculatorSelectionGrid(newValue);
+        });
+
+
+    }
+
+    public void filterCalculatorSelectionGrid(String searchText) {
+
+        // Iterate over all the registered calculator templates
+        for(CalculatorAndGridElementPair calculatorAndGridElementPair : this.calculatorTemplates) {
+            if(calculatorAndGridElementPair.calculator.name.contains(searchText)) {
+                System.out.println("Calculator \"" + calculatorAndGridElementPair.calculator.name + "\" included by search text.");
+            } else {
+                System.out.println("Calculator \"" + calculatorAndGridElementPair.calculator.name + "\" excluded by search text.");
+            }
+        }
     }
 
     public void handleButtonOnAction(ActionEvent actionEvent) {
@@ -97,17 +131,24 @@ public class MainWindowController implements Initializable {
         event.consume();
     }
 
+    /***
+     * Adds a calculator to the list of calculator templates the user can select from in the calculator selection grid.
+     * This must be called once for each calculator that is to be shown to the user when the app starts up.
+     * @param calculator    The calculator you wish to add to the apps list of calculator templates.
+     */
     public void addCalculatorTemplate(Calculator calculator) {
         //System.out.println("addCalculatorTemplate() called.");
-
-        // Save to internal list
-        this.calculatorTemplates.add(calculator);
 
         CalculatorGridElementController gridElement =
                 new CalculatorGridElementController(calculator.iconImagePath, calculator.name, calculator.description, this::openCalculatorButtonPressed);
 
         // Add new tile to tile pane in main window
         calculatorGridTilePane.getChildren().add(gridElement);
+
+        CalculatorAndGridElementPair calculatorAndGridElementPair = new CalculatorAndGridElementPair(calculator, gridElement);
+
+        // Save to internal list
+        this.calculatorTemplates.add(calculatorAndGridElementPair);
 
     }
 
@@ -123,13 +164,14 @@ public class MainWindowController implements Initializable {
 
         Calculator foundCalculator = null;
         // Search for calculator in list of calculator templates
-        for(Calculator calculator : this.calculatorTemplates) {
-            if(calculator.name == calculatorName) {
-                foundCalculator = calculator;
+        for(CalculatorAndGridElementPair calculatorAndGridElementPair : this.calculatorTemplates) {
+            if(calculatorAndGridElementPair.calculator.name == calculatorName) {
+                foundCalculator = calculatorAndGridElementPair.calculator;
             }
         }
 
-        assert foundCalculator != null;
+        if(foundCalculator == null)
+            throw new IllegalArgumentException("The provided calculator name \"" + calculatorName + "\" was not found in the list of calculator templates.");
 
         System.out.println("Opening new calculator instance...");
 
