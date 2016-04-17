@@ -86,9 +86,9 @@
                     GridPane.vgrow="ALWAYS"
                     style="-fx-background-color: white;"
                     onMouseClicked="#handleCalcSelectionMouseClicked">
-                    <VBox>
+                    <GridPane style="-fx-background-color: white;">
                         <!-- SEARCH FUNCTIONALITY -->
-                        <HBox spacing="20">
+                        <HBox GridPane.rowIndex="0" spacing="20">
                             <padding>
                             <Insets top="20" bottom="20" left="20" right="20" />
                             </padding>
@@ -97,18 +97,20 @@
                         </HBox>
                         <!-- SCROLLPANE FOR CALCULATOR TEMPLATES -->
                         <!-- This operates with a fixed width, but variable height -->
-                        <ScrollPane hbarPolicy="NEVER" fitToWidth="true" >
+                        <ScrollPane hbarPolicy="NEVER" fitToWidth="true" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS"
+                                style="-fx-background-color:transparent;">
                             <!-- CALCULATOR TEMPLATE HOLDER -->
                             <!-- This will lay the calculator template elements out in equal sized tiles -->
                             <TilePane
                                 fx:id="calculatorGridTilePane"
-                                hgap="20" vgap="20">
+                                hgap="20" vgap="20"
+                                style="-fx-background-color: white;">
                                 <padding>
                                     <Insets top="20" bottom="20" left="20" right="20" />
                                 </padding>
                             </TilePane>
                         </ScrollPane>
-                    </VBox>
+                    </GridPane>
             </GridPane>
         </GridPane>
     </StackPane>
