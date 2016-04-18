@@ -1,7 +1,6 @@
 package Calculators.Scientific;
 
 // SYSTEM LIBRARIES
-import com.sun.javafx.scene.control.skin.TextAreaSkin;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +38,8 @@ import Core.Calculator;
  * @last-modified   2016-04-12
  */
 public class ScientificCalcModel extends Calculator{
+
+    @FXML private ScrollPane expressionsScrollPane;
 
     @FXML private VBox expressionsVBox;
 
@@ -102,6 +103,18 @@ public class ScientificCalcModel extends Calculator{
                 this.parseExpression();
             }
         });
+
+        // This makes the VBox holding all the expressions results INITIALLY be the same height as the scroll pane,
+        // which makes new results appear at the bottom of the window (as desired). When there are too many
+        // results, this VBox expands past the height of the scroll pane, causing the scroll bars to appear.
+        this.expressionsVBox.prefHeightProperty().bind(this.expressionsScrollPane.heightProperty());
+
+        // This listener forces the scroll pane to always scroll to the bottom when a new expression result
+        // is added (so the user can see the result
+        this.expressionsVBox.heightProperty().addListener((observable, oldvalue, newValue) -> {
+                this.expressionsScrollPane.setVvalue((Double)newValue );
+        });
+
 
     }
 
@@ -231,7 +244,11 @@ public class ScientificCalcModel extends Calculator{
             //if (oldHeight != newValue.getHeight()) {
                 System.out.println("newValue = " + newValue.getHeight());
                 //oldHeight = newValue.getHeight();
-                textArea.setPrefHeight(textHolder.getLayoutBounds().getHeight() + 40); // +40 is for paddings
+
+                // Min height must be set here, otherwise scroll pane won't work correctly when there are too many
+                // expression results to display in the viewport.
+                textArea.setMinHeight(textHolder.getLayoutBounds().getHeight() + 40); // +40 is for paddings
+                textArea.setMaxHeight(textHolder.getLayoutBounds().getHeight() + 40); // +40 is for paddings
             //}
         });
 
@@ -255,6 +272,8 @@ public class ScientificCalcModel extends Calculator{
         // to enter new expressions into
         //vBoxChildren.add(numVBoxChildren - 1, textArea);
         vBoxChildren.add(textArea);
+
+        //this.expressionsScrollPane.setVvalue(Double.MAX_VALUE);
 
         //ScrollBar scrollBarv = (ScrollBar)textArea.lookup(".scroll-bar:vertical");
         //if(scrollBarv != null)

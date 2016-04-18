@@ -20,7 +20,7 @@
             style="-fx-background-color: #fafafa; -fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 14pt;">
         <rowConstraints>
             <RowConstraints vgrow="ALWAYS" />
-            <RowConstraints prefHeight="150" />
+            <RowConstraints minHeight="150" maxHeight="150" />
         </rowConstraints>
 
         <columnConstraints>
@@ -31,12 +31,17 @@
             <Insets top="20" right="20" bottom="20" left="20" />
         </padding>
 
-        <VBox fx:id="expressionsVBox" GridPane.rowIndex="0"
-              alignment="BOTTOM_CENTER"
-              maxWidth="800" spacing="10" fillWidth="true"
-              style="-fx-background-color: #f0f0f0;">
-            <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
-        </VBox>
+        <!-- VBox is where expression results get inserted -->
+        <ScrollPane fx:id="expressionsScrollPane" fitToWidth="true" style="-fx-background-color: blue;" >
+            <VBox fx:id="expressionsVBox" GridPane.rowIndex="0"
+                  alignment="BOTTOM_CENTER"
+                  maxWidth="800" spacing="10" fillWidth="true"
+                  prefHeight="1000"
+                    style="-fx-background-color: #f0f0f0;">
+                <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+            </VBox>
+        </ScrollPane>
+        <!-- This is where the user enters new expressions to evaluate -->
         <TextField GridPane.rowIndex="1" fx:id="expressionInput"></TextField>
     </GridPane>
 </AnchorPane>
