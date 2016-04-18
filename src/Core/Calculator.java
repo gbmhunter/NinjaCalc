@@ -83,6 +83,11 @@ public abstract class Calculator {
      * @param url   Path to the image you wish to be displayed in the selection grid for this calculator.
      */
     public void setIconImagePath(URL url) {
+
+        if(url == null) {
+            throw new IllegalArgumentException("Provided image URL was null for the \"" + this.name + "\" calculator. Is the image path correct and the image in the correct location?");
+        }
+
         this.iconImagePath = url.toString();
     }
 

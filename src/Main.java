@@ -57,6 +57,9 @@ public class Main extends Application {
         controller.addCalculatorTemplate(new Calculators.Electronics.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221ACalcModel());
         controller.addCalculatorTemplate(new Calculators.Electronics.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152CalcModel());
 
+        //========== SENSORS =========//
+        controller.addCalculatorTemplate(new Calculators.Electronics.Sensors.NtcThermistor.NtcThermistorCalcModel());
+
         //===============================================================================================//
         //========================================= ENVIRONMENTAL =======================================//
         //===============================================================================================//

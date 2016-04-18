@@ -70,18 +70,18 @@ public class NtcThermistorCalcModel extends Calculator {
     public NtcThermistorCalcModel() {
 
         super(
-            "Dew Point (Magnus Equation)",
-            "Calculate the dew point using the Magnus equation.",
-            new String[] { "Environmental" },
-            new String[] { "dew", "point", "magnus", "temperature", "humidity", "condensation", "pressure" });
+            "NTC Thermistor Temperature",
+            "Calculate the temperature of a NTC thermistor given it's resistance.",
+            new String[] { "Electronics", "Sensors" },
+            new String[] { "temperature", "thermistor", "ntc", "negative", "coefficient", "sensor", "resistor" });
 
-        super.setIconImagePath(getClass().getResource("grid-icon.png"));
+        super.setIconImagePath(getClass().getResource("grid-icon.jpg"));
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//
         //===============================================================================================//
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DewPointMagnusCalcView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("NtcThermistorCalcView.fxml"));
         //fxmlLoader.setRoot(this.view);
         fxmlLoader.setController(this);
         try {
