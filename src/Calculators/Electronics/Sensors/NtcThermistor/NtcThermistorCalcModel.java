@@ -16,13 +16,10 @@ import java.net.URL;
 // USER IMPORTS
 
 /**
- * The model (code behind) for the dew-point calculator based upon the Magnus equation.
+ * The model (code behind) for the NTC thermistor calculator.
  *
- * RH: =100*(EXP((17.625*TD)/(243.04+TD))/EXP((17.625*T)/(243.04+T))
- * T: =243.04*(((17.625*TD)/(243.04+TD))-LN(RH/100))/(17.625+LN(RH/100)-((17.625*TD)/(243.04+TD)))
- * TD: =243.04*(LN(RH/100)+((17.625*T)/(243.04+T)))/(17.625-LN(RH/100)-((17.625*T)/(243.04+T)))
- *
- * RH is expressed as a percentage, T and TD are both in degrees Celcius
+ * This uses the beta equation in the form:
+ * 1/T = 1/T_0 + (1/b)*ln(R/R_0)
  *
  * @author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
  * @since           2016-04-14
@@ -142,7 +139,7 @@ public class NtcThermistorCalcModel extends Calculator {
                return 0.0;
             },
             new NumberUnitMultiplier[]{   // units
-                new NumberUnitMultiplier("°C", 1e0),
+                new NumberUnitMultiplier("no unit", 1e0),
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function

@@ -24,7 +24,7 @@ import java.util.ArrayList;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-13
+ * @last-modified   2016-04-18
  */
 public class CalcVarNumerical extends CalcVarBase {
 
@@ -222,9 +222,9 @@ public class CalcVarNumerical extends CalcVarBase {
             this.unitsComboBox.setCellFactory((combobox) -> {
 
                 // Define rendering of the list of values in ComboBox drop down.
-                return new ListCell<NumberUnitMultiplier>() {
+                return new ListCell<NumberUnit>() {
                     @Override
-                    protected void updateItem(NumberUnitMultiplier item, boolean empty) {
+                    protected void updateItem(NumberUnit item, boolean empty) {
                         super.updateItem(item, empty);
 
                         if (item == null || empty) {
@@ -237,18 +237,18 @@ public class CalcVarNumerical extends CalcVarBase {
             });
 
             // Define rendering of selected value shown in ComboBox.
-            this.unitsComboBox.setConverter(new StringConverter<NumberUnitMultiplier>() {
+            this.unitsComboBox.setConverter(new StringConverter<NumberUnit>() {
                 @Override
-                public String toString(NumberUnitMultiplier numberUnitMultiplier) {
-                    if (numberUnitMultiplier == null) {
+                public String toString(NumberUnit numberUnit) {
+                    if (numberUnit == null) {
                         return null;
                     } else {
-                        return numberUnitMultiplier.name;
+                        return numberUnit.name;
                     }
                 }
 
                 @Override
-                public NumberUnitMultiplier fromString(String numberUnitString) {
+                public NumberUnit fromString(String numberUnitString) {
                     return null; // No conversion fromString needed.
                 }
             });
