@@ -8,8 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Core/Calculator.java" afterPath="$PROJECT_DIR$/src/Core/Calculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcView.fxml" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcView.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,10 +71,23 @@
       <file leaf-file-name="NtcThermistorCalcModel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="81" column="107" selection-start-line="81" selection-start-column="107" selection-end-line="81" selection-end-column="107" />
+            <state relative-caret-position="487">
+              <caret line="275" column="100" selection-start-line="275" selection-start-column="100" selection-end-line="275" selection-end-column="100" />
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NtcThermistorCalcView.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcView.fxml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="179">
+              <caret line="56" column="64" selection-start-line="56" selection-start-column="64" selection-end-line="56" selection-end-column="64" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
           </provider>
         </entry>
       </file>
@@ -129,7 +141,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml" />
@@ -179,6 +190,7 @@
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Temperature/NtcThermistor/NtcThermistorCalcModel.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/Core/Calculator.java" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcModel.java" />
       </list>
     </option>
@@ -1385,17 +1397,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcView.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="57" column="53" selection-start-line="57" selection-start-column="53" selection-end-line="57" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="388">
@@ -1411,8 +1412,8 @@
         <state relative-caret-position="493">
           <caret line="28" column="32" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
           <folding>
-            <element signature="n#style#0;n#p#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#p#6;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1433,10 +1434,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcView.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="56" column="64" selection-start-line="56" selection-start-column="64" selection-end-line="56" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="81" column="107" selection-start-line="81" selection-start-column="107" selection-end-line="81" selection-end-column="107" />
+        <state relative-caret-position="487">
+          <caret line="275" column="100" selection-start-line="275" selection-start-column="100" selection-end-line="275" selection-end-column="100" />
           <folding />
         </state>
       </provider>
