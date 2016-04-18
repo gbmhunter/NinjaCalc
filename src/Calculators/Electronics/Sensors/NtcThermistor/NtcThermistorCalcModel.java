@@ -136,7 +136,14 @@ public class NtcThermistorCalcModel extends Calculator {
             this.betaComboBox,        // Combobox for units (UI object)
             () -> {             // Equation when an output
 
-               return 0.0;
+                // Read dependency variables
+                Double referenceResistance_Ohms = this.referenceResistance.getRawVal();
+                Double referenceTemperature_K = this.referenceTemperature.getRawVal();
+                Double thermistorResistance_Ohms = this.thermistorResistance.getRawVal();
+                Double thermistorTemperature_K = this.thermistorTemperature.getRawVal();
+
+                Double beta_NoUnit = Math.log(thermistorResistance_Ohms/referenceResistance_Ohms) / (1/thermistorTemperature_K - 1/referenceTemperature_K);
+                return beta_NoUnit;
             },
             new NumberUnitMultiplier[]{   // units
                 new NumberUnitMultiplier("no unit", 1e0),
@@ -147,7 +154,7 @@ public class NtcThermistorCalcModel extends Calculator {
                 else return CalcVarDirections.Input;
             },
             null,               // Default value
-            "The temperature of the air. This must be the same temperature at which the relative humidity was measured at." // Help text
+            "The coefficient beta. This is usually specified in the thermistors datasheet." // Help text
             );
 
         this.beta.setIsEngineeringNotationEnabled(true);
@@ -168,7 +175,13 @@ public class NtcThermistorCalcModel extends Calculator {
                 this.referenceResistanceComboBox,             // Combobox for units (UI object)
                 () -> {             // Equation when an output
                     // Read dependency variables
-                    return 0.0;
+                    Double beta_NoUnit = this.beta.getRawVal();
+                    Double referenceTemperature_K = this.referenceTemperature.getRawVal();
+                    Double thermistorResistance_Ohms = this.thermistorResistance.getRawVal();
+                    Double thermistorTemperature_K = this.thermistorTemperature.getRawVal();
+
+                    Double referenceResistance_Ohms = thermistorResistance_Ohms / (Math.exp(beta_NoUnit*(1/thermistorTemperature_K - 1/referenceTemperature_K)));
+                    return referenceResistance_Ohms;
                 },
                 new NumberUnitMultiplier[]{   // units
                         new NumberUnitMultiplier("Ω", 1e0),
@@ -179,7 +192,7 @@ public class NtcThermistorCalcModel extends Calculator {
                     else return CalcVarDirections.Input;
                 },   // Default direction
                 null,               // Default value
-                "The relative humidity the the air, expressed as a percentage of the total amount of water the air could hold at the current temperature." // Help text
+                "The resistance of the thermistor at the reference point. This is usually when the thermistor is at 25°C." // Help text
         );
 
         this.referenceResistance.setIsEngineeringNotationEnabled(true);
@@ -201,7 +214,13 @@ public class NtcThermistorCalcModel extends Calculator {
                 () -> {             // Equation when an output
 
                     // Read dependency variables
-                    return 0.0;
+                    Double beta_NoUnit = this.beta.getRawVal();
+                    Double referenceResistance_Ohms = this.referenceResistance.getRawVal();
+                    Double thermistorResistance_Ohms = this.thermistorResistance.getRawVal();
+                    Double thermistorTemperature_K = this.thermistorTemperature.getRawVal();
+
+                    Double referenceTemperature_K = 1.0/(1/thermistorTemperature_K - (1.0/beta_NoUnit)*Math.log(thermistorResistance_Ohms/referenceResistance_Ohms));
+                    return referenceTemperature_K;
                 },
                 new NumberUnit[]{   // units
                         new NumberUnitFunction("°C", (value) -> { return value - 273.15; }, (value) -> { return value + 273.15; }),
@@ -212,7 +231,8 @@ public class NtcThermistorCalcModel extends Calculator {
                     else return CalcVarDirections.Input;
                 },
                 null,               // Default value
-                "If the air is cooled to the dew point temperature, then dew (condensation) will start to form. This value is allowed to be below the freezing point of water.");
+                "The temperature of the thermistor at the reference point. This is usually 25°C." // Help text
+        );
 
         this.referenceTemperature.setIsEngineeringNotationEnabled(true);
 
@@ -232,7 +252,13 @@ public class NtcThermistorCalcModel extends Calculator {
                 this.thermistorResistanceComboBox,            // Combobox for units (UI object)
                 () -> {             // Equation when an output
                     // Read dependency variables
-                    return 0.0;
+                    Double beta_NoUnit = this.beta.getRawVal();
+                    Double referenceResistance_Ohms = this.referenceResistance.getRawVal();
+                    Double referenceTemperature_K = this.referenceTemperature.getRawVal();
+                    Double thermistorTemperature_K = this.thermistorTemperature.getRawVal();
+
+                    Double thermistorResistance_Ohms = referenceResistance_Ohms * Math.exp(beta_NoUnit*(1/thermistorTemperature_K - 1/referenceTemperature_K));
+                    return thermistorResistance_Ohms;
                 },
                 new NumberUnitMultiplier[]{   // units
                         new NumberUnitMultiplier("Ω", 1e0),
@@ -243,7 +269,7 @@ public class NtcThermistorCalcModel extends Calculator {
                     else return CalcVarDirections.Input;
                 },   // Default direction
                 null,               // Default value
-                "The relative humidity the the air, expressed as a percentage of the total amount of water the air could hold at the current temperature." // Help text
+                "The present resistance of the thermistor, at temperature T." // Help text
         );
 
         this.thermistorResistance.setIsEngineeringNotationEnabled(true);
@@ -282,7 +308,7 @@ public class NtcThermistorCalcModel extends Calculator {
                     else return CalcVarDirections.Input;
                 },
                 null,               // Default value
-                "If the air is cooled to the dew point temperature, then dew (condensation) will start to form. This value is allowed to be below the freezing point of water.");
+                "The present temperature of the thermistor, at resistance R.");
 
         this.thermistorTemperature.setIsEngineeringNotationEnabled(true);
 

@@ -9,25 +9,21 @@
     </head>
 
     <body style="font-family: Calibri;">
-        <p>This calculator uses the <i>August-Roche-Magnus equation</i> (also known just as <i>Magnus equation</i>) to allow the calculation of either air temperature, relative humidity, or the dew point (as a temperature, also known as the <i>dew point temperature</i>), when you know the other two values.</p>
+        <p>This calculator allows the calculation of various thermistor properties by using the <i>Beta equation</i>. The Beta equation is commonly used in microcontroller code to work out the thermistor temperature after the micro's ADC measures the thermistors resistance.</p>
 
-        <p>The dew point is given as:</p>
+        <p>The beta equation is:</p>
 
-        <p>$$ T_{dp} = \frac{c*(ln(RH) + \frac{b \cdot T_{air}}{c \cdot T_{air}})}{b - ln(RH) - \frac{b \cdot T_{air}}{c \cdot T_{air}}} $$</p>
+        <p>$$ \frac{1}{T} = \frac{1}{T_0} + \frac{1}{\beta} ln (\frac{R}{R_0}) $$</p>
 
         <p style="text-align: center;">
             where:<br>
-            \( T_{dp} \) = the dew point temperature, in degrees Celcius<br>
-            \( RH \) = The relative humidity, as a number between 0-1 (i.e. percentage divided by 100)<br>
-            \( b \) = A Magnus equation coefficient, which has no unit<br>
-            \( c \) = A Magnus equation coefficient, in degrees Celcius<br>
+            \( \beta \) is the Beta co-efficient. This is usually specified in the thermistors datasheet.<br>
+            \( T_0 \) is the temperature at the reference point, in Kelvin. This is usually \(25^{\circ}C\).<br>
+            \( R_0 \) is the resistance at the reference point, in Ohms.<br>
+            \( T \) is the thermistor temperature, with measured resistance \( R \), in Kelvin.<br>
+            \( R \) is the thermistor resistance, measured at temperature \(T\), in Ohms.<br>
         <p>
 
-        <p>The exact values for the Magnus equation coefficients \(b\) and \(c\) depend on the exact literature that you the equation from. Common values for both are:</p>
-
-        <p style="text-align: center;">
-            \( b = 17.625 \)<br>
-            \( c = 243.03^{\circ}C \)
-        </p>
+        <p>This equation can be re-arranged to calculate any of the variables when the other 4 are known.</p>
     </body>
 </html>
