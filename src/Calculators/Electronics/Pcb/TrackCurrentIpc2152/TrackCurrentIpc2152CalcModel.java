@@ -245,10 +245,10 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"traceCurrent",             // Debug name
 			trackCurrentValue,     // Textbox for value (UI object)
 			trackCurrentUnits,     // Combobox for units (UI object)
-			new NumberUnit[]{           // units
-				new NumberUnit("uA", 1e-6),
-				new NumberUnit("mA", 1e-3),
-				new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
+			new NumberUnitMultiplier[]{           // units
+				new NumberUnitMultiplier("uA", 1e-6),
+				new NumberUnitMultiplier("mA", 1e-3),
+				new NumberUnitMultiplier("A", 1e0, NumberPreference.DEFAULT),
 			},
 			4,                          // Num. digits to round to
 			null,                       // Default value
@@ -281,8 +281,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"tempRise",             // Debug name
 			tempRiseValue,     // Textbox for value (UI object)
 			tempRiseUnits,     // Combobox for units (UI object)
-			new NumberUnit[]{       // units
-				new NumberUnit("°c", 1e0, NumberPreference.DEFAULT),
+			new NumberUnitMultiplier[]{       // units
+				new NumberUnitMultiplier("°c", 1e0, NumberPreference.DEFAULT),
 			},
 			4,                      // Num. digits to round to
 			null,                   // Default value
@@ -336,10 +336,10 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 				return unadjustedTrackCrosssectionalAreaM2;
 
 			},
-			new NumberUnit[]{
-				new NumberUnit("um²", 1e-12, NumberPreference.DEFAULT),
-				new NumberUnit("mils²", UNIT_CONVERSION_M2_PER_MIL2),
-				new NumberUnit("mm²", 1e-6),
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("um²", 1e-12, NumberPreference.DEFAULT),
+				new NumberUnitMultiplier("mils²", UNIT_CONVERSION_M2_PER_MIL2),
+				new NumberUnitMultiplier("mm²", 1e-6),
 			},
 			4,
 			"The unadjusted cross-sectional area. This gets multiplied by the many modifiers to give an adjusted cross-sectional area.");
@@ -359,11 +359,11 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"trackThickness",
 			trackThicknessValue,
 			trackThicknessUnits,
-			new NumberUnit[]{
-				new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),
-				new NumberUnit("mm", 1e-3),
-				new NumberUnit("oz", UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ),
-				new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("um", 1e-6, NumberPreference.DEFAULT),
+				new NumberUnitMultiplier("mm", 1e-3),
+				new NumberUnitMultiplier("oz", UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ),
+				new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
 			},
 			4,
 			null,
@@ -443,8 +443,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 				return trackThicknessModifierMulti;
 
 			},
-			new NumberUnit[]{
-				new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("no unit", 1.0, NumberPreference.DEFAULT),
 			},
 			4,
 			"The modifier to adjust the cross-sectional area with based on the track thickness." // Help text
@@ -464,10 +464,10 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"boardThickness",
 			boardThicknessValue,
 			boardThicknessUnits,
-			new NumberUnit[]{
-				new NumberUnit("um", 1e-6),
-				new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),
-				new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("um", 1e-6),
+				new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
+				new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
 			},
 			4,
 			null,
@@ -514,8 +514,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 				return boardThicknessModifierMulti;
 
 			},
-			new NumberUnit[]{
-				new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("no unit", 1.0, NumberPreference.DEFAULT),
 			},
 			4,
 			"The modifier to adjust the cross-sectional area with based on the board thickness." // Help text
@@ -552,10 +552,10 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"planeProximity",
 			planeProximityValue,
 			planeProximityUnits,
-			new NumberUnit[]{
-				new NumberUnit("um", 1e-6),
-				new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),
-				new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("um", 1e-6),
+				new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
+				new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
 			},
 			4,
 			null,
@@ -619,8 +619,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 				return planeProximityModifierMulti;
 
 			},
-			new NumberUnit[]{
-				new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("no unit", 1.0, NumberPreference.DEFAULT),
 			},
 			4,
 			"The modifier to adjust the cross-sectional area with based on the proximity of a plane to the current-carrying track." // Help text
@@ -640,9 +640,9 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"boardThickness",
 			thermalConductivityValue,
 			thermalConductivityUnits,
-			new NumberUnit[]{
-				new NumberUnit("W/(m*K)", 1),
-				new NumberUnit("BTU/(hour*ft*F)", UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF)
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("W/(m*K)", 1),
+				new NumberUnitMultiplier("BTU/(hour*ft*F)", UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF)
 			},
 			4,
 			0.20,
@@ -690,8 +690,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 				return thermalConductivityModifierMulti;
 
 			},
-			new NumberUnit[]{
-				new NumberUnit("no unit", 1.0, NumberPreference.DEFAULT),
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("no unit", 1.0, NumberPreference.DEFAULT),
 			},
 			4,
 			"The modifier to adjust the cross-sectional area with based on the thermal conductivity of the PCB." // Help text
@@ -729,10 +729,10 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 				return adjustedTrackCrosssectionalAreaM2;
 
 			},
-			new NumberUnit[]{
-				new NumberUnit("um²", 1e-12, NumberPreference.DEFAULT),
-				new NumberUnit("mils²", UNIT_CONVERSION_M2_PER_MIL2),
-				new NumberUnit("mm²", 1e-6),
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("um²", 1e-12, NumberPreference.DEFAULT),
+				new NumberUnitMultiplier("mils²", UNIT_CONVERSION_M2_PER_MIL2),
+				new NumberUnitMultiplier("mm²", 1e-6),
 			},
 			4,
 			"The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers." // Help text
@@ -758,10 +758,10 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 
 				return minimumTrackWidthM;
 			},
-			new NumberUnit[]{
-				new NumberUnit("um", 1e-6),
-				new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),
-				new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),
+			new NumberUnitMultiplier[]{
+				new NumberUnitMultiplier("um", 1e-6),
+				new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
+				new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
 			},
 			4,
 			"The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text

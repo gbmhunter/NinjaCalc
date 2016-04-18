@@ -139,10 +139,10 @@ public class ResistorDividerCalcModel extends Calculator {
 
                     return ((vOut * (rTop + rBot)) / rBot);
                 },
-                new NumberUnit[]{
-                        //new NumberUnit("mV", 1e-3),
-                        new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
-                        //new NumberUnit("kV", 1e3),
+                new NumberUnitMultiplier[]{
+                        //new NumberUnitMultiplier("mV", 1e-3),
+                        new NumberUnitMultiplier("V", 1e0, NumberPreference.DEFAULT),
+                        //new NumberUnitMultiplier("kV", 1e3),
                 },
                 4,
                 () -> {
@@ -176,12 +176,12 @@ public class ResistorDividerCalcModel extends Calculator {
 
                     return ((rBot * (vIn - vOut)) / vOut);
                 },
-                new NumberUnit[]{
-                        //new NumberUnit("mΩ", 1e-3),
-                        new NumberUnit("Ω", 1e0),
-                        //new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
-                        //new NumberUnit("MΩ", 1e6),
-                        //new NumberUnit("GΩ", 1e9),
+                new NumberUnitMultiplier[]{
+                        //new NumberUnitMultiplier("mΩ", 1e-3),
+                        new NumberUnitMultiplier("Ω", 1e0),
+                        //new NumberUnitMultiplier("kΩ", 1e3, NumberPreference.DEFAULT),
+                        //new NumberUnitMultiplier("MΩ", 1e6),
+                        //new NumberUnitMultiplier("GΩ", 1e9),
                 },
                 4,
                 () -> {
@@ -215,12 +215,12 @@ public class ResistorDividerCalcModel extends Calculator {
 
                     return ((rTop * vOut) / (vIn - vOut));
                 },
-                new NumberUnit[]{
-                        //new NumberUnit("mΩ", 1e-3),
-                        new NumberUnit("Ω", 1e0),
-                        //new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
-                        //new NumberUnit("MΩ", 1e6),
-                        //new NumberUnit("GΩ", 1e9),
+                new NumberUnitMultiplier[]{
+                        //new NumberUnitMultiplier("mΩ", 1e-3),
+                        new NumberUnitMultiplier("Ω", 1e0),
+                        //new NumberUnitMultiplier("kΩ", 1e3, NumberPreference.DEFAULT),
+                        //new NumberUnitMultiplier("MΩ", 1e6),
+                        //new NumberUnitMultiplier("GΩ", 1e9),
                 },
                 4,
                 () -> {
@@ -254,10 +254,10 @@ public class ResistorDividerCalcModel extends Calculator {
 
                     return ((vIn * rBot) / (rTop + rBot));
                 },
-                new NumberUnit[]{
-                        //new NumberUnit("mV", 1e-3),
-                        new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
-                        //new NumberUnit("kV", 1e3),
+                new NumberUnitMultiplier[]{
+                        //new NumberUnitMultiplier("mV", 1e-3),
+                        new NumberUnitMultiplier("V", 1e0, NumberPreference.DEFAULT),
+                        //new NumberUnitMultiplier("kV", 1e3),
                 },
                 4,
                 () -> {
@@ -290,12 +290,12 @@ public class ResistorDividerCalcModel extends Calculator {
 
                     return (vIn / (rTop + rBot));
                 },
-                new NumberUnit[]{
-                        //new NumberUnit("pA", 1e-12),
-                        //new NumberUnit("nA", 1e-9),
-                        //new NumberUnit("uA", 1e-6),
-                        //new NumberUnit("mA", 1e-3, NumberPreference.DEFAULT),
-                        new NumberUnit("A", 1e0),
+                new NumberUnitMultiplier[]{
+                        //new NumberUnitMultiplier("pA", 1e-12),
+                        //new NumberUnitMultiplier("nA", 1e-9),
+                        //new NumberUnitMultiplier("uA", 1e-6),
+                        //new NumberUnitMultiplier("mA", 1e-3, NumberPreference.DEFAULT),
+                        new NumberUnitMultiplier("A", 1e0),
                 },
                 4,
                 "The quiescent current drawn through the resistor divider. This can be an issue in low-power designs, or can cause excessive heating in the resistors when the input voltage is high and both resistors have low resistances.");

@@ -141,8 +141,8 @@ public class NtcThermistorCalcModel extends Calculator {
 
                return 0.0;
             },
-            new NumberUnit[]{   // units
-                new NumberUnit("°C", 1e0),
+            new NumberUnitMultiplier[]{   // units
+                new NumberUnitMultiplier("°C", 1e0),
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
@@ -173,8 +173,8 @@ public class NtcThermistorCalcModel extends Calculator {
                     // Read dependency variables
                     return 0.0;
                 },
-                new NumberUnit[]{   // units
-                        new NumberUnit("Ω", 1e0),
+                new NumberUnitMultiplier[]{   // units
+                        new NumberUnitMultiplier("Ω", 1e0),
                 },
                 4,                  // Num. digits to round to
                 () -> {             // Direction-determining function
@@ -206,8 +206,8 @@ public class NtcThermistorCalcModel extends Calculator {
                     // Read dependency variables
                     return 0.0;
                 },
-                new NumberUnit[]{   // units
-                        new NumberUnit("°C", 1e0),
+                new NumberUnitMultiplier[]{   // units
+                        new NumberUnitMultiplier("°C", 1e0),
                 },
                 4,                  // Num. digits to round to
                 () -> {             // Direction-determining function
@@ -237,8 +237,8 @@ public class NtcThermistorCalcModel extends Calculator {
                     // Read dependency variables
                     return 0.0;
                 },
-                new NumberUnit[]{   // units
-                        new NumberUnit("Ω", 1e0),
+                new NumberUnitMultiplier[]{   // units
+                        new NumberUnitMultiplier("Ω", 1e0),
                 },
                 4,                  // Num. digits to round to
                 () -> {             // Direction-determining function
@@ -276,8 +276,8 @@ public class NtcThermistorCalcModel extends Calculator {
                     Double thermistorTemperature_DegC = 1.0/(1.0/referenceTemperature_DegC + (1.0/beta_NoUnit)*Math.log(thermistorResistance_Ohms/referenceResistance_Ohms));
                     return thermistorTemperature_DegC;
                 },
-                new NumberUnit[]{   // units
-                        new NumberUnit("°C", 1e0),
+                new NumberUnitMultiplier[]{   // units
+                        new NumberUnitMultiplier("°C", 1e0),
                 },
                 4,                  // Num. digits to round to
                 () -> {             // Direction-determining function

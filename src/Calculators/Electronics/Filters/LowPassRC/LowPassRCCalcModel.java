@@ -127,12 +127,12 @@ public class LowPassRCCalcModel extends Calculator {
 
                 return (1.0 / (2*Math.PI*fc*c));
             },
-            new NumberUnit[]{   // units
-                //new NumberUnit("mΩ", 1e-3),
-                new NumberUnit("Ω", 1e0),
-                //new NumberUnit("kΩ", 1e3, NumberPreference.DEFAULT),
-                //new NumberUnit("MΩ", 1e6),
-                //new NumberUnit("GΩ", 1e9),
+            new NumberUnitMultiplier[]{   // units
+                //new NumberUnitMultiplier("mΩ", 1e-3),
+                new NumberUnitMultiplier("Ω", 1e0),
+                //new NumberUnitMultiplier("kΩ", 1e3, NumberPreference.DEFAULT),
+                //new NumberUnitMultiplier("MΩ", 1e6),
+                //new NumberUnitMultiplier("GΩ", 1e9),
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
@@ -165,12 +165,12 @@ public class LowPassRCCalcModel extends Calculator {
 
                 return (1.0 / (2 * Math.PI * fc * r));
             },
-            new NumberUnit[]{   // units
-                //new NumberUnit("pF", 1e-12),
-                //new NumberUnit("nF", 1e-9, NumberPreference.DEFAULT),
-                //new NumberUnit("uF", 1e-6),
-                //new NumberUnit("mF", 1e-3),
-                new NumberUnit("F", 1e0),
+            new NumberUnitMultiplier[]{   // units
+                //new NumberUnitMultiplier("pF", 1e-12),
+                //new NumberUnitMultiplier("nF", 1e-9, NumberPreference.DEFAULT),
+                //new NumberUnitMultiplier("uF", 1e-6),
+                //new NumberUnitMultiplier("mF", 1e-3),
+                new NumberUnitMultiplier("F", 1e0),
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
@@ -204,12 +204,12 @@ public class LowPassRCCalcModel extends Calculator {
 
                 return (1.0 / (2 * Math.PI * r * c));
             },
-            new NumberUnit[]{   // units
-                //new NumberUnit("mHz", 1e-3),
-                new NumberUnit("Hz", 1e0),
-                //new NumberUnit("kHz", 1e3, NumberPreference.DEFAULT),
-                //new NumberUnit("MHz", 1e6),
-                //new NumberUnit("GHz", 1e9),
+            new NumberUnitMultiplier[]{   // units
+                //new NumberUnitMultiplier("mHz", 1e-3),
+                new NumberUnitMultiplier("Hz", 1e0),
+                //new NumberUnitMultiplier("kHz", 1e3, NumberPreference.DEFAULT),
+                //new NumberUnitMultiplier("MHz", 1e6),
+                //new NumberUnitMultiplier("GHz", 1e9),
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function

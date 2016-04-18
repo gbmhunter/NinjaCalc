@@ -27,7 +27,7 @@ public class CalcVarNumericalOutput extends CalcVarNumerical {
         TextField calcValTextBox,
         ComboBox unitsComboBox,
         IEquationFunction equation,
-        NumberUnit[] units,
+        NumberUnitMultiplier[] units,
         int numDigitsToRound,
         String helpText) {
 

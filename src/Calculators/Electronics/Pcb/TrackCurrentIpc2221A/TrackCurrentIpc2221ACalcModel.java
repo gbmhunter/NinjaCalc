@@ -112,9 +112,9 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
              "traceCurrent",
              trackCurrentValue,
              trackCurrentUnits,
-             new NumberUnit[]{
-                new NumberUnit("mA", 1e-3),
-                new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
+             new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("mA", 1e-3),
+                new NumberUnitMultiplier("A", 1e0, NumberPreference.DEFAULT),
             },
              4,
              null,
@@ -140,8 +140,8 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
             "tempRise",
             tempRiseValue,
             tempRiseUnits,
-            new NumberUnit[]{
-                new NumberUnit("°c", 1e0, NumberPreference.DEFAULT),
+            new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("°c", 1e0, NumberPreference.DEFAULT),
             },
             4,
             null,
@@ -172,11 +172,11 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
             "trackThickness",
             trackThicknessValue,
             trackThicknessUnits,
-            new NumberUnit[]{
-                new NumberUnit("um", 1e-6, NumberPreference.DEFAULT),
-                new NumberUnit("mm", 1e-3),
-                new NumberUnit("oz", UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ),
-                new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),
+            new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("um", 1e-6, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier("mm", 1e-3),
+                new NumberUnitMultiplier("oz", UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ),
+                new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
             },
             4,
             null,
@@ -250,10 +250,10 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
                     return Double.NaN;
                 }
             },
-            new NumberUnit[]{
-                new NumberUnit("um", 1e-6),
-                new NumberUnit("mm", 1e-3, NumberPreference.DEFAULT),
-                new NumberUnit("mils", UnitConversionConstants.METERS_PER_MILS),
+            new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("um", 1e-6),
+                new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
             },
             4,
             "The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text

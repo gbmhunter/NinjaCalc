@@ -170,8 +170,8 @@ public class StandardResistanceFinderModel extends Calculator {
                 "desiredResistance",                // Debug name
                 this.desiredResistanceValue,        // Textbox for value (UI object)
                 null,                               // No units for this variable
-                new NumberUnit[]{
-                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,                          // Num. digits to round to
                 null,                       // Default value
@@ -213,8 +213,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return actualResistance;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The closest resistance in the E6 series to your desired resistance."
@@ -253,8 +253,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return percentageDiff;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The percentage difference between the closest E6 series resistance and your desired resistance." // Tooltip help text
@@ -289,8 +289,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return actualResistance;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The closest resistance in the E12 series to your desired resistance." // Tooltip help text
@@ -329,8 +329,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return percentageDiff;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The percentage difference between the closest E12 series resistance and your desired resistance." // Tooltip help text
@@ -365,8 +365,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return actualResistance;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The closest resistance in the E24 series to your desired resistance." // Tooltip help text
@@ -405,8 +405,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return percentageDiff;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The percentage difference between the closest E24 series resistance and your desired resistance." // Tooltip help text
@@ -441,8 +441,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return actualResistance;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The closest resistance in the E48 series to your desired resistance." // Tooltip help text
@@ -481,8 +481,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return percentageDiff;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The percentage difference between the closest E48 series resistance and your desired resistance." // Tooltip help text
@@ -517,8 +517,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return actualResistance;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The closest resistance in the E96 series to your desired resistance." // Tooltip help text
@@ -557,8 +557,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return percentageDiff;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The percentage difference between the closest E96 series resistance and your desired resistance." // Tooltip help text
@@ -593,8 +593,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return actualResistance;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The closest resistance in the E192 series to your desired resistance." // Tooltip help text
@@ -633,8 +633,8 @@ public class StandardResistanceFinderModel extends Calculator {
                     return percentageDiff;
 
                 },
-                new NumberUnit[]{
-                        new NumberUnit("%", 1e0, NumberPreference.DEFAULT),
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
                 },
                 4,
                 "The percentage difference between the closest E192 series resistance and your desired resistance." // Tooltip help text

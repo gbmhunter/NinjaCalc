@@ -16,7 +16,7 @@ public class CalcVarNumericalInput extends CalcVarNumerical {
         String name,
         TextField calcValTextBox,
         ComboBox unitsComboBox,
-        NumberUnit[] units,
+        NumberUnitMultiplier[] units,
         int numDigitsToRound,
         Double defaultRawValue,
         String helpText) {

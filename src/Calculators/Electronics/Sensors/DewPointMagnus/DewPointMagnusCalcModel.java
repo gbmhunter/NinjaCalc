@@ -142,8 +142,8 @@ public class DewPointMagnusCalcModel extends Calculator {
 
                 return cCoefficient*(((bCoefficient*dewPoint)/(cCoefficient+dewPoint))-Math.log(relativeHumidity/100.0))/(bCoefficient+Math.log(relativeHumidity/100.0)-((bCoefficient*dewPoint)/(cCoefficient+dewPoint)));
             },
-            new NumberUnit[]{   // units
-                new NumberUnit("°C", 1e0),
+            new NumberUnitMultiplier[]{   // units
+                new NumberUnitMultiplier("°C", 1e0),
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
@@ -180,8 +180,8 @@ public class DewPointMagnusCalcModel extends Calculator {
 
                     return 100.0*(Math.exp((bCoefficient*dewPoint_DegC)/(cCoefficient+dewPoint_DegC))/Math.exp((bCoefficient*airTemperature_DegC)/(cCoefficient+airTemperature_DegC)));
                 },
-                new NumberUnit[]{   // units
-                        new NumberUnit("%", 1e0),
+                new NumberUnitMultiplier[]{   // units
+                        new NumberUnitMultiplier("%", 1e0),
                 },
                 4,                  // Num. digits to round to
                 () -> {             // Direction-determining function
@@ -224,8 +224,8 @@ public class DewPointMagnusCalcModel extends Calculator {
 
                     return dewPoint_DegC;
                 },
-                new NumberUnit[]{   // units
-                        new NumberUnit("°C", 1e0),
+                new NumberUnitMultiplier[]{   // units
+                        new NumberUnitMultiplier("°C", 1e0),
                 },
                 4,                  // Num. digits to round to
                 () -> {             // Direction-determining function
@@ -251,8 +251,8 @@ public class DewPointMagnusCalcModel extends Calculator {
                 "bCoefficient",          // Variable name (used for debugging)
                 this.bCoefficientTextField,       // Textbox for value (UI object)
                 null,               // Combobox for units (UI object)
-                new NumberUnit[]{   // units
-                    new NumberUnit("no unit", 1e0),
+                new NumberUnitMultiplier[]{   // units
+                    new NumberUnitMultiplier("no unit", 1e0),
                 },
                 5,                  // Num. digits to round to
                 17.625,               // Default value
@@ -273,8 +273,8 @@ public class DewPointMagnusCalcModel extends Calculator {
                 "cCoefficient",          // Variable name (used for debugging)
                 this.cCoefficientTextField,       // Textbox for value (UI object)
                 null,       // Combobox for units (UI object)
-                new NumberUnit[]{   // units
-                        new NumberUnit("°C", 1e0),
+                new NumberUnitMultiplier[]{   // units
+                        new NumberUnitMultiplier("°C", 1e0),
                 },
                 5,                  // Num. digits to round to
                 243.04,              // Default value

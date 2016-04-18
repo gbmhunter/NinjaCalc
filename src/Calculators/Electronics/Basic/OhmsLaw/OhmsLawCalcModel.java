@@ -121,10 +121,10 @@ public class OhmsLawCalcModel extends Calculator {
                 Double resistance = this.resistance.getRawVal();
                 return current * resistance;
             },
-            new NumberUnit[]{
-                //new NumberUnit("mV", 1e-3),
-                new NumberUnit("V", 1e0, NumberPreference.DEFAULT),
-                //new NumberUnit("kV", 1e3),
+            new NumberUnitMultiplier[]{
+                //new NumberUnitMultiplier("mV", 1e-3),
+                new NumberUnitMultiplier("V", 1e0, NumberPreference.DEFAULT),
+                //new NumberUnitMultiplier("kV", 1e3),
             },
             4,
             () -> {
@@ -158,12 +158,12 @@ public class OhmsLawCalcModel extends Calculator {
                 Double resistance = this.resistance.getRawVal();
                 return voltage / resistance;
             },
-            new NumberUnit[]{
-                //new NumberUnit("pA", 1e-12),
-                //new NumberUnit("nA", 1e-9),
-                //new NumberUnit("uA", 1e-6),
-                //new NumberUnit("mA", 1e-3),
-                new NumberUnit("A", 1e0, NumberPreference.DEFAULT),
+            new NumberUnitMultiplier[]{
+                //new NumberUnitMultiplier("pA", 1e-12),
+                //new NumberUnitMultiplier("nA", 1e-9),
+                //new NumberUnitMultiplier("uA", 1e-6),
+                //new NumberUnitMultiplier("mA", 1e-3),
+                new NumberUnitMultiplier("A", 1e0, NumberPreference.DEFAULT),
             },
             4,
             () -> {
@@ -195,12 +195,12 @@ public class OhmsLawCalcModel extends Calculator {
                 Double current = this.current.getRawVal();
                 return voltage / current;
             },
-            new NumberUnit[]{
-                //new NumberUnit("mΩ", 1e-3),
-                new NumberUnit("Ω", 1e0, NumberPreference.DEFAULT),
-                //new NumberUnit("kΩ", 1e3),
-                //new NumberUnit("MΩ", 1e6),
-                //new NumberUnit("GΩ", 1e9),
+            new NumberUnitMultiplier[]{
+                //new NumberUnitMultiplier("mΩ", 1e-3),
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+                //new NumberUnitMultiplier("kΩ", 1e3),
+                //new NumberUnitMultiplier("MΩ", 1e6),
+                //new NumberUnitMultiplier("GΩ", 1e9),
             },
             4,
             () -> {

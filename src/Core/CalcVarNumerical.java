@@ -103,19 +103,19 @@ public class CalcVarNumerical extends CalcVarBase {
      * Uses an observable list so that it can be bound to the combo box.
      * See http://code.makery.ch/blog/javafx-8-event-handling-examples/
      */
-    public ObservableList<NumberUnit> units;
+    public ObservableList<NumberUnitMultiplier> units;
 
     /// <summary>
     /// Do NOT access this from anything put the SelectionChanged event handler for
     /// the ComboBox.
     /// </summary>
-    private NumberUnit selUnit;
+    private NumberUnitMultiplier selUnit;
 
     /// <summary>
     /// Gets and sets the selected unit for this calculator variable. If set, it will also update
     /// the associated ComboBox on the UI.
     /// </summary>
-    public NumberUnit getSelUnit()
+    public NumberUnitMultiplier getSelUnit()
     {
         return this.selUnit;
     }
@@ -147,7 +147,7 @@ public class CalcVarNumerical extends CalcVarBase {
         TextField valueTextField,
         ComboBox unitsComboBox,
         IEquationFunction equation,
-        NumberUnit[] units,
+        NumberUnitMultiplier[] units,
         int numDigitsToRound,
         IDirectionFunction directionFunction,
         Double defaultRawValue,
@@ -201,9 +201,9 @@ public class CalcVarNumerical extends CalcVarBase {
         this.units = FXCollections.observableArrayList();
 
         // Internally save the units, and find the default unit at the same time
-        // Note we can't implictly convert from an array of NumberUnit to a List<NumberUnit>
-        NumberUnit defaultUnit = null;
-        for(NumberUnit unit : units) {
+        // Note we can't implictly convert from an array of NumberUnitMultiplier to a List<NumberUnitMultiplier>
+        NumberUnitMultiplier defaultUnit = null;
+        for(NumberUnitMultiplier unit : units) {
             this.units.add(unit);
             if (unit.preference == NumberPreference.DEFAULT) {
                 defaultUnit = unit;
@@ -222,9 +222,9 @@ public class CalcVarNumerical extends CalcVarBase {
             this.unitsComboBox.setCellFactory((combobox) -> {
 
                 // Define rendering of the list of values in ComboBox drop down.
-                return new ListCell<NumberUnit>() {
+                return new ListCell<NumberUnitMultiplier>() {
                     @Override
-                    protected void updateItem(NumberUnit item, boolean empty) {
+                    protected void updateItem(NumberUnitMultiplier item, boolean empty) {
                         super.updateItem(item, empty);
 
                         if (item == null || empty) {
@@ -237,18 +237,18 @@ public class CalcVarNumerical extends CalcVarBase {
             });
 
             // Define rendering of selected value shown in ComboBox.
-            this.unitsComboBox.setConverter(new StringConverter<NumberUnit>() {
+            this.unitsComboBox.setConverter(new StringConverter<NumberUnitMultiplier>() {
                 @Override
-                public String toString(NumberUnit numberUnit) {
-                    if (numberUnit == null) {
+                public String toString(NumberUnitMultiplier numberUnitMultiplier) {
+                    if (numberUnitMultiplier == null) {
                         return null;
                     } else {
-                        return numberUnit.name;
+                        return numberUnitMultiplier.name;
                     }
                 }
 
                 @Override
-                public NumberUnit fromString(String numberUnitString) {
+                public NumberUnitMultiplier fromString(String numberUnitString) {
                     return null; // No conversion fromString needed.
                 }
             });
@@ -409,9 +409,9 @@ public class CalcVarNumerical extends CalcVarBase {
      */
     /*public void setUnits(String unitName) {
 
-        Core.NumberUnit foundUnit = null;
+        Core.NumberUnitMultiplier foundUnit = null;
 
-        for(NumberUnit unit : this.units) {
+        for(NumberUnitMultiplier unit : this.units) {
             if (unit.name == unitName) {
                 foundUnit = unit;
                 break;
@@ -432,7 +432,7 @@ public class CalcVarNumerical extends CalcVarBase {
      * Sets the selected unit in the unit combobox.
      * @param value     The unit you wish to change the combobox selection to.
      */
-    public void setSelUnit(NumberUnit value) {
+    public void setSelUnit(NumberUnitMultiplier value) {
         this.selUnit = value;
         // Anytime this is set, also update selected value in combobox,
         // if one has been provided
@@ -527,7 +527,7 @@ public class CalcVarNumerical extends CalcVarBase {
         // Need to update the selected unit, bypassing the property (otherwise
         // we will create an infinite loop)
         //ComboBox units = (ComboBox)sender;
-        this.selUnit = (NumberUnit)this.unitsComboBox.getSelectionModel().getSelectedItem();
+        this.selUnit = (NumberUnitMultiplier)this.unitsComboBox.getSelectionModel().getSelectedItem();
 
         //System.out.println("Selected unit is now \"" + this.selUnit + "\".");
 
