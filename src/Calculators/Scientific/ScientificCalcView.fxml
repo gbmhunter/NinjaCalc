@@ -32,7 +32,7 @@
         </padding>
 
         <!-- VBox is where expression results get inserted -->
-        <ScrollPane fx:id="expressionsScrollPane" fitToWidth="true" style="-fx-background-color: blue;" >
+        <ScrollPane fx:id="expressionsScrollPane" fitToWidth="true" >
             <VBox fx:id="expressionsVBox" GridPane.rowIndex="0"
                   alignment="BOTTOM_CENTER"
                   maxWidth="800" spacing="10" fillWidth="true"

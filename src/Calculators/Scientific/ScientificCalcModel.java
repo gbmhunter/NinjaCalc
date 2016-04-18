@@ -23,6 +23,15 @@ import javax.script.ScriptException;
 import com.udojava.evalex.*;
 import Core.Calculator;
 
+import static org.matheclipse.core.expression.F.*;
+
+import org.matheclipse.core.basic.Config;
+import org.matheclipse.core.eval.ExprEvaluator;
+import org.matheclipse.core.interfaces.IAST;
+import org.matheclipse.core.interfaces.IExpr;
+import org.matheclipse.parser.client.SyntaxError;
+import org.matheclipse.parser.client.math.MathException;
+
 /**
  * A general purpose scientific calculator for doing day-to-day calculations. Uses expression parsing to calculate
  * the result of a mathematic formula entered as a string.
@@ -32,6 +41,7 @@ import Core.Calculator;
  * Possible Expression Parsers:
  * Uses a javascript library, math.js, to parse mathematical expressions that the user inputs.
  * SpEL (Spring Expression Langauge)
+ * symja, Java 8 version (https://bitbucket.org/axelclk/symja_android_library/wiki/Home)
  *
  * @author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
  * @since           2016-04-09
@@ -44,6 +54,10 @@ public class ScientificCalcModel extends Calculator{
     @FXML private VBox expressionsVBox;
 
     @FXML private TextField expressionInput;
+
+
+
+    private ExprEvaluator exprEvaluator;
 
     // The following variables get assigned in
     // loadJavascript().
@@ -114,6 +128,10 @@ public class ScientificCalcModel extends Calculator{
         this.expressionsVBox.heightProperty().addListener((observable, oldvalue, newValue) -> {
                 this.expressionsScrollPane.setVvalue((Double)newValue );
         });
+
+        Config.PARSER_USE_LOWERCASE_SYMBOLS = true;
+
+        this.exprEvaluator = new ExprEvaluator(false, 100);
 
 
     }
@@ -206,7 +224,14 @@ public class ScientificCalcModel extends Calculator{
             throw new RuntimeException(e.toString());
         }*/
 
-        expressionResult = new Expression(expressionInputString).eval().toPlainString();
+
+        //expressionResult = new Expression(expressionInputString).eval().toPlainString();
+
+
+
+        IExpr result = exprEvaluator.evaluate(expressionInputString);
+        // print: 2*Cos(x)^2-Sin(x)^2
+        expressionResult = result.toString();
 
         System.out.println("expressionResult = " + expressionResult);
 
