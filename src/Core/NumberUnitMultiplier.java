@@ -36,5 +36,13 @@ public class NumberUnitMultiplier extends NumberUnit {
         this.multiplier = multiplier;
     }
 
+    public double convertTo(double value) {
+        return value / this.multiplier;
+    }
+
+    public double convertFrom(double value) {
+        return value * this.multiplier;
+    }
+
 
 }

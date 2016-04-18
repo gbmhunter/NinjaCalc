@@ -103,19 +103,19 @@ public class CalcVarNumerical extends CalcVarBase {
      * Uses an observable list so that it can be bound to the combo box.
      * See http://code.makery.ch/blog/javafx-8-event-handling-examples/
      */
-    public ObservableList<NumberUnitMultiplier> units;
+    public ObservableList<NumberUnit> units;
 
     /// <summary>
     /// Do NOT access this from anything put the SelectionChanged event handler for
     /// the ComboBox.
     /// </summary>
-    private NumberUnitMultiplier selUnit;
+    private NumberUnit selUnit;
 
     /// <summary>
     /// Gets and sets the selected unit for this calculator variable. If set, it will also update
     /// the associated ComboBox on the UI.
     /// </summary>
-    public NumberUnitMultiplier getSelUnit()
+    public NumberUnit getSelUnit()
     {
         return this.selUnit;
     }
@@ -147,7 +147,7 @@ public class CalcVarNumerical extends CalcVarBase {
         TextField valueTextField,
         ComboBox unitsComboBox,
         IEquationFunction equation,
-        NumberUnitMultiplier[] units,
+        NumberUnit[] units,
         int numDigitsToRound,
         IDirectionFunction directionFunction,
         Double defaultRawValue,
@@ -202,8 +202,8 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Internally save the units, and find the default unit at the same time
         // Note we can't implictly convert from an array of NumberUnitMultiplier to a List<NumberUnitMultiplier>
-        NumberUnitMultiplier defaultUnit = null;
-        for(NumberUnitMultiplier unit : units) {
+        NumberUnit defaultUnit = null;
+        for(NumberUnit unit : units) {
             this.units.add(unit);
             if (unit.preference == NumberPreference.DEFAULT) {
                 defaultUnit = unit;
@@ -275,7 +275,8 @@ public class CalcVarNumerical extends CalcVarBase {
         // Assign the default raw value
         if (defaultRawValue != null) {
             this.rawVal = defaultRawValue;
-            this.dispValAsString = String.valueOf(this.rawVal * this.selUnit.multiplier);
+            //this.dispValAsString = String.valueOf( this.rawVal * this.selUnit.multiplier);
+            this.dispValAsString = String.valueOf(this.selUnit.convertFrom(this.rawVal));
             this.valueTextField.setText(this.dispValAsString);
         }
         else {
@@ -290,7 +291,8 @@ public class CalcVarNumerical extends CalcVarBase {
         this.addRawValueChangedListener(calcVarBase -> {
             // Update displayed value
             //this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
-            this.dispValAsString = String.valueOf(this.rawVal * this.selUnit.multiplier);
+            //this.dispValAsString = String.valueOf(this.rawVal * this.selUnit.multiplier);
+            this.dispValAsString = String.valueOf(this.selUnit.convertFrom(this.rawVal));
             // Update textbox
             this.valueTextField.setText(this.dispValAsString);
         });
@@ -330,8 +332,9 @@ public class CalcVarNumerical extends CalcVarBase {
 
                 convertedValue = MetricPrefixes.toDouble(newValue);
                 if(convertedValue != null) {
-                    //this.dispValAsNumber = convertedValue;
-                    this.rawVal = convertedValue * this.selUnit.multiplier;
+
+                    //this.rawVal = convertedValue * this.selUnit.multiplier;
+                    this.rawVal = this.selUnit.convertFrom(convertedValue);
                 } else {
                     //this.dispValAsNumber = Double.NaN;
                     this.rawVal = Double.NaN;
@@ -340,7 +343,8 @@ public class CalcVarNumerical extends CalcVarBase {
 
             } else {
                 convertedValue = Double.valueOf(newValue);
-                this.rawVal = convertedValue * this.selUnit.multiplier;
+                //this.rawVal = convertedValue * this.selUnit.multiplier;
+                this.rawVal = this.selUnit.convertFrom(convertedValue);
             }
         }
         catch (NumberFormatException exception) {
@@ -432,7 +436,7 @@ public class CalcVarNumerical extends CalcVarBase {
      * Sets the selected unit in the unit combobox.
      * @param value     The unit you wish to change the combobox selection to.
      */
-    public void setSelUnit(NumberUnitMultiplier value) {
+    public void setSelUnit(NumberUnit value) {
         this.selUnit = value;
         // Anytime this is set, also update selected value in combobox,
         // if one has been provided
@@ -572,7 +576,8 @@ public class CalcVarNumerical extends CalcVarBase {
         // Recalculate dispValAsNumber and update textbox
         // We don't need to validate again if the units are changed for an output,
         // as the actual value (raw value) does not change.
-        Double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
+        //Double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
+        Double unroundedDispVal = this.selUnit.convertTo(this.rawVal);
 
         if(this.roundingType == RoundingTypes.SIGNIFICANT_FIGURES) {
             //this.dispValAsNumber = Rounding.RoundToSignificantDigits(unroundedDispVal, this.numDigitsToRound);

@@ -9,18 +9,28 @@ package Core;
  */
 public class NumberUnitFunction extends NumberUnit {
 
-    IUnitConversionFunction unitConversionFunction;
+    IUnitConversionFunction convertToFunction;
+    IUnitConversionFunction convertFromFunction;
 
     /**
      * Simplist constructor for not setting this unit as the default unit. Useful for units which are a direct multiple of the raw value (e.g. mm, cm, km).
      * @param name          The display name for the unit. This will be displayed in the combobox.
      */
-    public NumberUnitFunction(String name, IUnitConversionFunction unitConversionFunction) {
+    public NumberUnitFunction(String name, IUnitConversionFunction convertToFunction, IUnitConversionFunction convertFromFunction) {
 
         super(name, NumberPreference.NOT_DEFAULT);
 
-        this.unitConversionFunction = unitConversionFunction;
+        this.convertToFunction = convertToFunction;
+        this.convertFromFunction = convertFromFunction;
 
+    }
+
+    public double convertTo(double value) {
+        return this.convertToFunction.convert(value);
+    }
+
+    public double convertFrom(double value) {
+        return this.convertFromFunction.convert(value);
     }
 
 }
