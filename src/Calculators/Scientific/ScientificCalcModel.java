@@ -1,13 +1,12 @@
 package Calculators.Scientific;
 
 // SYSTEM LIBRARIES
+import com.sun.javafx.scene.control.skin.TextAreaSkin;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -31,7 +30,9 @@ import Core.Calculator;
  *
  * This calculator is quite different to most other calculators.
  *
+ * Possible Expression Parsers:
  * Uses a javascript library, math.js, to parse mathematical expressions that the user inputs.
+ * SpEL (Spring Expression Langauge)
  *
  * @author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
  * @since           2016-04-09
@@ -56,7 +57,7 @@ public class ScientificCalcModel extends Calculator{
         super("Scientific Calculator",
                 "A generic scientific calculator for doing basic mathematical calculations.",
                 new String[]{"Scientific"},
-                new String[]{"scientific", "generic", "general", "mathematics", "calculations", "equations", "add", "subtract", "multiply", "divide", "variables", "functions"});
+                new String[]{"scientific", "generic", "general", "mathematics", "maths", "calculations", "equations", "addition", "subtraction", "multiply", "multiplication", "divide", "division", "variables", "functions", "trigonometry", "expressions"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.jpg"));
 
@@ -207,7 +208,8 @@ public class ScientificCalcModel extends Calculator{
 
     /***
      * Adds the provided result of an expression to the correct place in the VBox
-     * which holds all the the expression history.
+     * which holds all the the expression history. Also shows what the user input in the first place
+     * to get the result.
      */
     private void addExpressionResultToUI(String expressionInput, String expressionResult) {
 
@@ -229,7 +231,7 @@ public class ScientificCalcModel extends Calculator{
             //if (oldHeight != newValue.getHeight()) {
                 System.out.println("newValue = " + newValue.getHeight());
                 //oldHeight = newValue.getHeight();
-                textArea.setPrefHeight(textHolder.getLayoutBounds().getHeight() + 20); // +20 is for paddings
+                textArea.setPrefHeight(textHolder.getLayoutBounds().getHeight() + 40); // +40 is for paddings
             //}
         });
 
@@ -237,9 +239,13 @@ public class ScientificCalcModel extends Calculator{
         String textToDisplay = expressionInput + "\n\t" + expressionResult;
         textArea.setText(textToDisplay);
 
-        ScrollBar scrollBarv = (ScrollBar)textArea.lookup(".scroll-bar:vertical");
-        if(scrollBarv != null)
-            scrollBarv.setDisable(true);
+        //ScrollBar scrollBarv = (ScrollBar)textArea.lookup(".scroll-bar:vertical");
+        //if(scrollBarv != null)
+        //    scrollBarv.setDisable(true);
+
+        /*TextAreaSkin textAreaSkin = (TextAreaSkin) textArea.getSkin();
+        ScrollPane textAreaScrollPane = (ScrollPane) textAreaSkin.getChildren().get(0);
+        textAreaScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);*/
 
         ObservableList<Node> vBoxChildren = this.expressionsVBox.getChildren();
 
@@ -249,6 +255,11 @@ public class ScientificCalcModel extends Calculator{
         // to enter new expressions into
         //vBoxChildren.add(numVBoxChildren - 1, textArea);
         vBoxChildren.add(textArea);
+
+        //ScrollBar scrollBarv = (ScrollBar)textArea.lookup(".scroll-bar:vertical");
+        //if(scrollBarv != null)
+        //scrollBarv.setDisable(true);
+
     }
 
 
