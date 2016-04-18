@@ -61,7 +61,7 @@ public class Main extends Application {
         //========================================= ENVIRONMENTAL =======================================//
         //===============================================================================================//
 
-        controller.addCalculatorTemplate(new Calculators.Environmental.DewPointMagnus.DewPointMagnusCalcModel());
+        controller.addCalculatorTemplate(new Calculators.Electronics.Sensors.DewPointMagnus.DewPointMagnusCalcModel());
 
         //===============================================================================================//
         //================================== SETUP AND SHOW APPLICATION =================================//

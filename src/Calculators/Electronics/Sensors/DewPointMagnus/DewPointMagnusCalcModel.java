@@ -1,4 +1,4 @@
-package Calculators.Environmental.DewPointMagnus;
+package Calculators.Electronics.Sensors.DewPointMagnus;
 
 // SYSTEM IMPORTS
 
