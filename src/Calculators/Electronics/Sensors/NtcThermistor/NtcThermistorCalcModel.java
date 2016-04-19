@@ -52,27 +52,32 @@ public class NtcThermistorCalcModel extends Calculator {
 
     @FXML private WebView infoWebView;
 
+    @FXML private ImageView betaSymbol;
     @FXML private TextField betaTextField;
     @FXML private RadioButton betaRadioButton;
     @FXML private ComboBox betaComboBox;
 
+    @FXML private ImageView referenceResistanceSymbol;
     @FXML private TextField referenceResistanceTextField;
     @FXML private RadioButton referenceResistanceRadioButton;
     @FXML private ComboBox referenceResistanceComboBox;
 
+    @FXML private ImageView referenceTemperatureSymbol;
     @FXML private TextField referenceTemperatureTextField;
     @FXML private RadioButton referenceTemperatureRadioButton;
     @FXML private ComboBox referenceTemperatureComboBox;
 
+    @FXML private ImageView thermistorResistanceSymbol;
     @FXML private TextField thermistorResistanceTextField;
     @FXML private RadioButton thermistorResistanceRadioButton;
     @FXML private ComboBox thermistorResistanceComboBox;
 
+    @FXML private ImageView thermistorTemperatureSymbol;
     @FXML private TextField thermistorTemperatureTextField;
     @FXML private RadioButton thermistorTemperatureRadioButton;
     @FXML private ComboBox thermistorTemperatureComboBox;
 
-    @FXML private ImageView betaSymbol;
+
     @FXML private VBox test;
 
     //===============================================================================================//
@@ -123,15 +128,38 @@ public class NtcThermistorCalcModel extends Calculator {
         final String htmlFile= "info.html";
         URL url = getClass().getResource(htmlFile);
         engine.load(url.toExternalForm());
+        engine.setUserStyleSheetLocation("data:,body { font: 18px Arial; color: #505050; }");
 
+        //===============================================================================================//
+        //======================================== CREATE SYMBOLS =======================================//
+        //===============================================================================================//
 
         TeXFormula tex = new TeXFormula("\\beta");
-        java.awt.Image awtImage = tex.createBufferedImage(TeXConstants.STYLE_TEXT, 16, java.awt.Color.BLACK, null);
+        java.awt.Image awtImage = tex.createBufferedImage(TeXConstants.STYLE_TEXT, 20, java.awt.Color.BLACK, null);
         Image fxImage = SwingFXUtils.toFXImage((BufferedImage) awtImage, null);
-
         this.betaSymbol.setImage(fxImage);
-        this.betaSymbol.setFitWidth(fxImage.getWidth());
-        this.betaSymbol.setFitHeight(fxImage.getHeight());
+        //this.betaSymbol.setFitWidth(fxImage.getWidth());
+        //this.betaSymbol.setFitHeight(fxImage.getHeight());
+
+        tex = new TeXFormula("R_{0}");
+        awtImage = tex.createBufferedImage(TeXConstants.STYLE_TEXT, 20, java.awt.Color.BLACK, null);
+        fxImage = SwingFXUtils.toFXImage((BufferedImage) awtImage, null);
+        this.referenceResistanceSymbol.setImage(fxImage);
+
+        tex = new TeXFormula("T_{0}");
+        awtImage = tex.createBufferedImage(TeXConstants.STYLE_TEXT, 20, java.awt.Color.BLACK, null);
+        fxImage = SwingFXUtils.toFXImage((BufferedImage) awtImage, null);
+        this.referenceTemperatureSymbol.setImage(fxImage);
+
+        tex = new TeXFormula("R");
+        awtImage = tex.createBufferedImage(TeXConstants.STYLE_TEXT, 20, java.awt.Color.BLACK, null);
+        fxImage = SwingFXUtils.toFXImage((BufferedImage) awtImage, null);
+        this.thermistorResistanceSymbol.setImage(fxImage);
+
+        tex = new TeXFormula("T");
+        awtImage = tex.createBufferedImage(TeXConstants.STYLE_TEXT, 20, java.awt.Color.BLACK, null);
+        fxImage = SwingFXUtils.toFXImage((BufferedImage) awtImage, null);
+        this.thermistorTemperatureSymbol.setImage(fxImage);
 
 
         //===============================================================================================//

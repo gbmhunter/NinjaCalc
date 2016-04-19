@@ -42,8 +42,8 @@
                         <GridPane hgap="10" vgap="10">
                             <columnConstraints>
                                 <ColumnConstraints halignment="CENTER"></ColumnConstraints>
-                                <!--<ColumnConstraints halignment="CENTER"/>-->
-                                <ColumnConstraints />
+                                <ColumnConstraints halignment="LEFT"/>
+                                <ColumnConstraints halignment="CENTER"/>
                                 <ColumnConstraints />
                             </columnConstraints>
                             <padding>
@@ -52,50 +52,52 @@
 
                             <RadioButton
                                     GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="betaRadioButton" />
-                            <ImageView fx:id="betaSymbol"
-                                    GridPane.rowIndex="0" GridPane.columnIndex="1"></ImageView>
                             <Label
-                                    GridPane.rowIndex="0" GridPane.columnIndex="2">Beta Coefficient</Label>
+                                    GridPane.rowIndex="0" GridPane.columnIndex="1">Beta Coefficient</Label>
+                            <ImageView fx:id="betaSymbol"
+                                    GridPane.rowIndex="0" GridPane.columnIndex="2"></ImageView>
                             <TextField
                                     GridPane.rowIndex="0" GridPane.columnIndex="3" fx:id="betaTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
                             <ComboBox
                                     GridPane.rowIndex="0" GridPane.columnIndex="4" fx:id="betaComboBox" />
 
                             <!-- ========================================================================================== -->
-                            <!-- ===================================== REFERENCE TEMPERATURE T_0 ========================== -->
-                            <!-- ========================================================================================== -->
-                            <RadioButton
-                                    GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="referenceTemperatureRadioButton"  />
-                            <Label
-                                    GridPane.rowIndex="1" GridPane.columnIndex="1">T_0</Label>
-                            <Label
-                                    GridPane.rowIndex="1" GridPane.columnIndex="2">Reference Temperature</Label>
-                            <TextField
-                                    GridPane.rowIndex="1" GridPane.columnIndex="3" fx:id="referenceTemperatureTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
-                            <ComboBox
-                                    GridPane.rowIndex="1" GridPane.columnIndex="4" fx:id="referenceTemperatureComboBox" />
-
-                            <!-- ========================================================================================== -->
                             <!-- ===================================== REFERENCE RESISTANCE R_0 ========================== -->
                             <!-- ========================================================================================== -->
                             <RadioButton
-                                    GridPane.rowIndex="2" GridPane.columnIndex="0" fx:id="referenceResistanceRadioButton" />
+                                    GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="referenceResistanceRadioButton" />
                             <Label
-                                    GridPane.rowIndex="2" GridPane.columnIndex="1">R_0</Label>
-                            <Label
-                                    GridPane.rowIndex="2" GridPane.columnIndex="2">Reference Resistance</Label>
+                                    GridPane.rowIndex="1" GridPane.columnIndex="1">Reference Resistance</Label>
+                            <ImageView fx:id="referenceResistanceSymbol"
+                                    GridPane.rowIndex="1" GridPane.columnIndex="2"></ImageView>
                             <TextField
-                                    GridPane.rowIndex="2" GridPane.columnIndex="3" fx:id="referenceResistanceTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                                    GridPane.rowIndex="1" GridPane.columnIndex="3" fx:id="referenceResistanceTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
                             <ComboBox
-                                    GridPane.rowIndex="2" GridPane.columnIndex="4" fx:id="referenceResistanceComboBox" />
+                                    GridPane.rowIndex="1" GridPane.columnIndex="4" fx:id="referenceResistanceComboBox" />
+
+                            <!-- ========================================================================================== -->
+                            <!-- ===================================== REFERENCE TEMPERATURE T_0 ========================== -->
+                            <!-- ========================================================================================== -->
+                            <RadioButton
+                                    GridPane.rowIndex="2" GridPane.columnIndex="0" fx:id="referenceTemperatureRadioButton"  />
+                            <Label
+                                    GridPane.rowIndex="2" GridPane.columnIndex="1">Reference Temperature</Label>
+                            <ImageView fx:id="referenceTemperatureSymbol"
+                                    GridPane.rowIndex="2" GridPane.columnIndex="2"></ImageView>
+                            <TextField
+                                    GridPane.rowIndex="2" GridPane.columnIndex="3" fx:id="referenceTemperatureTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
+                            <ComboBox
+                                    GridPane.rowIndex="2" GridPane.columnIndex="4" fx:id="referenceTemperatureComboBox" />
+
+
 
 
                             <RadioButton
                                     GridPane.rowIndex="3" GridPane.columnIndex="0" fx:id="thermistorResistanceRadioButton"  />
                             <Label
-                                    GridPane.rowIndex="3" GridPane.columnIndex="1">R</Label>
-                            <Label
-                                    GridPane.rowIndex="3" GridPane.columnIndex="2">Thermistor Resistance</Label>
+                                    GridPane.rowIndex="3" GridPane.columnIndex="1">Thermistor Resistance</Label>
+                            <ImageView fx:id="thermistorResistanceSymbol"
+                                    GridPane.rowIndex="3" GridPane.columnIndex="2"></ImageView>
                             <TextField
                                     GridPane.rowIndex="3" GridPane.columnIndex="3" fx:id="thermistorResistanceTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
                             <ComboBox
@@ -104,9 +106,9 @@
                             <RadioButton
                                     GridPane.rowIndex="4" GridPane.columnIndex="0" fx:id="thermistorTemperatureRadioButton"  />
                             <Label
-                                    GridPane.rowIndex="4" GridPane.columnIndex="1">T</Label>
-                            <Label
-                                    GridPane.rowIndex="4" GridPane.columnIndex="2">Thermistor Temperature</Label>
+                                    GridPane.rowIndex="4" GridPane.columnIndex="1">Thermistor Temperature</Label>
+                            <ImageView fx:id="thermistorTemperatureSymbol"
+                                    GridPane.rowIndex="4" GridPane.columnIndex="2"></ImageView>
                             <TextField
                                     GridPane.rowIndex="4" GridPane.columnIndex="3" fx:id="thermistorTemperatureTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
                             <ComboBox
