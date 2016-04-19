@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.canvas.Canvas?>
 <VBox xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
         <padding>
@@ -37,11 +38,11 @@
                 <!--<AutoScalingStackPane minWidth="300" minHeight="300" maxWidth="800" maxHeight="800" alignment="CENTER">-->
                     <Group>
 
-                        <VBox spacing="10">
+                        <VBox spacing="10" fx:id="test">
                         <GridPane hgap="10" vgap="10">
                             <columnConstraints>
                                 <ColumnConstraints halignment="CENTER"></ColumnConstraints>
-                                <ColumnConstraints halignment="CENTER"/>
+                                <!--<ColumnConstraints halignment="CENTER"/>-->
                                 <ColumnConstraints />
                                 <ColumnConstraints />
                             </columnConstraints>
@@ -51,8 +52,8 @@
 
                             <RadioButton
                                     GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="betaRadioButton" />
-                            <Label
-                                    GridPane.rowIndex="0" GridPane.columnIndex="1">b</Label>
+                            <ImageView fx:id="betaSymbol"
+                                    GridPane.rowIndex="0" GridPane.columnIndex="1"></ImageView>
                             <Label
                                     GridPane.rowIndex="0" GridPane.columnIndex="2">Beta Coefficient</Label>
                             <TextField
@@ -110,7 +111,6 @@
                                     GridPane.rowIndex="4" GridPane.columnIndex="3" fx:id="thermistorTemperatureTextField" alignment="CENTER_RIGHT" prefHeight="30" prefWidth="80" />
                             <ComboBox
                                     GridPane.rowIndex="4" GridPane.columnIndex="4" fx:id="thermistorTemperatureComboBox" />
-
 
                         </GridPane>
 

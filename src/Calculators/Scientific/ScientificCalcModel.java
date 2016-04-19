@@ -26,6 +26,7 @@ import Core.Calculator;
 import static org.matheclipse.core.expression.F.*;
 
 import org.matheclipse.core.basic.Config;
+import org.matheclipse.core.eval.EvalEngine;
 import org.matheclipse.core.eval.ExprEvaluator;
 import org.matheclipse.core.interfaces.IAST;
 import org.matheclipse.core.interfaces.IExpr;
@@ -56,7 +57,7 @@ public class ScientificCalcModel extends Calculator{
     @FXML private TextField expressionInput;
 
 
-
+    EvalEngine engine;
     private ExprEvaluator exprEvaluator;
 
     // The following variables get assigned in
@@ -131,7 +132,11 @@ public class ScientificCalcModel extends Calculator{
 
         Config.PARSER_USE_LOWERCASE_SYMBOLS = true;
 
-        this.exprEvaluator = new ExprEvaluator(false, 100);
+        this.engine = new EvalEngine(true);
+        this.exprEvaluator = new ExprEvaluator(
+                this.engine,
+                false, // Outlist disabled?
+                100);  // History capacity
 
 
     }
@@ -227,11 +232,20 @@ public class ScientificCalcModel extends Calculator{
 
         //expressionResult = new Expression(expressionInputString).eval().toPlainString();
 
+        try {
+            IExpr result = exprEvaluator.evaluate(expressionInputString);
+            expressionResult = result.toString();
+        }
+        catch (SyntaxError e) {
+            // catch Symja parser errors here
+            System.out.println(e.getMessage());
+        } catch (MathException me) {
+            // catch Symja math errors here
+            System.out.println(me.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-
-        IExpr result = exprEvaluator.evaluate(expressionInputString);
-        // print: 2*Cos(x)^2-Sin(x)^2
-        expressionResult = result.toString();
 
         System.out.println("expressionResult = " + expressionResult);
 

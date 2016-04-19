@@ -4,16 +4,34 @@ package Calculators.Electronics.Sensors.NtcThermistor;
 
 import Core.*;
 import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.scilab.forge.jlatexmath.*;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
 // USER IMPORTS
+
+import org.scilab.forge.jlatexmath.TeXConstants;
+import org.scilab.forge.jlatexmath.TeXFormula;
+
+
+
+
+
+
+
 
 /**
  * The model (code behind) for the NTC thermistor calculator.
@@ -26,6 +44,7 @@ import java.net.URL;
  * @last-modified   2016-04-14
  */
 public class NtcThermistorCalcModel extends Calculator {
+
 
     //===============================================================================================//
     //========================================= FXML Bindings =======================================//
@@ -53,7 +72,8 @@ public class NtcThermistorCalcModel extends Calculator {
     @FXML private RadioButton thermistorTemperatureRadioButton;
     @FXML private ComboBox thermistorTemperatureComboBox;
 
-
+    @FXML private ImageView betaSymbol;
+    @FXML private VBox test;
 
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
@@ -103,6 +123,16 @@ public class NtcThermistorCalcModel extends Calculator {
         final String htmlFile= "info.html";
         URL url = getClass().getResource(htmlFile);
         engine.load(url.toExternalForm());
+
+
+        TeXFormula tex = new TeXFormula("\\beta");
+        java.awt.Image awtImage = tex.createBufferedImage(TeXConstants.STYLE_TEXT, 16, java.awt.Color.BLACK, null);
+        Image fxImage = SwingFXUtils.toFXImage((BufferedImage) awtImage, null);
+
+        this.betaSymbol.setImage(fxImage);
+        this.betaSymbol.setFitWidth(fxImage.getWidth());
+        this.betaSymbol.setFitHeight(fxImage.getHeight());
+
 
         //===============================================================================================//
         //================================ INPUT/OUTPUT TOGGLE GROUP ====================================//
