@@ -39,7 +39,7 @@ public class Main extends Application {
         // Any of the following can be commented out to remove the calculator(s) from the app
 
         //======== SCIENTIFIC =========//
-        controller.addCalculatorTemplate(new Calculators.Scientific.ScientificCalcModel());
+        //controller.addCalculatorTemplate(new Calculators.Scientific.ScientificCalcModel());
 
         //===============================================================================================//
         //========================================== ELECTRONICS ========================================//

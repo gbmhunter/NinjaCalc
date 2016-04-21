@@ -1,9 +1,11 @@
 v?.?.?
 ------
 
+- Added automatic update functionality, closes #108.
 - Added a generic "Scientific Calculator", closes #98.
 - Added a dew point calculator based on the Magnus equation, closes #104.
 - Added NTC thermistor calculator, closes #106.
+- Added splash screen, closes #109.
 - Added calculator template search functionality, closes #63.
 - Added scrolling to the calculator selection grid, closes #105.
 - Added support for NumberUnit class to use a function for unit conversion, closes #107.

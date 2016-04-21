@@ -17,13 +17,10 @@ import java.io.InputStreamReader;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 // USER LIBRARIES
-import com.udojava.evalex.*;
 import Core.Calculator;
 
-import static org.matheclipse.core.expression.F.*;
 
 import org.matheclipse.core.basic.Config;
 import org.matheclipse.core.eval.EvalEngine;
@@ -145,7 +142,7 @@ public class ScientificCalcModel extends Calculator{
      * Loading the javascript was removed from the constructor because it takes many
      * seconds to complete and causes the UI to lag. Lazily initialised by parseExpression().
      */
-    private void loadJavascript() {
+    /*private void loadJavascript() {
         scriptEngineManager = new ScriptEngineManager();
         scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
         if (!(scriptEngine instanceof Invocable)) {
@@ -175,7 +172,7 @@ public class ScientificCalcModel extends Calculator{
             //System.err.println(e.toString());
             throw new RuntimeException(e.toString());
         }
-    }
+    }*/
 
     /**
      * Grabs the user-entered expression from the GUI, parses it, and displays the result.
