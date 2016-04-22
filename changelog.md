@@ -9,6 +9,7 @@ v?.?.?
 - Added calculator template search functionality, closes #63.
 - Added scrolling to the calculator selection grid, closes #105.
 - Added support for NumberUnit class to use a function for unit conversion, closes #107.
+- Converted README from restructured text to markdown format, closes #103.
 - Fixed bug where the MetricPrefix library did not round correctly when no prefix was required (i.e. value is between 1-1000), closes #92.
 - Fixed bug where setting V = 1V, R = 1R gives I = 1E0 in the "Ohm's Law" calculator, closes #89.
 - Fixed bug where math.min.js not loaded when app is deployed, but did work when app is run from IntelliJ, closes #101.
