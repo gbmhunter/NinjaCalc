@@ -87,6 +87,9 @@ public class CalcVarNumerical extends CalcVarBase {
     private TextField valueTextField;
     private ChangeListener<String> textListener;
 
+    /***
+     * A list of all the validators that the calculator variable has.
+     */
     private ArrayList<Validator> validators;
 
     public ArrayList<CalcValidationResult> validationResults;
@@ -105,16 +108,18 @@ public class CalcVarNumerical extends CalcVarBase {
      */
     public ObservableList<NumberUnit> units;
 
-    /// <summary>
-    /// Do NOT access this from anything put the SelectionChanged event handler for
-    /// the ComboBox.
-    /// </summary>
+
+    /***
+     * Do NOT access this from anything put the SelectionChanged event handler for
+     * the ComboBox.
+      */
     private NumberUnit selUnit;
 
-    /// <summary>
-    /// Gets and sets the selected unit for this calculator variable. If set, it will also update
-    /// the associated ComboBox on the UI.
-    /// </summary>
+    /**
+     * Gets the selected unit for this calculator variable. If set, it will also update
+     * the associated ComboBox on the UI.
+     * @return
+     */
     public NumberUnit getSelUnit()
     {
         return this.selUnit;

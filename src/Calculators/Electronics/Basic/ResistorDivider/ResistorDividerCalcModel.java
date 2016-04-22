@@ -10,6 +10,9 @@ import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A calculator based around the basic resistor divider circuit.
@@ -276,10 +279,13 @@ public class ResistorDividerCalcModel extends Calculator {
         this.vOut.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.vOut.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
         this.vOut.addValidator(
-                new Validator(() -> {
-                    return ((this.vOut.getRawVal() >= this.vIn.getRawVal() ) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
-                },
-                "Vout must be less than Vin. It is impossible for Vout to be greater than Vin because a resistor divider can only reduce the input voltage."));
+                new Validator(
+                        //new ArrayList<CalcVarBase>(this.vOut, this.vIn),
+                        new ArrayList<CalcVarBase>(Arrays.asList(this.vOut, this.vIn)),
+                        () -> {
+                            return ((this.vOut.getRawVal() >= this.vIn.getRawVal() ) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
+                        },
+                        "Vout must be less than Vin. It is impossible for Vout to be greater than Vin because a resistor divider can only reduce the input voltage."));
 
         this.calcVars.add(this.vOut);
 
