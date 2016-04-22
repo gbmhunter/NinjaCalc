@@ -139,8 +139,8 @@
       <file leaf-file-name="updates.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/updates.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="80" selection-start-line="2" selection-start-column="80" selection-end-line="2" selection-end-column="80" />
+            <state relative-caret-position="85">
+              <caret line="5" column="28" selection-start-line="4" selection-start-column="10" selection-end-line="5" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -983,7 +983,7 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1176" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1450,8 +1450,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/updates.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="80" selection-start-line="2" selection-start-column="80" selection-end-line="2" selection-end-column="80" />
+        <state relative-caret-position="85">
+          <caret line="5" column="28" selection-start-line="4" selection-start-column="10" selection-end-line="5" selection-end-column="28" />
           <folding />
         </state>
       </provider>
