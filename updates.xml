@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <updateDescriptor baseUrl="">
-  <entry targetMediaFileId="23" updatableVersionMin="" updatableVersionMax="" fileName="https://bintray.com/artifact/download/mbedded-ninja/NinjaCalc/NinjaCalc_v1.1.5_windows.exe" newVersion="1.1.0" newMediaFileId="23" fileSize="14285824" bundledJre="" archive="false">
+  <entry targetMediaFileId="23" updatableVersionMin="" updatableVersionMax="" fileName="https://github.com/mbedded-ninja/NinjaCalc/releases/download/v1.1.1/NinjaCalc_v1.1.1_windows.exe" newVersion="1.1.1" newMediaFileId="23" fileSize="14285824" bundledJre="" archive="false">
     <comment language="en" />
   </entry>
-  <entry targetMediaFileId="36" updatableVersionMin="" updatableVersionMax="" fileName="http://github.com/mbedded-ninja/NinjaCalc/releases/download/v1.1.0/NinjaCalc_v1.1.0_macos.dmg" newVersion="1.1.0" newMediaFileId="36" fileSize="13959303" bundledJre="" archive="false">
+  <entry targetMediaFileId="36" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.1.1_macos.dmg" newVersion="1.1.1" newMediaFileId="36" fileSize="13959303" bundledJre="" archive="false">
     <comment language="en" />
   </entry>
 </updateDescriptor>
