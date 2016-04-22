@@ -14,15 +14,18 @@ import java.net.URL;
 /**
  * A calculator based around the basic resistor divider circuit.
  *
- * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
- * @since 2015-11-02
- * @last-modified 2016-04-12
+ * @author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
+ * @since           2015-11-02
+ * @last-modified   2016-04-22
  */
 public class ResistorDividerCalcModel extends Calculator {
 
     //===============================================================================================//
     //========================================= FXML BINDINGS =======================================//
     //===============================================================================================//
+
+    @FXML
+    private WebView infoWebView;
 
     @FXML
     private TextField vInValue;
@@ -47,9 +50,6 @@ public class ResistorDividerCalcModel extends Calculator {
     @FXML
     private TextField iQValue;
 
-    @FXML
-    private WebView infoWebView;
-
     //===============================================================================================//
     //======================================= CALCULATOR VARIABLES ==================================//
     //===============================================================================================//
@@ -72,7 +72,6 @@ public class ResistorDividerCalcModel extends Calculator {
 
         super("Resistor Divider",
                 "Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.",
-                //"/Calculators/Electronics/Basic/ResistorDivider/grid-icon.png",
                 new String[]{"Electronics", "Basic"},
                 new String[]{"resistor", "resistance", "voltage", "divider", "reduce", "adc", "translate", "level", "shift"});
 
@@ -133,6 +132,7 @@ public class ResistorDividerCalcModel extends Calculator {
                 vInValue,
                 null,
                 () -> {
+                    // Read dependency variables
                     Double vOut = this.vOut.getRawVal();
                     Double rTop = this.rTop.getRawVal();
                     Double rBot = this.rBot.getRawVal();
@@ -170,6 +170,7 @@ public class ResistorDividerCalcModel extends Calculator {
                 rTopValue,
                 null,
                 () -> {
+                    // Read dependency variables
                     Double vIn = this.vIn.getRawVal();
                     Double rBot = this.rBot.getRawVal();
                     Double vOut = this.vOut.getRawVal();
@@ -209,6 +210,7 @@ public class ResistorDividerCalcModel extends Calculator {
                 rBotValue,
                 null,
                 () -> {
+                    // Read dependency variables
                     Double vIn = this.vIn.getRawVal();
                     Double rTop = this.rTop.getRawVal();
                     Double vOut = this.vOut.getRawVal();
@@ -248,6 +250,7 @@ public class ResistorDividerCalcModel extends Calculator {
                 vOutValue,
                 null,
                 () -> {
+                    // Read dependency variables
                     Double vIn = this.vIn.getRawVal();
                     Double rTop = this.rTop.getRawVal();
                     Double rBot = this.rBot.getRawVal();
@@ -272,6 +275,11 @@ public class ResistorDividerCalcModel extends Calculator {
         // Add validators
         this.vOut.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.vOut.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.vOut.addValidator(
+                new Validator(() -> {
+                    return ((this.vOut.getRawVal() >= this.vIn.getRawVal() ) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
+                },
+                "Vout must be less than Vin. It is impossible for Vout to be greater than Vin because a resistor divider can only reduce the input voltage."));
 
         this.calcVars.add(this.vOut);
 
