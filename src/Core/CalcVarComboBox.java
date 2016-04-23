@@ -156,6 +156,10 @@ public class CalcVarComboBox extends CalcVarBase {
 
     }
 
+    //===============================================================================================//
+    //======================================== GENERAL METHODS ======================================//
+    //===============================================================================================//
+
     private void comboBoxSelectionChanged() {
         //System.out.println("comboBoxSelectionChanged() called for calculator variable \"" + this.name + "\".");
 
@@ -173,5 +177,10 @@ public class CalcVarComboBox extends CalcVarBase {
     public void updateUIFromDirection() {
         // Do nothing
     }
+
+    public void validate() {
+        // Currently there is no validation logic for a "ComboBox" style calculator variable
+    }
+
 
 }

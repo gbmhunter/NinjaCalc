@@ -11,6 +11,7 @@ v?.?.?
 - Added support for NumberUnit class to use a function for unit conversion, closes #107.
 - Converted README from restructured text to markdown format, closes #103.
 - Added validator to Vout on resistor divider calculator to make sure it is less than Vin, closes #46.
+- Added dependant tracking for validators, so dependant validators get updated when calculator variable values change, closes #110.
 - Improved the tooltip help text for variables in the "Standard Resistance Finder" calculator.
 - Added warning if the "Desired Resistance" in the "Standard Resistance Finder" calculator exceeds the normal purchasable resistance range, closes #96.
 - Fixed bug where the MetricPrefix library did not round correctly when no prefix was required (i.e. value is between 1-1000), closes #92.

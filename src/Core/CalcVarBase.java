@@ -7,7 +7,7 @@ import java.util.*;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-13
+ * @last-modified   2016-04-23
  */
 public abstract class CalcVarBase {
 
@@ -101,14 +101,9 @@ public abstract class CalcVarBase {
     public IDirectionFunction directionFunction;
 
 
-
-    public void calculate() {
-        // Default implementation is to just return
-        // (and do nothing)
-        System.err.println("WARNING: BaseCalcVar.calculate() called, this is an empty function.");
-        return;
-    }
-
+    //===============================================================================================//
+    //========================================== CONSTRUCTORS =======================================//
+    //===============================================================================================//
 
     /**
      * Constructor for CalcVarBase.
@@ -137,6 +132,17 @@ public abstract class CalcVarBase {
         this.directionFunction = directionFunction;
     }
 
+    //===============================================================================================//
+    //======================================= GENERAL METHODS =======================================//
+    //===============================================================================================//
+
+    public void calculate() {
+        // Default implementation is to just return
+        // (and do nothing)
+        System.err.println("WARNING: BaseCalcVar.calculate() called, this is an empty function.");
+        return;
+    }
+
 
     public void forceDependantOutputsToRecalculate() {
         //System.out.println("forceDependantOutputsToRecalculate() called.");
@@ -149,10 +155,26 @@ public abstract class CalcVarBase {
         }
     }
 
+    protected void forceVariablesWithDependantValidatorsToRevalidate() {
+        System.out.println("CalcVarBase.forceVariablesWithDependantValidatorsToRevalidate() called for " + this.name + ".");
+
+        for(CalcVarBase calcVar : this.varsWithDependantValidators) {
+            calcVar.validate();
+        }
+
+    }
+
     /**
      * All non-virtual calculator variables must implement this method which updates
      * the UI based on the current direction of the variable.
      */
     public abstract void updateUIFromDirection();
+
+    /**
+     * All non-abstract calculator variable classes must implement this method which
+     * "validates" the calculator variable. For example, numerical calculator variables
+     * might check to see if it's value is within certain numerical bounds.
+     */
+    public abstract void validate();
 
 }

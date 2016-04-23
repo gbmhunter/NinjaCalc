@@ -312,6 +312,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
     private void updateRawValueFromDispValue() {
 
+        // Read in the value (as a string) from the variables TextField
         String newValue = this.valueTextField.getText();
 
 
@@ -351,6 +352,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // We need to re-calculate any this calculator variables dependants, if they are outputs
         this.forceDependantOutputsToRecalculate();
+        this.forceVariablesWithDependantValidatorsToRevalidate();
     }
 
     //===============================================================================================//
@@ -462,6 +464,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Force all calculator variables which are dependent on this one to recalculate.
         this.forceDependantOutputsToRecalculate();
+        this.forceVariablesWithDependantValidatorsToRevalidate();
     }
 
 
