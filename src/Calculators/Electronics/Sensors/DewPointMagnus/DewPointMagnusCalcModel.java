@@ -154,7 +154,6 @@ public class DewPointMagnusCalcModel extends Calculator {
             "The temperature of the air. This must be the same temperature at which the relative humidity was measured at." // Help text
             );*/
 
-        this.airTemperature.init();
         this.airTemperature.setName("airTemperature");
         this.airTemperature.setValueTextField(this.airTemperatureTextField);
         this.airTemperature.setUnitsComboBox(this.airTemperatureComboBox);
@@ -215,7 +214,6 @@ public class DewPointMagnusCalcModel extends Calculator {
                 "The relative humidity the the air, expressed as a percentage of the total amount of water the air could hold at the current temperature." // Help text
         );*/
 
-        this.relativeHumidity.init();
         this.relativeHumidity.setName("relativeHumidity");
         this.relativeHumidity.setValueTextField(this.relativeHumidityTextField);
         this.relativeHumidity.setUnitsComboBox(this.relativeHumidityComboBox);
@@ -281,7 +279,6 @@ public class DewPointMagnusCalcModel extends Calculator {
                 null,               // Default value
                 "If the air is cooled to the dew point temperature, then dew (condensation) will start to form. This value is allowed to be below the freezing point of water.");*/
 
-        this.dewPoint.init();
         this.dewPoint.setName("dewPoint");
         this.dewPoint.setValueTextField(this.dewPointTextField);
         this.dewPoint.setUnitsComboBox(this.dewPointComboBox);
@@ -332,7 +329,6 @@ public class DewPointMagnusCalcModel extends Calculator {
                 17.625,               // Default value
                 "The b coefficient of the Magnus equation.");*/
 
-        this.bCoefficient.init();
         this.bCoefficient.setName("bCoefficient");
         this.bCoefficient.setValueTextField(this.bCoefficientTextField);
         this.bCoefficient.setUnits(new NumberUnitMultiplier[]{
@@ -363,7 +359,6 @@ public class DewPointMagnusCalcModel extends Calculator {
                 243.04,              // Default value
                 "The c coefficient of the Magnus equation.");*/
 
-        this.cCoefficient.init();
         this.cCoefficient.setName("cCoefficient");
         this.cCoefficient.setValueTextField(this.cCoefficientTextField);
         this.cCoefficient.setUnits(new NumberUnitMultiplier[]{

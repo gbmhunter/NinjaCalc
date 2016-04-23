@@ -178,7 +178,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The resistance you actually want. The closest value to this resistance will be found in each resistor series." // Help info
         );*/
 
-        this.desiredResistance.init();
         this.desiredResistance.setName("desiredResistance");
         this.desiredResistance.setValueTextField(this.desiredResistanceValue);
         this.desiredResistance.setUnits(new NumberUnitMultiplier[]{
@@ -228,7 +227,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance in the E6 series to your desired resistance."
         );*/
 
-        this.e6Resistance.init();
         this.e6Resistance.setName("e6Resistance");
         this.e6Resistance.setValueTextField(this.e6ResistanceValue);
         this.e6Resistance.setEquationFunction(() -> {
@@ -287,7 +285,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The percentage difference between the closest E6 series resistance and your desired resistance." // Tooltip help text
         );*/
 
-        this.e6Error.init();
         this.e6Error.setName("e6Error");
         this.e6Error.setValueTextField(this.e6ErrorValue);
         this.e6Error.setEquationFunction(() -> {
@@ -345,7 +342,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance in the E12 series to your desired resistance." // Tooltip help text
         );*/
 
-        this.e12Resistance.init();
         this.e12Resistance.setName("e12Resistance");
         this.e12Resistance.setValueTextField(this.e12ResistanceValue);
         this.e12Resistance.setEquationFunction(() -> {
@@ -404,7 +400,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The percentage difference between the closest E12 series resistance and your desired resistance." // Tooltip help text
         );*/
 
-        this.e12Error.init();
         this.e12Error.setName("e12Error");
         this.e12Error.setValueTextField(this.e12ErrorValue);
         this.e12Error.setEquationFunction(() -> {
@@ -462,7 +457,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance in the E24 series to your desired resistance." // Tooltip help text
         );*/
 
-        this.e24Resistance.init();
         this.e24Resistance.setName("e24Resistance");
         this.e24Resistance.setValueTextField(this.e24ResistanceValue);
         this.e24Resistance.setEquationFunction(() -> {
@@ -521,7 +515,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The percentage difference between the closest E24 series resistance and your desired resistance." // Tooltip help text
         );*/
 
-        this.e24Error.init();
         this.e24Error.setName("e24Error");
         this.e24Error.setValueTextField(this.e24ErrorValue);
         this.e24Error.setEquationFunction(() -> {
@@ -579,7 +572,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance in the E48 series to your desired resistance." // Tooltip help text
         );*/
 
-        this.e48Resistance.init();
         this.e48Resistance.setName("e48Resistance");
         this.e48Resistance.setValueTextField(this.e48ResistanceValue);
         this.e48Resistance.setEquationFunction(() -> {
@@ -638,7 +630,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The percentage difference between the closest E48 series resistance and your desired resistance." // Tooltip help text
         );*/
 
-        this.e48Error.init();
         this.e48Error.setName("e48Error");
         this.e48Error.setValueTextField(this.e48ErrorValue);
         this.e48Error.setEquationFunction(() -> {
@@ -696,7 +687,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance in the E96 series to your desired resistance." // Tooltip help text
         );*/
 
-        this.e96Resistance.init();
         this.e96Resistance.setName("e96Resistance");
         this.e96Resistance.setValueTextField(this.e96ResistanceValue);
         this.e96Resistance.setEquationFunction(() -> {
@@ -755,7 +745,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The percentage difference between the closest E96 series resistance and your desired resistance." // Tooltip help text
         );*/
 
-        this.e96Error.init();
         this.e96Error.setName("e96Error");
         this.e96Error.setValueTextField(this.e96ErrorValue);
         this.e96Error.setEquationFunction(() -> {
@@ -813,7 +802,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The closest resistance in the E192 series to your desired resistance." // Tooltip help text
         );*/
 
-        this.e192Resistance.init();
         this.e192Resistance.setName("e192Resistance");
         this.e192Resistance.setValueTextField(this.e192ResistanceValue);
         this.e192Resistance.setEquationFunction(() -> {
@@ -872,7 +860,6 @@ public class StandardResistanceFinderModel extends Calculator {
                 "The percentage difference between the closest E192 series resistance and your desired resistance." // Tooltip help text
         );*/
 
-        this.e192Error.init();
         this.e192Error.setName("e192Error");
         this.e192Error.setValueTextField(this.e192ErrorValue);
         this.e192Error.setEquationFunction(() -> {

@@ -212,7 +212,6 @@ public class NtcThermistorCalcModel extends Calculator {
             "The coefficient beta. This is usually specified in the thermistors datasheet." // Help text
             );*/
 
-        this.beta.init();
         this.beta.setName("beta");
         this.beta.setValueTextField(this.betaTextField);
         this.beta.setUnitsComboBox(this.betaComboBox);
@@ -273,7 +272,6 @@ public class NtcThermistorCalcModel extends Calculator {
                 "The resistance of the thermistor at the reference point. This is usually when the thermistor is at 25°C." // Help text
         );*/
 
-        this.referenceResistance.init();
         this.referenceResistance.setName("referenceResistance");
         this.referenceResistance.setValueTextField(this.referenceResistanceTextField);
         this.referenceResistance.setUnitsComboBox(this.referenceResistanceComboBox);
@@ -335,7 +333,6 @@ public class NtcThermistorCalcModel extends Calculator {
                 "The temperature of the thermistor at the reference point. This is usually 25°C." // Help text
         );*/
 
-        this.referenceTemperature.init();
         this.referenceTemperature.setName("referenceTemperature");
         this.referenceTemperature.setValueTextField(this.referenceTemperatureTextField);
         this.referenceTemperature.setUnitsComboBox(this.referenceTemperatureComboBox);
@@ -396,7 +393,6 @@ public class NtcThermistorCalcModel extends Calculator {
                 "The present resistance of the thermistor, at temperature T." // Help text
         );*/
 
-        this.thermistorResistance.init();
         this.thermistorResistance.setName("thermistorResistance");
         this.thermistorResistance.setValueTextField(this.thermistorResistanceTextField);
         this.thermistorResistance.setUnitsComboBox(this.thermistorResistanceComboBox);
@@ -457,7 +453,6 @@ public class NtcThermistorCalcModel extends Calculator {
                 null,               // Default value
                 "The present temperature of the thermistor, at resistance R.");*/
 
-        this.thermistorTemperature.init();
         this.thermistorTemperature.setName("thermistorTemperature");
         this.thermistorTemperature.setValueTextField(this.thermistorTemperatureTextField);
         this.thermistorTemperature.setUnitsComboBox(this.thermistorTemperatureComboBox);

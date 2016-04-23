@@ -121,7 +121,6 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
              "The current you want the PCB track to be able to handle." // Help info
              );*/
 
-        this.trackCurrent.init();
         this.trackCurrent.setName("trackCurrent");
         this.trackCurrent.setValueTextField(this.trackCurrentValue);
         this.trackCurrent.setUnitsComboBox(this.trackCurrentUnits);
@@ -159,7 +158,6 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
             "The maximum desired temperature rise due to the current flowing through the track. 20-40°c is a common value for this." // Help info
             );*/
 
-        this.tempRise.init();
         this.tempRise.setName("tempRise");
         this.tempRise.setValueTextField(this.tempRiseValue);
         this.tempRise.setUnitsComboBox(this.tempRiseUnits);
@@ -205,7 +203,6 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
                 "The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz)." // Help text
         );*/
 
-        this.trackThickness.init();
         this.trackThickness.setName("trackThickness");
         this.trackThickness.setValueTextField(this.trackThicknessValue);
         this.trackThickness.setUnitsComboBox(this.trackThicknessUnits);
@@ -290,7 +287,6 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
                 "The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text
         );*/
 
-        this.minTrackWidth.init();
         this.minTrackWidth.setName("minTrackWidth");
         this.minTrackWidth.setValueTextField(this.minTrackWidthValue);
         this.minTrackWidth.setUnitsComboBox(this.minTrackWidthUnits);

@@ -31,7 +31,7 @@ public class CalcVarNumericalOutput extends CalcVarNumerical {
      * @param numDigitsToRound
      * @param helpText
      */
-    public CalcVarNumericalOutput(
+    /*public CalcVarNumericalOutput(
         String name,
         TextField calcValTextBox,
         ComboBox unitsComboBox,
@@ -58,6 +58,6 @@ public class CalcVarNumericalOutput extends CalcVarNumerical {
         }
 
 
-    }
+    }*/
 
 }

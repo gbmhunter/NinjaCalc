@@ -18,7 +18,7 @@ public class CalcVarNumericalInput extends CalcVarNumerical {
         this.setDirectionFunction(() -> CalcVarDirections.Input);
     }
 
-    public CalcVarNumericalInput(
+    /*public CalcVarNumericalInput(
         String name,
         TextField calcValTextBox,
         ComboBox unitsComboBox,
@@ -40,6 +40,6 @@ public class CalcVarNumericalInput extends CalcVarNumerical {
             defaultRawValue,
             helpText);
 
-    }
+    }*/
 
 }

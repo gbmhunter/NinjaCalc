@@ -143,7 +143,6 @@ public class LowPassRCCalcModel extends Calculator {
             "The resistance of the resistor in the low-pass LC filter." // Help text
         );*/
 
-        this.resistor.init();
         this.resistor.setName("resistor");
         this.resistor.setValueTextField(this.resistorTextField);
         this.resistor.setEquationFunction(() -> {
@@ -201,7 +200,6 @@ public class LowPassRCCalcModel extends Calculator {
             "The capacitance of the capacitor in the low-pass LC filter." // Help text
             );*/
 
-        this.capacitor.init();
         this.capacitor.setName("capacitor");
         this.capacitor.setValueTextField(this.capacitorTextField);
         this.capacitor.setEquationFunction(() -> {
@@ -259,7 +257,6 @@ public class LowPassRCCalcModel extends Calculator {
             null,               // Default value
             "The cut-off frequency of the low-pass RC filter. This is the point where the output signal is attenuated by -3dB (70.7%) of the input. Also known as the corner or breakpoint frequency.");*/
 
-        this.cutOffFrequency.init();
         this.cutOffFrequency.setName("cutOffFrequency");
         this.cutOffFrequency.setValueTextField(this.cutOffFrequencyTextField);
         this.cutOffFrequency.setEquationFunction(() -> {

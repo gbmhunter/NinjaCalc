@@ -126,6 +126,32 @@ public class CalcVarNumerical extends CalcVarBase {
 
     public CalcVarNumerical() {
         super();
+
+        //========================= VALIDATORS ===============================//
+
+        // Initialise empty validators list
+        this.validators = new ArrayList<Validator>();
+
+        // Initialise empty validation results list
+        this.validationResults = new ArrayList<CalcValidationResult>();
+
+        //======================== ROUNDING ========================//
+
+        // Set the default rounding type to use significant figures
+        this.roundingType = RoundingTypes.SIGNIFICANT_FIGURES;
+
+        //====================== EVENT HANDLERS ====================//
+
+        // Install event handlers
+        this.addRawValueChangedListener(calcVarBase -> {
+            // Update displayed value
+            //this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
+            //this.dispValAsString = String.valueOf(this.rawVal * this.selUnit.multiplier);
+            this.dispValAsString = String.valueOf(this.selUnit.convertFrom(this.rawVal));
+            // Update textbox
+            this.valueTextField.setText(this.dispValAsString);
+        });
+
     }
 
     /**
@@ -140,7 +166,7 @@ public class CalcVarNumerical extends CalcVarBase {
      * @param defaultRawValue       Default number for raw value to be set to. Can also be set to null, in which case the displayed text will be empty.
      * @param helpText
      */
-    public CalcVarNumerical(
+    /*public CalcVarNumerical(
         String name,
         TextField valueTextField,
         ComboBox unitsComboBox,
@@ -298,7 +324,7 @@ public class CalcVarNumerical extends CalcVarBase {
         // Save the help text (displayed in the tooltip)
         this.helpText = helpText;
 
-    } // public CalcVarNumerical()
+    } // public CalcVarNumerical()*/
 
 
 
@@ -359,34 +385,6 @@ public class CalcVarNumerical extends CalcVarBase {
         // We need to re-calculate any this calculator variables dependants, if they are outputs
         this.forceDependantOutputsToRecalculate();
         this.forceVariablesWithDependantValidatorsToRevalidate();
-    }
-
-    public void init() {
-
-        //========================= VALIDATORS ===============================//
-
-        // Initialise empty validators list
-        this.validators = new ArrayList<Validator>();
-
-        // Initialise empty validation results list
-        this.validationResults = new ArrayList<CalcValidationResult>();
-
-        //======================== ROUNDING ========================//
-
-        // Set the default rounding type to use significant figures
-        this.roundingType = RoundingTypes.SIGNIFICANT_FIGURES;
-
-        //====================== EVENT HANDLERS ====================//
-
-        // Install event handlers
-        this.addRawValueChangedListener(calcVarBase -> {
-            // Update displayed value
-            //this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
-            //this.dispValAsString = String.valueOf(this.rawVal * this.selUnit.multiplier);
-            this.dispValAsString = String.valueOf(this.selUnit.convertFrom(this.rawVal));
-            // Update textbox
-            this.valueTextField.setText(this.dispValAsString);
-        });
     }
 
     //===============================================================================================//

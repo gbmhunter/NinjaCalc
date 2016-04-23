@@ -145,7 +145,6 @@ public class OhmsLawCalcModel extends Calculator {
         );
         this.voltage.setIsEngineeringNotationEnabled(true);*/
 
-        this.voltage.init();
         this.voltage.setName("voltage");
         this.voltage.setValueTextField(this.voltageValueTextField);
         this.voltage.setEquationFunction(() -> {
@@ -202,7 +201,6 @@ public class OhmsLawCalcModel extends Calculator {
                 "The current going through the resistor" // Help text
         );*/
 
-        this.current.init();
         this.current.setName("current");
         this.current.setValueTextField(this.currentValueTextField);
         this.current.setEquationFunction(() -> {
@@ -259,7 +257,6 @@ public class OhmsLawCalcModel extends Calculator {
                 "The resistance of the resistor (or other circuit component)." // Help text
         );*/
 
-        this.resistance.init();
         this.resistance.setName("resistance");
         this.resistance.setValueTextField(this.resistanceValueTextField);
         this.resistance.setEquationFunction(() -> {

@@ -152,7 +152,6 @@ public class ResistorDividerCalcModel extends Calculator {
                 "The input voltage to the top of the resistor divider (also equal to the voltage across the entire resistor divider)." // Help text
         );*/
 
-        this.vIn.init();
         this.vIn.setName("vIn");
         this.vIn.setValueTextField(vInValue);
         //this.vIn.setUnitsComboBox(null);
@@ -223,7 +222,6 @@ public class ResistorDividerCalcModel extends Calculator {
                 "The resistance of the top resistor in the resistor divider." // Help text
         );*/
 
-        this.rTop.init();
         this.rTop.setName("rTop");
         this.rTop.setValueTextField(rTopValue);
         //this.rTop.setUnitsComboBox(null);
@@ -286,7 +284,6 @@ public class ResistorDividerCalcModel extends Calculator {
         );
         this.rBot.setIsEngineeringNotationEnabled(true);*/
 
-        this.rBot.init();
         this.rBot.setName("rBot");
         this.rBot.setValueTextField(rBotValue);
         //this.rBot.setUnitsComboBox(null);
@@ -346,7 +343,6 @@ public class ResistorDividerCalcModel extends Calculator {
                 "The resistor divider output voltage. The is also equal to the voltage across the bottom resistor. Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.");
         this.vOut.setIsEngineeringNotationEnabled(true);*/
 
-        this.vOut.init();
         this.vOut.setName("vOut");
         this.vOut.setValueTextField(vOutValue);
         //this.vOut.setUnitsComboBox(null);
@@ -409,7 +405,6 @@ public class ResistorDividerCalcModel extends Calculator {
                 "The quiescent current drawn through the resistor divider. This can be an issue in low-power designs, or can cause excessive heating in the resistors when the input voltage is high and both resistors have low resistances.");
         this.iQ.setIsEngineeringNotationEnabled(true);*/
 
-        this.iQ.init();
         this.iQ.setName("iQ");
         this.iQ.setValueTextField(iQValue);
         //this.iQ.setUnitsComboBox(null);

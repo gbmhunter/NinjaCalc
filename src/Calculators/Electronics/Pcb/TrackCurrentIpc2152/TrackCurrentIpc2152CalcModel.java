@@ -277,7 +277,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The current you want the PCB track to be able to handle." // Help info
 			);*/
 
-        this.trackCurrent.init();
         this.trackCurrent.setName("trackCurrent");
         this.trackCurrent.setValueTextField(this.trackCurrentValue);
         this.trackCurrent.setUnitsComboBox(this.trackCurrentUnits);
@@ -324,7 +323,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The maximum desired temperature rise due to the current flowing through the track. 20-40°c is a common value for this." // Help info
 			);*/
 
-        this.tempRise.init();
         this.tempRise.setName("tempRise");
         this.tempRise.setValueTextField(this.tempRiseValue);
         this.tempRise.setUnitsComboBox(this.tempRiseUnits);
@@ -388,7 +386,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			4,
 			"The unadjusted cross-sectional area. This gets multiplied by the many modifiers to give an adjusted cross-sectional area.");*/
 
-        this.unadjustedTrackCrossSectionalArea.init();
         this.unadjustedTrackCrossSectionalArea.setName("unadjustedTrackCrossSectionalArea");
         this.unadjustedTrackCrossSectionalArea.setValueTextField(this.unadjustedTrackCrossSectionalAreaValue);
         this.unadjustedTrackCrossSectionalArea.setUnitsComboBox(this.unadjustedTrackCrossSectionalAreaUnits);
@@ -446,7 +443,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz)." // Help text
 			);*/
 
-        this.trackThickness.init();
         this.trackThickness.setName("trackThickness");
         this.trackThickness.setValueTextField(this.trackThicknessValue);
         this.trackThickness.setUnitsComboBox(this.trackThicknessUnits);
@@ -540,7 +536,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The modifier to adjust the cross-sectional area with based on the track thickness." // Help text
 			);*/
 
-        this.trackThicknessModifier.init();
         this.trackThicknessModifier.setName("trackThicknessModifier");
         this.trackThicknessModifier.setValueTextField(this.trackThicknessModifierValue);
         this.trackThicknessModifier.setUnitsComboBox(this.trackThicknessModifierUnits);
@@ -617,7 +612,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The total thickness of the PCB that the track is on. A standard PCB thickness is 1.6mm." // Help text
 			);*/
 
-        this.boardThickness.init();
         this.boardThickness.setName("boardThickness");
         this.boardThickness.setValueTextField(this.boardThicknessValue);
         this.boardThickness.setUnitsComboBox(this.boardThicknessUnits);
@@ -677,7 +671,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The modifier to adjust the cross-sectional area with based on the board thickness." // Help text
 			);*/
 
-        this.boardThicknessModifier.init();
         this.boardThicknessModifier.setName("boardThicknessModifier");
         this.boardThicknessModifier.setValueTextField(this.boardThicknessModifierValue);
         this.boardThicknessModifier.setUnitsComboBox(this.boardThicknessModifierUnits);
@@ -741,7 +734,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The distance from the current-carrying track to the closest copper plane. If it is a 2-layer 1.6mm PCB, with the current-carrying track on one side and ground on the other side, then the plane proximity would be 1.6mm. For 4 or more layer boards, this value is likely to be much less." // Help text
 			);*/
 
-        this.planeProximity.init();
         this.planeProximity.setName("planeProximity");
         this.planeProximity.setValueTextField(this.planeProximityValue);
         this.planeProximity.setUnitsComboBox(this.planeProximityUnits);
@@ -818,7 +810,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The modifier to adjust the cross-sectional area with based on the proximity of a plane to the current-carrying track." // Help text
 			);*/
 
-        this.planeProximityModifier.init();
         this.planeProximityModifier.setName("planeProximityModifier");
         this.planeProximityModifier.setValueTextField(this.planeProximityModifierValue);
         this.planeProximityModifier.setUnitsComboBox(this.planeProximityModifierUnits);
@@ -873,7 +864,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The thermal conductivity of the PCB. This is normally hard to determine, but for most FR4 PCBs this is around 0.20Wm-1K-1." // Help text
 			);*/
 
-        this.thermalConductivity.init();
         this.thermalConductivity.setName("thermalConductivity");
         this.thermalConductivity.setValueTextField(this.thermalConductivityValue);
         this.thermalConductivity.setUnitsComboBox(this.thermalConductivityUnits);
@@ -934,7 +924,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The modifier to adjust the cross-sectional area with based on the thermal conductivity of the PCB." // Help text
 			);*/
 
-        this.thermalConductivityModifier.init();
         this.thermalConductivityModifier.setName("thermalConductivityModifier");
         this.thermalConductivityModifier.setValueTextField(this.thermalConductivityModifierValue);
         this.thermalConductivityModifier.setUnitsComboBox(this.thermalConductivityModifierUnits);
@@ -999,7 +988,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers." // Help text
 			);*/
 
-        this.adjustedTrackCrossSectionalArea.init();
         this.adjustedTrackCrossSectionalArea.setName("adjustedTrackCrossSectionalArea");
         this.adjustedTrackCrossSectionalArea.setValueTextField(this.adjustedTrackCrossSectionalAreaValue);
         this.adjustedTrackCrossSectionalArea.setUnitsComboBox(this.adjustedTrackCrossSectionalAreaUnits);
@@ -1058,7 +1046,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text
 			);*/
 
-        this.minTrackWidth.init();
         this.minTrackWidth.setName("minTrackWidth");
         this.minTrackWidth.setValueTextField(this.minTrackWidthValue);
         this.minTrackWidth.setUnitsComboBox(this.minTrackWidthUnits);
