@@ -15,9 +15,9 @@ import java.net.URL;
 /**
  * A track current calculator based of the IPC-2221A standard.
  *
- * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
- * @last-modified 2016-04-23
- * @since 2015-11-02
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @last-modified   2016-04-23
+ * @since           2015-11-02
  */
 public class TrackCurrentIpc2221ACalcModel extends Calculator {
 

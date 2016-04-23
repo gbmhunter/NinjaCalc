@@ -36,9 +36,9 @@ import Core.*;
  *
  * Lists closest resistance and percentage error in each EIA E series from E6 to E192.
  *
- * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
- * @since 2013-09-17
- * @last-modified 2016-04-12
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2013-09-17
+ * @last-modified   2016-04-23
  */
 public class StandardResistanceFinderModel extends Calculator {
 
@@ -67,19 +67,19 @@ public class StandardResistanceFinderModel extends Calculator {
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
-    public CalcVarNumericalInput desiredResistance;
-    public CalcVarNumericalOutput e6Resistance;
-    public CalcVarNumericalOutput e6Error;
-    public CalcVarNumericalOutput e12Resistance;
-    public CalcVarNumericalOutput e12Error;
-    public CalcVarNumericalOutput e24Resistance;
-    public CalcVarNumericalOutput e24Error;
-    public CalcVarNumericalOutput e48Resistance;
-    public CalcVarNumericalOutput e48Error;
-    public CalcVarNumericalOutput e96Resistance;
-    public CalcVarNumericalOutput e96Error;
-    public CalcVarNumericalOutput e192Resistance;
-    public CalcVarNumericalOutput e192Error;
+    public CalcVarNumericalInput desiredResistance = new CalcVarNumericalInput();
+    public CalcVarNumericalOutput e6Resistance = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e6Error = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e12Resistance = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e12Error = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e24Resistance = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e24Error = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e48Resistance = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e48Error = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e96Resistance = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e96Error = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e192Resistance = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput e192Error = new CalcVarNumericalOutput();
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -90,7 +90,7 @@ public class StandardResistanceFinderModel extends Calculator {
         super( "Standard Resistance Finder",
                 "Find the closest E-series (e.g. E12, E96) resistor (preferred value) to your desired resistance.",
                 new String[]{ "Electronics", "Basic" },
-                new String[]{"ohm", "resistor", "resistance", "e", "series", "standard", "preferred", "e6", "e12", "e24", "e48", "e96", "e128"});
+                new String[]{"ohm", "resistor", "resistance", "e", "series", "standard", "preferred", "values", "e6", "e12", "e24", "e48", "e96", "e128"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
@@ -166,7 +166,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //================================== DESIRED RESISTANCE (input) =================================//
         //===============================================================================================//
 
-        this.desiredResistance = new CalcVarNumericalInput(
+        /*this.desiredResistance = new CalcVarNumericalInput(
                 "desiredResistance",                // Debug name
                 this.desiredResistanceValue,        // Textbox for value (UI object)
                 null,                               // No units for this variable
@@ -176,8 +176,16 @@ public class StandardResistanceFinderModel extends Calculator {
                 4,                          // Num. digits to round to
                 null,                       // Default value
                 "The resistance you actually want. The closest value to this resistance will be found in each resistor series." // Help info
-        );
+        );*/
 
+        this.desiredResistance.init();
+        this.desiredResistance.setName("desiredResistance");
+        this.desiredResistance.setValueTextField(this.desiredResistanceValue);
+        this.desiredResistance.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+        });
+        this.desiredResistance.setNumDigitsToRound(4);
+        this.desiredResistance.setHelpText("The resistance you actually want. The closest value to this resistance will be found in each resistor series.");
         this.desiredResistance.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
@@ -195,7 +203,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //======================================= E6 RESISTANCE (output) ================================//
         //===============================================================================================//
 
-        this.e6Resistance = new CalcVarNumericalOutput(
+        /*this.e6Resistance = new CalcVarNumericalOutput(
                 "e6Resistance",
                 this.e6ResistanceValue,     // Textbox
                 null,                       // No units for this variable
@@ -218,12 +226,31 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The closest resistance in the E6 series to your desired resistance."
-        );
+        );*/
 
+        this.e6Resistance.init();
+        this.e6Resistance.setName("e6Resistance");
+        this.e6Resistance.setValueTextField(this.e6ResistanceValue);
+        this.e6Resistance.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E6);
+
+            return actualResistance;
+        });
+        this.e6Resistance.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+        });
         this.e6Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
+        this.e6Resistance.setHelpText("The closest resistance in the E6 series to your desired resistance.");
         this.e6Resistance.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //========== VALIDATORS ===========//
         this.e6Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.e6Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
@@ -233,7 +260,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //================================= E6 PERCENTAGE DIFFERENCE (output) ===========================//
         //===============================================================================================//
 
-        this.e6Error = new CalcVarNumericalOutput(
+        /*this.e6Error = new CalcVarNumericalOutput(
                 "e6Resistance",         // Debug name
                 this.e6ErrorValue,      // Textbox for variable value
                 null,                   // No units combobox for this variable
@@ -258,11 +285,33 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The percentage difference between the closest E6 series resistance and your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e6Error.init();
+        this.e6Error.setName("e6Error");
+        this.e6Error.setValueTextField(this.e6ErrorValue);
+        this.e6Error.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+            Double closestStandardResistance = this.e6Resistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            // Calculate percentage difference
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+            return percentageDiff;
+        });
+        this.e6Error.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
+        });
         this.e6Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+        this.e6Error.setHelpText("The percentage difference between the closest E6 series resistance and your desired resistance.");
+        this.e6Error.setIsEngineeringNotationEnabled(true);
 
-        // Add validators. The percentage difference is allowed to be 0.
+        //========== VALIDATORS ===========//
         this.e6Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e6Error);
@@ -271,7 +320,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //======================================= E12 RESISTANCE (output) ================================//
         //===============================================================================================//
 
-        this.e12Resistance = new CalcVarNumericalOutput(
+        /*this.e12Resistance = new CalcVarNumericalOutput(
                 "e12Resistance",
                 this.e12ResistanceValue,     // Textbox
                 null,                       // No units for this variable
@@ -294,22 +343,41 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The closest resistance in the E12 series to your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e12Resistance.init();
+        this.e12Resistance.setName("e12Resistance");
+        this.e12Resistance.setValueTextField(this.e12ResistanceValue);
+        this.e12Resistance.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E12);
+
+            return actualResistance;
+        });
+        this.e12Resistance.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+        });
         this.e12Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
+        this.e12Resistance.setHelpText("The closest resistance in the E12 series to your desired resistance.");
         this.e12Resistance.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //========== VALIDATORS ===========//
         this.e12Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.e12Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e12Resistance);
 
         //===============================================================================================//
-        //================================= E12 PERCENTAGE DIFFERENCE (output) ==========================//
+        //====================================== E12 ERROR (output) =====================================//
         //===============================================================================================//
 
-        this.e12Error = new CalcVarNumericalOutput(
+        /*this.e12Error = new CalcVarNumericalOutput(
                 "e12Error",         // Debug name
                 this.e12ErrorValue,      // Textbox for variable value
                 null,                   // No units combobox for this variable
@@ -334,11 +402,33 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The percentage difference between the closest E12 series resistance and your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e12Error.init();
+        this.e12Error.setName("e12Error");
+        this.e12Error.setValueTextField(this.e12ErrorValue);
+        this.e12Error.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+            Double closestStandardResistance = this.e12Resistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            // Calculate percentage difference
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+            return percentageDiff;
+        });
+        this.e12Error.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
+        });
         this.e12Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+        this.e12Error.setHelpText("The percentage difference between the closest E12 series resistance and your desired resistance.");
+        this.e12Error.setIsEngineeringNotationEnabled(true);
 
-        // Add validators. The percentage difference is allowed to be 0.
+        //========== VALIDATORS ===========//
         this.e12Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e12Error);
@@ -347,7 +437,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //======================================= E24 RESISTANCE (output) ================================//
         //===============================================================================================//
 
-        this.e24Resistance = new CalcVarNumericalOutput(
+        /*this.e24Resistance = new CalcVarNumericalOutput(
                 "e24Resistance",
                 this.e24ResistanceValue,     // Textbox
                 null,                       // No units for this variable
@@ -370,12 +460,31 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The closest resistance in the E24 series to your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e24Resistance.init();
+        this.e24Resistance.setName("e24Resistance");
+        this.e24Resistance.setValueTextField(this.e24ResistanceValue);
+        this.e24Resistance.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E24);
+
+            return actualResistance;
+        });
+        this.e24Resistance.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+        });
         this.e24Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
+        this.e24Resistance.setHelpText("The closest resistance in the E24 series to your desired resistance.");
         this.e24Resistance.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //========== VALIDATORS ===========//
         this.e24Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.e24Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
@@ -385,7 +494,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //================================= E24 PERCENTAGE DIFFERENCE (output) ==========================//
         //===============================================================================================//
 
-        this.e24Error = new CalcVarNumericalOutput(
+        /*this.e24Error = new CalcVarNumericalOutput(
                 "e24Error",         // Debug name
                 this.e24ErrorValue,      // Textbox for variable value
                 null,                   // No units combobox for this variable
@@ -410,11 +519,33 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The percentage difference between the closest E24 series resistance and your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e24Error.init();
+        this.e24Error.setName("e24Error");
+        this.e24Error.setValueTextField(this.e24ErrorValue);
+        this.e24Error.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+            Double closestStandardResistance = this.e24Resistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            // Calculate percentage difference
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+            return percentageDiff;
+        });
+        this.e24Error.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
+        });
         this.e24Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+        this.e24Error.setHelpText("The percentage difference between the closest E24 series resistance and your desired resistance.");
+        this.e24Error.setIsEngineeringNotationEnabled(true);
 
-        // Add validators. The percentage difference is allowed to be 0.
+        //========== VALIDATORS ===========//
         this.e24Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e24Error);
@@ -423,7 +554,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //======================================= E48 RESISTANCE (output) ================================//
         //===============================================================================================//
 
-        this.e48Resistance = new CalcVarNumericalOutput(
+        /*this.e48Resistance = new CalcVarNumericalOutput(
                 "e48Resistance",
                 this.e48ResistanceValue,     // Textbox
                 null,                       // No units for this variable
@@ -446,22 +577,41 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The closest resistance in the E48 series to your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e48Resistance.init();
+        this.e48Resistance.setName("e48Resistance");
+        this.e48Resistance.setValueTextField(this.e48ResistanceValue);
+        this.e48Resistance.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E48);
+
+            return actualResistance;
+        });
+        this.e48Resistance.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+        });
         this.e48Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 3);
+        this.e48Resistance.setHelpText("The closest resistance in the E48 series to your desired resistance.");
         this.e48Resistance.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //========== VALIDATORS ===========//
         this.e48Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.e48Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e48Resistance);
 
         //===============================================================================================//
-        //================================= E48 PERCENTAGE DIFFERENCE (output) ==========================//
+        //======================================= E48 ERROR (output) ===================================//
         //===============================================================================================//
 
-        this.e48Error = new CalcVarNumericalOutput(
+        /*this.e48Error = new CalcVarNumericalOutput(
                 "e48Error",         // Debug name
                 this.e48ErrorValue,      // Textbox for variable value
                 null,                   // No units combobox for this variable
@@ -486,11 +636,33 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The percentage difference between the closest E48 series resistance and your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e48Error.init();
+        this.e48Error.setName("e48Error");
+        this.e48Error.setValueTextField(this.e48ErrorValue);
+        this.e48Error.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+            Double closestStandardResistance = this.e48Resistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            // Calculate percentage difference
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+            return percentageDiff;
+        });
+        this.e48Error.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
+        });
         this.e48Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+        this.e48Error.setHelpText("The percentage difference between the closest E48 series resistance and your desired resistance.");
+        this.e48Error.setIsEngineeringNotationEnabled(true);
 
-        // Add validators. The percentage difference is allowed to be 0.
+        //========== VALIDATORS ===========//
         this.e48Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e48Error);
@@ -499,7 +671,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //======================================= E96 RESISTANCE (output) ===============================//
         //===============================================================================================//
 
-        this.e96Resistance = new CalcVarNumericalOutput(
+        /*this.e96Resistance = new CalcVarNumericalOutput(
                 "e96Resistance",
                 this.e96ResistanceValue,     // Textbox
                 null,                       // No units for this variable
@@ -522,12 +694,31 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The closest resistance in the E96 series to your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e96Resistance.init();
+        this.e96Resistance.setName("e96Resistance");
+        this.e96Resistance.setValueTextField(this.e96ResistanceValue);
+        this.e96Resistance.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E96);
+
+            return actualResistance;
+        });
+        this.e96Resistance.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+        });
         this.e96Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 3);
+        this.e96Resistance.setHelpText("The closest resistance in the E96 series to your desired resistance.");
         this.e96Resistance.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //========== VALIDATORS ===========//
         this.e96Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.e96Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
@@ -537,7 +728,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //================================= E96 PERCENTAGE DIFFERENCE (output) ==========================//
         //===============================================================================================//
 
-        this.e96Error = new CalcVarNumericalOutput(
+        /*this.e96Error = new CalcVarNumericalOutput(
                 "e96Error",         // Debug name
                 this.e96ErrorValue,      // Textbox for variable value
                 null,                   // No units combobox for this variable
@@ -562,11 +753,33 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The percentage difference between the closest E96 series resistance and your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e96Error.init();
+        this.e96Error.setName("e96Error");
+        this.e96Error.setValueTextField(this.e96ErrorValue);
+        this.e96Error.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+            Double closestStandardResistance = this.e96Resistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            // Calculate percentage difference
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+            return percentageDiff;
+        });
+        this.e96Error.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
+        });
         this.e96Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+        this.e96Error.setHelpText("The percentage difference between the closest E96 series resistance and your desired resistance.");
+        this.e96Error.setIsEngineeringNotationEnabled(true);
 
-        // Add validators. The percentage difference is allowed to be 0.
+        //========== VALIDATORS ===========//
         this.e96Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e96Error);
@@ -575,7 +788,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //===================================== E192 RESISTANCE (output) ================================//
         //===============================================================================================//
 
-        this.e192Resistance = new CalcVarNumericalOutput(
+        /*this.e192Resistance = new CalcVarNumericalOutput(
                 "e192Resistance",
                 this.e192ResistanceValue,     // Textbox
                 null,                       // No units for this variable
@@ -598,12 +811,31 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The closest resistance in the E192 series to your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e192Resistance.init();
+        this.e192Resistance.setName("e192Resistance");
+        this.e192Resistance.setValueTextField(this.e192ResistanceValue);
+        this.e192Resistance.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E192);
+
+            return actualResistance;
+        });
+        this.e192Resistance.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+        });
         this.e192Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 3);
+        this.e192Resistance.setHelpText("The closest resistance in the E192 series to your desired resistance.");
         this.e192Resistance.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //========== VALIDATORS ===========//
         this.e192Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.e192Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
@@ -613,7 +845,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //================================= E192 PERCENTAGE DIFFERENCE (output) ==========================//
         //===============================================================================================//
 
-        this.e192Error = new CalcVarNumericalOutput(
+        /*this.e192Error = new CalcVarNumericalOutput(
                 "e192Error",         // Debug name
                 this.e192ErrorValue,      // Textbox for variable value
                 null,                   // No units combobox for this variable
@@ -638,11 +870,33 @@ public class StandardResistanceFinderModel extends Calculator {
                 },
                 4,
                 "The percentage difference between the closest E192 series resistance and your desired resistance." // Tooltip help text
-        );
+        );*/
 
+        this.e192Error.init();
+        this.e192Error.setName("e192Error");
+        this.e192Error.setValueTextField(this.e192ErrorValue);
+        this.e192Error.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistance = this.desiredResistance.getRawVal();
+            Double closestStandardResistance = this.e192Resistance.getRawVal();
+
+            if(Double.isNaN(desiredResistance)) {
+                return Double.NaN;
+            }
+
+            // Calculate percentage difference
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+
+            return percentageDiff;
+        });
+        this.e192Error.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
+        });
         this.e192Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+        this.e192Error.setHelpText("The percentage difference between the closest E192 series resistance and your desired resistance.");
+        this.e192Error.setIsEngineeringNotationEnabled(true);
 
-        // Add validators. The percentage difference is allowed to be 0.
+        //========== VALIDATORS ===========//
         this.e192Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
         this.calcVars.add(this.e192Error);
