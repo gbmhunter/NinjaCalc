@@ -18,6 +18,7 @@ public class CalcVarNumericalOutput extends CalcVarNumerical {
 
     public CalcVarNumericalOutput() {
         super();
+        this.setDirectionFunction(() -> CalcVarDirections.Output);
     }
 
     /**

@@ -179,7 +179,6 @@ public class ResistorDividerCalcModel extends Calculator {
         this.vIn.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-
         this.vIn.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.vIn.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
         /*this.vIn.addValidator(
@@ -196,7 +195,7 @@ public class ResistorDividerCalcModel extends Calculator {
         //=============================================== rTop ==========================================//
         //===============================================================================================//
 
-        this.rTop = new CalcVarNumerical(
+        /*this.rTop = new CalcVarNumerical(
                 "rTop",
                 rTopValue,
                 null,
@@ -222,11 +221,33 @@ public class ResistorDividerCalcModel extends Calculator {
                 },
                 null,
                 "The resistance of the top resistor in the resistor divider." // Help text
-        );
+        );*/
 
+        this.rTop.init();
+        this.rTop.setName("rTop");
+        this.rTop.setValueTextField(rTopValue);
+        this.rTop.setUnitsComboBox(null);
+        this.rTop.setEquationFunction(() -> {
+            // Read dependency variables
+            Double vIn = this.vIn.getRawVal();
+            Double rBot = this.rBot.getRawVal();
+            Double vOut = this.vOut.getRawVal();
+
+            return ((rBot * (vIn - vOut)) / vOut);
+        });
+        this.rTop.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0),
+        });
+        this.rTop.setNumDigitsToRound(4);
+        this.rTop.setDirectionFunction(() -> {
+            if (rTopIO.isSelected()) return CalcVarDirections.Output;
+            else return CalcVarDirections.Input;
+        });
+        this.rTop.setDefaultRawValue(null);
+        this.rTop.setHelpText("The resistance of the top resistor in the resistor divider.");
         this.rTop.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //====================== VALIDATORS ===================//
         this.rTop.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.rTop.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
@@ -236,7 +257,7 @@ public class ResistorDividerCalcModel extends Calculator {
         //=============================================== rBot ==========================================//
         //===============================================================================================//
 
-        this.rBot = new CalcVarNumerical(
+        /*this.rBot = new CalcVarNumerical(
                 "rBot",
                 rBotValue,
                 null,
@@ -263,10 +284,33 @@ public class ResistorDividerCalcModel extends Calculator {
                 null,
                 "The resistance of the bottom resistor in the resistor divider." // Help text
         );
+        this.rBot.setIsEngineeringNotationEnabled(true);*/
 
+        this.rBot.init();
+        this.rBot.setName("rBot");
+        this.rBot.setValueTextField(rBotValue);
+        this.rBot.setUnitsComboBox(null);
+        this.rBot.setEquationFunction(() -> {
+            // Read dependency variables
+            Double vIn = this.vIn.getRawVal();
+            Double rTop = this.rTop.getRawVal();
+            Double vOut = this.vOut.getRawVal();
+
+            return ((rTop * vOut) / (vIn - vOut));
+        });
+        this.rBot.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0),
+        });
+        this.rBot.setNumDigitsToRound(4);
+        this.rBot.setDirectionFunction(() -> {
+            if (rBotIO.isSelected()) return CalcVarDirections.Output;
+            else return CalcVarDirections.Input;
+        });
+        this.rBot.setDefaultRawValue(null);
+        this.rBot.setHelpText("The resistance of the bottom resistor in the resistor divider.");
         this.rBot.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //====================== VALIDATORS ===================//
         this.rBot.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.rBot.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
@@ -276,7 +320,7 @@ public class ResistorDividerCalcModel extends Calculator {
         //================================================= vOut =========================================//
         //===============================================================================================//
 
-        this.vOut = new CalcVarNumerical(
+        /*this.vOut = new CalcVarNumerical(
                 "vOut",
                 vOutValue,
                 null,
@@ -300,10 +344,33 @@ public class ResistorDividerCalcModel extends Calculator {
                 },
                 null,
                 "The resistor divider output voltage. The is also equal to the voltage across the bottom resistor. Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.");
+        this.vOut.setIsEngineeringNotationEnabled(true);*/
 
+        this.vOut.init();
+        this.vOut.setName("vOut");
+        this.vOut.setValueTextField(vOutValue);
+        this.vOut.setUnitsComboBox(null);
+        this.vOut.setEquationFunction(() -> {
+            // Read dependency variables
+            Double vIn = this.vIn.getRawVal();
+            Double rTop = this.rTop.getRawVal();
+            Double rBot = this.rBot.getRawVal();
+
+            return ((vIn * rBot) / (rTop + rBot));
+        });
+        this.vOut.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("V", 1e0, NumberPreference.DEFAULT),
+        });
+        this.vOut.setNumDigitsToRound(4);
+        this.vOut.setDirectionFunction(() -> {
+            if (vOutIO.isSelected()) return CalcVarDirections.Output;
+            else return CalcVarDirections.Input;
+        });
+        this.vOut.setDefaultRawValue(null);
+        this.vOut.setHelpText("The resistor divider output voltage. The is also equal to the voltage across the bottom resistor. Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.");
         this.vOut.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //====================== VALIDATORS ===================//
         this.vOut.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.vOut.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
         this.vOut.addValidator(
@@ -320,7 +387,7 @@ public class ResistorDividerCalcModel extends Calculator {
         //====================================== iQ (Quiescent Current) =================================//
         //===============================================================================================//
 
-        this.iQ = new CalcVarNumericalOutput(
+        /*this.iQ = new CalcVarNumericalOutput(
                 "iQ",
                 iQValue,
                 null,
@@ -340,10 +407,28 @@ public class ResistorDividerCalcModel extends Calculator {
                 },
                 4,
                 "The quiescent current drawn through the resistor divider. This can be an issue in low-power designs, or can cause excessive heating in the resistors when the input voltage is high and both resistors have low resistances.");
+        this.iQ.setIsEngineeringNotationEnabled(true);*/
 
+        this.iQ.init();
+        this.iQ.setName("iQ");
+        this.iQ.setValueTextField(iQValue);
+        this.iQ.setUnitsComboBox(null);
+        this.iQ.setEquationFunction(() -> {
+            // Read dependency variables
+            Double vIn = this.vIn.getRawVal();
+            Double rTop = this.rTop.getRawVal();
+            Double rBot = this.rBot.getRawVal();
+
+            return (vIn / (rTop + rBot));
+        });
+        this.iQ.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("A", 1e0),
+        });
+        this.iQ.setNumDigitsToRound(4);
+        this.iQ.setHelpText("The quiescent current drawn through the resistor divider. This can be an issue in low-power designs, or can cause excessive heating in the resistors when the input voltage is high and both resistors have low resistances.");
         this.iQ.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //====================== VALIDATORS ===================//
         this.iQ.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.iQ.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
