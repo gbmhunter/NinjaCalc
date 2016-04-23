@@ -124,6 +124,10 @@ public class CalcVarNumerical extends CalcVarBase {
     //========================================== CONSTRUCTORS =======================================//
     //===============================================================================================//
 
+    public CalcVarNumerical() {
+        super();
+    }
+
     /**
      * Base constructor. Requires all possible arguments.
      * @param name
@@ -296,6 +300,8 @@ public class CalcVarNumerical extends CalcVarBase {
 
     } // public CalcVarNumerical()
 
+
+
     //===============================================================================================//
     //=============================== EVENT HANDLER FOR TEXT FIELD CHANGE ===========================//
     //===============================================================================================//
@@ -355,6 +361,34 @@ public class CalcVarNumerical extends CalcVarBase {
         this.forceVariablesWithDependantValidatorsToRevalidate();
     }
 
+    public void init() {
+
+        //========================= VALIDATORS ===============================//
+
+        // Initialise empty validators list
+        this.validators = new ArrayList<Validator>();
+
+        // Initialise empty validation results list
+        this.validationResults = new ArrayList<CalcValidationResult>();
+
+        //======================== ROUNDING ========================//
+
+        // Set the default rounding type to use significant figures
+        this.roundingType = RoundingTypes.SIGNIFICANT_FIGURES;
+
+        //====================== EVENT HANDLERS ====================//
+
+        // Install event handlers
+        this.addRawValueChangedListener(calcVarBase -> {
+            // Update displayed value
+            //this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
+            //this.dispValAsString = String.valueOf(this.rawVal * this.selUnit.multiplier);
+            this.dispValAsString = String.valueOf(this.selUnit.convertFrom(this.rawVal));
+            // Update textbox
+            this.valueTextField.setText(this.dispValAsString);
+        });
+    }
+
     //===============================================================================================//
     //============================================ ROUNDING =========================================//
     //===============================================================================================//
@@ -381,6 +415,126 @@ public class CalcVarNumerical extends CalcVarBase {
     //===============================================================================================//
 
 
+    public TextField getValueTextField() { return this.valueTextField; }
+    public void setValueTextField(TextField valueTextField) {
+
+
+        // Create text field listener
+        this.textListener = (observable, oldValue, newValue) -> {
+            this.valueTextFieldChanged(newValue);
+        };
+
+        // Make sure the provided text field is not null
+        if(valueTextField == null)
+            throw new IllegalArgumentException("Provided TextField for calculator variable \"" + this.name + "\" value was null. Is the @FXML binding name the same as the fx:id?");
+
+        this.valueTextField = valueTextField;
+
+        // Attach this new listener to the text field
+        this.valueTextField.textProperty().addListener(textListener);
+
+    }
+
+    public ComboBox getUnitsComboBox() { return unitsComboBox; }
+    public void setUnitsComboBox(ComboBox unitsComboBox) { this.unitsComboBox = unitsComboBox; }
+
+    public ObservableList<NumberUnit> getUnits() { return units; }
+
+    public void setUnits(NumberUnit[] units) {
+
+        // Initialise empty units list
+        this.units = FXCollections.observableArrayList();
+
+        // Internally save the units, and find the default unit at the same time
+        // Note we can't implictly convert from an array of NumberUnitMultiplier to a List<NumberUnitMultiplier>
+        NumberUnit defaultUnit = null;
+        for(NumberUnit unit : units) {
+            this.units.add(unit);
+            if (unit.preference == NumberPreference.DEFAULT) {
+                defaultUnit = unit;
+            }
+        }
+
+        // The combobox is allowed to be null, so only interact with it
+        // if combobox was provided
+        if(this.unitsComboBox != null) {
+
+            // Bind the combo-box to the observable collection
+            this.unitsComboBox.setItems(this.units);
+
+            //============ LET THE COMBOBOX KNOW HOW TO RENDER NUMBER UNITS ============//
+
+            this.unitsComboBox.setCellFactory((combobox) -> {
+
+                // Define rendering of the list of values in ComboBox drop down.
+                return new ListCell<NumberUnit>() {
+                    @Override
+                    protected void updateItem(NumberUnit item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.name);
+                        }
+                    }
+                };
+            });
+
+            // Define rendering of selected value shown in ComboBox.
+            this.unitsComboBox.setConverter(new StringConverter<NumberUnit>() {
+                @Override
+                public String toString(NumberUnit numberUnit) {
+                    if (numberUnit == null) {
+                        return null;
+                    } else {
+                        return numberUnit.name;
+                    }
+                }
+
+                @Override
+                public NumberUnit fromString(String numberUnitString) {
+                    return null; // No conversion fromString needed.
+                }
+            });
+
+            // Connect up event handler for when combobox units change
+            this.unitsComboBox.setOnAction(this::unitsComboBoxSelectionChanged);
+        } // if(this.unitsComboBox != null) {
+
+
+        // Set current combobox selection to default unit
+        if (defaultUnit != null) {
+            this.setSelUnit(defaultUnit);
+        }
+        else {
+            this.setSelUnit(this.units.get(0));
+        }
+
+    }
+
+    public int getNumDigitsToRound() { return numDigitsToRound; }
+    public void setNumDigitsToRound(int numDigitsToRound) { this.numDigitsToRound = numDigitsToRound; }
+
+    public void setDefaultRawValue(Double defaultRawValue) {
+        // Assign the default raw value
+        if (defaultRawValue != null) {
+            this.rawVal = defaultRawValue;
+            //this.dispValAsString = String.valueOf( this.rawVal * this.selUnit.multiplier);
+            this.dispValAsString = String.valueOf(this.selUnit.convertFrom(this.rawVal));
+            this.valueTextField.setText(this.dispValAsString);
+        }
+        else {
+            // Provided default value was null, so lets make
+            // the textbox empty
+            this.rawVal = Double.NaN;
+            //this.dispValAsNumber = Double.NaN;
+            this.valueTextField.setText("");
+        }
+    }
+
+    public String getHelpText() { return helpText; }
+    public void setHelpText(String helpText) { this.helpText = helpText; }
 
     /**
      * Gets or sets the the "raw" (unscaled, unrounded) value for this variable. Setting will cause the displayed value, textbox, and all

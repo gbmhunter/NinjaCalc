@@ -11,9 +11,13 @@ import javafx.util.StringConverter;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-17
+ * @last-modified   2016-04-23
  */
 public class CalcVarComboBox extends CalcVarBase {
+
+    //===============================================================================================//
+    //=========================================== VARIABLES =========================================//
+    //===============================================================================================//
 
     protected String rawVal;
     /// <summary>
@@ -175,11 +179,16 @@ public class CalcVarComboBox extends CalcVarBase {
 
 
     public void updateUIFromDirection() {
-        // Do nothing
+        // Currently there is no UI update for a "ComboBox" style calculator variable, since
+        // only an input is supported
     }
 
     public void validate() {
         // Currently there is no validation logic for a "ComboBox" style calculator variable
+    }
+
+    public void calculate() {
+        // Currently there is no calculate logic for a "ComboBox" style calculator variable
     }
 
 

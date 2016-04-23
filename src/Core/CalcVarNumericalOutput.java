@@ -8,9 +8,17 @@ import javafx.scene.control.*;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-13
+ * @last-modified   2016-04-23
  */
 public class CalcVarNumericalOutput extends CalcVarNumerical {
+
+    //===============================================================================================//
+    //========================================== CONSTRUCTORS =======================================//
+    //===============================================================================================//
+
+    public CalcVarNumericalOutput() {
+        super();
+    }
 
     /**
      *

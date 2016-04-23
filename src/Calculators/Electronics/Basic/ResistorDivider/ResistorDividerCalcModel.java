@@ -17,9 +17,9 @@ import java.util.List;
 /**
  * A calculator based around the basic resistor divider circuit.
  *
- * @author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
- * @since           2015-11-02
- * @last-modified   2016-04-22
+ * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
+ * @last-modified 2016-04-22
+ * @since 2015-11-02
  */
 public class ResistorDividerCalcModel extends Calculator {
 
@@ -57,15 +57,11 @@ public class ResistorDividerCalcModel extends Calculator {
     //======================================= CALCULATOR VARIABLES ==================================//
     //===============================================================================================//
 
-    CalcVarNumerical vIn;
-
-    CalcVarNumerical rTop;
-
-    CalcVarNumerical rBot;
-
-    CalcVarNumerical vOut;
-
-    CalcVarNumericalOutput iQ;
+    CalcVarNumerical vIn = new CalcVarNumerical();
+    CalcVarNumerical rTop = new CalcVarNumerical();
+    CalcVarNumerical rBot = new CalcVarNumerical();
+    CalcVarNumerical vOut = new CalcVarNumerical();
+    CalcVarNumericalOutput iQ = new CalcVarNumericalOutput();
 
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
@@ -130,7 +126,7 @@ public class ResistorDividerCalcModel extends Calculator {
         //================================================= vIn =========================================//
         //===============================================================================================//
 
-        this.vIn = new CalcVarNumerical(
+        /*this.vIn = new CalcVarNumerical(
                 "vIn",
                 vInValue,
                 null,
@@ -154,13 +150,45 @@ public class ResistorDividerCalcModel extends Calculator {
                 },
                 null,
                 "The input voltage to the top of the resistor divider (also equal to the voltage across the entire resistor divider)." // Help text
-        );
+        );*/
 
+        this.vIn.init();
+        this.vIn.setName("vIn");
+        this.vIn.setValueTextField(vInValue);
+        this.vIn.setUnitsComboBox(null);
+        this.vIn.setEquationFunction(() -> {
+            // Read dependency variables
+            Double vOut = this.vOut.getRawVal();
+            Double rTop = this.rTop.getRawVal();
+            Double rBot = this.rBot.getRawVal();
+
+            return ((vOut * (rTop + rBot)) / rBot);
+        });
+        this.vIn.setUnits(new NumberUnitMultiplier[]{
+                //new NumberUnitMultiplier("mV", 1e-3),
+                new NumberUnitMultiplier("V", 1e0, NumberPreference.DEFAULT),
+                //new NumberUnitMultiplier("kV", 1e3),
+        });
+        this.vIn.setNumDigitsToRound(4);
+        this.vIn.setDirectionFunction(() -> {
+            if (vInIO.isSelected()) return CalcVarDirections.Output;
+            else return CalcVarDirections.Input;
+        });
+        this.vIn.setDefaultRawValue(null);
+        this.vIn.setHelpText("The input voltage to the top of the resistor divider (also equal to the voltage across the entire resistor divider).");
         this.vIn.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //====================== VALIDATORS ===================//
+
         this.vIn.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.vIn.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        /*this.vIn.addValidator(
+                new Validator(
+                        new ArrayList<>(Arrays.asList(this.vOut, this.vIn)),            // Dependency list
+                        () -> {                                                         // Validation equation
+                            return ((this.vIn.getRawVal() <= this.vOut.getRawVal()) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
+                        },
+                        "Vin must be greater than Vout. It is impossible for Vin to be less than Vout because a resistor divider can only reduce the input voltage."));*/
 
         this.calcVars.add(this.vIn);
 
@@ -281,8 +309,8 @@ public class ResistorDividerCalcModel extends Calculator {
         this.vOut.addValidator(
                 new Validator(
                         new ArrayList<CalcVarBase>(Arrays.asList(this.vOut, this.vIn)), // Dependency list
-                        () -> {
-                            return ((this.vOut.getRawVal() >= this.vIn.getRawVal() ) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
+                        () -> {                                                         // Validation equation
+                            return ((this.vOut.getRawVal() >= this.vIn.getRawVal()) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
                         },
                         "Vout must be less than Vin. It is impossible for Vout to be greater than Vin because a resistor divider can only reduce the input voltage."));
 

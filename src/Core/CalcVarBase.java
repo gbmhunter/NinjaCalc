@@ -105,6 +105,17 @@ public abstract class CalcVarBase {
     //========================================== CONSTRUCTORS =======================================//
     //===============================================================================================//
 
+    protected CalcVarBase() {
+        // Initialise empty lists to keep track of this calculators dependencies
+        // and dependants
+        this.dependencies = new ArrayList<CalcVarBase>();
+        this.dependants = new ArrayList<CalcVarBase>();
+
+        this.validators = new ArrayList<>();
+
+        this.varsWithDependantValidators = new ArrayList<>();
+    }
+
     /**
      * Constructor for CalcVarBase.
      * @param name                  The name of the calculator variable.
@@ -133,15 +144,23 @@ public abstract class CalcVarBase {
     }
 
     //===============================================================================================//
+    //======================================== GETTERS/SETTERS ======================================//
+    //===============================================================================================//
+
+    public String getName() { return this.name; }
+    public void setName(String value) { this.name = value; }
+
+    public IEquationFunction getEquationFunction() { return equationFunction; }
+    public void setEquationFunction(IEquationFunction equationFunction) { this.equationFunction = equationFunction; }
+
+    public IDirectionFunction getDirectionFunction() { return directionFunction; }
+    public void setDirectionFunction(IDirectionFunction directionFunction) { this.directionFunction = directionFunction; }
+
+    //===============================================================================================//
     //======================================= GENERAL METHODS =======================================//
     //===============================================================================================//
 
-    public void calculate() {
-        // Default implementation is to just return
-        // (and do nothing)
-        System.err.println("WARNING: BaseCalcVar.calculate() called, this is an empty function.");
-        return;
-    }
+
 
 
     public void forceDependantOutputsToRecalculate() {
@@ -155,6 +174,11 @@ public abstract class CalcVarBase {
         }
     }
 
+    /**
+     * Forces all calculator variables which have registered that they have a validator that is dependent
+     * on this calculator variables value to re-validate. This should be called anytime the raw-value for this
+     * calculator variable changes.
+     */
     protected void forceVariablesWithDependantValidatorsToRevalidate() {
         System.out.println("CalcVarBase.forceVariablesWithDependantValidatorsToRevalidate() called for " + this.name + ".");
 
@@ -163,6 +187,12 @@ public abstract class CalcVarBase {
         }
 
     }
+
+    //===============================================================================================//
+    //======================================= ABSTRACT METHODS ======================================//
+    //===============================================================================================//
+
+    public abstract void calculate();
 
     /**
      * All non-virtual calculator variables must implement this method which updates
