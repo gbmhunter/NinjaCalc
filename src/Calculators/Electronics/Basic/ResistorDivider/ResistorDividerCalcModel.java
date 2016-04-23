@@ -155,7 +155,7 @@ public class ResistorDividerCalcModel extends Calculator {
         this.vIn.init();
         this.vIn.setName("vIn");
         this.vIn.setValueTextField(vInValue);
-        this.vIn.setUnitsComboBox(null);
+        //this.vIn.setUnitsComboBox(null);
         this.vIn.setEquationFunction(() -> {
             // Read dependency variables
             Double vOut = this.vOut.getRawVal();
@@ -181,13 +181,13 @@ public class ResistorDividerCalcModel extends Calculator {
         //====================== VALIDATORS ===================//
         this.vIn.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.vIn.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-        /*this.vIn.addValidator(
+        this.vIn.addValidator(
                 new Validator(
                         new ArrayList<>(Arrays.asList(this.vOut, this.vIn)),            // Dependency list
                         () -> {                                                         // Validation equation
                             return ((this.vIn.getRawVal() <= this.vOut.getRawVal()) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
                         },
-                        "Vin must be greater than Vout. It is impossible for Vin to be less than Vout because a resistor divider can only reduce the input voltage."));*/
+                        "Vin must be greater than Vout. It is impossible for Vin to be less than Vout because a resistor divider can only reduce the input voltage."));
 
         this.calcVars.add(this.vIn);
 
@@ -226,7 +226,7 @@ public class ResistorDividerCalcModel extends Calculator {
         this.rTop.init();
         this.rTop.setName("rTop");
         this.rTop.setValueTextField(rTopValue);
-        this.rTop.setUnitsComboBox(null);
+        //this.rTop.setUnitsComboBox(null);
         this.rTop.setEquationFunction(() -> {
             // Read dependency variables
             Double vIn = this.vIn.getRawVal();
@@ -289,7 +289,7 @@ public class ResistorDividerCalcModel extends Calculator {
         this.rBot.init();
         this.rBot.setName("rBot");
         this.rBot.setValueTextField(rBotValue);
-        this.rBot.setUnitsComboBox(null);
+        //this.rBot.setUnitsComboBox(null);
         this.rBot.setEquationFunction(() -> {
             // Read dependency variables
             Double vIn = this.vIn.getRawVal();
@@ -349,7 +349,7 @@ public class ResistorDividerCalcModel extends Calculator {
         this.vOut.init();
         this.vOut.setName("vOut");
         this.vOut.setValueTextField(vOutValue);
-        this.vOut.setUnitsComboBox(null);
+        //this.vOut.setUnitsComboBox(null);
         this.vOut.setEquationFunction(() -> {
             // Read dependency variables
             Double vIn = this.vIn.getRawVal();
@@ -412,7 +412,7 @@ public class ResistorDividerCalcModel extends Calculator {
         this.iQ.init();
         this.iQ.setName("iQ");
         this.iQ.setValueTextField(iQValue);
-        this.iQ.setUnitsComboBox(null);
+        //this.iQ.setUnitsComboBox(null);
         this.iQ.setEquationFunction(() -> {
             // Read dependency variables
             Double vIn = this.vIn.getRawVal();
