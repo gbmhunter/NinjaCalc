@@ -43,22 +43,22 @@
                         <ImageView fitHeight="600.0" fitWidth="600.0"><image><Image url="@diagram.png" /></image></ImageView>
 
                         <HBox layoutX="14.0" layoutY="300.0" alignment="CENTER" spacing="5">
-                            <TextField fx:id="textFieldVoltageValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <TextField fx:id="voltageValueTextField" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
                             <Label>V</Label>
                         </HBox>
-                        <RadioButton fx:id="radioButtonVoltageIO" layoutX="111.0" layoutY="258.0" />
+                        <RadioButton fx:id="voltageRadioButton" layoutX="111.0" layoutY="258.0" />
 
                         <HBox layoutX="449.0" layoutY="431.0" alignment="CENTER" spacing="5">
-                            <TextField fx:id="textFieldCurrentValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <TextField fx:id="currentValueTextField" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
                             <Label>A</Label>
                         </HBox>
-                        <RadioButton fx:id="radioButtonCurrentIO" layoutX="489.0" layoutY="370.0" />
+                        <RadioButton fx:id="currentRadioButton" layoutX="489.0" layoutY="370.0" />
 
                         <HBox layoutX="448.0" layoutY="183.0" alignment="CENTER" spacing="5">
-                            <TextField fx:id="textFieldResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <TextField fx:id="resistanceValueTextField" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
                             <Label>Ω</Label>
                         </HBox>
-                        <RadioButton fx:id="radioButtonResistanceIO" layoutX="478.0" layoutY="128.0" />
+                        <RadioButton fx:id="resistanceRadioButton" layoutX="478.0" layoutY="128.0" />
                     </Group>
                 </AutoScalingStackPane>
             </StackPane>

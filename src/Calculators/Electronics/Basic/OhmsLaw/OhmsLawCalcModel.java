@@ -2,6 +2,7 @@
 package Calculators.Electronics.Basic.OhmsLaw;
 
 // SYSTEM INCLUDES
+
 import Core.CalcVarDirections;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -21,8 +22,8 @@ import java.net.URL;
  * A simple Ohm's law calculator which allows you to calculate voltage, resistance or current.
  *
  * @author gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @last-modified 2016-04-23
  * @since 2015-11-02
- * @last-modified 2016-04-17
  */
 public class OhmsLawCalcModel extends Calculator {
 
@@ -30,24 +31,31 @@ public class OhmsLawCalcModel extends Calculator {
     //========================================= FXML Bindings =======================================//
     //===============================================================================================//
 
-    @FXML private TextField textFieldVoltageValue;
-    @FXML private RadioButton radioButtonVoltageIO;
+    @FXML
+    private TextField voltageValueTextField;
+    @FXML
+    private RadioButton voltageRadioButton;
 
-    @FXML private TextField textFieldCurrentValue;
-    @FXML private RadioButton radioButtonCurrentIO;
+    @FXML
+    private TextField currentValueTextField;
+    @FXML
+    private RadioButton currentRadioButton;
 
-    @FXML private TextField textFieldResistanceValue;
-    @FXML private RadioButton radioButtonResistanceIO;
+    @FXML
+    private TextField resistanceValueTextField;
+    @FXML
+    private RadioButton resistanceRadioButton;
 
-    @FXML private WebView infoWebView;
+    @FXML
+    private WebView infoWebView;
 
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
-    public CalcVarNumerical voltage;
-    public CalcVarNumerical current;
-    public CalcVarNumerical resistance;
+    public CalcVarNumerical voltage = new CalcVarNumerical();
+    public CalcVarNumerical current = new CalcVarNumerical();
+    public CalcVarNumerical resistance = new CalcVarNumerical();
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -55,10 +63,10 @@ public class OhmsLawCalcModel extends Calculator {
 
     public OhmsLawCalcModel() {
 
-        super( "Ohm's Law",
+        super("Ohm's Law",
                 "The hammer in any electrical engineers toolbox. calculate voltage, resistance and current using Ohm's law.",
-                new String[]{ "Electronics", "Basic" },
-                new String[]{"ohm", "resistor", "resistance", "voltage", "current", "law", "v=ir"});
+                new String[]{"Electronics", "Basic"},
+                new String[]{"ohm", "ohm's", "resistor", "resistance", "voltage", "current", "law", "v=ir", "power"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
@@ -84,7 +92,7 @@ public class OhmsLawCalcModel extends Calculator {
         //===============================================================================================//
 
         WebEngine engine = this.infoWebView.getEngine();
-        final String htmlFile= "info.html";
+        final String htmlFile = "info.html";
         URL url = getClass().getResource(htmlFile);
         engine.load(url.toExternalForm());
 
@@ -95,10 +103,10 @@ public class OhmsLawCalcModel extends Calculator {
         ToggleGroup toggleGroup = new ToggleGroup();
 
         // Add all calculator variables to toggle group
-        radioButtonVoltageIO.setToggleGroup(toggleGroup);
-        radioButtonCurrentIO.setToggleGroup(toggleGroup);
-        radioButtonResistanceIO.setToggleGroup(toggleGroup);
-        toggleGroup.selectToggle(radioButtonResistanceIO);
+        voltageRadioButton.setToggleGroup(toggleGroup);
+        currentRadioButton.setToggleGroup(toggleGroup);
+        resistanceRadioButton.setToggleGroup(toggleGroup);
+        toggleGroup.selectToggle(resistanceRadioButton);
 
         // Following code provides lambda function which listens to radiobuttons changes and modifies direction accordingly
         //System.out.println("Adding listener for radiobutton toggle change.");
@@ -109,36 +117,56 @@ public class OhmsLawCalcModel extends Calculator {
         );
 
         //===============================================================================================//
-        //============================================ VOLTAGE ==========================================//
+        //========================================= VOLTAGE (i/o) =======================================//
         //===============================================================================================//
 
-        this.voltage = new CalcVarNumerical(
-            "voltage",
-            textFieldVoltageValue,
-            null,
-            () -> {
-                Double current = this.current.getRawVal();
-                Double resistance = this.resistance.getRawVal();
-                return current * resistance;
-            },
-            new NumberUnitMultiplier[]{
-                //new NumberUnitMultiplier("mV", 1e-3),
-                new NumberUnitMultiplier("V", 1e0, NumberPreference.DEFAULT),
-                //new NumberUnitMultiplier("kV", 1e3),
-            },
-            4,
-            () -> {
-                if(radioButtonVoltageIO.isSelected())
-                    return CalcVarDirections.Output;
-                else return CalcVarDirections.Input;
-            },
-            null,
-            "The voltage across the resistor." // Help text
-            );
+        /*this.voltage = new CalcVarNumerical(
+                "voltage",
+                voltageValueTextField,
+                null,
+                () -> {
+                    Double current = this.current.getRawVal();
+                    Double resistance = this.resistance.getRawVal();
+                    return current * resistance;
+                },
+                new NumberUnitMultiplier[]{
+                        //new NumberUnitMultiplier("mV", 1e-3),
+                        new NumberUnitMultiplier("V", 1e0, NumberPreference.DEFAULT),
+                        //new NumberUnitMultiplier("kV", 1e3),
+                },
+                4,
+                () -> {
+                    if (voltageRadioButton.isSelected())
+                        return CalcVarDirections.Output;
+                    else return CalcVarDirections.Input;
+                },
+                null,
+                "The voltage across the resistor." // Help text
+        );
+        this.voltage.setIsEngineeringNotationEnabled(true);*/
 
+        this.voltage.init();
+        this.voltage.setName("voltage");
+        this.voltage.setValueTextField(this.voltageValueTextField);
+        this.voltage.setEquationFunction(() -> {
+            // Read dependency variables
+            Double current = this.current.getRawVal();
+            Double resistance = this.resistance.getRawVal();
+            return current * resistance;
+        });
+        this.voltage.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("V", 1e0, NumberPreference.DEFAULT),
+        });
+        this.voltage.setNumDigitsToRound(4);
+        this.voltage.setDirectionFunction(() -> {
+            if (voltageRadioButton.isSelected()) return CalcVarDirections.Output;
+            else return CalcVarDirections.Input;
+        });
+        this.voltage.setDefaultRawValue(null);
+        this.voltage.setHelpText("The voltage across the resistor.");
         this.voltage.setIsEngineeringNotationEnabled(true);
 
-        // Add validators
+        //====================== VALIDATORS ===================//
         this.voltage.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.voltage.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
@@ -149,33 +177,53 @@ public class OhmsLawCalcModel extends Calculator {
         //===============================================================================================//
 
 
-        this.current = new CalcVarNumerical(
-            "current",
-            textFieldCurrentValue,
-            null,
-            () -> {
-                Double voltage = this.voltage.getRawVal();
-                Double resistance = this.resistance.getRawVal();
-                return voltage / resistance;
-            },
-            new NumberUnitMultiplier[]{
-                //new NumberUnitMultiplier("pA", 1e-12),
-                //new NumberUnitMultiplier("nA", 1e-9),
-                //new NumberUnitMultiplier("uA", 1e-6),
-                //new NumberUnitMultiplier("mA", 1e-3),
-                new NumberUnitMultiplier("A", 1e0, NumberPreference.DEFAULT),
-            },
-            4,
-            () -> {
-                if(radioButtonCurrentIO.isSelected()) return CalcVarDirections.Output;
-                else return CalcVarDirections.Input;
-            },
-            null,
-            "The current going through the resistor" // Help text
-            );
+        /*this.current = new CalcVarNumerical(
+                "current",
+                currentValueTextField,
+                null,
+                () -> {
+                    Double voltage = this.voltage.getRawVal();
+                    Double resistance = this.resistance.getRawVal();
+                    return voltage / resistance;
+                },
+                new NumberUnitMultiplier[]{
+                        //new NumberUnitMultiplier("pA", 1e-12),
+                        //new NumberUnitMultiplier("nA", 1e-9),
+                        //new NumberUnitMultiplier("uA", 1e-6),
+                        //new NumberUnitMultiplier("mA", 1e-3),
+                        new NumberUnitMultiplier("A", 1e0, NumberPreference.DEFAULT),
+                },
+                4,
+                () -> {
+                    if (currentRadioButton.isSelected()) return CalcVarDirections.Output;
+                    else return CalcVarDirections.Input;
+                },
+                null,
+                "The current going through the resistor" // Help text
+        );*/
 
+        this.current.init();
+        this.current.setName("current");
+        this.current.setValueTextField(this.currentValueTextField);
+        this.current.setEquationFunction(() -> {
+            // Read dependency variables
+            Double voltage = this.voltage.getRawVal();
+            Double resistance = this.resistance.getRawVal();
+            return voltage / resistance;
+        });
+        this.current.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("A", 1e0, NumberPreference.DEFAULT),
+        });
+        this.current.setNumDigitsToRound(4);
+        this.current.setDirectionFunction(() -> {
+            if (currentRadioButton.isSelected()) return CalcVarDirections.Output;
+            else return CalcVarDirections.Input;
+        });
+        this.current.setDefaultRawValue(null);
+        this.current.setHelpText("The current going through the resistor");
         this.current.setIsEngineeringNotationEnabled(true);
 
+        //====================== VALIDATORS ===================//
         this.current.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.current.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
@@ -186,33 +234,53 @@ public class OhmsLawCalcModel extends Calculator {
         //===============================================================================================//
 
 
-        this.resistance = new CalcVarNumerical(
-            "resistance",
-            textFieldResistanceValue,
-            null,
-            () -> {
-                Double voltage = this.voltage.getRawVal();
-                Double current = this.current.getRawVal();
-                return voltage / current;
-            },
-            new NumberUnitMultiplier[]{
-                //new NumberUnitMultiplier("mΩ", 1e-3),
-                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
-                //new NumberUnitMultiplier("kΩ", 1e3),
-                //new NumberUnitMultiplier("MΩ", 1e6),
-                //new NumberUnitMultiplier("GΩ", 1e9),
-            },
-            4,
-            () -> {
-                if(radioButtonResistanceIO.isSelected()) return CalcVarDirections.Output;
-                else return CalcVarDirections.Input;
-            },
-            null,
-            "The resistance of the resistor (or other circuit component)." // Help text
-            );
+        /*this.resistance = new CalcVarNumerical(
+                "resistance",
+                resistanceValueTextField,
+                null,
+                () -> {
+                    Double voltage = this.voltage.getRawVal();
+                    Double current = this.current.getRawVal();
+                    return voltage / current;
+                },
+                new NumberUnitMultiplier[]{
+                        //new NumberUnitMultiplier("mΩ", 1e-3),
+                        new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+                        //new NumberUnitMultiplier("kΩ", 1e3),
+                        //new NumberUnitMultiplier("MΩ", 1e6),
+                        //new NumberUnitMultiplier("GΩ", 1e9),
+                },
+                4,
+                () -> {
+                    if (resistanceRadioButton.isSelected()) return CalcVarDirections.Output;
+                    else return CalcVarDirections.Input;
+                },
+                null,
+                "The resistance of the resistor (or other circuit component)." // Help text
+        );*/
 
+        this.resistance.init();
+        this.resistance.setName("resistance");
+        this.resistance.setValueTextField(this.resistanceValueTextField);
+        this.resistance.setEquationFunction(() -> {
+            // Read dependency variables
+            Double voltage = this.voltage.getRawVal();
+            Double current = this.current.getRawVal();
+            return voltage / current;
+        });
+        this.resistance.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+        });
+        this.resistance.setNumDigitsToRound(4);
+        this.resistance.setDirectionFunction(() -> {
+            if (resistanceRadioButton.isSelected()) return CalcVarDirections.Output;
+            else return CalcVarDirections.Input;
+        });
+        this.resistance.setDefaultRawValue(null);
+        this.resistance.setHelpText("The resistance of the resistor (or other resistive circuit component).");
         this.resistance.setIsEngineeringNotationEnabled(true);
 
+        //====================== VALIDATORS ===================//
         this.resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
