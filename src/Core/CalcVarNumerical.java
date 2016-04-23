@@ -87,18 +87,7 @@ public class CalcVarNumerical extends CalcVarBase {
     private TextField valueTextField;
     private ChangeListener<String> textListener;
 
-    /***
-     * A list of all the validators that the calculator variable has.
-     */
-    private ArrayList<Validator> validators;
 
-    public ArrayList<CalcValidationResult> validationResults;
-
-    /// <summary>
-    /// Gets or sets the validation result for this calculator variable.
-    /// Will also change the border colour of the associated text box.
-    /// </summary>
-    public CalcValidationLevel worstValidationLevel;
 
     private ComboBox unitsComboBox;
 

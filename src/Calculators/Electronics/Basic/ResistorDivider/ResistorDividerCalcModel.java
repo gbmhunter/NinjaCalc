@@ -280,8 +280,7 @@ public class ResistorDividerCalcModel extends Calculator {
         this.vOut.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
         this.vOut.addValidator(
                 new Validator(
-                        //new ArrayList<CalcVarBase>(this.vOut, this.vIn),
-                        new ArrayList<CalcVarBase>(Arrays.asList(this.vOut, this.vIn)),
+                        new ArrayList<CalcVarBase>(Arrays.asList(this.vOut, this.vIn)), // Dependency list
                         () -> {
                             return ((this.vOut.getRawVal() >= this.vIn.getRawVal() ) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
                         },

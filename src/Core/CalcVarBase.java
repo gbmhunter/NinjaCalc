@@ -62,6 +62,25 @@ public abstract class CalcVarBase {
      */
     public ArrayList<CalcVarBase> dependants;
 
+    /***
+     * A list of all the validators that the calculator variable has.
+     */
+    protected ArrayList<Validator> validators;
+
+    public ArrayList<CalcValidationResult> validationResults;
+
+    /// <summary>
+    /// Gets or sets the validation result for this calculator variable.
+    /// Will also change the border colour of the associated text box.
+    /// </summary>
+    public CalcValidationLevel worstValidationLevel;
+
+    /***
+     * Gets populated with a list of all validators in a calculator which are dependent of this calculator variables
+     * value.
+     */
+    public ArrayList<CalcVarBase> varsWithDependantValidators;
+
     /**
      * Set to true to disable the updating of the text box when this CalcVar's calculate() method
      * is called.
@@ -106,6 +125,8 @@ public abstract class CalcVarBase {
         // and dependants
         this.dependencies = new ArrayList<CalcVarBase>();
         this.dependants = new ArrayList<CalcVarBase>();
+
+        this.varsWithDependantValidators = new ArrayList<>();
 
         // Save equation function
         this.equationFunction = equationFunction;

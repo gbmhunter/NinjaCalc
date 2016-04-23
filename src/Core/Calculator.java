@@ -95,6 +95,8 @@ public abstract class Calculator {
      * This finds all the dependencies and dependants for all calculator variables,
      * and populates the Dependencies and dependants lists for each. Must be called after all
      * variables have been added to the calcVars List.
+     *
+     * Also finds all dependencies and dependants for validators.
      */
     protected void findDependenciesAndDependants() {
 
@@ -157,6 +159,18 @@ public abstract class Calculator {
             //for (int j = 0; j < calcVar.dependants.size(); j++) {
             //    System.out.println("\t\"" + calcVar.dependants.get(j).name + "\"");
             //}
+        }
+    }
+
+    protected void findAllValidatorDependants() {
+
+        // Iterate over every variable in this calculator
+        for(CalcVarBase calcVar: this.calcVars) {
+
+           for(Validator validator : calcVar.validators) {
+
+           }
+
         }
     }
 
