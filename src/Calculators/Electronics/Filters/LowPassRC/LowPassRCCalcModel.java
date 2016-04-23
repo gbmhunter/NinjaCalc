@@ -16,9 +16,9 @@ import Core.*;
 /**
  * The model (code behind) for the low-pass RC filter calculator.
  *
- * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
- * @since 2014-05-22
- * @last-modified 2016-04-12
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2014-05-22
+ * @last-modified   2016-04-23
  */
 public class LowPassRCCalcModel extends Calculator {
 
@@ -26,24 +26,24 @@ public class LowPassRCCalcModel extends Calculator {
     //========================================= FXML Bindings =======================================//
     //===============================================================================================//
 
-    @FXML private TextField rValue;
-    @FXML private RadioButton rIO;
-
-    @FXML private TextField cValue;
-    @FXML private RadioButton cIO;
-
-    @FXML private TextField fcValue;
-    @FXML private RadioButton fcIO;
-
     @FXML private WebView infoWebView;
+
+    @FXML private TextField resistorTextField;
+    @FXML private RadioButton resistorRadioButton;
+
+    @FXML private TextField capacitorTextField;
+    @FXML private RadioButton capacitorRadioButton;
+
+    @FXML private TextField cutOffFrequencyTextField;
+    @FXML private RadioButton cutOffFrequencyRadioButton;
 
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
-    public CalcVarNumerical r;
-    public CalcVarNumerical c;
-    public CalcVarNumerical fc;
+    public CalcVarNumerical resistor = new CalcVarNumerical();
+    public CalcVarNumerical capacitor = new CalcVarNumerical();
+    public CalcVarNumerical cutOffFrequency = new CalcVarNumerical();
 
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
@@ -55,7 +55,7 @@ public class LowPassRCCalcModel extends Calculator {
             "Low-pass RC Filter",
             "The low-pass RC filter is probably the simplist and most used electronic filter. Great for input signal filtering and adding to the output of a PWM signal to make a cheap DAC.",
             new String[] { "Electronics", "Filters" },
-            new String[] { "rc", "filters", "low-pass", "adc", "signal", "conditioning" });
+            new String[] { "rc", "filters", "filtering", "low-pass", "adc", "signal", "conditioning", "processing" });
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
@@ -91,10 +91,10 @@ public class LowPassRCCalcModel extends Calculator {
         ToggleGroup toggleGroup = new ToggleGroup();
 
         // Add all calculator variables to toggle group
-        rIO.setToggleGroup(toggleGroup);
-        cIO.setToggleGroup(toggleGroup);
-        fcIO.setToggleGroup(toggleGroup);
-        toggleGroup.selectToggle(fcIO);
+        resistorRadioButton.setToggleGroup(toggleGroup);
+        capacitorRadioButton.setToggleGroup(toggleGroup);
+        cutOffFrequencyRadioButton.setToggleGroup(toggleGroup);
+        toggleGroup.selectToggle(cutOffFrequencyRadioButton);
 
         // Following code provides lambda function which listens to radiobuttons changes and modifies direction accordingly
         //System.out.println("Adding listener for radiobutton toggle change.");
@@ -117,15 +117,15 @@ public class LowPassRCCalcModel extends Calculator {
         //====================================== R (resistance) (I/O)====================================//
         //===============================================================================================//
 
-        this.r = new CalcVarNumerical(
-            "r",                // Variable name (used for debugging)
-            rValue,             // Textbox for value (UI object)
+        /*this.resistor = new CalcVarNumerical(
+            "resistor",                // Variable name (used for debugging)
+                resistorTextField,             // Textbox for value (UI object)
             null,             // Combobox for units (UI object)
             () -> {             // Equation when an output
-                Double fc = this.fc.getRawVal();
-                Double c = this.c.getRawVal();
+                Double cutOffFrequency = this.cutOffFrequency.getRawVal();
+                Double capacitor = this.capacitor.getRawVal();
 
-                return (1.0 / (2*Math.PI*fc*c));
+                return (1.0 / (2*Math.PI*cutOffFrequency*capacitor));
             },
             new NumberUnitMultiplier[]{   // units
                 //new NumberUnitMultiplier("mΩ", 1e-3),
@@ -136,32 +136,52 @@ public class LowPassRCCalcModel extends Calculator {
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
-                if(rIO.isSelected()) return CalcVarDirections.Output;
+                if(resistorRadioButton.isSelected()) return CalcVarDirections.Output;
                 else return CalcVarDirections.Input;
             },   // Default direction
             null,               // Default value
             "The resistance of the resistor in the low-pass LC filter." // Help text
-        );
+        );*/
 
-        this.r.setIsEngineeringNotationEnabled(true);
+        this.resistor.init();
+        this.resistor.setName("resistor");
+        this.resistor.setValueTextField(this.resistorTextField);
+        this.resistor.setEquationFunction(() -> {
+            // Read dependency variables
+            Double fc = this.cutOffFrequency.getRawVal();
+            Double c = this.capacitor.getRawVal();
 
-        // Add validators
-        this.r.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.r.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            return (1.0 / (2*Math.PI*fc*c));
+        });
+        this.resistor.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0),
+        });
+        this.resistor.setNumDigitsToRound(4);
+        this.resistor.setDirectionFunction(() -> {
+            if (resistorRadioButton.isSelected()) return CalcVarDirections.Output;
+            else return CalcVarDirections.Input;
+        });
+        this.resistor.setDefaultRawValue(null);
+        this.resistor.setHelpText("The resistance of the resistor in the low-pass LC filter.");
+        this.resistor.setIsEngineeringNotationEnabled(true);
 
-        this.calcVars.add(this.r);
+        //====================== VALIDATORS ===================//
+        this.resistor.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.resistor.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.resistor);
 
         //===============================================================================================//
         //======================================= C (capacitance) (I/O) =================================//
         //===============================================================================================//
 
-        this.c = new CalcVarNumerical(
-            "c",                // Variable name (used for debugging)
-            cValue,        // Textbox for value (UI object)
+        /*this.capacitor = new CalcVarNumerical(
+            "capacitor",                // Variable name (used for debugging)
+                capacitorTextField,        // Textbox for value (UI object)
             null,        // Combobox for units (UI object)
             () -> {             // Equation when an output
-                Double r = this.r.getRawVal();
-                Double fc = this.fc.getRawVal();
+                Double r = this.resistor.getRawVal();
+                Double fc = this.cutOffFrequency.getRawVal();
 
                 return (1.0 / (2 * Math.PI * fc * r));
             },
@@ -174,33 +194,53 @@ public class LowPassRCCalcModel extends Calculator {
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
-                if(cIO.isSelected()) return CalcVarDirections.Output;
+                if(capacitorRadioButton.isSelected()) return CalcVarDirections.Output;
                 else return CalcVarDirections.Input;
             },
             null,               // Default value
             "The capacitance of the capacitor in the low-pass LC filter." // Help text
-            );
+            );*/
 
-        this.c.setIsEngineeringNotationEnabled(true);
+        this.capacitor.init();
+        this.capacitor.setName("capacitor");
+        this.capacitor.setValueTextField(this.capacitorTextField);
+        this.capacitor.setEquationFunction(() -> {
+            // Read dependency variables
+            Double r = this.resistor.getRawVal();
+            Double fc = this.cutOffFrequency.getRawVal();
 
-        // Add validators
-        this.c.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.c.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            return (1.0 / (2 * Math.PI * fc * r));
+        });
+        this.capacitor.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("F", 1e0),
+        });
+        this.capacitor.setNumDigitsToRound(4);
+        this.capacitor.setDirectionFunction(() -> {
+            if (this.capacitorRadioButton.isSelected()) return CalcVarDirections.Output;
+            else return CalcVarDirections.Input;
+        });
+        this.capacitor.setDefaultRawValue(null);
+        this.capacitor.setHelpText("The capacitance of the capacitor in the low-pass LC filter.");
+        this.capacitor.setIsEngineeringNotationEnabled(true);
 
-        this.calcVars.add(this.c);
+        //====================== VALIDATORS ===================//
+        this.capacitor.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.capacitor.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.capacitor);
 
 
         //===============================================================================================//
-        //===================================== fc (cut-off frequency) (I/O) ============================//
+        //===================================== cutOffFrequency (cut-off frequency) (I/O) ============================//
         //===============================================================================================//
 
-        this.fc = new CalcVarNumerical(
-            "fc",               // Variable name (used for debugging)
-            fcValue,       // Textbox for value (UI object)
+        /*this.cutOffFrequency = new CalcVarNumerical(
+            "cutOffFrequency",               // Variable name (used for debugging)
+                cutOffFrequencyTextField,       // Textbox for value (UI object)
             null,       // Combobox for units (UI object)
             () -> {             // Equation when an output
-                Double r = this.r.getRawVal();
-                Double c = this.c.getRawVal();
+                Double r = this.resistor.getRawVal();
+                Double c = this.capacitor.getRawVal();
 
                 return (1.0 / (2 * Math.PI * r * c));
             },
@@ -213,19 +253,39 @@ public class LowPassRCCalcModel extends Calculator {
             },
             4,                  // Num. digits to round to
             () -> {             // Direction-determining function
-                if(fcIO.isSelected()) return CalcVarDirections.Output;
+                if(cutOffFrequencyRadioButton.isSelected()) return CalcVarDirections.Output;
                 else return CalcVarDirections.Input;
             },
             null,               // Default value
-            "The cut-off frequency of the low-pass RC filter. This is the point where the output signal is attenuated by -3dB (70.7%) of the input. Also known as the corner or breakpoint frequency.");
+            "The cut-off frequency of the low-pass RC filter. This is the point where the output signal is attenuated by -3dB (70.7%) of the input. Also known as the corner or breakpoint frequency.");*/
 
-        this.fc.setIsEngineeringNotationEnabled(true);
+        this.cutOffFrequency.init();
+        this.cutOffFrequency.setName("cutOffFrequency");
+        this.cutOffFrequency.setValueTextField(this.cutOffFrequencyTextField);
+        this.cutOffFrequency.setEquationFunction(() -> {
+            // Read dependency variables
+            Double r = this.resistor.getRawVal();
+            Double c = this.capacitor.getRawVal();
 
-        // Add validators
-        this.fc.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.fc.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+            return (1.0 / (2 * Math.PI * r * c));
+        });
+        this.cutOffFrequency.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Hz", 1e0),
+        });
+        this.cutOffFrequency.setNumDigitsToRound(4);
+        this.cutOffFrequency.setDirectionFunction(() -> {
+            if (cutOffFrequencyRadioButton.isSelected()) return CalcVarDirections.Output;
+            else return CalcVarDirections.Input;
+        });
+        this.cutOffFrequency.setDefaultRawValue(null);
+        this.cutOffFrequency.setHelpText("The cut-off frequency of the low-pass RC filter. This is the point where the output signal is attenuated by -3dB (70.7%) of the input. Also known as the corner or breakpoint frequency.");
+        this.cutOffFrequency.setIsEngineeringNotationEnabled(true);
 
-        this.calcVars.add(this.fc);
+        //====================== VALIDATORS ===================//
+        this.cutOffFrequency.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.cutOffFrequency.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.cutOffFrequency);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//
