@@ -13,13 +13,15 @@ import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A track current calculator based of the IPC-2152 standard.
  *
- * @author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
- * @since           2015-11-02
- * @last-modified   2016-04-12
+ * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
+ * @last-modified 2016-04-12
+ * @since 2015-11-02
  */
 public class TrackCurrentIpc2152CalcModel extends Calculator {
 
@@ -28,178 +30,209 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
     //===============================================================================================//
 
 
-	final double NUM_MILS_PER_MM = 1000/25.4;
-	//const double UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ = 0.0000350012;
-	final double UNIT_CONVERSION_M_PER_MIL = 25.4/1e6;
-	final double UNIT_CONVERSION_M2_PER_MIL2 = UNIT_CONVERSION_M_PER_MIL*UNIT_CONVERSION_M_PER_MIL;
+    final double NUM_MILS_PER_MM = 1000 / 25.4;
+    //const double UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ = 0.0000350012;
+    final double UNIT_CONVERSION_M_PER_MIL = 25.4 / 1e6;
+    final double UNIT_CONVERSION_M2_PER_MIL2 = UNIT_CONVERSION_M_PER_MIL * UNIT_CONVERSION_M_PER_MIL;
 
-	final double UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF = 1.73;
+    final double UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF = 1.73;
 
-	// UNIVERSAL CHART CONSTANTS
+    // UNIVERSAL CHART CONSTANTS
 
-	// The trendlines to calculate the co-efficients for a fixed temp takes the form y = Ax^B
-	// where y is the co-efficient, x is the temperature.
-	// e.g. (co-efficient A) = AA * temp ^ AB
-	//      (co-efficient B) = BA * temp ^ BB
-	final double UNIVERSAL_CHART_TREND_LINE_COEF_AA = 8.9710902134e-02;
-	final double UNIVERSAL_CHART_TREND_LINE_COEF_AB = 3.9379253898e-01;
+    // The trendlines to calculate the co-efficients for a fixed temp takes the form y = Ax^B
+    // where y is the co-efficient, x is the temperature.
+    // e.g. (co-efficient A) = AA * temp ^ AB
+    //      (co-efficient B) = BA * temp ^ BB
+    final double UNIVERSAL_CHART_TREND_LINE_COEF_AA = 8.9710902134e-02;
+    final double UNIVERSAL_CHART_TREND_LINE_COEF_AB = 3.9379253898e-01;
 
-	final double UNIVERSAL_CHART_TREND_LINE_COEF_BA = 5.0382053698e-01;
-	final double UNIVERSAL_CHART_TREND_LINE_COEF_BB = 3.8495772461e-02;
+    final double UNIVERSAL_CHART_TREND_LINE_COEF_BA = 5.0382053698e-01;
+    final double UNIVERSAL_CHART_TREND_LINE_COEF_BB = 3.8495772461e-02;
 
-	// TRACK THICKNESS MODIFIER CONSTANTS
+    // TRACK THICKNESS MODIFIER CONSTANTS
 
-	// The data from the track thickness modifier graph in IPS-2152 is modelled using
-	// a 5th degree polynomial
+    // The data from the track thickness modifier graph in IPS-2152 is modelled using
+    // a 5th degree polynomial
 
-	// y = C0 + C1*x^1 + C2*x^2 + C3*x^3 + C4*x^4 + C5*x^5
+    // y = C0 + C1*x^1 + C2*x^2 + C3*x^3 + C4*x^4 + C5*x^5
 
-	final double[][] TRACK_THICKNESS_TREND_LINE_COEF_COEF_A =
-	{
-		{
-			9.8453567795e-01,	// C0C0
-			-2.2281787548e-01,	// C0C1
-			2.0061423196e-01,	// C0C2
-			-4.1541116264e-02,	// C0C3
-		},
-		{
-			-1.6571949210e-02,	// C1C0
-			1.7520059279e-04,	// C1C1
-			-5.0615234096e-03,	// C1C2
-			2.2814836340e-03,	// C1C3
-		},
-		{
-			8.8711317661e-04,	// C2C0
-			1.3631745743e-03,	// C2C1
-			-2.2373309710e-04,	// C2C2
-			-1.0974218613e-04	// C2C3
-		},
-		{
-			-6.6729255031e-06,	// e.t.c...
-			-1.4976736827e-04,
-			5.8082340133e-05,
-			-2.4728159584e-06
-		},
-		{
-			-7.9576264561e-07,
-			5.5788354958e-06,
-			-2.4912026388e-06,
-			2.4000295954e-07
-		},
-		{
-			1.6619678738e-08,
-			-7.1122635445e-08,
-			3.3800191741e-08,
-			-3.9797591878e-09
-		}
-	};
+    final double[][] TRACK_THICKNESS_TREND_LINE_COEF_COEF_A =
+            {
+                    {
+                            9.8453567795e-01,    // C0C0
+                            -2.2281787548e-01,    // C0C1
+                            2.0061423196e-01,    // C0C2
+                            -4.1541116264e-02,    // C0C3
+                    },
+                    {
+                            -1.6571949210e-02,    // C1C0
+                            1.7520059279e-04,    // C1C1
+                            -5.0615234096e-03,    // C1C2
+                            2.2814836340e-03,    // C1C3
+                    },
+                    {
+                            8.8711317661e-04,    // C2C0
+                            1.3631745743e-03,    // C2C1
+                            -2.2373309710e-04,    // C2C2
+                            -1.0974218613e-04    // C2C3
+                    },
+                    {
+                            -6.6729255031e-06,    // e.t.c...
+                            -1.4976736827e-04,
+                            5.8082340133e-05,
+                            -2.4728159584e-06
+                    },
+                    {
+                            -7.9576264561e-07,
+                            5.5788354958e-06,
+                            -2.4912026388e-06,
+                            2.4000295954e-07
+                    },
+                    {
+                            1.6619678738e-08,
+                            -7.1122635445e-08,
+                            3.3800191741e-08,
+                            -3.9797591878e-09
+                    }
+            };
 
-	// BOARD THICKNESS CONSTANTS
+    // BOARD THICKNESS CONSTANTS
 
-	final double BOARD_THICKNESS_TREND_LINE_COEF_A = 2.4929779905e+01;
-	final double BOARD_THICKNESS_TREND_LINE_COEF_B = -7.5501997929e-01;
+    final double BOARD_THICKNESS_TREND_LINE_COEF_A = 2.4929779905e+01;
+    final double BOARD_THICKNESS_TREND_LINE_COEF_B = -7.5501997929e-01;
 
-	// PLANE PROXIMITY CONSTANTS
+    // PLANE PROXIMITY CONSTANTS
 
-	final double PLANE_PROXIMITY_TREND_LINE_COEF_M = 3.1298662911e-03;
-	final double PLANE_PROXIMITY_TREND_LINE_COEF_C = 4.0450883823e-01;
+    final double PLANE_PROXIMITY_TREND_LINE_COEF_M = 3.1298662911e-03;
+    final double PLANE_PROXIMITY_TREND_LINE_COEF_C = 4.0450883823e-01;
 
-	// THERMAL CONDUCTIVITY CONSTANTS
+    // THERMAL CONDUCTIVITY CONSTANTS
 
-	final double THERMAL_CONDUCTIVITY_TREND_LINE_COEF_M = -1.4210148167e+00;
-	final double THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C = 1.1958174134e+00;
+    final double THERMAL_CONDUCTIVITY_TREND_LINE_COEF_M = -1.4210148167e+00;
+    final double THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C = 1.1958174134e+00;
 
     //===============================================================================================//
     //========================================= FXML BINDINGS =======================================//
     //===============================================================================================//
 
 
-    @FXML private WebView infoWebView;
+    @FXML
+    private WebView infoWebView;
 
-    @FXML private TextField trackCurrentValue;
-    @FXML private ComboBox trackCurrentUnits;
+    @FXML
+    private TextField trackCurrentValue;
+    @FXML
+    private ComboBox trackCurrentUnits;
 
-    @FXML private TextField tempRiseValue;
-    @FXML private ComboBox tempRiseUnits;
+    @FXML
+    private TextField tempRiseValue;
+    @FXML
+    private ComboBox tempRiseUnits;
 
-    @FXML private TextField unadjustedTrackCrossSectionalAreaValue;
-    @FXML private ComboBox unadjustedTrackCrossSectionalAreaUnits;
+    @FXML
+    private TextField unadjustedTrackCrossSectionalAreaValue;
+    @FXML
+    private ComboBox unadjustedTrackCrossSectionalAreaUnits;
 
-    @FXML private TextField trackThicknessValue;
-    @FXML private ComboBox trackThicknessUnits;
+    @FXML
+    private TextField trackThicknessValue;
+    @FXML
+    private ComboBox trackThicknessUnits;
 
-    @FXML private TextField trackThicknessModifierValue;
-    @FXML private ComboBox trackThicknessModifierUnits;
+    @FXML
+    private TextField trackThicknessModifierValue;
+    @FXML
+    private ComboBox trackThicknessModifierUnits;
 
-    @FXML private TextField boardThicknessValue;
-    @FXML private ComboBox boardThicknessUnits;
+    @FXML
+    private TextField boardThicknessValue;
+    @FXML
+    private ComboBox boardThicknessUnits;
 
-    @FXML private TextField boardThicknessModifierValue;
-    @FXML private ComboBox boardThicknessModifierUnits;
+    @FXML
+    private TextField boardThicknessModifierValue;
+    @FXML
+    private ComboBox boardThicknessModifierUnits;
 
-    @FXML private ComboBox isPlanePresentComboBox;
+    @FXML
+    private ComboBox isPlanePresentComboBox;
 
-    @FXML private Label planeProximityLabel;
-    @FXML private TextField planeProximityValue;
-    @FXML private ComboBox planeProximityUnits;
+    @FXML
+    private Label planeProximityLabel;
+    @FXML
+    private TextField planeProximityValue;
+    @FXML
+    private ComboBox planeProximityUnits;
 
-    @FXML private TextField planeProximityModifierValue;
-    @FXML private ComboBox planeProximityModifierUnits;
+    @FXML
+    private TextField planeProximityModifierValue;
+    @FXML
+    private ComboBox planeProximityModifierUnits;
 
-    @FXML private TextField thermalConductivityValue;
-    @FXML private ComboBox thermalConductivityUnits;
+    @FXML
+    private TextField thermalConductivityValue;
+    @FXML
+    private ComboBox thermalConductivityUnits;
 
-    @FXML private TextField thermalConductivityModifierValue;
-    @FXML private ComboBox thermalConductivityModifierUnits;
+    @FXML
+    private TextField thermalConductivityModifierValue;
+    @FXML
+    private ComboBox thermalConductivityModifierUnits;
 
-    @FXML private TextField adjustedTrackCrossSectionalAreaValue;
-    @FXML private ComboBox adjustedTrackCrossSectionalAreaUnits;
+    @FXML
+    private TextField adjustedTrackCrossSectionalAreaValue;
+    @FXML
+    private ComboBox adjustedTrackCrossSectionalAreaUnits;
 
-    @FXML private TextField minTrackWidthValue;
-    @FXML private ComboBox minTrackWidthUnits;
+    @FXML
+    private TextField minTrackWidthValue;
+    @FXML
+    private ComboBox minTrackWidthUnits;
 
-    @FXML private Rectangle bottomPlane;
+    @FXML
+    private Rectangle bottomPlane;
 
-    @FXML private Dimension boardThicknessDimension;
+    @FXML
+    private Dimension boardThicknessDimension;
 
-    @FXML private Dimension planeProximityDimension;
-
+    @FXML
+    private Dimension planeProximityDimension;
 
 
     //===============================================================================================//
     //===================================== CALCULATOR VARIABLES ====================================//
     //===============================================================================================//
 
-	CalcVarNumericalInput trackCurrent = new CalcVarNumericalInput();
-	CalcVarNumericalInput tempRise = new CalcVarNumericalInput();
-	CalcVarNumericalOutput unadjustedTrackCrossSectionalArea = new CalcVarNumericalOutput();
-	CalcVarNumericalInput trackThickness = new CalcVarNumericalInput();
-	CalcVarNumericalOutput trackThicknessModifier = new CalcVarNumericalOutput();
-	CalcVarNumericalInput boardThickness = new CalcVarNumericalInput();
-	CalcVarNumericalOutput boardThicknessModifier = new CalcVarNumericalOutput();
+    CalcVarNumericalInput trackCurrent = new CalcVarNumericalInput();
+    CalcVarNumericalInput tempRise = new CalcVarNumericalInput();
+    CalcVarNumericalOutput unadjustedTrackCrossSectionalArea = new CalcVarNumericalOutput();
+    CalcVarNumericalInput trackThickness = new CalcVarNumericalInput();
+    CalcVarNumericalOutput trackThicknessModifier = new CalcVarNumericalOutput();
+    CalcVarNumericalInput boardThickness = new CalcVarNumericalInput();
+    CalcVarNumericalOutput boardThicknessModifier = new CalcVarNumericalOutput();
 
-	CalcVarComboBox isPlanePresent;
+    CalcVarComboBox isPlanePresent;
 
-	CalcVarNumericalInput planeProximity = new CalcVarNumericalInput();
-	CalcVarNumericalOutput planeProximityModifier = new CalcVarNumericalOutput();
-	CalcVarNumericalInput thermalConductivity = new CalcVarNumericalInput();
-	CalcVarNumericalOutput thermalConductivityModifier = new CalcVarNumericalOutput();
-	CalcVarNumericalOutput adjustedCrossSectionalArea = new CalcVarNumericalOutput();
-	CalcVarNumericalOutput minTrackWidth = new CalcVarNumericalOutput();
+    CalcVarNumericalInput planeProximity = new CalcVarNumericalInput();
+    CalcVarNumericalOutput planeProximityModifier = new CalcVarNumericalOutput();
+    CalcVarNumericalInput thermalConductivity = new CalcVarNumericalInput();
+    CalcVarNumericalOutput thermalConductivityModifier = new CalcVarNumericalOutput();
+    CalcVarNumericalOutput adjustedTrackCrossSectionalArea = new CalcVarNumericalOutput();
+    CalcVarNumericalOutput minTrackWidth = new CalcVarNumericalOutput();
 
-	//===============================================================================================//
-	//========================================== CONSTRUCTORS =======================================//
-	//===============================================================================================//
+    //===============================================================================================//
+    //========================================== CONSTRUCTORS =======================================//
+    //===============================================================================================//
 
-	public TrackCurrentIpc2152CalcModel() {
+    public TrackCurrentIpc2152CalcModel() {
 
         super(
-            "Track Current (IPC-2152)",
-            "PCB track current carrying capability calculator, using the IPC-2152 standard.",
-            new String[] { "Electronics", "PCB" },
-            new String[] { "pcb", "track", "net", "current", "trace", "width", "carry", "heat", "temperature", "ipc", "ipc2221a", "ipc-2221a" });
+                "Track Current (IPC-2152)",
+                "PCB track current carrying capability calculator, using the IPC-2152 standard.",
+                new String[]{"Electronics", "PCB"},
+                new String[]{"pcb", "track", "net", "current", "trace", "width", "carry", "heat", "hot", "temperature", "ipc", "ipc2221a", "ipc-2221a"});
 
-		super.setIconImagePath(getClass().getResource("grid-icon.png"));
+        super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
         //===============================================================================================//
         //======================================== LOAD .FXML FILE ======================================//
@@ -222,16 +255,16 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //===============================================================================================//
 
         WebEngine engine = this.infoWebView.getEngine();
-        final String htmlFile= "info.html";
+        final String htmlFile = "info.html";
         URL url = getClass().getResource(htmlFile);
         engine.load(url.toExternalForm());
 
-		//===============================================================================================//
-		//===================================== TRACE CURRENT (input) ===================================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //===================================== TRACE CURRENT (input) ===================================//
+        //===============================================================================================//
 
 	   /*this.trackCurrent = new CalcVarNumericalInput(
-			"traceCurrent",             // Debug name
+            "traceCurrent",             // Debug name
 			trackCurrentValue,     // Textbox for value (UI object)
 			trackCurrentUnits,     // Combobox for units (UI object)
 			new NumberUnitMultiplier[]{           // units
@@ -258,26 +291,26 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.trackCurrent.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-		this.trackCurrent.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.trackCurrent.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.trackCurrent.addValidator(
-			new Validator(() -> {
-				return ((this.trackCurrent.getRawVal() < 274e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-			},
-			"Current is below the minimum value (274mA) extracted from the universal graph in IPC-2152." +
-			" Results might not be as accurate (extrapolation will occur)."));
-		this.trackCurrent.addValidator(
-			new Validator(() -> {
-				return ((this.trackCurrent.getRawVal() > 26.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-			},
-			"Current is above the maximum value (26A) extracted from the universal graph in IPC-2152." +
-			" Results might not be as accurate (extrapolation will occur)."));
+        this.trackCurrent.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.trackCurrent.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.trackCurrent.addValidator(
+                new Validator(() -> {
+                    return ((this.trackCurrent.getRawVal() < 274e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Current is below the minimum value (274mA) extracted from the universal graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
+        this.trackCurrent.addValidator(
+                new Validator(() -> {
+                    return ((this.trackCurrent.getRawVal() > 26.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Current is above the maximum value (26A) extracted from the universal graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
 
-		this.calcVars.add(this.trackCurrent);
+        this.calcVars.add(this.trackCurrent);
 
-		//===============================================================================================//
-		//====================================== TEMP RISE (input) ======================================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //====================================== TEMP RISE (input) ======================================//
+        //===============================================================================================//
 
 		/*this.tempRise = new CalcVarNumericalInput(
 			"tempRise",             // Debug name
@@ -303,26 +336,26 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.tempRise.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-		this.tempRise.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.tempRise.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.tempRise.addValidator(
-			new Validator(() -> {
-				return ((this.tempRise.getRawVal() < 1.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-			},
-			"Temp. rise is below the minimum value (1°c) extracted from the universal graph in IPC-2152." +
-			" Results might not be as accurate (extrapolation will occur)."));
-		this.tempRise.addValidator(
-			new Validator(() -> {
-				return ((this.tempRise.getRawVal() > 100.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-			},
-			"Temp. rise is above the maximum value (100°c) extracted from the universal graph in IPC-2152." +
-			" Results might not be as accurate (extrapolation will occur)."));
+        this.tempRise.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.tempRise.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.tempRise.addValidator(
+                new Validator(() -> {
+                    return ((this.tempRise.getRawVal() < 1.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Temp. rise is below the minimum value (1°c) extracted from the universal graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
+        this.tempRise.addValidator(
+                new Validator(() -> {
+                    return ((this.tempRise.getRawVal() > 100.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Temp. rise is above the maximum value (100°c) extracted from the universal graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
 
-		this.calcVars.add(this.tempRise);
+        this.calcVars.add(this.tempRise);
 
-		//===============================================================================================//
-		//============================ UN-ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ==================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //============================ UN-ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ==================//
+        //===============================================================================================//
 
 		/*this.unadjustedTrackCrossSectionalArea = new CalcVarNumericalOutput(
 			"unadjustedTrackCrossSectionalArea",
@@ -388,15 +421,15 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.unadjustedTrackCrossSectionalArea.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-		this.unadjustedTrackCrossSectionalArea.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.unadjustedTrackCrossSectionalArea.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.unadjustedTrackCrossSectionalArea.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.unadjustedTrackCrossSectionalArea.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-		this.calcVars.add(this.unadjustedTrackCrossSectionalArea);
+        this.calcVars.add(this.unadjustedTrackCrossSectionalArea);
 
 
-		//===============================================================================================//
-		//================================== TRACK THICKNESS (input) ====================================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //================================== TRACK THICKNESS (input) ====================================//
+        //===============================================================================================//
 
 		/*this.trackThickness = new CalcVarNumericalInput(
 			"trackThickness",
@@ -428,26 +461,26 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.trackThickness.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-		this.trackThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.trackThickness.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.trackThickness.addValidator(
-		   new Validator(() -> {
-			   return ((this.trackThickness.getRawVal() < 17.5e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-		   },
-		   "Track thickness is below the minimum value (17.5um) extracted from the track thickness modififer graph in IPC-2152." +
-		   " Results might not be as accurate (extrapolation will occur)."));
-		this.trackThickness.addValidator(
-			new Validator(() -> {
-				return ((this.trackThickness.getRawVal() > 105.0036e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-			},
-			"Track thickness is above the maximum value (105um) extracted from the track thickness modififer graph in IPC-2152." +
-			" Results might not be as accurate (extrapolation will occur)."));
+        this.trackThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.trackThickness.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.trackThickness.addValidator(
+                new Validator(() -> {
+                    return ((this.trackThickness.getRawVal() < 17.5e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Track thickness is below the minimum value (17.5um) extracted from the track thickness modififer graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
+        this.trackThickness.addValidator(
+                new Validator(() -> {
+                    return ((this.trackThickness.getRawVal() > 105.0036e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Track thickness is above the maximum value (105um) extracted from the track thickness modififer graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
 
-		this.calcVars.add(this.trackThickness);
+        this.calcVars.add(this.trackThickness);
 
-		//===============================================================================================//
-		//=================================== TRACK THICKNESS MODIFIER (output) =========================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //=================================== TRACK THICKNESS MODIFIER (output) =========================//
+        //===============================================================================================//
 
 		/*this.trackThicknessModifier = new CalcVarNumericalOutput(
 			"trackThicknessModifier",
@@ -517,7 +550,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
             Double trackThicknessM = this.trackThickness.getRawVal();
 
             // Convert to "oz" units, as this is what is used in IPC-2152 graphs
-            Double trackThicknessOz = trackThicknessM*(1/UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ);
+            Double trackThicknessOz = trackThicknessM * (1 / UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ);
             //console.log("trackThicknessOz = " + trackThicknessOz);
 
             // Lets calculate the two co-efficients for the fixed-temp trend line
@@ -527,8 +560,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 
 
             // Outer loop calculates all co-efficients
-            for(Integer i = 0; i < TRACK_THICKNESS_TREND_LINE_COEF_COEF_A.length; i++)
-            {
+            for (Integer i = 0; i < TRACK_THICKNESS_TREND_LINE_COEF_COEF_A.length; i++) {
                 // Initialise array element with 0
                 trackThicknessTrendLineCoefA[i] = 0;
 
@@ -536,11 +568,10 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
                 //console.log("test = " + TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[i].length);
 
                 // Inner loop calculates a single co-efficient
-                for(Integer j = 0; j < TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0].length; j++)
-                {
+                for (Integer j = 0; j < TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0].length; j++) {
                     //TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0,0] = 2;
                     //console.log("sum = " + TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0,0]);
-                    trackThicknessTrendLineCoefA[i] += TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[i][j]*Math.pow(trackThicknessOz, j);
+                    trackThicknessTrendLineCoefA[i] += TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[i][j] * Math.pow(trackThicknessOz, j);
                 }
 
                 //console.log("trackThicknessTrendLineCoefA[" + i + "] = '" + trackThicknessTrendLineCoefA[i] + "'.");
@@ -549,9 +580,8 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
             // Now we have calculate the 5th degree polynomial co-efficients, we can finally calc the thickness modifier
             double trackThicknessModifierMulti = 0;
 
-            for(Integer i = 0; i < trackThicknessTrendLineCoefA.length; i++)
-            {
-                trackThicknessModifierMulti += trackThicknessTrendLineCoefA[i]*Math.pow(trackCurrentA, i);
+            for (Integer i = 0; i < trackThicknessTrendLineCoefA.length; i++) {
+                trackThicknessModifierMulti += trackThicknessTrendLineCoefA[i] * Math.pow(trackCurrentA, i);
             }
 
             return trackThicknessModifierMulti;
@@ -564,14 +594,14 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.trackThicknessModifier.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-		this.trackThicknessModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.trackThicknessModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.trackThicknessModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.trackThicknessModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-		this.calcVars.add(this.trackThicknessModifier);
+        this.calcVars.add(this.trackThicknessModifier);
 
-		//===============================================================================================//
-		//================================== BOARD THICKNESS (input) ====================================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //================================== BOARD THICKNESS (input) ====================================//
+        //===============================================================================================//
 
 		/*this.boardThickness = new CalcVarNumericalInput(
 			"boardThickness",
@@ -600,27 +630,27 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.boardThickness.setHelpText("The total thickness of the PCB that the track is on. A standard PCB thickness is 1.6mm.");
         this.boardThickness.setIsEngineeringNotationEnabled(true);
 
-		//========== VALIDATORS ==========//
-		this.boardThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.boardThickness.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.boardThickness.addValidator(
-		   new Validator(() -> {
-			   return ((this.boardThickness.getRawVal() < 0.72e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-		   },
-		   "Board thickness is below the minimum value (0.72mm) extracted from the board thickness modififer graph in IPC-2152." +
-		   " Results might not be as accurate (extrapolation will occur)."));
-		this.boardThickness.addValidator(
-			new Validator(() -> {
-				return ((this.boardThickness.getRawVal() > 2.36e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-			},
-			"Board thickness is above the maximum value (2.36mm) extracted from the board thickness modififer graph in IPC-2152." +
-			" Results might not be as accurate (extrapolation will occur)."));
+        //========== VALIDATORS ==========//
+        this.boardThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.boardThickness.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.boardThickness.addValidator(
+                new Validator(() -> {
+                    return ((this.boardThickness.getRawVal() < 0.72e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Board thickness is below the minimum value (0.72mm) extracted from the board thickness modifier graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
+        this.boardThickness.addValidator(
+                new Validator(() -> {
+                    return ((this.boardThickness.getRawVal() > 2.36e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Board thickness is above the maximum value (2.36mm) extracted from the board thickness modifier graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
 
-		this.calcVars.add(this.boardThickness);
+        this.calcVars.add(this.boardThickness);
 
-		//===============================================================================================//
-		//=================================== BOARD THICKNESS MODIFIER (output) =========================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //=================================== BOARD THICKNESS MODIFIER (output) =========================//
+        //===============================================================================================//
 
 		/*this.boardThicknessModifier = new CalcVarNumericalOutput(
 			"boardThicknessModifier",
@@ -671,31 +701,31 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.boardThicknessModifier.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ==========//
-		this.boardThicknessModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.boardThicknessModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.boardThicknessModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.boardThicknessModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-		this.calcVars.add(this.boardThicknessModifier);
+        this.calcVars.add(this.boardThicknessModifier);
 
 
-		//===============================================================================================//
-		//====================================== IS PLANE PRESENT (combobox) ============================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //====================================== IS PLANE PRESENT (combobox) ============================//
+        //===============================================================================================//
 
-		this.isPlanePresent = new CalcVarComboBox(
-			"isPlanePresent",
-			isPlanePresentComboBox,
-			new String[] {
-				"True",
-				"False",
-			},
-            () -> CalcVarDirections.Input,
-			"Set this to \"True\" if there is a copper plane either above or below the current-carrying track, and then enter the distance to it in the \"Plane Proximity\" field. If there is no plane, set this to \"False\", and the \"Plane Proximity\" variable will also dissappear.");
+        this.isPlanePresent = new CalcVarComboBox(
+                "isPlanePresent",
+                isPlanePresentComboBox,
+                new String[]{
+                        "True",
+                        "False",
+                },
+                () -> CalcVarDirections.Input,
+                "Set this to \"True\" if there is a copper plane either above or below the current-carrying track, and then enter the distance to it in the \"Plane Proximity\" field. If there is no plane, set this to \"False\", and the \"Plane Proximity\" variable will also disappear.");
 
-		this.calcVars.add(this.isPlanePresent);
+        this.calcVars.add(this.isPlanePresent);
 
-		//===============================================================================================//
-		//================================== PLANE PROXIMITY (input) ====================================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //================================== PLANE PROXIMITY (input) ====================================//
+        //===============================================================================================//
 
 		/*this.planeProximity = new CalcVarNumericalInput(
 			"planeProximity",
@@ -724,35 +754,35 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.planeProximity.setHelpText("The distance from the current-carrying track to the closest copper plane. If it is a 2-layer 1.6mm PCB, with the current-carrying track on one side and ground on the other side, then the plane proximity would be 1.6mm. For 4 or more layer boards, this value is likely to be much less.");
         this.planeProximity.setIsEngineeringNotationEnabled(true);
 
-		//========== VALIDATORS ==========//
-		this.planeProximity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.planeProximity.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.planeProximity.addValidator(
-		   new Validator(() -> {
-			   return ((this.planeProximity.getRawVal() < 144e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-		   },
-		   "Plane proximity is below the minimum value (144um) extracted from the plane proximity modififer graph in IPC-2152." +
-		   " Results might not be as accurate (extrapolation will occur)."));
-		this.planeProximity.addValidator(
-			new Validator(() -> {
-				return ((this.planeProximity.getRawVal() > 2.40e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-			},
-			"Plane proximity is above the maximum value (2.40mm) extracted from the plane proximity modififer graph in IPC-2152." +
-			" Results might not be as accurate (extrapolation will occur)."));
-		// This next validator is dependent on other calculator variables
-		this.planeProximity.addValidator(
-			new Validator(() -> {
-				double planeProximityM = this.planeProximity.getRawVal();
-				double boardThicknessM = this.boardThickness.getRawVal();
-				return ((planeProximityM > boardThicknessM) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
-			},
-			"Plane proximity cannot be larger than total board thickness (this just does not make sense!)."));
+        //========== VALIDATORS ==========//
+        this.planeProximity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.planeProximity.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.planeProximity.addValidator(
+                new Validator(() -> {
+                    return ((this.planeProximity.getRawVal() < 144e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Plane proximity is below the minimum value (144um) extracted from the plane proximity modifier graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
+        this.planeProximity.addValidator(
+                new Validator(() -> {
+                    return ((this.planeProximity.getRawVal() > 2.40e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Plane proximity is above the maximum value (2.40mm) extracted from the plane proximity modifier graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
+        // This next validator is dependent on other calculator variables
+        this.planeProximity.addValidator(
+                new Validator(
+                        new ArrayList<>(Arrays.asList(this.planeProximity, this.boardThickness)), // Dependency list
+                        () -> {
+                            return ((this.planeProximity.getRawVal() > this.boardThickness.getRawVal()) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
+                        },
+                        "Plane proximity cannot be larger than total board thickness (this just does not make sense!)."));
 
-		this.calcVars.add(this.planeProximity);
+        this.calcVars.add(this.planeProximity);
 
-		//===============================================================================================//
-		//=================================== PLANE PROXIMITY MODIFIER (output) =========================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //=================================== PLANE PROXIMITY MODIFIER (output) =========================//
+        //===============================================================================================//
 
 		/*this.planeProximityModifier = new CalcVarNumericalOutput(
 			"planeProximityModifier",
@@ -820,15 +850,15 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.planeProximityModifier.setHelpText("The modifier to adjust the cross-sectional area with based on the proximity of a plane to the current-carrying track.");
         this.planeProximityModifier.setIsEngineeringNotationEnabled(true);
 
-		// Add validators
-		this.planeProximityModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.planeProximityModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        // Add validators
+        this.planeProximityModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.planeProximityModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-		this.calcVars.add(this.planeProximityModifier);
+        this.calcVars.add(this.planeProximityModifier);
 
-		//===============================================================================================//
-		//================================= THERMAL CONDUCTIVITY (input) ================================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //================================= THERMAL CONDUCTIVITY (input) ================================//
+        //===============================================================================================//
 
 		/*this.thermalConductivity = new CalcVarNumericalInput(
 			"boardThickness",
@@ -856,27 +886,27 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.thermalConductivity.setHelpText("The thermal conductivity of the PCB. This is normally hard to determine, but for most FR4 PCBs this is around 0.20Wm-1K-1.");
         this.thermalConductivity.setIsEngineeringNotationEnabled(true);
 
-		//========== VALIDATORS ==========//
-		this.thermalConductivity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.thermalConductivity.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-		this.thermalConductivity.addValidator(
-		   new Validator(() -> {
-			   return ((this.thermalConductivity.getRawVal() < 180e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-		   },
-		   "Thermal conductivity is below the minimum value (180mW/m*c) extracted from the thermal conductivity modififer graph in IPC-2152." +
-		   " Results might not be as accurate (extrapolation will occur)."));
-		this.thermalConductivity.addValidator(
-			new Validator(() -> {
-				return ((this.thermalConductivity.getRawVal() > 340e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-			},
-			"Thermal conductivity is above the maximum value (340mW/m*c) extracted from the thermal conductivity modififer graph in IPC-2152." +
-			" Results might not be as accurate (extrapolation will occur)."));
+        //========== VALIDATORS ==========//
+        this.thermalConductivity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.thermalConductivity.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.thermalConductivity.addValidator(
+                new Validator(() -> {
+                    return ((this.thermalConductivity.getRawVal() < 180e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Thermal conductivity is below the minimum value (180mW/m*c) extracted from the thermal conductivity modififer graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
+        this.thermalConductivity.addValidator(
+                new Validator(() -> {
+                    return ((this.thermalConductivity.getRawVal() > 340e-3) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Thermal conductivity is above the maximum value (340mW/m*c) extracted from the thermal conductivity modififer graph in IPC-2152." +
+                                " Results might not be as accurate (extrapolation will occur)."));
 
-		this.calcVars.add(this.thermalConductivity);
+        this.calcVars.add(this.thermalConductivity);
 
-		//===============================================================================================//
-		//================================ THERMAL CONDUCTIVITY MODIFIER (output) =======================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //================================ THERMAL CONDUCTIVITY MODIFIER (output) =======================//
+        //===============================================================================================//
 
 		/*this.thermalConductivityModifier = new CalcVarNumericalOutput(
 			"thermalConductivityModifier",
@@ -928,18 +958,18 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.thermalConductivityModifier.setHelpText("The modifier to adjust the cross-sectional area with based on the thermal conductivity of the PCB.");
         this.thermalConductivityModifier.setIsEngineeringNotationEnabled(true);
 
-		// Add validators
-		this.thermalConductivityModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.thermalConductivityModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        // Add validators
+        this.thermalConductivityModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.thermalConductivityModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-		this.calcVars.add(this.thermalConductivityModifier);
+        this.calcVars.add(this.thermalConductivityModifier);
 
-		//===============================================================================================//
-		//================================= ADJUSTED CROSS-SECTIONAL AREA (output) ======================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //================================= ADJUSTED CROSS-SECTIONAL AREA (output) ======================//
+        //===============================================================================================//
 
-		/*this.adjustedCrossSectionalArea = new CalcVarNumericalOutput(
-			"adjustedCrossSectionalArea",
+		/*this.adjustedTrackCrossSectionalArea = new CalcVarNumericalOutput(
+			"adjustedTrackCrossSectionalArea",
 			adjustedTrackCrossSectionalAreaValue,
 			adjustedTrackCrossSectionalAreaUnits,
 			() -> {
@@ -969,11 +999,11 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 			"The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers." // Help text
 			);*/
 
-        this.adjustedCrossSectionalArea.init();
-        this.adjustedCrossSectionalArea.setName("adjustedCrossSectionalArea");
-        this.adjustedCrossSectionalArea.setValueTextField(this.adjustedTrackCrossSectionalAreaValue);
-        this.adjustedCrossSectionalArea.setUnitsComboBox(this.adjustedTrackCrossSectionalAreaUnits);
-        this.adjustedCrossSectionalArea.setEquationFunction(() -> {
+        this.adjustedTrackCrossSectionalArea.init();
+        this.adjustedTrackCrossSectionalArea.setName("adjustedTrackCrossSectionalArea");
+        this.adjustedTrackCrossSectionalArea.setValueTextField(this.adjustedTrackCrossSectionalAreaValue);
+        this.adjustedTrackCrossSectionalArea.setUnitsComboBox(this.adjustedTrackCrossSectionalAreaUnits);
+        this.adjustedTrackCrossSectionalArea.setEquationFunction(() -> {
             // Read in variables
             double unadjustedTrackCrossSectionalArea = this.unadjustedTrackCrossSectionalArea.getRawVal();
             double trackThicknessModifier = this.trackThicknessModifier.getRawVal();
@@ -990,32 +1020,32 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 
             return adjustedTrackCrosssectionalAreaM2;
         });
-        this.adjustedCrossSectionalArea.setUnits(new NumberUnitMultiplier[]{
+        this.adjustedTrackCrossSectionalArea.setUnits(new NumberUnitMultiplier[]{
                 new NumberUnitMultiplier("um²", 1e-12, NumberPreference.DEFAULT),
                 new NumberUnitMultiplier("mils²", UNIT_CONVERSION_M2_PER_MIL2),
                 new NumberUnitMultiplier("mm²", 1e-6),
         });
-        this.adjustedCrossSectionalArea.setNumDigitsToRound(4);
-        this.adjustedCrossSectionalArea.setHelpText("The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers.");
-        this.adjustedCrossSectionalArea.setIsEngineeringNotationEnabled(true);
+        this.adjustedTrackCrossSectionalArea.setNumDigitsToRound(4);
+        this.adjustedTrackCrossSectionalArea.setHelpText("The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers.");
+        this.adjustedTrackCrossSectionalArea.setIsEngineeringNotationEnabled(true);
 
-		// Add validators
-		this.adjustedCrossSectionalArea.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.adjustedCrossSectionalArea.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        // Add validators
+        this.adjustedTrackCrossSectionalArea.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.adjustedTrackCrossSectionalArea.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-		this.calcVars.add(this.adjustedCrossSectionalArea);
+        this.calcVars.add(this.adjustedTrackCrossSectionalArea);
 
 
-		//===============================================================================================//
-		//==================================== MIN. TRACK WIDTH (output) ================================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //==================================== MIN. TRACK WIDTH (output) ================================//
+        //===============================================================================================//
 
 		/*this.minTrackWidth = new CalcVarNumericalOutput(
 			"minTrackWidth",
 			minTrackWidthValue,
 			minTrackWidthUnits,
 			() -> {
-				double minimumTrackWidthM = this.adjustedCrossSectionalArea.getRawVal() / this.trackThickness.getRawVal();
+				double minimumTrackWidthM = this.adjustedTrackCrossSectionalArea.getRawVal() / this.trackThickness.getRawVal();
 
 				return minimumTrackWidthM;
 			},
@@ -1034,7 +1064,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.minTrackWidth.setUnitsComboBox(this.minTrackWidthUnits);
         this.minTrackWidth.setEquationFunction(() -> {
             // Read in variables
-            double minimumTrackWidthM = this.adjustedCrossSectionalArea.getRawVal() / this.trackThickness.getRawVal();
+            double minimumTrackWidthM = this.adjustedTrackCrossSectionalArea.getRawVal() / this.trackThickness.getRawVal();
 
             return minimumTrackWidthM;
         });
@@ -1047,25 +1077,25 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.minTrackWidth.setHelpText("The minimum track width needed to carry the specified current without exceeding the given temperature rise.");
         this.minTrackWidth.setIsEngineeringNotationEnabled(true);
 
-		// Add validators
-		this.minTrackWidth.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-		this.minTrackWidth.addValidator(
-		   new Validator(() -> {
-			   return ((this.minTrackWidth.getRawVal() <= 0) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
-		   },
-		   "Oh oh, one of the input variables is too far away from the data obtained from the IPC-2152 graphs, and the equations have produced a negative track width. Try and make sure input variables are green (or if orange, not too far away from being green)."));
+        // Add validators
+        this.minTrackWidth.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.minTrackWidth.addValidator(
+                new Validator(() -> {
+                    return ((this.minTrackWidth.getRawVal() <= 0) ? CalcValidationLevels.Error : CalcValidationLevels.Ok);
+                },
+                        "Oh oh, one of the input variables is too far away from the data obtained from the IPC-2152 graphs, and the equations have produced a negative track width. Try and make sure input variables are green (or if orange, not too far away from being green)."));
 
 
-		this.calcVars.add(this.minTrackWidth);
+        this.calcVars.add(this.minTrackWidth);
 
-		//===============================================================================================//
-		//=========================================== VIEW CONFIG =======================================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //=========================================== VIEW CONFIG =======================================//
+        //===============================================================================================//
 
         this.isPlanePresent.addRawValueChangedListener((calcVarBase) -> {
             System.out.println("isPlanePresent calculator variable changed.");
 
-            if(this.isPlanePresent.getRawVal() == "True") {
+            if (this.isPlanePresent.getRawVal() == "True") {
                 this.planeProximityLabel.setVisible(true);
                 this.planeProximityValue.setVisible(true);
                 this.planeProximityUnits.setVisible(true);
@@ -1077,7 +1107,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
 
                 this.bottomPlane.setVisible(true);
 
-            } else if(isPlanePresent.getRawVal() == "False") {
+            } else if (isPlanePresent.getRawVal() == "False") {
                 this.planeProximityLabel.setVisible(false);
                 this.planeProximityValue.setVisible(false);
                 this.planeProximityUnits.setVisible(false);
@@ -1091,14 +1121,14 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
             }
         });
 
-		//===============================================================================================//
-		//============================================== FINAL ==========================================//
-		//===============================================================================================//
+        //===============================================================================================//
+        //============================================== FINAL ==========================================//
+        //===============================================================================================//
 
-		this.findDependenciesAndDependants();
+        this.findDependenciesAndDependants();
         this.refreshDirectionsAndUpdateUI();
-		this.recalculateAllOutputs();
-		this.validateAllVariables();
+        this.recalculateAllOutputs();
+        this.validateAllVariables();
 
-	} // public TrackCurrentIpc2152Calculator()
+    } // public TrackCurrentIpc2152Calculator()
 }
