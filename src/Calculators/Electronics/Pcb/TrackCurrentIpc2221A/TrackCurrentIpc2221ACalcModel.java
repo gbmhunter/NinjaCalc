@@ -15,9 +15,9 @@ import java.net.URL;
 /**
  * A track current calculator based of the IPC-2221A standard.
  *
- * @author          gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
- * @since           2015-11-02
- * @last-modified   2016-04-12
+ * @author gbmhunter (www.mbedded.ninja) <gbmhunter@gmail.com>
+ * @last-modified 2016-04-23
+ * @since 2015-11-02
  */
 public class TrackCurrentIpc2221ACalcModel extends Calculator {
 
@@ -44,7 +44,7 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
     private ComboBox trackThicknessUnits;
 
     @FXML
-    private ComboBox trackLayer;
+    private ComboBox trackLayerComboBox;
 
     @FXML
     private TextField minTrackWidthValue;
@@ -55,15 +55,15 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
-    public CalcVarNumericalInput TrackCurrent;
+    public CalcVarNumericalInput trackCurrent = new CalcVarNumericalInput();
 
-    public CalcVarNumericalInput TempRise;
+    public CalcVarNumericalInput tempRise = new CalcVarNumericalInput();
 
-    public CalcVarNumericalInput TrackThickness;
+    public CalcVarNumericalInput trackThickness = new CalcVarNumericalInput();
 
-    public CalcVarComboBox TrackLayer;
+    public CalcVarComboBox trackLayer;
 
-    public CalcVarNumericalOutput MinTrackWidth;
+    public CalcVarNumericalOutput minTrackWidth = new CalcVarNumericalOutput();
 
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
@@ -72,10 +72,10 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
     public TrackCurrentIpc2221ACalcModel() {
 
         super(
-            "Track Current (IPC-2221A)",
-            "PCB track current carrying capability calculator, using the IPC-2221A standard.",
-            new String[] { "Electronics", "PCB" },
-            new String[] { "pcb", "track", "current", "trace", "width", "carry", "heat", "temperature", "ipc", "ipc2221a", "ipc-2221a" });
+                "Track Current (IPC-2221A)",
+                "PCB track current carrying capability calculator, using the IPC-2221A standard.",
+                new String[]{"Electronics", "PCB"},
+                new String[]{"pcb", "track", "current", "trace", "width", "carry", "heat", "hot", "temperature", "ipc", "ipc2221a", "ipc-2221a"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
@@ -100,7 +100,7 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
         //===============================================================================================//
 
         WebEngine engine = this.infoWebView.getEngine();
-        final String htmlFile= "info.html";
+        final String htmlFile = "info.html";
         URL url = getClass().getResource(htmlFile);
         engine.load(url.toExternalForm());
 
@@ -108,7 +108,7 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
         //========================================= TRACK CURRENT =======================================//
         //===============================================================================================//
 
-        this.TrackCurrent = new CalcVarNumericalInput(
+        /*this.trackCurrent = new CalcVarNumericalInput(
              "traceCurrent",
              trackCurrentValue,
              trackCurrentUnits,
@@ -119,24 +119,35 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
              4,
              null,
              "The current you want the PCB track to be able to handle." // Help info
-             );
+             );*/
+
+        this.trackCurrent.init();
+        this.trackCurrent.setName("trackCurrent");
+        this.trackCurrent.setValueTextField(this.trackCurrentValue);
+        this.trackCurrent.setUnitsComboBox(this.trackCurrentUnits);
+        this.trackCurrent.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("A", 1e0, NumberPreference.DEFAULT),
+        });
+        this.trackCurrent.setNumDigitsToRound(4);
+        this.trackCurrent.setHelpText("The current you want the PCB track to be able to handle.");
+        this.trackCurrent.setIsEngineeringNotationEnabled(true);
 
         //===== VALIDATORS =====//
-        this.TrackCurrent.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.TrackCurrent.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-        this.TrackCurrent.addValidator(
-            new Validator(() -> {
-                return ((this.TrackCurrent.getRawVal() > 35.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-            },
-            "Current is above recommended maximum (35A). Equation will not be as accurate (extrapolation will occur)."));
+        this.trackCurrent.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.trackCurrent.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.trackCurrent.addValidator(
+                new Validator(() -> {
+                    return ((this.trackCurrent.getRawVal() > 35.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Current is above recommended maximum (35A). Equation will not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.TrackCurrent);
+        this.calcVars.add(this.trackCurrent);
 
         //===============================================================================================//
         //====================================== TEMP RISE (input) ======================================//
         //===============================================================================================//
 
-        this.TempRise = new CalcVarNumericalInput(
+        /*this.tempRise = new CalcVarNumericalInput(
             "tempRise",
             tempRiseValue,
             tempRiseUnits,
@@ -146,124 +157,180 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
             4,
             null,
             "The maximum desired temperature rise due to the current flowing through the track. 20-40°c is a common value for this." // Help info
-            );
+            );*/
+
+        this.tempRise.init();
+        this.tempRise.setName("tempRise");
+        this.tempRise.setValueTextField(this.tempRiseValue);
+        this.tempRise.setUnitsComboBox(this.tempRiseUnits);
+        this.tempRise.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("°C", 1e0, NumberPreference.DEFAULT),
+        });
+        this.tempRise.setNumDigitsToRound(4);
+        this.tempRise.setHelpText("The maximum desired temperature rise due to the current flowing through the track. 20-40°c is a common value for this.");
+        this.tempRise.setIsEngineeringNotationEnabled(true);
 
         //===== VALIDATORS =====//
-        this.TempRise.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.TempRise.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-        this.TempRise.addValidator(
-            new Validator(() -> {
-                return ((this.TempRise.getRawVal() < 10.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-            },
-            "Temperature rise is below the recommended minimum (10°c). Equation will not be as accurate (extrapolation will occur)."));
-        this.TempRise.addValidator(
-            new Validator(() -> {
-                return ((this.TempRise.getRawVal() > 100.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-            },
-            "Temperature rise is above the recommended maximum (100°c). Equation will not be as accurate (extrapolation will occur)."));
+        this.tempRise.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.tempRise.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.tempRise.addValidator(
+                new Validator(() -> {
+                    return ((this.tempRise.getRawVal() < 10.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Temperature rise is below the recommended minimum (10°c). Equation will not be as accurate (extrapolation will occur)."));
+        this.tempRise.addValidator(
+                new Validator(() -> {
+                    return ((this.tempRise.getRawVal() > 100.0) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Temperature rise is above the recommended maximum (100°c). Equation will not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.TempRise);
+        this.calcVars.add(this.tempRise);
 
         //===============================================================================================//
         //====================================== TRACK THICKNESS (input) ================================//
         //===============================================================================================//
 
-        this.TrackThickness = new CalcVarNumericalInput(
-            "trackThickness",
-            trackThicknessValue,
-            trackThicknessUnits,
-            new NumberUnitMultiplier[]{
-                new NumberUnitMultiplier("um", 1e-6, NumberPreference.DEFAULT),
-                new NumberUnitMultiplier("mm", 1e-3),
+        /*this.trackThickness = new CalcVarNumericalInput(
+                "trackThickness",
+                trackThicknessValue,
+                trackThicknessUnits,
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("um", 1e-6, NumberPreference.DEFAULT),
+                        new NumberUnitMultiplier("mm", 1e-3),
+                        new NumberUnitMultiplier("oz", UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ),
+                        new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
+                },
+                4,
+                null,
+                "The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz)." // Help text
+        );*/
+
+        this.trackThickness.init();
+        this.trackThickness.setName("trackThickness");
+        this.trackThickness.setValueTextField(this.trackThicknessValue);
+        this.trackThickness.setUnitsComboBox(this.trackThicknessUnits);
+        this.trackThickness.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("m", 1e0),
                 new NumberUnitMultiplier("oz", UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ),
                 new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
-            },
-            4,
-            null,
-            "The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz)." // Help text
-            );
+        });
+        this.trackThickness.setNumDigitsToRound(4);
+        this.trackThickness.setHelpText("The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz).");
+        this.trackThickness.setIsEngineeringNotationEnabled(true);
 
         //===== VALIDATORS =====//
-        this.TrackThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.TrackThickness.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-        this.TrackThickness.addValidator(
-           new Validator(() -> {
-               return ((this.TrackThickness.getRawVal() < 17.5e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-           },
-           "Track thickness is below the recommended minimum (17.5um or 0.5oz). Equation will not be as accurate (extrapolation will occur)."));
-        this.TrackThickness.addValidator(
-            new Validator(() -> {
-                return ((this.TrackThickness.getRawVal() > 105.0036e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
-            },
-            "Track thickness is above the recommended maximum (105um or 3oz). Equation will not be as accurate (extrapolation will occur)."));
+        this.trackThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.trackThickness.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.trackThickness.addValidator(
+                new Validator(() -> {
+                    return ((this.trackThickness.getRawVal() < 17.5e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Track thickness is below the recommended minimum (17.5um or 0.5oz). Equation will not be as accurate (extrapolation will occur)."));
+        this.trackThickness.addValidator(
+                new Validator(() -> {
+                    return ((this.trackThickness.getRawVal() > 105.0036e-6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                },
+                        "Track thickness is above the recommended maximum (105um or 3oz). Equation will not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.TrackThickness);
+        this.calcVars.add(this.trackThickness);
 
         //===============================================================================================//
         //======================================== TRACK LAYER (input) ==================================//
         //===============================================================================================//
 
-        this.TrackLayer = new CalcVarComboBox(
-            "trackLayer",
-            this.trackLayer,
-            new String[] {
-                "Internal",
-                "External",
-            },
-            () -> CalcVarDirections.Input,
-            "The type of layer that the current-carrying track is on. If the track is on the top or bottom copper layer of the PCB, set this to \"External\". If the track is on a buried layer, set this to \"Internal\".");
+        this.trackLayer = new CalcVarComboBox(
+                "trackLayerComboBox",
+                this.trackLayerComboBox,
+                new String[]{
+                        "Internal",
+                        "External",
+                },
+                () -> CalcVarDirections.Input,
+                "The type of layer that the current-carrying track is on. If the track is on the top or bottom copper layer of the PCB, set this to \"External\". If the track is on a buried layer, set this to \"Internal\".");
 
-        this.calcVars.add(this.TrackLayer);
+        this.calcVars.add(this.trackLayer);
 
         //===============================================================================================//
         //=================================== MIN. TRACK WIDTH (output) =================================//
         //===============================================================================================//
 
-        this.MinTrackWidth = new CalcVarNumericalOutput(
-            "minTrackWidth",
-            this.minTrackWidthValue,
-            this.minTrackWidthUnits,
-            () -> {
-                Double traceCurrent = this.TrackCurrent.getRawVal();
-                Double tempRise = this.TempRise.getRawVal();
-                Double trackThickness = this.TrackThickness.getRawVal();
-                String trackLayer = this.TrackLayer.getRawVal();
+        /*this.minTrackWidth = new CalcVarNumericalOutput(
+                "minTrackWidth",
+                this.minTrackWidthValue,
+                this.minTrackWidthUnits,
+                () -> {
+                    Double traceCurrent = this.trackCurrent.getRawVal();
+                    Double tempRise = this.tempRise.getRawVal();
+                    Double trackThickness = this.trackThickness.getRawVal();
+                    String trackLayer = this.trackLayer.getRawVal();
 
-                if(trackLayer == "External")
-                {
-                    //System.out.println("External trace selected.");
-                    double crossSectionalArea = (Math.pow((traceCurrent/(0.048*Math.pow(tempRise, 0.44))), 1/0.725));
-                    //System.out.println("Cross-sectional area = " + String.valueOf(crossSectionalArea));
-                    double width = (crossSectionalArea/(trackThickness*1000000.0/25.4))*(25.4/1000000.0);
-                    return width;
-                }
-                else if(trackLayer == "Internal")
-                {
-                    //System.out.println("Internal trace selected.");
-                    double crossSectionalArea = (Math.pow((traceCurrent/(0.024*Math.pow(tempRise, 0.44))), 1/0.725));
-                    //System.out.println("Cross-sectional area = " + String.valueOf(crossSectionalArea));
-                    double width = (crossSectionalArea/(trackThickness*1000000.0/25.4))*(25.4/1000000.0);
-                    return width;
-                }
-                else {
-                    assert false; //, "Track layer was invalid (should be either External or Internal).");
-                    return Double.NaN;
-                }
-            },
-            new NumberUnitMultiplier[]{
-                new NumberUnitMultiplier("um", 1e-6),
-                new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
+                    if (trackLayer == "External") {
+                        //System.out.println("External trace selected.");
+                        double crossSectionalArea = (Math.pow((traceCurrent / (0.048 * Math.pow(tempRise, 0.44))), 1 / 0.725));
+                        //System.out.println("Cross-sectional area = " + String.valueOf(crossSectionalArea));
+                        double width = (crossSectionalArea / (trackThickness * 1000000.0 / 25.4)) * (25.4 / 1000000.0);
+                        return width;
+                    } else if (trackLayer == "Internal") {
+                        //System.out.println("Internal trace selected.");
+                        double crossSectionalArea = (Math.pow((traceCurrent / (0.024 * Math.pow(tempRise, 0.44))), 1 / 0.725));
+                        //System.out.println("Cross-sectional area = " + String.valueOf(crossSectionalArea));
+                        double width = (crossSectionalArea / (trackThickness * 1000000.0 / 25.4)) * (25.4 / 1000000.0);
+                        return width;
+                    } else {
+                        assert false; //, "Track layer was invalid (should be either External or Internal).");
+                        return Double.NaN;
+                    }
+                },
+                new NumberUnitMultiplier[]{
+                        new NumberUnitMultiplier("um", 1e-6),
+                        new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
+                        new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
+                },
+                4,
+                "The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text
+        );*/
+
+        this.minTrackWidth.init();
+        this.minTrackWidth.setName("minTrackWidth");
+        this.minTrackWidth.setValueTextField(this.minTrackWidthValue);
+        this.minTrackWidth.setUnitsComboBox(this.minTrackWidthUnits);
+        this.minTrackWidth.setEquationFunction(() -> {
+            // Read in variables
+            Double traceCurrent = this.trackCurrent.getRawVal();
+            Double tempRise = this.tempRise.getRawVal();
+            Double trackThickness = this.trackThickness.getRawVal();
+            String trackLayer = this.trackLayer.getRawVal();
+
+            if (trackLayer == "External") {
+                //System.out.println("External trace selected.");
+                double crossSectionalArea = (Math.pow((traceCurrent / (0.048 * Math.pow(tempRise, 0.44))), 1 / 0.725));
+                //System.out.println("Cross-sectional area = " + String.valueOf(crossSectionalArea));
+                double width = (crossSectionalArea / (trackThickness * 1000000.0 / 25.4)) * (25.4 / 1000000.0);
+                return width;
+            } else if (trackLayer == "Internal") {
+                //System.out.println("Internal trace selected.");
+                double crossSectionalArea = (Math.pow((traceCurrent / (0.024 * Math.pow(tempRise, 0.44))), 1 / 0.725));
+                //System.out.println("Cross-sectional area = " + String.valueOf(crossSectionalArea));
+                double width = (crossSectionalArea / (trackThickness * 1000000.0 / 25.4)) * (25.4 / 1000000.0);
+                return width;
+            } else {
+                assert false; //, "Track layer was invalid (should be either External or Internal).");
+                return Double.NaN;
+            }
+        });
+        this.minTrackWidth.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("m", 1e0, NumberPreference.DEFAULT),
                 new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
-            },
-            4,
-            "The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text
-            );
+        });
+        this.minTrackWidth.setNumDigitsToRound(4);
+        this.minTrackWidth.setHelpText("The minimum track width needed to carry the specified current without exceeding the given temperature rise.");
+        this.minTrackWidth.setIsEngineeringNotationEnabled(true);
 
         // Add validators
-        this.MinTrackWidth.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.MinTrackWidth.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.minTrackWidth.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.minTrackWidth.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.MinTrackWidth);
+        this.calcVars.add(this.minTrackWidth);
 
         //===============================================================================================//
         //=========================================== VIEW CONFIG =======================================//
@@ -271,11 +338,11 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
 
         // Setup the top PCB layer to dissappear if "External" is selected for the track layer,
         // and visible if "Internal" is selected.
-        /*this.TrackLayer.RawValueChanged += (sender, e) => {
-            if (this.TrackLayer.RawVal == "Internal") {
+        /*this.trackLayer.RawValueChanged += (sender, e) => {
+            if (this.trackLayer.RawVal == "Internal") {
                 view.TopPcb.Visibility = System.Windows.Visibility.Visible;
             }
-            else if (this.TrackLayer.RawVal == "External") {
+            else if (this.trackLayer.RawVal == "External") {
                 view.TopPcb.Visibility = System.Windows.Visibility.Collapsed;
             }
         };*/

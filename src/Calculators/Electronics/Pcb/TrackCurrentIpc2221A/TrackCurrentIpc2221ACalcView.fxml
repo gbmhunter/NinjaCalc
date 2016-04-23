@@ -81,7 +81,7 @@
                                   prefWidth="80.0"/>
 
                         <Label layoutX="355.0" layoutY="75.0">Track Layer</Label>
-                        <ComboBox fx:id="trackLayer" layoutX="334.0" layoutY="99.0" prefHeight="30.0"
+                        <ComboBox fx:id="trackLayerComboBox" layoutX="334.0" layoutY="99.0" prefHeight="30.0"
                                   prefWidth="126.0"/>
 
                         <Label layoutX="244.0" layoutY="377.0">Min. Track Width</Label>
