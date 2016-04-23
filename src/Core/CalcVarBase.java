@@ -126,6 +126,8 @@ public abstract class CalcVarBase {
         this.dependencies = new ArrayList<CalcVarBase>();
         this.dependants = new ArrayList<CalcVarBase>();
 
+        this.validators = new ArrayList<>();
+
         this.varsWithDependantValidators = new ArrayList<>();
 
         // Save equation function

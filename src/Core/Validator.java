@@ -39,6 +39,9 @@ public class Validator {
      * @param message
      */
     public Validator(IValidationFunctionWithValue validationFunction, String message) {
+
+        this.dependencies = new ArrayList<>();
+
         // Save function internally
         this.ValidationFunction = validationFunction;
 
@@ -53,6 +56,9 @@ public class Validator {
      * @param message
      */
     public Validator(IValidationFunction validationFunction, String message) {
+
+        this.dependencies = new ArrayList<>();
+
         // Save function internally
         this.ValidationFunction = (value) -> {
             CalcValidationLevel validationLevel = validationFunction.execute();
