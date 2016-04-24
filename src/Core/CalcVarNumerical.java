@@ -434,7 +434,12 @@ public class CalcVarNumerical extends CalcVarBase {
     }
 
     public ComboBox getUnitsComboBox() { return unitsComboBox; }
-    public void setUnitsComboBox(ComboBox unitsComboBox) { this.unitsComboBox = unitsComboBox; }
+    public void setUnitsComboBox(ComboBox unitsComboBox) {
+        if(unitsComboBox == null){
+            throw new IllegalArgumentException("Provided unitsComboBox to " +  this.name + ".setUnitsComboBox was null.");
+        }
+        this.unitsComboBox = unitsComboBox;
+    }
 
     public ObservableList<NumberUnit> getUnits() { return units; }
 

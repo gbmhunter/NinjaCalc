@@ -251,8 +251,8 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
         //=================================== MIN. TRACK WIDTH (output) =================================//
         //===============================================================================================//
 
-        /*this.minTrackWidth = new CalcVarNumericalOutput(
-                "minTrackWidth",
+        /*this.currentLimit = new CalcVarNumericalOutput(
+                "currentLimit",
                 this.minTrackWidthValue,
                 this.minTrackWidthUnits,
                 () -> {
@@ -287,7 +287,7 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
                 "The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text
         );*/
 
-        this.minTrackWidth.setName("minTrackWidth");
+        this.minTrackWidth.setName("currentLimit");
         this.minTrackWidth.setValueTextField(this.minTrackWidthValue);
         this.minTrackWidth.setUnitsComboBox(this.minTrackWidthUnits);
         this.minTrackWidth.setEquationFunction(() -> {

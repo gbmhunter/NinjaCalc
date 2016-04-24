@@ -56,6 +56,7 @@ public class Main extends Application {
         //========== PCB ==========//
         controller.addCalculatorTemplate(new Calculators.Electronics.Pcb.TrackCurrentIpc2221A.TrackCurrentIpc2221ACalcModel());
         controller.addCalculatorTemplate(new Calculators.Electronics.Pcb.TrackCurrentIpc2152.TrackCurrentIpc2152CalcModel());
+        controller.addCalculatorTemplate(new Calculators.Electronics.Pcb.ViaCurrentIpc2221A.ViaCurrentIpc2221ACalcModel());
 
         //========== SENSORS =========//
         controller.addCalculatorTemplate(new Calculators.Electronics.Sensors.NtcThermistor.NtcThermistorCalcModel());
