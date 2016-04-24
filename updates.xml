@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<updateDescriptor baseUrl="https://github.com/mbedded-ninja/NinjaCalc/releases/download/1.0.9/">
-  <entry targetMediaFileId="23" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.0.9_windows.exe" newVersion="1.0.10" newMediaFileId="23" fileSize="14285824" bundledJre="" archive="false">
-    <comment language="en">v?.?.?&#xD;
+<updateDescriptor baseUrl="https://github.com/mbedded-ninja/NinjaCalc/releases/download/1.2.0/">
+  <entry targetMediaFileId="23" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.2.0_windows.exe" newVersion="1.2.0" newMediaFileId="23" fileSize="14285824" bundledJre="" archive="false">
+    <comment language="en">v1.2.0&#xD;
 ------&#xD;
 &#xD;
 - Added automatic update functionality, closes #108.&#xD;
@@ -183,8 +183,8 @@ v0.1.0&#xD;
 - Multiple instances of the same calculator type are now allowed to be open, closes #15.&#xD;
 - Clicking 'Open' on a calculator in the grid view now opens it's tab, closes #14.</comment>
   </entry>
-  <entry targetMediaFileId="36" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.0.9_macos.dmg" newVersion="1.0.9" newMediaFileId="36" fileSize="13959303" bundledJre="" archive="false">
-    <comment language="en">v?.?.?&#xD;
+  <entry targetMediaFileId="36" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.2.0_macos.dmg" newVersion="1.2.0" newMediaFileId="36" fileSize="13959303" bundledJre="" archive="false">
+    <comment language="en">v1.2.0&#xD;
 ------&#xD;
 &#xD;
 - Added automatic update functionality, closes #108.&#xD;

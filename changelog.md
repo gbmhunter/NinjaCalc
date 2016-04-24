@@ -1,4 +1,4 @@
-v?.?.?
+v1.2.0
 ------
 
 - Added automatic update functionality, closes #108.
