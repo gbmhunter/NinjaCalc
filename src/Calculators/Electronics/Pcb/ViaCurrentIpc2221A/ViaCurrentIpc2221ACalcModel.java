@@ -2,6 +2,7 @@ package Calculators.Electronics.Pcb.ViaCurrentIpc2221A;
 
 
 import Core.*;
+import Core.CalcVar.CalcVarNumerical;
 import Core.CalcVar.CalcVarNumericalInput;
 import Core.CalcVar.CalcVarNumericalOutput;
 import javafx.fxml.FXML;
@@ -152,7 +153,6 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
                 new NumberUnitMultiplier("um", 1e-6),
                 new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
         });
-        this.finishedHoleDiameter_M.setNumDigitsToRound(4);
         this.finishedHoleDiameter_M.setHelpText("The finished hole diameter of the via. This is not the same as the drilled hole diameter, as the via is then plated.");
         this.finishedHoleDiameter_M.setIsEngineeringNotationEnabled(false);
 
@@ -174,7 +174,6 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
                 new NumberUnitMultiplier("oz", UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ),
                 new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
         });
-        this.platingThickness_M.setNumDigitsToRound(4);
         this.platingThickness_M.setHelpText("The plating thickness of the via walls. This is usually the same as the thickness of the start and end copper layers that the via connects to.");
         this.platingThickness_M.setIsEngineeringNotationEnabled(false);
 
@@ -196,7 +195,6 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
                 new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
                 new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
         });
-        this.viaLength_M.setNumDigitsToRound(4);
         this.viaLength_M.setHelpText("The length of the via. This is equal to the distance between the copper planes the via starts and ends on. For a simple 2-layer 1.6mm thick PCB, the via height is also 1.6mm. This could also be called the height of the via.");
         this.viaLength_M.setIsEngineeringNotationEnabled(false);
 
@@ -217,7 +215,6 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.temperatureRise_DegC.setUnits(new NumberUnit[]{
                 new NumberUnitMultiplier("°C", 1e0),
         });
-        this.temperatureRise_DegC.setNumDigitsToRound(4);
         this.temperatureRise_DegC.setHelpText("The maximum temperature rise above ambient you are allowing for the via. A rule-of-thumb for this value is between 10-40°C.");
         this.temperatureRise_DegC.setIsEngineeringNotationEnabled(false);
 
@@ -241,7 +238,6 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.platedCopperResistivity_OhmMeter.setUnits(new NumberUnit[]{
                 new NumberUnitMultiplier("Ω⋅m", 1e0),
         });
-        this.platedCopperResistivity_OhmMeter.setNumDigitsToRound(4);
         this.platedCopperResistivity_OhmMeter.setHelpText("The resistivity of the plated copper which the via is made from.");
         this.platedCopperResistivity_OhmMeter.setIsEngineeringNotationEnabled(false);
 
@@ -273,7 +269,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.viaCrossSectionalArea_M2.setUnits(new NumberUnitMultiplier[]{
                 new NumberUnitMultiplier("m2", 1e0, NumberPreference.DEFAULT),
         });
-        this.viaCrossSectionalArea_M2.setNumDigitsToRound(4);
+        this.viaCrossSectionalArea_M2.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 4);
         this.viaCrossSectionalArea_M2.setHelpText("The cross-sectional area of the via (the area of the via as viewed from the top down).");
         this.viaCrossSectionalArea_M2.setIsEngineeringNotationEnabled(false);
 
@@ -300,7 +296,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
 
         });
         this.viaResistance_Ohms.setUnits(new NumberUnitMultiplier[]{
-                new NumberUnitMultiplier("Ω", 1e0),
+                new NumberUnitMultiplier("mΩ", 1e-3),
         });
         this.viaResistance_Ohms.setNumDigitsToRound(4);
         this.viaResistance_Ohms.setHelpText("The resistance of the via. This is the resistance as measured from the top to the bottom of the via.");

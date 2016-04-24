@@ -4,6 +4,7 @@ package Core.CalcVar;
 import Core.*;
 import Utility.MetricPrefixes.MetricPrefixes;
 import Utility.MetricPrefixes.RoundingMethods;
+import Utility.Rounding;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -17,6 +18,7 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Encapsulates a single numerical variable in a NinjaCalc calculator (inherits from CalcVarBase).
@@ -605,7 +607,9 @@ public class CalcVarNumerical extends CalcVarBase {
      */
     public void calculate() {
         // Make sure this event only fires when this calculator variable is an output!
-        assert this.getDirection() == CalcVarDirections.Output;
+        if(this.getDirection() != CalcVarDirections.Output){
+            throw new RuntimeException("calculate() was called for calculator variable " + this.name + " which is NOT an output.");
+        }
 
         //System.out.println("CalcVar.calculate() called for \"" + this.name + "\".");
 
@@ -717,7 +721,7 @@ public class CalcVarNumerical extends CalcVarBase {
      */
     private void updateDispValFromRawVal() {
 
-        //System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\". this.rawVal = " + this.rawVal);
+        System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\". this.rawVal = " + this.rawVal);
 
         // Special treatment if raw value is NaN
         if(Double.isNaN(this.rawVal)) {
@@ -730,7 +734,6 @@ public class CalcVarNumerical extends CalcVarBase {
         // Recalculate dispValAsNumber and update textbox
         // We don't need to validate again if the units are changed for an output,
         // as the actual value (raw value) does not change.
-        //Double unroundedDispVal = this.rawVal / this.selUnit.multiplier;
         Double unroundedDispVal = this.selUnit.convertTo(this.rawVal);
 
         if(this.roundingType == RoundingTypes.SIGNIFICANT_FIGURES) {
@@ -741,7 +744,10 @@ public class CalcVarNumerical extends CalcVarBase {
                 //Format roundedMetricPrefixFormat = new MetricPrefixes();
                 this.dispValAsString = MetricPrefixes.toEng(unroundedDispVal, RoundingMethods.SIGNIFICANT_FIGURES, this.numDigitsToRound);
             } else {
-                this.dispValAsString = String.valueOf(unroundedDispVal);
+                // Round to specific number of significant figures, but don't use the metrix prefixes library
+                // to that
+                //this.dispValAsString = String.valueOf(unroundedDispVal);
+                this.dispValAsString = String.valueOf(Rounding.ToSignificantDigits(new BigDecimal(unroundedDispVal), this.numDigitsToRound));
             }
         } else if(this.roundingType == RoundingTypes.DECIMAL_PLACES) {
             // Rounding to fixed number of decimal places
