@@ -11,10 +11,10 @@ import java.util.ArrayList;
 /**
  * Base calculator class. Designed to be inherited by actual calculator implementations, which then define their own variables.
  *
- * @author gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
- * @last-modified 2016-04-13
- * @since 2015-11-02
- */
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2015-11-02
+ * @last-modified   2016-04-25
+  */
 public abstract class Calculator {
 
     /**
@@ -170,7 +170,7 @@ public abstract class Calculator {
 
     protected void findAllValidatorDependants() {
 
-        System.out.println("Calculator.findAllValidatorDependants() called.");
+        //System.out.println("Calculator.findAllValidatorDependants() called.");
 
         // Iterate over every variable in this calculator
         for (CalcVarBase calcVar : this.calcVars) {
@@ -180,7 +180,7 @@ public abstract class Calculator {
                 // Iterate through each calculator variable which is a dependency for this validator,
                 // and signal that this validator is dependent on the calculator variable
                 for (CalcVarBase calcVarDependency : validator.dependencies) {
-                    System.out.println("Adding " + calcVar.name + " to " + calcVarDependency.name + "'s list of vars with dependant validators.");
+                    //System.out.println("Adding " + calcVar.name + " to " + calcVarDependency.name + "'s list of vars with dependant validators.");
                     calcVarDependency.varsWithDependantValidators.add(calcVar);
                 }
             }

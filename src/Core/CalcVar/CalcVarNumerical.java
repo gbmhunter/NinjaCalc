@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-18
+ * @last-modified   2016-04-25
  */
 public class CalcVarNumerical extends CalcVarBase {
 
@@ -721,7 +721,7 @@ public class CalcVarNumerical extends CalcVarBase {
      */
     private void updateDispValFromRawVal() {
 
-        System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\". this.rawVal = " + this.rawVal);
+        //System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\". this.rawVal = " + this.rawVal);
 
         // Special treatment if raw value is NaN
         if(Double.isNaN(this.rawVal)) {

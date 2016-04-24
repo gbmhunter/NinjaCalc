@@ -185,7 +185,7 @@ public abstract class CalcVarBase {
      * calculator variable changes.
      */
     protected void forceVariablesWithDependantValidatorsToRevalidate() {
-        System.out.println("CalcVarBase.forceVariablesWithDependantValidatorsToRevalidate() called for " + this.name + ".");
+        //System.out.println("CalcVarBase.forceVariablesWithDependantValidatorsToRevalidate() called for " + this.name + ".");
 
         for(CalcVarBase calcVar : this.varsWithDependantValidators) {
             calcVar.validate();

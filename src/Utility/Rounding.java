@@ -6,9 +6,9 @@ import java.math.RoundingMode;
 /**
  * Static class to help with the rounding of calculator variables, especially
  * with significant figure-based rounding.
- * @author gbmhunter
- * @since 2015-11-02
- * @last-modified 2016-03-26
+ * @author          gbmhunter
+ * @since           2015-11-02
+ * @last-modified   2016-04-25
  */
 public class Rounding {
 
@@ -35,12 +35,12 @@ public class Rounding {
 
     public static BigDecimal ToSignificantDigits(BigDecimal value, int digits) {
 
-        System.out.println("ToSignificantDigits(), BigDecimal overload called.");
+        //System.out.println("ToSignificantDigits(), BigDecimal overload called.");
 
         int newScale = digits - value.precision()+value.scale();
         BigDecimal bd2 = value.setScale(newScale, RoundingMode.HALF_UP);
 
-        System.out.println("Rounded number = " + bd2);
+        //System.out.println("Rounded number = " + bd2);
 
         return bd2;
     }

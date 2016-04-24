@@ -40,7 +40,7 @@ public class StandardResistanceFinder {
      */
     static {
 
-        System.out.println("Building resistor E-series arrays.");
+        //System.out.println("Building resistor E-series arrays.");
 
         e24 = new ArrayList<Integer>(Arrays.asList(100, 110, 120, 130, 150, 160, 180, 200, 220, 240, 270, 300, 330, 360, 390, 430, 470, 510, 560, 620, 680, 750, 820, 910, 1000));
 
@@ -98,7 +98,7 @@ public class StandardResistanceFinder {
      */
     public static double Find(double desiredResistance, eSeriesOptions eSeries) {
 
-        System.out.println("StandardResistanceFinder::Find() called with desiredResistance = " + desiredResistance + "and eSeries = " + eSeries.toString());
+        //System.out.println("StandardResistanceFinder::Find() called with desiredResistance = " + desiredResistance + "and eSeries = " + eSeries.toString());
 
         // Check for special case where desired resistance is 0. Strictly speaking, this does not belong
         // in any E-series, but 0R links are common place so we will return 0.0 anyway.
