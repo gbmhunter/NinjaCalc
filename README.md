@@ -76,9 +76,11 @@ The install4j script is located at `/NinjaCalc.install4j`.
 1. Open the `/NinjaCalc.install4j` file in "install4j Multi-Platform Edition".
 2. Update the "Version" field as appropriate.
 3. Click the "Build Project" button.
-4. Wait until build completes. install4j should have created installer files for each supported platform (currently Windows and Mac OS) in the `install` directory.
-5. Upload the installable packages to GitHub as a new release (if appropriate).
-6. Update the download button links on the homepage in the `gh-pages` branch of the repo to point to the new release files.
+4. Wait until build completes. install4j should have created installer files for each supported platform (currently Windows and Mac OS), as well as an updates.xml file, in the `install` directory.
+5. Overwrite the old `updates.xml` file in the repos root directory with the one that install4j created in the `install` directory.
+6. Upload the installable packages to GitHub as a new release (if appropriate).
+7. Push the repository changes to the master branch (updates.xml is the most important file to be updated).
+8. Update the download button links on the homepage in the `gh-pages` branch of the repo to point to the new release files.
 
 
 # Debugging A Deployed App (Locally)
