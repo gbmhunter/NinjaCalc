@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <updateDescriptor baseUrl="https://github.com/mbedded-ninja/NinjaCalc/releases/download/1.0.9/">
-  <entry targetMediaFileId="23" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.0.9_windows.exe" newVersion="1.0.9" newMediaFileId="23" fileSize="14285824" bundledJre="" archive="false">
+  <entry targetMediaFileId="23" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.0.9_windows.exe" newVersion="1.0.10" newMediaFileId="23" fileSize="14285824" bundledJre="" archive="false">
     <comment language="en">v?.?.?&#xD;
 ------&#xD;
 &#xD;
