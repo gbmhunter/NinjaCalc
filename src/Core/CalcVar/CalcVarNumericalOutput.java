@@ -1,6 +1,4 @@
-package Core;
-
-import javafx.scene.control.*;
+package Core.CalcVar;
 
 /**
  * A specialisation of a generic CalcVar which is for variables which are always

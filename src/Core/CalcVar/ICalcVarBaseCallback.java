@@ -1,4 +1,4 @@
-package Core;
+package Core.CalcVar;
 
 /**
  * An interface describing any callback which takes a CalcVarBase object as it's only
@@ -6,7 +6,7 @@ package Core;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-13
+ * @last-modified   2016-04-23
  */
 public interface ICalcVarBaseCallback {
     void execute(CalcVarBase calcVarBase);

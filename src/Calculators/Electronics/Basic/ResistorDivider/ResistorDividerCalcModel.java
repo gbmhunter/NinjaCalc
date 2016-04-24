@@ -1,6 +1,10 @@
 package Calculators.Electronics.Basic.ResistorDivider;
 
 import Core.*;
+import Core.CalcVar.CalcVarBase;
+import Core.CalcVar.CalcVarDirections;
+import Core.CalcVar.CalcVarNumerical;
+import Core.CalcVar.CalcVarNumericalOutput;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +16,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * A calculator based around the basic resistor divider circuit.

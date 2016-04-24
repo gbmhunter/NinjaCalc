@@ -1,4 +1,6 @@
-package Core;
+package Core.CalcVar;
+
+import Core.*;
 
 import java.util.*;
 
@@ -155,6 +157,9 @@ public abstract class CalcVarBase {
 
     public IDirectionFunction getDirectionFunction() { return directionFunction; }
     public void setDirectionFunction(IDirectionFunction directionFunction) { this.directionFunction = directionFunction; }
+
+    public ArrayList<Validator> getValidators() { return validators; }
+    public void setValidators(ArrayList<Validator> validators) { this.validators = validators; }
 
     //===============================================================================================//
     //======================================= GENERAL METHODS =======================================//

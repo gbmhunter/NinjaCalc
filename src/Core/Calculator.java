@@ -1,5 +1,8 @@
 package Core;
 
+import Core.CalcVar.CalcVarBase;
+import Core.CalcVar.CalcVarDirections;
+import Core.CalcVar.CalcVarNumerical;
 import javafx.scene.layout.*;
 
 import java.net.URL;
@@ -173,7 +176,7 @@ public abstract class Calculator {
         for (CalcVarBase calcVar : this.calcVars) {
 
             // Iterate through each validator for the specific calculator variable
-            for (Validator validator : calcVar.validators) {
+            for (Validator validator : calcVar.getValidators()) {
                 // Iterate through each calculator variable which is a dependency for this validator,
                 // and signal that this validator is dependent on the calculator variable
                 for (CalcVarBase calcVarDependency : validator.dependencies) {

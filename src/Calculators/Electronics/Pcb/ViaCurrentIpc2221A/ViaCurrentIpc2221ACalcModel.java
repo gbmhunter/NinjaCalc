@@ -2,13 +2,14 @@ package Calculators.Electronics.Pcb.ViaCurrentIpc2221A;
 
 
 import Core.*;
+import Core.CalcVar.CalcVarNumericalInput;
+import Core.CalcVar.CalcVarNumericalOutput;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import org.matheclipse.core.builtin.function.Do;
 
 import java.io.IOException;
 import java.net.URL;

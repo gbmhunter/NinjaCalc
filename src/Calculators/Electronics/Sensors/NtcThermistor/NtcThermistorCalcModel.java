@@ -3,6 +3,8 @@ package Calculators.Electronics.Sensors.NtcThermistor;
 // SYSTEM IMPORTS
 
 import Core.*;
+import Core.CalcVar.CalcVarDirections;
+import Core.CalcVar.CalcVarNumerical;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;

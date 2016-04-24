@@ -1,4 +1,4 @@
-package Core;
+package Core.CalcVar;
 
 /**
  * The possible directions are numerical calculator variable can be.

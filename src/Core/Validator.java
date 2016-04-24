@@ -1,8 +1,9 @@
 package Core;
 
 
+import Core.CalcVar.CalcVarBase;
+
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Used to encapsulate a single validator for a calculator variable. Designed to be added to the CalcVarNumerical object

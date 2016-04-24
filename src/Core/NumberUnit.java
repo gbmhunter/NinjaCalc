@@ -26,7 +26,7 @@ public abstract class NumberUnit {
         this.preference = preference;
     }
 
-    abstract double convertTo(double value);
-    abstract double convertFrom(double value);
+    public abstract double convertTo(double value);
+    public abstract double convertFrom(double value);
 
 }

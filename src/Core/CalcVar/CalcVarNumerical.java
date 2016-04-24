@@ -1,6 +1,7 @@
 
-package Core;
+package Core.CalcVar;
 
+import Core.*;
 import Utility.MetricPrefixes.MetricPrefixes;
 import Utility.MetricPrefixes.RoundingMethods;
 import javafx.animation.KeyFrame;

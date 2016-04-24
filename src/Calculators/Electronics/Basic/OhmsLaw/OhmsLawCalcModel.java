@@ -3,7 +3,8 @@ package Calculators.Electronics.Basic.OhmsLaw;
 
 // SYSTEM INCLUDES
 
-import Core.CalcVarDirections;
+import Core.CalcVar.CalcVarDirections;
+import Core.CalcVar.CalcVarNumerical;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

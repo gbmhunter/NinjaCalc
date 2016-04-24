@@ -1,5 +1,7 @@
 package Core;
 
+import Core.CalcVar.CalcVarDirections;
+
 /**
  * Used to provide a function which will calculate direction to each calculator variable.
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)

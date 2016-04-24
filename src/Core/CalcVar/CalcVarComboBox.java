@@ -1,6 +1,7 @@
-package Core;
+package Core.CalcVar;
 
 
+import Core.IDirectionFunction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;

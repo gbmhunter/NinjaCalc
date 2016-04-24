@@ -3,6 +3,9 @@ package Calculators.Electronics.Basic.StandardResistanceFinder;
 
 // SYSTEM INCLUDES
 
+import Core.CalcVar.CalcVarNumerical;
+import Core.CalcVar.CalcVarNumericalInput;
+import Core.CalcVar.CalcVarNumericalOutput;
 import Utility.StandardResistanceFinder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
