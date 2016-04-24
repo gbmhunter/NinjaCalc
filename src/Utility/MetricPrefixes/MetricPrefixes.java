@@ -3,6 +3,7 @@ package Utility.MetricPrefixes;
 import Utility.Rounding;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.regex.*;
 
 /**
@@ -175,28 +176,44 @@ public enum MetricPrefixes {
             final RoundingMethods roundingMethod,
             final Integer roundTo
     ) {
-        System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString());
-        if (notation == null || notation == unit)
-            return doubleToString(value);
+        System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString() + ", roundingMethod = " + roundingMethod.toString() + ", roundTo = " + roundTo);
+        /*if (notation == null || notation == unit)
+            return doubleToString(value);*/
 
         double scaledValue = value / notation.getMultiplier();
 
-        double scaledRoundedValue = 0.0;
+        String convertedString;
 
         switch(roundingMethod) {
-            case DECIMAL_PLACES:
-                scaledRoundedValue = Rounding.ToDecimalPlaces(scaledValue, roundTo);
+            case DECIMAL_PLACES: {
+                //scaledRoundedValue = Rounding.ToDecimalPlaces(scaledValue, roundTo);
+                BigDecimal bd = new BigDecimal(scaledValue).setScale(roundTo, BigDecimal.ROUND_HALF_UP);
+                convertedString = bd.toString();
                 break;
-            case SIGNIFICANT_FIGURES:
-                scaledRoundedValue = Rounding.RoundToSignificantDigits(scaledValue, roundTo);
+            }
+            case SIGNIFICANT_FIGURES: {
+                //scaledRoundedValue = Rounding.RoundToSignificantDigits(scaledValue, roundTo);
+                BigDecimal bd = new BigDecimal(scaledValue);
+                int newScale = roundTo - bd.precision() + bd.scale();
+                BigDecimal bd2 = bd.setScale(newScale, RoundingMode.HALF_UP);
+                convertedString = bd2.toString();
                 break;
+            }
             default:
                 throw new IllegalArgumentException("RoundingMethod choice not handled in switch.");
         }
 
+        if(notation.getSymbol() != null){
+            return convertedString + notation.getSymbol();
+        } else {
+            // This is a special case for when the value is between 1-1000 and no prefix is needed
+            return convertedString;
+        }
+
+        //return convertedString;
 
         // Convert the double to a string, and add the symbol
-        return doubleToString(scaledRoundedValue) + notation.getSymbol();
+        //return doubleToString(scaledRoundedValue) + notation.getSymbol();
     }
 
     /***
@@ -250,13 +267,15 @@ public enum MetricPrefixes {
         // Get the absolute value of the provided value
         final double abs = Math.abs(value);
 
+        // Search for the applicable multiplier
         double multiplier;
         for (final MetricPrefixes e : values()) {
             multiplier = e.getMultiplier();
-            if (multiplier < abs && abs < multiplier * 1000)
+            if (multiplier <= abs && abs < multiplier * 1000)
                 // Call the base method
                 return toEng(value, e, roundingMethod, roundTo);
         }
+
         return toSci(value);
     }
 

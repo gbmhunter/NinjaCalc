@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="org.scilab.forge:jlatexmath:1.0.2" type="repository">
+    <properties maven-id="org.scilab.forge:jlatexmath:1.0.2" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jlatexmath-1.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

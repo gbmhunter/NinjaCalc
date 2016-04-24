@@ -1,6 +1,7 @@
 package Utility;
 
 import Utility.MetricPrefixes.MetricPrefixes;
+import Utility.MetricPrefixes.RoundingMethods;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -50,6 +51,14 @@ public class MetrixPrefixesTests {
 
         // Test the large number 220 million
         assertEquals("220M", MetricPrefixes.toEng(220000000.0));
+    }
+
+    @Test
+    public void roundingTests() {
+
+        // Make sure no precision is lost numbers that have a large number of digits
+        assertEquals("3.33", MetricPrefixes.toEng(10.0/3.0, RoundingMethods.DECIMAL_PLACES, 2));
+
     }
 
     //===========================================================================================//

@@ -1,3 +1,26 @@
+v1.2.0
+------
+
+- Added automatic update functionality, closes #108.
+- Added a generic "Scientific Calculator", closes #98.
+- Added a dew point calculator based on the Magnus equation, closes #104.
+- Added NTC thermistor calculator, closes #106.
+- Added "Via Current" calculator, closes #111.
+- Added splash screen, closes #109.
+- Added calculator template search functionality, closes #63.
+- Added scrolling to the calculator selection grid, closes #105.
+- Added support for NumberUnit class to use a function for unit conversion, closes #107.
+- Converted README from restructured text to markdown format, closes #103.
+- Added validator to Vout on resistor divider calculator to make sure it is less than Vin, closes #46.
+- Added dependant tracking for validators, so dependant validators get updated when calculator variable values change, closes #110.
+- Improved the tooltip help text for variables in the "Standard Resistance Finder" calculator.
+- Added warning if the "Desired Resistance" in the "Standard Resistance Finder" calculator exceeds the normal purchasable resistance range, closes #96.
+- Fixed bug where the MetricPrefix library did not round correctly when no prefix was required (i.e. value is between 1-1000), closes #92.
+- Fixed bug where setting V = 1V, R = 1R gives I = 1E0 in the "Ohm's Law" calculator, closes #89.
+- Fixed bug where math.min.js not loaded when app is deployed, but did work when app is run from IntelliJ, closes #101.
+- Fixed bug where tooltip was incorrect for "Desired Resistance" variable in "Standard Resistance Finder" calculator, closes #95.
+
+
 v1.1.0
 ------
 

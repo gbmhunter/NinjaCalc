@@ -45,22 +45,22 @@
                         </ImageView>
 
                         <HBox layoutX="233.0" layoutY="46.0" alignment="CENTER" spacing="5">
-                            <TextField fx:id="rValue" prefHeight="30" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <TextField fx:id="resistorTextField" prefHeight="30" prefWidth="80" alignment="CENTER_RIGHT"/>
                             <Label>Ω</Label>
                         </HBox>
-                        <RadioButton fx:id="rIO" layoutX="144.0" layoutY="40.0" />
+                        <RadioButton fx:id="resistorRadioButton" layoutX="144.0" layoutY="40.0" />
 
                         <HBox layoutX="397.0" layoutY="200.0" alignment="CENTER" spacing="5">
-                            <TextField fx:id="cValue" prefHeight="30" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <TextField fx:id="capacitorTextField" prefHeight="30" prefWidth="80" alignment="CENTER_RIGHT"/>
                             <Label>F</Label>
                         </HBox>
-                        <RadioButton fx:id="cIO" layoutX="448.0" layoutY="163.0" />
+                        <RadioButton fx:id="capacitorRadioButton" layoutX="448.0" layoutY="163.0" />
 
                         <HBox layoutX="214.0" layoutY="379.0" alignment="CENTER" spacing="5">
-                            <TextField fx:id="fcValue" prefHeight="30" prefWidth="80" alignment="CENTER_RIGHT"/>
+                            <TextField fx:id="cutOffFrequencyTextField" prefHeight="30" prefWidth="80" alignment="CENTER_RIGHT"/>
                             <Label>Hz</Label>
                         </HBox>
-                        <RadioButton fx:id="fcIO" layoutX="130.0" layoutY="383.0" />
+                        <RadioButton fx:id="cutOffFrequencyRadioButton" layoutX="130.0" layoutY="383.0" />
 
                     </Group>
                 </AutoScalingStackPane>

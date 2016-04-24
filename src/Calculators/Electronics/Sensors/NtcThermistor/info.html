@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript" async
+                src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+    </head>
+
+    <body style="font-family: Calibri;">
+        <p>This calculator allows the calculation of various thermistor properties by using the <i>Beta equation</i>. The Beta equation is commonly used in microcontroller code to work out the thermistor temperature after the micro's ADC measures the thermistors resistance.</p>
+
+        <p>The beta equation is:</p>
+
+        <p>$$ \frac{1}{T} = \frac{1}{T_0} + \frac{1}{\beta} ln (\frac{R}{R_0}) $$</p>
+
+        <p style="text-align: center;">
+            where:<br>
+            \( \beta \) is the Beta co-efficient. This is usually specified in the thermistors datasheet.<br>
+            \( T_0 \) is the temperature at the reference point, in Kelvin. This is usually \(25^{\circ}C\).<br>
+            \( R_0 \) is the resistance at the reference point, in Ohms.<br>
+            \( T \) is the thermistor temperature, with measured resistance \( R \), in Kelvin.<br>
+            \( R \) is the thermistor resistance, measured at temperature \(T\), in Ohms.<br>
+        <p>
+
+        <p>This equation can be re-arranged to calculate any of the variables when the other 4 are known.</p>
+
+        <p>To find \(\beta\):</p>
+
+        <p>$$ \beta = \frac{ln(\frac{R}{R_0})}{\frac{1}{T} - \frac{1}{T_0}} $$</p>
+
+        <p>To find \(R_0\):</p>
+
+        <p>$$ R_0 = \frac{R}{e^{\beta (\frac{1}{T} - \frac{1}{T_0})}} $$</p>
+
+        <p>To find \(T_0\).</p>
+
+        <p>$$ T_0 = \frac{1}{\frac{1}{T} - \frac{1}{\beta}ln(\frac{R}{R_0})} $$</p>
+
+        <p>To find \(R\):</p>
+
+        <p>$$ R = R_0 e^{\beta (\frac{1}{T} - \frac{1}{T_0})} $$</p>
+
+        <p>To find \(T\):</p>
+
+        <p>$$ T = \frac{1}{\frac{1}{T_0} + \frac{1}{\beta}ln(\frac{R}{R_0})} $$</p>
+
+    </body>
+</html>

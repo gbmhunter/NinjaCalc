@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.TilePane?>
+
+
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<AnchorPane fx:controller="MainWindow.MainWindowController"
+            fx:id="anchorPane"
+            xmlns:fx="http://javafx.com/fxml"
+            style="-fx-background-color: green">
+    <StackPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+               style="-fx-background-color: red;">
+
+        <!-- MAIN DISPLAY (when overlay isn't showing) -->
+        <HBox maxWidth="Infinity" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" style="-fx-background-color: white">
+                <!-- LEFT-HAND SIDE MENU BAR -->
+                <VBox minWidth="50" maxWidth="50" alignment="TOP_CENTER" style="-fx-background-color: darkgrey">
+                    <padding><Insets top="10"></Insets></padding>
+                    <!-- MENU BUTTON (hamburger shape) -->
+                    <Button
+                        onMouseClicked="#onMenuButtonClick"
+                        maxWidth="25" maxHeight="25"
+                        alignment="CENTER" textAlignment="CENTER" contentDisplay="CENTER"
+                        styleClass="menuButton">
+                        <graphic>
+                            <ImageView fitHeight="20.0" fitWidth="20.0"><image><Image url="/img/menu-stack-hamburger-128x118.png" /></image></ImageView>
+                        </graphic>
+                    </Button>
+                </VBox>
+                <!-- MAIN DISPLAY MINUS MENU BAR -->
+                <StackPane HBox.hgrow="ALWAYS">
+                    <VBox fx:id="noCalculatorIsOpenPane" maxWidth="Infinity" alignment="CENTER" spacing="20" style="-fx-font-family: Calibri; -fx-font-size: 20pt;">
+                            <Label GridPane.rowIndex="0" alignment="CENTER"
+                                   style="-fx-font-family: Calibri; -fx-font-size: 20pt; -fx-text-fill: #505050">
+                                No calculator is open. Do you wish to create one?
+                            </Label>
+                            <Button onAction="#handleButtonOnAction" GridPane.rowIndex="1" alignment="CENTER"
+                                prefWidth="170" prefHeight="50"
+                                    style="-fx-font-size: 12pt;">
+                                New Calculator
+                            </Button>
+                    </VBox>
+                    <!-- CALCULATOR TABS -->
+                    <!-- Stacked with "No calculator" view. Not visible until a calculator is opened -->
+                    <GridPane fx:id="gridPaneCalculatorTabsContainer"
+                              visible="false" maxWidth="Infinity" maxHeight="Infinity">
+                        <TabPane fx:id="tabPaneCalculatorInstances" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+                            style="-fx-background-color: white; -fx-opacity: 1">
+                            <!--<Tab text="Testing"><content>
+                                <GridPane style="-fx-background-color: purple"><TextArea>hfhfhf</TextArea></GridPane>
+                            </content></Tab>-->
+                        </TabPane>
+                    </GridPane>
+
+                </StackPane>
+        </HBox>
+
+        <!-- "SELECT CALCULATOR" OVERLAY (stacked ontop of calculator tabs) -->
+        <!-- The semi-transparent grey border -->
+        <GridPane
+                fx:id="calcGridOverlay"
+                visible="false"
+                AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                style="-fx-background-color: #404040A0; -fx-padding: 100px;"
+                onMouseClicked="#handleCalcSelectionBorderMouseClicked">
+            <!-- MIDDLE OF OVERLAY (NOT THE BORDER) -->
+            <GridPane
+                    GridPane.hgrow="ALWAYS"
+                    GridPane.vgrow="ALWAYS"
+                    style="-fx-background-color: white;"
+                    onMouseClicked="#handleCalcSelectionMouseClicked">
+                    <GridPane style="-fx-background-color: white;" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                        <!-- SEARCH FUNCTIONALITY -->
+                        <HBox GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" spacing="20" alignment="CENTER"
+                              style="-fx-background-color: white;">
+                            <padding>
+                            <Insets top="20" bottom="20" left="20" right="20" />
+                            </padding>
+                           <Label>Search:</Label>
+                            <TextField fx:id="searchTextField" prefWidth="300"></TextField>
+                        </HBox>
+                        <!-- SCROLLPANE FOR CALCULATOR TEMPLATES -->
+                        <!-- This operates with a fixed width, but variable height -->
+                        <ScrollPane hbarPolicy="NEVER" fitToWidth="true" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS"
+                                style="-fx-background-color: transparent;">
+                            <!-- CALCULATOR TEMPLATE HOLDER -->
+                            <!-- This will lay the calculator template elements out in equal sized tiles -->
+                            <TilePane
+                                fx:id="calculatorGridTilePane"
+                                hgap="20" vgap="20"
+                                style="-fx-background-color: white;">
+                                <padding>
+                                    <Insets top="20" bottom="20" left="20" right="20" />
+                                </padding>
+                            </TilePane>
+                        </ScrollPane>
+                    </GridPane>
+            </GridPane>
+        </GridPane>
+    </StackPane>
+</AnchorPane>

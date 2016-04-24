@@ -10,9 +10,9 @@ import java.util.Arrays;
  *
  * Can be used by many calculators (including the "Standard Resistance Finder" calculator).
  *
- * @author gbmhunter
- * @since 2016-02-15
- * @last-modified 2016-03-26
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2016-02-15
+ * @last-modified   2016-04-23
  */
 public class StandardResistanceFinder {
 
@@ -91,13 +91,21 @@ public class StandardResistanceFinder {
 
     /**
      * Use to find the closest E-series resistance to your desired resistance.
-     * @param desiredResistance The desired resistance to search for.
+     *
+     * @param desiredResistance The desired resistance to search for. If this is 0.0, then method also returns 0.0.
      * @param eSeries           The E-Series to use.
      * @return The closest E-series resistance to desiredResistance.
      */
     public static double Find(double desiredResistance, eSeriesOptions eSeries) {
 
         System.out.println("StandardResistanceFinder::Find() called with desiredResistance = " + desiredResistance + "and eSeries = " + eSeries.toString());
+
+        // Check for special case where desired resistance is 0. Strictly speaking, this does not belong
+        // in any E-series, but 0R links are common place so we will return 0.0 anyway.
+        if(desiredResistance == 0.0) {
+            return 0.0;
+        }
+
 
         ArrayList<Integer> selectedRange = new ArrayList<>();
 
