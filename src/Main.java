@@ -112,14 +112,16 @@ public class Main extends Application {
 
         primaryStage.setMaximized(true);
 
+        //====== SAVING/LOADING APP STATE =====//
+
         // Install event handler for when the app is closed
         primaryStage.setOnCloseRequest((windowEvent) -> {
-                this.saveCalculatorState();
+                //this.saveCalculatorState();
             }
         );
 
         // Load saved calculator state (if any)
-        loadCalculatorState();
+        //loadCalculatorState();
 
         // Show the NinjaCalc app
         primaryStage.show();
@@ -131,19 +133,18 @@ public class Main extends Application {
 
         try {
             // Write to disk with FileOutputStream
-            FileOutputStream f_out = new
+            FileOutputStream fileOS = new
                     FileOutputStream(appStateFileName);
 
             // Write object with ObjectOutputStream
-            ObjectOutputStream obj_out = new
-                    ObjectOutputStream(f_out);
+            ObjectOutputStream objOS = new
+                    ObjectOutputStream(fileOS);
 
             // Write object out to disk
-            obj_out.writeObject(controller.getOpenCalculators());
+            objOS.writeObject(controller.getOpenCalculators());
 
-            obj_out.close();
-
-            f_out.close();
+            objOS.close();
+            fileOS.close();
         } catch (FileNotFoundException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("FileNotFoundException");
