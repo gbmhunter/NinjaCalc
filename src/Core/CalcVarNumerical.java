@@ -416,15 +416,14 @@ public class CalcVarNumerical extends CalcVarBase {
     public TextField getValueTextField() { return this.valueTextField; }
     public void setValueTextField(TextField valueTextField) {
 
+        // Make sure the provided text field is not null
+        if(valueTextField == null)
+            throw new IllegalArgumentException("Provided TextField for calculator variable \"" + this.name + "\" value was null. Is the @FXML binding name the same as the fx:id?");
 
         // Create text field listener
         this.textListener = (observable, oldValue, newValue) -> {
             this.valueTextFieldChanged(newValue);
         };
-
-        // Make sure the provided text field is not null
-        if(valueTextField == null)
-            throw new IllegalArgumentException("Provided TextField for calculator variable \"" + this.name + "\" value was null. Is the @FXML binding name the same as the fx:id?");
 
         this.valueTextField = valueTextField;
 

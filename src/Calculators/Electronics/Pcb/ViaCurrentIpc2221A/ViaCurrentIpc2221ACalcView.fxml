@@ -66,25 +66,6 @@
 
                     <!-- GridPane with all non-diagram variables -->
                     <GridPane layoutX="500.0" layoutY="200.0" hgap="10" vgap="10">
-                        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Plated Copper Resistivity
-                        </Label>
-                        <TextField fx:id="platedCopperResistivityValue" prefHeight="25" prefWidth="80"
-                                   GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                        <ComboBox fx:id="platedCopperResistivityUnits" prefHeight="30.0" prefWidth="80.0"
-                                  GridPane.rowIndex="0" GridPane.columnIndex="2"/>
-
-                        <Label GridPane.rowIndex="1" GridPane.columnIndex="0" >Via Cross-sectional Area</Label>
-                        <TextField fx:id="viaCrossSectionalAreaValue" prefHeight="25" prefWidth="80"
-                                   GridPane.rowIndex="1" GridPane.columnIndex="1" />
-                        <ComboBox fx:id="viaCrossSectionalAreaUnits" prefHeight="30.0" prefWidth="80.0"
-                                  GridPane.rowIndex="1" GridPane.columnIndex="2"/>
-                        <Label GridPane.columnIndex="0" GridPane.rowIndex="5">Current Limit</Label>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" fx:id="currentLimitValue"
-                                   prefHeight="25"
-                                   prefWidth="80"/>
-                        <ComboBox GridPane.columnIndex="2" GridPane.rowIndex="5" fx:id="currentLimitUnits"
-                                  prefHeight="30.0"
-                                  prefWidth="80.0"/>
                         <columnConstraints>
                             <ColumnConstraints/>
                             <ColumnConstraints/>
@@ -93,6 +74,46 @@
                         <rowConstraints>
                             <RowConstraints/>
                         </rowConstraints>
+
+                        <!-- TEMPERATURE RISE -->
+                        <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Temperature Rise</Label>
+                        <TextField fx:id="temperatureRiseValue" prefHeight="25" prefWidth="80"
+                                   GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                        <ComboBox fx:id="temperatureRiseUnits" prefHeight="30.0" prefWidth="80.0"
+                                  GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+
+                        <Label GridPane.rowIndex="1" GridPane.columnIndex="0">Plated Copper Resistivity</Label>
+                        <TextField fx:id="platedCopperResistivityValue" prefHeight="25" prefWidth="80"
+                                   GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                        <ComboBox fx:id="platedCopperResistivityUnits" prefHeight="30.0" prefWidth="80.0"
+                                  GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+
+                        <Label GridPane.rowIndex="2" GridPane.columnIndex="0" >Via Cross-sectional Area</Label>
+                        <TextField fx:id="viaCrossSectionalAreaValue" prefHeight="25" prefWidth="80"
+                                   GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                        <ComboBox fx:id="viaCrossSectionalAreaUnits" prefHeight="30.0" prefWidth="80.0"
+                                  GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+
+                        <!-- VIA RESISTANCE -->
+                        <Label GridPane.rowIndex="3" GridPane.columnIndex="0" >Via Resistance</Label>
+                        <TextField fx:id="viaResistanceValue" prefHeight="25" prefWidth="80"
+                                   GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                        <ComboBox fx:id="viaResistanceUnits" prefHeight="30.0" prefWidth="80.0"
+                                  GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+
+                        <!-- THERMAL RESISTANCE -->
+                        <Label GridPane.rowIndex="4" GridPane.columnIndex="0" >Thermal Resistance</Label>
+                        <TextField fx:id="thermalResistanceValue" prefHeight="25" prefWidth="80"
+                                   GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                        <ComboBox fx:id="thermalResistanceUnits" prefHeight="30.0" prefWidth="80.0"
+                                  GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+
+                        <Label GridPane.rowIndex="5" GridPane.columnIndex="0">Current Limit</Label>
+                        <TextField GridPane.rowIndex="5" GridPane.columnIndex="1" fx:id="currentLimitValue"
+                                   prefHeight="25" prefWidth="80"/>
+                        <ComboBox GridPane.rowIndex="5" GridPane.columnIndex="2" fx:id="currentLimitUnits"
+                                  prefHeight="30.0" prefWidth="80.0"/>
+
                     </GridPane>
 
 

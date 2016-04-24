@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.matheclipse.core.builtin.function.Do;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +21,15 @@ import java.net.URL;
  * @last-modified   2016-04-24
  */
 public class ViaCurrentIpc2221ACalcModel extends Calculator {
+
+    //===============================================================================================//
+    //=========================================== CONSTANTS ========================================//
+    //===============================================================================================//
+
+    public static final Double thermalResistivity_MKpWatt = 2.489e-3;
+    public static final Double ipc2221ACoefficientK = 0.048;
+    public static final Double ipc2221ACoefficientb = 0.44;
+    public static final Double ipc2221ACoefficientc = 0.725;
 
     //===============================================================================================//
     //========================================= FXML BINDINGS =======================================//
@@ -43,6 +53,13 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
     @FXML
     private ComboBox viaLengthUnits;
 
+    // VARIABLES IN GRIDPANE
+
+    @FXML
+    private TextField temperatureRiseValue;
+    @FXML
+    private ComboBox temperatureRiseUnits;
+
     @FXML
     private TextField platedCopperResistivityValue;
     @FXML
@@ -52,6 +69,16 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
     private TextField viaCrossSectionalAreaValue;
     @FXML
     private ComboBox viaCrossSectionalAreaUnits;
+
+    @FXML
+    private TextField viaResistanceValue;
+    @FXML
+    private ComboBox viaResistanceUnits;
+
+    @FXML
+    private TextField thermalResistanceValue;
+    @FXML
+    private ComboBox thermalResistanceUnits;
 
     @FXML
     private TextField currentLimitValue;
@@ -66,9 +93,12 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
     public CalcVarNumericalInput platingThickness_M = new CalcVarNumericalInput();
     public CalcVarNumericalInput viaLength_M = new CalcVarNumericalInput();
 
+    // CALCULATOR VARIABLES IN GRIDPANE
+    public CalcVarNumericalInput temperatureRise_DegC = new CalcVarNumericalInput();
     public CalcVarNumericalInput platedCopperResistivity_OhmMeter = new CalcVarNumericalInput();
-
     public CalcVarNumericalOutput viaCrossSectionalArea_M2 = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput viaResistance_Ohms = new CalcVarNumericalOutput();
+    public CalcVarNumericalOutput thermalResistance_DegCpWatt = new CalcVarNumericalOutput();
     public CalcVarNumericalOutput currentLimit = new CalcVarNumericalOutput();
 
     //===============================================================================================//
@@ -81,7 +111,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
                 "Via Current (IPC-2221A)",
                 "PCB via current carrying capability calculator, using the IPC-2221A standard.",
                 new String[]{"Electronics", "PCB"},
-                new String[]{"pcb", "via", "current", "width", "carry", "heat", "hot", "temperature", "ipc", "ipc2221a", "ipc-2221a"});
+                new String[]{"pcb", "via", "current", "width", "carry", "heat", "hot", "temperature", "ipc", "ipc2221a", "ipc-2221a", "resistivity", "ampacity"});
 
         super.setIconImagePath(getClass().getResource("img/grid-icon.png"));
 
@@ -175,6 +205,31 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
 
         this.calcVars.add(this.viaLength_M);
 
+
+        //===============================================================================================//
+        //================================ TEMPERATURE RISE (input) ============================//
+        //===============================================================================================//
+
+        this.temperatureRise_DegC.setName("temperatureRise_DegC");
+        this.temperatureRise_DegC.setValueTextField(this.temperatureRiseValue);
+        this.temperatureRise_DegC.setUnitsComboBox(this.temperatureRiseUnits);
+        this.temperatureRise_DegC.setUnits(new NumberUnit[]{
+                new NumberUnitMultiplier("°C", 1e0),
+        });
+        this.temperatureRise_DegC.setNumDigitsToRound(4);
+        this.temperatureRise_DegC.setHelpText("The maximum temperature rise above ambient you are allowing for the via. A rule-of-thumb for this value is between 10-40°C.");
+        this.temperatureRise_DegC.setIsEngineeringNotationEnabled(false);
+
+        // Plated copper has a resistivity of about 19e-9 Ohm.m (1.9e-6 Ohm.cm)
+        this.temperatureRise_DegC.setDefaultRawValue(20.0);
+
+        //===== VALIDATORS =====//
+        this.temperatureRise_DegC.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.temperatureRise_DegC.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.temperatureRise_DegC);
+
+
         //===============================================================================================//
         //================================ PLATED COPPER RESISTIVITY (input) ============================//
         //===============================================================================================//
@@ -188,6 +243,9 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.platedCopperResistivity_OhmMeter.setNumDigitsToRound(4);
         this.platedCopperResistivity_OhmMeter.setHelpText("The resistivity of the plated copper which the via is made from.");
         this.platedCopperResistivity_OhmMeter.setIsEngineeringNotationEnabled(false);
+
+        // Plated copper has a resistivity of about 19e-9 Ohm.m (1.9e-6 Ohm.cm)
+        this.platedCopperResistivity_OhmMeter.setDefaultRawValue(19e-9);
 
         //===== VALIDATORS =====//
         this.platedCopperResistivity_OhmMeter.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -225,6 +283,63 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.calcVars.add(this.viaCrossSectionalArea_M2);
 
         //===============================================================================================//
+        //====================================== VIA RESISTANCE (output) ================================//
+        //===============================================================================================//
+
+        this.viaResistance_Ohms.setName("viaResistance_Ohms");
+        this.viaResistance_Ohms.setValueTextField(this.viaResistanceValue);
+        this.viaResistance_Ohms.setUnitsComboBox(this.viaResistanceUnits);
+        this.viaResistance_Ohms.setEquationFunction(() -> {
+            // Read dependencies
+            Double platedCopperResistivity_OhmMeter = this.platedCopperResistivity_OhmMeter.getRawVal();
+            Double viaLength_M = this.viaLength_M.getRawVal();
+            Double viaCrossSectionalArea_M2 = this.viaCrossSectionalArea_M2.getRawVal();
+
+            return (platedCopperResistivity_OhmMeter*viaLength_M)/viaCrossSectionalArea_M2;
+
+        });
+        this.viaResistance_Ohms.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0),
+        });
+        this.viaResistance_Ohms.setNumDigitsToRound(4);
+        this.viaResistance_Ohms.setHelpText("The resistance of the via. This is the resistance as measured from the top to the bottom of the via.");
+        this.viaResistance_Ohms.setIsEngineeringNotationEnabled(false);
+
+        // Add validators
+        this.viaResistance_Ohms.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.viaResistance_Ohms.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.viaResistance_Ohms);
+
+        //===============================================================================================//
+        //================================== THERMAL RESISTANCE (output) ================================//
+        //===============================================================================================//
+
+        this.thermalResistance_DegCpWatt.setName("thermalResistance_DegCpWatt");
+        this.thermalResistance_DegCpWatt.setValueTextField(this.thermalResistanceValue);
+        this.thermalResistance_DegCpWatt.setUnitsComboBox(this.thermalResistanceUnits);
+        this.thermalResistance_DegCpWatt.setEquationFunction(() -> {
+            // Read dependencies
+            Double viaLength_M = this.viaLength_M.getRawVal();
+            Double viaCrossSectionalArea_M2 = this.viaCrossSectionalArea_M2.getRawVal();
+
+            return (this.thermalResistivity_MKpWatt*viaLength_M)/viaCrossSectionalArea_M2;
+
+        });
+        this.thermalResistance_DegCpWatt.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("°C/W", 1e0),
+        });
+        this.thermalResistance_DegCpWatt.setNumDigitsToRound(4);
+        this.thermalResistance_DegCpWatt.setHelpText("The thermal resistance of the via.");
+        this.thermalResistance_DegCpWatt.setIsEngineeringNotationEnabled(false);
+
+        // Add validators
+        this.thermalResistance_DegCpWatt.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.thermalResistance_DegCpWatt.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.thermalResistance_DegCpWatt);
+
+        //===============================================================================================//
         //====================================== CURRENT LIMIT (output) =================================//
         //===============================================================================================//
 
@@ -232,8 +347,15 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.currentLimit.setValueTextField(this.currentLimitValue);
         this.currentLimit.setUnitsComboBox(this.currentLimitUnits);
         this.currentLimit.setEquationFunction(() -> {
-            return 0.0;
+            // Read dependencies
+            Double temperatureRise_DegC = this.temperatureRise_DegC.getRawVal();
+            Double viaCrossSectionalArea_M2 = this.viaCrossSectionalArea_M2.getRawVal();
 
+            // Perform unit conversions for IPC-2221A equation
+            Double viaCrossSectionalArea_Mills2 = viaCrossSectionalArea_M2 * Math.pow((1000.0/25.4)*1000.0, 2);
+
+            // Use the IPC-2221A equation
+            return ipc2221ACoefficientK*Math.pow(temperatureRise_DegC, ipc2221ACoefficientb)*Math.pow(viaCrossSectionalArea_Mills2, ipc2221ACoefficientc);
         });
         this.currentLimit.setUnits(new NumberUnitMultiplier[]{
                 new NumberUnitMultiplier("A", 1e0, NumberPreference.DEFAULT),

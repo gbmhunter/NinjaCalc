@@ -5,6 +5,7 @@ v?.?.?
 - Added a generic "Scientific Calculator", closes #98.
 - Added a dew point calculator based on the Magnus equation, closes #104.
 - Added NTC thermistor calculator, closes #106.
+- Added "Via Current" calculator, closes #111.
 - Added splash screen, closes #109.
 - Added calculator template search functionality, closes #63.
 - Added scrolling to the calculator selection grid, closes #105.
