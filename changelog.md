@@ -2,6 +2,7 @@ vX.X.X
 ------
 
 - Disabled metric prefixes for IPC-2152 calculator variables, closes #118.
+- Fixed info section of "Via Current" calculator, closes #112.
 
 v1.2.0
 ------

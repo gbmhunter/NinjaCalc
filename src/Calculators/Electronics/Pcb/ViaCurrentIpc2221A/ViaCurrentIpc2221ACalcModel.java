@@ -28,7 +28,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
     //=========================================== CONSTANTS ========================================//
     //===============================================================================================//
 
-    public static final Double thermalResistivity_MKpWatt = 2.489e-3;
+    public static final Double specificThermalResistivity_KMpWatt = 2.489e-3;
     public static final Double ipc2221ACoefficientK = 0.048;
     public static final Double ipc2221ACoefficientb = 0.44;
     public static final Double ipc2221ACoefficientc = 0.725;
@@ -320,7 +320,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
             Double viaLength_M = this.viaLength_M.getRawVal();
             Double viaCrossSectionalArea_M2 = this.viaCrossSectionalArea_M2.getRawVal();
 
-            return (this.thermalResistivity_MKpWatt*viaLength_M)/viaCrossSectionalArea_M2;
+            return (this.specificThermalResistivity_KMpWatt *viaLength_M)/viaCrossSectionalArea_M2;
 
         });
         this.thermalResistance_DegCpWatt.setUnits(new NumberUnitMultiplier[]{
@@ -339,6 +339,8 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         //===============================================================================================//
         //====================================== CURRENT LIMIT (output) =================================//
         //===============================================================================================//
+
+        // Note that this does not take into account the via length or the via resistivity.
 
         this.currentLimit.setName("currentLimit");
         this.currentLimit.setValueTextField(this.currentLimitValue);

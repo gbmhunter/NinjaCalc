@@ -747,12 +747,8 @@ public class CalcVarNumerical extends CalcVarBase {
             } else {
                 // Round to specific number of significant figures, but don't use the metrix prefixes library
                 // to that
-                //this.dispValAsString = String.valueOf(unroundedDispVal);
-                try {
-                    this.dispValAsString = String.valueOf(Rounding.ToSignificantDigits(new BigDecimal(unroundedDispVal), this.numDigitsToRound));
-                } catch (NumberFormatException e) {
-                    throw new RuntimeException("Could not convert the number to a BigDecimal.");
-                }
+                this.dispValAsString = String.valueOf(Rounding.ToSignificantDigits(new BigDecimal(unroundedDispVal), this.numDigitsToRound));
+
             }
         } else if(this.roundingType == RoundingTypes.DECIMAL_PLACES) {
             // Rounding to fixed number of decimal places

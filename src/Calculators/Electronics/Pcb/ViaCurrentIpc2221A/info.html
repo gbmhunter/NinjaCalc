@@ -10,37 +10,43 @@
 
 <body style="font-family: Calibri;">
 
-<p>This calculator can find the minimum PCB track width (external or internal layer) given the track current, the
-    allowed temperature rise, and copper layer thickness.</p>
+<p>Use this calculator to find the maximum current that a PCB via can handle (a.k.a. as it's <i>ampacity</i>). This calculator uses equations formed from the data presented in the IPC-2221A standard. This equation takes into account the via diameter, via plating thickness and permissible temperature rise.</p>
 
-<p>Calculated in accordance with the equations in IPC-2221A Section 6.2 (formerly IPC-D-275, the equation has not
-    changed between these two standards amd you can get similar values by curve-fitting to the graphs provided in
-    IPC-D-275, drawn in 1954, woah!</p>
+<p>The equation used to calculate the maximum via current is:</p>
 
-<p>$$ I = k\Delta T^b A^c $$</p>
+<p>$$ I = \Delta T^b \cdot A^c $$</p>
+<p style="text-align: center;">
+    where:<br>
+    \( I \) = the max. current allowed through the via, in Amps.<br>
+    \( \Delta T \) = the maximum permissible temperature rise of the via above ambient, in \(^{\circ}C\). \(20\) to \(40^{\circ}C\) is a common value for this.<br>
+    \( b \) = A co-efficient from the IPC-2221A standard.<br>
+    \( A \) = the cross-sectional area of the via (the area of the via as looking top down onto it), in \(mills^2\) (imperial).<br>
+    \( c \) = A co-efficient from the IPC-2221A standard.
+<p>
 
-<p style="text-align: center;">where:<br>
-    \( k \) = 0.048 for external traces, 0.024 for internal tracks<br>
-    \( \Delta T \) = the change in temperature (temperature rise) in \( ^{\circ}C \)<br>
-    \( b \) = 0.44<br>
-    \( A \) = cross-sectional area in \( mils^2 \)<br>
-    \( c \) = 0.725<br>
-</p>
+<p>This calculator, when given the via length and plated copper resistivity (default value provided, only change if necessary), will also find approximate values for the electrical and thermal resistance of the via.</p>
 
-<p>The standard only covers values where the current is 0-35A, track width is 0-10.16mm, temperature rise is from
-    10-100C, and the copper from 0.5-3oz. Values outside this range are extrapolated (and there more error-prone) and
-    will turn orange.</p>
+<p>The via's resistance is calculated with the equation:</p>
 
-<p>This also assumes the track is sufficiently long enough the the end-points do not have a significant effect on the
-    heatsinking. For example, this calcultor should not be used for calculating the width of thermal-relief style
-    connections from a copper pour to a via, in where the track is very short (0.2-1.0mm). It also assumes there are no
-    vias along the length of the track.</p>
+<p>$$ R = \frac{\rho l}{A} $$</p>
+<p style="text-align: center;">
+    where:<br>
+    \( R \) is the resistance of the via, as measured from it's top surface to it's bottom surface, in \(\Omega\).<br>
+    \( \rho \) is the resistivity of plated copper, in \( \Omega \cdot m \). A default value of \(19e^{-9}\Omega m\) is provided for this variable.<br>
+    \( l \) is the length of the via (a.k.a. it's height), in \(m\).<br>
+    \( A \) is the cross-sectional area of the via (the area of the via as looking top down onto it), in \(m^2\).
+<p>
 
-<p>The current in assumed to be constant (DC). However, you can use the RMS value for a pulsed current as long as the
-    pulses are fast enough.</p>
+<p>The thermal resistance is calculated with the equation:</p>
 
-<p>The temperature of the PCB material should NEVER exceed the relative thermal index (RTI) of the material. This is
-    defined in UL746B as the temperature at which 50% of the materials properties are retained after 100,000 hours.</p>
+<p>$$ R_{\theta} = \frac{R_{plated-copper} \cdot l}{A} $$</p>
+<p style="text-align: center;">
+    where:<br>
+    \( R_{\theta} \) is the thermal resistance of the via, in \(K/W\).<br>
+    \( R_{plated-copper} \) is the specific thermal resistivity of plated copper, in \( K \cdot m / W \). A default value of \(2.489e^{-3}Km/W \) is provided for this variable.<br>
+    \( l \) is the length of the via (a.k.a. it's height), in \(m\).<br>
+    \( A \) is the cross-sectional area of the via (the area of the via as looking top down onto it), in \(m^2\).
+<p>
 
 <p>Remember this calculator does not take into account other nearby heat sources.</p>
 
