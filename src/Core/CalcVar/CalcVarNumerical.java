@@ -724,9 +724,10 @@ public class CalcVarNumerical extends CalcVarBase {
         //System.out.println("updateDispValFromRawVal() called for variable \"" + this.name + "\". this.rawVal = " + this.rawVal);
 
         // Special treatment if raw value is NaN
-        if(Double.isNaN(this.rawVal)) {
+        if(Double.isNaN(this.rawVal) || Double.isInfinite(this.rawVal)) {
             //this.dispValAsNumber = Double.NaN;
-            this.dispValAsString = String.valueOf(Double.NaN);
+            //this.dispValAsString = String.valueOf(Double.NaN);
+            this.dispValAsString = String.valueOf(this.rawVal);
             this.valueTextField.setText(this.dispValAsString);
             return;
         }
@@ -747,7 +748,11 @@ public class CalcVarNumerical extends CalcVarBase {
                 // Round to specific number of significant figures, but don't use the metrix prefixes library
                 // to that
                 //this.dispValAsString = String.valueOf(unroundedDispVal);
-                this.dispValAsString = String.valueOf(Rounding.ToSignificantDigits(new BigDecimal(unroundedDispVal), this.numDigitsToRound));
+                try {
+                    this.dispValAsString = String.valueOf(Rounding.ToSignificantDigits(new BigDecimal(unroundedDispVal), this.numDigitsToRound));
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException("Could not convert the number to a BigDecimal.");
+                }
             }
         } else if(this.roundingType == RoundingTypes.DECIMAL_PLACES) {
             // Rounding to fixed number of decimal places

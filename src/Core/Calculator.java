@@ -5,6 +5,7 @@ import Core.CalcVar.CalcVarDirections;
 import Core.CalcVar.CalcVarNumerical;
 import javafx.scene.layout.*;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  * @since           2015-11-02
  * @last-modified   2016-04-25
   */
-public abstract class Calculator {
+public abstract class Calculator implements Serializable {
 
     /**
      * The name of the calculator. This is shown in the "choose calculator" grid.

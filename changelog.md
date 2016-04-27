@@ -1,3 +1,8 @@
+vX.X.X
+------
+
+- Disabled metric prefixes for IPC-2152 calculator variables, closes #118.
+
 v1.2.0
 ------
 
