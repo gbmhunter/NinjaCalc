@@ -39,12 +39,12 @@
 
 <p>The thermal resistance is calculated with the equation:</p>
 
-<p>$$ R_{\theta} = \frac{R_{plated-copper} \cdot l}{A} $$</p>
+<p>$$ R_{\theta} = \frac{l}{k \cdot A} $$</p>
 <p style="text-align: center;">
     where:<br>
     \( R_{\theta} \) is the thermal resistance of the via, in \(K/W\).<br>
-    \( R_{plated-copper} \) is the specific thermal resistivity of plated copper, in \( K \cdot m / W \). A default value of \(2.489e^{-3}Km/W \) is provided for this variable.<br>
     \( l \) is the length of the via (a.k.a. it's height), in \(m\).<br>
+    \( k \) is the specific thermal conductivity of plated copper, in \( W/Km \). A default value of \(401.8W/K \cdot m \) is provided for this variable.<br>
     \( A \) is the cross-sectional area of the via (the area of the via as looking top down onto it), in \(m^2\).
 <p>
 

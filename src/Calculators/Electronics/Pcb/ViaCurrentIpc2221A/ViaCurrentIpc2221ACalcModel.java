@@ -28,7 +28,6 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
     //=========================================== CONSTANTS ========================================//
     //===============================================================================================//
 
-    public static final Double specificThermalResistivity_KMpWatt = 2.489e-3;
     public static final Double ipc2221ACoefficientK = 0.048;
     public static final Double ipc2221ACoefficientb = 0.44;
     public static final Double ipc2221ACoefficientc = 0.725;
@@ -68,6 +67,11 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
     private ComboBox platedCopperResistivityUnits;
 
     @FXML
+    private TextField specificThermalConductivityValue;
+    @FXML
+    private ComboBox specificThermalConductivityUnits;
+
+    @FXML
     private TextField viaCrossSectionalAreaValue;
     @FXML
     private ComboBox viaCrossSectionalAreaUnits;
@@ -91,17 +95,19 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
-    public CalcVarNumericalInput finishedHoleDiameter_M = new CalcVarNumericalInput();
-    public CalcVarNumericalInput platingThickness_M = new CalcVarNumericalInput();
-    public CalcVarNumericalInput viaLength_M = new CalcVarNumericalInput();
+    // CALCULATOR VARIABLES IN DIAGRAM
+    public final CalcVarNumericalInput finishedHoleDiameter_M = new CalcVarNumericalInput();
+    public final CalcVarNumericalInput platingThickness_M = new CalcVarNumericalInput();
+    public final CalcVarNumericalInput viaLength_M = new CalcVarNumericalInput();
 
     // CALCULATOR VARIABLES IN GRIDPANE
-    public CalcVarNumericalInput temperatureRise_DegC = new CalcVarNumericalInput();
-    public CalcVarNumericalInput platedCopperResistivity_OhmMeter = new CalcVarNumericalInput();
-    public CalcVarNumericalOutput viaCrossSectionalArea_M2 = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput viaResistance_Ohms = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput thermalResistance_DegCpWatt = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput currentLimit = new CalcVarNumericalOutput();
+    public final CalcVarNumericalInput temperatureRise_DegC = new CalcVarNumericalInput();
+    public final CalcVarNumericalInput platedCopperResistivity_OhmMeter = new CalcVarNumericalInput();
+    public final CalcVarNumericalInput specificThermalConductivity_WpKm = new CalcVarNumericalInput();
+    public final CalcVarNumericalOutput viaCrossSectionalArea_M2 = new CalcVarNumericalOutput();
+    public final CalcVarNumericalOutput viaResistance_Ohms = new CalcVarNumericalOutput();
+    public final CalcVarNumericalOutput thermalResistance_DegCpWatt = new CalcVarNumericalOutput();
+    public final CalcVarNumericalOutput currentLimit = new CalcVarNumericalOutput();
 
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
@@ -206,7 +212,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
 
 
         //===============================================================================================//
-        //================================ TEMPERATURE RISE (input) ============================//
+        //==================================== TEMPERATURE RISE (input) =================================//
         //===============================================================================================//
 
         this.temperatureRise_DegC.setName("temperatureRise_DegC");
@@ -249,6 +255,30 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.platedCopperResistivity_OhmMeter.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         this.calcVars.add(this.platedCopperResistivity_OhmMeter);
+
+        
+        //===============================================================================================//
+        //============================== SPECIFIC THERMAL CONDUCTIVITY (input) ==========================//
+        //===============================================================================================//
+
+        this.specificThermalConductivity_WpKm.setName("specificThermalConductivity_WpKm");
+        this.specificThermalConductivity_WpKm.setValueTextField(this.specificThermalConductivityValue);
+        this.specificThermalConductivity_WpKm.setUnitsComboBox(this.specificThermalConductivityUnits);
+        this.specificThermalConductivity_WpKm.setUnits(new NumberUnit[]{
+                new NumberUnitMultiplier("W/K⋅m", 1e0),
+        });
+        this.specificThermalConductivity_WpKm.setHelpText("The specific thermal conductivity, k, of the plated copper which the via is made from.");
+        this.specificThermalConductivity_WpKm.setIsEngineeringNotationEnabled(false);
+
+        // Plated copper has a specific thermal conductivity of about 401.8W/K.m
+        // (a specific thermal resistivity of 2.489e-3Km/W)
+        this.specificThermalConductivity_WpKm.setDefaultRawValue(401.8);
+
+        //===== VALIDATORS =====//
+        this.specificThermalConductivity_WpKm.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.specificThermalConductivity_WpKm.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        this.calcVars.add(this.specificThermalConductivity_WpKm);
 
 
         //===============================================================================================//
@@ -318,9 +348,10 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.thermalResistance_DegCpWatt.setEquationFunction(() -> {
             // Read dependencies
             Double viaLength_M = this.viaLength_M.getRawVal();
+            Double specificThermalConductivity_WpKm = this.specificThermalConductivity_WpKm.getRawVal();
             Double viaCrossSectionalArea_M2 = this.viaCrossSectionalArea_M2.getRawVal();
 
-            return (this.specificThermalResistivity_KMpWatt *viaLength_M)/viaCrossSectionalArea_M2;
+            return viaLength_M/(specificThermalConductivity_WpKm * viaCrossSectionalArea_M2);
 
         });
         this.thermalResistance_DegCpWatt.setUnits(new NumberUnitMultiplier[]{
