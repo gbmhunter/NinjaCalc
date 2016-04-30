@@ -41,7 +41,7 @@
                         <Label prefHeight="25">Ω</Label>
                     </HBox>
 
-                    <GridPane layoutX="150" layoutY="300" hgap="10" vgap="10">
+                    <GridPane fx:id="variableGridPane" layoutX="150" layoutY="300" hgap="10" vgap="10">
 
                         <columnConstraints>
                             <ColumnConstraints />
@@ -57,9 +57,9 @@
                             <Label GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="2">Closest Resistance</Label>
                             <Label GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.columnSpan="2">Percentage Error</Label>
 
-                            <Label      GridPane.rowIndex="1" GridPane.columnIndex="0">E6</Label>
-                            <TextField  GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="e6ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
-                            <Label      GridPane.rowIndex="1" GridPane.columnIndex="2" ><padding><Insets right="20"/></padding>Ω</Label>
+                            <!--<Label      GridPane.rowIndex="1" GridPane.columnIndex="0">E6</Label>-->
+                            <!--<TextField  GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="e6ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
+                            <!--<Label      GridPane.rowIndex="1" GridPane.columnIndex="2" ><padding><Insets right="20"/></padding>Ω</Label>-->
                             <TextField  GridPane.rowIndex="1" GridPane.columnIndex="3" fx:id="e6ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>
                             <Label      GridPane.rowIndex="1" GridPane.columnIndex="4">%</Label>
 

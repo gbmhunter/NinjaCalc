@@ -11,7 +11,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.concurrent.Worker.State;
@@ -28,6 +31,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 
 // USER INCLUDES
 
@@ -36,12 +40,12 @@ import Core.*;
 /**
  * Calculator for finding a E-series resistance (standard resistance, preferred value) which is closest to the user's
  * desired resistance.
- *
+ * <p>
  * Lists closest resistance and percentage error in each EIA E series from E6 to E192.
  *
- * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
- * @since           2013-09-17
- * @last-modified   2016-05-01
+ * @author gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @last-modified 2016-05-01
+ * @since 2013-09-17
  */
 public class StandardResistanceFinderModel extends Calculator {
 
@@ -49,22 +53,39 @@ public class StandardResistanceFinderModel extends Calculator {
     //========================================= FXML Bindings =======================================//
     //===============================================================================================//
 
-    @FXML private WebView infoWebView;
+    @FXML
+    private WebView infoWebView;
 
-    @FXML private TextField desiredResistanceValue;
+    @FXML
+    private TextField desiredResistanceValue;
 
-    @FXML private TextField e6ResistanceValue;
-    @FXML private TextField e6ErrorValue;
-    @FXML private TextField e12ResistanceValue;
-    @FXML private TextField e12ErrorValue;
-    @FXML private TextField e24ResistanceValue;
-    @FXML private TextField e24ErrorValue;
-    @FXML private TextField e48ResistanceValue;
-    @FXML private TextField e48ErrorValue;
-    @FXML private TextField e96ResistanceValue;
-    @FXML private TextField e96ErrorValue;
-    @FXML private TextField e192ResistanceValue;
-    @FXML private TextField e192ErrorValue;
+    @FXML
+    private TextField e6ResistanceValue;
+    @FXML
+    private TextField e6ErrorValue;
+    @FXML
+    private TextField e12ResistanceValue;
+    @FXML
+    private TextField e12ErrorValue;
+    @FXML
+    private TextField e24ResistanceValue;
+    @FXML
+    private TextField e24ErrorValue;
+    @FXML
+    private TextField e48ResistanceValue;
+    @FXML
+    private TextField e48ErrorValue;
+    @FXML
+    private TextField e96ResistanceValue;
+    @FXML
+    private TextField e96ErrorValue;
+    @FXML
+    private TextField e192ResistanceValue;
+    @FXML
+    private TextField e192ErrorValue;
+
+    @FXML
+    private GridPane variableGridPane;
 
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
@@ -84,15 +105,27 @@ public class StandardResistanceFinderModel extends Calculator {
     public CalcVarNumericalOutput e192Resistance = new CalcVarNumericalOutput();
     public CalcVarNumericalOutput e192Error = new CalcVarNumericalOutput();
 
+    private class GridPaneRow {
+        String resistanceSeries;
+        CalcVarNumericalOutput closestResistance;
+        CalcVarNumericalOutput closesResistanceError;
+        CalcVarNumericalOutput closestHigherResistance;
+        CalcVarNumericalOutput closestHigherResistanceError;
+        CalcVarNumericalOutput closestLowerResistance;
+        CalcVarNumericalOutput closestLowerResistanceError;
+    }
+
+    public ArrayList<GridPaneRow> gridPaneRows = new ArrayList<>();
+
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
     //===============================================================================================//
 
     public StandardResistanceFinderModel() {
 
-        super( "Standard Resistance Finder",
+        super("Standard Resistance Finder",
                 "Find the closest E-series (e.g. E12, E96) resistor (preferred value) to your desired resistance.",
-                new String[]{ "Electronics", "Basic" },
+                new String[]{"Electronics", "Basic"},
                 new String[]{"ohm", "resistor", "resistance", "e", "series", "standard", "preferred", "values", "e6", "e12", "e24", "e48", "e96", "e128"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
@@ -118,7 +151,7 @@ public class StandardResistanceFinderModel extends Calculator {
         //===============================================================================================//
 
         WebEngine engine = this.infoWebView.getEngine();
-        final String htmlFile= "info.html";
+        final String htmlFile = "info.html";
         URL url = getClass().getResource(htmlFile);
 
         engine.getLoadWorker().stateProperty().addListener(
@@ -128,15 +161,12 @@ public class StandardResistanceFinderModel extends Calculator {
                             //stage.setTitle(engine.getLocation());
 
                             NodeList nodeList = engine.getDocument().getElementsByTagName("a");
-                            for (int i = 0; i < nodeList.getLength(); i++)
-                            {
-                                Node node= nodeList.item(i);
+                            for (int i = 0; i < nodeList.getLength(); i++) {
+                                Node node = nodeList.item(i);
                                 EventTarget eventTarget = (EventTarget) node;
-                                eventTarget.addEventListener("click", new EventListener()
-                                {
+                                eventTarget.addEventListener("click", new EventListener() {
                                     @Override
-                                    public void handleEvent(Event evt)
-                                    {
+                                    public void handleEvent(Event evt) {
                                         EventTarget target = evt.getCurrentTarget();
                                         HTMLAnchorElement anchorElement = (HTMLAnchorElement) target;
                                         String href = anchorElement.getHref();
@@ -183,74 +213,78 @@ public class StandardResistanceFinderModel extends Calculator {
         this.desiredResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
         this.desiredResistance.addValidator(
                 new Validator(() -> {
-                    return ((this.desiredResistance.getRawVal() < 1.0 || this.desiredResistance.getRawVal() >10.0e6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
+                    return ((this.desiredResistance.getRawVal() < 1.0 || this.desiredResistance.getRawVal() > 10.0e6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
                 },
-                "The desired resistance is outside the \"normal\" purchasable resistance range of 1Ω to 10MΩ. Some or all of the standard E-series may not have a resistor available with the desired resistance."));
+                        "The desired resistance is outside the \"normal\" purchasable resistance range of 1Ω to 10MΩ. Some or all of the standard E-series may not have a resistor available with the desired resistance."));
 
         this.calcVars.add(this.desiredResistance);
+
+
+
+
 
         //===============================================================================================//
         //======================================= E6 RESISTANCE (output) ================================//
         //===============================================================================================//
 
-        this.e6Resistance.setName("e6Resistance");
-        this.e6Resistance.setValueTextField(this.e6ResistanceValue);
-        this.e6Resistance.setEquationFunction(() -> {
-            // Read in variables
-            Double desiredResistance = this.desiredResistance.getRawVal();
-
-            if(Double.isNaN(desiredResistance)) {
-                return Double.NaN;
-            }
-
-            double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E6);
-
-            return actualResistance;
-        });
-        this.e6Resistance.setUnits(new NumberUnitMultiplier[]{
-                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
-        });
-        this.e6Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
-        this.e6Resistance.setHelpText("The closest resistance in the E6 series to your desired resistance.");
-        this.e6Resistance.setIsEngineeringNotationEnabled(true);
-
-        //========== VALIDATORS ===========//
-        this.e6Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.e6Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-
-        this.calcVars.add(this.e6Resistance);
+//        this.e6Resistance.setName("e6Resistance");
+//        this.e6Resistance.setValueTextField(this.e6ResistanceValue);
+//        this.e6Resistance.setEquationFunction(() -> {
+//            // Read in variables
+//            Double desiredResistance = this.desiredResistance.getRawVal();
+//
+//            if (Double.isNaN(desiredResistance)) {
+//                return Double.NaN;
+//            }
+//
+//            double actualResistance = StandardResistanceFinder.Find(desiredResistance, StandardResistanceFinder.eSeriesOptions.E6);
+//
+//            return actualResistance;
+//        });
+//        this.e6Resistance.setUnits(new NumberUnitMultiplier[]{
+//                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+//        });
+//        this.e6Resistance.setRounding(CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES, 2);
+//        this.e6Resistance.setHelpText("The closest resistance in the E6 series to your desired resistance.");
+//        this.e6Resistance.setIsEngineeringNotationEnabled(true);
+//
+//        //========== VALIDATORS ===========//
+//        this.e6Resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+//        this.e6Resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+//
+//        this.calcVars.add(this.e6Resistance);
 
         //===============================================================================================//
         //================================= E6 PERCENTAGE DIFFERENCE (output) ===========================//
         //===============================================================================================//
 
-        this.e6Error.setName("e6Error");
-        this.e6Error.setValueTextField(this.e6ErrorValue);
-        this.e6Error.setEquationFunction(() -> {
-            // Read in variables
-            Double desiredResistance = this.desiredResistance.getRawVal();
-            Double closestStandardResistance = this.e6Resistance.getRawVal();
-
-            if(Double.isNaN(desiredResistance)) {
-                return Double.NaN;
-            }
-
-            // Calculate percentage difference
-            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
-
-            return percentageDiff;
-        });
-        this.e6Error.setUnits(new NumberUnitMultiplier[]{
-                new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
-        });
-        this.e6Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
-        this.e6Error.setHelpText("The percentage difference between the closest E6 series resistance and your desired resistance.");
-        this.e6Error.setIsEngineeringNotationEnabled(true);
-
-        //========== VALIDATORS ===========//
-        this.e6Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-
-        this.calcVars.add(this.e6Error);
+//        this.e6Error.setName("e6Error");
+//        this.e6Error.setValueTextField(this.e6ErrorValue);
+//        this.e6Error.setEquationFunction(() -> {
+//            // Read in variables
+//            Double desiredResistance = this.desiredResistance.getRawVal();
+//            Double closestStandardResistance = this.e6Resistance.getRawVal();
+//
+//            if (Double.isNaN(desiredResistance)) {
+//                return Double.NaN;
+//            }
+//
+//            // Calculate percentage difference
+//            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance) / desiredResistance) * 100.0;
+//
+//            return percentageDiff;
+//        });
+//        this.e6Error.setUnits(new NumberUnitMultiplier[]{
+//                new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
+//        });
+//        this.e6Error.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+//        this.e6Error.setHelpText("The percentage difference between the closest E6 series resistance and your desired resistance.");
+//        this.e6Error.setIsEngineeringNotationEnabled(true);
+//
+//        //========== VALIDATORS ===========//
+//        this.e6Error.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+//
+//        this.calcVars.add(this.e6Error);
 
         //===============================================================================================//
         //======================================= E12 RESISTANCE (output) ================================//
@@ -262,7 +296,7 @@ public class StandardResistanceFinderModel extends Calculator {
             // Read in variables
             Double desiredResistance = this.desiredResistance.getRawVal();
 
-            if(Double.isNaN(desiredResistance)) {
+            if (Double.isNaN(desiredResistance)) {
                 return Double.NaN;
             }
 
@@ -294,12 +328,12 @@ public class StandardResistanceFinderModel extends Calculator {
             Double desiredResistance = this.desiredResistance.getRawVal();
             Double closestStandardResistance = this.e12Resistance.getRawVal();
 
-            if(Double.isNaN(desiredResistance)) {
+            if (Double.isNaN(desiredResistance)) {
                 return Double.NaN;
             }
 
             // Calculate percentage difference
-            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance) / desiredResistance) * 100.0;
 
             return percentageDiff;
         });
@@ -325,7 +359,7 @@ public class StandardResistanceFinderModel extends Calculator {
             // Read in variables
             Double desiredResistance = this.desiredResistance.getRawVal();
 
-            if(Double.isNaN(desiredResistance)) {
+            if (Double.isNaN(desiredResistance)) {
                 return Double.NaN;
             }
 
@@ -357,12 +391,12 @@ public class StandardResistanceFinderModel extends Calculator {
             Double desiredResistance = this.desiredResistance.getRawVal();
             Double closestStandardResistance = this.e24Resistance.getRawVal();
 
-            if(Double.isNaN(desiredResistance)) {
+            if (Double.isNaN(desiredResistance)) {
                 return Double.NaN;
             }
 
             // Calculate percentage difference
-            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance) / desiredResistance) * 100.0;
 
             return percentageDiff;
         });
@@ -388,7 +422,7 @@ public class StandardResistanceFinderModel extends Calculator {
             // Read in variables
             Double desiredResistance = this.desiredResistance.getRawVal();
 
-            if(Double.isNaN(desiredResistance)) {
+            if (Double.isNaN(desiredResistance)) {
                 return Double.NaN;
             }
 
@@ -420,12 +454,12 @@ public class StandardResistanceFinderModel extends Calculator {
             Double desiredResistance = this.desiredResistance.getRawVal();
             Double closestStandardResistance = this.e48Resistance.getRawVal();
 
-            if(Double.isNaN(desiredResistance)) {
+            if (Double.isNaN(desiredResistance)) {
                 return Double.NaN;
             }
 
             // Calculate percentage difference
-            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance) / desiredResistance) * 100.0;
 
             return percentageDiff;
         });
@@ -451,7 +485,7 @@ public class StandardResistanceFinderModel extends Calculator {
             // Read in variables
             Double desiredResistance = this.desiredResistance.getRawVal();
 
-            if(Double.isNaN(desiredResistance)) {
+            if (Double.isNaN(desiredResistance)) {
                 return Double.NaN;
             }
 
@@ -483,12 +517,12 @@ public class StandardResistanceFinderModel extends Calculator {
             Double desiredResistance = this.desiredResistance.getRawVal();
             Double closestStandardResistance = this.e96Resistance.getRawVal();
 
-            if(Double.isNaN(desiredResistance)) {
+            if (Double.isNaN(desiredResistance)) {
                 return Double.NaN;
             }
 
             // Calculate percentage difference
-            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance) / desiredResistance) * 100.0;
 
             return percentageDiff;
         });
@@ -514,7 +548,7 @@ public class StandardResistanceFinderModel extends Calculator {
             // Read in variables
             Double desiredResistance = this.desiredResistance.getRawVal();
 
-            if(Double.isNaN(desiredResistance)) {
+            if (Double.isNaN(desiredResistance)) {
                 return Double.NaN;
             }
 
@@ -546,12 +580,12 @@ public class StandardResistanceFinderModel extends Calculator {
             Double desiredResistance = this.desiredResistance.getRawVal();
             Double closestStandardResistance = this.e192Resistance.getRawVal();
 
-            if(Double.isNaN(desiredResistance)) {
+            if (Double.isNaN(desiredResistance)) {
                 return Double.NaN;
             }
 
             // Calculate percentage difference
-            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance)/desiredResistance)*100.0;
+            double percentageDiff = (Math.abs(closestStandardResistance - desiredResistance) / desiredResistance) * 100.0;
 
             return percentageDiff;
         });
@@ -568,6 +602,18 @@ public class StandardResistanceFinderModel extends Calculator {
         this.calcVars.add(this.e192Error);
 
         //===============================================================================================//
+        //========================================== ARRAY METHOD =======================================//
+        //===============================================================================================//
+
+        GridPaneRow e6 = new GridPaneRow();
+        e6.resistanceSeries = "E6";
+        e6.closestResistance = this.e6Resistance;
+        e6.closesResistanceError = this.e6Error;
+        gridPaneRows.add(e6);
+
+        addGridPaneRowsToUi(gridPaneRows);
+
+        //===============================================================================================//
         //============================================== FINAL ==========================================//
         //===============================================================================================//
 
@@ -576,6 +622,31 @@ public class StandardResistanceFinderModel extends Calculator {
         this.recalculateAllOutputs();
         this.validateAllVariables();
 
+    }
+
+    private void addGridPaneRowsToUi(ArrayList<GridPaneRow> gridPaneRowList) {
+        for(int x = 0; x < gridPaneRowList.size(); x++) {
+            // Create label
+            Label resistanceSeriesLabel = new Label(gridPaneRowList.get(x).resistanceSeries);
+            this.variableGridPane.add(resistanceSeriesLabel, 0, x + 1);
+
+            // "Closest Resistance" TextField
+            TextField closestResistanceTextField = new TextField();
+            this.variableGridPane.add(closestResistanceTextField, 1, x + 1);
+
+            // Ohm symbol
+            Label ohmSymbol = new Label("Ω");
+            this.variableGridPane.add(ohmSymbol, 2, x + 1);
+
+            // "Closest Resistance" TextField
+            TextField closestResistanceErrorTextField = new TextField();
+            this.variableGridPane.add(closestResistanceErrorTextField, 3, x + 1);
+
+            // Ohm symbol
+            Label percentSymbol = new Label("%");
+            this.variableGridPane.add(percentSymbol, 4, x + 1);
+
+        }
     }
 
 }
