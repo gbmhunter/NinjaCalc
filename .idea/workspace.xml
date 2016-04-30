@@ -7,9 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcView.fxml" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcView.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/info.html" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/info.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" afterPath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,35 +68,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <file leaf-file-name="StandardResistanceFinderView.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="106" column="34" selection-start-line="106" selection-start-column="34" selection-end-line="106" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="info.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/info.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="33" column="73" selection-start-line="33" selection-start-column="73" selection-end-line="33" selection-end-column="73" />
-              <folding>
-                <element signature="n#style#0;n#p#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#8;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#12;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ViaCurrentIpc2221ACalcView.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcView.fxml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="91" column="74" selection-start-line="91" selection-start-column="74" selection-end-line="91" selection-end-column="74" />
+            <state relative-caret-position="221">
+              <caret line="61" column="97" selection-start-line="61" selection-start-column="97" selection-end-line="61" selection-end-column="97" />
               <folding />
             </state>
           </provider>
@@ -106,107 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViaCurrentIpc2221ACalcModel.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcModel.java">
+      <file leaf-file-name="StandardResistanceFinderModel.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="625">
-              <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="changelog.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/changelog.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="85">
-                <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-                <folding />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OhmsLawCalcModel.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1241">
-              <caret line="89" column="50" selection-start-line="89" selection-start-column="50" selection-end-line="89" selection-end-column="50" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Window.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_72/javafx-src.zip!/com/sun/glass/ui/Window.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20519">
-              <caret line="1265" column="0" selection-start-line="1265" selection-start-column="0" selection-end-line="1265" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#54146#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#3278#3279#0" expanded="false" />
-                <element signature="e#3320#3321#0" expanded="false" />
-                <element signature="e#3373#3374#0" expanded="false" />
-                <element signature="e#3420#3421#0" expanded="false" />
-                <element signature="e#3498#3499#0" expanded="false" />
-                <element signature="e#3543#3544#0" expanded="false" />
-                <element signature="e#11746#11747#0" expanded="false" />
-                <element signature="e#11772#11773#0" expanded="false" />
-                <element signature="e#15319#15320#0" expanded="false" />
-                <element signature="e#15355#15356#0" expanded="false" />
-                <element signature="e#15929#15930#0" expanded="false" />
-                <element signature="e#15963#15964#0" expanded="false" />
-                <element signature="e#16000#16001#0" expanded="false" />
-                <element signature="e#16036#16037#0" expanded="false" />
-                <element signature="e#22100#22101#0" expanded="false" />
-                <element signature="e#22145#22146#0" expanded="false" />
-                <element signature="e#38941#38942#0" expanded="false" />
-                <element signature="e#38976#38977#0" expanded="false" />
-                <element signature="e#40634#40635#0" expanded="false" />
-                <element signature="e#40670#40671#0" expanded="false" />
-                <element signature="e#42232#42233#0" expanded="false" />
-                <element signature="e#42312#42313#0" expanded="false" />
-                <element signature="e#42354#42355#0" expanded="false" />
-                <element signature="e#42432#42433#0" expanded="false" />
-                <element signature="e#42482#42483#0" expanded="false" />
-                <element signature="e#42520#42521#0" expanded="false" />
-                <element signature="e#48679#48680#0" expanded="false" />
-                <element signature="e#48738#48739#0" expanded="false" />
-                <element signature="e#48766#48767#0" expanded="false" />
-                <element signature="e#48808#48809#0" expanded="false" />
-                <element signature="e#49293#49294#0" expanded="false" />
-                <element signature="e#49336#49337#0" expanded="false" />
-                <element signature="e#49818#49819#0" expanded="false" />
-                <element signature="e#49879#49880#0" expanded="false" />
-                <element signature="e#49909#49910#0" expanded="false" />
-                <element signature="e#49953#49954#0" expanded="false" />
-                <element signature="e#50479#50480#0" expanded="false" />
-                <element signature="e#50524#50525#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CalcVarBase.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Core/CalcVar/CalcVarBase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Calculator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Core/Calculator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="217" column="0" selection-start-line="217" selection-start-column="0" selection-end-line="217" selection-end-column="0" />
+            <state relative-caret-position="255">
+              <caret line="43" column="30" selection-start-line="43" selection-start-column="30" selection-end-line="43" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -269,7 +148,6 @@
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/DewPointMagnus/DewPointMagnusCalcModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java" />
-        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/TrackCurrentIpc2221ACalcView.fxml" />
@@ -293,6 +171,7 @@
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcView.fxml" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcModel.java" />
         <option value="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/info.html" />
+        <option value="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java" />
       </list>
     </option>
   </component>
@@ -340,6 +219,11 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -434,37 +318,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Pcb" />
+              <option name="myItemId" value="Basic" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ViaCurrentIpc2221A" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Calculators" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Electronics" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Pcb" />
+              <option name="myItemId" value="StandardResistanceFinder" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -490,16 +348,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="LowPassRC" />
+              <option name="myItemId" value="Basic" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
-      </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane">
-        <subPane />
       </pane>
     </panes>
   </component>
@@ -1034,23 +887,19 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25792813" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="110" y="285" width="1430" height="680" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19114584" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1058,10 +907,14 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25792813" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="110" y="285" width="1430" height="680" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1119,13 +972,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Core/NumberUnitFunction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="8" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcView.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
@@ -1174,7 +1020,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1209,16 +1054,6 @@
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcView.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="61" column="49" selection-start-line="61" selection-start-column="49" selection-end-line="61" selection-end-column="49" />
         </state>
       </provider>
     </entry>
@@ -1273,7 +1108,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="623">
           <caret line="379" column="0" selection-start-line="379" selection-start-column="0" selection-end-line="379" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1281,15 +1115,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="555">
           <caret line="484" column="0" selection-start-line="484" selection-start-column="0" selection-end-line="484" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="432" column="23" selection-start-line="432" selection-start-column="23" selection-end-line="432" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1297,7 +1122,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
           <caret line="337" column="41" selection-start-line="337" selection-start-column="41" selection-end-line="337" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1305,7 +1129,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="697">
           <caret line="290" column="39" selection-start-line="290" selection-start-column="39" selection-end-line="290" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1334,6 +1157,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+        </state>
+      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="357">
@@ -1342,25 +1170,11 @@
           <second_editor />
         </state>
       </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="154" column="40" selection-start-line="154" selection-start-column="40" selection-end-line="154" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/CalcVar/CalcVarComboBox.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
           <caret line="175" column="10" selection-start-line="175" selection-start-column="10" selection-end-line="175" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1390,10 +1204,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4199">
           <caret line="262" column="10" selection-start-line="262" selection-start-column="10" selection-end-line="262" selection-end-column="10" />
-          <folding>
-            <element signature="e#2344#2345#0" expanded="false" />
-            <element signature="e#2382#2383#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1401,9 +1211,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
           <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#1546#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1411,12 +1218,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2754">
           <caret line="190" column="0" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#9088#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#6995#6996#0" expanded="false" />
-            <element signature="e#7029#7030#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1424,46 +1225,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2669">
           <caret line="190" column="0" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#13135#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#7556#7557#0" expanded="false" />
-            <element signature="e#7583#7584#0" expanded="false" />
-            <element signature="e#8589#8590#0" expanded="false" />
-            <element signature="e#8638#8639#0" expanded="false" />
-            <element signature="e#8680#8681#0" expanded="false" />
-            <element signature="e#8716#8717#0" expanded="false" />
-            <element signature="e#8770#8771#0" expanded="false" />
-            <element signature="e#8812#8813#0" expanded="false" />
-            <element signature="e#8885#8886#0" expanded="false" />
-            <element signature="e#8935#8936#0" expanded="false" />
-            <element signature="e#9008#9009#0" expanded="false" />
-            <element signature="e#9058#9059#0" expanded="false" />
-            <element signature="e#9709#9710#0" expanded="false" />
-            <element signature="e#9764#9765#0" expanded="false" />
-            <element signature="e#9808#9809#0" expanded="false" />
-            <element signature="e#9845#9846#0" expanded="false" />
-            <element signature="e#10114#10115#0" expanded="false" />
-            <element signature="e#10159#10160#0" expanded="false" />
-            <element signature="e#10217#10218#0" expanded="false" />
-            <element signature="e#10268#10269#0" expanded="false" />
-            <element signature="e#10326#10327#0" expanded="false" />
-            <element signature="e#10377#10378#0" expanded="false" />
-            <element signature="e#10431#10432#0" expanded="false" />
-            <element signature="e#10473#10474#0" expanded="false" />
-            <element signature="e#11405#11406#0" expanded="false" />
-            <element signature="e#11460#11461#0" expanded="false" />
-            <element signature="e#11522#11523#0" expanded="false" />
-            <element signature="e#11577#11578#0" expanded="false" />
-            <element signature="e#11639#11640#0" expanded="false" />
-            <element signature="e#11694#11695#0" expanded="false" />
-            <element signature="e#11949#11950#0" expanded="false" />
-            <element signature="e#11993#11994#0" expanded="false" />
-            <element signature="e#12480#12481#0" expanded="false" />
-            <element signature="e#12507#12508#0" expanded="false" />
-            <element signature="e#12576#12577#0" expanded="false" />
-            <element signature="e#12603#12604#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1471,48 +1232,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20519">
           <caret line="1265" column="0" selection-start-line="1265" selection-start-column="0" selection-end-line="1265" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#54146#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#3278#3279#0" expanded="false" />
-            <element signature="e#3320#3321#0" expanded="false" />
-            <element signature="e#3373#3374#0" expanded="false" />
-            <element signature="e#3420#3421#0" expanded="false" />
-            <element signature="e#3498#3499#0" expanded="false" />
-            <element signature="e#3543#3544#0" expanded="false" />
-            <element signature="e#11746#11747#0" expanded="false" />
-            <element signature="e#11772#11773#0" expanded="false" />
-            <element signature="e#15319#15320#0" expanded="false" />
-            <element signature="e#15355#15356#0" expanded="false" />
-            <element signature="e#15929#15930#0" expanded="false" />
-            <element signature="e#15963#15964#0" expanded="false" />
-            <element signature="e#16000#16001#0" expanded="false" />
-            <element signature="e#16036#16037#0" expanded="false" />
-            <element signature="e#22100#22101#0" expanded="false" />
-            <element signature="e#22145#22146#0" expanded="false" />
-            <element signature="e#38941#38942#0" expanded="false" />
-            <element signature="e#38976#38977#0" expanded="false" />
-            <element signature="e#40634#40635#0" expanded="false" />
-            <element signature="e#40670#40671#0" expanded="false" />
-            <element signature="e#42232#42233#0" expanded="false" />
-            <element signature="e#42312#42313#0" expanded="false" />
-            <element signature="e#42354#42355#0" expanded="false" />
-            <element signature="e#42432#42433#0" expanded="false" />
-            <element signature="e#42482#42483#0" expanded="false" />
-            <element signature="e#42520#42521#0" expanded="false" />
-            <element signature="e#48679#48680#0" expanded="false" />
-            <element signature="e#48738#48739#0" expanded="false" />
-            <element signature="e#48766#48767#0" expanded="false" />
-            <element signature="e#48808#48809#0" expanded="false" />
-            <element signature="e#49293#49294#0" expanded="false" />
-            <element signature="e#49336#49337#0" expanded="false" />
-            <element signature="e#49818#49819#0" expanded="false" />
-            <element signature="e#49879#49880#0" expanded="false" />
-            <element signature="e#49909#49910#0" expanded="false" />
-            <element signature="e#49953#49954#0" expanded="false" />
-            <element signature="e#50479#50480#0" expanded="false" />
-            <element signature="e#50524#50525#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1536,7 +1256,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/Calculator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
+        <state relative-caret-position="3570">
           <caret line="217" column="0" selection-start-line="217" selection-start-column="0" selection-end-line="217" selection-end-column="0" />
           <folding />
         </state>
@@ -1557,13 +1277,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="997">
           <caret line="797" column="59" selection-start-line="797" selection-start-column="59" selection-end-line="797" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
+        <state relative-caret-position="1513">
           <caret line="106" column="34" selection-start-line="106" selection-start-column="34" selection-end-line="106" selection-end-column="34" />
           <folding />
         </state>
@@ -1573,11 +1292,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="22" selection-start-line="15" selection-start-column="8" selection-end-line="20" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/changelog.md">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="85">
@@ -1587,17 +1310,14 @@
           <second_editor />
         </state>
       </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="625">
+        <state relative-caret-position="1666">
           <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1606,7 +1326,7 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
+        <state relative-caret-position="1547">
           <caret line="91" column="74" selection-start-line="91" selection-start-column="74" selection-end-line="91" selection-end-column="74" />
           <folding />
         </state>
@@ -1614,13 +1334,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/info.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="33" column="73" selection-start-line="33" selection-start-column="73" selection-end-line="33" selection-end-column="73" />
+        <state relative-caret-position="382">
+          <caret line="28" column="35" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
           <folding>
             <element signature="n#style#0;n#p#3;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#8;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#12;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcView.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="61" column="49" selection-start-line="61" selection-start-column="49" selection-end-line="61" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="432" column="23" selection-start-line="432" selection-start-column="23" selection-end-line="432" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderView.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="61" column="97" selection-start-line="61" selection-start-column="97" selection-end-line="61" selection-end-column="97" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="43" column="30" selection-start-line="43" selection-start-column="30" selection-end-line="43" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
