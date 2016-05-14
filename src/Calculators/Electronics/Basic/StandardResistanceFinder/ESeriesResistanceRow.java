@@ -28,8 +28,13 @@ public class ESeriesResistanceRow {
     CalcVarNumericalOutput closestResistance;
     CalcVarNumericalOutput closestResistanceErrorCalcVar;
 
-    CalcVarNumericalOutput closestHigherResistance;
-    CalcVarNumericalOutput closestLowerResistance;
+    CalcVarNumericalOutput closestEqualOrLowerResistanceCalcVar;
+    CalcVarNumericalOutput closestEqualOrLowerResistanceErrorCalcVar;
+
+    CalcVarNumericalOutput closestEqualOrHigherResistanceCalcVar;
+    CalcVarNumericalOutput closestEqualOrHigherResistanceErrorCalcVar;
+
+    CalcVarNumericalOutput closestEqualOrHigherResistance;
 
     ESeriesResistanceRow(
             String name,
@@ -92,7 +97,7 @@ public class ESeriesResistanceRow {
 
         //=============== CLOSEST RESISTANCE ERROR ============//
 
-        // "Closest Resistance" TextField
+        // "Closest Resistance Error" TextField
         TextField closestResistanceErrorTextField = new TextField();
         closestResistanceErrorTextField.setAlignment(Pos.CENTER_RIGHT);
         variableGridPane.add(closestResistanceErrorTextField, currColumnCount++, rowToAddTo);
@@ -123,26 +128,26 @@ public class ESeriesResistanceRow {
         closestResistanceErrorCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        closestResistanceErrorCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
         calcVars.add(closestResistanceErrorCalcVar);
 
         // Percentage symbol
         variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);
 
-        //============================== CLOSEST HIGHER RESISTANCE ==============================//
+        //============================== CLOSEST EQUAL OR LOWER RESISTANCE ==============================//
 
         // "Closest Resistance" TextField
-        TextField closestHigherResistanceTextField = new TextField();
-        closestHigherResistanceTextField.setAlignment(Pos.CENTER_RIGHT);
-        variableGridPane.add(closestHigherResistanceTextField, currColumnCount++, rowToAddTo);
+        TextField closestEqualOrLowerResistanceTextField = new TextField();
+        closestEqualOrLowerResistanceTextField.setAlignment(Pos.CENTER_RIGHT);
+        variableGridPane.add(closestEqualOrLowerResistanceTextField, currColumnCount++, rowToAddTo);
 
         // Calculator variable
-        closestResistance = new CalcVarNumericalOutput();
-        closestResistance.setName("closestHigherResistance");
-        closestResistance.setValueTextField(closestHigherResistanceTextField);
-        closestResistance.setEquationFunction(() -> {
+        closestEqualOrLowerResistanceCalcVar = new CalcVarNumericalOutput();
+        closestEqualOrLowerResistanceCalcVar.setName("closestHigherResistance");
+        closestEqualOrLowerResistanceCalcVar.setValueTextField(closestEqualOrLowerResistanceTextField);
+        closestEqualOrLowerResistanceCalcVar.setEquationFunction(() -> {
             // Read in variables
             Double desiredResistanceValue = desiredResistance.getRawVal();
 
@@ -150,27 +155,148 @@ public class ESeriesResistanceRow {
                 return Double.NaN;
             }
 
-            double actualResistance = StandardResistanceFinder.Find(desiredResistanceValue, eSeries);
+            double actualResistance = StandardResistanceFinder.Find(desiredResistanceValue, eSeries, StandardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_HIGHER);
 
             return actualResistance;
         });
-        closestResistance.setUnits(new NumberUnitMultiplier[]{
+        closestEqualOrLowerResistanceCalcVar.setUnits(new NumberUnitMultiplier[]{
                 new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
         });
-        closestResistance.setRounding(roundingType, numberToRoundTo);
-        closestResistance.setHelpText("The closest resistance in the " + name + " series to your desired resistance.");
-        closestResistance.setIsEngineeringNotationEnabled(true);
+        closestEqualOrLowerResistanceCalcVar.setRounding(roundingType, numberToRoundTo);
+        closestEqualOrLowerResistanceCalcVar.setHelpText("The closest equal or higher resistance in the " + name + " series to your desired resistance.");
+        closestEqualOrLowerResistanceCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        calcVars.add(closestResistance);
+        calcVars.add(closestEqualOrLowerResistanceCalcVar);
 
         // Ohm symbol
         variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
 
+        //============================== CLOSEST EQUAL OR LOWER RESISTANCE ERROR ==============================//
 
+        // "Closest Equal Or Lower Resistance Error" TextField
+        TextField closestEqualOrLowerResistanceErrorTextField = new TextField();
+        closestEqualOrLowerResistanceErrorTextField.setAlignment(Pos.CENTER_RIGHT);
+        variableGridPane.add(closestEqualOrLowerResistanceErrorTextField, currColumnCount++, rowToAddTo);
+
+        // Calculator variable
+        closestEqualOrLowerResistanceErrorCalcVar = new CalcVarNumericalOutput();
+        closestEqualOrLowerResistanceErrorCalcVar.setName("equalOrLowerResistanceError");
+        closestEqualOrLowerResistanceErrorCalcVar.setValueTextField(closestEqualOrLowerResistanceErrorTextField);
+        closestEqualOrLowerResistanceErrorCalcVar.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistanceValue = desiredResistance.getRawVal();
+            Double closestEqualOrLowerResistanceValue = closestEqualOrLowerResistanceCalcVar.getRawVal();
+
+            if (Double.isNaN(desiredResistanceValue)) {
+                return Double.NaN;
+            }
+
+            // Calculate percentage difference
+            double percentageDiff = (Math.abs(closestEqualOrLowerResistanceValue - desiredResistanceValue) / desiredResistanceValue) * 100.0;
+
+            return percentageDiff;
+        });
+        closestEqualOrLowerResistanceErrorCalcVar.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
+        });
+        closestEqualOrLowerResistanceErrorCalcVar.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+        closestEqualOrLowerResistanceErrorCalcVar.setHelpText("The percentage difference between the closest equal or lower " + name + " series resistance and your desired resistance.");
+        closestEqualOrLowerResistanceErrorCalcVar.setIsEngineeringNotationEnabled(true);
+
+        //========== VALIDATORS ===========//
+        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        calcVars.add(closestEqualOrLowerResistanceErrorCalcVar);
+
+        // Percentage symbol
+        variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);
+
+        //============================== CLOSEST EQUAL OR HIGHER RESISTANCE ==============================//
+
+        // "Closest Resistance" TextField
+        TextField closestEqualOrHigherResistanceTextField = new TextField();
+        closestEqualOrHigherResistanceTextField.setAlignment(Pos.CENTER_RIGHT);
+        variableGridPane.add(closestEqualOrHigherResistanceTextField, currColumnCount++, rowToAddTo);
+
+        // Calculator variable
+        closestEqualOrHigherResistanceCalcVar = new CalcVarNumericalOutput();
+        closestEqualOrHigherResistanceCalcVar.setName("closestHigherResistance");
+        closestEqualOrHigherResistanceCalcVar.setValueTextField(closestEqualOrHigherResistanceTextField);
+        closestEqualOrHigherResistanceCalcVar.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistanceValue = desiredResistance.getRawVal();
+
+            if (Double.isNaN(desiredResistanceValue)) {
+                return Double.NaN;
+            }
+
+            double actualResistance = StandardResistanceFinder.Find(desiredResistanceValue, eSeries, StandardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_HIGHER);
+
+            return actualResistance;
+        });
+        closestEqualOrHigherResistanceCalcVar.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+        });
+        closestEqualOrHigherResistanceCalcVar.setRounding(roundingType, numberToRoundTo);
+        closestEqualOrHigherResistanceCalcVar.setHelpText("The closest equal or higher resistance in the " + name + " series to your desired resistance.");
+        closestEqualOrHigherResistanceCalcVar.setIsEngineeringNotationEnabled(true);
+
+        //========== VALIDATORS ===========//
+        closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        calcVars.add(closestEqualOrHigherResistanceCalcVar);
+
+        // Ohm symbol
+        variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
+
+        //============================== CLOSEST EQUAL OR HIGHER RESISTANCE ERROR ==============================//
+
+        // "Closest Equal Or Lower Resistance Error" TextField
+        TextField closestEqualOrHigherResistanceErrorTextField = new TextField();
+        closestEqualOrHigherResistanceErrorTextField.setAlignment(Pos.CENTER_RIGHT);
+        variableGridPane.add(closestEqualOrHigherResistanceErrorTextField, currColumnCount++, rowToAddTo);
+
+        // Calculator variable
+        closestEqualOrHigherResistanceErrorCalcVar = new CalcVarNumericalOutput();
+        closestEqualOrHigherResistanceErrorCalcVar.setName("equalOrHigherResistanceError");
+        closestEqualOrHigherResistanceErrorCalcVar.setValueTextField(closestEqualOrHigherResistanceErrorTextField);
+        closestEqualOrHigherResistanceErrorCalcVar.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistanceValue = desiredResistance.getRawVal();
+            Double closestEqualOrHigherResistanceValue = closestEqualOrHigherResistanceCalcVar.getRawVal();
+
+            if (Double.isNaN(desiredResistanceValue)) {
+                return Double.NaN;
+            }
+
+            // Calculate percentage difference
+            double percentageDiff = (Math.abs(closestEqualOrHigherResistanceValue - desiredResistanceValue) / desiredResistanceValue) * 100.0;
+
+            return percentageDiff;
+        });
+        closestEqualOrHigherResistanceErrorCalcVar.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
+        });
+        closestEqualOrHigherResistanceErrorCalcVar.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
+        closestEqualOrHigherResistanceErrorCalcVar.setHelpText("The percentage difference between the closest equal or higher " + name + " series resistance and your desired resistance.");
+        closestEqualOrHigherResistanceErrorCalcVar.setIsEngineeringNotationEnabled(true);
+
+        //========== VALIDATORS ===========//
+        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        calcVars.add(closestEqualOrHigherResistanceErrorCalcVar);
+
+        // Percentage symbol
+        variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);
+        
+        
     }
 
 

@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.HBox?>
 
+<?import javafx.scene.layout.RowConstraints?>
 <VBox fillWidth="true" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane fitToWidth="true" styleClass="scrollPane" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
         <padding><Insets bottom="20" left="20" right="20" top="40" /></padding>
@@ -43,19 +44,41 @@
 
                     <GridPane fx:id="variableGridPane" layoutX="150" layoutY="300" hgap="10" vgap="10">
 
+                        <rowConstraints>
+                            <RowConstraints minHeight="80" />
+                        </rowConstraints>
+
                         <columnConstraints>
                             <ColumnConstraints />
-                            <ColumnConstraints />
-                            <ColumnConstraints />
-                            <ColumnConstraints />
-                            <ColumnConstraints />
+                            <!-- CLOSEST ABSOLUTE RESISTANCE -->
+                            <ColumnConstraints maxWidth="100"/>
+                            <ColumnConstraints maxWidth="20"/>
+                            <ColumnConstraints maxWidth="50"/>
+                            <ColumnConstraints maxWidth="20"/>
+                            <!-- CLOSEST EQUAL OR LOWER RESISTANCE -->
+                            <ColumnConstraints maxWidth="100"/>
+                            <ColumnConstraints maxWidth="20"/>
+                            <ColumnConstraints maxWidth="50" />
+                            <ColumnConstraints maxWidth="20"/>
+                            <!-- CLOSEST EQUAL OR HIGHER RESISTANCE -->
+                            <ColumnConstraints maxWidth="100"/>
+                            <ColumnConstraints maxWidth="20"/>
+                            <ColumnConstraints maxWidth="50" />
+                            <ColumnConstraints maxWidth="20"/>
                         </columnConstraints>
 
                         <children>
 
                             <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Series</Label>
-                            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="2">Closest Resistance</Label>
-                            <Label GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.columnSpan="2">Percentage Error</Label>
+
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="2" wrapText="true">Closest Resistance</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.columnSpan="2" wrapText="true">Percentage Error</Label>
+
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="5" GridPane.columnSpan="2" wrapText="true">Closest Equal Or Lower Resistance</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="7" GridPane.columnSpan="2" wrapText="true">Percentage Error</Label>
+
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="9" GridPane.columnSpan="2" wrapText="true">Closest Equal Or Higher Resistance</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="11" GridPane.columnSpan="2" wrapText="true">Percentage Error</Label>
 
                             <!--<Label      GridPane.rowIndex="1" GridPane.columnIndex="0">E6</Label>-->
                             <!--<TextField  GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="e6ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
