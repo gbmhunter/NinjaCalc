@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-13
+ * @last-modified   2016-05-14
  */
 public class Validator {
 
@@ -130,5 +130,25 @@ public class Validator {
                 }
             },
             "Value must be positive and not equal to 0.");
+    }
+
+    /**
+     * Factory function. Returns a validator which will give the provided validation result if the calculator variable is
+     * not greater or equal to 0. If the number is greater than 0, it will return "CalcValidationResults.Ok".
+     *
+     * @param desiredValidationResult   The desired validation result if the calculator variable value is not greater or equal to 0.
+     * @return  A validator which will give the desired validation result if the calculator variable is not greater or equal to 0.
+     */
+    public static Validator IsGreaterOrEqualToZero(CalcValidationLevel desiredValidationResult) {
+        return new Validator(
+                (value) -> {
+                    if (value < 0) {
+                        return desiredValidationResult;
+                    }
+                    else {
+                        return CalcValidationLevels.Ok;
+                    }
+                },
+                "Value must be positive and not equal to 0.");
     }
 }

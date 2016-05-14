@@ -129,7 +129,7 @@ public class ESeriesResistanceRow {
 
         //========== VALIDATORS ===========//
         closestResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestResistanceErrorCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
 
         calcVars.add(closestResistanceErrorCalcVar);
 
@@ -155,7 +155,7 @@ public class ESeriesResistanceRow {
                 return Double.NaN;
             }
 
-            double actualResistance = StandardResistanceFinder.Find(desiredResistanceValue, eSeries, StandardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_HIGHER);
+            double actualResistance = StandardResistanceFinder.Find(desiredResistanceValue, eSeries, StandardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_LOWER);
 
             return actualResistance;
         });
@@ -209,7 +209,7 @@ public class ESeriesResistanceRow {
 
         //========== VALIDATORS ===========//
         closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
 
         calcVars.add(closestEqualOrLowerResistanceErrorCalcVar);
 
@@ -289,7 +289,7 @@ public class ESeriesResistanceRow {
 
         //========== VALIDATORS ===========//
         closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
 
         calcVars.add(closestEqualOrHigherResistanceErrorCalcVar);
 
