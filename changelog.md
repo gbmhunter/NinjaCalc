@@ -4,6 +4,7 @@ vX.X.X
 - Disabled metric prefixes for IPC-2152 calculator variables, closes #118.
 - Fixed info section of "Via Current" calculator, closes #112.
 - Added ability to display closest higher value and closest lower value on the standard resistor finder, closes #120.
+- Fixed bug where initial values for calculator variables were not "NaN" (see Standard Resistance Finder calculator for example), closes #117.
 
 v1.2.0
 ------

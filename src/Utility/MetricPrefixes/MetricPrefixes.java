@@ -9,9 +9,9 @@ import java.util.regex.*;
 /**
  * Utility class for converting numbers to strings with metric prefixes and back again.
  *
- * @author gbmhunter
- * @since 2016-03-26
- * @last-modified 2016-03-27
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2016-03-26
+ * @last-modified   2016-05-14
  */
 public enum MetricPrefixes {
     yocto('y', 1e-24),
@@ -129,6 +129,10 @@ public enum MetricPrefixes {
     public static String toSci(
             final double value
     ) {
+
+        if(value == 0.0)
+            return "0.0";
+
         final long exponent = (long) Math.floor(Math.log10(Math.abs(value)));
         return doubleToString(value / Math.pow(10, exponent)) + 'E' + exponent;
     }
@@ -266,9 +270,12 @@ public enum MetricPrefixes {
             final int roundTo) {
 
         // Get the absolute value of the provided value
-        final double abs = Math.abs(value);
+        double abs = Math.abs(value);
 
-        // Search for the applicable multiplier
+        if(abs == 0.0)
+            return toSci(0.0);
+
+        // Now that we know it is not exactly 0, search for the applicable multiplier
         double multiplier;
         for (final MetricPrefixes e : values()) {
             multiplier = e.getMultiplier();

@@ -1,7 +1,9 @@
 package Utility.MetricPrefixes;
 
 /**
- * Created by gbmhunter on 2016-03-27.
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2016-03-26
+ * @last-modified   2016-05-14
  */
 public enum RoundingMethods {
     DECIMAL_PLACES,

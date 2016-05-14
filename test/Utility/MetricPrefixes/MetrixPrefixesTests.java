@@ -1,4 +1,4 @@
-package Utility;
+package Utility.MetricPrefixes;
 
 import Utility.MetricPrefixes.MetricPrefixes;
 import Utility.MetricPrefixes.RoundingMethods;
@@ -58,6 +58,8 @@ public class MetrixPrefixesTests {
 
         // Make sure no precision is lost numbers that have a large number of digits
         assertEquals("3.33", MetricPrefixes.toEng(10.0/3.0, RoundingMethods.DECIMAL_PLACES, 2));
+
+        assertEquals("0.0", MetricPrefixes.toEng(0.0, RoundingMethods.SIGNIFICANT_FIGURES, 2));
 
     }
 

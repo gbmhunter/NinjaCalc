@@ -1,9 +1,9 @@
 
 
 // SYSTEM IMPORTS
+import Calculators.Electronics.Basic.StandardResistanceFinder.StandardResistanceFinderCalcModel;
 import Core.Calculator;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 
 // USER IMPORTS
 import MainWindow.MainWindowController;
-import javafx.stage.WindowEvent;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -79,7 +78,7 @@ public class Main extends Application {
         //========== BASIC ==========//
         controller.addCalculatorTemplate(new Calculators.Electronics.Basic.OhmsLaw.OhmsLawCalcModel());
         controller.addCalculatorTemplate(new Calculators.Electronics.Basic.ResistorDivider.ResistorDividerCalcModel());
-        controller.addCalculatorTemplate(new Calculators.Electronics.Basic.StandardResistanceFinder.StandardResistanceFinderModel());
+        controller.addCalculatorTemplate(new StandardResistanceFinderCalcModel());
 
         //========== FILTERS ==========//
         controller.addCalculatorTemplate(new Calculators.Electronics.Filters.LowPassRC.LowPassRCCalcModel());
