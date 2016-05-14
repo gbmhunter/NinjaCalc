@@ -41,19 +41,22 @@ public class ESeriesResistanceRow {
             CalcVarNumerical.RoundingTypes roundingType,
             Integer numberToRoundTo) {
 
+        // Keeps track of what column of the grid pane we are currently inserting at
+        Integer currColumnCount = 0;
+
         this.name = name;
         this.eSeries = eSeries;
 
         // Create label
         Label resistanceSeriesLabel = new Label(eSeries.name());
-        variableGridPane.add(resistanceSeriesLabel, 0, rowToAddTo);
+        variableGridPane.add(resistanceSeriesLabel, currColumnCount++, rowToAddTo);
 
         //=============== CLOSEST RESISTANCE ============//
 
         // "Closest Resistance" TextField
         TextField closestResistanceTextField = new TextField();
         closestResistanceTextField.setAlignment(Pos.CENTER_RIGHT);
-        variableGridPane.add(closestResistanceTextField, 1, rowToAddTo);
+        variableGridPane.add(closestResistanceTextField, currColumnCount++, rowToAddTo);
 
         // Calculator variable
         closestResistance = new CalcVarNumericalOutput();
@@ -75,7 +78,7 @@ public class ESeriesResistanceRow {
                 new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
         });
         closestResistance.setRounding(roundingType, numberToRoundTo);
-        closestResistance.setHelpText("The closest resistance in the E6 series to your desired resistance.");
+        closestResistance.setHelpText("The closest resistance in the " + name + " series to your desired resistance.");
         closestResistance.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
@@ -85,19 +88,18 @@ public class ESeriesResistanceRow {
         calcVars.add(closestResistance);
 
         // Ohm symbol
-        Label ohmSymbol = new Label("Ω");
-        variableGridPane.add(ohmSymbol, 2, rowToAddTo);
+        variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
 
         //=============== CLOSEST RESISTANCE ERROR ============//
 
         // "Closest Resistance" TextField
         TextField closestResistanceErrorTextField = new TextField();
         closestResistanceErrorTextField.setAlignment(Pos.CENTER_RIGHT);
-        variableGridPane.add(closestResistanceErrorTextField, 3, rowToAddTo);
+        variableGridPane.add(closestResistanceErrorTextField, currColumnCount++, rowToAddTo);
 
         // Calculator variable
         closestResistanceErrorCalcVar = new CalcVarNumericalOutput();
-        closestResistanceErrorCalcVar.setName("e6Error");
+        closestResistanceErrorCalcVar.setName("seriesError");
         closestResistanceErrorCalcVar.setValueTextField(closestResistanceErrorTextField);
         closestResistanceErrorCalcVar.setEquationFunction(() -> {
             // Read in variables
@@ -117,7 +119,7 @@ public class ESeriesResistanceRow {
                 new NumberUnitMultiplier("%", 1e0, NumberPreference.DEFAULT),
         });
         closestResistanceErrorCalcVar.setRounding(CalcVarNumerical.RoundingTypes.DECIMAL_PLACES, 2);
-        closestResistanceErrorCalcVar.setHelpText("The percentage difference between the closest E6 series resistance and your desired resistance.");
+        closestResistanceErrorCalcVar.setHelpText("The percentage difference between the closest " + name + " series resistance and your desired resistance.");
         closestResistanceErrorCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
@@ -127,8 +129,46 @@ public class ESeriesResistanceRow {
         calcVars.add(closestResistanceErrorCalcVar);
 
         // Percentage symbol
-        Label percentSymbol = new Label("%");
-        variableGridPane.add(percentSymbol, 4, rowToAddTo);
+        variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);
+
+        //============================== CLOSEST HIGHER RESISTANCE ==============================//
+
+        // "Closest Resistance" TextField
+        TextField closestHigherResistanceTextField = new TextField();
+        closestHigherResistanceTextField.setAlignment(Pos.CENTER_RIGHT);
+        variableGridPane.add(closestHigherResistanceTextField, currColumnCount++, rowToAddTo);
+
+        // Calculator variable
+        closestResistance = new CalcVarNumericalOutput();
+        closestResistance.setName("closestHigherResistance");
+        closestResistance.setValueTextField(closestHigherResistanceTextField);
+        closestResistance.setEquationFunction(() -> {
+            // Read in variables
+            Double desiredResistanceValue = desiredResistance.getRawVal();
+
+            if (Double.isNaN(desiredResistanceValue)) {
+                return Double.NaN;
+            }
+
+            double actualResistance = StandardResistanceFinder.Find(desiredResistanceValue, eSeries);
+
+            return actualResistance;
+        });
+        closestResistance.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
+        });
+        closestResistance.setRounding(roundingType, numberToRoundTo);
+        closestResistance.setHelpText("The closest resistance in the " + name + " series to your desired resistance.");
+        closestResistance.setIsEngineeringNotationEnabled(true);
+
+        //========== VALIDATORS ===========//
+        closestResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        closestResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+
+        calcVars.add(closestResistance);
+
+        // Ohm symbol
+        variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
 
 
     }

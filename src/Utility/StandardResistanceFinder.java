@@ -1,6 +1,7 @@
 package Utility;
 
 import java.math.BigDecimal;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,7 +13,7 @@ import java.util.Arrays;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2016-02-15
- * @last-modified   2016-04-23
+ * @last-modified   2016-05-14
  */
 public class StandardResistanceFinder {
 
@@ -26,6 +27,15 @@ public class StandardResistanceFinder {
         E48,
         E96,
         E192,
+    }
+
+    /**
+     * The applicable search methods for the Find() method.
+     */
+    public enum searchMethods {
+        CLOSEST,
+        CLOSEST_EQUAL_OR_HIGHER,
+        CLOSEST_EQUAL_OR_LOWER
     }
 
     private static ArrayList<Integer> e6 = new ArrayList<>();
@@ -89,14 +99,18 @@ public class StandardResistanceFinder {
         //e192 = BuildResArray(192);
     }
 
+
+
+
     /**
      * Use to find the closest E-series resistance to your desired resistance.
      *
      * @param desiredResistance The desired resistance to search for. If this is 0.0, then method also returns 0.0.
      * @param eSeries           The E-Series to use.
-     * @return The closest E-series resistance to desiredResistance.
+     * @param searchMethod      The desired search method to use.
+     * @return The closest (or closest higher, closest lower) E-series resistance to desiredResistance.
      */
-    public static double Find(double desiredResistance, eSeriesOptions eSeries) {
+    public static double Find(double desiredResistance, eSeriesOptions eSeries, searchMethods searchMethod) {
 
         //System.out.println("StandardResistanceFinder::Find() called with desiredResistance = " + desiredResistance + "and eSeries = " + eSeries.toString());
 
@@ -145,7 +159,8 @@ public class StandardResistanceFinder {
         Integer order = FindOrder(desiredResistance) - 2;
         Double scaledDesRes = ScaleWrtOrder(desiredResistance, order);
         System.out.println("Scaled resistance = " + scaledDesRes);
-        Double closestScaledResistance = FindClosestMatch(scaledDesRes, selectedRange);
+
+        Double closestScaledResistance = FindClosestMatch(scaledDesRes, selectedRange, searchMethod);
         System.out.println("Closest scaled (between 1-10) resistance = " + closestScaledResistance);
 
         BigDecimal closestScaledResistanceBD = new BigDecimal(closestScaledResistance);
@@ -161,6 +176,19 @@ public class StandardResistanceFinder {
         return closestResistance.doubleValue();
 
     }
+
+    /**
+     * A simplification of the Find() method which can be used to find the closest E-series resistance to your desired resistance.
+     * The base Find() method allows the user to specify whether the found value has to be higher or lower than the desired resistance.
+     *
+     * @param desiredResistance The desired resistance to search for. If this is 0.0, then method also returns 0.0.
+     * @param eSeries           The E-Series to use.
+     * @return  The closest E-series resistance to desiredResistance.
+     */
+    public static double Find(double desiredResistance, eSeriesOptions eSeries) {
+        return Find(desiredResistance, eSeries, searchMethods.CLOSEST);
+    }
+
 
     /**
      * Use to build an array of E-series values based on the number of elements provided.
@@ -215,46 +243,86 @@ public class StandardResistanceFinder {
     /**
      * Finds the closest array entry (in terms of percentage difference) to the provided value.
      * For computational efficiency, this function assumes array values are sorted from smallest to highest
-     * @param val       The value to look for in array.
-     * @param array     The array of values to compare with val.
+     * @param val           The value to look for in array.
+     * @param array         The array of values to compare with val.
+     * @param searchMethod  Places restrictions on what is a valid result.
      * @return          The closest array entry (in terms of percentage difference).
      */
-    private static double FindClosestMatch(Double val, ArrayList<Integer> array)
+    private static double FindClosestMatch(Double val, ArrayList<Integer> array, searchMethods searchMethod)
     {
         Integer i = 0;
 
-        // Iterate through array until we hit the first element which is bigger than the value we are
-        // trying to find.
-        // NOTE: Start of 2nd element of array!
-        i = 1;
-        while(true)
-        {
-            if(array.get(i) > val) break;
+        switch(searchMethod) {
+            case CLOSEST:
 
-            if(i == array.size() - 1) break;
+                // Iterate through array until we hit the first element which is bigger than the value we are
+                // trying to find.
+                // NOTE: Start of 2nd element of array!
+                i = 1;
+                while(true)
+                {
+                    if(array.get(i) > val) break;
 
-            i++;
+                    if(i == array.size() - 1) break;
+
+                    i++;
+                }
+
+                // At this point either:
+                // 1) We have stopped somewhere in the middle of the array. val will be higher than array[i-1]
+                //    and lower than array[i]. We need to find which one is closer (based on percentage difference)
+                // 2) We have stopped either on the second or last element of the array. If it is the second, val will
+                //    be closest to array[i-1], if it is the last, val will be closest to array[i].
+
+                System.out.println("Stopped when i = " + i);
+                System.out.println("Closest value 1 = " + array.get(i-1));
+                System.out.println("Closest value 2 = " + array.get(i));
+
+                Double lowerPercDiff = ((val - array.get(i-1))/array.get(i-1))*100.0;
+                System.out.println("Percentage diff 1 = " + lowerPercDiff);
+                Double higherPercDiff = ((val - array.get(i))/array.get(i))*100.0;
+                System.out.println("Percentage diff 2 = " + higherPercDiff);
+
+                if(Math.abs(lowerPercDiff) < Math.abs(higherPercDiff))
+                    return array.get(i-1);
+                else
+                    return array.get(i);
+
+            case CLOSEST_EQUAL_OR_LOWER:
+
+                // First make sure there is a lower value in the array
+                if(array.get(0) > val) {
+                    throw new InvalidParameterException("StandardResistanceFinder.Find() called with searchMethod = CLOSEST_EQUAL_OR_LOWER, but there way no value in the array lower than the provided value of " + val.toString());
+                }
+
+                i = 1;
+                while(i < array.size()) {
+                    if(array.get(i) > val) {
+                        // We have found the first value in the array which is bigger than the value, so the closest smaller value must of been the value before this
+                        return array.get(i-1);
+                    }
+                    i++;
+                }
+                break;
+
+            case CLOSEST_EQUAL_OR_HIGHER:
+
+                i = 0;
+                while(i < array.size()) {
+                    if(array.get(i) >= val) {
+                        // We have found the first value in the array which is bigger than the value, so the closest smaller value must of been the value before this
+                        return array.get(i);
+                    }
+                    i++;
+                }
+
+                // Special case here where the first larger number is the first number of the next series
+                throw new InvalidParameterException("StandardResistanceFinder.Find() called with searchMethod = CLOSEST_EQUAL_OR_HIGHER, but there was no value in the array which was equal of higher than the provided value of " + val.toString());
+
         }
 
-        // At this point either:
-        // 1) We have stopped somewhere in the middle of the array. val will be higher than array[i-1]
-        //    and lower than array[i]. We need to find which one is closer (based on percentage difference)
-        // 2) We have stopped either on the second or last element of the array. If it is the second, val will
-        //    be closest to array[i-1], if it is the last, val will be closest to array[i].
+        throw new RuntimeException("Code reached invalid place. Case must not of been handled correctly in switch statement.");
 
-        System.out.println("Stopped when i = " + i);
-        System.out.println("Closest value 1 = " + array.get(i-1));
-        System.out.println("Closest value 2 = " + array.get(i));
-
-        Double lowerPercDiff = ((val - array.get(i-1))/array.get(i-1))*100.0;
-        System.out.println("Percentage diff 1 = " + lowerPercDiff);
-        Double higherPercDiff = ((val - array.get(i))/array.get(i))*100.0;
-        System.out.println("Percentage diff 2 = " + higherPercDiff);
-
-        if(Math.abs(lowerPercDiff) < Math.abs(higherPercDiff))
-            return array.get(i-1);
-        else
-            return array.get(i);
     }
 
 }

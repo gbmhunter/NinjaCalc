@@ -9,9 +9,9 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit tests for the Rounding utility class.
  *
- * @author Geoffrey Hunter <gbmhunter@gmail.com>
- * @since 2015-03-26
- * @last-modified 2015-03-26
+ * @author          Geoffrey Hunter <gbmhunter@gmail.com> (mbedded.ninja)
+ * @since           2015-03-26
+ * @last-modified   2016-05-14
  */
 public class RoundingTests {
 

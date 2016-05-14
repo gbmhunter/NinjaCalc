@@ -9,9 +9,9 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit tests for the MetricPrefixes utility class.
  *
- * @author Geoffrey Hunter <gbmhunter@gmail.com>
- * @since 2015-03-25
- * @last-modified 2015-03-25
+ * @author          Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2015-03-25
+ * @last-modified   2016-05-14
  */
 public class MetrixPrefixesTests {
 
