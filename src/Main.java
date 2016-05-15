@@ -22,7 +22,7 @@ import java.util.ArrayList;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-25
+ * @last-modified   2016-05-15
  */
 public class Main extends Application {
 
@@ -52,6 +52,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        // Hide the install4j splash screen, as this is not done automatically as
+        // no AWT window is shown (we are using javafx instead)
+        // <install4j install directory>/resource/i4juntime.jar has to be added to the classpath
+        // to be able to call this. install4j automatically bundles the runtime with the application
+        com.install4j.api.launcher.SplashScreen.hide();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainWindow/MainWindowView.fxml"));
         Parent root = loader.load();
