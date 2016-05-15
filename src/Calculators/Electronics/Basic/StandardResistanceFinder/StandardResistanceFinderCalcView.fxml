@@ -69,52 +69,19 @@
 
                         <children>
 
-                            <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Series</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;">Series</Label>
 
-                            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="2" wrapText="true">Closest Resistance</Label>
-                            <Label GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.columnSpan="2" wrapText="true">Percentage Error</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="2" wrapText="true" style="-fx-font-weight: bold;">Closest Resistance</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.columnSpan="2" wrapText="true" style="-fx-font-weight: bold;">Percentage Error</Label>
 
-                            <Label GridPane.rowIndex="0" GridPane.columnIndex="5" GridPane.columnSpan="2" wrapText="true">Closest Equal Or Lower Resistance</Label>
-                            <Label GridPane.rowIndex="0" GridPane.columnIndex="7" GridPane.columnSpan="2" wrapText="true">Percentage Error</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="5" GridPane.columnSpan="2" wrapText="true" style="-fx-font-weight: bold;">Closest Equal Or Lower Resistance</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="7" GridPane.columnSpan="2" wrapText="true" style="-fx-font-weight: bold;">Percentage Error</Label>
 
-                            <Label GridPane.rowIndex="0" GridPane.columnIndex="9" GridPane.columnSpan="2" wrapText="true">Closest Equal Or Higher Resistance</Label>
-                            <Label GridPane.rowIndex="0" GridPane.columnIndex="11" GridPane.columnSpan="2" wrapText="true">Percentage Error</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="9" GridPane.columnSpan="2" wrapText="true" style="-fx-font-weight: bold;">Closest Equal Or Higher Resistance</Label>
+                            <Label GridPane.rowIndex="0" GridPane.columnIndex="11" GridPane.columnSpan="2" wrapText="true" style="-fx-font-weight: bold;">Percentage Error</Label>
 
-                            <!--<Label      GridPane.rowIndex="1" GridPane.columnIndex="0">E6</Label>-->
-                            <!--<TextField  GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="e6ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="1" GridPane.columnIndex="2" ><padding><Insets right="20"/></padding>Ω</Label>-->
-                            <!--<TextField  GridPane.rowIndex="1" GridPane.columnIndex="3" fx:id="e6ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="1" GridPane.columnIndex="4">%</Label>-->
+                            <!-- The rest of the tables child nodes are added programmatically when the calculator is opened. -->
 
-                            <!--<Label      GridPane.rowIndex="2" GridPane.columnIndex="0">E12</Label>-->
-                            <!--<TextField  GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="e12ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="2" GridPane.columnIndex="2"><padding><Insets right="20"/></padding>Ω</Label>-->
-                            <!--<TextField  GridPane.rowIndex="2" GridPane.columnIndex="3" fx:id="e12ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="2" GridPane.columnIndex="4">%</Label>-->
-
-                            <!--<Label      GridPane.rowIndex="3" GridPane.columnIndex="0">E24</Label>-->
-                            <!--<TextField  GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="e24ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="3" GridPane.columnIndex="2"><padding><Insets right="20"/></padding>Ω</Label>-->
-                            <!--<TextField  GridPane.rowIndex="3" GridPane.columnIndex="3" fx:id="e24ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="3" GridPane.columnIndex="4">%</Label>-->
-
-                            <!--<Label      GridPane.rowIndex="4" GridPane.columnIndex="0">E48</Label>-->
-                            <!--<TextField  GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="e48ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="4" GridPane.columnIndex="2"><padding><Insets right="20"/></padding>Ω</Label>-->
-                            <!--<TextField  GridPane.rowIndex="4" GridPane.columnIndex="3" fx:id="e48ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="4" GridPane.columnIndex="4">%</Label>-->
-
-                            <!--<Label      GridPane.rowIndex="5" GridPane.columnIndex="0">E96</Label>-->
-                            <!--<TextField  GridPane.rowIndex="5" GridPane.columnIndex="1" fx:id="e96ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="5" GridPane.columnIndex="2"><padding><Insets right="20"/></padding>Ω</Label>-->
-                            <!--<TextField  GridPane.rowIndex="5" GridPane.columnIndex="3" fx:id="e96ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="5" GridPane.columnIndex="4">%</Label>-->
-
-                            <!--<Label      GridPane.rowIndex="6" GridPane.columnIndex="0">E192</Label>-->
-                            <!--<TextField  GridPane.rowIndex="6" GridPane.columnIndex="1" fx:id="e192ResistanceValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="6" GridPane.columnIndex="2"><padding><Insets right="20"/></padding>Ω</Label>-->
-                            <!--<TextField  GridPane.rowIndex="6" GridPane.columnIndex="3" fx:id="e192ErrorValue" prefHeight="25" prefWidth="80" alignment="CENTER_RIGHT"/>-->
-                            <!--<Label      GridPane.rowIndex="6" GridPane.columnIndex="4">%</Label>-->
                         </children>
 
                     </GridPane>
