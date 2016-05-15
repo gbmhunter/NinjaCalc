@@ -62,7 +62,7 @@
       </iconImageFiles>
     </launcher>
   </launchers>
-  <installerGui installerType="1" addOnAppId="" suggestPreviousLocations="true" autoUpdateDescriptorUrl="https://raw.githubusercontent.com/mbedded-ninja/NinjaCalc/master/updates.xml" useAutoUpdateBaseUrl="true" autoUpdateBaseUrl="https://github.com/mbedded-ninja/NinjaCalc/releases/download/${compiler:sys.version}/">
+  <installerGui installerType="1" addOnAppId="" suggestPreviousLocations="true" autoUpdateDescriptorUrl="https://raw.githubusercontent.com/mbedded-ninja/NinjaCalc/master/updates.xml" useAutoUpdateBaseUrl="true" autoUpdateBaseUrl="https://github.com/mbedded-ninja/NinjaCalc/releases/download/v${compiler:sys.version}/">
     <staticMembers script="" />
     <customCode />
     <autoUpdate useMinUpdatableVersion="false" minUpdatableVersion="" useMaxUpdatableVersion="false" maxUpdatableVersion="">
