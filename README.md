@@ -8,8 +8,8 @@
 
 - Author: gbmhunter <gbmhunter@gmail.com> ([www.mbedded.ninja](http://www.mbedded.ninja))
 - Created: 2015-11-02
-- Last Modified: 2016-04-24
-- Version: v1.2.0
+- Last Modified: 2016-05-15
+- Version: v1.2.1
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: Java
