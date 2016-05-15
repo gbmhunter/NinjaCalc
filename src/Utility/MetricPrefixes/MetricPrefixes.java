@@ -9,9 +9,9 @@ import java.util.regex.*;
 /**
  * Utility class for converting numbers to strings with metric prefixes and back again.
  *
- * @author gbmhunter
- * @since 2016-03-26
- * @last-modified 2016-03-27
+ * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2016-03-26
+ * @last-modified   2016-05-14
  */
 public enum MetricPrefixes {
     yocto('y', 1e-24),
@@ -57,7 +57,7 @@ public enum MetricPrefixes {
     private static final Pattern REGEX;
 
     static {
-        System.out.println("MetricPrefixes::static() called.");
+        //System.out.println("MetricPrefixes::static() called.");
 
         final StringBuffer buffer = new StringBuffer();
         buffer.append("^([+-]?[1-9]\\d*\\.?\\d*|[+-]?0?\\.\\d+)(?:([");
@@ -76,11 +76,11 @@ public enum MetricPrefixes {
      */
     public static Double toDouble(final String value) {
 
-        System.out.println("MetricPrefixes::toDouble() called with value = " + value);
+        //System.out.println("MetricPrefixes::toDouble() called with value = " + value);
 
         final Matcher m = REGEX.matcher(value);
         if (!m.matches()) {
-            System.out.println("MetricPrefixes::toDouble() is going to return null!");
+            //System.out.println("MetricPrefixes::toDouble() is going to return null!");
             return null;
         }
 
@@ -90,7 +90,7 @@ public enum MetricPrefixes {
         if (m.group(2) == null)
             return result; // Units
 
-        System.out.println("Finding character...");
+        //System.out.println("Finding character...");
 
         try {
             // Retrieve the metric prefix character
@@ -100,16 +100,17 @@ public enum MetricPrefixes {
                 if (e.getSymbol() == c) {
                     // Found valid prefix!!!
                     Double returnValue = result * e.getMultiplier();
-                    System.out.println("Returning the number " + returnValue);
+                    //System.out.println("Returning the number " + returnValue);
                     return returnValue;
                 }
             }
         } catch (StringIndexOutOfBoundsException e) {
-            System.out.println("StringIndexOutOfBoundsException occurred! Assuming no metric prefix was present, and returning result...");
+            // This exception happens during normal execution!
+            //System.out.println("StringIndexOutOfBoundsException occurred! Assuming no metric prefix was present, and returning result...");
             return result;
         }
 
-        System.out.println("MetricPrefixes::toDouble() is going to return null!");
+        //System.out.println("MetricPrefixes::toDouble() is going to return null!");
         return null;
     }
 
@@ -128,6 +129,10 @@ public enum MetricPrefixes {
     public static String toSci(
             final double value
     ) {
+
+        if(value == 0.0)
+            return "0.0";
+
         final long exponent = (long) Math.floor(Math.log10(Math.abs(value)));
         return doubleToString(value / Math.pow(10, exponent)) + 'E' + exponent;
     }
@@ -153,7 +158,7 @@ public enum MetricPrefixes {
             final double value,
             final MetricPrefixes notation
     ) {
-        System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString());
+        //System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString());
         if (notation == null || notation == unit)
             return doubleToString(value);
 
@@ -176,7 +181,7 @@ public enum MetricPrefixes {
             final RoundingMethods roundingMethod,
             final Integer roundTo
     ) {
-        System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString() + ", roundingMethod = " + roundingMethod.toString() + ", roundTo = " + roundTo);
+        //System.out.println("toEng() called with value = " + value + ", notation = " + notation.toString() + ", roundingMethod = " + roundingMethod.toString() + ", roundTo = " + roundTo);
         /*if (notation == null || notation == unit)
             return doubleToString(value);*/
 
@@ -265,9 +270,12 @@ public enum MetricPrefixes {
             final int roundTo) {
 
         // Get the absolute value of the provided value
-        final double abs = Math.abs(value);
+        double abs = Math.abs(value);
 
-        // Search for the applicable multiplier
+        if(abs == 0.0)
+            return toSci(0.0);
+
+        // Now that we know it is not exactly 0, search for the applicable multiplier
         double multiplier;
         for (final MetricPrefixes e : values()) {
             multiplier = e.getMultiplier();

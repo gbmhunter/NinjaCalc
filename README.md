@@ -8,8 +8,8 @@
 
 - Author: gbmhunter <gbmhunter@gmail.com> ([www.mbedded.ninja](http://www.mbedded.ninja))
 - Created: 2015-11-02
-- Last Modified: 2016-04-24
-- Version: v1.2.0
+- Last Modified: 2016-05-15
+- Version: v1.2.1
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: Java
@@ -38,6 +38,7 @@ See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a lis
 
 1. Download the latest installer-based release from [http://mbedded-ninja.github.io/NinjaCalc/](http://mbedded-ninja.github.io/NinjaCalc/).
 2. Run the installer and play (or work, right?)!
+3. NinjaCalc should automatically inform you if there is a new version available on start-up of the application.
 
 Installing a newer version of NinjaCalc should automatically overwrite the old one.
 
@@ -73,22 +74,23 @@ Myself (gbmhunter) currently holds the license for this software, and so I am th
 
 The install4j script is located at `/NinjaCalc.install4j`.
 
-1. Open the `/NinjaCalc.install4j` file in "install4j Multi-Platform Edition".
-2. Update the "Version" field as appropriate.
-3. Click the "Build Project" button.
-4. Wait until build completes. install4j should have created installer files for each supported platform (currently Windows and Mac OS), as well as an updates.xml file, in the `install` directory.
-5. Overwrite the old `updates.xml` file in the repos root directory with the one that install4j created in the `install` directory.
-6. Upload the installable packages to GitHub as a new release (if appropriate).
-7. Push the repository changes to the master branch (updates.xml is the most important file to be updated).
-8. Update the download button links on the homepage in the `gh-pages` branch of the repo to point to the new release files.
+1. After code changes are complete, make sure the NinjaCalc.jar artifact has been built from within IntelliJ (`Build->Build Artifacts->NinjaCalc:jar->Build`).
+2. Open the `/NinjaCalc.install4j` file in "install4j Multi-Platform Edition".
+3. Update the "Version" field as appropriate.
+4. Click the "Build Project" button.
+5. Wait until build completes. install4j should have created installer files for each supported platform (currently Windows and Mac OS), as well as an updates.xml file, in the `install` directory.
+6. Overwrite the old `updates.xml` file in the repos root directory with the one that install4j created in the `install` directory.
+7. Upload the installable packages to GitHub as a new release (if appropriate).
+8. Commit and push the repository changes to the master branch (updates.xml is the most important file to be updated). The "Git Flow" plugin for SourceTree can make this step easy.
+9. Update the download button links on the homepage in the `gh-pages` branch of the repo to point to the new release files.
 
 
 # Debugging A Deployed App (Locally)
 
-You can get the `System.out` and `System.err` streams by running the NinjaCalc.jar file from the commandline. For example, in Windows you would type at the command-line:
+You can get the `System.out` and `System.err` streams by running the `NinjaCalc.jar` file from the commandline. For example, in Windows you would type at the command-line:
 
 
-`C:\Program Files (x86)\NinjaCal\java -jar NinjaCalc.jar`
+`C:\Program Files (x86)\NinjaCalc\java -jar NinjaCalc.jar`
 
 # File Structure
 

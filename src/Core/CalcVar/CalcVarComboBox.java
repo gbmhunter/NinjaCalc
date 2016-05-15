@@ -173,7 +173,7 @@ public class CalcVarComboBox extends CalcVarBase {
         //ComboBox units = (ComboBox)sender;
         this.setRawVal((String) this.comboBox.getSelectionModel().getSelectedItem());
 
-        System.out.println("Selected unit is now \"" + this.getRawVal() + "\".");
+        //System.out.println("Selected unit is now \"" + this.getRawVal() + "\".");
 
         this.forceDependantOutputsToRecalculate();
     }

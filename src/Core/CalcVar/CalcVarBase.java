@@ -2,6 +2,7 @@ package Core.CalcVar;
 
 import Core.*;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -11,7 +12,7 @@ import java.util.*;
  * @since           2015-11-02
  * @last-modified   2016-04-23
  */
-public abstract class CalcVarBase {
+public abstract class CalcVarBase implements Serializable {
 
     /**
      * The name of the calculator variable. Used when debugging.
@@ -185,7 +186,7 @@ public abstract class CalcVarBase {
      * calculator variable changes.
      */
     protected void forceVariablesWithDependantValidatorsToRevalidate() {
-        System.out.println("CalcVarBase.forceVariablesWithDependantValidatorsToRevalidate() called for " + this.name + ".");
+        //System.out.println("CalcVarBase.forceVariablesWithDependantValidatorsToRevalidate() called for " + this.name + ".");
 
         for(CalcVarBase calcVar : this.varsWithDependantValidators) {
             calcVar.validate();

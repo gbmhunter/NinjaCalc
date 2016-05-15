@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<updateDescriptor baseUrl="https://github.com/mbedded-ninja/NinjaCalc/releases/download/1.2.0/">
-  <entry targetMediaFileId="23" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.2.0_windows.exe" newVersion="1.2.0" newMediaFileId="23" fileSize="14285824" bundledJre="" archive="false">
-    <comment language="en">v1.2.0&#xD;
+<updateDescriptor baseUrl="https://github.com/mbedded-ninja/NinjaCalc/releases/download/1.2.1/">
+  <entry targetMediaFileId="23" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.2.1_windows.exe" newVersion="1.2.1" newMediaFileId="23" fileSize="14385152" bundledJre="" archive="false">
+    <comment language="en">v1.2.1&#xD;
+------&#xD;
+&#xD;
+- Disabled metric prefixes for IPC-2152 calculator variables, closes #118.&#xD;
+- Fixed info section of "Via Current" calculator, closes #112.&#xD;
+- Added ability to display closest higher value and closest lower value on the standard resistor finder, closes #120.&#xD;
+- Fixed bug where initial values for calculator variables were not "NaN" (see Standard Resistance Finder calculator for example), closes #117.&#xD;
+- Fixed bug where splash screen remained in background after app has started, closes #116.&#xD;
+&#xD;
+v1.2.0&#xD;
 ------&#xD;
 &#xD;
 - Added automatic update functionality, closes #108.&#xD;
@@ -183,8 +192,17 @@ v0.1.0&#xD;
 - Multiple instances of the same calculator type are now allowed to be open, closes #15.&#xD;
 - Clicking 'Open' on a calculator in the grid view now opens it's tab, closes #14.</comment>
   </entry>
-  <entry targetMediaFileId="36" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.2.0_macos.dmg" newVersion="1.2.0" newMediaFileId="36" fileSize="13959303" bundledJre="" archive="false">
-    <comment language="en">v1.2.0&#xD;
+  <entry targetMediaFileId="36" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.2.1_macos.dmg" newVersion="1.2.1" newMediaFileId="36" fileSize="14057607" bundledJre="" archive="false">
+    <comment language="en">v1.2.1&#xD;
+------&#xD;
+&#xD;
+- Disabled metric prefixes for IPC-2152 calculator variables, closes #118.&#xD;
+- Fixed info section of "Via Current" calculator, closes #112.&#xD;
+- Added ability to display closest higher value and closest lower value on the standard resistor finder, closes #120.&#xD;
+- Fixed bug where initial values for calculator variables were not "NaN" (see Standard Resistance Finder calculator for example), closes #117.&#xD;
+- Fixed bug where splash screen remained in background after app has started, closes #116.&#xD;
+&#xD;
+v1.2.0&#xD;
 ------&#xD;
 &#xD;
 - Added automatic update functionality, closes #108.&#xD;

@@ -88,30 +88,36 @@
                         <ComboBox fx:id="platedCopperResistivityUnits" prefHeight="30.0" prefWidth="80.0"
                                   GridPane.rowIndex="1" GridPane.columnIndex="2"/>
 
-                        <Label GridPane.rowIndex="2" GridPane.columnIndex="0" >Via Cross-sectional Area</Label>
-                        <TextField fx:id="viaCrossSectionalAreaValue" prefHeight="25" prefWidth="80"
-                                   GridPane.rowIndex="2" GridPane.columnIndex="1" />
-                        <ComboBox fx:id="viaCrossSectionalAreaUnits" prefHeight="30.0" prefWidth="80.0"
+                        <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Specific Thermal Conductivity of Plated Copper</Label>
+                        <TextField fx:id="specificThermalConductivityValue" prefHeight="25" prefWidth="80"
+                                   GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                        <ComboBox fx:id="specificThermalConductivityUnits" prefHeight="30.0" prefWidth="80.0"
                                   GridPane.rowIndex="2" GridPane.columnIndex="2"/>
 
-                        <!-- VIA RESISTANCE -->
-                        <Label GridPane.rowIndex="3" GridPane.columnIndex="0" >Via Resistance</Label>
-                        <TextField fx:id="viaResistanceValue" prefHeight="25" prefWidth="80"
+                        <Label GridPane.rowIndex="3" GridPane.columnIndex="0" >Via Cross-sectional Area</Label>
+                        <TextField fx:id="viaCrossSectionalAreaValue" prefHeight="25" prefWidth="80"
                                    GridPane.rowIndex="3" GridPane.columnIndex="1" />
-                        <ComboBox fx:id="viaResistanceUnits" prefHeight="30.0" prefWidth="80.0"
+                        <ComboBox fx:id="viaCrossSectionalAreaUnits" prefHeight="30.0" prefWidth="80.0"
                                   GridPane.rowIndex="3" GridPane.columnIndex="2"/>
 
-                        <!-- THERMAL RESISTANCE -->
-                        <Label GridPane.rowIndex="4" GridPane.columnIndex="0" >Thermal Resistance</Label>
-                        <TextField fx:id="thermalResistanceValue" prefHeight="25" prefWidth="80"
+                        <!-- VIA RESISTANCE -->
+                        <Label GridPane.rowIndex="4" GridPane.columnIndex="0" >Via Resistance</Label>
+                        <TextField fx:id="viaResistanceValue" prefHeight="25" prefWidth="80"
                                    GridPane.rowIndex="4" GridPane.columnIndex="1" />
-                        <ComboBox fx:id="thermalResistanceUnits" prefHeight="30.0" prefWidth="80.0"
+                        <ComboBox fx:id="viaResistanceUnits" prefHeight="30.0" prefWidth="80.0"
                                   GridPane.rowIndex="4" GridPane.columnIndex="2"/>
 
-                        <Label GridPane.rowIndex="5" GridPane.columnIndex="0">Current Limit</Label>
-                        <TextField GridPane.rowIndex="5" GridPane.columnIndex="1" fx:id="currentLimitValue"
+                        <!-- THERMAL RESISTANCE -->
+                        <Label GridPane.rowIndex="5" GridPane.columnIndex="0" >Thermal Resistance</Label>
+                        <TextField fx:id="thermalResistanceValue" prefHeight="25" prefWidth="80"
+                                   GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                        <ComboBox fx:id="thermalResistanceUnits" prefHeight="30.0" prefWidth="80.0"
+                                  GridPane.rowIndex="5" GridPane.columnIndex="2"/>
+
+                        <Label GridPane.rowIndex="6" GridPane.columnIndex="0">Current Limit</Label>
+                        <TextField GridPane.rowIndex="6" GridPane.columnIndex="1" fx:id="currentLimitValue"
                                    prefHeight="25" prefWidth="80"/>
-                        <ComboBox GridPane.rowIndex="5" GridPane.columnIndex="2" fx:id="currentLimitUnits"
+                        <ComboBox GridPane.rowIndex="6" GridPane.columnIndex="2" fx:id="currentLimitUnits"
                                   prefHeight="30.0" prefWidth="80.0"/>
 
                     </GridPane>

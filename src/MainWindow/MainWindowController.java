@@ -28,9 +28,9 @@ class CalculatorAndGridElementPair {
 /**
  * The controller for the main window.
  *
- * @author gbmhunter
+ * @author gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @last-modified 2016-04-25
  * @since 2015-11-02
- * @last-modified 2016-02-14
  */
 public class MainWindowController implements Initializable {
 
@@ -57,16 +57,50 @@ public class MainWindowController implements Initializable {
 
     private ArrayList<CalculatorAndGridElementPair> calculatorTemplates;
 
+    private ArrayList<Calculator> openCalculators;
+
     //===============================================================================================//
     //======================================== CONSTRUCTORS =========================================//
     //===============================================================================================//
 
     public MainWindowController() {
+
         this.calculatorTemplates = new ArrayList<CalculatorAndGridElementPair>();
+        this.openCalculators = new ArrayList<>();
     }
+
+    //===============================================================================================//
+    //====================================== GETTERS/SETTERS ========================================//
+    //===============================================================================================//
+
+    public ArrayList<Calculator> getOpenCalculators() {
+        return openCalculators;
+    }
+
+    public void setOpenCalculators(ArrayList<Calculator> openCalculators) {
+        System.out.println("MainWindowController.setOpenCalculators() called.");
+        this.openCalculators = openCalculators;
+
+        // We also need to update the grid display at this point
+
+        // First, remove all current tabs, this will DELETE them!!!
+        this.tabPaneCalculatorInstances.getTabs().removeAll();
+
+        // Now add the given calculators to the tabs one-by-one
+        for(Calculator calculator : openCalculators) {
+            addCalculatorToNewTab(calculator);
+        }
+
+    }
+
+
+    //===============================================================================================//
+    //======================================= GENERAL METHODS =======================================//
+    //===============================================================================================//
 
     /**
      * Used to add listeners to the main window where needed (UI objects have been injected at this point).
+     *
      * @param location
      * @param resources
      */
@@ -76,7 +110,7 @@ public class MainWindowController implements Initializable {
             //System.out.println("Selected tab index = \"" + String.valueOf(this.tabPaneCalculatorInstances.getSelectionModel().getSelectedIndex()) + "\".");
 
             // Check to see if there are any tabs left open
-            if(this.tabPaneCalculatorInstances.getSelectionModel().getSelectedIndex() == -1) {
+            if (this.tabPaneCalculatorInstances.getSelectionModel().getSelectedIndex() == -1) {
                 // Last tab has been closed, hide the tab pane and
                 // show the "Do you wish to open a calculator" pane
                 this.noCalculatorIsOpenPane.setVisible(true);
@@ -91,7 +125,7 @@ public class MainWindowController implements Initializable {
         });
 
         this.searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("searchTextField.textProperty listener called with newValue = " + newValue + ".");
+            //System.out.println("searchTextField.textProperty listener called with newValue = " + newValue + ".");
 
             this.filterCalculatorSelectionGrid(newValue);
         });
@@ -102,24 +136,24 @@ public class MainWindowController implements Initializable {
     /***
      * Filters the calculator templates visible in the selection grid by the provided search text
      * (which comes the the search TextField).
+     *
      * @param searchText
      */
     public void filterCalculatorSelectionGrid(String searchText) {
 
         // Iterate over all the registered calculator templates
-        for(CalculatorAndGridElementPair calculatorAndGridElementPair : this.calculatorTemplates) {
+        for (CalculatorAndGridElementPair calculatorAndGridElementPair : this.calculatorTemplates) {
 
 
+            if (this.doesCalculatorMatchSearchText(calculatorAndGridElementPair.calculator, searchText)) {
+                //System.out.println("Calculator \"" + calculatorAndGridElementPair.calculator.name + "\" included by search text.");
 
-            if(this.doesCalculatorMatchSearchText(calculatorAndGridElementPair.calculator, searchText)) {
-                System.out.println("Calculator \"" + calculatorAndGridElementPair.calculator.name + "\" included by search text.");
-
-                if(!calculatorGridTilePane.getChildren().contains(calculatorAndGridElementPair.gridElement))
+                if (!calculatorGridTilePane.getChildren().contains(calculatorAndGridElementPair.gridElement))
                     calculatorGridTilePane.getChildren().add(calculatorAndGridElementPair.gridElement);
 
             } else {
-                System.out.println("Calculator \"" + calculatorAndGridElementPair.calculator.name + "\" excluded by search text.");
-                if(calculatorGridTilePane.getChildren().contains(calculatorAndGridElementPair.gridElement))
+                //System.out.println("Calculator \"" + calculatorAndGridElementPair.calculator.name + "\" excluded by search text.");
+                if (calculatorGridTilePane.getChildren().contains(calculatorAndGridElementPair.gridElement))
                     calculatorGridTilePane.getChildren().remove(calculatorAndGridElementPair.gridElement);
             }
         }
@@ -128,9 +162,10 @@ public class MainWindowController implements Initializable {
     /**
      * Searches through the relevant String fields of the provided calculator to see if the calculator is a suitable
      * match for the provided search text.
-     * @param calculator    The calculator that will be searched through.
-     * @param searchText    The search text to use on the calculator.
-     * @return              True if the calculator is a suitable match for the search text, otherwise false.
+     *
+     * @param calculator The calculator that will be searched through.
+     * @param searchText The search text to use on the calculator.
+     * @return True if the calculator is a suitable match for the search text, otherwise false.
      */
     public boolean doesCalculatorMatchSearchText(Calculator calculator, String searchText) {
 
@@ -138,16 +173,16 @@ public class MainWindowController implements Initializable {
             return true;*/
 
         // Search name
-        if(Pattern.compile(Pattern.quote(searchText), Pattern.CASE_INSENSITIVE).matcher(calculator.name).find())
+        if (Pattern.compile(Pattern.quote(searchText), Pattern.CASE_INSENSITIVE).matcher(calculator.name).find())
             return true;
 
         // Search description
-        if(Pattern.compile(Pattern.quote(searchText), Pattern.CASE_INSENSITIVE).matcher(calculator.description).find())
+        if (Pattern.compile(Pattern.quote(searchText), Pattern.CASE_INSENSITIVE).matcher(calculator.description).find())
             return true;
 
         // Search through tags
-        for(String tag : calculator.tags) {
-            if(Pattern.compile(Pattern.quote(searchText), Pattern.CASE_INSENSITIVE).matcher(tag).find())
+        for (String tag : calculator.tags) {
+            if (Pattern.compile(Pattern.quote(searchText), Pattern.CASE_INSENSITIVE).matcher(tag).find())
                 return true;
         }
 
@@ -185,7 +220,8 @@ public class MainWindowController implements Initializable {
     /***
      * Adds a calculator to the list of calculator templates the user can select from in the calculator selection grid.
      * This must be called once for each calculator that is to be shown to the user when the app starts up.
-     * @param calculator    The calculator you wish to add to the apps list of calculator templates.
+     *
+     * @param calculator The calculator you wish to add to the apps list of calculator templates.
      */
     public void addCalculatorTemplate(Calculator calculator) {
         //System.out.println("addCalculatorTemplate() called.");
@@ -215,16 +251,16 @@ public class MainWindowController implements Initializable {
 
         Calculator foundCalculator = null;
         // Search for calculator in list of calculator templates
-        for(CalculatorAndGridElementPair calculatorAndGridElementPair : this.calculatorTemplates) {
-            if(calculatorAndGridElementPair.calculator.name == calculatorName) {
+        for (CalculatorAndGridElementPair calculatorAndGridElementPair : this.calculatorTemplates) {
+            if (calculatorAndGridElementPair.calculator.name == calculatorName) {
                 foundCalculator = calculatorAndGridElementPair.calculator;
             }
         }
 
-        if(foundCalculator == null)
+        if (foundCalculator == null)
             throw new IllegalArgumentException("The provided calculator name \"" + calculatorName + "\" was not found in the list of calculator templates.");
 
-        System.out.println("Opening new calculator instance...");
+        //System.out.println("Opening new calculator instance...");
 
         // Make calculator tabs visible
         //this.gridPaneCalculatorTabsContainer.setVisible(true);
@@ -235,27 +271,36 @@ public class MainWindowController implements Initializable {
         // Hide the "No calculator is open" pane
         //this.noCalculatorIsOpenPane.setVisible(false);
 
-        // Add new tab to tab pane
-        Tab newTab = new Tab();
-        newTab.setText(foundCalculator.name);
-
-
         try {
-            // Create a new instance of this calculator
             Calculator newInstance = foundCalculator.getClass().newInstance();
-            newTab.setContent(newInstance.view);
-            this.tabPaneCalculatorInstances.getTabs().add(newTab);
-            // Set this newly created tab to be the active one
-            // NOTE: If this is the first tab to be created, this also causes a listener to be called which shows the tab
-            // pane and hides the "Do wish to open a new calculator?" pane
-            this.tabPaneCalculatorInstances.getSelectionModel().selectLast();
-        }  catch (InstantiationException x) {
+            addCalculatorToNewTab(newInstance);
+        } catch (InstantiationException x) {
             x.printStackTrace();
         } catch (IllegalAccessException x) {
             x.printStackTrace();
         }
-
     }
 
+    public void addCalculatorToNewTab(Calculator calculator) {
 
+        // Add new tab to tab pane
+        Tab newTab = new Tab();
+        newTab.setText(calculator.name);
+
+        // Create a new instance of this calculator
+
+        newTab.setContent(calculator.view);
+        this.tabPaneCalculatorInstances.getTabs().add(newTab);
+
+        // Lets keep a record of all the calculators which are open
+        // (note that this is independent of the tabs, and we have to make sure to
+        // remove the record when the tab is closed)
+        this.openCalculators.add(calculator);
+
+        // Set this newly created tab to be the active one
+        // NOTE: If this is the first tab to be created, this also causes a listener to be called which shows the tab
+        // pane and hides the "Do wish to open a new calculator?" pane
+        this.tabPaneCalculatorInstances.getSelectionModel().selectLast();
+
+    }
 }

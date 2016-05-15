@@ -1,4 +1,4 @@
-package Utility;
+package Utility.MetricPrefixes;
 
 import Utility.MetricPrefixes.MetricPrefixes;
 import Utility.MetricPrefixes.RoundingMethods;
@@ -9,9 +9,9 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit tests for the MetricPrefixes utility class.
  *
- * @author Geoffrey Hunter <gbmhunter@gmail.com>
- * @since 2015-03-25
- * @last-modified 2015-03-25
+ * @author          Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2015-03-25
+ * @last-modified   2016-05-14
  */
 public class MetrixPrefixesTests {
 
@@ -58,6 +58,8 @@ public class MetrixPrefixesTests {
 
         // Make sure no precision is lost numbers that have a large number of digits
         assertEquals("3.33", MetricPrefixes.toEng(10.0/3.0, RoundingMethods.DECIMAL_PLACES, 2));
+
+        assertEquals("0.0", MetricPrefixes.toEng(0.0, RoundingMethods.SIGNIFICANT_FIGURES, 2));
 
     }
 

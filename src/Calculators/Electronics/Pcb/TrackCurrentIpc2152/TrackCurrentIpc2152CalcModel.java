@@ -267,20 +267,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //===================================== TRACE CURRENT (input) ===================================//
         //===============================================================================================//
 
-	   /*this.trackCurrent = new CalcVarNumericalInput(
-            "traceCurrent",             // Debug name
-			trackCurrentValue,     // Textbox for value (UI object)
-			trackCurrentUnits,     // Combobox for units (UI object)
-			new NumberUnitMultiplier[]{           // units
-				new NumberUnitMultiplier("uA", 1e-6),
-				new NumberUnitMultiplier("mA", 1e-3),
-				new NumberUnitMultiplier("A", 1e0, NumberPreference.DEFAULT),
-			},
-			4,                          // Num. digits to round to
-			null,                       // Default value
-			"The current you want the PCB track to be able to handle." // Help info
-			);*/
-
         this.trackCurrent.setName("trackCurrent");
         this.trackCurrent.setValueTextField(this.trackCurrentValue);
         this.trackCurrent.setUnitsComboBox(this.trackCurrentUnits);
@@ -291,7 +277,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.trackCurrent.setNumDigitsToRound(4);
         this.trackCurrent.setHelpText("The current you want the PCB track to be able to handle.");
-        this.trackCurrent.setIsEngineeringNotationEnabled(true);
+        this.trackCurrent.setIsEngineeringNotationEnabled(false);
 
         //====================== VALIDATORS ===================//
         this.trackCurrent.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -315,18 +301,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //====================================== TEMP RISE (input) ======================================//
         //===============================================================================================//
 
-		/*this.tempRise = new CalcVarNumericalInput(
-			"tempRise",             // Debug name
-			tempRiseValue,     // Textbox for value (UI object)
-			tempRiseUnits,     // Combobox for units (UI object)
-			new NumberUnitMultiplier[]{       // units
-				new NumberUnitMultiplier("°c", 1e0, NumberPreference.DEFAULT),
-			},
-			4,                      // Num. digits to round to
-			null,                   // Default value
-			"The maximum desired temperature rise due to the current flowing through the track. 20-40°c is a common value for this." // Help info
-			);*/
-
         this.tempRise.setName("tempRise");
         this.tempRise.setValueTextField(this.tempRiseValue);
         this.tempRise.setUnitsComboBox(this.tempRiseUnits);
@@ -335,7 +309,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.tempRise.setNumDigitsToRound(4);
         this.tempRise.setHelpText("The maximum desired temperature rise due to the current flowing through the track. 20-40°c is a common value for this.");
-        this.tempRise.setIsEngineeringNotationEnabled(true);
+        this.tempRise.setIsEngineeringNotationEnabled(false);
 
         //====================== VALIDATORS ===================//
         this.tempRise.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -358,37 +332,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //===============================================================================================//
         //============================ UN-ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ==================//
         //===============================================================================================//
-
-		/*this.unadjustedTrackCrossSectionalArea = new CalcVarNumericalOutput(
-			"unadjustedTrackCrossSectionalArea",
-			unadjustedTrackCrossSectionalAreaValue,
-			unadjustedTrackCrossSectionalAreaUnits,
-			() -> {
-
-				// Read in variables
-				Double trackCurrent = this.trackCurrent.getRawVal();
-				Double tempRise = this.tempRise.getRawVal();
-
-				// Lets calculate the two co-efficients for the fixed-temp trend line
-				Double universalChartTrendLineCoefA = UNIVERSAL_CHART_TREND_LINE_COEF_AA * Math.pow(tempRise, UNIVERSAL_CHART_TREND_LINE_COEF_AB);
-				Double universalChartTrendLineCoefB = UNIVERSAL_CHART_TREND_LINE_COEF_BA * Math.pow(tempRise, UNIVERSAL_CHART_TREND_LINE_COEF_BB);
-
-				// Now we know the two co-efficients, we can use the trend line eq. y=Ax^B to find the unadjusted cross-sectional area
-				Double unadjustedTrackCrosssectionalAreaMils2 = Math.pow(trackCurrent / universalChartTrendLineCoefA, 1 / universalChartTrendLineCoefB);
-
-				//console.log("unadjustedTrackCrosssectionalAreaMils2 = '" + unadjustedTrackCrosssectionalAreaMils2 + "'.");
-
-				// Convert mils^2 to m^2 (store variable values in SI units)
-				Double unadjustedTrackCrosssectionalAreaM2 = unadjustedTrackCrosssectionalAreaMils2 * (1 / (NUM_MILS_PER_MM * NUM_MILS_PER_MM * 1e6));
-
-				return unadjustedTrackCrosssectionalAreaM2;
-
-			},
-			new NumberUnitMultiplier[]{
-
-			},
-			4,
-			"The unadjusted cross-sectional area. This gets multiplied by the many modifiers to give an adjusted cross-sectional area.");*/
 
         this.unadjustedTrackCrossSectionalArea.setName("unadjustedTrackCrossSectionalArea");
         this.unadjustedTrackCrossSectionalArea.setValueTextField(this.unadjustedTrackCrossSectionalAreaValue);
@@ -419,7 +362,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.unadjustedTrackCrossSectionalArea.setNumDigitsToRound(4);
         this.unadjustedTrackCrossSectionalArea.setHelpText("The unadjusted cross-sectional area. This gets multiplied by the many modifiers to give an adjusted cross-sectional area.");
-        this.unadjustedTrackCrossSectionalArea.setIsEngineeringNotationEnabled(true);
+        this.unadjustedTrackCrossSectionalArea.setIsEngineeringNotationEnabled(false);
 
         //====================== VALIDATORS ===================//
         this.unadjustedTrackCrossSectionalArea.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -432,21 +375,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //================================== TRACK THICKNESS (input) ====================================//
         //===============================================================================================//
 
-		/*this.trackThickness = new CalcVarNumericalInput(
-			"trackThickness",
-			trackThicknessValue,
-			trackThicknessUnits,
-			new NumberUnitMultiplier[]{
-				new NumberUnitMultiplier("um", 1e-6, NumberPreference.DEFAULT),
-				new NumberUnitMultiplier("mm", 1e-3),
-				new NumberUnitMultiplier("oz", UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ),
-				new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
-			},
-			4,
-			null,
-			"The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz)." // Help text
-			);*/
-
         this.trackThickness.setName("trackThickness");
         this.trackThickness.setValueTextField(this.trackThicknessValue);
         this.trackThickness.setUnitsComboBox(this.trackThicknessUnits);
@@ -458,7 +386,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.trackThickness.setNumDigitsToRound(4);
         this.trackThickness.setHelpText("The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz).");
-        this.trackThickness.setIsEngineeringNotationEnabled(true);
+        this.trackThickness.setIsEngineeringNotationEnabled(false);
 
         //====================== VALIDATORS ===================//
         this.trackThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -481,64 +409,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //===============================================================================================//
         //=================================== TRACK THICKNESS MODIFIER (output) =========================//
         //===============================================================================================//
-
-		/*this.trackThicknessModifier = new CalcVarNumericalOutput(
-			"trackThicknessModifier",
-			trackThicknessModifierValue,
-			trackThicknessModifierUnits,
-			() -> {
-
-				// Read in variables
-				Double trackCurrentA = this.trackCurrent.getRawVal();
-				Double trackThicknessM = this.trackThickness.getRawVal();
-
-				// Convert to "oz" units, as this is what is used in IPC-2152 graphs
-				Double trackThicknessOz = trackThicknessM*(1/UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ);
-				//console.log("trackThicknessOz = " + trackThicknessOz);
-
-				// Lets calculate the two co-efficients for the fixed-temp trend line
-				double[] trackThicknessTrendLineCoefA = new double[TRACK_THICKNESS_TREND_LINE_COEF_COEF_A.length];
-
-				//console.log("test = " + TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0].length);
-
-
-				// Outer loop calculates all co-efficients
-				for(Integer i = 0; i < TRACK_THICKNESS_TREND_LINE_COEF_COEF_A.length; i++)
-				{
-					// Initialise array element with 0
-					trackThicknessTrendLineCoefA[i] = 0;
-
-					//console.log("i = " + i);
-					//console.log("test = " + TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[i].length);
-
-					// Inner loop calculates a single co-efficient
-					for(Integer j = 0; j < TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0].length; j++)
-					{
-						//TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0,0] = 2;
-						//console.log("sum = " + TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[0,0]);
-						trackThicknessTrendLineCoefA[i] += TRACK_THICKNESS_TREND_LINE_COEF_COEF_A[i][j]*Math.pow(trackThicknessOz, j);
-					}
-
-					//console.log("trackThicknessTrendLineCoefA[" + i + "] = '" + trackThicknessTrendLineCoefA[i] + "'.");
-				}
-
-				// Now we have calculate the 5th degree polynomial co-efficients, we can finally calc the thickness modifier
-				double trackThicknessModifierMulti = 0;
-
-				for(Integer i = 0; i < trackThicknessTrendLineCoefA.length; i++)
-				{
-					trackThicknessModifierMulti += trackThicknessTrendLineCoefA[i]*Math.pow(trackCurrentA, i);
-				}
-
-				return trackThicknessModifierMulti;
-
-			},
-			new NumberUnitMultiplier[]{
-				new NumberUnitMultiplier("no unit", 1.0, NumberPreference.DEFAULT),
-			},
-			4,
-			"The modifier to adjust the cross-sectional area with based on the track thickness." // Help text
-			);*/
 
         this.trackThicknessModifier.setName("trackThicknessModifier");
         this.trackThicknessModifier.setValueTextField(this.trackThicknessModifierValue);
@@ -590,7 +460,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.trackThicknessModifier.setNumDigitsToRound(4);
         this.trackThicknessModifier.setHelpText("The modifier to adjust the cross-sectional area with based on the track thickness.");
-        this.trackThicknessModifier.setIsEngineeringNotationEnabled(true);
+        this.trackThicknessModifier.setIsEngineeringNotationEnabled(false);
 
         //====================== VALIDATORS ===================//
         this.trackThicknessModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -602,20 +472,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //================================== BOARD THICKNESS (input) ====================================//
         //===============================================================================================//
 
-		/*this.boardThickness = new CalcVarNumericalInput(
-			"boardThickness",
-			boardThicknessValue,
-			boardThicknessUnits,
-			new NumberUnitMultiplier[]{
-				new NumberUnitMultiplier("um", 1e-6),
-				new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
-				new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
-			},
-			4,
-			null,
-			"The total thickness of the PCB that the track is on. A standard PCB thickness is 1.6mm." // Help text
-			);*/
-
         this.boardThickness.setName("boardThickness");
         this.boardThickness.setValueTextField(this.boardThicknessValue);
         this.boardThickness.setUnitsComboBox(this.boardThicknessUnits);
@@ -626,7 +482,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.boardThickness.setNumDigitsToRound(4);
         this.boardThickness.setHelpText("The total thickness of the PCB that the track is on. A standard PCB thickness is 1.6mm.");
-        this.boardThickness.setIsEngineeringNotationEnabled(true);
+        this.boardThickness.setIsEngineeringNotationEnabled(false);
 
         //========== VALIDATORS ==========//
         this.boardThickness.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -650,31 +506,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //=================================== BOARD THICKNESS MODIFIER (output) =========================//
         //===============================================================================================//
 
-		/*this.boardThicknessModifier = new CalcVarNumericalOutput(
-			"boardThicknessModifier",
-			boardThicknessModifierValue,
-			boardThicknessModifierUnits,
-			() -> {
-
-				// Read in variables
-				Double boardThicknessM = this.boardThickness.getRawVal();
-
-				// Convert to "mils" units, as this is what is used in IPC-2152 graphs
-				double boardThicknessMils = boardThicknessM * (1 / UNIT_CONVERSION_M_PER_MIL);
-
-				double boardThicknessModifierMulti = BOARD_THICKNESS_TREND_LINE_COEF_A *
-					Math.pow(boardThicknessMils, BOARD_THICKNESS_TREND_LINE_COEF_B);
-
-				return boardThicknessModifierMulti;
-
-			},
-			new NumberUnitMultiplier[]{
-				new NumberUnitMultiplier("no unit", 1.0, NumberPreference.DEFAULT),
-			},
-			4,
-			"The modifier to adjust the cross-sectional area with based on the board thickness." // Help text
-			);*/
-
         this.boardThicknessModifier.setName("boardThicknessModifier");
         this.boardThicknessModifier.setValueTextField(this.boardThicknessModifierValue);
         this.boardThicknessModifier.setUnitsComboBox(this.boardThicknessModifierUnits);
@@ -695,7 +526,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.boardThicknessModifier.setNumDigitsToRound(4);
         this.boardThicknessModifier.setHelpText("The modifier to adjust the cross-sectional area with based on the board thickness.");
-        this.boardThicknessModifier.setIsEngineeringNotationEnabled(true);
+        this.boardThicknessModifier.setIsEngineeringNotationEnabled(false);
 
         //========== VALIDATORS ==========//
         this.boardThicknessModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -724,20 +555,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //================================== PLANE PROXIMITY (input) ====================================//
         //===============================================================================================//
 
-		/*this.planeProximity = new CalcVarNumericalInput(
-			"planeProximity",
-			planeProximityValue,
-			planeProximityUnits,
-			new NumberUnitMultiplier[]{
-				new NumberUnitMultiplier("um", 1e-6),
-				new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
-				new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
-			},
-			4,
-			null,
-			"The distance from the current-carrying track to the closest copper plane. If it is a 2-layer 1.6mm PCB, with the current-carrying track on one side and ground on the other side, then the plane proximity would be 1.6mm. For 4 or more layer boards, this value is likely to be much less." // Help text
-			);*/
-
         this.planeProximity.setName("planeProximity");
         this.planeProximity.setValueTextField(this.planeProximityValue);
         this.planeProximity.setUnitsComboBox(this.planeProximityUnits);
@@ -748,7 +565,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.planeProximity.setNumDigitsToRound(4);
         this.planeProximity.setHelpText("The distance from the current-carrying track to the closest copper plane. If it is a 2-layer 1.6mm PCB, with the current-carrying track on one side and ground on the other side, then the plane proximity would be 1.6mm. For 4 or more layer boards, this value is likely to be much less.");
-        this.planeProximity.setIsEngineeringNotationEnabled(true);
+        this.planeProximity.setIsEngineeringNotationEnabled(false);
 
         //========== VALIDATORS ==========//
         this.planeProximity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -780,40 +597,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //=================================== PLANE PROXIMITY MODIFIER (output) =========================//
         //===============================================================================================//
 
-		/*this.planeProximityModifier = new CalcVarNumericalOutput(
-			"planeProximityModifier",
-			planeProximityModifierValue,
-			planeProximityModifierUnits,
-			() -> {
-
-				// Read in variables
-				String isPlanePresent = this.isPlanePresent.getRawVal();
-				double planeProximityM = this.planeProximity.getRawVal();
-
-				if (isPlanePresent == "False") {
-					// Lets not modify the cross-sectional area by anything if no plane is present
-					// (multiply by 1)
-					return 1.0;
-				}
-
-				// Plane must be present at this point
-
-				// Convert to "mils" units, as this is what is used in IPC-2152 graphs
-				double planeProximityMils = planeProximityM * (1 / UNIT_CONVERSION_M_PER_MIL);
-
-				double planeProximityModifierMulti = PLANE_PROXIMITY_TREND_LINE_COEF_M * planeProximityMils +
-					PLANE_PROXIMITY_TREND_LINE_COEF_C;
-
-				return planeProximityModifierMulti;
-
-			},
-			new NumberUnitMultiplier[]{
-				new NumberUnitMultiplier("no unit", 1.0, NumberPreference.DEFAULT),
-			},
-			4,
-			"The modifier to adjust the cross-sectional area with based on the proximity of a plane to the current-carrying track." // Help text
-			);*/
-
         this.planeProximityModifier.setName("planeProximityModifier");
         this.planeProximityModifier.setValueTextField(this.planeProximityModifierValue);
         this.planeProximityModifier.setUnitsComboBox(this.planeProximityModifierUnits);
@@ -843,7 +626,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.planeProximityModifier.setNumDigitsToRound(4);
         this.planeProximityModifier.setHelpText("The modifier to adjust the cross-sectional area with based on the proximity of a plane to the current-carrying track.");
-        this.planeProximityModifier.setIsEngineeringNotationEnabled(true);
+        this.planeProximityModifier.setIsEngineeringNotationEnabled(false);
 
         // Add validators
         this.planeProximityModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -855,19 +638,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //================================= THERMAL CONDUCTIVITY (input) ================================//
         //===============================================================================================//
 
-		/*this.thermalConductivity = new CalcVarNumericalInput(
-			"boardThickness",
-			thermalConductivityValue,
-			thermalConductivityUnits,
-			new NumberUnitMultiplier[]{
-				new NumberUnitMultiplier("W/(m*K)", 1),
-				new NumberUnitMultiplier("BTU/(hour*ft*F)", UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF)
-			},
-			4,
-			0.20,
-			"The thermal conductivity of the PCB. This is normally hard to determine, but for most FR4 PCBs this is around 0.20Wm-1K-1." // Help text
-			);*/
-
         this.thermalConductivity.setName("thermalConductivity");
         this.thermalConductivity.setValueTextField(this.thermalConductivityValue);
         this.thermalConductivity.setUnitsComboBox(this.thermalConductivityUnits);
@@ -878,7 +648,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.thermalConductivity.setNumDigitsToRound(4);
         this.thermalConductivity.setDefaultRawValue(0.20);
         this.thermalConductivity.setHelpText("The thermal conductivity of the PCB. This is normally hard to determine, but for most FR4 PCBs this is around 0.20Wm-1K-1.");
-        this.thermalConductivity.setIsEngineeringNotationEnabled(true);
+        this.thermalConductivity.setIsEngineeringNotationEnabled(false);
 
         //========== VALIDATORS ==========//
         this.thermalConductivity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -902,32 +672,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //================================ THERMAL CONDUCTIVITY MODIFIER (output) =======================//
         //===============================================================================================//
 
-		/*this.thermalConductivityModifier = new CalcVarNumericalOutput(
-			"thermalConductivityModifier",
-			thermalConductivityModifierValue,
-			thermalConductivityModifierUnits,
-			() -> {
-
-				// Read in variables
-				double thermalConductivityWattnMeternDegC = this.thermalConductivity.getRawVal();
-
-				// Convert to BTU/(ft*hour*F), as this is what the IPC-2152 graph used
-				double thermalConductivityBtunFtnHournDegF = thermalConductivityWattnMeternDegC *
-					(1 / UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF);
-
-				double thermalConductivityModifierMulti = THERMAL_CONDUCTIVITY_TREND_LINE_COEF_M *
-					thermalConductivityBtunFtnHournDegF + THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C;
-
-				return thermalConductivityModifierMulti;
-
-			},
-			new NumberUnitMultiplier[]{
-				new NumberUnitMultiplier("no unit", 1.0, NumberPreference.DEFAULT),
-			},
-			4,
-			"The modifier to adjust the cross-sectional area with based on the thermal conductivity of the PCB." // Help text
-			);*/
-
         this.thermalConductivityModifier.setName("thermalConductivityModifier");
         this.thermalConductivityModifier.setValueTextField(this.thermalConductivityModifierValue);
         this.thermalConductivityModifier.setUnitsComboBox(this.thermalConductivityModifierUnits);
@@ -949,7 +693,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.thermalConductivityModifier.setNumDigitsToRound(4);
         this.thermalConductivityModifier.setHelpText("The modifier to adjust the cross-sectional area with based on the thermal conductivity of the PCB.");
-        this.thermalConductivityModifier.setIsEngineeringNotationEnabled(true);
+        this.thermalConductivityModifier.setIsEngineeringNotationEnabled(false);
 
         // Add validators
         this.thermalConductivityModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -960,37 +704,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //===============================================================================================//
         //================================= ADJUSTED CROSS-SECTIONAL AREA (output) ======================//
         //===============================================================================================//
-
-		/*this.adjustedTrackCrossSectionalArea = new CalcVarNumericalOutput(
-			"adjustedTrackCrossSectionalArea",
-			adjustedTrackCrossSectionalAreaValue,
-			adjustedTrackCrossSectionalAreaUnits,
-			() -> {
-
-				double unadjustedTrackCrossSectionalArea = this.unadjustedTrackCrossSectionalArea.getRawVal();
-				double trackThicknessModifier = this.trackThicknessModifier.getRawVal();
-				double boardThicknessModifier = this.boardThicknessModifier.getRawVal();
-				double planeProximityModifier = this.planeProximityModifier.getRawVal();
-				double thermalConductivityModifier = this.thermalConductivityModifier.getRawVal();
-
-				double adjustedTrackCrosssectionalAreaM2 =
-					unadjustedTrackCrossSectionalArea *
-					trackThicknessModifier *
-					boardThicknessModifier *
-					planeProximityModifier *
-					thermalConductivityModifier;
-
-				return adjustedTrackCrosssectionalAreaM2;
-
-			},
-			new NumberUnitMultiplier[]{
-				new NumberUnitMultiplier("um²", 1e-12, NumberPreference.DEFAULT),
-				new NumberUnitMultiplier("mils²", UNIT_CONVERSION_M2_PER_MIL2),
-				new NumberUnitMultiplier("mm²", 1e-6),
-			},
-			4,
-			"The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers." // Help text
-			);*/
 
         this.adjustedTrackCrossSectionalArea.setName("adjustedTrackCrossSectionalArea");
         this.adjustedTrackCrossSectionalArea.setValueTextField(this.adjustedTrackCrossSectionalAreaValue);
@@ -1019,7 +732,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.adjustedTrackCrossSectionalArea.setNumDigitsToRound(4);
         this.adjustedTrackCrossSectionalArea.setHelpText("The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers.");
-        this.adjustedTrackCrossSectionalArea.setIsEngineeringNotationEnabled(true);
+        this.adjustedTrackCrossSectionalArea.setIsEngineeringNotationEnabled(false);
 
         // Add validators
         this.adjustedTrackCrossSectionalArea.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
@@ -1031,24 +744,6 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //===============================================================================================//
         //==================================== MIN. TRACK WIDTH (output) ================================//
         //===============================================================================================//
-
-		/*this.currentLimit = new CalcVarNumericalOutput(
-			"currentLimit",
-			minTrackWidthValue,
-			minTrackWidthUnits,
-			() -> {
-				double minimumTrackWidthM = this.adjustedTrackCrossSectionalArea.getRawVal() / this.trackThickness.getRawVal();
-
-				return minimumTrackWidthM;
-			},
-			new NumberUnitMultiplier[]{
-				new NumberUnitMultiplier("um", 1e-6),
-				new NumberUnitMultiplier("mm", 1e-3, NumberPreference.DEFAULT),
-				new NumberUnitMultiplier("mils", UnitConversionConstants.METERS_PER_MILS),
-			},
-			4,
-			"The minimum track width needed to carry the specified current without exceeding the given temperature rise." // Help text
-			);*/
 
         this.minTrackWidth.setName("currentLimit");
         this.minTrackWidth.setValueTextField(this.minTrackWidthValue);
@@ -1066,7 +761,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         });
         this.minTrackWidth.setNumDigitsToRound(4);
         this.minTrackWidth.setHelpText("The minimum track width needed to carry the specified current without exceeding the given temperature rise.");
-        this.minTrackWidth.setIsEngineeringNotationEnabled(true);
+        this.minTrackWidth.setIsEngineeringNotationEnabled(false);
 
         // Add validators
         this.minTrackWidth.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
