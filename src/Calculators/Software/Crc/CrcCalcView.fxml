@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+
+<!--<?import Core.AutoScalingStackPane?>-->
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.web.WebView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<VBox fillWidth="true">
+    <ScrollPane
+            fitToWidth="true"
+            styleClass="scrollPane"
+            xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+        <padding><Insets top="40" bottom="20" left="20" right="20" /></padding>
+        <VBox alignment="CENTER" spacing="20"
+              styleClass="vbox"
+              style="-fx-font-family: Calibri; -fx-text-fill: #505050; -fx-font-size: 12pt;" >
+
+            <!-- =========== INFO SECTION ========== -->
+            <TitledPane text="Info" expanded="false"
+                        maxWidth="700"
+                        style="-fx-font-size: 16pt;" >
+                <WebView fx:id="infoWebView" prefHeight="300"></WebView>
+            </TitledPane>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label>Data</Label>
+                <TextField></TextField>
+            </HBox>
+
+            <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
+            <GridPane>
+                <padding><Insets top="20" bottom="20" left="20" right="20" /></padding>
+                <Label GridPane.rowIndex="0" GridPane.columnIndex="0">CRC Name</Label>
+                <Label GridPane.rowIndex="0" GridPane.columnIndex="1">CRC Value</Label>
+
+                <Label GridPane.rowIndex="1" GridPane.columnIndex="0">CRC-16-CCITT</Label>
+                <Label GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="crc16CcittValue"></Label>
+            </GridPane>
+        </VBox>
+    </ScrollPane>
+</VBox>
