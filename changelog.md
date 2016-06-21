@@ -1,3 +1,8 @@
+vX.X.X
+------
+
+- Fixed issue with install4j dependency, closes #123.
+
 v1.2.1
 ------
 

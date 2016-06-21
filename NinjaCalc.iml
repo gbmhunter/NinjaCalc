@@ -12,5 +12,6 @@
     <orderEntry type="library" name="org.testfx:testfx-junit:4.0.2-alpha" level="project" />
     <orderEntry type="library" name="symja_java8-2016-04-15" level="project" />
     <orderEntry type="library" name="org.scilab.forge:jlatexmath:1.0.2" level="project" />
+    <orderEntry type="library" name="i4jruntime" level="project" />
   </component>
 </module>
