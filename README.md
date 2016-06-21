@@ -40,15 +40,17 @@ See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a lis
 2. Run the installer and play (or work, right?)!
 3. NinjaCalc should automatically inform you if there is a new version available on start-up of the application.
 
-Installing a newer version of NinjaCalc should automatically overwrite the old one.
+Note: Installing a newer version of NinjaCalc should automatically overwrite the old one.
 
 
 # Developing
 
 
 1. Download/clone this repository into a folder on your computer.
-2. Open the project in IntelliJ (`.idea/workspace.xml` file included in repo).
-3. Develop!
+2. Make sure you have a 32-bit version of the JDK installed (must be at least JDK 8).
+3. Open the project in IntelliJ (`.idea/workspace.xml` file included in repo).
+4. In IntelliJ, open the project settings, and point the projects JDK to installed version on your computer.
+5. Develop!
 
 
 # Making Your Own Calculators
