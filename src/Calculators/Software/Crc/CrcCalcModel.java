@@ -10,6 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -33,6 +34,9 @@ public class CrcCalcModel extends Calculator {
     //===============================================================================================//
 
     @FXML
+    private TextField crcDataTextField;
+
+    @FXML
     private Label crc16CcittValue;
 
 
@@ -43,7 +47,7 @@ public class CrcCalcModel extends Calculator {
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
-    public CalcVarNumerical voltage = new CalcVarNumerical();
+    public CalcVarNumerical crcData = new CalcVarNumerical();
     public CalcVarNumerical current = new CalcVarNumerical();
     public CalcVarNumerical resistance = new CalcVarNumerical();
 

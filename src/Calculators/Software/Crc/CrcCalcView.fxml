@@ -38,7 +38,7 @@
 
             <HBox spacing="10" alignment="CENTER">
                 <Label>Data</Label>
-                <TextField></TextField>
+                <TextField fx:id="crcDataTextField"></TextField>
             </HBox>
 
             <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
