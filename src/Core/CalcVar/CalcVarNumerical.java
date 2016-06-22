@@ -253,7 +253,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Make sure the provided text field is not null
         if(valueTextField == null)
-            throw new IllegalArgumentException("Provided TextField for calculator variable \"" + this.name + "\" value was null. Is the @FXML binding name the same as the fx:id?");
+            throw new IllegalArgumentException("Provided TextField for calculator variable \"" + this.getName() + "\" value was null. Is the @FXML binding name the same as the fx:id?");
 
         // Create text field listener
         this.textListener = (observable, oldValue, newValue) -> {
@@ -270,7 +270,7 @@ public class CalcVarNumerical extends CalcVarBase {
     public ComboBox getUnitsComboBox() { return unitsComboBox; }
     public void setUnitsComboBox(ComboBox unitsComboBox) {
         if(unitsComboBox == null){
-            throw new IllegalArgumentException("Provided unitsComboBox to " +  this.name + ".setUnitsComboBox was null.");
+            throw new IllegalArgumentException("Provided unitsComboBox to " +  this.getName() + ".setUnitsComboBox was null.");
         }
         this.unitsComboBox = unitsComboBox;
     }
@@ -440,7 +440,7 @@ public class CalcVarNumerical extends CalcVarBase {
     public void calculate() {
         // Make sure this event only fires when this calculator variable is an output!
         if(this.getDirection() != CalcVarDirections.Output){
-            throw new RuntimeException("calculate() was called for calculator variable " + this.name + " which is NOT an output.");
+            throw new RuntimeException("calculate() was called for calculator variable " + this.getName() + " which is NOT an output.");
         }
 
         //System.out.println("CalcVar.calculate() called for \"" + this.name + "\".");

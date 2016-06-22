@@ -17,7 +17,15 @@ public abstract class CalcVarBase implements Serializable {
     /**
      * The name of the calculator variable. Used when debugging.
      */
-    public String name;
+    private String name;
+    public String getName() { return this.name; }
+    public void setName(String value) { this.name = value; }
+
+    //===============================================================================================//
+    //============================================ EVENTS ===========================================//
+    //===============================================================================================//
+
+    //================== rawValueRead EVENT ==================//
 
     /**
      * Keeps track of all registered listeners to the raw value being read.
@@ -38,6 +46,7 @@ public abstract class CalcVarBase implements Serializable {
             listener.execute(this);
     }
 
+    //================== rawValueChanged EVENT ==================//
 
     private List<ICalcVarBaseCallback> rawValueChangedListeners = new ArrayList<ICalcVarBaseCallback>();
 
@@ -70,12 +79,17 @@ public abstract class CalcVarBase implements Serializable {
      */
     protected ArrayList<Validator> validators;
 
+    /**
+     * Holds a list of all the validation results for this variables. This will be populated by the validate() method.
+     */
     public ArrayList<CalcValidationResult> validationResults;
 
-    /// <summary>
-    /// Gets or sets the validation result for this calculator variable.
-    /// Will also change the border colour of the associated text box.
-    /// </summary>
+
+    /**
+     * Stores the worst validation result for this calculator variable.
+     * This variable controls the colour of various parts of the associated UI elements for this variable
+     * (e.g. the border colour for a numerical variable in a TextField).
+     */
     public CalcValidationLevel worstValidationLevel;
 
     /***
@@ -96,6 +110,10 @@ public abstract class CalcVarBase implements Serializable {
      */
     public IEquationFunction equationFunction;
 
+    /**
+     * Stores the direction of this variable (e.g. whether it is an input or an output variable).
+     * Make private?
+     */
     public CalcVarDirections direction;
     public CalcVarDirections getDirection() {
         return this.direction;
@@ -108,6 +126,9 @@ public abstract class CalcVarBase implements Serializable {
     //========================================== CONSTRUCTORS =======================================//
     //===============================================================================================//
 
+    /**
+     * Default constructor for CalcVarBase.
+     */
     protected CalcVarBase() {
         // Initialise empty lists to keep track of this calculators dependencies
         // and dependants
@@ -150,8 +171,7 @@ public abstract class CalcVarBase implements Serializable {
     //======================================== GETTERS/SETTERS ======================================//
     //===============================================================================================//
 
-    public String getName() { return this.name; }
-    public void setName(String value) { this.name = value; }
+
 
     public IEquationFunction getEquationFunction() { return equationFunction; }
     public void setEquationFunction(IEquationFunction equationFunction) { this.equationFunction = equationFunction; }
@@ -198,6 +218,10 @@ public abstract class CalcVarBase implements Serializable {
     //======================================= ABSTRACT METHODS ======================================//
     //===============================================================================================//
 
+    /**
+     * All non-abstract variables classes must implement this method which re-calculates this
+     * calculator variables value, based on it's equation function.
+     */
     public abstract void calculate();
 
     /**

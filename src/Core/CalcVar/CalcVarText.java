@@ -88,7 +88,7 @@ public class CalcVarText extends CalcVarBase {
     public void calculate() {
         // Make sure this event only fires when this calculator variable is an output!
         if(this.getDirection() != CalcVarDirections.Output){
-            throw new RuntimeException("calculate() was called for calculator variable " + this.name + " which is NOT an output.");
+            throw new RuntimeException("calculate() was called for calculator variable " + this.getName() + " which is NOT an output.");
         }
 
         //System.out.println("CalcVar.calculate() called for \"" + this.name + "\".");
