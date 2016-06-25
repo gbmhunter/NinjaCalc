@@ -189,7 +189,7 @@ public class CrcCalcModel extends Calculator {
                     crcDataCalcVar.validationResults.add(
                             new CalcValidationResult(
                                     CalcValidationLevels.Error,
-                                    "Input data is not valid hex."));
+                                    "Input data is not valid. If in \"Hex\"mode, data must contain only the numerals 0-9 and the characters A-F. Do not add \"0x\"to the start of the hex number."));
                     crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Error;
                     crcDataCalcVar.updateUIBasedOnValidationResults();
 
