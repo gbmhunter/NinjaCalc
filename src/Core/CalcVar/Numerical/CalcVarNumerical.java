@@ -1,7 +1,9 @@
 
-package Core.CalcVar;
+package Core.CalcVar.Numerical;
 
 import Core.*;
+import Core.CalcVar.CalcVarBase;
+import Core.CalcVar.CalcVarDirections;
 import Utility.MetricPrefixes.MetricPrefixes;
 import Utility.MetricPrefixes.RoundingMethods;
 import Utility.Rounding;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-25
+ * @last-modified   2016-06-25
  */
 public class CalcVarNumerical extends CalcVarBase {
 

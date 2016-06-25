@@ -1,6 +1,7 @@
-package Core.CalcVar;
+package Core.CalcVar.ComboBox;
 
 
+import Core.CalcVar.CalcVarBase;
 import Core.IDirectionFunction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +13,7 @@ import javafx.util.StringConverter;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-23
+ * @last-modified   2016-06-25
  */
 public class CalcVarComboBox extends CalcVarBase {
 

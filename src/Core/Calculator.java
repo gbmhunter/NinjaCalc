@@ -2,7 +2,7 @@ package Core;
 
 import Core.CalcVar.CalcVarBase;
 import Core.CalcVar.CalcVarDirections;
-import Core.CalcVar.CalcVarNumerical;
+import Core.CalcVar.Numerical.CalcVarNumerical;
 import javafx.scene.layout.*;
 
 import java.io.Serializable;
@@ -221,6 +221,9 @@ public abstract class Calculator implements Serializable {
     public void refreshDirectionsAndUpdateUI() {
         //System.out.println("refreshDirectionsAndUpdateUI() called for calculator \"" + this.name + "\".");
         for (CalcVarBase calcVar : this.calcVars) {
+
+            if(calcVar.directionFunction == null)
+                throw new RuntimeException("There is no direction function for calculator variable " + calcVar.getName() + ". Please provide one with setDirectionFunction().");
             calcVar.direction = calcVar.directionFunction.execute();
             calcVar.updateUIFromDirection();
         }

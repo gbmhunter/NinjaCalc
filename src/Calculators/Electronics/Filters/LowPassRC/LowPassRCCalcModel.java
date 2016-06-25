@@ -2,7 +2,7 @@ package Calculators.Electronics.Filters.LowPassRC;
 
 // SYSTEM IMPORTS
 import Core.CalcVar.CalcVarDirections;
-import Core.CalcVar.CalcVarNumerical;
+import Core.CalcVar.Numerical.CalcVarNumerical;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

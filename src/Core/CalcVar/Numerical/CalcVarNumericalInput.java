@@ -1,4 +1,7 @@
-package Core.CalcVar;
+package Core.CalcVar.Numerical;
+
+import Core.CalcVar.CalcVarDirections;
+import Core.CalcVar.Numerical.CalcVarNumerical;
 
 /**
  * A specialisation of a generic CalcVar which is for variables which are always
@@ -7,7 +10,7 @@ package Core.CalcVar;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-23
+ * @last-modified   2016-06-25
  */
 public class CalcVarNumericalInput extends CalcVarNumerical {
 

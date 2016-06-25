@@ -4,8 +4,8 @@ package Calculators.Software.Crc;
 // SYSTEM INCLUDES
 
 import Core.*;
-import Core.CalcVar.Text.CalcVarTextInput;
-import Core.CalcVar.Text.CalcVarTextOutput;
+import Core.CalcVar.CalcVarDirections;
+import Core.CalcVar.Text.CalcVarText;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -43,8 +43,8 @@ public class CrcCalcModel extends Calculator {
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
-    public CalcVarTextInput crcDataCalcVar = new CalcVarTextInput();
-    public CalcVarTextOutput crcResultCalcVar = new CalcVarTextOutput();
+    public CalcVarText crcDataCalcVar = new CalcVarText();
+    public CalcVarText crcResultCalcVar = new CalcVarText();
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -91,6 +91,7 @@ public class CrcCalcModel extends Calculator {
 
         crcDataCalcVar.setName("crcDataCalcVar");
         crcDataCalcVar.setTextField(crcDataTextField);
+        crcDataCalcVar.setDirectionFunction(() -> { return CalcVarDirections.Input; });
         calcVars.add(crcDataCalcVar);
 
         //===============================================================================================//
@@ -99,6 +100,7 @@ public class CrcCalcModel extends Calculator {
 
         crcResultCalcVar.setName("crcResultCalcVar");
         crcResultCalcVar.setTextField(crc16CcittValue);
+        crcResultCalcVar.setDirectionFunction(() -> { return CalcVarDirections.Output; });
         crcResultCalcVar.setEquationFunction(() -> {
             String crcDataString = crcDataCalcVar.getValue();
             return crcDataString;

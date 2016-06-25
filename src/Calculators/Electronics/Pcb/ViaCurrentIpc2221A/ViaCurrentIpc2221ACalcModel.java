@@ -2,9 +2,9 @@ package Calculators.Electronics.Pcb.ViaCurrentIpc2221A;
 
 
 import Core.*;
-import Core.CalcVar.CalcVarNumerical;
-import Core.CalcVar.CalcVarNumericalInput;
-import Core.CalcVar.CalcVarNumericalOutput;
+import Core.CalcVar.Numerical.CalcVarNumerical;
+import Core.CalcVar.Numerical.CalcVarNumericalInput;
+import Core.CalcVar.Numerical.CalcVarNumericalOutput;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;

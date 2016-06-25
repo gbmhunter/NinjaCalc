@@ -2,9 +2,9 @@ package Calculators.Electronics.Basic.StandardResistanceFinder;
 
 import Core.*;
 import Core.CalcVar.CalcVarBase;
-import Core.CalcVar.CalcVarNumerical;
-import Core.CalcVar.CalcVarNumericalInput;
-import Core.CalcVar.CalcVarNumericalOutput;
+import Core.CalcVar.Numerical.CalcVarNumerical;
+import Core.CalcVar.Numerical.CalcVarNumericalInput;
+import Core.CalcVar.Numerical.CalcVarNumericalOutput;
 import Utility.StandardResistanceFinder;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

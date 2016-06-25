@@ -1,10 +1,10 @@
 package Calculators.Electronics.Pcb.TrackCurrentIpc2152;
 
 import Core.*;
-import Core.CalcVar.CalcVarComboBox;
+import Core.CalcVar.ComboBox.CalcVarComboBox;
 import Core.CalcVar.CalcVarDirections;
-import Core.CalcVar.CalcVarNumericalInput;
-import Core.CalcVar.CalcVarNumericalOutput;
+import Core.CalcVar.Numerical.CalcVarNumericalInput;
+import Core.CalcVar.Numerical.CalcVarNumericalOutput;
 import Core.View.Dimension.Dimension;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

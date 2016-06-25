@@ -4,7 +4,7 @@ package Calculators.Electronics.Sensors.NtcThermistor;
 
 import Core.*;
 import Core.CalcVar.CalcVarDirections;
-import Core.CalcVar.CalcVarNumerical;
+import Core.CalcVar.Numerical.CalcVarNumerical;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
