@@ -185,7 +185,7 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.airTemperature.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.airTemperature.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.airTemperature);
+        addCalcVar(this.airTemperature);
 
         //===============================================================================================//
         //====================================== Relative Humidity (I/O) ================================//
@@ -245,7 +245,7 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.relativeHumidity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.relativeHumidity.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.relativeHumidity);
+        addCalcVar(this.relativeHumidity);
 
         //===============================================================================================//
         //=========================================== Dew Point (I/O) ===================================//
@@ -315,7 +315,7 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.dewPoint.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         //this.dewPoint.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.dewPoint);
+        addCalcVar(this.dewPoint);
 
         //===============================================================================================//
         //===================================== B Coefficient (INPUT) ===================================//
@@ -345,7 +345,7 @@ public class DewPointMagnusCalcModel extends Calculator {
         //========== VALIDATORS ==========//
         this.bCoefficient.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.bCoefficient);
+        addCalcVar(this.bCoefficient);
 
         //===============================================================================================//
         //===================================== C Coefficient (INPUT) ===================================//
@@ -375,7 +375,7 @@ public class DewPointMagnusCalcModel extends Calculator {
         //========== VALIDATORS ==========//
         this.cCoefficient.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.cCoefficient);
+        addCalcVar(this.cCoefficient);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

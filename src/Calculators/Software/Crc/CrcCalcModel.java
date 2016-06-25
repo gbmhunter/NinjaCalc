@@ -5,6 +5,7 @@ package Calculators.Software.Crc;
 
 import Core.*;
 import Core.CalcVar.CalcVarDirections;
+import Core.CalcVar.RadioButtonGroup.CalcVarRadioButtonGroup;
 import Core.CalcVar.Text.CalcVarText;
 import Utility.Crc.Crc16XModem;
 import javafx.fxml.FXML;
@@ -33,8 +34,16 @@ public class CrcCalcModel extends Calculator {
     //========================================= FXML Bindings =======================================//
     //===============================================================================================//
 
+
+
     @FXML
     private TextField crcDataTextField;
+
+    @FXML
+    private RadioButton asciiUnicode;
+
+    @FXML
+    private RadioButton hex;
 
     @FXML
     private TextField crc16CcittValue;
@@ -47,6 +56,8 @@ public class CrcCalcModel extends Calculator {
     //===============================================================================================//
 
     public CalcVarText crcDataCalcVar = new CalcVarText();
+    public CalcVarRadioButtonGroup calcVarRadioButtonGroup = new CalcVarRadioButtonGroup();
+
     public CalcVarText crcResultCalcVar = new CalcVarText();
 
     //===============================================================================================//
@@ -95,7 +106,16 @@ public class CrcCalcModel extends Calculator {
         crcDataCalcVar.setName("crcDataCalcVar");
         crcDataCalcVar.setTextField(crcDataTextField);
         crcDataCalcVar.setDirectionFunction(() -> { return CalcVarDirections.Input; });
-        calcVars.add(crcDataCalcVar);
+        addCalcVar(crcDataCalcVar);
+
+        //===============================================================================================//
+        //================================= CRC DATA INPUT TYPE (input) =================================//
+        //===============================================================================================//
+
+        calcVarRadioButtonGroup.setName("calcVarRadioButtonGroup");
+        calcVarRadioButtonGroup.addRadioButton(asciiUnicode);
+        calcVarRadioButtonGroup.addRadioButton(hex);
+        addCalcVar(calcVarRadioButtonGroup);
 
         //===============================================================================================//
         //====================================== CRC VALUE (output) =====================================//
@@ -106,16 +126,22 @@ public class CrcCalcModel extends Calculator {
         crcResultCalcVar.setDirectionFunction(() -> { return CalcVarDirections.Output; });
         crcResultCalcVar.setEquationFunction(() -> {
             String crcDataString = crcDataCalcVar.getValue();
+            Toggle inputDataType = calcVarRadioButtonGroup.getValue();
 
             // Convert this string into a list of integers
             List<Integer> buffer = new ArrayList<>();
-            for(int i = 0; i < crcDataString.length(); i++) {
-                char currentChar = crcDataString.charAt(i);
 
-                // Convert the character into it's equivalent Unicode integer
-                // Note: Since Unicode is a complete superset of ASCII, this will
-                // work for ASCII characters to
-                buffer.add((int)currentChar);
+            if(inputDataType == asciiUnicode) {
+                for (int i = 0; i < crcDataString.length(); i++) {
+                    char currentChar = crcDataString.charAt(i);
+
+                    // Convert the character into it's equivalent Unicode integer
+                    // Note: Since Unicode is a complete superset of ASCII, this will
+                    // work for ASCII characters to
+                    buffer.add((int) currentChar);
+                }
+            } else if(inputDataType == hex) {
+
             }
 
             Integer crcResult = Crc16XModem.CalcFast(buffer);
@@ -125,7 +151,7 @@ public class CrcCalcModel extends Calculator {
 
             return crcResultAsHex;
         });
-        calcVars.add(crcResultCalcVar);
+        addCalcVar(crcResultCalcVar);
 
 //        this.voltage.setName("voltage");
 //        this.voltage.setTextField(this.voltageValueTextField);
@@ -151,7 +177,7 @@ public class CrcCalcModel extends Calculator {
 //        this.voltage.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
 //        this.voltage.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 //
-//        this.calcVars.add(this.voltage);
+//        addCalcVar(this.voltage);
 
 
 

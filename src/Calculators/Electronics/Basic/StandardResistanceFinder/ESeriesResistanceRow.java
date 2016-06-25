@@ -41,7 +41,7 @@ public class ESeriesResistanceRow {
             CalcVarNumericalInput desiredResistance,
             GridPane variableGridPane,
             Integer rowToAddTo,
-            ArrayList<CalcVarBase> calcVars,
+            Calculator calculator,
             CalcVarNumerical.RoundingTypes roundingType,
             Integer numberToRoundTo) {
 
@@ -89,7 +89,7 @@ public class ESeriesResistanceRow {
         closestResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         closestResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        calcVars.add(closestResistanceCalcVar);
+        calculator.addCalcVar(closestResistanceCalcVar);
 
         // Ohm symbol
         variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
@@ -130,7 +130,7 @@ public class ESeriesResistanceRow {
         closestResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         closestResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
 
-        calcVars.add(closestResistanceErrorCalcVar);
+        calculator.addCalcVar(closestResistanceErrorCalcVar);
 
         // Percentage symbol
         variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);
@@ -169,7 +169,7 @@ public class ESeriesResistanceRow {
         closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        calcVars.add(closestEqualOrLowerResistanceCalcVar);
+        calculator.addCalcVar(closestEqualOrLowerResistanceCalcVar);
 
         // Ohm symbol
         variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
@@ -210,7 +210,7 @@ public class ESeriesResistanceRow {
         closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
 
-        calcVars.add(closestEqualOrLowerResistanceErrorCalcVar);
+        calculator.addCalcVar(closestEqualOrLowerResistanceErrorCalcVar);
 
         // Percentage symbol
         variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);
@@ -249,7 +249,7 @@ public class ESeriesResistanceRow {
         closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        calcVars.add(closestEqualOrHigherResistanceCalcVar);
+        calculator.addCalcVar(closestEqualOrHigherResistanceCalcVar);
 
         // Ohm symbol
         variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
@@ -290,7 +290,7 @@ public class ESeriesResistanceRow {
         closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
 
-        calcVars.add(closestEqualOrHigherResistanceErrorCalcVar);
+        calculator.addCalcVar(closestEqualOrHigherResistanceErrorCalcVar);
 
         // Percentage symbol
         variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);

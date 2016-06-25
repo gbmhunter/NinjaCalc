@@ -166,7 +166,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.finishedHoleDiameter_M.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.finishedHoleDiameter_M.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.finishedHoleDiameter_M);
+        addCalcVar(this.finishedHoleDiameter_M);
 
         //===============================================================================================//
         //================================== PLATING THICKNESS (input) ==================================//
@@ -187,7 +187,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.platingThickness_M.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.platingThickness_M.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.platingThickness_M);
+        addCalcVar(this.platingThickness_M);
 
         //===============================================================================================//
         //======================================== VIA LENGTH (input) ===================================//
@@ -208,7 +208,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.viaLength_M.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.viaLength_M.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.viaLength_M);
+        addCalcVar(this.viaLength_M);
 
 
         //===============================================================================================//
@@ -231,7 +231,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.temperatureRise_DegC.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.temperatureRise_DegC.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.temperatureRise_DegC);
+        addCalcVar(this.temperatureRise_DegC);
 
 
         //===============================================================================================//
@@ -254,7 +254,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.platedCopperResistivity_OhmMeter.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.platedCopperResistivity_OhmMeter.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.platedCopperResistivity_OhmMeter);
+        addCalcVar(this.platedCopperResistivity_OhmMeter);
 
         
         //===============================================================================================//
@@ -278,7 +278,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.specificThermalConductivity_WpKm.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.specificThermalConductivity_WpKm.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.specificThermalConductivity_WpKm);
+        addCalcVar(this.specificThermalConductivity_WpKm);
 
 
         //===============================================================================================//
@@ -307,7 +307,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.viaCrossSectionalArea_M2.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.viaCrossSectionalArea_M2.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.viaCrossSectionalArea_M2);
+        addCalcVar(this.viaCrossSectionalArea_M2);
 
         //===============================================================================================//
         //====================================== VIA RESISTANCE (output) ================================//
@@ -336,7 +336,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.viaResistance_Ohms.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.viaResistance_Ohms.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.viaResistance_Ohms);
+        addCalcVar(this.viaResistance_Ohms);
 
         //===============================================================================================//
         //================================== THERMAL RESISTANCE (output) ================================//
@@ -365,7 +365,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.thermalResistance_DegCpWatt.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.thermalResistance_DegCpWatt.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.thermalResistance_DegCpWatt);
+        addCalcVar(this.thermalResistance_DegCpWatt);
 
         //===============================================================================================//
         //====================================== CURRENT LIMIT (output) =================================//
@@ -398,7 +398,7 @@ public class ViaCurrentIpc2221ACalcModel extends Calculator {
         this.currentLimit.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.currentLimit.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.currentLimit);
+        addCalcVar(this.currentLimit);
 
         //===============================================================================================//
         //=========================================== VIEW CONFIG =======================================//

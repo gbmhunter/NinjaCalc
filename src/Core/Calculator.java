@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-25
+ * @last-modified   2016-06-25
   */
 public abstract class Calculator implements Serializable {
 
@@ -43,7 +43,15 @@ public abstract class Calculator implements Serializable {
     /**
      * A list holding all of the calculator variables for the calculator.
      */
-    public ArrayList<CalcVarBase> calcVars;
+    private ArrayList<CalcVarBase> calcVars;
+    public void addCalcVar(CalcVarBase calcVar) {
+
+        if(calcVars.contains(calcVar))
+            throw new RuntimeException("Calculator variable " + calcVar.getName() + " was added a 2nd time to calculator.");
+
+        calcVars.add(calcVar);
+
+    }
 
     /**
      * Default (and only) constructor for a calculator.

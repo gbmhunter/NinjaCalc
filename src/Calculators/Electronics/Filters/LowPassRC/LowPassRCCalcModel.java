@@ -170,7 +170,7 @@ public class LowPassRCCalcModel extends Calculator {
         this.resistor.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.resistor.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.resistor);
+        addCalcVar(this.resistor);
 
         //===============================================================================================//
         //======================================= C (capacitance) (I/O) =================================//
@@ -227,7 +227,7 @@ public class LowPassRCCalcModel extends Calculator {
         this.capacitor.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.capacitor.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.capacitor);
+        addCalcVar(this.capacitor);
 
 
         //===============================================================================================//
@@ -284,7 +284,7 @@ public class LowPassRCCalcModel extends Calculator {
         this.cutOffFrequency.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.cutOffFrequency.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.cutOffFrequency);
+        addCalcVar(this.cutOffFrequency);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

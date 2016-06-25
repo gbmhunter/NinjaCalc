@@ -295,7 +295,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
                         "Current is above the maximum value (26A) extracted from the universal graph in IPC-2152." +
                                 " Results might not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.trackCurrent);
+        addCalcVar(this.trackCurrent);
 
         //===============================================================================================//
         //====================================== TEMP RISE (input) ======================================//
@@ -327,7 +327,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
                         "Temp. rise is above the maximum value (100°c) extracted from the universal graph in IPC-2152." +
                                 " Results might not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.tempRise);
+        addCalcVar(this.tempRise);
 
         //===============================================================================================//
         //============================ UN-ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ==================//
@@ -368,7 +368,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.unadjustedTrackCrossSectionalArea.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.unadjustedTrackCrossSectionalArea.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.unadjustedTrackCrossSectionalArea);
+        addCalcVar(this.unadjustedTrackCrossSectionalArea);
 
 
         //===============================================================================================//
@@ -404,7 +404,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
                         "Track thickness is above the maximum value (105um) extracted from the track thickness modififer graph in IPC-2152." +
                                 " Results might not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.trackThickness);
+        addCalcVar(this.trackThickness);
 
         //===============================================================================================//
         //=================================== TRACK THICKNESS MODIFIER (output) =========================//
@@ -466,7 +466,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.trackThicknessModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.trackThicknessModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.trackThicknessModifier);
+        addCalcVar(this.trackThicknessModifier);
 
         //===============================================================================================//
         //================================== BOARD THICKNESS (input) ====================================//
@@ -500,7 +500,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
                         "Board thickness is above the maximum value (2.36mm) extracted from the board thickness modifier graph in IPC-2152." +
                                 " Results might not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.boardThickness);
+        addCalcVar(this.boardThickness);
 
         //===============================================================================================//
         //=================================== BOARD THICKNESS MODIFIER (output) =========================//
@@ -532,7 +532,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.boardThicknessModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.boardThicknessModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.boardThicknessModifier);
+        addCalcVar(this.boardThicknessModifier);
 
 
         //===============================================================================================//
@@ -549,7 +549,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
                 () -> CalcVarDirections.Input,
                 "Set this to \"True\" if there is a copper plane either above or below the current-carrying track, and then enter the distance to it in the \"Plane Proximity\" field. If there is no plane, set this to \"False\", and the \"Plane Proximity\" variable will also disappear.");
 
-        this.calcVars.add(this.isPlanePresent);
+        addCalcVar(this.isPlanePresent);
 
         //===============================================================================================//
         //================================== PLANE PROXIMITY (input) ====================================//
@@ -591,7 +591,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
                         },
                         "Plane proximity cannot be larger than total board thickness (this just does not make sense!)."));
 
-        this.calcVars.add(this.planeProximity);
+        addCalcVar(this.planeProximity);
 
         //===============================================================================================//
         //=================================== PLANE PROXIMITY MODIFIER (output) =========================//
@@ -632,7 +632,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.planeProximityModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.planeProximityModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.planeProximityModifier);
+        addCalcVar(this.planeProximityModifier);
 
         //===============================================================================================//
         //================================= THERMAL CONDUCTIVITY (input) ================================//
@@ -666,7 +666,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
                         "Thermal conductivity is above the maximum value (340mW/m*c) extracted from the thermal conductivity modififer graph in IPC-2152." +
                                 " Results might not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.thermalConductivity);
+        addCalcVar(this.thermalConductivity);
 
         //===============================================================================================//
         //================================ THERMAL CONDUCTIVITY MODIFIER (output) =======================//
@@ -699,7 +699,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.thermalConductivityModifier.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.thermalConductivityModifier.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.thermalConductivityModifier);
+        addCalcVar(this.thermalConductivityModifier);
 
         //===============================================================================================//
         //================================= ADJUSTED CROSS-SECTIONAL AREA (output) ======================//
@@ -738,7 +738,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         this.adjustedTrackCrossSectionalArea.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.adjustedTrackCrossSectionalArea.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.adjustedTrackCrossSectionalArea);
+        addCalcVar(this.adjustedTrackCrossSectionalArea);
 
 
         //===============================================================================================//
@@ -772,7 +772,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
                         "Oh oh, one of the input variables is too far away from the data obtained from the IPC-2152 graphs, and the equations have produced a negative track width. Try and make sure input variables are green (or if orange, not too far away from being green)."));
 
 
-        this.calcVars.add(this.minTrackWidth);
+        addCalcVar(this.minTrackWidth);
 
         //===============================================================================================//
         //=========================================== VIEW CONFIG =======================================//

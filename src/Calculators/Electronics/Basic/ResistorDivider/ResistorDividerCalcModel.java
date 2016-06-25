@@ -191,7 +191,7 @@ public class ResistorDividerCalcModel extends Calculator {
                         },
                         "Vin must be greater than Vout. It is impossible for Vin to be less than Vout because a resistor divider can only reduce the input voltage."));
 
-        this.calcVars.add(this.vIn);
+        addCalcVar(this.vIn);
 
         //===============================================================================================//
         //=============================================== rTop ==========================================//
@@ -252,7 +252,7 @@ public class ResistorDividerCalcModel extends Calculator {
         this.rTop.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.rTop.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.rTop);
+        addCalcVar(this.rTop);
 
         //===============================================================================================//
         //=============================================== rBot ==========================================//
@@ -314,7 +314,7 @@ public class ResistorDividerCalcModel extends Calculator {
         this.rBot.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.rBot.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.rBot);
+        addCalcVar(this.rBot);
 
         //===============================================================================================//
         //================================================= vOut =========================================//
@@ -380,7 +380,7 @@ public class ResistorDividerCalcModel extends Calculator {
                         },
                         "Vout must be less than Vin. It is impossible for Vout to be greater than Vin because a resistor divider can only reduce the input voltage."));
 
-        this.calcVars.add(this.vOut);
+        addCalcVar(this.vOut);
 
         //===============================================================================================//
         //====================================== iQ (Quiescent Current) =================================//
@@ -430,7 +430,7 @@ public class ResistorDividerCalcModel extends Calculator {
         this.iQ.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.iQ.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.iQ);
+        addCalcVar(this.iQ);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

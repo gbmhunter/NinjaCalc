@@ -196,7 +196,7 @@ public class StandardResistanceFinderCalcModel extends Calculator {
                 },
                         "The desired resistance is outside the \"normal\" purchasable resistance range of 1Ω to 10MΩ. Some or all of the standard E-series may not have a resistor available with the desired resistance."));
 
-        this.calcVars.add(this.desiredResistance);
+        addCalcVar(this.desiredResistance);
 
 
         //===============================================================================================//
@@ -214,7 +214,7 @@ public class StandardResistanceFinderCalcModel extends Calculator {
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 2);
 
@@ -224,7 +224,7 @@ public class StandardResistanceFinderCalcModel extends Calculator {
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 2);
 
@@ -234,7 +234,7 @@ public class StandardResistanceFinderCalcModel extends Calculator {
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 2);
 
@@ -244,7 +244,7 @@ public class StandardResistanceFinderCalcModel extends Calculator {
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 3);
 
@@ -254,7 +254,7 @@ public class StandardResistanceFinderCalcModel extends Calculator {
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 3);
 
@@ -264,7 +264,7 @@ public class StandardResistanceFinderCalcModel extends Calculator {
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 3);
 

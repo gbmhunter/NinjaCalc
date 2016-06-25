@@ -242,7 +242,7 @@ public class NtcThermistorCalcModel extends Calculator {
         this.beta.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.beta.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.beta);
+        addCalcVar(this.beta);
 
         //===============================================================================================//
         //==================================== REFERENCE RESISTANCE (I/O) ===============================//
@@ -302,7 +302,7 @@ public class NtcThermistorCalcModel extends Calculator {
         this.referenceResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.referenceResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.referenceResistance);
+        addCalcVar(this.referenceResistance);
 
         //===============================================================================================//
         //==================================== REFERENCE TEMPERATURE (I/O) ==============================//
@@ -363,7 +363,7 @@ public class NtcThermistorCalcModel extends Calculator {
         this.referenceTemperature.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         //this.referenceTemperature.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.referenceTemperature);
+        addCalcVar(this.referenceTemperature);
 
         //===============================================================================================//
         //==================================== THERMISTOR RESISTANCE (I/O) ==============================//
@@ -423,7 +423,7 @@ public class NtcThermistorCalcModel extends Calculator {
         this.thermistorResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.thermistorResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.thermistorResistance);
+        addCalcVar(this.thermistorResistance);
 
         //===============================================================================================//
         //==================================== THERMISTOR TEMPERATURE (I/O) =============================//
@@ -483,7 +483,7 @@ public class NtcThermistorCalcModel extends Calculator {
         this.thermistorTemperature.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         //this.referenceTemperature.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.thermistorTemperature);
+        addCalcVar(this.thermistorTemperature);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

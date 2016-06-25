@@ -144,7 +144,7 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
                 },
                         "Current is above recommended maximum (35A). Equation will not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.trackCurrent);
+        addCalcVar(this.trackCurrent);
 
         //===============================================================================================//
         //====================================== TEMP RISE (input) ======================================//
@@ -186,7 +186,7 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
                 },
                         "Temperature rise is above the recommended maximum (100°c). Equation will not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.tempRise);
+        addCalcVar(this.tempRise);
 
         //===============================================================================================//
         //====================================== TRACK THICKNESS (input) ================================//
@@ -233,7 +233,7 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
                 },
                         "Track thickness is above the recommended maximum (105um or 3oz). Equation will not be as accurate (extrapolation will occur)."));
 
-        this.calcVars.add(this.trackThickness);
+        addCalcVar(this.trackThickness);
 
         //===============================================================================================//
         //======================================== TRACK LAYER (input) ==================================//
@@ -249,7 +249,7 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
                 () -> CalcVarDirections.Input,
                 "The type of layer that the current-carrying track is on. If the track is on the top or bottom copper layer of the PCB, set this to \"External\". If the track is on a buried layer, set this to \"Internal\".");
 
-        this.calcVars.add(this.trackLayer);
+        addCalcVar(this.trackLayer);
 
         //===============================================================================================//
         //=================================== MIN. TRACK WIDTH (output) =================================//
@@ -330,7 +330,7 @@ public class TrackCurrentIpc2221ACalcModel extends Calculator {
         this.minTrackWidth.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
         this.minTrackWidth.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        this.calcVars.add(this.minTrackWidth);
+        addCalcVar(this.minTrackWidth);
 
         //===============================================================================================//
         //=========================================== VIEW CONFIG =======================================//
