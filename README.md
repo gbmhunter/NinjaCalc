@@ -135,8 +135,30 @@ Utility/ - Contains helper Java classes which are not considered "core", but sti
 
 Unit tests are under the `src/test/` directory. They use the [TestFX library](https://github.com/TestFX/TestFX) to test the JavaFX UI for each calculator.
 
-Tests are run from within IntelliJ.
+Tests are easily run from within IntelliJ. To run all tests, right click on the `test` folder from within Intelli and click *Run 'All Tests'*.
 
+Tests involving JavaFX can be easily written by making sure the test class in question extends `ApplicationTest`. The `ApplicationTest` class makes sure that JavaFX is initialised correctly before your tests are run. You also have to provide a `start(Stage stage)` method. Here is an example:
+
+````java
+import javafx.stage.Stage;
+import javafx.scene.control.TextField;
+import org.junit.Test;
+import org.testfx.framework.junit.ApplicationTest;
+
+public class ExampleJavaFxTests extends ApplicationTest {
+    
+    @Override
+    public void start(Stage stage) {
+    }
+
+    @Test
+    public void basicFirstTest() {
+        // You can create JavaFX object here and they will work correctly
+        // (no initialisation exceptions will be thrown)
+        TextField textField = new TextField();
+    }
+}
+````
 
 # Changelog
 
