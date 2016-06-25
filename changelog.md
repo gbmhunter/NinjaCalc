@@ -3,6 +3,7 @@ vX.X.X
 
 - Fixed issue with install4j dependency, closes #123.
 - Removed .idea/workspace.xml file from repo, closes #124.
+- Added a text-based calculator variable, closes #125.
 
 v1.2.1
 ------

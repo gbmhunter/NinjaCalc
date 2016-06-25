@@ -4,9 +4,8 @@ package Calculators.Software.Crc;
 // SYSTEM INCLUDES
 
 import Core.*;
-import Core.CalcVar.CalcVarText;
-import Core.CalcVar.CalcVarTextInput;
-import Core.CalcVar.CalcVarTextOutput;
+import Core.CalcVar.Text.CalcVarTextInput;
+import Core.CalcVar.Text.CalcVarTextOutput;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -92,6 +91,7 @@ public class CrcCalcModel extends Calculator {
 
         crcDataCalcVar.setName("crcDataCalcVar");
         crcDataCalcVar.setTextField(crcDataTextField);
+        calcVars.add(crcDataCalcVar);
 
         //===============================================================================================//
         //====================================== CRC VALUE (output) =====================================//
@@ -99,7 +99,11 @@ public class CrcCalcModel extends Calculator {
 
         crcResultCalcVar.setName("crcResultCalcVar");
         crcResultCalcVar.setTextField(crc16CcittValue);
-        //crcResultCalcVar.setEquationFunction();
+        crcResultCalcVar.setEquationFunction(() -> {
+            String crcDataString = crcDataCalcVar.getValue();
+            return crcDataString;
+        });
+        calcVars.add(crcResultCalcVar);
 
 //        this.voltage.setName("voltage");
 //        this.voltage.setTextField(this.voltageValueTextField);

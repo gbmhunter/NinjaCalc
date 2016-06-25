@@ -18,7 +18,6 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Encapsulates a single numerical variable in a NinjaCalc calculator (inherits from CalcVarBase).
@@ -379,7 +378,7 @@ public class CalcVarNumerical extends CalcVarBase {
      * @return      The raw value of the calculator variable.
      */
     public double getRawVal() {
-        this.onRawValueRead();
+        this.onValueRead();
 
         return this.rawVal;
     }
@@ -447,7 +446,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Invoke the provided equation function,
         // which should return the raw value for this calculator variable
-        this.rawVal = this.equationFunction.execute();
+        this.rawVal = (Double)this.equationFunction.execute();
 
         // Update the displayed value based on this newly calculated raw value
         this.updateDispValFromRawVal();

@@ -1,6 +1,6 @@
 package Core.CalcVar;
 
-import javafx.scene.Scene;
+import Core.CalcVar.Text.CalcVarText;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.junit.Test;

@@ -28,21 +28,21 @@ public abstract class CalcVarBase implements Serializable {
     //================== rawValueRead EVENT ==================//
 
     /**
-     * Keeps track of all registered listeners to the raw value being read.
+     * Keeps track of all registered listeners to the calculator variable's value being read.
      */
-    private List<ICalcVarBaseCallback> rawValueReadListeners = new ArrayList<ICalcVarBaseCallback>();
+    protected List<ICalcVarBaseCallback> valueReadListeners = new ArrayList<ICalcVarBaseCallback>();
 
     /**
      * Use this to subscribe to the calculator's raw value changing.
      * @param toAdd     The listener to add.
      */
-    public void addRawValueReadListener(ICalcVarBaseCallback toAdd) {
-        rawValueReadListeners.add(toAdd);
+    public void addValueReadListener(ICalcVarBaseCallback toAdd) {
+        valueReadListeners.add(toAdd);
     }
 
-    protected void onRawValueRead() {
+    protected void onValueRead() {
         // Notify everybody that may be interested.
-        for (ICalcVarBaseCallback listener : rawValueReadListeners)
+        for (ICalcVarBaseCallback listener : valueReadListeners)
             listener.execute(this);
     }
 
@@ -186,16 +186,24 @@ public abstract class CalcVarBase implements Serializable {
     //======================================= GENERAL METHODS =======================================//
     //===============================================================================================//
 
-
-
-
+    /**
+     * Forces all calculator variables which are dependent on this one (and also currently outputs)
+     * to re-calculate their value (which will also cause their displayed values on the UI to
+     * update).
+     */
     public void forceDependantOutputsToRecalculate() {
-        //System.out.println("forceDependantOutputsToRecalculate() called.");
+        //System.out.println(getClass().getName() + ".forceDependantOutputsToRecalculate() called.");
         // We need to re-calculate any this calculator variables dependants, if they are outputs
-        for (int i = 0; i < this.dependants.size(); i++) {
-            if (this.dependants.get(i).direction == CalcVarDirections.Output) {
+//        for (int i = 0; i < this.dependants.size(); i++) {
+//            if (this.dependants.get(i).direction == CalcVarDirections.Output) {
+//                //System.out.println("Calling calculate() on variable \"" + this.dependants.get(i).name + "\".");
+//                this.dependants.get(i).calculate();
+//            }
+//        }
+        for (CalcVarBase dependent : this.dependants) {
+            if (dependent.direction == CalcVarDirections.Output) {
                 //System.out.println("Calling calculate() on variable \"" + this.dependants.get(i).name + "\".");
-                this.dependants.get(i).calculate();
+                dependent.calculate();
             }
         }
     }

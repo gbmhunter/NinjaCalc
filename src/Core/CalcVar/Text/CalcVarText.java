@@ -1,7 +1,9 @@
 
-package Core.CalcVar;
+package Core.CalcVar.Text;
 
 import Core.*;
+import Core.CalcVar.CalcVarBase;
+import Core.CalcVar.CalcVarDirections;
 import Utility.MetricPrefixes.MetricPrefixes;
 import Utility.MetricPrefixes.RoundingMethods;
 import Utility.Rounding;
@@ -78,7 +80,11 @@ public class CalcVarText extends CalcVarBase {
      * is currently equal to.
      */
     private String value;
-    public String getValue() { return value; };
+    public String getValue() {
+        // Notify any listeners that the value of this calculator variable is being read.
+        onValueRead();
+        return value;
+    };
     public void setValue(String value) { this.value = value; };
 
 
@@ -114,19 +120,20 @@ public class CalcVarText extends CalcVarBase {
      * @warning     This should only be called for output variables.
      */
     public void calculate() {
+
+        System.out.println("CalcVarText.calculate() called for \"" + this.getName() + "\".");
+
         // Make sure this event only fires when this calculator variable is an output!
         if(this.getDirection() != CalcVarDirections.Output){
             throw new RuntimeException("calculate() was called for calculator variable " + this.getName() + " which is NOT an output.");
         }
 
-        //System.out.println("CalcVar.calculate() called for \"" + this.name + "\".");
-
         // Invoke the provided equation function,
-        // which should return the raw value for this calculator variable
-        //this.rawVal = this.equationFunction.execute();
+        // which should return a String for this calculator variable
+        value = (String)this.equationFunction.execute();
 
-        // Update the displayed value based on this newly calculated raw value
-        //this.updateDispValFromRawVal();
+        // Update the value in the UI
+        textField.setText(value);
 
         // Validate this new value
         this.validate();
@@ -144,7 +151,11 @@ public class CalcVarText extends CalcVarBase {
         System.out.println("CalcVarText.textFieldChanged() called.");
 
         // Need to update the calculator variables "value"
-        setValue(newValue);
+        value = newValue;
+
+        // Now we need to update any other calculator variables who are dependent
+        // on this calculator variable's value
+        forceDependantOutputsToRecalculate();
     }
 
 

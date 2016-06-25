@@ -26,7 +26,7 @@ public class CalcVarComboBox extends CalcVarBase {
     /// </summary>
     public String getRawVal() {
 
-        this.onRawValueRead();
+        this.onValueRead();
         return this.rawVal;
     }
 

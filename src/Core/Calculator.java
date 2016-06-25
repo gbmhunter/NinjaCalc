@@ -112,17 +112,11 @@ public abstract class Calculator implements Serializable {
 
         ArrayList<CalcVarBase> dependencyList = new ArrayList<CalcVarBase>();
 
-        /*EventHandler eventHandler = (object sender, EventArgs e) => {
-            CalcVarBase calcVar = (CalcVarBase)sender;
-            //Console.WriteLine("CalcVar \"" + calcVar.name + "\" was read.");
-            dependencyList.Add(calcVar);
-        };*/
-
         // Attach event handlers onto the read-of-value for each calculator variable,
         // and also disable updating of the textboxes when we call calculate().
         for (CalcVarBase calcVar : this.calcVars) {
-            //calcVar.RawValueRead += eventHandler;
-            calcVar.addRawValueReadListener((calcVarBase) -> {
+
+            calcVar.addValueReadListener((calcVarBase) -> {
                 //System.out.println("CalcVar \"" + calcVar.name + "\" was read.");
                 dependencyList.add(calcVar);
             });
@@ -136,8 +130,8 @@ public abstract class Calculator implements Serializable {
 
             if (calcVar.equationFunction != null) {
                 // Invoke the equation, this will fire ReadRawValue events
-                // for all variables it needs, and add to the dependancy list
-                // DO NOT call pair.Value.calculate() directly!
+                // for all variables it needs, and add to the dependency list
+                // DO NOT call calculate() directly!
                 calcVar.equationFunction.execute();
 
                 // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
