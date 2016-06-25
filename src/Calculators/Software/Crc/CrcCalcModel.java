@@ -115,6 +115,7 @@ public class CrcCalcModel extends Calculator {
         calcVarRadioButtonGroup.setName("calcVarRadioButtonGroup");
         calcVarRadioButtonGroup.addRadioButton(asciiUnicode);
         calcVarRadioButtonGroup.addRadioButton(hex);
+        calcVarRadioButtonGroup.setValue(asciiUnicode);
         addCalcVar(calcVarRadioButtonGroup);
 
         //===============================================================================================//

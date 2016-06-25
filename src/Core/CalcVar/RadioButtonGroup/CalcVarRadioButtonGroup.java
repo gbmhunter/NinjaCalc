@@ -67,7 +67,11 @@ public class CalcVarRadioButtonGroup extends CalcVarBase {
         onValueRead();
         return value;
     };
-    public void setValue(Toggle value) { this.value = value; }
+    public void setValue(Toggle value) {
+        this.value = value;
+        // Also update the UI
+        toggleGroup.selectToggle(value);
+    }
 
     /**
      * A private JavaFX variable to monitor when the selection changes
@@ -98,5 +102,6 @@ public class CalcVarRadioButtonGroup extends CalcVarBase {
 
         radioButton.setToggleGroup(toggleGroup);
     }
+
 
 }
