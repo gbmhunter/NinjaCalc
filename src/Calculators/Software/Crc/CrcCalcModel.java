@@ -23,7 +23,7 @@ import java.util.List;
 // USER INCLUDES
 
 /**
- * CRC calculator.
+ * CRC calculator. Calculates CRC values for input data using a range of popular CRC algorithms.
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @last-modified   2016-06-25
@@ -35,21 +35,19 @@ public class CrcCalcModel extends Calculator {
     //========================================= FXML Bindings =======================================//
     //===============================================================================================//
 
-
-
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private TextField crcDataTextField;
 
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private RadioButton asciiUnicode;
 
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private RadioButton hex;
 
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private TextField crc16CcittValue;
 
-    @FXML
+    @FXML @SuppressWarnings("unused")
     private WebView infoWebView;
 
     //===============================================================================================//
