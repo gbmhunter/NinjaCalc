@@ -14,10 +14,11 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 
 /**
- * Represents a row in the standard resistance finder table.
+ * Dedicated class to represent a row in the standard resistance finder table.
+ * Used by the StandardResistanceFinderCalcModel class.
  *
  * @author              gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
- * @last-modified       2016-05-14
+ * @last-modified       2016-06-25
  * @since               2016-05-14
  */
 public class ESeriesResistanceRow {
@@ -25,7 +26,7 @@ public class ESeriesResistanceRow {
     String name;
     StandardResistanceFinder.eSeriesOptions eSeries;
 
-    CalcVarNumericalOutput closestResistance;
+    CalcVarNumericalOutput closestResistanceCalcVar;
     CalcVarNumericalOutput closestResistanceErrorCalcVar;
 
     CalcVarNumericalOutput closestEqualOrLowerResistanceCalcVar;
@@ -33,8 +34,6 @@ public class ESeriesResistanceRow {
 
     CalcVarNumericalOutput closestEqualOrHigherResistanceCalcVar;
     CalcVarNumericalOutput closestEqualOrHigherResistanceErrorCalcVar;
-
-    CalcVarNumericalOutput closestEqualOrHigherResistance;
 
     ESeriesResistanceRow(
             String name,
@@ -64,10 +63,10 @@ public class ESeriesResistanceRow {
         variableGridPane.add(closestResistanceTextField, currColumnCount++, rowToAddTo);
 
         // Calculator variable
-        closestResistance = new CalcVarNumericalOutput();
-        closestResistance.setName("closestResistance");
-        closestResistance.setValueTextField(closestResistanceTextField);
-        closestResistance.setEquationFunction(() -> {
+        closestResistanceCalcVar = new CalcVarNumericalOutput();
+        closestResistanceCalcVar.setName("closestResistanceCalcVar");
+        closestResistanceCalcVar.setValueTextField(closestResistanceTextField);
+        closestResistanceCalcVar.setEquationFunction(() -> {
             // Read in variables
             Double desiredResistanceValue = desiredResistance.getRawVal();
 
@@ -79,18 +78,18 @@ public class ESeriesResistanceRow {
 
             return actualResistance;
         });
-        closestResistance.setUnits(new NumberUnitMultiplier[]{
+        closestResistanceCalcVar.setUnits(new NumberUnitMultiplier[]{
                 new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
         });
-        closestResistance.setRounding(roundingType, numberToRoundTo);
-        closestResistance.setHelpText("The closest resistance in the " + name + " series to your desired resistance.");
-        closestResistance.setIsEngineeringNotationEnabled(true);
+        closestResistanceCalcVar.setRounding(roundingType, numberToRoundTo);
+        closestResistanceCalcVar.setHelpText("The closest resistance in the " + name + " series to your desired resistance.");
+        closestResistanceCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        closestResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
 
-        calcVars.add(closestResistance);
+        calcVars.add(closestResistanceCalcVar);
 
         // Ohm symbol
         variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
@@ -109,7 +108,7 @@ public class ESeriesResistanceRow {
         closestResistanceErrorCalcVar.setEquationFunction(() -> {
             // Read in variables
             Double desiredResistanceValue = desiredResistance.getRawVal();
-            Double closestStandardResistanceValue = closestResistance.getRawVal();
+            Double closestStandardResistanceValue = closestResistanceCalcVar.getRawVal();
 
             if (Double.isNaN(desiredResistanceValue)) {
                 return Double.NaN;
@@ -295,9 +294,7 @@ public class ESeriesResistanceRow {
 
         // Percentage symbol
         variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);
-        
-        
-    }
 
+    }
 
 }

@@ -75,8 +75,6 @@ public class CalcVarText extends CalcVarBase {
         // Initialise empty validation results list
         this.validationResults = new ArrayList<>();
 
-
-
     }
 
     //===============================================================================================//
@@ -138,7 +136,7 @@ public class CalcVarText extends CalcVarBase {
      * Listener that will get called when the text field changes.
      * @param newValue
      */
-    public void textFieldChanged(String newValue) {
+    protected void textFieldChanged(String newValue) {
         System.out.println("CalcVarText.textFieldChanged() called.");
     }
 

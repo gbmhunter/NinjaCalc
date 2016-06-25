@@ -32,8 +32,25 @@ public class CalcVarTextTest extends ApplicationTest {
 
     @Test
     public void canAttachTextFieldTest() {
+
+        class CalcVarTextMod extends CalcVarText {
+
+
+        }
+
         CalcVarText calcVarText = new CalcVarText();
-        calcVarText.setTextField(new TextField());
+
+        // Create a new TextField (JavaFX UI object)
+        TextField textField = new TextField();
+
+        // Attach the TextField to the calculator variable
+        calcVarText.setTextField(textField);
+
+        textField.setText("Testing");
+
+        // Check to make sure event handler got called
+
+
         assert(true);
     }
 
