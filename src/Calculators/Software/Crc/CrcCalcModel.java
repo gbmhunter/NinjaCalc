@@ -143,12 +143,30 @@ public class CrcCalcModel extends Calculator {
                 }
             } else if(inputDataType == hex) {
 
+                // Note: i gets incremented each time by 2
+                for (int i = 0; i < crcDataString.length(); i += 2) {
+
+                    String hexByte;
+                    // Special case if string length is odd, for the last value we
+                    // have to extract just one character
+                    if(crcDataString.length() - i == 1) {
+                        hexByte = crcDataString.substring(i, i + 1);
+                    } else {
+                        // Extract 2-character strings from the CRC data
+                        hexByte = crcDataString.substring(i, i + 2);
+                    }
+
+                    Integer integerValueOfHex = Integer.parseInt(hexByte, 16);
+
+                    buffer.add(integerValueOfHex);
+                }
+
             }
 
             Integer crcResult = Crc16XModem.CalcFast(buffer);
 
             // Convert to hex for display
-            String crcResultAsHex = "0x" + Integer.toHexString(crcResult);
+            String crcResultAsHex = "0x" + String.format("%04X", crcResult);
 
             return crcResultAsHex;
         });
