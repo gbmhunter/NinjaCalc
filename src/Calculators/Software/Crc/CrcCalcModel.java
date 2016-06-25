@@ -6,6 +6,7 @@ package Calculators.Software.Crc;
 import Core.*;
 import Core.CalcVar.CalcVarDirections;
 import Core.CalcVar.Text.CalcVarText;
+import Utility.Crc.Crc16XModem;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -14,6 +15,8 @@ import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 // USER INCLUDES
 
@@ -103,7 +106,24 @@ public class CrcCalcModel extends Calculator {
         crcResultCalcVar.setDirectionFunction(() -> { return CalcVarDirections.Output; });
         crcResultCalcVar.setEquationFunction(() -> {
             String crcDataString = crcDataCalcVar.getValue();
-            return crcDataString;
+
+            // Convert this string into a list of integers
+            List<Integer> buffer = new ArrayList<>();
+            for(int i = 0; i < crcDataString.length(); i++) {
+                char currentChar = crcDataString.charAt(i);
+
+                // Convert the character into it's equivalent Unicode integer
+                // Note: Since Unicode is a complete superset of ASCII, this will
+                // work for ASCII characters to
+                buffer.add((int)currentChar);
+            }
+
+            Integer crcResult = Crc16XModem.CalcFast(buffer);
+
+            // Convert to hex for display
+            String crcResultAsHex = "0x" + Integer.toHexString(crcResult);
+
+            return crcResultAsHex;
         });
         calcVars.add(crcResultCalcVar);
 

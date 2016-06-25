@@ -675,23 +675,19 @@ public class CalcVarNumerical extends CalcVarBase {
     }
 
 
-
     /**
      * This method makes the text fields of output variables slightly transparent to indicate
-     * to the user that they are readonly.
+     * to the user that they are readonly. This is done via CSS targeting the editable property.
      */
     public void updateUIFromDirection() {
 
         // We don't disable the text field as this disables the tooltip also.
-
         switch(this.direction) {
             case Input:
-                //this.valueTextField.setDisable(false);
-                this.valueTextField.setEditable(true);
+                valueTextField.setEditable(true);
                 break;
             case Output:
-                //this.valueTextField.setDisable(true);
-                this.valueTextField.setEditable(false);
+                valueTextField.setEditable(false);
                 break;
         }
     }

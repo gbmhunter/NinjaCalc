@@ -42,7 +42,7 @@
             </HBox>
 
             <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
-            <GridPane>
+            <GridPane alignment="CENTER">
                 <padding><Insets top="20" bottom="20" left="20" right="20" /></padding>
                 <Label GridPane.rowIndex="0" GridPane.columnIndex="0">CRC Name</Label>
                 <Label GridPane.rowIndex="0" GridPane.columnIndex="1">CRC Value</Label>
