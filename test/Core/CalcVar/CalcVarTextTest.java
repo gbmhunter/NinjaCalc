@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Unit tests for the CalcVarTest class.
  *
@@ -31,12 +33,7 @@ public class CalcVarTextTest extends ApplicationTest {
     }
 
     @Test
-    public void canAttachTextFieldTest() {
-
-        class CalcVarTextMod extends CalcVarText {
-
-
-        }
+    public void textFieldUpdatesCalculatorVariableValueTest() {
 
         CalcVarText calcVarText = new CalcVarText();
 
@@ -48,10 +45,10 @@ public class CalcVarTextTest extends ApplicationTest {
 
         textField.setText("Testing");
 
-        // Check to make sure event handler got called
+        // Make sure the "value" of the calculator variable got updated to be the
+        // same text as the TextField
+        assertEquals("Testing", calcVarText.getValue());
 
-
-        assert(true);
     }
 
 }

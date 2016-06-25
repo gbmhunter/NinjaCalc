@@ -48,7 +48,7 @@
                 <Label GridPane.rowIndex="0" GridPane.columnIndex="1">CRC Value</Label>
 
                 <Label GridPane.rowIndex="1" GridPane.columnIndex="0">CRC-16-CCITT</Label>
-                <Label GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="crc16CcittValue"></Label>
+                <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="crc16CcittValue"></TextField>
             </GridPane>
         </VBox>
     </ScrollPane>

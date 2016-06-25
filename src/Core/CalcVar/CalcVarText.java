@@ -49,15 +49,7 @@ public class CalcVarText extends CalcVarBase {
     private static final double TOOLTIP_OPEN_TIME_MS = 100.0;
 
 
-    /**
-     * The "value" for this calculator variable. This is essentially the text string that this calculator variable
-     * is currently equal to.
-     */
-    private String value;
 
-    public String helpText;
-    public String getHelpText() { return helpText; }
-    public void setHelpText(String helpText) { this.helpText = helpText; }
 
 
     //===============================================================================================//
@@ -81,6 +73,15 @@ public class CalcVarText extends CalcVarBase {
     //======================================== GETTERS/SETTERS ======================================//
     //===============================================================================================//
 
+    /**
+     * The "value" for this calculator variable. This is essentially the text string that this calculator variable
+     * is currently equal to.
+     */
+    private String value;
+    public String getValue() { return value; };
+    public void setValue(String value) { this.value = value; };
+
+
     private TextField textField;
     public TextField getTextField() { return this.textField; }
     public void setTextField(TextField textField) {
@@ -99,6 +100,9 @@ public class CalcVarText extends CalcVarBase {
 
     }
 
+    private String helpText;
+    public String getHelpText() { return helpText; }
+    public void setHelpText(String helpText) { this.helpText = helpText; }
 
     //===============================================================================================//
     //======================================== GENERAL METHODS ======================================//
@@ -138,6 +142,9 @@ public class CalcVarText extends CalcVarBase {
      */
     protected void textFieldChanged(String newValue) {
         System.out.println("CalcVarText.textFieldChanged() called.");
+
+        // Need to update the calculator variables "value"
+        setValue(newValue);
     }
 
 

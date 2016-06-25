@@ -4,18 +4,16 @@ package Calculators.Software.Crc;
 // SYSTEM INCLUDES
 
 import Core.*;
-import Core.CalcVar.CalcVarDirections;
-import Core.CalcVar.CalcVarNumerical;
-import javafx.beans.value.ObservableValue;
+import Core.CalcVar.CalcVarText;
+import Core.CalcVar.CalcVarTextInput;
+import Core.CalcVar.CalcVarTextOutput;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 
 // USER INCLUDES
@@ -24,7 +22,7 @@ import java.net.URL;
  * CRC calculator.
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
- * @last-modified   2016-06-15
+ * @last-modified   2016-06-25
  * @since           2016-06-15
  */
 public class CrcCalcModel extends Calculator {
@@ -37,8 +35,7 @@ public class CrcCalcModel extends Calculator {
     private TextField crcDataTextField;
 
     @FXML
-    private Label crc16CcittValue;
-
+    private TextField crc16CcittValue;
 
     @FXML
     private WebView infoWebView;
@@ -47,9 +44,8 @@ public class CrcCalcModel extends Calculator {
     //====================================== CALCULATOR VARIABLES ===================================//
     //===============================================================================================//
 
-    public CalcVarNumerical crcData = new CalcVarNumerical();
-    public CalcVarNumerical current = new CalcVarNumerical();
-    public CalcVarNumerical resistance = new CalcVarNumerical();
+    public CalcVarTextInput crcDataCalcVar = new CalcVarTextInput();
+    public CalcVarTextOutput crcResultCalcVar = new CalcVarTextOutput();
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -90,12 +86,20 @@ public class CrcCalcModel extends Calculator {
         URL url = getClass().getResource(htmlFile);
         engine.load(url.toExternalForm());
 
+        //===============================================================================================//
+        //====================================== CRC DATA (input) =======================================//
+        //===============================================================================================//
 
-
+        crcDataCalcVar.setName("crcDataCalcVar");
+        crcDataCalcVar.setTextField(crcDataTextField);
 
         //===============================================================================================//
-        //========================================= VOLTAGE (i/o) =======================================//
+        //====================================== CRC VALUE (output) =====================================//
         //===============================================================================================//
+
+        crcResultCalcVar.setName("crcResultCalcVar");
+        crcResultCalcVar.setTextField(crc16CcittValue);
+        //crcResultCalcVar.setEquationFunction();
 
 //        this.voltage.setName("voltage");
 //        this.voltage.setTextField(this.voltageValueTextField);

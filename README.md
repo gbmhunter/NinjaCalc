@@ -52,6 +52,8 @@ Note: Installing a newer version of NinjaCalc should automatically overwrite the
 4. In IntelliJ, open the project settings, and point the projects JDK to installed version on your computer.
 5. Develop!
 
+[Scene Builder](http://gluonhq.com/labs/scene-builder/) can be great tool to install alongside IntelliJ for faster development of the JavaFX UI.
+
 
 # Making Your Own Calculators
 
