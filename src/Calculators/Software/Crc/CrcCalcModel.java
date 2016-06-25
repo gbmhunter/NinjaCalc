@@ -98,7 +98,7 @@ public class CrcCalcModel extends Calculator {
         //===============================================================================================//
 
 //        this.voltage.setName("voltage");
-//        this.voltage.setValueTextField(this.voltageValueTextField);
+//        this.voltage.setTextField(this.voltageValueTextField);
 //        this.voltage.setEquationFunction((IEquationFunction & Serializable)() -> {
 //            // Read dependency variables
 //            Double current = this.current.getRawVal();

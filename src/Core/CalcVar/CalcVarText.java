@@ -79,6 +79,32 @@ public class CalcVarText extends CalcVarBase {
 
     }
 
+    //===============================================================================================//
+    //======================================== GETTERS/SETTERS ======================================//
+    //===============================================================================================//
+
+    private TextField textField;
+    public TextField getTextField() { return this.textField; }
+    public void setTextField(TextField textField) {
+
+        // Make sure the provided text field is not null
+        if(textField == null)
+            throw new IllegalArgumentException("Provided TextField for calculator variable \"" + this.getName() + "\" value was null. Is the @FXML binding name the same as the fx:id?");
+
+        // Save reference to text field
+        this.textField = textField;
+
+        // Attach listener to the text field
+        this.textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            this.textFieldChanged(newValue);
+        });
+
+    }
+
+
+    //===============================================================================================//
+    //======================================== GENERAL METHODS ======================================//
+    //===============================================================================================//
 
     /**
      * Calculates the raw value from the provided equation, calculates the displayed value from the raw value,
@@ -106,6 +132,14 @@ public class CalcVarText extends CalcVarBase {
         // Force all calculator variables which are dependent on this one to recalculate.
         this.forceDependantOutputsToRecalculate();
         this.forceVariablesWithDependantValidatorsToRevalidate();
+    }
+
+    /**
+     * Listener that will get called when the text field changes.
+     * @param newValue
+     */
+    public void textFieldChanged(String newValue) {
+        System.out.println("CalcVarText.textFieldChanged() called.");
     }
 
 
