@@ -778,7 +778,7 @@ public class TrackCurrentIpc2152CalcModel extends Calculator {
         //=========================================== VIEW CONFIG =======================================//
         //===============================================================================================//
 
-        this.isPlanePresent.addRawValueChangedListener((calcVarBase) -> {
+        this.isPlanePresent.addValueChangedListener((calcVarBase) -> {
             System.out.println("isPlanePresent calculator variable changed.");
 
             if (this.isPlanePresent.getRawVal() == "True") {

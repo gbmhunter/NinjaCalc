@@ -46,20 +46,21 @@ public abstract class CalcVarBase implements Serializable {
             listener.execute(this);
     }
 
-    //================== rawValueChanged EVENT ==================//
+    //================== valueChanged EVENT ==================//
 
-    private List<ICalcVarBaseCallback> rawValueChangedListeners = new ArrayList<ICalcVarBaseCallback>();
+    private List<ICalcVarBaseCallback> valueChangedListeners = new ArrayList<ICalcVarBaseCallback>();
 
-    public void addRawValueChangedListener(ICalcVarBaseCallback toAdd) {
-        rawValueChangedListeners.add(toAdd);
+    public void addValueChangedListener(ICalcVarBaseCallback toAdd) {
+        valueChangedListeners.add(toAdd);
     }
 
-    protected void onRawValueChanged() {
-
+    /**
+     * Call when the calculator variable's has changed to notify all listeners.
+     */
+    protected void onValueChanged() {
         // Notify everybody that may be interested.
-        for (ICalcVarBaseCallback listener : rawValueChangedListeners)
+        for (ICalcVarBaseCallback listener : valueChangedListeners)
             listener.execute(this);
-
     }
 
     /**

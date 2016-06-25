@@ -4,6 +4,7 @@ package Calculators.Software.Crc;
 // SYSTEM INCLUDES
 
 import Core.*;
+import Core.CalcVar.CalcVarBase;
 import Core.CalcVar.CalcVarDirections;
 import Core.CalcVar.RadioButtonGroup.CalcVarRadioButtonGroup;
 import Core.CalcVar.Text.CalcVarText;
@@ -106,6 +107,10 @@ public class CrcCalcModel extends Calculator {
         crcDataCalcVar.setName("crcDataCalcVar");
         crcDataCalcVar.setTextField(crcDataTextField);
         crcDataCalcVar.setDirectionFunction(() -> { return CalcVarDirections.Input; });
+        crcDataCalcVar.addValueChangedListener((CalcVarBase calcVarBase) -> {
+            calculateAll();
+        });
+        crcDataCalcVar.setHelpText("Input the data you wish to calculate the CRC for here.");
         addCalcVar(crcDataCalcVar);
 
         //===============================================================================================//
@@ -116,6 +121,9 @@ public class CrcCalcModel extends Calculator {
         calcVarRadioButtonGroup.addRadioButton(asciiUnicode);
         calcVarRadioButtonGroup.addRadioButton(hex);
         calcVarRadioButtonGroup.setValue(asciiUnicode);
+        calcVarRadioButtonGroup.addValueChangedListener((CalcVarBase calcVarBase) -> {
+            calculateAll();
+        });
         addCalcVar(calcVarRadioButtonGroup);
 
         //===============================================================================================//
@@ -125,80 +133,8 @@ public class CrcCalcModel extends Calculator {
         crcResultCalcVar.setName("crcResultCalcVar");
         crcResultCalcVar.setTextField(crc16CcittValue);
         crcResultCalcVar.setDirectionFunction(() -> { return CalcVarDirections.Output; });
-        crcResultCalcVar.setEquationFunction(() -> {
-            String crcDataString = crcDataCalcVar.getValue();
-            Toggle inputDataType = calcVarRadioButtonGroup.getValue();
-
-            // Convert this string into a list of integers
-            List<Integer> buffer = new ArrayList<>();
-
-            if(inputDataType == asciiUnicode) {
-                for (int i = 0; i < crcDataString.length(); i++) {
-                    char currentChar = crcDataString.charAt(i);
-
-                    // Convert the character into it's equivalent Unicode integer
-                    // Note: Since Unicode is a complete superset of ASCII, this will
-                    // work for ASCII characters to
-                    buffer.add((int) currentChar);
-                }
-            } else if(inputDataType == hex) {
-
-                // Note: i gets incremented each time by 2
-                for (int i = 0; i < crcDataString.length(); i += 2) {
-
-                    String hexByte;
-                    // Special case if string length is odd, for the last value we
-                    // have to extract just one character
-                    if(crcDataString.length() - i == 1) {
-                        hexByte = crcDataString.substring(i, i + 1);
-                    } else {
-                        // Extract 2-character strings from the CRC data
-                        hexByte = crcDataString.substring(i, i + 2);
-                    }
-
-                    Integer integerValueOfHex = Integer.parseInt(hexByte, 16);
-
-                    buffer.add(integerValueOfHex);
-                }
-
-            }
-
-            Integer crcResult = Crc16XModem.CalcFast(buffer);
-
-            // Convert to hex for display
-            String crcResultAsHex = "0x" + String.format("%04X", crcResult);
-
-            return crcResultAsHex;
-        });
+        crcResultCalcVar.setHelpText("The CRC result using the CRC-16-CCITT algorithm.");
         addCalcVar(crcResultCalcVar);
-
-//        this.voltage.setName("voltage");
-//        this.voltage.setTextField(this.voltageValueTextField);
-//        this.voltage.setEquationFunction((IEquationFunction & Serializable)() -> {
-//            // Read dependency variables
-//            Double current = this.current.getRawVal();
-//            Double resistance = this.resistance.getRawVal();
-//            return current * resistance;
-//        });
-//        this.voltage.setUnits(new NumberUnitMultiplier[]{
-//                new NumberUnitMultiplier("V", 1e0, NumberPreference.DEFAULT),
-//        });
-//        this.voltage.setNumDigitsToRound(4);
-//        this.voltage.setDirectionFunction(() -> {
-//            if (voltageRadioButton.isSelected()) return CalcVarDirections.Output;
-//            else return CalcVarDirections.Input;
-//        });
-//        this.voltage.setDefaultRawValue(null);
-//        this.voltage.setHelpText("The voltage across the resistor.");
-//        this.voltage.setIsEngineeringNotationEnabled(true);
-//
-//        //====================== VALIDATORS ===================//
-//        this.voltage.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-//        this.voltage.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
-//
-//        addCalcVar(this.voltage);
-
-
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//
@@ -208,6 +144,77 @@ public class CrcCalcModel extends Calculator {
         this.refreshDirectionsAndUpdateUI();
         this.recalculateAllOutputs();
         this.validateAllVariables();
+
+    }
+
+    public void calculateAll() {
+
+        String crcDataString = crcDataCalcVar.getValue();
+        Toggle inputDataType = calcVarRadioButtonGroup.getValue();
+
+        // Convert this string into a list of integers
+        List<Integer> buffer = new ArrayList<>();
+
+        if(inputDataType == asciiUnicode) {
+            for (int i = 0; i < crcDataString.length(); i++) {
+                char currentChar = crcDataString.charAt(i);
+
+                // Convert the character into it's equivalent Unicode integer
+                // Note: Since Unicode is a complete superset of ASCII, this will
+                // work for ASCII characters to
+                buffer.add((int) currentChar);
+            }
+        } else if(inputDataType == hex) {
+
+            // Note: i gets incremented each time by 2
+            for (int i = 0; i < crcDataString.length(); i += 2) {
+
+                String hexByte;
+                // Special case if string length is odd, for the last value we
+                // have to extract just one character
+                if(crcDataString.length() - i == 1) {
+                    hexByte = crcDataString.substring(i, i + 1);
+                } else {
+                    // Extract 2-character strings from the CRC data
+                    hexByte = crcDataString.substring(i, i + 2);
+                }
+
+                try {
+                    Integer integerValueOfHex = Integer.parseInt(hexByte, 16);
+                    buffer.add(integerValueOfHex);
+
+                } catch(NumberFormatException e) {
+                    // We will get here if the input data is not valid hex, e.g. it has
+                    // characters after f in the input
+                    crcDataCalcVar.validationResults.add(
+                            new CalcValidationResult(
+                                    CalcValidationLevels.Error,
+                                    "Input data is not valid hex."));
+                    crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Error;
+                    crcDataCalcVar.updateUIBasedOnValidationResults();
+
+                    return;
+
+                }
+            }
+        }
+
+        Integer crcResult = Crc16XModem.CalcFast(buffer);
+
+        // Convert to hex for display
+        String crcResultAsHex = "0x" + String.format("%04X", crcResult);
+
+        crcResultCalcVar.setValue(crcResultAsHex);
+
+        // If we make it to here, everything was o.k.
+        crcDataCalcVar.validationResults.clear();
+        crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
+        crcDataCalcVar.updateUIBasedOnValidationResults();
+
+        crcResultCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
+        crcResultCalcVar.updateUIBasedOnValidationResults();
+
+        //return crcResultAsHex;
 
     }
 

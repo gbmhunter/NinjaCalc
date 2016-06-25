@@ -30,7 +30,7 @@ import java.util.ArrayList;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2016-06-22
- * @last-modified   2016-06-22
+ * @last-modified   2016-06-26
  */
 public class CalcVarText extends CalcVarBase {
 
@@ -50,14 +50,13 @@ public class CalcVarText extends CalcVarBase {
      */
     private static final double TOOLTIP_OPEN_TIME_MS = 100.0;
 
-
-
-
-
     //===============================================================================================//
     //========================================== CONSTRUCTORS =======================================//
     //===============================================================================================//
 
+    /**
+     * Basic constructor.
+     */
     public CalcVarText() {
         super();
 
@@ -89,7 +88,12 @@ public class CalcVarText extends CalcVarBase {
         onValueRead();
         return value;
     };
-    public void setValue(String value) { this.value = value; };
+    public void setValue(String value) {
+        this.value = value;
+        textField.setText(value);
+        // Notify any listeners
+        onValueChanged();
+    };
 
 
     private TextField textField;
@@ -132,6 +136,12 @@ public class CalcVarText extends CalcVarBase {
             throw new RuntimeException("calculate() was called for calculator variable " + this.getName() + " which is NOT an output.");
         }
 
+        // This check is for output calculator variables which don't use the equation function to define
+        // what there value is
+        if(this.equationFunction == null) {
+            return;
+        }
+
         // Invoke the provided equation function,
         // which should return a String for this calculator variable
         value = (String)this.equationFunction.execute();
@@ -157,6 +167,10 @@ public class CalcVarText extends CalcVarBase {
         // Need to update the calculator variables "value"
         value = newValue;
 
+        // Notify any attached listeners that the calculator variable's
+        // value has changed
+        onValueChanged();
+
         // Now we need to update any other calculator variables who are dependent
         // on this calculator variable's value
         forceDependantOutputsToRecalculate();
@@ -172,44 +186,59 @@ public class CalcVarText extends CalcVarBase {
         this.validators.add(validator);
     }
 
-    /**
-     * Call this to perform validation on this calculator variable. Will run all validators
-     * that have been added through calling addValidator(), and populate validationResults with the
-     * results. Also updates UI based on these results.
-     */
+    @Override
     public void validate() {
-        //System.out.println("validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
 
-        // Clear the old validation results
-//        this.validationResults.clear();
-//
-//        CalcValidationLevel worstValidationLevel = CalcValidationLevels.Ok;
-//
-//        // validate this value (if validators are provided)
-//        for(Validator validator : this.validators) {
-//            // Run the validation function
-//            CalcValidationLevel validationLevel = validator.ValidationFunction.execute(this.rawVal);
-//
-//            // Save this validation result
-//            this.validationResults.add(new CalcValidationResult(validationLevel, validator.Message));
-//
-//            // Logic for keeping track of the worst validation resut
-//            // (error worse than warning worse than ok)
-//            if (validationLevel == CalcValidationLevels.Warning && worstValidationLevel == CalcValidationLevels.Ok) {
-//                worstValidationLevel = CalcValidationLevels.Warning;
-//            }
-//            else if (validationLevel == CalcValidationLevels.Error) {
-//                worstValidationLevel = CalcValidationLevels.Error;
-//            }
-//        }
-//
-//        //System.out.println("Worst validation level was \"" + worstValidationLevel.name + "\".");
-//
-//        // Save this to the internal variable
-//        this.worstValidationLevel = worstValidationLevel;
-//
-//        // Finally, force an update of the UI based on these validation results
-//        this.updateUIBasedOnValidationResults();
+    }
+
+    /**
+     * Updates the tooltip text (adds help info plus validation results).
+     */
+    public void updateUIBasedOnValidationResults() {
+
+        //================= UPDATE COLOURS ON TEXT FIELD ================//
+
+        this.textField.getStyleClass().remove("ok");
+        this.textField.getStyleClass().remove("warning");
+        this.textField.getStyleClass().remove("error");
+        this.textField.getStyleClass().add(this.worstValidationLevel.name);
+
+        //================== CREATE TOOLTIP ==================//
+
+        // Build up string from all of the validators which are at the same validation
+        // level as the worse one
+        String validationMsg = "";
+        if (this.worstValidationLevel != CalcValidationLevels.Ok) {
+            for(CalcValidationResult validationResult : this.validationResults) {
+                // Check to see if this validation result was just as bad as the worse one
+                // (i.e. the same level of validation)
+                if (validationResult.CalcValidationLevel == this.worstValidationLevel) {
+                    validationMsg += validationResult.Message + " ";
+                }
+            }
+        }
+        else {
+            // Validation must of been o.k., so in this case we display a stock-standard message
+            validationMsg = "Value is o.k.";
+        }
+
+        // We need to use a TextBlock so we can do advanced formatting
+        Tooltip toolTip = new Tooltip();
+
+        // Tooltip content is help info plus validation results
+        toolTip.setText(this.helpText + "\r\n\r\n" + validationMsg);
+        toolTip.setWrapText(true);
+        //toolTip.Inlines.Add(new Italic(new Run(validationMsg)));
+
+        // Setting a max width prevents the tooltip from getting rediculuosly large when there is a long help info string.
+        // Keeping this quite small also makes the tooltip easier to read.
+        toolTip.setMaxWidth(300);
+        hackTooltipStartTiming(toolTip);
+        // Important to allow wrapping as we are restricting the max. width!
+        //toolTip.TextWrapping = System.Windows.TextWrapping.Wrap;
+
+        this.textField.setTooltip(toolTip);
+        //this.valueTextField.ToolTip = toolTip;
     }
 
     public static void hackTooltipStartTiming(Tooltip tooltip) {

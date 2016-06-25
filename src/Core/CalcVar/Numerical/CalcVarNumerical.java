@@ -147,7 +147,7 @@ public class CalcVarNumerical extends CalcVarBase {
         //====================== EVENT HANDLERS ====================//
 
         // Install event handlers
-        this.addRawValueChangedListener(calcVarBase -> {
+        this.addValueChangedListener(calcVarBase -> {
             // Update displayed value
             //this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
             //this.dispValAsString = String.valueOf(this.rawVal * this.selUnit.multiplier);
@@ -390,7 +390,7 @@ public class CalcVarNumerical extends CalcVarBase {
         if (this.rawVal != value) {
             this.rawVal = value;
             // Fire the RawValueChanged event handler
-            this.onRawValueChanged();
+            this.onValueChanged();
         }
     }
 

@@ -37,9 +37,9 @@ public class CalcVarComboBox extends CalcVarBase {
 
         // Only change if different
         if (this.rawVal != value) {
-            //System.out.println("New value is different to current value, so calling onRawValueChanged().");
+            //System.out.println("New value is different to current value, so calling onValueChanged().");
             this.rawVal = value;
-            this.onRawValueChanged();
+            this.onValueChanged();
 
             // Also, force all dependant outputs to recalculate
             this.forceDependantOutputsToRecalculate();

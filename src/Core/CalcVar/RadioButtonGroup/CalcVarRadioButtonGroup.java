@@ -51,6 +51,10 @@ public class CalcVarRadioButtonGroup extends CalcVarBase {
 
         // Update the value of this calculator variable
         value = newToggle;
+
+        // Notify any listeners
+        onValueChanged();
+
         // Now we need to update any other calculator variables who are dependent
         // on this calculator variable's value
         forceDependantOutputsToRecalculate();
