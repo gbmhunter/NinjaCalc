@@ -26,9 +26,9 @@ import java.util.List;
 /**
  * CRC calculator. Calculates CRC values for input data using a range of popular CRC algorithms.
  *
- * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
- * @last-modified   2016-06-25
- * @since           2016-06-15
+ * @author gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @last-modified 2016-06-25
+ * @since 2016-06-15
  */
 public class CrcCalcModel extends Calculator {
 
@@ -36,19 +36,24 @@ public class CrcCalcModel extends Calculator {
     //========================================= FXML Bindings =======================================//
     //===============================================================================================//
 
-    @FXML @SuppressWarnings("unused")
+    @FXML
+    @SuppressWarnings("unused")
     private TextField crcDataTextField;
 
-    @FXML @SuppressWarnings("unused")
+    @FXML
+    @SuppressWarnings("unused")
     private RadioButton asciiUnicode;
 
-    @FXML @SuppressWarnings("unused")
+    @FXML
+    @SuppressWarnings("unused")
     private RadioButton hex;
 
-    @FXML @SuppressWarnings("unused")
+    @FXML
+    @SuppressWarnings("unused")
     private TextField crc16CcittValue;
 
-    @FXML @SuppressWarnings("unused")
+    @FXML
+    @SuppressWarnings("unused")
     private WebView infoWebView;
 
     //===============================================================================================//
@@ -58,6 +63,10 @@ public class CrcCalcModel extends Calculator {
     public CalcVarText crcDataCalcVar = new CalcVarText();
     public CalcVarRadioButtonGroup calcVarRadioButtonGroup = new CalcVarRadioButtonGroup();
 
+    /**
+     * This variable is used as an intermediary to convert the provided data string into a buffer of
+     * integers, which the various CRC algorithms then use to calculate the CRC value from.
+     */
     public CalcVarGeneric<List<Integer>> convertedCrcDataCalcVar = new CalcVarGeneric();
 
     public CalcVarText crcResultCalcVar = new CalcVarText();
@@ -107,7 +116,9 @@ public class CrcCalcModel extends Calculator {
 
         crcDataCalcVar.setName("crcDataCalcVar");
         crcDataCalcVar.setTextField(crcDataTextField);
-        crcDataCalcVar.setDirectionFunction(() -> { return CalcVarDirections.Input; });
+        crcDataCalcVar.setDirectionFunction(() -> {
+            return CalcVarDirections.Input;
+        });
         crcDataCalcVar.setHelpText("Input the data you wish to calculate the CRC for here.");
         addCalcVar(crcDataCalcVar);
 
@@ -126,7 +137,9 @@ public class CrcCalcModel extends Calculator {
         //===============================================================================================//
 
         convertedCrcDataCalcVar.setName("convertedCrcDataCalcVar");
-        convertedCrcDataCalcVar.setDirectionFunction(() -> { return CalcVarDirections.Output; });
+        convertedCrcDataCalcVar.setDirectionFunction(() -> {
+            return CalcVarDirections.Output;
+        });
         convertedCrcDataCalcVar.setEquationFunction(() -> {
 
             String crcDataString = crcDataCalcVar.getValue();
@@ -135,7 +148,7 @@ public class CrcCalcModel extends Calculator {
             // Convert this string into a list of integers
             List<Integer> buffer = new ArrayList<>();
 
-            if(inputDataType == asciiUnicode) {
+            if (inputDataType == asciiUnicode) {
                 for (int i = 0; i < crcDataString.length(); i++) {
                     char currentChar = crcDataString.charAt(i);
 
@@ -144,7 +157,7 @@ public class CrcCalcModel extends Calculator {
                     // work for ASCII characters to
                     buffer.add((int) currentChar);
                 }
-            } else if(inputDataType == hex) {
+            } else if (inputDataType == hex) {
 
                 // Note: i gets incremented each time by 2
                 for (int i = 0; i < crcDataString.length(); i += 2) {
@@ -152,7 +165,7 @@ public class CrcCalcModel extends Calculator {
                     String hexByte;
                     // Special case if string length is odd, for the last value we
                     // have to extract just one character
-                    if(crcDataString.length() - i == 1) {
+                    if (crcDataString.length() - i == 1) {
                         hexByte = crcDataString.substring(i, i + 1);
                     } else {
                         // Extract 2-character strings from the CRC data
@@ -163,7 +176,7 @@ public class CrcCalcModel extends Calculator {
                         Integer integerValueOfHex = Integer.parseInt(hexByte, 16);
                         buffer.add(integerValueOfHex);
 
-                    } catch(NumberFormatException e) {
+                    } catch (NumberFormatException e) {
                         // We will get here if the input data is not valid hex, e.g. it has
                         // characters after f in the input
                         crcDataCalcVar.validationResults.add(
@@ -177,6 +190,12 @@ public class CrcCalcModel extends Calculator {
                     }
                 }
             }
+
+            // If we make it to here, everything was o.k.
+            crcDataCalcVar.validationResults.clear();
+            crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
+            crcDataCalcVar.updateUIBasedOnValidationResults();
+
             return buffer;
         });
         addCalcVar(convertedCrcDataCalcVar);
@@ -187,12 +206,14 @@ public class CrcCalcModel extends Calculator {
 
         crcResultCalcVar.setName("crcResultCalcVar");
         crcResultCalcVar.setTextField(crc16CcittValue);
-        crcResultCalcVar.setDirectionFunction(() -> { return CalcVarDirections.Output; });
+        crcResultCalcVar.setDirectionFunction(() -> {
+            return CalcVarDirections.Output;
+        });
         crcResultCalcVar.setEquationFunction(() -> {
 
             List<Integer> convertedCrcData = convertedCrcDataCalcVar.getValue();
 
-            if(convertedCrcData == null) {
+            if (convertedCrcData == null) {
                 return "";
             }
 
