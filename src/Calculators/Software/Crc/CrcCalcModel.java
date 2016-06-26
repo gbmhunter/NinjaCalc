@@ -4,7 +4,6 @@ package Calculators.Software.Crc;
 // SYSTEM INCLUDES
 
 import Core.*;
-import Core.CalcVar.CalcVarBase;
 import Core.CalcVar.CalcVarDirections;
 import Core.CalcVar.Generic.CalcVarGeneric;
 import Core.CalcVar.RadioButtonGroup.CalcVarRadioButtonGroup;
@@ -20,6 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.CRC32;
 
 // USER INCLUDES
 
@@ -50,7 +50,11 @@ public class CrcCalcModel extends Calculator {
 
     @FXML
     @SuppressWarnings("unused")
-    private TextField crc16CcittValue;
+    private TextField crc16CcittTextField;
+
+    @FXML
+    @SuppressWarnings("unused")
+    private TextField crc32TextField;
 
     @FXML
     @SuppressWarnings("unused")
@@ -69,7 +73,9 @@ public class CrcCalcModel extends Calculator {
      */
     public CalcVarGeneric<List<Integer>> convertedCrcDataCalcVar = new CalcVarGeneric();
 
-    public CalcVarText crcResultCalcVar = new CalcVarText();
+    public CalcVarText crc16XmodemCalcVar = new CalcVarText();
+
+    public CalcVarText crc32CalcVar = new CalcVarText();
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -201,15 +207,15 @@ public class CrcCalcModel extends Calculator {
         addCalcVar(convertedCrcDataCalcVar);
 
         //===============================================================================================//
-        //====================================== CRC VALUE (output) =====================================//
+        //=============================== CRC-16 (XMODEM) VALUE (output) ================================//
         //===============================================================================================//
 
-        crcResultCalcVar.setName("crcResultCalcVar");
-        crcResultCalcVar.setTextField(crc16CcittValue);
-        crcResultCalcVar.setDirectionFunction(() -> {
+        crc16XmodemCalcVar.setName("crc16XmodemCalcVar");
+        crc16XmodemCalcVar.setTextField(crc16CcittTextField);
+        crc16XmodemCalcVar.setDirectionFunction(() -> {
             return CalcVarDirections.Output;
         });
-        crcResultCalcVar.setEquationFunction(() -> {
+        crc16XmodemCalcVar.setEquationFunction(() -> {
 
             List<Integer> convertedCrcData = convertedCrcDataCalcVar.getValue();
 
@@ -225,8 +231,44 @@ public class CrcCalcModel extends Calculator {
             return crcResultAsHex;
 
         });
-        crcResultCalcVar.setHelpText("The CRC result using the CRC-16-CCITT algorithm.");
-        addCalcVar(crcResultCalcVar);
+        crc16XmodemCalcVar.setHelpText("The CRC result using the CRC-16-CCITT algorithm.");
+        addCalcVar(crc16XmodemCalcVar);
+
+        //===============================================================================================//
+        //==================================== CRC-32 VALUE (output) ====================================//
+        //===============================================================================================//
+
+        crc32CalcVar.setName("crc32CalcVar");
+        crc32CalcVar.setTextField(crc32TextField);
+        crc32CalcVar.setDirectionFunction(() -> {
+            return CalcVarDirections.Output;
+        });
+        crc32CalcVar.setEquationFunction(() -> {
+
+            List<Integer> convertedCrcData = convertedCrcDataCalcVar.getValue();
+
+            if (convertedCrcData == null) {
+                return "";
+            }
+
+            CRC32 myCRC = new CRC32();
+
+            for(Integer data : convertedCrcData) {
+                myCRC.update(data);
+            }
+
+            System.out.println( "The CRC-32 value is : " + Long.toHexString( myCRC.getValue( ) ) + " !" ) ;
+
+            Integer crcResult = (int)(long)myCRC.getValue();
+
+            // Convert to hex for display
+            String crcResultAsHex = "0x" + String.format("%08X", crcResult);
+
+            return crcResultAsHex;
+
+        });
+        crc32CalcVar.setHelpText("The CRC result using the CRC-32 algorithm.");
+        addCalcVar(crc32CalcVar);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//
@@ -296,15 +338,15 @@ public class CrcCalcModel extends Calculator {
 //        // Convert to hex for display
 //        String crcResultAsHex = "0x" + String.format("%04X", crcResult);
 //
-//        crcResultCalcVar.setValue(crcResultAsHex);
+//        crc16XmodemCalcVar.setValue(crcResultAsHex);
 //
 //        // If we make it to here, everything was o.k.
 //        crcDataCalcVar.validationResults.clear();
 //        crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
 //        crcDataCalcVar.updateUIBasedOnValidationResults();
 //
-//        crcResultCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
-//        crcResultCalcVar.updateUIBasedOnValidationResults();
+//        crc16XmodemCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
+//        crc16XmodemCalcVar.updateUIBasedOnValidationResults();
 //
 //        //return crcResultAsHex;
 //
