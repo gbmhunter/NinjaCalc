@@ -109,20 +109,29 @@ public class Crc16XModem {
         return CalcFast(bufferArrayList);
     }
 
-
+    /**
+     * Calculates a CRC-16 (XMODEM) value using the provided data in the buffer.
+     * @param buffer        The data to calculate the CRC value from.
+     * @return              The calculated CRC value.
+     */
     public static int CalcSlow(List<Integer> buffer) {
-        //int crc = 0xFFFF;
-        int crc = 0x0000;
 
+        // Starting value for CRC
+        int crcVal = 0x0000;
+
+        // Whats going on here?
         for (int j = 0; j < buffer.size() ; j++) {
-            crc = ((crc  >>> 8) | (crc  << 8) )& 0xffff;
-            crc ^= (buffer.get(j) & 0xff);//byte to int, trunc sign
-            crc ^= ((crc & 0xff) >> 4);
-            crc ^= (crc << 12) & 0xffff;
-            crc ^= ((crc & 0xFF) << 5) & 0xffff;
+            crcVal = ((crcVal  >>> 8) | (crcVal  << 8) )& 0xFFFF;
+            crcVal ^= (buffer.get(j) & 0xFF);//byte to int, trunc sign
+            crcVal ^= ((crcVal & 0xFF) >> 4);
+            crcVal ^= (crcVal << 12) & 0xFFFF;
+            crcVal ^= ((crcVal & 0xFF) << 5) & 0xFFFF;
         }
-        crc &= 0xffff;
-        return crc;
+
+        // Do one final truncation to make the CRC value 16-bits wide
+        crcVal &= 0xffff;
+
+        return crcVal;
     }
 
     public static int CalcSlow(Integer[] buffer) {
