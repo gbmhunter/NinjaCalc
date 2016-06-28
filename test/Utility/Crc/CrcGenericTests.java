@@ -64,19 +64,19 @@ public class CrcGenericTests {
     }
 
     @Test
-    public void IbmCrcTest() throws Exception {
+    public void Crc32Test() throws Exception {
 
         Integer buffer[] = {0x01, 0x02};
 
         CrcGeneric crcGeneric = new CrcGeneric(
-                16,
-                0x8005,
-                0x0000,
-                0x0000,
+                32,
+                0x04C11DB7,
+                0xFFFFFFFF,
+                0xFFFFFFFF,
                 true,
                 true);
         int crcResult = crcGeneric.Calc(buffer);
-        Assert.assertEquals(0x1373, crcResult);
+        Assert.assertEquals(0xB6CC4292, crcResult);
 
     }
 
