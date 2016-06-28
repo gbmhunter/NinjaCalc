@@ -1,30 +1,43 @@
 package Utility.Crc;
 
-import java.util.List;
-
 /**
  * Created by gbmhu on 2016-06-26.
+ * http://www.sunshine2k.de/articles/coding/crc/understanding_crc.html#ch4 has great
+ * examples on the theory behind calculating CRC values
  */
 public class CrcGeneric {
 
+    private static final int DATA_WIDTH_BITS = 8;
+
+    private Integer crcWidthBits;
     private Integer crcPolynomial;
     private Integer startingValue;
     private Integer finalXorValue;
     private Boolean reflectData;
     private Boolean reflectRemainder;
 
+    private Integer mask;
+
     public CrcGeneric(
+            Integer crcWidthBits,
             Integer crcPolynomial,
             Integer startingValue,
             Integer finalXorValue,
             Boolean reflectData,
             Boolean reflectRemainder) {
 
+        this.crcWidthBits = crcWidthBits;
         this.crcPolynomial = crcPolynomial;
         this.startingValue = startingValue;
         this.finalXorValue = finalXorValue;
         this.reflectData = reflectData;
         this.reflectRemainder = reflectRemainder;
+
+        // Create a mask for future use in the Calc() method.
+        // If the polynomial width is 9 bits, then the mask needs to be 0xFF,
+        // if it is 17bits, then the mask needs to be 0xFFFF, e.t.c
+        Double tempVal = Math.pow(2, crcWidthBits) - 1;
+        mask = (int)tempVal.doubleValue();
 
     }
 
@@ -33,50 +46,33 @@ public class CrcGeneric {
         // Initialise the CRC value with the starting value
         int crcValue = startingValue;
 
-        for (int i = 0; i < buffer.length ; i++) {
+        for(int i = 0; i < buffer.length; i++) {
 
-            crcValue ^= buffer[i];
-            for (int j = 0; j < 8; j++)
+            // XOR-in the next byte of data, shifting it first
+            // depending on the polynomial width.
+            // This trick allows us to operate on one byte of data at a time before
+            // considering the next
+            crcValue ^= (buffer[i] << (crcWidthBits - DATA_WIDTH_BITS));
+
+            for (int j = 0; j < DATA_WIDTH_BITS; j++)
             {
-                if ((crcValue & 0x1) != 0)
-                    crcValue ^= crcPolynomial;
-                crcValue >>= 1;
+                // Check to see if MSB is 1, if so, we need
+                // to XOR with polynomial
+                if ((crcValue & (1 << (crcWidthBits - 1))) != 0)
+                {
+                    crcValue = ((crcValue << 1) ^ crcPolynomial) & mask;
+                }
+                else
+                {
+                    crcValue = (crcValue << 1) & mask;
+                }
             }
+
         }
 
         //crcValue &= finalXorValue;
         return crcValue;
     }
-
-
-//    char *MakeCRC(char *BitString)
-//    {
-//        static char Res[9];                                 // CRC Result
-//        char CRC[8];
-//        int  i;
-//        char DoInvert;
-//
-//        for (i=0; i<8; ++i)  CRC[i] = 0;                    // Init before calculation
-//
-//        for (i=0; i<strlen(BitString); ++i)
-//        {
-//            DoInvert = ('1'==BitString[i]) ^ CRC[7];         // XOR required?
-//
-//            CRC[7] = CRC[6];
-//            CRC[6] = CRC[5];
-//            CRC[5] = CRC[4] ^ DoInvert;
-//            CRC[4] = CRC[3] ^ DoInvert;
-//            CRC[3] = CRC[2];
-//            CRC[2] = CRC[1];
-//            CRC[1] = CRC[0];
-//            CRC[0] = DoInvert;
-//        }
-//
-//        for (i=0; i<8; ++i)  Res[7-i] = CRC[i] ? '1' : '0'; // Convert binary to ASCII
-//        Res[8] = 0;                                         // Set string terminator
-//
-//        return(Res);
-//    }
 
 
 }
