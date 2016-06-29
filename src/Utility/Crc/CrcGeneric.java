@@ -1,11 +1,17 @@
 package Utility.Crc;
 
+import java.util.zip.Checksum;
+
 /**
  * Created by gbmhu on 2016-06-26.
+ *
+ * Implements the Checksum interface as defined by java.util.zip.Checksum (the same
+ * interface that CRC32 uses).
+ *
  * http://www.sunshine2k.de/articles/coding/crc/understanding_crc.html#ch4 has great
  * examples on the theory behind calculating CRC values
  */
-public class CrcGeneric {
+public class CrcGeneric implements Checksum {
 
     private static final int DATA_WIDTH_BITS = 8;
 
@@ -17,6 +23,7 @@ public class CrcGeneric {
     private Boolean reflectRemainder;
 
     private Integer mask;
+    private Integer crcValue;
 
     public CrcGeneric(
             Integer crcWidthBits,
@@ -38,6 +45,8 @@ public class CrcGeneric {
         // if it is 17bits, then the mask needs to be 0xFFFF, e.t.c
         Double tempVal = Math.pow(2, crcWidthBits) - 1;
         mask = (int)tempVal.doubleValue();
+
+        crcValue = startingValue;
 
     }
 
@@ -75,4 +84,42 @@ public class CrcGeneric {
     }
 
 
+    @Override
+    public void update(int b) {
+
+        // XOR-in the next byte of data, shifting it first
+        // depending on the polynomial width.
+        // This trick allows us to operate on one byte of data at a time before
+        // considering the next
+        crcValue ^= (b << (crcWidthBits - DATA_WIDTH_BITS));
+
+        for (int j = 0; j < DATA_WIDTH_BITS; j++)
+        {
+            // Check to see if MSB is 1, if so, we need
+            // to XOR with polynomial
+            if ((crcValue & (1 << (crcWidthBits - 1))) != 0)
+            {
+                crcValue = ((crcValue << 1) ^ crcPolynomial) & mask;
+            }
+            else
+            {
+                crcValue = (crcValue << 1) & mask;
+            }
+        }
+    }
+
+    @Override
+    public void update(byte[] b, int off, int len) {
+
+    }
+
+    @Override
+    public long getValue() {
+        return crcValue;
+    }
+
+    @Override
+    public void reset() {
+        crcValue = startingValue;
+    }
 }

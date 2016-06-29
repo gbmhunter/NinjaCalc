@@ -24,8 +24,13 @@ public class CrcGenericTests {
                 0x00,
                 false,
                 false);
-        int crcResult = crcGeneric.Calc(buffer);
-        Assert.assertEquals(0x76, crcResult);
+//        int crcResult = crcGeneric.Calc(buffer);
+//        Assert.assertEquals(0x76, crcResult);
+
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0x76, crcGeneric.getValue());
 
     }
 
@@ -41,8 +46,11 @@ public class CrcGenericTests {
                 0x0000,
                 false,
                 false);
-        int crcResult = crcGeneric.Calc(buffer);
-        Assert.assertEquals(0x1373, crcResult);
+        //int crcResult = crcGeneric.Calc(buffer);
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0x1373, crcGeneric.getValue());
 
     }
 
@@ -58,8 +66,11 @@ public class CrcGenericTests {
                 0x0000,
                 false,
                 false);
-        int crcResult = crcGeneric.Calc(buffer);
-        Assert.assertEquals(0x0E7C, crcResult);
+        //int crcResult = crcGeneric.Calc(buffer);
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0x0E7C, crcGeneric.getValue());
 
     }
 
@@ -75,8 +86,11 @@ public class CrcGenericTests {
                 0xFFFFFFFF,
                 true,
                 true);
-        int crcResult = crcGeneric.Calc(buffer);
-        Assert.assertEquals(0xB6CC4292, crcResult);
+        //int crcResult = crcGeneric.Calc(buffer);
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0xB6CC4292, crcGeneric.getValue());
 
     }
 
