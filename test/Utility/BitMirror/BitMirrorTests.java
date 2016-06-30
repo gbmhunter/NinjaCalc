@@ -5,7 +5,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by gbmhu on 2016-06-30.
+ * Tests for the BitMirror class.
+ *
+ * @author          Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2016-06-30
+ * @last-modified   2016-06-30
  */
 public class BitMirrorTests {
 

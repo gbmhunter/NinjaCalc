@@ -1,7 +1,11 @@
 package Utility.BitMirror;
 
 /**
- * Created by gbmhu on 2016-06-30.
+ * Simple utility class for mirroring the bits with long data types.
+ *
+ * @author          Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2016-06-30
+ * @last-modified   2016-06-30
  */
 public class BitMirror {
 

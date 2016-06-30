@@ -5,13 +5,15 @@ import Utility.BitMirror.BitMirror;
 import java.util.zip.Checksum;
 
 /**
- * Created by gbmhu on 2016-06-26.
- *
  * Implements the Checksum interface as defined by java.util.zip.Checksum (the same
  * interface that CRC32 uses).
  *
  * http://www.sunshine2k.de/articles/coding/crc/understanding_crc.html#ch4 has great
  * examples on the theory behind calculating CRC values
+ *
+ * @author          Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2016-06-30
+ * @last-modified   2016-06-30
  */
 public class CrcGeneric implements Checksum {
 

@@ -6,9 +6,9 @@ import org.junit.Test;
 /**
  * Unit tests for the CRC class.
  *
- * @author          Geoffrey Hunter <geoff@betasolutions.co.nz>
+ * @author          Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2016-06-08
- * @last-modified   2016-06-28
+ * @last-modified   2016-06-30
  */
 public class CrcGenericTests {
 
