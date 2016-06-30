@@ -19,9 +19,9 @@ public class CrcGenericTests {
 
         CrcGeneric crcGeneric = new CrcGeneric(
                 8,
-                0x1D,
-                0x00,
-                0x00,
+                (long)0x1Dl,
+                (long)0x00,
+                (long)0x00,
                 false,
                 false);
 //        int crcResult = crcGeneric.Calc(buffer);
@@ -41,16 +41,53 @@ public class CrcGenericTests {
 
         CrcGeneric crcGeneric = new CrcGeneric(
                 16,
-                0x1021,
-                0x0000,
-                0x0000,
+                (long)0x1021,
+                (long)0x0000,
+                (long)0x0000,
                 false,
                 false);
-        //int crcResult = crcGeneric.Calc(buffer);
         for(Integer dataByte : buffer) {
             crcGeneric.update(dataByte);
         }
         Assert.assertEquals(0x1373, crcGeneric.getValue());
+
+    }
+
+    @Test
+    public void XModem16BitCrcTest2() throws Exception {
+
+        Integer buffer[] = {(int)'1', (int)'2', (int)'3', (int)'4', (int)'5', (int)'6', (int)'7', (int)'8', (int)'9'};
+
+        CrcGeneric crcGeneric = new CrcGeneric(
+                16,
+                (long)0x1021,
+                (long)0x0000,
+                (long)0x0000,
+                false,
+                false);
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0x31C3, crcGeneric.getValue());
+
+    }
+
+    @Test
+    public void KermitCrcTest() throws Exception {
+
+        Integer buffer[] = {(int)'1', (int)'2', (int)'3', (int)'4', (int)'5', (int)'6', (int)'7', (int)'8', (int)'9'};
+
+        CrcGeneric crcGeneric = new CrcGeneric(
+                16,
+                (long)0x1021,
+                (long)0x0000,
+                (long)0x0000,
+                true,
+                true);
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0x2189, crcGeneric.getValue());
 
     }
 
@@ -61,12 +98,11 @@ public class CrcGenericTests {
 
         CrcGeneric crcGeneric = new CrcGeneric(
                 16,
-                0x1021,
-                0xFFFF,
-                0x0000,
+                (long)0x1021,
+                (long)0xFFFF,
+                (long)0x0000,
                 false,
                 false);
-        //int crcResult = crcGeneric.Calc(buffer);
         for(Integer dataByte : buffer) {
             crcGeneric.update(dataByte);
         }
@@ -81,16 +117,16 @@ public class CrcGenericTests {
 
         CrcGeneric crcGeneric = new CrcGeneric(
                 32,
-                0x04C11DB7,
-                0xFFFFFFFF,
-                0xFFFFFFFF,
+                0x04C11DB7L,
+                0xFFFFFFFFL,
+                0xFFFFFFFFL,
                 true,
                 true);
         //int crcResult = crcGeneric.Calc(buffer);
         for(Integer dataByte : buffer) {
             crcGeneric.update(dataByte);
         }
-        Assert.assertEquals(0xB6CC4292, crcGeneric.getValue());
+        Assert.assertEquals(0xB6CC4292L, crcGeneric.getValue());
 
     }
 

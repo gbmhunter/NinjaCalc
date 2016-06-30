@@ -1,5 +1,7 @@
 package Utility.Crc;
 
+import Utility.BitMirror.BitMirror;
+
 import java.util.zip.Checksum;
 
 /**
@@ -16,20 +18,20 @@ public class CrcGeneric implements Checksum {
     private static final int DATA_WIDTH_BITS = 8;
 
     private Integer crcWidthBits;
-    private Integer crcPolynomial;
-    private Integer startingValue;
-    private Integer finalXorValue;
+    private long crcPolynomial;
+    private long startingValue;
+    private long finalXorValue;
     private Boolean reflectData;
     private Boolean reflectRemainder;
 
-    private Integer mask;
-    private Integer crcValue;
+    private long mask;
+    private long crcValue;
 
     public CrcGeneric(
             Integer crcWidthBits,
-            Integer crcPolynomial,
-            Integer startingValue,
-            Integer finalXorValue,
+            Long crcPolynomial,
+            Long startingValue,
+            Long finalXorValue,
             Boolean reflectData,
             Boolean reflectRemainder) {
 
@@ -44,54 +46,60 @@ public class CrcGeneric implements Checksum {
         // If the polynomial width is 9 bits, then the mask needs to be 0xFF,
         // if it is 17bits, then the mask needs to be 0xFFFF, e.t.c
         Double tempVal = Math.pow(2, crcWidthBits) - 1;
-        mask = (int)tempVal.doubleValue();
+        mask = (long)tempVal.doubleValue();
 
         crcValue = startingValue;
 
     }
 
-    public int Calc(Integer[] buffer) {
-
-        // Initialise the CRC value with the starting value
-        int crcValue = startingValue;
-
-        for(int i = 0; i < buffer.length; i++) {
-
-            // XOR-in the next byte of data, shifting it first
-            // depending on the polynomial width.
-            // This trick allows us to operate on one byte of data at a time before
-            // considering the next
-            crcValue ^= (buffer[i] << (crcWidthBits - DATA_WIDTH_BITS));
-
-            for (int j = 0; j < DATA_WIDTH_BITS; j++)
-            {
-                // Check to see if MSB is 1, if so, we need
-                // to XOR with polynomial
-                if ((crcValue & (1 << (crcWidthBits - 1))) != 0)
-                {
-                    crcValue = ((crcValue << 1) ^ crcPolynomial) & mask;
-                }
-                else
-                {
-                    crcValue = (crcValue << 1) & mask;
-                }
-            }
-
-        }
-
-        //crcValue &= finalXorValue;
-        return crcValue;
-    }
+//    public long Calc(Integer[] buffer) {
+//
+//        // Initialise the CRC value with the starting value
+//        long crcValue = startingValue;
+//
+//        for(int i = 0; i < buffer.length; i++) {
+//
+//            // XOR-in the next byte of data, shifting it first
+//            // depending on the polynomial width.
+//            // This trick allows us to operate on one byte of data at a time before
+//            // considering the next
+//            crcValue ^= (buffer[i] << (crcWidthBits - DATA_WIDTH_BITS));
+//
+//            for (int j = 0; j < DATA_WIDTH_BITS; j++)
+//            {
+//                // Check to see if MSB is 1, if so, we need
+//                // to XOR with polynomial
+//                if ((crcValue & (1 << (crcWidthBits - 1))) != 0)
+//                {
+//                    crcValue = ((crcValue << 1) ^ crcPolynomial) & mask;
+//                }
+//                else
+//                {
+//                    crcValue = (crcValue << 1) & mask;
+//                }
+//            }
+//
+//        }
+//
+//        //crcValue &= finalXorValue;
+//        return crcValue;
+//    }
 
 
     @Override
     public void update(int b) {
 
+        long input = b;
+
+        if(reflectData) {
+            input = BitMirror.doMirror(input, 8);
+        }
+
         // XOR-in the next byte of data, shifting it first
         // depending on the polynomial width.
         // This trick allows us to operate on one byte of data at a time before
         // considering the next
-        crcValue ^= (b << (crcWidthBits - DATA_WIDTH_BITS));
+        crcValue ^= (input << (crcWidthBits - DATA_WIDTH_BITS));
 
         for (int j = 0; j < DATA_WIDTH_BITS; j++)
         {
@@ -115,7 +123,17 @@ public class CrcGeneric implements Checksum {
 
     @Override
     public long getValue() {
-        return crcValue;
+
+        long output = 0;
+        if(reflectRemainder) {
+            output = BitMirror.doMirror(crcValue, crcWidthBits);
+        } else {
+            output = crcValue;
+        }
+
+        output ^= finalXorValue;
+
+        return output;
     }
 
     @Override
