@@ -22,12 +22,16 @@ public class CrcGeneric implements Checksum {
     private Integer crcWidthBits;
     private long crcPolynomial;
     private long startingValue;
-    private long finalXorValue;
     private Boolean reflectData;
+    private long finalXorValue;
     private Boolean reflectRemainder;
 
     private long mask;
     private long crcValue;
+
+    //================================================================================================//
+    //========================================= CONSTRUCTORS =========================================//
+    //================================================================================================//
 
     public CrcGeneric(
             Integer crcWidthBits,
@@ -44,48 +48,42 @@ public class CrcGeneric implements Checksum {
         this.reflectData = reflectData;
         this.reflectRemainder = reflectRemainder;
 
-        // Create a mask for future use in the Calc() method.
-        // If the polynomial width is 9 bits, then the mask needs to be 0xFF,
-        // if it is 17bits, then the mask needs to be 0xFFFF, e.t.c
+        // Create a mask for future use in the update() method.
+        // If the generator polynomial width is 8 bits, then the mask needs to be 0xFF,
+        // if it is 16bits, then the mask needs to be 0xFFFF, e.t.c
         Double tempVal = Math.pow(2, crcWidthBits) - 1;
         mask = (long)tempVal.doubleValue();
 
+        // Initialise the CRC value with the starting value
         crcValue = startingValue;
 
     }
 
-//    public long Calc(Integer[] buffer) {
-//
-//        // Initialise the CRC value with the starting value
-//        long crcValue = startingValue;
-//
-//        for(int i = 0; i < buffer.length; i++) {
-//
-//            // XOR-in the next byte of data, shifting it first
-//            // depending on the polynomial width.
-//            // This trick allows us to operate on one byte of data at a time before
-//            // considering the next
-//            crcValue ^= (buffer[i] << (crcWidthBits - DATA_WIDTH_BITS));
-//
-//            for (int j = 0; j < DATA_WIDTH_BITS; j++)
-//            {
-//                // Check to see if MSB is 1, if so, we need
-//                // to XOR with polynomial
-//                if ((crcValue & (1 << (crcWidthBits - 1))) != 0)
-//                {
-//                    crcValue = ((crcValue << 1) ^ crcPolynomial) & mask;
-//                }
-//                else
-//                {
-//                    crcValue = (crcValue << 1) & mask;
-//                }
-//            }
-//
-//        }
-//
-//        //crcValue &= finalXorValue;
-//        return crcValue;
-//    }
+    /**
+     * Create a CRC engine based of a predefined CRC algorithm.
+     * @param crcAlgorithmParameters
+     */
+    public CrcGeneric(CrcAlgorithmParameters crcAlgorithmParameters) {
+
+        this.crcWidthBits = crcAlgorithmParameters.crcWidthBits;
+        this.crcPolynomial = crcAlgorithmParameters.crcPolynomial;
+        this.startingValue = crcAlgorithmParameters.startingValue;
+        this.finalXorValue = crcAlgorithmParameters.finalXorValue;
+        this.reflectData = crcAlgorithmParameters.reflectData;
+        this.reflectRemainder = crcAlgorithmParameters.reflectRemainder;
+
+        // Create a mask for future use in the update() method.
+        // If the generator polynomial width is 8 bits, then the mask needs to be 0xFF,
+        // if it is 16bits, then the mask needs to be 0xFFFF, e.t.c
+        Double tempVal = Math.pow(2, crcWidthBits) - 1;
+        mask = (long)tempVal.doubleValue();
+
+        // Initialise the CRC value with the starting value
+        crcValue = startingValue;
+
+    }
+
+
 
 
     @Override
