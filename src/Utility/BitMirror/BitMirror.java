@@ -14,9 +14,9 @@ public class BitMirror {
         long output = 0;
 
         for(int i = 0; i < numBits; i++){
-            output <<= 1;
-            output |= (input & 1);
-            input >>= 1;
+            output <<= 1L;
+            output |= (input & 1L);
+            input >>= 1L;
         }
 
         return output;

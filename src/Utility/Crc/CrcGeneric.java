@@ -51,8 +51,13 @@ public class CrcGeneric implements Checksum {
         // Create a mask for future use in the update() method.
         // If the generator polynomial width is 8 bits, then the mask needs to be 0xFF,
         // if it is 16bits, then the mask needs to be 0xFFFF, e.t.c
-        Double tempVal = Math.pow(2, crcWidthBits) - 1;
-        mask = (long)tempVal.doubleValue();
+//        Double tempVal = Math.pow(2, crcWidthBits) - 1;
+//        mask = (long)tempVal.doubleValue();
+        long shiftingBit = 1;
+        for(int i = 0; i < crcWidthBits; i++) {
+            mask |= shiftingBit;
+            shiftingBit <<= 1;
+        }
 
         // Initialise the CRC value with the starting value
         crcValue = startingValue;
@@ -75,8 +80,13 @@ public class CrcGeneric implements Checksum {
         // Create a mask for future use in the update() method.
         // If the generator polynomial width is 8 bits, then the mask needs to be 0xFF,
         // if it is 16bits, then the mask needs to be 0xFFFF, e.t.c
-        Double tempVal = Math.pow(2, crcWidthBits) - 1;
-        mask = (long)tempVal.doubleValue();
+//        Double tempVal = Math.pow(2, crcWidthBits) - 1;
+//        mask = (long)tempVal.doubleValue();
+        long shiftingBit = 1;
+        for(int i = 0; i < crcWidthBits; i++) {
+            mask |= shiftingBit;
+            shiftingBit <<= 1;
+        }
 
         // Initialise the CRC value with the starting value
         crcValue = startingValue;
@@ -105,7 +115,7 @@ public class CrcGeneric implements Checksum {
         {
             // Check to see if MSB is 1, if so, we need
             // to XOR with polynomial
-            if ((crcValue & (1 << (crcWidthBits - 1))) != 0)
+            if ((crcValue & (1L << (crcWidthBits - 1))) != 0)
             {
                 crcValue = ((crcValue << 1) ^ crcPolynomial) & mask;
             }

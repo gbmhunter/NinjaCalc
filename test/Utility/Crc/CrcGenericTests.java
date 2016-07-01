@@ -130,4 +130,44 @@ public class CrcGenericTests {
 
     }
 
+    @Test
+    public void Crc40Test() throws Exception {
+
+        Integer buffer[] = {(int)'1', (int)'2', (int)'3', (int)'4', (int)'5', (int)'6', (int)'7', (int)'8', (int)'9'};
+
+        CrcGeneric crcGeneric = new CrcGeneric(
+                40,
+                0x0004820009L,
+                0x0000000000L,
+                0xFFFFFFFFFFL,
+                false,
+                false);
+        //int crcResult = crcGeneric.Calc(buffer);
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0xD4164FC646L, crcGeneric.getValue());
+
+    }
+
+    @Test
+    public void Crc64Test() throws Exception {
+
+        Integer buffer[] = {(int)'1', (int)'2', (int)'3', (int)'4', (int)'5', (int)'6', (int)'7', (int)'8', (int)'9'};
+
+        CrcGeneric crcGeneric = new CrcGeneric(
+                64,
+                0x42F0E1EBA9EA3693L,
+                0x0000000000000000L,
+                0x0000000000000000L,
+                false,
+                false);
+        //int crcResult = crcGeneric.Calc(buffer);
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0x6C40DF5F0B497347L, crcGeneric.getValue());
+
+    }
+
 }
