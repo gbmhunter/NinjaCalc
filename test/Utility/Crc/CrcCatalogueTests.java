@@ -7,10 +7,17 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Created by gbmhu on 2016-07-01.
+ * @author          Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @since           2016-07-01
+ * @last-modified   2016-07-02
  */
 public class CrcCatalogueTests {
 
+    /**
+     * This single test method tests all of the preset algorithms by cycling through the map, computing CRC
+     * values and checking with the provided "check value"" ("123456789").
+     * @throws Exception
+     */
     @Test
     public void allPresetCrcAlgorithmsTest() throws Exception {
 
@@ -21,10 +28,6 @@ public class CrcCatalogueTests {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             CrcAlgorithmParameters crcAlgorithmParameters = (CrcAlgorithmParameters)pair.getValue();
-
-            if((CrcCatalogue.PresetCrcAlgorithmsIds)pair.getKey() == CrcCatalogue.PresetCrcAlgorithmsIds.CRC_64) {
-                int x =2;
-            }
 
             CrcGeneric crcGeneric = new CrcGeneric(crcAlgorithmParameters);
 

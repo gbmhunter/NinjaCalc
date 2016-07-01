@@ -248,5 +248,9 @@ public class CrcCatalogue {
 
     }
 
+    public static CrcAlgorithmParameters get(PresetCrcAlgorithmsIds presetCrcAlgorithmsId) {
+        return presetCrcAlgorithms.get(presetCrcAlgorithmsId);
+    }
+
 
 }

@@ -47,17 +47,17 @@
             </HBox>
 
             <!-- =========== CALCULATOR DIAGRAM AND VARIABLES ========== -->
-            <GridPane alignment="CENTER" vgap="10" hgap="10">
+            <GridPane fx:id="crcValuesGridPane" alignment="CENTER" vgap="10" hgap="10">
                 <padding><Insets top="20" bottom="20" left="20" right="20" /></padding>
 
                 <Label GridPane.rowIndex="0" GridPane.columnIndex="0">CRC Name</Label>
                 <Label GridPane.rowIndex="0" GridPane.columnIndex="1">CRC Value</Label>
 
-                <Label GridPane.rowIndex="1" GridPane.columnIndex="0">CRC-16-CCITT</Label>
-                <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="crc16XmodemTextField"></TextField>
+                <!--<Label GridPane.rowIndex="1" GridPane.columnIndex="0">CRC-16-CCITT</Label>-->
+                <!--<TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="crc16XmodemTextField"></TextField>-->
 
-                <Label GridPane.rowIndex="2" GridPane.columnIndex="0">CRC-32</Label>
-                <TextField GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="crc32TextField"></TextField>
+                <!--<Label GridPane.rowIndex="2" GridPane.columnIndex="0">CRC-32</Label>-->
+                <!--<TextField GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="crc32TextField"></TextField>-->
             </GridPane>
         </VBox>
     </ScrollPane>

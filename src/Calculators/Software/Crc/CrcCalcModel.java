@@ -3,22 +3,30 @@ package Calculators.Software.Crc;
 
 // SYSTEM INCLUDES
 
-import Core.*;
+import Core.CalcValidationLevels;
+import Core.CalcValidationResult;
 import Core.CalcVar.CalcVarDirections;
 import Core.CalcVar.Generic.CalcVarGeneric;
 import Core.CalcVar.RadioButtonGroup.CalcVarRadioButtonGroup;
 import Core.CalcVar.Text.CalcVarText;
+import Core.Calculator;
 import Utility.Crc.Crc16XModem;
+import Utility.Crc.CrcCatalogue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.CRC32;
 
 // USER INCLUDES
@@ -50,6 +58,10 @@ public class CrcCalcModel extends Calculator {
 
     @FXML
     @SuppressWarnings("unused")
+    private GridPane crcValuesGridPane;
+
+    @FXML
+    @SuppressWarnings("unused")
     private TextField crc16XmodemTextField;
 
     @FXML
@@ -73,9 +85,22 @@ public class CrcCalcModel extends Calculator {
      */
     public CalcVarGeneric<List<Integer>> convertedCrcDataCalcVar = new CalcVarGeneric();
 
-    public CalcVarText crc16XmodemCalcVar = new CalcVarText();
+    /**
+     * A sub-set of the total available preset CRC algorithms, of those that are important enough
+     * to display in the CRC GridPane.
+     */
+    Set<CrcCatalogue.PresetCrcAlgorithmsIds> crcAlgorithmsToDisplayIndividually =
+            EnumSet.of(
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_8_MAXIM,
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_8_WCDMA,
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_CCITT_FALSE,
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_CDMA2000,
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_GENIBUS,
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_KERMIT_CCITT_TRUE,
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_MAXIM,
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_MODBUS,
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_32_POSIX_CKSUM);
 
-    public CalcVarText crc32CalcVar = new CalcVarText();
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -207,66 +232,22 @@ public class CrcCalcModel extends Calculator {
         addCalcVar(convertedCrcDataCalcVar);
 
         //===============================================================================================//
-        //=============================== CRC-16 (XMODEM) VALUE (output) ================================//
+        //=============================== GRIDPANE CRC VALUES (output) ================================//
         //===============================================================================================//
 
-        crc16XmodemCalcVar.setName("crc16XmodemCalcVar");
-        crc16XmodemCalcVar.setTextField(crc16XmodemTextField);
-        crc16XmodemCalcVar.setDirectionFunction(() -> {
-            return CalcVarDirections.Output;
-        });
-        crc16XmodemCalcVar.setEquationFunction(() -> {
+        // Start inserting CRC algorithm rows at row = 1, since the first row is the header
+        // (header defined in .fxml file)
+        int currGridPaneRow = 1;
 
-            List<Integer> convertedCrcData = convertedCrcDataCalcVar.getValue();
-
-            if (convertedCrcData == null) {
-                return "";
-            }
-
-            Integer crcResult = Crc16XModem.CalcFast(convertedCrcData);
-
-            // Convert to hex for display
-            String crcResultAsHex = "0x" + String.format("%04X", crcResult);
-
-            return crcResultAsHex;
-
-        });
-        crc16XmodemCalcVar.setHelpText("The CRC result using the CRC-16 (XMODEM) algorithm.");
-        addCalcVar(crc16XmodemCalcVar);
-
-        //===============================================================================================//
-        //==================================== CRC-32 VALUE (output) ====================================//
-        //===============================================================================================//
-
-        crc32CalcVar.setName("crc32CalcVar");
-        crc32CalcVar.setTextField(crc32TextField);
-        crc32CalcVar.setDirectionFunction(() -> {
-            return CalcVarDirections.Output;
-        });
-        crc32CalcVar.setEquationFunction(() -> {
-
-            List<Integer> convertedCrcData = convertedCrcDataCalcVar.getValue();
-
-            if (convertedCrcData == null) {
-                return "";
-            }
-
-            CRC32 crc32Engine = new CRC32();
-
-            for(Integer data : convertedCrcData) {
-                crc32Engine.update(data);
-            }
-
-            Integer crcResult = (int)(long)crc32Engine.getValue();
-
-            // Convert to hex for display
-            String crcResultAsHex = "0x" + String.format("%08X", crcResult);
-
-            return crcResultAsHex;
-
-        });
-        crc32CalcVar.setHelpText("The CRC result using the CRC-32 algorithm.");
-        addCalcVar(crc32CalcVar);
+        // Insert all important CRC algorithms into GridPane
+        for(CrcCatalogue.PresetCrcAlgorithmsIds presetCrcAlgorithmsIds : crcAlgorithmsToDisplayIndividually) {
+            new CrcAlgorithmRow(
+                    crcValuesGridPane,
+                    currGridPaneRow++,
+                    CrcCatalogue.get(presetCrcAlgorithmsIds),
+                    convertedCrcDataCalcVar,
+                    this);
+        }
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//
