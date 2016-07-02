@@ -151,7 +151,7 @@ public class CrcCatalogue {
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_8_SMBUS,
                 new CrcAlgorithmParameters(
-                        "CRC-8, SMBus",
+                        "CRC-8/SMBus",
                         8,
                         0x07,
                         0x00,
@@ -283,7 +283,7 @@ public class CrcCatalogue {
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_16_X25_IBM_SLDC_ISO_HDLC,
                 new CrcAlgorithmParameters(
-                        "X25, CRC16/IBM-SLDC, CRC-16/ISO-HDLC, CRC-B",
+                        "CRC-16/X25, IBM-SLDC, ISO-HDLC, CRC-B",
                         16,
                         0x1021,
                         0xFFFF,
@@ -295,7 +295,7 @@ public class CrcCatalogue {
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_16_XMODEM_ACORN_LTE,
                 new CrcAlgorithmParameters(
-                        "CRC-16, XMODEM, ACORN, LTE",
+                        "CRC-16/XMODEM, ACORN, LTE",
                         16,
                         0x1021,
                         0x0000,
@@ -307,7 +307,7 @@ public class CrcCatalogue {
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_24_OPEN_PGP,
                 new CrcAlgorithmParameters(
-                        "CRC-24, OPENPGP",
+                        "CRC-24/OPENPGP",
                         24,
                         0x864CFB,
                         0xB704CE,
@@ -319,7 +319,7 @@ public class CrcCatalogue {
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_24_BLE,
                 new CrcAlgorithmParameters(
-                        "CRC-24, BLE",
+                        "CRC-24/BLE",
                         24,
                         0x00065B,
                         0x555555,
@@ -331,7 +331,7 @@ public class CrcCatalogue {
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_32_ADCCP_PKZIP,
                 new CrcAlgorithmParameters(
-                        "CRC-32, ADCCP, PKZIP",
+                        "CRC-32/ADCCP, PKZIP",
                         32,
                         0x04C11DB7L,
                         0xFFFFFFFFL,
@@ -343,7 +343,7 @@ public class CrcCatalogue {
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_32_POSIX_CKSUM,
                 new CrcAlgorithmParameters(
-                        "CRC-32, POSIX, CKSUM",
+                        "CRC-32/POSIX, CKSUM",
                         32,
                         0x04C11DB7L,
                         0x00000000L,
@@ -355,7 +355,7 @@ public class CrcCatalogue {
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_40_GSM,
                 new CrcAlgorithmParameters(
-                        "CRC-40, GSM",
+                        "CRC-40/GSM",
                         40,
                         0x0004820009L,
                         0x0000000000L,

@@ -71,8 +71,8 @@ public class CrcAlgorithmRow {
             //Integer crcResult = Crc16XModem.CalcFast(convertedCrcData);
             long crcResult = crcGeneric.getValue();
 
-            // Convert to hex for display
-            String crcResultAsHex = String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcResult);
+            // Convert to hex for display. +3 is to "round up" to next hex digit.
+            String crcResultAsHex = String.format("0x%0" + (crcAlgorithmParameters.crcWidthBits + 3) / 4 + "X", crcResult);
 
             return crcResultAsHex;
 

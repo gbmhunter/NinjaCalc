@@ -159,9 +159,9 @@ public class CrcCalcModel extends Calculator {
     public CrcCalcModel() {
 
         super("CRC Values",
-                "Calculate various CRC values from provided data.",
+                "Calculate CRC values from either a large number of popular CRC algorithms or define one yourself.",
                 new String[]{"Software"},
-                new String[]{"crc"});
+                new String[]{"crc", "cycle redundancy check", "smbus", "comms", "bus", "embedded", "messaging", "networking", "parity", "bits", "xor"});
 
         super.setIconImagePath(getClass().getResource("grid-icon.png"));
 
@@ -432,13 +432,13 @@ public class CrcCalcModel extends Calculator {
         customCrcWidthCalcVar.addValidator(CalcVarNumerical.PrebuiltValidators.IS_GREATER_THAN_0);
         customCrcWidthCalcVar.addValidator(
                 new Validator(() -> {
-                    if(customCrcWidthCalcVar.getRawVal() > 64) {
+                    if (customCrcWidthCalcVar.getRawVal() > 64) {
                         return CalcValidationLevels.Error;
                     } else {
                         return CalcValidationLevels.Ok;
                     }
                 },
-                "Width of CRC must not be bigger than 64 bits."));
+                        "Width of CRC must not be bigger than 64 bits (due to limitations of the CRC engine)."));
         addCalcVar(customCrcWidthCalcVar);
 
 
@@ -447,8 +447,25 @@ public class CrcCalcModel extends Calculator {
         customCrcGeneratorPolynomialCalcVar.setDirectionFunction(() -> {
             return CalcVarDirections.Input;
         });
-        customCrcGeneratorPolynomialCalcVar.setHelpText("The generator polynomial for the CRC.");
+        customCrcGeneratorPolynomialCalcVar.setHelpText("The generator polynomial for the CRC, in hex. Please describe this in standard form, i.e. by excluding the MSB of the polynomial, and not reversing the bit order. The generator polynomial cannot have more bits than the width of the CRC.");
         customCrcGeneratorPolynomialCalcVar.addValidator(CalcVarText.PrebuiltValidators.MUST_BE_HEX);
+        customCrcGeneratorPolynomialCalcVar.addValidator(
+                new Validator(() -> {
+
+                    long generatorPolynomial;
+                    try {
+                        generatorPolynomial = Long.parseLong(customCrcGeneratorPolynomialCalcVar.getValue(), 16);
+                    } catch (NumberFormatException e) {
+                        return CalcValidationLevels.Error;
+                    }
+
+                    if (generatorPolynomial > Math.pow(2, customCrcWidthCalcVar.getRawVal())) {
+                        return CalcValidationLevels.Error;
+                    } else {
+                        return CalcValidationLevels.Ok;
+                    }
+                },
+                        "Generator polynomial cannot have more bits that the width of the CRC."));
         addCalcVar(customCrcGeneratorPolynomialCalcVar);
 
 
@@ -457,15 +474,32 @@ public class CrcCalcModel extends Calculator {
         customCrcInitCalcVar.setDirectionFunction(() -> {
             return CalcVarDirections.Input;
         });
-        customCrcInitCalcVar.setHelpText("The initial value for the CRC.");
+        customCrcInitCalcVar.setHelpText("The initial value for the CRC, in hex. This cannot have more bits than the width CRC.");
         customCrcInitCalcVar.addValidator(CalcVarText.PrebuiltValidators.MUST_BE_HEX);
+        customCrcInitCalcVar.addValidator(
+                new Validator(() -> {
+
+                    long initValue;
+                    try {
+                        initValue = Long.parseLong(customCrcInitCalcVar.getValue(), 16);
+                    } catch (NumberFormatException e) {
+                        return CalcValidationLevels.Error;
+                    }
+
+                    if (initValue > Math.pow(2, customCrcWidthCalcVar.getRawVal())) {
+                        return CalcValidationLevels.Error;
+                    } else {
+                        return CalcValidationLevels.Ok;
+                    }
+                },
+                        "Init value cannot have more bits that the width of the CRC."));
         addCalcVar(customCrcInitCalcVar);
 
 
         customCrcReflectDataInCheckBox.selectedProperty().addListener(
                 (ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) -> {
-                customCrcValueCalcVar.calculate();
-            }
+                    customCrcValueCalcVar.calculate();
+                }
         );
 
 
@@ -483,8 +517,24 @@ public class CrcCalcModel extends Calculator {
         });
         customCrcXorOutCalcVar.setHelpText("The XOR out value for the CRC.");
         customCrcXorOutCalcVar.addValidator(CalcVarText.PrebuiltValidators.MUST_BE_HEX);
-        addCalcVar(customCrcXorOutCalcVar);
+        customCrcXorOutCalcVar.addValidator(
+                new Validator(() -> {
 
+                    long xorOut;
+                    try {
+                        xorOut = Long.parseLong(customCrcXorOutCalcVar.getValue(), 16);
+                    } catch (NumberFormatException e) {
+                        return CalcValidationLevels.Error;
+                    }
+
+                    if (xorOut > Math.pow(2, customCrcWidthCalcVar.getRawVal())) {
+                        return CalcValidationLevels.Error;
+                    } else {
+                        return CalcValidationLevels.Ok;
+                    }
+                },
+                        "XOR out value cannot have more bits that the width of the CRC."));
+        addCalcVar(customCrcXorOutCalcVar);
 
         customCrcValueCalcVar.setName("customCrcValueCalcVar");
         customCrcValueCalcVar.setTextField(customCrcValueTextField);
@@ -495,7 +545,7 @@ public class CrcCalcModel extends Calculator {
 
             // Read dependencies
             List<Integer> crcData = convertedCrcDataCalcVar.getValue();
-            Integer crcWidth = (int)customCrcWidthCalcVar.getRawVal();
+            Integer crcWidth = (int) customCrcWidthCalcVar.getRawVal();
             String crcGeneratorPolynomial = customCrcGeneratorPolynomialCalcVar.getValue();
             String crcInitialValue = customCrcInitCalcVar.getValue();
             Boolean reflectDataIn = customCrcReflectDataInCheckBox.isSelected();
@@ -510,11 +560,12 @@ public class CrcCalcModel extends Calculator {
                 generatorPolynomialAsLong = Long.parseLong(crcGeneratorPolynomial, 16);
                 initialValueAsLong = Long.parseLong(crcInitialValue, 16);
                 xorOutAsLong = Long.parseLong(crcXorOut, 16);
-            } catch(NumberFormatException e) {
-                System.err.println("Could not convert data!");
+            } catch (NumberFormatException e) {
+                //System.err.println("Could not convert data!");
                 return "";
             }
 
+            // Generate a CRC engine from the information we have obtained
             CrcGeneric crcGeneric = new CrcGeneric(
                     crcWidth,
                     generatorPolynomialAsLong,
@@ -523,6 +574,7 @@ public class CrcCalcModel extends Calculator {
                     reflectDataIn,
                     reflectCrcOut);
 
+            // Process the given data with the CRC engine
             for (Integer data : crcData) {
                 crcGeneric.update(data);
             }
@@ -530,8 +582,8 @@ public class CrcCalcModel extends Calculator {
             //Integer crcResult = Crc16XModem.CalcFast(convertedCrcData);
             long crcResult = crcGeneric.getValue();
 
-            // Convert to hex for display
-            String crcResultAsHex = String.format("0x%0" + crcWidth / 4 + "X", crcResult);
+            // Convert to hex for display. +3 is to "round up" to next hex digit.
+            String crcResultAsHex = String.format("0x%0" + (crcWidth + 3) / 4 + "X", crcResult);
 
             return crcResultAsHex;
 
