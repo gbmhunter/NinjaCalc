@@ -129,7 +129,7 @@ public class CalcVarText extends CalcVarBase {
      */
     public void calculate() {
 
-        System.out.println("CalcVarText.calculate() called for \"" + this.getName() + "\".");
+        //System.out.println("CalcVarText.calculate() called for \"" + this.getName() + "\".");
 
         // Make sure this event only fires when this calculator variable is an output!
         if(this.getDirection() != CalcVarDirections.Output){
@@ -162,7 +162,7 @@ public class CalcVarText extends CalcVarBase {
      * @param newValue
      */
     protected void textFieldChanged(String newValue) {
-        System.out.println("CalcVarText.textFieldChanged() called.");
+        //System.out.println("CalcVarText.textFieldChanged() called.");
 
         // Need to update the calculator variables "value"
         value = newValue;
@@ -188,6 +188,8 @@ public class CalcVarText extends CalcVarBase {
 
     @Override
     public void validate() {
+
+
 
     }
 

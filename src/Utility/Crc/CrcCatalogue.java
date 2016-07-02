@@ -12,13 +12,23 @@ import java.util.EnumMap;
  *
  * @author          Geoffrey Hunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2016-07-01
- * @last-modified   2016-07-01
+ * @last-modified   2016-07-02
  */
 public class CrcCatalogue {
 
     public enum PresetCrcAlgorithmsIds {
+        CRC_8_CDMA2000,
+        CRC_8_DARC,
+        CRC_8_EBU,
+        CRC_8_I_CODE,
+        CRC_8_ITU_ATM_HEC,
+        CRC_8_LTE,
         CRC_8_MAXIM,
+        CRC_8_SAE_J1850,
+        CRC_8_SMBUS,
         CRC_8_WCDMA,
+        CRC_10,
+        CRC_15_CAN2,
         CRC_16_ARC_IBM,
         CRC_16_CCITT_FALSE,
         CRC_16_CDMA2000,
@@ -43,6 +53,78 @@ public class CrcCatalogue {
         presetCrcAlgorithms = new EnumMap<>(PresetCrcAlgorithmsIds.class);
 
         presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_8_CDMA2000,
+                new CrcAlgorithmParameters(
+                        "CRC-8/CDMA2000",
+                        8,
+                        0x9B,
+                        0xFF,
+                        false,
+                        false,
+                        0x00,
+                        0xDA));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_8_DARC,
+                new CrcAlgorithmParameters(
+                        "CRC-8/DARC",
+                        8,
+                        0x39,
+                        0x00,
+                        true,
+                        true,
+                        0x00,
+                        0x15));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_8_EBU,
+                new CrcAlgorithmParameters(
+                        "CRC-8/EBU, CRC-8/AES",
+                        8,
+                        0x1D,
+                        0xFF,
+                        true,
+                        true,
+                        0x00,
+                        0x97));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_8_I_CODE,
+                new CrcAlgorithmParameters(
+                        "CRC-8/I-CODE",
+                        8,
+                        0x1D,
+                        0xFF,
+                        true,
+                        true,
+                        0x00,
+                        0x97));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_8_ITU_ATM_HEC,
+                new CrcAlgorithmParameters(
+                        "CRC-8/ITU, ATM HEC",
+                        8,
+                        0x07,
+                        0x00,
+                        false,
+                        false,
+                        0x55,
+                        0xA1));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_8_LTE,
+                new CrcAlgorithmParameters(
+                        "CRC-8/LTE",
+                        8,
+                        0x9B,
+                        0x00,
+                        false,
+                        false,
+                        0x00,
+                        0xEA));
+
+        presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_8_MAXIM,
                 new CrcAlgorithmParameters(
                         "CRC-8/MAXIM",
@@ -53,6 +135,30 @@ public class CrcCatalogue {
                         true,
                         0x00,
                         0xA1));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_8_SAE_J1850,
+                new CrcAlgorithmParameters(
+                        "CRC-8/SAE-J1850",
+                        8,
+                        0x1D,
+                        0xFF,
+                        false,
+                        false,
+                        0xFF,
+                        0x4B));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_8_SMBUS,
+                new CrcAlgorithmParameters(
+                        "CRC-8, SMBus",
+                        8,
+                        0x07,
+                        0x00,
+                        false,
+                        false,
+                        0x00,
+                        0xF4));
 
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_8_WCDMA,
@@ -67,9 +173,33 @@ public class CrcCatalogue {
                         0x25));
 
         presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_10,
+                new CrcAlgorithmParameters(
+                        "CRC-10",
+                        10,
+                        0x233,
+                        0x000,
+                        false,
+                        false,
+                        0x000,
+                        0x199));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_15_CAN2,
+                new CrcAlgorithmParameters(
+                        "CRC-15, CAN2.0",
+                        15,
+                        0x4599,
+                        0x0000,
+                        false,
+                        false,
+                        0x0000,
+                        0x059E));
+
+        presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_16_ARC_IBM,
                 new CrcAlgorithmParameters(
-                        "CRC-16/ARC/IBM",
+                        "CRC-16, CRC-IBM, CRC-16/ARC, CRC-16/LHA",
                         16,
                         0x8005,
                         0x0000,

@@ -44,6 +44,8 @@ public class CrcAlgorithmRow {
         //==============================================//
 
         TextField crcValueTextField = new TextField();
+        crcValueTextField.setPrefWidth(110);
+
         gridPane.add(crcValueTextField, currColumnIndex++, rowIndexToAddTo);
 
         crcValueCalcVar.setName("crcValueCalcVar");
@@ -70,7 +72,7 @@ public class CrcAlgorithmRow {
             long crcResult = crcGeneric.getValue();
 
             // Convert to hex for display
-            String crcResultAsHex = "0x" + String.format("%04X", crcResult);
+            String crcResultAsHex = String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcResult);
 
             return crcResultAsHex;
 

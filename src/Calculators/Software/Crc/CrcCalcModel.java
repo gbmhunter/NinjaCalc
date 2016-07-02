@@ -3,15 +3,12 @@ package Calculators.Software.Crc;
 
 // SYSTEM INCLUDES
 
-import Core.CalcValidationLevels;
-import Core.CalcValidationResult;
+import Core.*;
 import Core.CalcVar.CalcVarDirections;
-import Core.CalcVar.ComboBox.CalcVarComboBox;
 import Core.CalcVar.Generic.CalcVarGeneric;
+import Core.CalcVar.Numerical.CalcVarNumericalInput;
 import Core.CalcVar.RadioButtonGroup.CalcVarRadioButtonGroup;
 import Core.CalcVar.Text.CalcVarText;
-import Core.Calculator;
-import Utility.Crc.Crc16XModem;
 import Utility.Crc.CrcAlgorithmParameters;
 import Utility.Crc.CrcCatalogue;
 import Utility.Crc.CrcGeneric;
@@ -24,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +29,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-import java.util.zip.CRC32;
 
 // USER INCLUDES
 
@@ -50,6 +47,10 @@ public class CrcCalcModel extends Calculator {
 
     @FXML
     @SuppressWarnings("unused")
+    private WebView infoWebView;
+
+    @FXML
+    @SuppressWarnings("unused")
     private TextField crcDataTextField;
 
     @FXML
@@ -64,17 +65,53 @@ public class CrcCalcModel extends Calculator {
     @SuppressWarnings("unused")
     private GridPane crcValuesGridPane;
 
-    @FXML
-    @SuppressWarnings("unused")
-    private TextField crc16XmodemTextField;
+    //==============================================//
+    //======== USER-SELECTED CRC ALGORITHM =========//
+    //==============================================//
 
     @FXML
-    @SuppressWarnings("unused")
-    private TextField crc32TextField;
+    private ComboBox<CrcCatalogue.PresetCrcAlgorithmsIds> selectCrcAlgorithmComboBox;
 
     @FXML
-    @SuppressWarnings("unused")
-    private WebView infoWebView;
+    private TextField selectedCrcAlgorithmCrcValue;
+
+    // Additional information
+
+    @FXML
+    private Label selectedCrcNameLabel;
+    @FXML
+    private Label crcWidthLabel;
+    @FXML
+    private Label generatorPolynomialLabel;
+    @FXML
+    private Label selectedCrcInitValueLabel;
+    @FXML
+    private Label selectedCrcReflectDataInLabel;
+    @FXML
+    private Label selectedCrcReflectCrcOutLabel;
+    @FXML
+    private Label selectedCrcXorOutLabel;
+    @FXML
+    private Label selectedCrcCheckLabel;
+
+    //==============================================//
+    //============ CUSTOM CRC ALGORITHM ============//
+    //==============================================//
+
+    @FXML
+    private TextField customCrcWidthTextField;
+    @FXML
+    private TextField customCrcGeneratorPolynomialTextField;
+    @FXML
+    private TextField customCrcInitValueTextField;
+    @FXML
+    private CheckBox customCrcReflectDataInCheckBox;
+    @FXML
+    private CheckBox customCrcReflectCrcOutCheckBox;
+    @FXML
+    private TextField customCrcXorOutTextField;
+    @FXML
+    private TextField customCrcValueTextField;
 
     //===============================================================================================//
     //====================================== CALCULATOR VARIABLES ===================================//
@@ -96,16 +133,23 @@ public class CrcCalcModel extends Calculator {
     Set<CrcCatalogue.PresetCrcAlgorithmsIds> crcAlgorithmsToDisplayIndividually =
             EnumSet.of(
                     CrcCatalogue.PresetCrcAlgorithmsIds.CRC_8_MAXIM,
-                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_8_WCDMA,
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_8_SMBUS,
                     CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_CCITT_FALSE,
-                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_CDMA2000,
-                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_GENIBUS,
                     CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_KERMIT_CCITT_TRUE,
                     CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_MAXIM,
-                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_MODBUS,
-                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_32_POSIX_CKSUM);
+                    CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_MODBUS);
 
     CalcVarText userSelectableCrcValueCalcVar = new CalcVarText();
+
+    //==============================================//
+    //============== CUSTOM CRC ALGORITHM ==========//
+    //==============================================//
+
+    CalcVarNumericalInput customCrcWidthCalcVar = new CalcVarNumericalInput();
+    CalcVarText customCrcGeneratorPolynomialCalcVar = new CalcVarText();
+    CalcVarText customCrcInitCalcVar = new CalcVarText();
+    CalcVarText customCrcXorOutCalcVar = new CalcVarText();
+    CalcVarText customCrcValueCalcVar = new CalcVarText();
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -232,12 +276,13 @@ public class CrcCalcModel extends Calculator {
             crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
             crcDataCalcVar.updateUIBasedOnValidationResults();
 
+
             return buffer;
         });
         addCalcVar(convertedCrcDataCalcVar);
 
         //===============================================================================================//
-        //=============================== GRIDPANE CRC VALUES (output) ================================//
+        //======================================= COMMON CRC ALGORITHMS =================================//
         //===============================================================================================//
 
         // Start inserting CRC algorithm rows at row = 1, since the first row is the header
@@ -245,7 +290,7 @@ public class CrcCalcModel extends Calculator {
         int currGridPaneRow = 1;
 
         // Insert all important CRC algorithms into GridPane
-        for(CrcCatalogue.PresetCrcAlgorithmsIds presetCrcAlgorithmsIds : crcAlgorithmsToDisplayIndividually) {
+        for (CrcCatalogue.PresetCrcAlgorithmsIds presetCrcAlgorithmsIds : crcAlgorithmsToDisplayIndividually) {
             new CrcAlgorithmRow(
                     crcValuesGridPane,
                     currGridPaneRow++,
@@ -258,21 +303,13 @@ public class CrcCalcModel extends Calculator {
         //======== USER-SELECTABLE CRC ALGORITHM =======//
         //==============================================//
 
-        ComboBox<CrcCatalogue.PresetCrcAlgorithmsIds> selectCrcAlgorithmComboBox = new ComboBox();
-
-        crcValuesGridPane.add(selectCrcAlgorithmComboBox, 0, currGridPaneRow);
-
-        for(CrcCatalogue.PresetCrcAlgorithmsIds presetCrcAlgorithmsId : CrcCatalogue.PresetCrcAlgorithmsIds.values()) {
-
-            if(!crcAlgorithmsToDisplayIndividually.contains(presetCrcAlgorithmsId)) {
-                // CRC algorithm is NOT displayed individually, so lets add it too
-                // the combobox
-                selectCrcAlgorithmComboBox.getItems().add(presetCrcAlgorithmsId);
-            }
+        for (CrcCatalogue.PresetCrcAlgorithmsIds presetCrcAlgorithmsId : CrcCatalogue.PresetCrcAlgorithmsIds.values()) {
+            selectCrcAlgorithmComboBox.getItems().add(presetCrcAlgorithmsId);
         }
 
 
-        // Configure how the ComboBox will display it's items
+        // Configure how the ComboBox will display it's items (NOT selected item, but items
+        // in dropdown)
         selectCrcAlgorithmComboBox
                 .setCellFactory(new Callback<ListView<CrcCatalogue.PresetCrcAlgorithmsIds>, ListCell<CrcCatalogue.PresetCrcAlgorithmsIds>>() {
                     @Override
@@ -286,6 +323,7 @@ public class CrcCalcModel extends Calculator {
                             public void updateItem(CrcCatalogue.PresetCrcAlgorithmsIds item, boolean empty) {
                                 super.updateItem(item, empty);
                                 if (item != null) {
+                                    // This next line sets the display string in the combobox
                                     setText(CrcCatalogue.get(item).name);
                                 } else {
                                     setText(null);
@@ -296,22 +334,51 @@ public class CrcCalcModel extends Calculator {
                     }
                 });
 
-        selectCrcAlgorithmComboBox.setValue(CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_X25_IBM_SLDC_ISO_HDLC);
+        // Configure how the ComboBox will display the selected item
+        selectCrcAlgorithmComboBox.setConverter(new StringConverter<CrcCatalogue.PresetCrcAlgorithmsIds>() {
+            @Override
+            public String toString(CrcCatalogue.PresetCrcAlgorithmsIds item) {
+                if (item == null) {
+                    return null;
+                } else {
+                    return CrcCatalogue.get(item).name;
+                }
+            }
+
+            @Override
+            public CrcCatalogue.PresetCrcAlgorithmsIds fromString(String item) {
+                return null;
+            }
+        });
+
+        //selectCrcAlgorithmComboBox.setValue(CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_X25_IBM_SLDC_ISO_HDLC);
+        selectCrcAlgorithmComboBox.setValue(null);
 
         selectCrcAlgorithmComboBox.valueProperty().addListener(new ChangeListener<CrcCatalogue.PresetCrcAlgorithmsIds>() {
-            @Override public void changed(ObservableValue ov, CrcCatalogue.PresetCrcAlgorithmsIds oldValue, CrcCatalogue.PresetCrcAlgorithmsIds newValue) {
+            @Override
+            public void changed(ObservableValue ov, CrcCatalogue.PresetCrcAlgorithmsIds oldValue, CrcCatalogue.PresetCrcAlgorithmsIds newValue) {
                 System.out.println("Changing user-selectable CRC algorithm...");
                 userSelectableCrcValueCalcVar.calculate();
+
+                CrcAlgorithmParameters crcAlgorithmParameters = CrcCatalogue.get(newValue);
+
+                // Update all info about new CRC algorithm
+                selectedCrcNameLabel.setText(crcAlgorithmParameters.name);
+                crcWidthLabel.setText(Integer.toString(crcAlgorithmParameters.crcWidthBits));
+                generatorPolynomialLabel.setText(String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcAlgorithmParameters.crcPolynomial));
+                selectedCrcInitValueLabel.setText(String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcAlgorithmParameters.startingValue));
+                selectedCrcReflectDataInLabel.setText(Boolean.toString(crcAlgorithmParameters.reflectData));
+                selectedCrcReflectCrcOutLabel.setText(Boolean.toString(crcAlgorithmParameters.reflectRemainder));
+                selectedCrcXorOutLabel.setText(String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcAlgorithmParameters.finalXorValue));
+                selectedCrcCheckLabel.setText(String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcAlgorithmParameters.checkValue));
+
             }
         });
 
         // TEXT FIELD
 
-        TextField userSelectableCrcValueTextField = new TextField();
-        crcValuesGridPane.add(userSelectableCrcValueTextField, 1, currGridPaneRow);
-
         userSelectableCrcValueCalcVar.setName("crcValueCalcVar");
-        userSelectableCrcValueCalcVar.setTextField(userSelectableCrcValueTextField);
+        userSelectableCrcValueCalcVar.setTextField(selectedCrcAlgorithmCrcValue);
         userSelectableCrcValueCalcVar.setDirectionFunction(() -> {
             return CalcVarDirections.Output;
         });
@@ -325,10 +392,15 @@ public class CrcCalcModel extends Calculator {
 
             CrcCatalogue.PresetCrcAlgorithmsIds presetCrcAlgorithmsId = selectCrcAlgorithmComboBox.getValue();
 
-            // Create a CRC engine
-            CrcGeneric crcGeneric = new CrcGeneric(CrcCatalogue.get(presetCrcAlgorithmsId));
+            if (presetCrcAlgorithmsId == null) {
+                return "";
+            }
 
-            for(Integer data : convertedCrcData) {
+            // Create a CRC engine
+            CrcAlgorithmParameters crcAlgorithmParameters = CrcCatalogue.get(presetCrcAlgorithmsId);
+            CrcGeneric crcGeneric = new CrcGeneric(crcAlgorithmParameters);
+
+            for (Integer data : convertedCrcData) {
                 crcGeneric.update(data);
             }
 
@@ -336,13 +408,131 @@ public class CrcCalcModel extends Calculator {
             long crcResult = crcGeneric.getValue();
 
             // Convert to hex for display
-            String crcResultAsHex = "0x" + String.format("%04X", crcResult);
+            String crcResultAsHex = String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcResult);
 
             return crcResultAsHex;
 
         });
         userSelectableCrcValueCalcVar.setHelpText("The CRC result for the user-selectable algorithm.");
         addCalcVar(userSelectableCrcValueCalcVar);
+
+        //===============================================================================================//
+        //===================================== CUSTOM CRC ALGORITHM ====================================//
+        //===============================================================================================//
+
+        customCrcWidthCalcVar.setName("customCrcWidthCalcVar");
+        customCrcWidthCalcVar.setValueTextField(customCrcWidthTextField);
+        customCrcWidthCalcVar.setUnits(new NumberUnitMultiplier[]{
+                new NumberUnitMultiplier("no unit", 1e0, NumberPreference.DEFAULT),
+        });
+        customCrcWidthCalcVar.setHelpText("The width of the CRC generator polynomial (and resulting CRC value).");
+        customCrcWidthCalcVar.setIsEngineeringNotationEnabled(false);
+        addCalcVar(customCrcWidthCalcVar);
+
+
+        customCrcGeneratorPolynomialCalcVar.setName("crcDataCalcVar");
+        customCrcGeneratorPolynomialCalcVar.setTextField(customCrcGeneratorPolynomialTextField);
+        customCrcGeneratorPolynomialCalcVar.setDirectionFunction(() -> {
+            return CalcVarDirections.Input;
+        });
+        customCrcGeneratorPolynomialCalcVar.setHelpText("The generator polynomial for the CRC.");
+        customCrcValueCalcVar.addValidator(
+                new Validator(() -> {
+
+                    try{
+                        Long.parseLong(customCrcValueCalcVar.getValue(), 16);
+                    } catch(NumberFormatException e) {
+                        return CalcValidationLevels.Error;
+                    }
+
+                    return CalcValidationLevels.Ok;
+                },
+                "The generator polynomial must be a valid hex number."));
+        addCalcVar(customCrcGeneratorPolynomialCalcVar);
+
+
+        customCrcInitCalcVar.setName("customCrcInitCalcVar");
+        customCrcInitCalcVar.setTextField(customCrcInitValueTextField);
+        customCrcInitCalcVar.setDirectionFunction(() -> {
+            return CalcVarDirections.Input;
+        });
+        customCrcInitCalcVar.setHelpText("The initial value for the CRC.");
+        addCalcVar(customCrcInitCalcVar);
+
+
+        customCrcReflectDataInCheckBox.selectedProperty().addListener(
+                (ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) -> {
+                customCrcValueCalcVar.calculate();
+            }
+        );
+
+
+        customCrcReflectCrcOutCheckBox.selectedProperty().addListener(
+                (ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) -> {
+                    customCrcValueCalcVar.calculate();
+                }
+        );
+
+
+        customCrcXorOutCalcVar.setName("customCrcXorOutCalcVar");
+        customCrcXorOutCalcVar.setTextField(customCrcXorOutTextField);
+        customCrcXorOutCalcVar.setDirectionFunction(() -> {
+            return CalcVarDirections.Input;
+        });
+        customCrcXorOutCalcVar.setHelpText("The XOR out value for the CRC.");
+        addCalcVar(customCrcXorOutCalcVar);
+
+
+        customCrcValueCalcVar.setName("customCrcValueCalcVar");
+        customCrcValueCalcVar.setTextField(customCrcValueTextField);
+        customCrcValueCalcVar.setDirectionFunction(() -> {
+            return CalcVarDirections.Output;
+        });
+        customCrcValueCalcVar.setEquationFunction(() -> {
+
+            // Read dependencies
+            Integer crcWidth = (int)customCrcWidthCalcVar.getRawVal();
+            String crcGeneratorPolynomial = customCrcGeneratorPolynomialCalcVar.getValue();
+            String crcInitialValue = customCrcInitCalcVar.getValue();
+            Boolean reflectDataIn = customCrcReflectDataInCheckBox.isSelected();
+            Boolean reflectCrcOut = customCrcReflectCrcOutCheckBox.isSelected();
+            String crcXorOut = customCrcXorOutCalcVar.getValue();
+
+            // Convert dependencies as necessary
+            Long generatorPolynomialAsLong;
+            Long initialValueAsLong;
+            Long xorOutAsLong;
+            try {
+                generatorPolynomialAsLong = Long.parseLong(crcGeneratorPolynomial, 16);
+                initialValueAsLong = Long.parseLong(crcInitialValue, 16);
+                xorOutAsLong = Long.parseLong(crcXorOut, 16);
+            } catch(NumberFormatException e) {
+                System.err.println("Could not convert data!");
+                return "";
+            }
+
+            CrcGeneric crcGeneric = new CrcGeneric(
+                    crcWidth,
+                    generatorPolynomialAsLong,
+                    initialValueAsLong,
+                    xorOutAsLong,
+                    reflectDataIn,
+                    reflectCrcOut);
+
+            for (Integer data : convertedCrcDataCalcVar.getValue()) {
+                crcGeneric.update(data);
+            }
+
+            //Integer crcResult = Crc16XModem.CalcFast(convertedCrcData);
+            long crcResult = crcGeneric.getValue();
+
+            // Convert to hex for display
+            String crcResultAsHex = String.format("0x%0" + crcWidth / 4 + "X", crcResult);
+
+            return crcResultAsHex;
+
+        });
+        addCalcVar(customCrcValueCalcVar);
 
 
         //===============================================================================================//
@@ -355,77 +545,6 @@ public class CrcCalcModel extends Calculator {
         this.validateAllVariables();
 
     }
-
-//    public void calculateAll() {
-//
-//        String crcDataString = crcDataCalcVar.getValue();
-//        Toggle inputDataType = calcVarRadioButtonGroup.getValue();
-//
-//        // Convert this string into a list of integers
-//        List<Integer> buffer = new ArrayList<>();
-//
-//        if(inputDataType == asciiUnicode) {
-//            for (int i = 0; i < crcDataString.length(); i++) {
-//                char currentChar = crcDataString.charAt(i);
-//
-//                // Convert the character into it's equivalent Unicode integer
-//                // Note: Since Unicode is a complete superset of ASCII, this will
-//                // work for ASCII characters to
-//                buffer.add((int) currentChar);
-//            }
-//        } else if(inputDataType == hex) {
-//
-//            // Note: i gets incremented each time by 2
-//            for (int i = 0; i < crcDataString.length(); i += 2) {
-//
-//                String hexByte;
-//                // Special case if string length is odd, for the last value we
-//                // have to extract just one character
-//                if(crcDataString.length() - i == 1) {
-//                    hexByte = crcDataString.substring(i, i + 1);
-//                } else {
-//                    // Extract 2-character strings from the CRC data
-//                    hexByte = crcDataString.substring(i, i + 2);
-//                }
-//
-//                try {
-//                    Integer integerValueOfHex = Integer.parseInt(hexByte, 16);
-//                    buffer.add(integerValueOfHex);
-//
-//                } catch(NumberFormatException e) {
-//                    // We will get here if the input data is not valid hex, e.g. it has
-//                    // characters after f in the input
-//                    crcDataCalcVar.validationResults.add(
-//                            new CalcValidationResult(
-//                                    CalcValidationLevels.Error,
-//                                    "Input data is not valid. If in \"Hex\"mode, data must contain only the numerals 0-9 and the characters A-F. Do not add \"0x\"to the start of the hex number."));
-//                    crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Error;
-//                    crcDataCalcVar.updateUIBasedOnValidationResults();
-//
-//                    return;
-//
-//                }
-//            }
-//        }
-//
-//        Integer crcResult = Crc16XModem.CalcFast(buffer);
-//
-//        // Convert to hex for display
-//        String crcResultAsHex = "0x" + String.format("%04X", crcResult);
-//
-//        crc16XmodemCalcVar.setValue(crcResultAsHex);
-//
-//        // If we make it to here, everything was o.k.
-//        crcDataCalcVar.validationResults.clear();
-//        crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
-//        crcDataCalcVar.updateUIBasedOnValidationResults();
-//
-//        crc16XmodemCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
-//        crc16XmodemCalcVar.updateUIBasedOnValidationResults();
-//
-//        //return crcResultAsHex;
-//
-//    }
 
 }
 
