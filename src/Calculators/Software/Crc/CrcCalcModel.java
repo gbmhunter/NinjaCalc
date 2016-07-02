@@ -6,6 +6,7 @@ package Calculators.Software.Crc;
 import Core.*;
 import Core.CalcVar.CalcVarDirections;
 import Core.CalcVar.Generic.CalcVarGeneric;
+import Core.CalcVar.Numerical.CalcVarNumerical;
 import Core.CalcVar.Numerical.CalcVarNumericalInput;
 import Core.CalcVar.RadioButtonGroup.CalcVarRadioButtonGroup;
 import Core.CalcVar.Text.CalcVarText;
@@ -427,6 +428,17 @@ public class CrcCalcModel extends Calculator {
         });
         customCrcWidthCalcVar.setHelpText("The width of the CRC generator polynomial (and resulting CRC value).");
         customCrcWidthCalcVar.setIsEngineeringNotationEnabled(false);
+        customCrcWidthCalcVar.addValidator(CalcVarNumerical.PrebuiltValidators.IS_INTEGER);
+        customCrcWidthCalcVar.addValidator(CalcVarNumerical.PrebuiltValidators.IS_GREATER_THAN_0);
+        customCrcWidthCalcVar.addValidator(
+                new Validator(() -> {
+                    if(customCrcWidthCalcVar.getRawVal() > 64) {
+                        return CalcValidationLevels.Error;
+                    } else {
+                        return CalcValidationLevels.Ok;
+                    }
+                },
+                "Width of CRC must not be bigger than 64 bits."));
         addCalcVar(customCrcWidthCalcVar);
 
 
@@ -436,18 +448,7 @@ public class CrcCalcModel extends Calculator {
             return CalcVarDirections.Input;
         });
         customCrcGeneratorPolynomialCalcVar.setHelpText("The generator polynomial for the CRC.");
-        customCrcValueCalcVar.addValidator(
-                new Validator(() -> {
-
-                    try{
-                        Long.parseLong(customCrcValueCalcVar.getValue(), 16);
-                    } catch(NumberFormatException e) {
-                        return CalcValidationLevels.Error;
-                    }
-
-                    return CalcValidationLevels.Ok;
-                },
-                "The generator polynomial must be a valid hex number."));
+        customCrcGeneratorPolynomialCalcVar.addValidator(CalcVarText.PrebuiltValidators.MUST_BE_HEX);
         addCalcVar(customCrcGeneratorPolynomialCalcVar);
 
 
@@ -457,6 +458,7 @@ public class CrcCalcModel extends Calculator {
             return CalcVarDirections.Input;
         });
         customCrcInitCalcVar.setHelpText("The initial value for the CRC.");
+        customCrcInitCalcVar.addValidator(CalcVarText.PrebuiltValidators.MUST_BE_HEX);
         addCalcVar(customCrcInitCalcVar);
 
 
@@ -480,6 +482,7 @@ public class CrcCalcModel extends Calculator {
             return CalcVarDirections.Input;
         });
         customCrcXorOutCalcVar.setHelpText("The XOR out value for the CRC.");
+        customCrcXorOutCalcVar.addValidator(CalcVarText.PrebuiltValidators.MUST_BE_HEX);
         addCalcVar(customCrcXorOutCalcVar);
 
 
@@ -491,6 +494,7 @@ public class CrcCalcModel extends Calculator {
         customCrcValueCalcVar.setEquationFunction(() -> {
 
             // Read dependencies
+            List<Integer> crcData = convertedCrcDataCalcVar.getValue();
             Integer crcWidth = (int)customCrcWidthCalcVar.getRawVal();
             String crcGeneratorPolynomial = customCrcGeneratorPolynomialCalcVar.getValue();
             String crcInitialValue = customCrcInitCalcVar.getValue();
@@ -519,7 +523,7 @@ public class CrcCalcModel extends Calculator {
                     reflectDataIn,
                     reflectCrcOut);
 
-            for (Integer data : convertedCrcDataCalcVar.getValue()) {
+            for (Integer data : crcData) {
                 crcGeneric.update(data);
             }
 

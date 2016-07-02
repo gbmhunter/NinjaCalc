@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Used by the StandardResistanceFinderCalcModel class.
  *
  * @author              gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
- * @last-modified       2016-06-25
+ * @last-modified       2016-07-02
  * @since               2016-05-14
  */
 public class ESeriesResistanceRow {
@@ -86,8 +86,8 @@ public class ESeriesResistanceRow {
         closestResistanceCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestResistanceCalcVar.addValidator(Validator.IsNumber(closestResistanceCalcVar, CalcValidationLevels.Error));
+        closestResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(closestResistanceCalcVar, CalcValidationLevels.Error));
 
         calculator.addCalcVar(closestResistanceCalcVar);
 
@@ -127,8 +127,8 @@ public class ESeriesResistanceRow {
         closestResistanceErrorCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
+        closestResistanceErrorCalcVar.addValidator(Validator.IsNumber(closestResistanceErrorCalcVar, CalcValidationLevels.Error));
+        closestResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(closestResistanceErrorCalcVar, CalcValidationLevels.Error));
 
         calculator.addCalcVar(closestResistanceErrorCalcVar);
 
@@ -166,8 +166,8 @@ public class ESeriesResistanceRow {
         closestEqualOrLowerResistanceCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsNumber(closestEqualOrLowerResistanceCalcVar, CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(closestEqualOrLowerResistanceCalcVar, CalcValidationLevels.Error));
 
         calculator.addCalcVar(closestEqualOrLowerResistanceCalcVar);
 
@@ -207,8 +207,8 @@ public class ESeriesResistanceRow {
         closestEqualOrLowerResistanceErrorCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsNumber(closestEqualOrLowerResistanceErrorCalcVar, CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(closestEqualOrLowerResistanceErrorCalcVar, CalcValidationLevels.Error));
 
         calculator.addCalcVar(closestEqualOrLowerResistanceErrorCalcVar);
 
@@ -246,8 +246,8 @@ public class ESeriesResistanceRow {
         closestEqualOrHigherResistanceCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsNumber(closestEqualOrHigherResistanceCalcVar, CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(closestEqualOrHigherResistanceCalcVar, CalcValidationLevels.Error));
 
         calculator.addCalcVar(closestEqualOrHigherResistanceCalcVar);
 
@@ -287,8 +287,8 @@ public class ESeriesResistanceRow {
         closestEqualOrHigherResistanceErrorCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsNumber(closestEqualOrHigherResistanceErrorCalcVar, CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(closestEqualOrHigherResistanceErrorCalcVar, CalcValidationLevels.Error));
 
         calculator.addCalcVar(closestEqualOrHigherResistanceErrorCalcVar);
 

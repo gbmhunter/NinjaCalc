@@ -88,15 +88,23 @@ public class CalcVarRadioButtonGroup extends CalcVarBase {
     //======================================== GENERAL METHODS ======================================//
     //===============================================================================================//
 
+    @Override
     public void calculate() {
 
     }
 
+    @Override
     public void validate() {
 
     }
 
+    @Override
     public void updateUIFromDirection() {
+
+    }
+
+    @Override
+    public void updateUIBasedOnValidationResults() {
 
     }
 

@@ -200,10 +200,11 @@ public abstract class Calculator implements Serializable {
         for (CalcVarBase calcVar : this.calcVars) {
             // We can only validate numerical calculator variables
             // (this may change in the future)
-            if (calcVar instanceof CalcVarNumerical) {
-                CalcVarNumerical calcVarNumerical = (CalcVarNumerical) calcVar;
-                calcVarNumerical.validate();
-            }
+//            if (calcVar instanceof CalcVarNumerical) {
+//                CalcVarNumerical calcVarNumerical = (CalcVarNumerical) calcVar;
+//                calcVarNumerical.validate();
+//            }
+            calcVar.validate();
         }
     }
 

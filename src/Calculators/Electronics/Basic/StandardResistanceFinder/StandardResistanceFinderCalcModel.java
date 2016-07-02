@@ -188,8 +188,8 @@ public class StandardResistanceFinderCalcModel extends Calculator {
         this.desiredResistance.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        this.desiredResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.desiredResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.desiredResistance.addValidator(Validator.IsNumber(desiredResistance, CalcValidationLevels.Error));
+        this.desiredResistance.addValidator(Validator.IsGreaterThanZero(desiredResistance, CalcValidationLevels.Error));
         this.desiredResistance.addValidator(
                 new Validator(() -> {
                     return ((this.desiredResistance.getRawVal() < 1.0 || this.desiredResistance.getRawVal() > 10.0e6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);

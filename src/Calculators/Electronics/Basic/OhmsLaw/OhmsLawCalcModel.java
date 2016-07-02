@@ -144,8 +144,8 @@ public class OhmsLawCalcModel extends Calculator {
         this.voltage.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.voltage.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.voltage.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.voltage.addValidator(Validator.IsNumber(voltage, CalcValidationLevels.Error));
+        this.voltage.addValidator(Validator.IsGreaterThanZero(voltage, CalcValidationLevels.Error));
 
         addCalcVar(this.voltage);
 
@@ -174,8 +174,8 @@ public class OhmsLawCalcModel extends Calculator {
         this.current.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.current.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.current.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.current.addValidator(Validator.IsNumber(current, CalcValidationLevels.Error));
+        this.current.addValidator(Validator.IsGreaterThanZero(current, CalcValidationLevels.Error));
 
         addCalcVar(this.current);
 
@@ -205,8 +205,8 @@ public class OhmsLawCalcModel extends Calculator {
         this.resistance.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.resistance.addValidator(Validator.IsNumber(resistance, CalcValidationLevels.Error));
+        this.resistance.addValidator(Validator.IsGreaterThanZero(resistance, CalcValidationLevels.Error));
 
         addCalcVar(this.resistance);
 

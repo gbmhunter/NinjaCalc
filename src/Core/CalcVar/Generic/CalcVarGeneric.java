@@ -57,6 +57,11 @@ public class CalcVarGeneric<E> extends CalcVarBase {
     }
 
     @Override
+    public void updateUIBasedOnValidationResults() {
+
+    }
+
+    @Override
     public void validate() {
 
     }

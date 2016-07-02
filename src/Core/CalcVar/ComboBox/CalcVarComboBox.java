@@ -179,6 +179,10 @@ public class CalcVarComboBox extends CalcVarBase {
         this.forceDependantOutputsToRecalculate();
     }
 
+    @Override
+    public void updateUIBasedOnValidationResults() {
+
+    }
 
     public void updateUIFromDirection() {
         // Currently there is no UI update for a "ComboBox" style calculator variable, since

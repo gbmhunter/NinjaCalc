@@ -187,33 +187,6 @@ public class NtcThermistorCalcModel extends Calculator {
         //============================================ BETA (I/O) =======================================//
         //===============================================================================================//
 
-        /*this.beta = new CalcVarNumerical(
-            "beta",                // Variable name (used for debugging)
-            this.betaTextField,        // Textbox for value (UI object)
-            this.betaComboBox,        // Combobox for units (UI object)
-            () -> {             // Equation when an output
-
-                // Read dependency variables
-                Double referenceResistance_Ohms = this.referenceResistance.getRawVal();
-                Double referenceTemperature_K = this.referenceTemperature.getRawVal();
-                Double thermistorResistance_Ohms = this.thermistorResistance.getRawVal();
-                Double thermistorTemperature_K = this.thermistorTemperature.getRawVal();
-
-                Double beta_NoUnit = Math.log(thermistorResistance_Ohms/referenceResistance_Ohms) / (1/thermistorTemperature_K - 1/referenceTemperature_K);
-                return beta_NoUnit;
-            },
-            new NumberUnitMultiplier[]{   // units
-                new NumberUnitMultiplier("no unit", 1e0),
-            },
-            4,                  // Num. digits to round to
-            () -> {             // Direction-determining function
-                if(betaRadioButton.isSelected()) return CalcVarDirections.Output;
-                else return CalcVarDirections.Input;
-            },
-            null,               // Default value
-            "The coefficient beta. This is usually specified in the thermistors datasheet." // Help text
-            );*/
-
         this.beta.setName("beta");
         this.beta.setValueTextField(this.betaTextField);
         this.beta.setUnitsComboBox(this.betaComboBox);
@@ -239,40 +212,14 @@ public class NtcThermistorCalcModel extends Calculator {
         this.beta.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.beta.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.beta.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.beta.addValidator(Validator.IsNumber(beta, CalcValidationLevels.Error));
+        this.beta.addValidator(Validator.IsGreaterThanZero(beta, CalcValidationLevels.Error));
 
         addCalcVar(this.beta);
 
         //===============================================================================================//
         //==================================== REFERENCE RESISTANCE (I/O) ===============================//
         //===============================================================================================//
-
-        /*this.referenceResistance = new CalcVarNumerical(
-                "referenceResistance",                // Variable name (used for debugging)
-                this.referenceResistanceTextField,          // Textbox for value (UI object)
-                this.referenceResistanceComboBox,             // Combobox for units (UI object)
-                () -> {             // Equation when an output
-                    // Read dependency variables
-                    Double beta_NoUnit = this.beta.getRawVal();
-                    Double referenceTemperature_K = this.referenceTemperature.getRawVal();
-                    Double thermistorResistance_Ohms = this.thermistorResistance.getRawVal();
-                    Double thermistorTemperature_K = this.thermistorTemperature.getRawVal();
-
-                    Double referenceResistance_Ohms = thermistorResistance_Ohms / (Math.exp(beta_NoUnit*(1/thermistorTemperature_K - 1/referenceTemperature_K)));
-                    return referenceResistance_Ohms;
-                },
-                new NumberUnitMultiplier[]{   // units
-                        new NumberUnitMultiplier("Ω", 1e0),
-                },
-                4,                  // Num. digits to round to
-                () -> {             // Direction-determining function
-                    if(referenceResistanceRadioButton.isSelected()) return CalcVarDirections.Output;
-                    else return CalcVarDirections.Input;
-                },   // Default direction
-                null,               // Default value
-                "The resistance of the thermistor at the reference point. This is usually when the thermistor is at 25°C." // Help text
-        );*/
 
         this.referenceResistance.setName("referenceResistance");
         this.referenceResistance.setValueTextField(this.referenceResistanceTextField);
@@ -299,41 +246,14 @@ public class NtcThermistorCalcModel extends Calculator {
         this.referenceResistance.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.referenceResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.referenceResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.referenceResistance.addValidator(Validator.IsNumber(referenceResistance, CalcValidationLevels.Error));
+        this.referenceResistance.addValidator(Validator.IsGreaterThanZero(referenceResistance, CalcValidationLevels.Error));
 
         addCalcVar(this.referenceResistance);
 
         //===============================================================================================//
         //==================================== REFERENCE TEMPERATURE (I/O) ==============================//
         //===============================================================================================//
-
-        /*this.referenceTemperature = new CalcVarNumerical(
-                "referenceTemperature",               // Variable name (used for debugging)
-                this.referenceTemperatureTextField,       // Textbox for value (UI object)
-                this.referenceTemperatureComboBox,       // Combobox for units (UI object)
-                () -> {             // Equation when an output
-
-                    // Read dependency variables
-                    Double beta_NoUnit = this.beta.getRawVal();
-                    Double referenceResistance_Ohms = this.referenceResistance.getRawVal();
-                    Double thermistorResistance_Ohms = this.thermistorResistance.getRawVal();
-                    Double thermistorTemperature_K = this.thermistorTemperature.getRawVal();
-
-                    Double referenceTemperature_K = 1.0/(1/thermistorTemperature_K - (1.0/beta_NoUnit)*Math.log(thermistorResistance_Ohms/referenceResistance_Ohms));
-                    return referenceTemperature_K;
-                },
-                new NumberUnit[]{   // units
-                        new NumberUnitFunction("°C", (value) -> { return value - 273.15; }, (value) -> { return value + 273.15; }),
-                },
-                4,                  // Num. digits to round to
-                () -> {             // Direction-determining function
-                    if(referenceTemperatureRadioButton.isSelected()) return CalcVarDirections.Output;
-                    else return CalcVarDirections.Input;
-                },
-                null,               // Default value
-                "The temperature of the thermistor at the reference point. This is usually 25°C." // Help text
-        );*/
 
         this.referenceTemperature.setName("referenceTemperature");
         this.referenceTemperature.setValueTextField(this.referenceTemperatureTextField);
@@ -360,40 +280,13 @@ public class NtcThermistorCalcModel extends Calculator {
         this.referenceTemperature.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.referenceTemperature.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        //this.referenceTemperature.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.referenceTemperature.addValidator(Validator.IsNumber(referenceTemperature, CalcValidationLevels.Error));
 
         addCalcVar(this.referenceTemperature);
 
         //===============================================================================================//
         //==================================== THERMISTOR RESISTANCE (I/O) ==============================//
         //===============================================================================================//
-
-        /*this.thermistorResistance = new CalcVarNumerical(
-                "thermistorResistance",                // Variable name (used for debugging)
-                this.thermistorResistanceTextField,          // Textbox for value (UI object)
-                this.thermistorResistanceComboBox,            // Combobox for units (UI object)
-                () -> {             // Equation when an output
-                    // Read dependency variables
-                    Double beta_NoUnit = this.beta.getRawVal();
-                    Double referenceResistance_Ohms = this.referenceResistance.getRawVal();
-                    Double referenceTemperature_K = this.referenceTemperature.getRawVal();
-                    Double thermistorTemperature_K = this.thermistorTemperature.getRawVal();
-
-                    Double thermistorResistance_Ohms = referenceResistance_Ohms * Math.exp(beta_NoUnit*(1/thermistorTemperature_K - 1/referenceTemperature_K));
-                    return thermistorResistance_Ohms;
-                },
-                new NumberUnitMultiplier[]{   // units
-                        new NumberUnitMultiplier("Ω", 1e0),
-                },
-                4,                  // Num. digits to round to
-                () -> {             // Direction-determining function
-                    if(this.thermistorResistanceRadioButton.isSelected()) return CalcVarDirections.Output;
-                    else return CalcVarDirections.Input;
-                },   // Default direction
-                null,               // Default value
-                "The present resistance of the thermistor, at temperature T." // Help text
-        );*/
 
         this.thermistorResistance.setName("thermistorResistance");
         this.thermistorResistance.setValueTextField(this.thermistorResistanceTextField);
@@ -420,40 +313,14 @@ public class NtcThermistorCalcModel extends Calculator {
         this.thermistorResistance.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.thermistorResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.thermistorResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.thermistorResistance.addValidator(Validator.IsNumber(thermistorResistance, CalcValidationLevels.Error));
+        this.thermistorResistance.addValidator(Validator.IsGreaterThanZero(thermistorResistance, CalcValidationLevels.Error));
 
         addCalcVar(this.thermistorResistance);
 
         //===============================================================================================//
         //==================================== THERMISTOR TEMPERATURE (I/O) =============================//
         //===============================================================================================//
-
-        /*this.thermistorTemperature = new CalcVarNumerical(
-                "thermistorTemperature",               // Variable name (used for debugging)
-                this.thermistorTemperatureTextField,       // Textbox for value (UI object)
-                this.thermistorTemperatureComboBox,       // Combobox for units (UI object)
-                () -> {             // Equation when an output
-
-                    // Read dependency variables
-                    Double beta_NoUnit = this.beta.getRawVal();
-                    Double referenceResistance_Ohms = this.referenceResistance.getRawVal();
-                    Double referenceTemperature_DegC = this.referenceTemperature.getRawVal();
-                    Double thermistorResistance_Ohms = this.thermistorResistance.getRawVal();
-
-                    Double thermistorTemperature_DegC = 1.0/(1.0/referenceTemperature_DegC + (1.0/beta_NoUnit)*Math.log(thermistorResistance_Ohms/referenceResistance_Ohms));
-                    return thermistorTemperature_DegC;
-                },
-                new NumberUnit[]{   // units
-                        new NumberUnitFunction("°C", (value) -> { return value - 273.15; }, (value) -> { return value + 273.15; }),
-                },
-                4,                  // Num. digits to round to
-                () -> {             // Direction-determining function
-                    if(thermistorTemperatureRadioButton.isSelected()) return CalcVarDirections.Output;
-                    else return CalcVarDirections.Input;
-                },
-                null,               // Default value
-                "The present temperature of the thermistor, at resistance R.");*/
 
         this.thermistorTemperature.setName("thermistorTemperature");
         this.thermistorTemperature.setValueTextField(this.thermistorTemperatureTextField);
@@ -480,8 +347,7 @@ public class NtcThermistorCalcModel extends Calculator {
         this.thermistorTemperature.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.thermistorTemperature.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        //this.referenceTemperature.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.thermistorTemperature.addValidator(Validator.IsNumber(thermistorTemperature, CalcValidationLevels.Error));
 
         addCalcVar(this.thermistorTemperature);
 

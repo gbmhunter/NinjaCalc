@@ -1,36 +1,26 @@
 
 package Core.CalcVar.Text;
 
-import Core.*;
+import Core.CalcValidationLevels;
+import Core.CalcValidationResult;
 import Core.CalcVar.CalcVarBase;
 import Core.CalcVar.CalcVarDirections;
-import Utility.MetricPrefixes.MetricPrefixes;
-import Utility.MetricPrefixes.RoundingMethods;
-import Utility.Rounding;
+import Core.Validator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.Event;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
-import javafx.util.StringConverter;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
  * Encapsulates a single text-based variable in a NinjaCalc calculator (inherits from CalcVarBase).
  *
- * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
- * @since           2016-06-22
- * @last-modified   2016-06-26
+ * @author gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
+ * @last-modified 2016-07-02
+ * @since 2016-06-22
  */
 public class CalcVarText extends CalcVarBase {
 
@@ -38,7 +28,9 @@ public class CalcVarText extends CalcVarBase {
     //========================================= ENUMS ===============================================//
     //===============================================================================================//
 
-
+    public enum PrebuiltValidators {
+        MUST_BE_HEX,
+    }
 
     //===============================================================================================//
     //==================================== VARIABLES AND PROPERTIES =================================//
@@ -83,25 +75,35 @@ public class CalcVarText extends CalcVarBase {
      * is currently equal to.
      */
     private String value;
+
     public String getValue() {
         // Notify any listeners that the value of this calculator variable is being read.
         onValueRead();
         return value;
-    };
+    }
+
+    ;
+
     public void setValue(String value) {
         this.value = value;
         textField.setText(value);
         // Notify any listeners
         onValueChanged();
-    };
+    }
+
+    ;
 
 
     private TextField textField;
-    public TextField getTextField() { return this.textField; }
+
+    public TextField getTextField() {
+        return this.textField;
+    }
+
     public void setTextField(TextField textField) {
 
         // Make sure the provided text field is not null
-        if(textField == null)
+        if (textField == null)
             throw new IllegalArgumentException("Provided TextField for calculator variable \"" + this.getName() + "\" value was null. Is the @FXML binding name the same as the fx:id?");
 
         // Save reference to text field
@@ -115,8 +117,14 @@ public class CalcVarText extends CalcVarBase {
     }
 
     private String helpText;
-    public String getHelpText() { return helpText; }
-    public void setHelpText(String helpText) { this.helpText = helpText; }
+
+    public String getHelpText() {
+        return helpText;
+    }
+
+    public void setHelpText(String helpText) {
+        this.helpText = helpText;
+    }
 
     //===============================================================================================//
     //======================================== GENERAL METHODS ======================================//
@@ -125,26 +133,27 @@ public class CalcVarText extends CalcVarBase {
     /**
      * Calculates the raw value from the provided equation, calculates the displayed value from the raw value,
      * then updates the UI and forces all dependent outputs to recalculate also.
-     * @warning     This should only be called for output variables.
+     *
+     * @warning This should only be called for output variables.
      */
     public void calculate() {
 
         //System.out.println("CalcVarText.calculate() called for \"" + this.getName() + "\".");
 
         // Make sure this event only fires when this calculator variable is an output!
-        if(this.getDirection() != CalcVarDirections.Output){
+        if (this.getDirection() != CalcVarDirections.Output) {
             throw new RuntimeException("calculate() was called for calculator variable " + this.getName() + " which is NOT an output.");
         }
 
         // This check is for output calculator variables which don't use the equation function to define
         // what there value is
-        if(this.equationFunction == null) {
+        if (this.equationFunction == null) {
             return;
         }
 
         // Invoke the provided equation function,
         // which should return a String for this calculator variable
-        value = (String)this.equationFunction.execute();
+        value = (String) this.equationFunction.execute();
 
         // Update the value in the UI
         textField.setText(value);
@@ -159,6 +168,7 @@ public class CalcVarText extends CalcVarBase {
 
     /**
      * Listener that will get called when the text field changes.
+     *
      * @param newValue
      */
     protected void textFieldChanged(String newValue) {
@@ -166,6 +176,8 @@ public class CalcVarText extends CalcVarBase {
 
         // Need to update the calculator variables "value"
         value = newValue;
+
+        validate();
 
         // Notify any attached listeners that the calculator variable's
         // value has changed
@@ -179,17 +191,32 @@ public class CalcVarText extends CalcVarBase {
 
     /**
      * Use this to add a specific validator to this calculator variable.
-     * @param validator     The validator to add.
+     *
+     * @param validator The validator to add.
      */
     public void addValidator(Validator validator) {
         // Add provided validator to the internal list
         this.validators.add(validator);
     }
 
-    @Override
-    public void validate() {
+    public void addValidator(PrebuiltValidators prebuiltValidator) {
 
+        switch (prebuiltValidator) {
+            case MUST_BE_HEX:
+                validators.add(new Validator(() -> {
+                        try {
+                            Long.parseLong(getValue(), 16);
+                        } catch (NumberFormatException e) {
+                            return CalcValidationLevels.Error;
+                        }
 
+                        return CalcValidationLevels.Ok;
+                    },
+                    "This must be a valid hex number (without the \"0x\" prefix). e.g. \"4\", \"A7\", \"FF\" are all valid inputs."));
+                break;
+            default:
+                throw new RuntimeException("PrebuiltValidator not recognised.");
+        }
 
     }
 
@@ -211,15 +238,14 @@ public class CalcVarText extends CalcVarBase {
         // level as the worse one
         String validationMsg = "";
         if (this.worstValidationLevel != CalcValidationLevels.Ok) {
-            for(CalcValidationResult validationResult : this.validationResults) {
+            for (CalcValidationResult validationResult : this.validationResults) {
                 // Check to see if this validation result was just as bad as the worse one
                 // (i.e. the same level of validation)
                 if (validationResult.CalcValidationLevel == this.worstValidationLevel) {
                     validationMsg += validationResult.Message + " ";
                 }
             }
-        }
-        else {
+        } else {
             // Validation must of been o.k., so in this case we display a stock-standard message
             validationMsg = "Value is o.k.";
         }
@@ -230,17 +256,14 @@ public class CalcVarText extends CalcVarBase {
         // Tooltip content is help info plus validation results
         toolTip.setText(this.helpText + "\r\n\r\n" + validationMsg);
         toolTip.setWrapText(true);
-        //toolTip.Inlines.Add(new Italic(new Run(validationMsg)));
 
         // Setting a max width prevents the tooltip from getting rediculuosly large when there is a long help info string.
         // Keeping this quite small also makes the tooltip easier to read.
         toolTip.setMaxWidth(300);
         hackTooltipStartTiming(toolTip);
-        // Important to allow wrapping as we are restricting the max. width!
-        //toolTip.TextWrapping = System.Windows.TextWrapping.Wrap;
 
         this.textField.setTooltip(toolTip);
-        //this.valueTextField.ToolTip = toolTip;
+
     }
 
     public static void hackTooltipStartTiming(Tooltip tooltip) {
@@ -269,7 +292,7 @@ public class CalcVarText extends CalcVarBase {
     public void updateUIFromDirection() {
 
         // We don't disable the text field as this disables the tooltip also.
-        switch(this.direction) {
+        switch (this.direction) {
             case Input:
                 textField.setEditable(true);
                 break;

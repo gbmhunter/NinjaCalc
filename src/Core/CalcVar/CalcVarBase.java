@@ -239,11 +239,46 @@ public abstract class CalcVarBase implements Serializable {
      */
     public abstract void updateUIFromDirection();
 
+    public abstract void updateUIBasedOnValidationResults();
+
     /**
      * All non-abstract calculator variable classes must implement this method which
      * "validates" the calculator variable. For example, numerical calculator variables
      * might check to see if it's value is within certain numerical bounds.
      */
-    public abstract void validate();
+    public void validate() {
+        //System.out.println("validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
+
+        // Clear the old validation results
+        this.validationResults.clear();
+
+        CalcValidationLevel worstValidationLevel = CalcValidationLevels.Ok;
+
+        // validate this value (if validators are provided)
+        for(Validator validator : this.validators) {
+            // Run the validation function
+            CalcValidationLevel validationLevel = validator.ValidationFunction.execute();
+
+            // Save this validation result
+            this.validationResults.add(new CalcValidationResult(validationLevel, validator.Message));
+
+            // Logic for keeping track of the worst validation resut
+            // (error worse than warning worse than ok)
+            if (validationLevel == CalcValidationLevels.Warning && worstValidationLevel == CalcValidationLevels.Ok) {
+                worstValidationLevel = CalcValidationLevels.Warning;
+            }
+            else if (validationLevel == CalcValidationLevels.Error) {
+                worstValidationLevel = CalcValidationLevels.Error;
+            }
+        }
+
+        //System.out.println("Worst validation level was \"" + worstValidationLevel.name + "\".");
+
+        // Save this to the internal variable
+        this.worstValidationLevel = worstValidationLevel;
+
+        // Finally, force an update of the UI based on these validation results
+        this.updateUIBasedOnValidationResults();
+    }
 
 }
