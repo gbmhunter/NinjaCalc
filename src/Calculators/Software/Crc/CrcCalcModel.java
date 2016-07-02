@@ -6,20 +6,24 @@ package Calculators.Software.Crc;
 import Core.CalcValidationLevels;
 import Core.CalcValidationResult;
 import Core.CalcVar.CalcVarDirections;
+import Core.CalcVar.ComboBox.CalcVarComboBox;
 import Core.CalcVar.Generic.CalcVarGeneric;
 import Core.CalcVar.RadioButtonGroup.CalcVarRadioButtonGroup;
 import Core.CalcVar.Text.CalcVarText;
 import Core.Calculator;
 import Utility.Crc.Crc16XModem;
+import Utility.Crc.CrcAlgorithmParameters;
 import Utility.Crc.CrcCatalogue;
+import Utility.Crc.CrcGeneric;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -101,6 +105,7 @@ public class CrcCalcModel extends Calculator {
                     CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_MODBUS,
                     CrcCatalogue.PresetCrcAlgorithmsIds.CRC_32_POSIX_CKSUM);
 
+    CalcVarText userSelectableCrcValueCalcVar = new CalcVarText();
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -248,6 +253,97 @@ public class CrcCalcModel extends Calculator {
                     convertedCrcDataCalcVar,
                     this);
         }
+
+        //==============================================//
+        //======== USER-SELECTABLE CRC ALGORITHM =======//
+        //==============================================//
+
+        ComboBox<CrcCatalogue.PresetCrcAlgorithmsIds> selectCrcAlgorithmComboBox = new ComboBox();
+
+        crcValuesGridPane.add(selectCrcAlgorithmComboBox, 0, currGridPaneRow);
+
+        for(CrcCatalogue.PresetCrcAlgorithmsIds presetCrcAlgorithmsId : CrcCatalogue.PresetCrcAlgorithmsIds.values()) {
+
+            if(!crcAlgorithmsToDisplayIndividually.contains(presetCrcAlgorithmsId)) {
+                // CRC algorithm is NOT displayed individually, so lets add it too
+                // the combobox
+                selectCrcAlgorithmComboBox.getItems().add(presetCrcAlgorithmsId);
+            }
+        }
+
+
+        // Configure how the ComboBox will display it's items
+        selectCrcAlgorithmComboBox
+                .setCellFactory(new Callback<ListView<CrcCatalogue.PresetCrcAlgorithmsIds>, ListCell<CrcCatalogue.PresetCrcAlgorithmsIds>>() {
+                    @Override
+                    public ListCell<CrcCatalogue.PresetCrcAlgorithmsIds> call(ListView<CrcCatalogue.PresetCrcAlgorithmsIds> param) {
+                        final ListCell<CrcCatalogue.PresetCrcAlgorithmsIds> cell = new ListCell<CrcCatalogue.PresetCrcAlgorithmsIds>() {
+                            {
+                                super.setPrefWidth(100);
+                            }
+
+                            @Override
+                            public void updateItem(CrcCatalogue.PresetCrcAlgorithmsIds item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (item != null) {
+                                    setText(CrcCatalogue.get(item).name);
+                                } else {
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                });
+
+        selectCrcAlgorithmComboBox.setValue(CrcCatalogue.PresetCrcAlgorithmsIds.CRC_16_X25_IBM_SLDC_ISO_HDLC);
+
+        selectCrcAlgorithmComboBox.valueProperty().addListener(new ChangeListener<CrcCatalogue.PresetCrcAlgorithmsIds>() {
+            @Override public void changed(ObservableValue ov, CrcCatalogue.PresetCrcAlgorithmsIds oldValue, CrcCatalogue.PresetCrcAlgorithmsIds newValue) {
+                System.out.println("Changing user-selectable CRC algorithm...");
+                userSelectableCrcValueCalcVar.calculate();
+            }
+        });
+
+        // TEXT FIELD
+
+        TextField userSelectableCrcValueTextField = new TextField();
+        crcValuesGridPane.add(userSelectableCrcValueTextField, 1, currGridPaneRow);
+
+        userSelectableCrcValueCalcVar.setName("crcValueCalcVar");
+        userSelectableCrcValueCalcVar.setTextField(userSelectableCrcValueTextField);
+        userSelectableCrcValueCalcVar.setDirectionFunction(() -> {
+            return CalcVarDirections.Output;
+        });
+        userSelectableCrcValueCalcVar.setEquationFunction(() -> {
+
+            List<Integer> convertedCrcData = convertedCrcDataCalcVar.getValue();
+
+            if (convertedCrcData == null) {
+                return "";
+            }
+
+            CrcCatalogue.PresetCrcAlgorithmsIds presetCrcAlgorithmsId = selectCrcAlgorithmComboBox.getValue();
+
+            // Create a CRC engine
+            CrcGeneric crcGeneric = new CrcGeneric(CrcCatalogue.get(presetCrcAlgorithmsId));
+
+            for(Integer data : convertedCrcData) {
+                crcGeneric.update(data);
+            }
+
+            //Integer crcResult = Crc16XModem.CalcFast(convertedCrcData);
+            long crcResult = crcGeneric.getValue();
+
+            // Convert to hex for display
+            String crcResultAsHex = "0x" + String.format("%04X", crcResult);
+
+            return crcResultAsHex;
+
+        });
+        userSelectableCrcValueCalcVar.setHelpText("The CRC result for the user-selectable algorithm.");
+        addCalcVar(userSelectableCrcValueCalcVar);
+
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//
