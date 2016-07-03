@@ -3,9 +3,8 @@ package Calculators.Electronics.Basic.StandardResistanceFinder;
 
 // SYSTEM INCLUDES
 
-import Core.CalcVar.CalcVarNumerical;
-import Core.CalcVar.CalcVarNumericalInput;
-import Core.CalcVar.CalcVarNumericalOutput;
+import Core.CalcVar.Numerical.CalcVarNumerical;
+import Core.CalcVar.Numerical.CalcVarNumericalInput;
 import Utility.StandardResistanceFinder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,7 +28,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 
 // USER INCLUDES
 
@@ -42,7 +40,7 @@ import Core.*;
  * Lists closest resistance and percentage error in each EIA E series from E6 to E192.
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
- * @last-modified   2016-05-01
+ * @last-modified   2016-06-25
  * @since           2013-09-17
  */
 public class StandardResistanceFinderCalcModel extends Calculator {
@@ -90,30 +88,13 @@ public class StandardResistanceFinderCalcModel extends Calculator {
     //===============================================================================================//
 
     public CalcVarNumericalInput desiredResistance = new CalcVarNumericalInput();
-    public CalcVarNumericalOutput e6Resistance = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e6Error = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e12Resistance = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e12Error = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e24Resistance = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e24Error = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e48Resistance = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e48Error = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e96Resistance = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e96Error = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e192Resistance = new CalcVarNumericalOutput();
-    public CalcVarNumericalOutput e192Error = new CalcVarNumericalOutput();
 
-    private class GridPaneRow {
-        String resistanceSeries;
-        CalcVarNumericalOutput closestResistance;
-        CalcVarNumericalOutput closesResistanceError;
-        CalcVarNumericalOutput closestHigherResistance;
-        CalcVarNumericalOutput closestHigherResistanceError;
-        CalcVarNumericalOutput closestLowerResistance;
-        CalcVarNumericalOutput closestLowerResistanceError;
-    }
-
-    public ArrayList<GridPaneRow> gridPaneRows = new ArrayList<>();
+    public ESeriesResistanceRow e6ResistanceRow;
+    public ESeriesResistanceRow e12ResistanceRow;
+    public ESeriesResistanceRow e24ResistanceRow;
+    public ESeriesResistanceRow e48ResistanceRow;
+    public ESeriesResistanceRow e96ResistanceRow;
+    public ESeriesResistanceRow e192ResistanceRow;
 
     //===============================================================================================//
     //=========================================== CONSTRUCTOR =======================================//
@@ -207,15 +188,15 @@ public class StandardResistanceFinderCalcModel extends Calculator {
         this.desiredResistance.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        this.desiredResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.desiredResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.desiredResistance.addValidator(Validator.IsNumber(desiredResistance, CalcValidationLevels.Error));
+        this.desiredResistance.addValidator(Validator.IsGreaterThanZero(desiredResistance, CalcValidationLevels.Error));
         this.desiredResistance.addValidator(
                 new Validator(() -> {
                     return ((this.desiredResistance.getRawVal() < 1.0 || this.desiredResistance.getRawVal() > 10.0e6) ? CalcValidationLevels.Warning : CalcValidationLevels.Ok);
                 },
                         "The desired resistance is outside the \"normal\" purchasable resistance range of 1Ω to 10MΩ. Some or all of the standard E-series may not have a resistor available with the desired resistance."));
 
-        this.calcVars.add(this.desiredResistance);
+        addCalcVar(this.desiredResistance);
 
 
         //===============================================================================================//
@@ -227,63 +208,63 @@ public class StandardResistanceFinderCalcModel extends Calculator {
         // First row is a header
         gridRowCount++;
 
-        ESeriesResistanceRow e6ResistanceRow = new ESeriesResistanceRow(
+        e6ResistanceRow = new ESeriesResistanceRow(
                 "E6",
                 StandardResistanceFinder.eSeriesOptions.E6,
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 2);
 
-        ESeriesResistanceRow e12ResistanceRow = new ESeriesResistanceRow(
+        e12ResistanceRow = new ESeriesResistanceRow(
                 "E12",
                 StandardResistanceFinder.eSeriesOptions.E12,
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 2);
 
-        ESeriesResistanceRow e24ResistanceRow = new ESeriesResistanceRow(
+        e24ResistanceRow = new ESeriesResistanceRow(
                 "E24",
                 StandardResistanceFinder.eSeriesOptions.E24,
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 2);
 
-        ESeriesResistanceRow e48ResistanceRow = new ESeriesResistanceRow(
+        e48ResistanceRow = new ESeriesResistanceRow(
                 "E48",
                 StandardResistanceFinder.eSeriesOptions.E48,
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 3);
 
-        ESeriesResistanceRow e96ResistanceRow = new ESeriesResistanceRow(
+        e96ResistanceRow = new ESeriesResistanceRow(
                 "E96",
                 StandardResistanceFinder.eSeriesOptions.E96,
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 3);
 
-        ESeriesResistanceRow e192ResistanceRow = new ESeriesResistanceRow(
+        e192ResistanceRow = new ESeriesResistanceRow(
                 "E192",
                 StandardResistanceFinder.eSeriesOptions.E192,
                 desiredResistance,
                 variableGridPane,
                 gridRowCount++,
-                calcVars,
+                this,
                 CalcVarNumerical.RoundingTypes.SIGNIFICANT_FIGURES,
                 3);
 

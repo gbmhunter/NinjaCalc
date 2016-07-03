@@ -1,6 +1,7 @@
-package Core.CalcVar;
+package Core.CalcVar.ComboBox;
 
 
+import Core.CalcVar.CalcVarBase;
 import Core.IDirectionFunction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +13,7 @@ import javafx.util.StringConverter;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-23
+ * @last-modified   2016-06-25
  */
 public class CalcVarComboBox extends CalcVarBase {
 
@@ -26,7 +27,7 @@ public class CalcVarComboBox extends CalcVarBase {
     /// </summary>
     public String getRawVal() {
 
-        this.onRawValueRead();
+        this.onValueRead();
         return this.rawVal;
     }
 
@@ -36,9 +37,9 @@ public class CalcVarComboBox extends CalcVarBase {
 
         // Only change if different
         if (this.rawVal != value) {
-            //System.out.println("New value is different to current value, so calling onRawValueChanged().");
+            //System.out.println("New value is different to current value, so calling onValueChanged().");
             this.rawVal = value;
-            this.onRawValueChanged();
+            this.onValueChanged();
 
             // Also, force all dependant outputs to recalculate
             this.forceDependantOutputsToRecalculate();
@@ -178,6 +179,10 @@ public class CalcVarComboBox extends CalcVarBase {
         this.forceDependantOutputsToRecalculate();
     }
 
+    @Override
+    public void updateUIBasedOnValidationResults() {
+
+    }
 
     public void updateUIFromDirection() {
         // Currently there is no UI update for a "ComboBox" style calculator variable, since

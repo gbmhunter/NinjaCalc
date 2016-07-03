@@ -2,6 +2,7 @@ package Core;
 
 
 import Core.CalcVar.CalcVarBase;
+import Core.CalcVar.Numerical.CalcVarNumerical;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class Validator {
     /**
      * Gets or sets the validation function which performs the validation and returns a ValidationResult_t.
      */
-    public IValidationFunctionWithValue ValidationFunction;
+    public IValidationFunction ValidationFunction;
 
     /**
      * Gets or sets the message to be displayed to the user (in a tooltip), when the validator
@@ -33,24 +34,6 @@ public class Validator {
     //===============================================================================================//
 
     /**
-     *  Constructor which accepts a validation function with the associated calculator variables raw value
-     * as an input. Useful for creating pre-defined, simple validators.
-     *
-     * @param validationFunction    The function which will validate the calculator variable.
-     * @param message
-     */
-    public Validator(IValidationFunctionWithValue validationFunction, String message) {
-
-        this.dependencies = new ArrayList<>();
-
-        // Save function internally
-        this.ValidationFunction = validationFunction;
-
-        // Save the message internally
-        this.Message = message;
-    }
-
-    /**
      * Constructor which accepts a validation function with no input arguments. Useful for creating custom validators.
      *
      * @param validationFunction    The function which will validate the calculator variable.
@@ -61,10 +44,7 @@ public class Validator {
         this.dependencies = new ArrayList<>();
 
         // Save function internally
-        this.ValidationFunction = (value) -> {
-            CalcValidationLevel validationLevel = validationFunction.execute();
-            return validationLevel;
-        };
+        this.ValidationFunction = validationFunction;
 
         // Save the message internally
         this.Message = message;
@@ -76,10 +56,7 @@ public class Validator {
         this.dependencies = dependencies;
 
         // Save function internally
-        this.ValidationFunction = (value) -> {
-            CalcValidationLevel validationLevel = validationFunction.execute();
-            return validationLevel;
-        };
+        this.ValidationFunction = validationFunction;
 
         // Save the message internally
         this.Message = message;
@@ -97,11 +74,11 @@ public class Validator {
      * @param   desiredValidationResult     The desired validation result if the calculator variable is not a number.
      * @return  A validator which will give the desired validation result if the calculator variable is not a valid number.
      */
-    public static Validator IsNumber(CalcValidationLevel desiredValidationResult) {
+    public static Validator IsNumber(CalcVarNumerical calcVarNumerical, CalcValidationLevel desiredValidationResult) {
         return new Validator(
-            (value) -> {
+            () -> {
                 //return ValidationResult_t.Error;
-                if (Double.isNaN(value)) {
+                if (Double.isNaN(calcVarNumerical.getRawVal())) {
                     return desiredValidationResult;
                 }
                 else {
@@ -118,11 +95,11 @@ public class Validator {
      * @param desiredValidationResult   The desired validation result if the calculator variable value is not greater than 0.
      * @return  A validator which will give the desired validation result if the calculator variable is not greater than 0.
      */
-    public static Validator IsGreaterThanZero(CalcValidationLevel desiredValidationResult) {
+    public static Validator IsGreaterThanZero(CalcVarNumerical calcVarNumerical, CalcValidationLevel desiredValidationResult) {
         return new Validator(
-            (value) -> {
+            () -> {
                 //return ValidationResult_t.Error;
-                if (value <= 0) {
+                if (calcVarNumerical.getRawVal() <= 0) {
                     return desiredValidationResult;
                 }
                 else {
@@ -139,10 +116,10 @@ public class Validator {
      * @param desiredValidationResult   The desired validation result if the calculator variable value is not greater or equal to 0.
      * @return  A validator which will give the desired validation result if the calculator variable is not greater or equal to 0.
      */
-    public static Validator IsGreaterOrEqualToZero(CalcValidationLevel desiredValidationResult) {
+    public static Validator IsGreaterOrEqualToZero(CalcVarNumerical calcVarNumerical, CalcValidationLevel desiredValidationResult) {
         return new Validator(
-                (value) -> {
-                    if (value < 0) {
+                () -> {
+                    if (calcVarNumerical.getRawVal() < 0) {
                         return desiredValidationResult;
                     }
                     else {

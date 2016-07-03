@@ -3,8 +3,8 @@ package Calculators.Electronics.Sensors.DewPointMagnus;
 // SYSTEM IMPORTS
 
 import Core.CalcVar.CalcVarDirections;
-import Core.CalcVar.CalcVarNumerical;
-import Core.CalcVar.CalcVarNumericalInput;
+import Core.CalcVar.Numerical.CalcVarNumerical;
+import Core.CalcVar.Numerical.CalcVarNumericalInput;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -182,40 +182,14 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.airTemperature.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.airTemperature.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.airTemperature.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.airTemperature.addValidator(Validator.IsNumber(airTemperature, CalcValidationLevels.Error));
+        this.airTemperature.addValidator(Validator.IsGreaterThanZero(airTemperature, CalcValidationLevels.Error));
 
-        this.calcVars.add(this.airTemperature);
+        addCalcVar(this.airTemperature);
 
         //===============================================================================================//
         //====================================== Relative Humidity (I/O) ================================//
         //===============================================================================================//
-
-        /*this.relativeHumidity = new CalcVarNumerical(
-                "relativeHumidity",                // Variable name (used for debugging)
-                this.relativeHumidityTextField,          // Textbox for value (UI object)
-                this.relativeHumidityComboBox,             // Combobox for units (UI object)
-                () -> {             // Equation when an output
-                    // Read dependency variables
-                    Double airTemperature_DegC = this.airTemperature.getRawVal();
-                    Double dewPoint_DegC = this.dewPoint.getRawVal();
-
-                    Double bCoefficient = this.bCoefficient.getRawVal();
-                    Double cCoefficient = this.cCoefficient.getRawVal();
-
-                    return 100.0*(Math.exp((bCoefficient*dewPoint_DegC)/(cCoefficient+dewPoint_DegC))/Math.exp((bCoefficient*airTemperature_DegC)/(cCoefficient+airTemperature_DegC)));
-                },
-                new NumberUnitMultiplier[]{   // units
-                        new NumberUnitMultiplier("%", 1e0),
-                },
-                4,                  // Num. digits to round to
-                () -> {             // Direction-determining function
-                    if(relativeHumidityRadioButton.isSelected()) return CalcVarDirections.Output;
-                    else return CalcVarDirections.Input;
-                },   // Default direction
-                null,               // Default value
-                "The relative humidity the the air, expressed as a percentage of the total amount of water the air could hold at the current temperature." // Help text
-        );*/
 
         this.relativeHumidity.setName("relativeHumidity");
         this.relativeHumidity.setValueTextField(this.relativeHumidityTextField);
@@ -242,45 +216,14 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.relativeHumidity.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.relativeHumidity.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.relativeHumidity.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.relativeHumidity.addValidator(Validator.IsNumber(relativeHumidity, CalcValidationLevels.Error));
+        this.relativeHumidity.addValidator(Validator.IsGreaterThanZero(relativeHumidity, CalcValidationLevels.Error));
 
-        this.calcVars.add(this.relativeHumidity);
+        addCalcVar(this.relativeHumidity);
 
         //===============================================================================================//
         //=========================================== Dew Point (I/O) ===================================//
         //===============================================================================================//
-
-        /*this.dewPoint = new CalcVarNumerical(
-                "dewPoint",               // Variable name (used for debugging)
-                this.dewPointTextField,       // Textbox for value (UI object)
-                this.dewPointComboBox,       // Combobox for units (UI object)
-                () -> {             // Equation when an output
-
-                    // Read dependency variables
-                    Double airTemperature_DegC = this.airTemperature.getRawVal();
-                    Double relativeHumidity_Perc = this.relativeHumidity.getRawVal();
-
-                    Double bCoefficient = this.bCoefficient.getRawVal();
-                    Double cCoefficient = this.cCoefficient.getRawVal();
-
-                    //Math.log(rh/100*6.112/6.1078*Math.exp((17.67*temp)/(temp-0+243.5)));
-                    Double dewPointNumerator = cCoefficient*(Math.log(relativeHumidity_Perc/100.0)+((bCoefficient*airTemperature_DegC)/(airTemperature_DegC+cCoefficient)));
-                    Double dewPointDenominator = bCoefficient-Math.log(relativeHumidity_Perc/100.0)-((bCoefficient*airTemperature_DegC)/(airTemperature_DegC+cCoefficient));
-                    Double dewPoint_DegC = dewPointNumerator/dewPointDenominator;
-
-                    return dewPoint_DegC;
-                },
-                new NumberUnitMultiplier[]{   // units
-                        new NumberUnitMultiplier("°C", 1e0),
-                },
-                4,                  // Num. digits to round to
-                () -> {             // Direction-determining function
-                    if(dewPointRadioButton.isSelected()) return CalcVarDirections.Output;
-                    else return CalcVarDirections.Input;
-                },
-                null,               // Default value
-                "If the air is cooled to the dew point temperature, then dew (condensation) will start to form. This value is allowed to be below the freezing point of water.");*/
 
         this.dewPoint.setName("dewPoint");
         this.dewPoint.setValueTextField(this.dewPointTextField);
@@ -312,25 +255,13 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.dewPoint.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.dewPoint.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        //this.dewPoint.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.dewPoint.addValidator(Validator.IsNumber(dewPoint, CalcValidationLevels.Error));
 
-        this.calcVars.add(this.dewPoint);
+        addCalcVar(this.dewPoint);
 
         //===============================================================================================//
         //===================================== B Coefficient (INPUT) ===================================//
         //===============================================================================================//
-
-        /*this.bCoefficient = new CalcVarNumericalInput(
-                "bCoefficient",          // Variable name (used for debugging)
-                this.bCoefficientTextField,       // Textbox for value (UI object)
-                null,               // Combobox for units (UI object)
-                new NumberUnitMultiplier[]{   // units
-                    new NumberUnitMultiplier("no unit", 1e0),
-                },
-                5,                  // Num. digits to round to
-                17.625,               // Default value
-                "The b coefficient of the Magnus equation.");*/
 
         this.bCoefficient.setName("bCoefficient");
         this.bCoefficient.setValueTextField(this.bCoefficientTextField);
@@ -343,24 +274,13 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.bCoefficient.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ==========//
-        this.bCoefficient.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.bCoefficient.addValidator(Validator.IsNumber(bCoefficient, CalcValidationLevels.Error));
 
-        this.calcVars.add(this.bCoefficient);
+        addCalcVar(this.bCoefficient);
 
         //===============================================================================================//
         //===================================== C Coefficient (INPUT) ===================================//
         //===============================================================================================//
-
-        /*this.cCoefficient = new CalcVarNumericalInput(
-                "cCoefficient",          // Variable name (used for debugging)
-                this.cCoefficientTextField,       // Textbox for value (UI object)
-                null,       // Combobox for units (UI object)
-                new NumberUnitMultiplier[]{   // units
-                        new NumberUnitMultiplier("°C", 1e0),
-                },
-                5,                  // Num. digits to round to
-                243.04,              // Default value
-                "The c coefficient of the Magnus equation.");*/
 
         this.cCoefficient.setName("cCoefficient");
         this.cCoefficient.setValueTextField(this.cCoefficientTextField);
@@ -373,9 +293,9 @@ public class DewPointMagnusCalcModel extends Calculator {
         this.cCoefficient.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ==========//
-        this.cCoefficient.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
+        this.cCoefficient.addValidator(Validator.IsNumber(cCoefficient, CalcValidationLevels.Error));
 
-        this.calcVars.add(this.cCoefficient);
+        addCalcVar(this.cCoefficient);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

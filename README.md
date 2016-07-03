@@ -8,8 +8,8 @@
 
 - Author: gbmhunter <gbmhunter@gmail.com> ([www.mbedded.ninja](http://www.mbedded.ninja))
 - Created: 2015-11-02
-- Last Modified: 2016-05-15
-- Version: v1.2.1
+- Last Modified: 2016-07-03
+- Version: v1.3.0
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: Java
@@ -40,15 +40,19 @@ See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a lis
 2. Run the installer and play (or work, right?)!
 3. NinjaCalc should automatically inform you if there is a new version available on start-up of the application.
 
-Installing a newer version of NinjaCalc should automatically overwrite the old one.
+Note: Installing a newer version of NinjaCalc should automatically overwrite the old one.
 
 
 # Developing
 
 
 1. Download/clone this repository into a folder on your computer.
-2. Open the project in IntelliJ (`.idea/workspace.xml` file included in repo).
-3. Develop!
+2. Make sure you have a 32-bit version of the JDK installed (must be at least JDK 8).
+3. Open the project in IntelliJ (`.idea/workspace.xml` file included in repo).
+4. In IntelliJ, open the project settings, and point the projects JDK to installed version on your computer.
+5. Develop!
+
+[Scene Builder](http://gluonhq.com/labs/scene-builder/) can be great tool to install alongside IntelliJ for faster development of the JavaFX UI.
 
 
 # Making Your Own Calculators
@@ -65,10 +69,9 @@ Creating a static diagram image and laying the calculator variable UI elements o
 All calculators that use static images for their background diagrams have a Visio file called `diagram.vsd` in their respective folder. Microsoft Visio is used to create the diagram, which is then exported as an image and used inside the NinjaCalc application.
 
 
-# Creating Installable Packages
+# Release Process
 
 The team at [ej-technologies](https://www.ej-technologies.com/) have graciously donated me an open-source licensed version of ![install4j](https://www.ej-technologies.com/images/product_banners/install4j_small.png), [the multi-platform installer builder for Java applications](http://www.ej-technologies.com/products/install4j/overview.html).
-
 
 Myself (gbmhunter) currently holds the license for this software, and so I am the only one that can currently create installable packages for NinjaCalc releases.
 
@@ -76,7 +79,7 @@ The install4j script is located at `/NinjaCalc.install4j`.
 
 1. After code changes are complete, make sure the NinjaCalc.jar artifact has been built from within IntelliJ (`Build->Build Artifacts->NinjaCalc:jar->Build`).
 2. Open the `/NinjaCalc.install4j` file in "install4j Multi-Platform Edition".
-3. Update the "Version" field as appropriate.
+3. Update the "Version" field as appropriate, then click "Save Project".
 4. Click the "Build Project" button.
 5. Wait until build completes. install4j should have created installer files for each supported platform (currently Windows and Mac OS), as well as an updates.xml file, in the `install` directory.
 6. Overwrite the old `updates.xml` file in the repos root directory with the one that install4j created in the `install` directory.
@@ -131,10 +134,32 @@ Utility/ - Contains helper Java classes which are not considered "core", but sti
 
 # Unit Tests
 
-Unit tests are under the `src/test/` directory. They use the [TestFX library](https://github.com/TestFX/TestFX) to test the JavaFX UI for each calculator.
+Unit tests are under the `test/` directory. This directory mimics the same directory structure of `src/`.
 
-Tests are run from within IntelliJ.
+Tests are easily run from within IntelliJ. To run all tests, right click on the `test` folder from within IntelliJ and click *Run 'All Tests'*.
 
+Tests involving JavaFX can be easily written by making sure the test class in question extends `ApplicationTest`. `ApplicationTest` is a class from the [TestFX library](https://github.com/TestFX/TestFX) which is used here to test the JavaFX UI for each calculator. The `ApplicationTest` class makes sure that JavaFX is initialised correctly before your tests are run. You have to provide a `start(Stage stage)` method for each test class. Here is an example:
+
+````java
+import javafx.stage.Stage;
+import javafx.scene.control.TextField;
+import org.junit.Test;
+import org.testfx.framework.junit.ApplicationTest;
+
+public class ExampleJavaFxTests extends ApplicationTest {
+    
+    @Override
+    public void start(Stage stage) {
+    }
+
+    @Test
+    public void basicFirstTest() {
+        // You can create JavaFX object here and they will work correctly
+        // (no initialisation exceptions will be thrown)
+        TextField textField = new TextField();
+    }
+}
+````
 
 # Changelog
 

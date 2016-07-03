@@ -1,3 +1,12 @@
+v1.3.0
+------
+
+- Added CRC calculator, closes #122.
+- Fixed issue with install4j dependency, closes #123.
+- Removed .idea/workspace.xml file from repo, closes #124.
+- Added a text-based calculator variable, closes #125.
+- Added check so that calculator variables can't be accidentally added to the same calculator twice, closes #126.
+
 v1.2.1
 ------
 

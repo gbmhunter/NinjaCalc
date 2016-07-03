@@ -17,40 +17,50 @@ public abstract class CalcVarBase implements Serializable {
     /**
      * The name of the calculator variable. Used when debugging.
      */
-    public String name;
+    private String name;
+    public String getName() { return this.name; }
+    public void setName(String value) { this.name = value; }
+
+    //===============================================================================================//
+    //============================================ EVENTS ===========================================//
+    //===============================================================================================//
+
+    //================== rawValueRead EVENT ==================//
 
     /**
-     * Keeps track of all registered listeners to the raw value being read.
+     * Keeps track of all registered listeners to the calculator variable's value being read.
      */
-    private List<ICalcVarBaseCallback> rawValueReadListeners = new ArrayList<ICalcVarBaseCallback>();
+    protected List<ICalcVarBaseCallback> valueReadListeners = new ArrayList<ICalcVarBaseCallback>();
 
     /**
      * Use this to subscribe to the calculator's raw value changing.
      * @param toAdd     The listener to add.
      */
-    public void addRawValueReadListener(ICalcVarBaseCallback toAdd) {
-        rawValueReadListeners.add(toAdd);
+    public void addValueReadListener(ICalcVarBaseCallback toAdd) {
+        valueReadListeners.add(toAdd);
     }
 
-    protected void onRawValueRead() {
+    protected void onValueRead() {
         // Notify everybody that may be interested.
-        for (ICalcVarBaseCallback listener : rawValueReadListeners)
+        for (ICalcVarBaseCallback listener : valueReadListeners)
             listener.execute(this);
     }
 
+    //================== valueChanged EVENT ==================//
 
-    private List<ICalcVarBaseCallback> rawValueChangedListeners = new ArrayList<ICalcVarBaseCallback>();
+    private List<ICalcVarBaseCallback> valueChangedListeners = new ArrayList<ICalcVarBaseCallback>();
 
-    public void addRawValueChangedListener(ICalcVarBaseCallback toAdd) {
-        rawValueChangedListeners.add(toAdd);
+    public void addValueChangedListener(ICalcVarBaseCallback toAdd) {
+        valueChangedListeners.add(toAdd);
     }
 
-    protected void onRawValueChanged() {
-
+    /**
+     * Call when the calculator variable's has changed to notify all listeners.
+     */
+    protected void onValueChanged() {
         // Notify everybody that may be interested.
-        for (ICalcVarBaseCallback listener : rawValueChangedListeners)
+        for (ICalcVarBaseCallback listener : valueChangedListeners)
             listener.execute(this);
-
     }
 
     /**
@@ -70,12 +80,17 @@ public abstract class CalcVarBase implements Serializable {
      */
     protected ArrayList<Validator> validators;
 
+    /**
+     * Holds a list of all the validation results for this variables. This will be populated by the validate() method.
+     */
     public ArrayList<CalcValidationResult> validationResults;
 
-    /// <summary>
-    /// Gets or sets the validation result for this calculator variable.
-    /// Will also change the border colour of the associated text box.
-    /// </summary>
+
+    /**
+     * Stores the worst validation result for this calculator variable.
+     * This variable controls the colour of various parts of the associated UI elements for this variable
+     * (e.g. the border colour for a numerical variable in a TextField).
+     */
     public CalcValidationLevel worstValidationLevel;
 
     /***
@@ -96,6 +111,10 @@ public abstract class CalcVarBase implements Serializable {
      */
     public IEquationFunction equationFunction;
 
+    /**
+     * Stores the direction of this variable (e.g. whether it is an input or an output variable).
+     * Make private?
+     */
     public CalcVarDirections direction;
     public CalcVarDirections getDirection() {
         return this.direction;
@@ -108,6 +127,9 @@ public abstract class CalcVarBase implements Serializable {
     //========================================== CONSTRUCTORS =======================================//
     //===============================================================================================//
 
+    /**
+     * Default constructor for CalcVarBase.
+     */
     protected CalcVarBase() {
         // Initialise empty lists to keep track of this calculators dependencies
         // and dependants
@@ -150,8 +172,7 @@ public abstract class CalcVarBase implements Serializable {
     //======================================== GETTERS/SETTERS ======================================//
     //===============================================================================================//
 
-    public String getName() { return this.name; }
-    public void setName(String value) { this.name = value; }
+
 
     public IEquationFunction getEquationFunction() { return equationFunction; }
     public void setEquationFunction(IEquationFunction equationFunction) { this.equationFunction = equationFunction; }
@@ -166,16 +187,24 @@ public abstract class CalcVarBase implements Serializable {
     //======================================= GENERAL METHODS =======================================//
     //===============================================================================================//
 
-
-
-
+    /**
+     * Forces all calculator variables which are dependent on this one (and also currently outputs)
+     * to re-calculate their value (which will also cause their displayed values on the UI to
+     * update).
+     */
     public void forceDependantOutputsToRecalculate() {
-        //System.out.println("forceDependantOutputsToRecalculate() called.");
+        //System.out.println(getClass().getName() + ".forceDependantOutputsToRecalculate() called.");
         // We need to re-calculate any this calculator variables dependants, if they are outputs
-        for (int i = 0; i < this.dependants.size(); i++) {
-            if (this.dependants.get(i).direction == CalcVarDirections.Output) {
+//        for (int i = 0; i < this.dependants.size(); i++) {
+//            if (this.dependants.get(i).direction == CalcVarDirections.Output) {
+//                //System.out.println("Calling calculate() on variable \"" + this.dependants.get(i).name + "\".");
+//                this.dependants.get(i).calculate();
+//            }
+//        }
+        for (CalcVarBase dependent : this.dependants) {
+            if (dependent.direction == CalcVarDirections.Output) {
                 //System.out.println("Calling calculate() on variable \"" + this.dependants.get(i).name + "\".");
-                this.dependants.get(i).calculate();
+                dependent.calculate();
             }
         }
     }
@@ -198,6 +227,10 @@ public abstract class CalcVarBase implements Serializable {
     //======================================= ABSTRACT METHODS ======================================//
     //===============================================================================================//
 
+    /**
+     * All non-abstract variables classes must implement this method which re-calculates this
+     * calculator variables value, based on it's equation function.
+     */
     public abstract void calculate();
 
     /**
@@ -206,11 +239,46 @@ public abstract class CalcVarBase implements Serializable {
      */
     public abstract void updateUIFromDirection();
 
+    public abstract void updateUIBasedOnValidationResults();
+
     /**
      * All non-abstract calculator variable classes must implement this method which
      * "validates" the calculator variable. For example, numerical calculator variables
      * might check to see if it's value is within certain numerical bounds.
      */
-    public abstract void validate();
+    public void validate() {
+        //System.out.println("validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
+
+        // Clear the old validation results
+        this.validationResults.clear();
+
+        CalcValidationLevel worstValidationLevel = CalcValidationLevels.Ok;
+
+        // validate this value (if validators are provided)
+        for(Validator validator : this.validators) {
+            // Run the validation function
+            CalcValidationLevel validationLevel = validator.ValidationFunction.execute();
+
+            // Save this validation result
+            this.validationResults.add(new CalcValidationResult(validationLevel, validator.Message));
+
+            // Logic for keeping track of the worst validation resut
+            // (error worse than warning worse than ok)
+            if (validationLevel == CalcValidationLevels.Warning && worstValidationLevel == CalcValidationLevels.Ok) {
+                worstValidationLevel = CalcValidationLevels.Warning;
+            }
+            else if (validationLevel == CalcValidationLevels.Error) {
+                worstValidationLevel = CalcValidationLevels.Error;
+            }
+        }
+
+        //System.out.println("Worst validation level was \"" + worstValidationLevel.name + "\".");
+
+        // Save this to the internal variable
+        this.worstValidationLevel = worstValidationLevel;
+
+        // Finally, force an update of the UI based on these validation results
+        this.updateUIBasedOnValidationResults();
+    }
 
 }

@@ -2,7 +2,7 @@ package Core;
 
 import Core.CalcVar.CalcVarBase;
 import Core.CalcVar.CalcVarDirections;
-import Core.CalcVar.CalcVarNumerical;
+import Core.CalcVar.Numerical.CalcVarNumerical;
 import javafx.scene.layout.*;
 
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-25
+ * @last-modified   2016-06-25
   */
 public abstract class Calculator implements Serializable {
 
@@ -43,7 +43,15 @@ public abstract class Calculator implements Serializable {
     /**
      * A list holding all of the calculator variables for the calculator.
      */
-    public ArrayList<CalcVarBase> calcVars;
+    private ArrayList<CalcVarBase> calcVars;
+    public void addCalcVar(CalcVarBase calcVar) {
+
+        if(calcVars.contains(calcVar))
+            throw new RuntimeException("Calculator variable " + calcVar.getName() + " was added a 2nd time to calculator.");
+
+        calcVars.add(calcVar);
+
+    }
 
     /**
      * Default (and only) constructor for a calculator.
@@ -112,17 +120,11 @@ public abstract class Calculator implements Serializable {
 
         ArrayList<CalcVarBase> dependencyList = new ArrayList<CalcVarBase>();
 
-        /*EventHandler eventHandler = (object sender, EventArgs e) => {
-            CalcVarBase calcVar = (CalcVarBase)sender;
-            //Console.WriteLine("CalcVar \"" + calcVar.name + "\" was read.");
-            dependencyList.Add(calcVar);
-        };*/
-
         // Attach event handlers onto the read-of-value for each calculator variable,
         // and also disable updating of the textboxes when we call calculate().
         for (CalcVarBase calcVar : this.calcVars) {
-            //calcVar.RawValueRead += eventHandler;
-            calcVar.addRawValueReadListener((calcVarBase) -> {
+
+            calcVar.addValueReadListener((calcVarBase) -> {
                 //System.out.println("CalcVar \"" + calcVar.name + "\" was read.");
                 dependencyList.add(calcVar);
             });
@@ -136,8 +138,8 @@ public abstract class Calculator implements Serializable {
 
             if (calcVar.equationFunction != null) {
                 // Invoke the equation, this will fire ReadRawValue events
-                // for all variables it needs, and add to the dependancy list
-                // DO NOT call pair.Value.calculate() directly!
+                // for all variables it needs, and add to the dependency list
+                // DO NOT call calculate() directly!
                 calcVar.equationFunction.execute();
 
                 // Go through the dependency list, and add this calculator variable to each one's DEPENDANTS list
@@ -198,10 +200,11 @@ public abstract class Calculator implements Serializable {
         for (CalcVarBase calcVar : this.calcVars) {
             // We can only validate numerical calculator variables
             // (this may change in the future)
-            if (calcVar instanceof CalcVarNumerical) {
-                CalcVarNumerical calcVarNumerical = (CalcVarNumerical) calcVar;
-                calcVarNumerical.validate();
-            }
+//            if (calcVar instanceof CalcVarNumerical) {
+//                CalcVarNumerical calcVarNumerical = (CalcVarNumerical) calcVar;
+//                calcVarNumerical.validate();
+//            }
+            calcVar.validate();
         }
     }
 
@@ -227,6 +230,9 @@ public abstract class Calculator implements Serializable {
     public void refreshDirectionsAndUpdateUI() {
         //System.out.println("refreshDirectionsAndUpdateUI() called for calculator \"" + this.name + "\".");
         for (CalcVarBase calcVar : this.calcVars) {
+
+            if(calcVar.directionFunction == null)
+                throw new RuntimeException("There is no direction function for calculator variable " + calcVar.getName() + ". Please provide one with setDirectionFunction().");
             calcVar.direction = calcVar.directionFunction.execute();
             calcVar.updateUIFromDirection();
         }

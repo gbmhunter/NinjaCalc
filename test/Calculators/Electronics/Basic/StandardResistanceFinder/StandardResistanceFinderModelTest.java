@@ -1,8 +1,11 @@
 package Calculators.Electronics.Basic.StandardResistanceFinder;
 
+import org.junit.Test;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.testfx.framework.junit.ApplicationTest;
+
+import static org.junit.Assert.assertEquals;
 
 public class StandardResistanceFinderModelTest extends ApplicationTest {
 
@@ -16,18 +19,18 @@ public class StandardResistanceFinderModelTest extends ApplicationTest {
         stage.show();
     }
 
-//    @Test
-//    public void e12SeriesTest10k0() {
-//        standardResistanceFinderCalcModel.desiredResistance.setRawVal(10.1);
-//        assertEquals("10", standardResistanceFinderCalcModel.e12Resistance.getDispValAsString());
-//        assertEquals("0.99", standardResistanceFinderCalcModel.e12Error.getDispValAsString());
-//    }
-//
-//    @Test
-//    public void e96SeriesTest246k() {
-//        standardResistanceFinderCalcModel.desiredResistance.setRawVal(246);
-//        assertEquals("249", standardResistanceFinderCalcModel.e96Resistance.getDispValAsString());
-//        assertEquals("1.22", standardResistanceFinderCalcModel.e96Error.getDispValAsString());
-//    }
+    @Test
+    public void e12SeriesTest10k0() {
+        standardResistanceFinderCalcModel.desiredResistance.setRawVal(10.1);
+        assertEquals("10", standardResistanceFinderCalcModel.e12ResistanceRow.closestResistanceCalcVar.getDispValAsString());
+        assertEquals("0.99", standardResistanceFinderCalcModel.e12ResistanceRow.closestResistanceErrorCalcVar.getDispValAsString());
+    }
+
+    @Test
+    public void e96SeriesTest246k() {
+        standardResistanceFinderCalcModel.desiredResistance.setRawVal(246);
+        assertEquals("249", standardResistanceFinderCalcModel.e96ResistanceRow.closestResistanceCalcVar.getDispValAsString());
+        assertEquals("1.22", standardResistanceFinderCalcModel.e96ResistanceRow.closestResistanceErrorCalcVar.getDispValAsString());
+    }
 
 }

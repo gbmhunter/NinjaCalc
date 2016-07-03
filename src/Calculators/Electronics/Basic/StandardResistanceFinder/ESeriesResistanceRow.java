@@ -2,9 +2,9 @@ package Calculators.Electronics.Basic.StandardResistanceFinder;
 
 import Core.*;
 import Core.CalcVar.CalcVarBase;
-import Core.CalcVar.CalcVarNumerical;
-import Core.CalcVar.CalcVarNumericalInput;
-import Core.CalcVar.CalcVarNumericalOutput;
+import Core.CalcVar.Numerical.CalcVarNumerical;
+import Core.CalcVar.Numerical.CalcVarNumericalInput;
+import Core.CalcVar.Numerical.CalcVarNumericalOutput;
 import Utility.StandardResistanceFinder;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -14,10 +14,11 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 
 /**
- * Represents a row in the standard resistance finder table.
+ * Dedicated class to represent a row in the standard resistance finder table.
+ * Used by the StandardResistanceFinderCalcModel class.
  *
  * @author              gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
- * @last-modified       2016-05-14
+ * @last-modified       2016-07-02
  * @since               2016-05-14
  */
 public class ESeriesResistanceRow {
@@ -25,7 +26,7 @@ public class ESeriesResistanceRow {
     String name;
     StandardResistanceFinder.eSeriesOptions eSeries;
 
-    CalcVarNumericalOutput closestResistance;
+    CalcVarNumericalOutput closestResistanceCalcVar;
     CalcVarNumericalOutput closestResistanceErrorCalcVar;
 
     CalcVarNumericalOutput closestEqualOrLowerResistanceCalcVar;
@@ -34,15 +35,13 @@ public class ESeriesResistanceRow {
     CalcVarNumericalOutput closestEqualOrHigherResistanceCalcVar;
     CalcVarNumericalOutput closestEqualOrHigherResistanceErrorCalcVar;
 
-    CalcVarNumericalOutput closestEqualOrHigherResistance;
-
     ESeriesResistanceRow(
             String name,
             StandardResistanceFinder.eSeriesOptions eSeries,
             CalcVarNumericalInput desiredResistance,
             GridPane variableGridPane,
             Integer rowToAddTo,
-            ArrayList<CalcVarBase> calcVars,
+            Calculator calculator,
             CalcVarNumerical.RoundingTypes roundingType,
             Integer numberToRoundTo) {
 
@@ -64,10 +63,10 @@ public class ESeriesResistanceRow {
         variableGridPane.add(closestResistanceTextField, currColumnCount++, rowToAddTo);
 
         // Calculator variable
-        closestResistance = new CalcVarNumericalOutput();
-        closestResistance.setName("closestResistance");
-        closestResistance.setValueTextField(closestResistanceTextField);
-        closestResistance.setEquationFunction(() -> {
+        closestResistanceCalcVar = new CalcVarNumericalOutput();
+        closestResistanceCalcVar.setName("closestResistanceCalcVar");
+        closestResistanceCalcVar.setValueTextField(closestResistanceTextField);
+        closestResistanceCalcVar.setEquationFunction(() -> {
             // Read in variables
             Double desiredResistanceValue = desiredResistance.getRawVal();
 
@@ -79,18 +78,18 @@ public class ESeriesResistanceRow {
 
             return actualResistance;
         });
-        closestResistance.setUnits(new NumberUnitMultiplier[]{
+        closestResistanceCalcVar.setUnits(new NumberUnitMultiplier[]{
                 new NumberUnitMultiplier("Ω", 1e0, NumberPreference.DEFAULT),
         });
-        closestResistance.setRounding(roundingType, numberToRoundTo);
-        closestResistance.setHelpText("The closest resistance in the " + name + " series to your desired resistance.");
-        closestResistance.setIsEngineeringNotationEnabled(true);
+        closestResistanceCalcVar.setRounding(roundingType, numberToRoundTo);
+        closestResistanceCalcVar.setHelpText("The closest resistance in the " + name + " series to your desired resistance.");
+        closestResistanceCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestResistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestResistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestResistanceCalcVar.addValidator(Validator.IsNumber(closestResistanceCalcVar, CalcValidationLevels.Error));
+        closestResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(closestResistanceCalcVar, CalcValidationLevels.Error));
 
-        calcVars.add(closestResistance);
+        calculator.addCalcVar(closestResistanceCalcVar);
 
         // Ohm symbol
         variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
@@ -109,7 +108,7 @@ public class ESeriesResistanceRow {
         closestResistanceErrorCalcVar.setEquationFunction(() -> {
             // Read in variables
             Double desiredResistanceValue = desiredResistance.getRawVal();
-            Double closestStandardResistanceValue = closestResistance.getRawVal();
+            Double closestStandardResistanceValue = closestResistanceCalcVar.getRawVal();
 
             if (Double.isNaN(desiredResistanceValue)) {
                 return Double.NaN;
@@ -128,10 +127,10 @@ public class ESeriesResistanceRow {
         closestResistanceErrorCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
+        closestResistanceErrorCalcVar.addValidator(Validator.IsNumber(closestResistanceErrorCalcVar, CalcValidationLevels.Error));
+        closestResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(closestResistanceErrorCalcVar, CalcValidationLevels.Error));
 
-        calcVars.add(closestResistanceErrorCalcVar);
+        calculator.addCalcVar(closestResistanceErrorCalcVar);
 
         // Percentage symbol
         variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);
@@ -167,10 +166,10 @@ public class ESeriesResistanceRow {
         closestEqualOrLowerResistanceCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsNumber(closestEqualOrLowerResistanceCalcVar, CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(closestEqualOrLowerResistanceCalcVar, CalcValidationLevels.Error));
 
-        calcVars.add(closestEqualOrLowerResistanceCalcVar);
+        calculator.addCalcVar(closestEqualOrLowerResistanceCalcVar);
 
         // Ohm symbol
         variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
@@ -208,10 +207,10 @@ public class ESeriesResistanceRow {
         closestEqualOrLowerResistanceErrorCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsNumber(closestEqualOrLowerResistanceErrorCalcVar, CalcValidationLevels.Error));
+        closestEqualOrLowerResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(closestEqualOrLowerResistanceErrorCalcVar, CalcValidationLevels.Error));
 
-        calcVars.add(closestEqualOrLowerResistanceErrorCalcVar);
+        calculator.addCalcVar(closestEqualOrLowerResistanceErrorCalcVar);
 
         // Percentage symbol
         variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);
@@ -247,10 +246,10 @@ public class ESeriesResistanceRow {
         closestEqualOrHigherResistanceCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsNumber(closestEqualOrHigherResistanceCalcVar, CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceCalcVar.addValidator(Validator.IsGreaterThanZero(closestEqualOrHigherResistanceCalcVar, CalcValidationLevels.Error));
 
-        calcVars.add(closestEqualOrHigherResistanceCalcVar);
+        calculator.addCalcVar(closestEqualOrHigherResistanceCalcVar);
 
         // Ohm symbol
         variableGridPane.add(new Label("Ω"), currColumnCount++, rowToAddTo);
@@ -288,16 +287,14 @@ public class ESeriesResistanceRow {
         closestEqualOrHigherResistanceErrorCalcVar.setIsEngineeringNotationEnabled(true);
 
         //========== VALIDATORS ===========//
-        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsNumber(closestEqualOrHigherResistanceErrorCalcVar, CalcValidationLevels.Error));
+        closestEqualOrHigherResistanceErrorCalcVar.addValidator(Validator.IsGreaterOrEqualToZero(closestEqualOrHigherResistanceErrorCalcVar, CalcValidationLevels.Error));
 
-        calcVars.add(closestEqualOrHigherResistanceErrorCalcVar);
+        calculator.addCalcVar(closestEqualOrHigherResistanceErrorCalcVar);
 
         // Percentage symbol
         variableGridPane.add(new Label("%"), currColumnCount++, rowToAddTo);
-        
-        
-    }
 
+    }
 
 }

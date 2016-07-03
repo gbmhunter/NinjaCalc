@@ -11,12 +11,12 @@
     <file url="file://$PROJECT_DIR$/src/Core/CalcValidationLevels.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Core/CalcValidationResult.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Core/CalcVar/CalcVarBase.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/Core/CalcVar/CalcVarComboBox.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Core/CalcVar/CalcVarDirections.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/Core/CalcVar/CalcVarNumerical.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/Core/CalcVar/CalcVarNumericalInput.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/Core/CalcVar/CalcVarNumericalOutput.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Core/CalcVar/ComboBox/CalcVarComboBox.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Core/CalcVar/ICalcVarBaseCallback.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Core/CalcVar/Numerical/CalcVarNumerical.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Core/CalcVar/Numerical/CalcVarNumericalInput.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Core/CalcVar/Numerical/CalcVarNumericalOutput.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Core/Calculator.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Core/IDirectionFunction.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Core/IEquationFunction.java" charset="UTF-8" />

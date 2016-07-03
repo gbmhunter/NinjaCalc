@@ -4,8 +4,7 @@ package Calculators.Electronics.Basic.OhmsLaw;
 // SYSTEM INCLUDES
 
 import Core.CalcVar.CalcVarDirections;
-import Core.CalcVar.CalcVarNumerical;
-import javafx.beans.value.ChangeListener;
+import Core.CalcVar.Numerical.CalcVarNumerical;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -145,10 +144,10 @@ public class OhmsLawCalcModel extends Calculator {
         this.voltage.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.voltage.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.voltage.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.voltage.addValidator(Validator.IsNumber(voltage, CalcValidationLevels.Error));
+        this.voltage.addValidator(Validator.IsGreaterThanZero(voltage, CalcValidationLevels.Error));
 
-        this.calcVars.add(this.voltage);
+        addCalcVar(this.voltage);
 
         //===============================================================================================//
         //============================================ CURRENT ==========================================//
@@ -175,10 +174,10 @@ public class OhmsLawCalcModel extends Calculator {
         this.current.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.current.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.current.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.current.addValidator(Validator.IsNumber(current, CalcValidationLevels.Error));
+        this.current.addValidator(Validator.IsGreaterThanZero(current, CalcValidationLevels.Error));
 
-        this.calcVars.add(this.current);
+        addCalcVar(this.current);
 
 
         //===============================================================================================//
@@ -206,10 +205,10 @@ public class OhmsLawCalcModel extends Calculator {
         this.resistance.setIsEngineeringNotationEnabled(true);
 
         //====================== VALIDATORS ===================//
-        this.resistance.addValidator(Validator.IsNumber(CalcValidationLevels.Error));
-        this.resistance.addValidator(Validator.IsGreaterThanZero(CalcValidationLevels.Error));
+        this.resistance.addValidator(Validator.IsNumber(resistance, CalcValidationLevels.Error));
+        this.resistance.addValidator(Validator.IsGreaterThanZero(resistance, CalcValidationLevels.Error));
 
-        this.calcVars.add(this.resistance);
+        addCalcVar(this.resistance);
 
         //===============================================================================================//
         //============================================== FINAL ==========================================//

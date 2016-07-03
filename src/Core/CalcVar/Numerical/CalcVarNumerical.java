@@ -1,7 +1,9 @@
 
-package Core.CalcVar;
+package Core.CalcVar.Numerical;
 
 import Core.*;
+import Core.CalcVar.CalcVarBase;
+import Core.CalcVar.CalcVarDirections;
 import Utility.MetricPrefixes.MetricPrefixes;
 import Utility.MetricPrefixes.RoundingMethods;
 import Utility.Rounding;
@@ -18,7 +20,6 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Encapsulates a single numerical variable in a NinjaCalc calculator (inherits from CalcVarBase).
@@ -27,7 +28,7 @@ import java.util.concurrent.ExecutionException;
  *
  * @author          gbmhunter <gbmhunter@gmail.com> (www.mbedded.ninja)
  * @since           2015-11-02
- * @last-modified   2016-04-25
+ * @last-modified   2016-06-25
  */
 public class CalcVarNumerical extends CalcVarBase {
 
@@ -41,6 +42,11 @@ public class CalcVarNumerical extends CalcVarBase {
     public enum RoundingTypes {
         DECIMAL_PLACES,
         SIGNIFICANT_FIGURES,
+    }
+
+    public enum PrebuiltValidators {
+        IS_INTEGER,
+        IS_GREATER_THAN_0,
     }
 
     //===============================================================================================//
@@ -146,7 +152,7 @@ public class CalcVarNumerical extends CalcVarBase {
         //====================== EVENT HANDLERS ====================//
 
         // Install event handlers
-        this.addRawValueChangedListener(calcVarBase -> {
+        this.addValueChangedListener(calcVarBase -> {
             // Update displayed value
             //this.dispValAsNumber = this.rawVal * this.selUnit.multiplier;
             //this.dispValAsString = String.valueOf(this.rawVal * this.selUnit.multiplier);
@@ -172,6 +178,9 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Make sure this event only fires when this variable is an input!
         if(this.getDirection() == CalcVarDirections.Input) {
+
+            dispValAsString = newValue;
+
             this.updateRawValueFromDispValue();
 
         }
@@ -253,7 +262,7 @@ public class CalcVarNumerical extends CalcVarBase {
 
         // Make sure the provided text field is not null
         if(valueTextField == null)
-            throw new IllegalArgumentException("Provided TextField for calculator variable \"" + this.name + "\" value was null. Is the @FXML binding name the same as the fx:id?");
+            throw new IllegalArgumentException("Provided TextField for calculator variable \"" + this.getName() + "\" value was null. Is the @FXML binding name the same as the fx:id?");
 
         // Create text field listener
         this.textListener = (observable, oldValue, newValue) -> {
@@ -270,7 +279,7 @@ public class CalcVarNumerical extends CalcVarBase {
     public ComboBox getUnitsComboBox() { return unitsComboBox; }
     public void setUnitsComboBox(ComboBox unitsComboBox) {
         if(unitsComboBox == null){
-            throw new IllegalArgumentException("Provided unitsComboBox to " +  this.name + ".setUnitsComboBox was null.");
+            throw new IllegalArgumentException("Provided unitsComboBox to " +  this.getName() + ".setUnitsComboBox was null.");
         }
         this.unitsComboBox = unitsComboBox;
     }
@@ -379,7 +388,7 @@ public class CalcVarNumerical extends CalcVarBase {
      * @return      The raw value of the calculator variable.
      */
     public double getRawVal() {
-        this.onRawValueRead();
+        this.onValueRead();
 
         return this.rawVal;
     }
@@ -389,35 +398,9 @@ public class CalcVarNumerical extends CalcVarBase {
         if (this.rawVal != value) {
             this.rawVal = value;
             // Fire the RawValueChanged event handler
-            this.onRawValueChanged();
+            this.onValueChanged();
         }
     }
-
-    /**
-     * Set the selected unit for this calculator variable by passing in a unit name. If the unit can't be found in
-     * the units array, a System.ArgumentException exception will be thrown.
-     * @param unitName      The name (i.e. whats displayed in the combobox) of the unit you wish to be selected.
-     */
-    /*public void setUnits(String unitName) {
-
-        Core.NumberUnitMultiplier foundUnit = null;
-
-        for(NumberUnitMultiplier unit : this.units) {
-            if (unit.name == unitName) {
-                foundUnit = unit;
-                break;
-            }
-        }
-
-        if (foundUnit == null) {
-            throw new IllegalArgumentException("Unit name was not found in unit array.");
-        }
-
-        // Valid unit in unit array found, so lets set it to the currently
-        // selected unit
-        this.selUnit = foundUnit;
-
-    }*/
 
     /**
      * Sets the selected unit in the unit combobox.
@@ -440,14 +423,14 @@ public class CalcVarNumerical extends CalcVarBase {
     public void calculate() {
         // Make sure this event only fires when this calculator variable is an output!
         if(this.getDirection() != CalcVarDirections.Output){
-            throw new RuntimeException("calculate() was called for calculator variable " + this.name + " which is NOT an output.");
+            throw new RuntimeException("calculate() was called for calculator variable " + this.getName() + " which is NOT an output.");
         }
 
         //System.out.println("CalcVar.calculate() called for \"" + this.name + "\".");
 
         // Invoke the provided equation function,
         // which should return the raw value for this calculator variable
-        this.rawVal = this.equationFunction.execute();
+        this.rawVal = (Double)this.equationFunction.execute();
 
         // Update the displayed value based on this newly calculated raw value
         this.updateDispValFromRawVal();
@@ -470,45 +453,89 @@ public class CalcVarNumerical extends CalcVarBase {
         this.validators.add(validator);
     }
 
+    public void addValidator(PrebuiltValidators prebuiltValidator) {
+
+        switch (prebuiltValidator) {
+            case IS_INTEGER:
+
+                validators.add(new Validator(() -> {
+                    try {
+                        double d = Double.valueOf(dispValAsString);
+                        if (dispValAsString.matches("\\-?\\d+")){//optional minus and at least one digit
+                            // Value is an integer
+                            return CalcValidationLevels.Ok;
+                        } else {
+                            // Value is a double
+                            return CalcValidationLevels.Error;
+                        }
+                    } catch (Exception e) {
+                        // Value is not a number
+                        return CalcValidationLevels.Error;
+                    }
+
+                },
+                "This must be a valid integer. e.g. \"1\", \"-10\", \"280\" are all valid inputs."));
+
+                break;
+
+            case IS_GREATER_THAN_0:
+
+                validators.add(new Validator(() -> {
+                        if (getRawVal() <= 0) {
+                            return CalcValidationLevels.Error;
+                        }
+                        else {
+                            return CalcValidationLevels.Ok;
+                        }
+                    },
+                    "Value must be positive and not equal to 0."));
+                    break;
+
+            default:
+                throw new RuntimeException("PrebuiltValidator not recognised.");
+        }
+
+    }
+
     /**
      * Call this to perform validation on this calculator variable. Will run all validators
      * that have been added through calling addValidator(), and populate validationResults with the
      * results. Also updates UI based on these results.
      */
-    public void validate() {
-        //System.out.println("validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
-
-        // Clear the old validation results
-        this.validationResults.clear();
-
-        CalcValidationLevel worstValidationLevel = CalcValidationLevels.Ok;
-
-        // validate this value (if validators are provided)
-        for(Validator validator : this.validators) {
-            // Run the validation function
-            CalcValidationLevel validationLevel = validator.ValidationFunction.execute(this.rawVal);
-
-            // Save this validation result
-            this.validationResults.add(new CalcValidationResult(validationLevel, validator.Message));
-
-            // Logic for keeping track of the worst validation resut
-            // (error worse than warning worse than ok)
-            if (validationLevel == CalcValidationLevels.Warning && worstValidationLevel == CalcValidationLevels.Ok) {
-                worstValidationLevel = CalcValidationLevels.Warning;
-            }
-            else if (validationLevel == CalcValidationLevels.Error) {
-                worstValidationLevel = CalcValidationLevels.Error;
-            }
-        }
-
-        //System.out.println("Worst validation level was \"" + worstValidationLevel.name + "\".");
-
-        // Save this to the internal variable
-        this.worstValidationLevel = worstValidationLevel;
-
-        // Finally, force an update of the UI based on these validation results
-        this.updateUIBasedOnValidationResults();
-    }
+//    public void validate() {
+//        //System.out.println("validate() called for calculator variable \"" + this.name + "\" with this.RawVal = \"" + String.valueOf(this.rawVal) + "\".");
+//
+//        // Clear the old validation results
+//        this.validationResults.clear();
+//
+//        CalcValidationLevel worstValidationLevel = CalcValidationLevels.Ok;
+//
+//        // validate this value (if validators are provided)
+//        for(Validator validator : this.validators) {
+//            // Run the validation function
+//            CalcValidationLevel validationLevel = validator.ValidationFunction.execute();
+//
+//            // Save this validation result
+//            this.validationResults.add(new CalcValidationResult(validationLevel, validator.Message));
+//
+//            // Logic for keeping track of the worst validation resut
+//            // (error worse than warning worse than ok)
+//            if (validationLevel == CalcValidationLevels.Warning && worstValidationLevel == CalcValidationLevels.Ok) {
+//                worstValidationLevel = CalcValidationLevels.Warning;
+//            }
+//            else if (validationLevel == CalcValidationLevels.Error) {
+//                worstValidationLevel = CalcValidationLevels.Error;
+//            }
+//        }
+//
+//        //System.out.println("Worst validation level was \"" + worstValidationLevel.name + "\".");
+//
+//        // Save this to the internal variable
+//        this.worstValidationLevel = worstValidationLevel;
+//
+//        // Finally, force an update of the UI based on these validation results
+//        this.updateUIBasedOnValidationResults();
+//    }
 
     /**
      * Event handler for when the units in the unit combobox are changed. Event handler is installed in this
@@ -674,25 +701,23 @@ public class CalcVarNumerical extends CalcVarBase {
     }
 
 
-
     /**
      * This method makes the text fields of output variables slightly transparent to indicate
-     * to the user that they are readonly.
+     * to the user that they are readonly. This is done via CSS targeting the editable property.
      */
     public void updateUIFromDirection() {
 
         // We don't disable the text field as this disables the tooltip also.
-
         switch(this.direction) {
             case Input:
-                //this.valueTextField.setDisable(false);
-                this.valueTextField.setEditable(true);
+                valueTextField.setEditable(true);
                 break;
             case Output:
-                //this.valueTextField.setDisable(true);
-                this.valueTextField.setEditable(false);
+                valueTextField.setEditable(false);
                 break;
         }
     }
+
+
 
 }
