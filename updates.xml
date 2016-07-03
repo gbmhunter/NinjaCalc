@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<updateDescriptor baseUrl="https://github.com/mbedded-ninja/NinjaCalc/releases/download/v1.2.1/">
-  <entry targetMediaFileId="23" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.2.1_windows.exe" newVersion="1.2.1" newMediaFileId="23" fileSize="14385152" bundledJre="" archive="false">
-    <comment language="en">v1.2.1&#xD;
+<updateDescriptor baseUrl="https://github.com/mbedded-ninja/NinjaCalc/releases/download/v1.3.0/">
+  <entry targetMediaFileId="36" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.3.0_macos.dmg" newVersion="1.3.0" newMediaFileId="36" fileSize="14262407" bundledJre="" archive="false">
+    <comment language="en">v1.3.0&#xD;
+------&#xD;
+&#xD;
+- Added CRC calculator, closes #122.&#xD;
+- Fixed issue with install4j dependency, closes #123.&#xD;
+- Removed .idea/workspace.xml file from repo, closes #124.&#xD;
+- Added a text-based calculator variable, closes #125.&#xD;
+- Added check so that calculator variables can't be accidentally added to the same calculator twice, closes #126.&#xD;
+&#xD;
+v1.2.1&#xD;
 ------&#xD;
 &#xD;
 - Disabled metric prefixes for IPC-2152 calculator variables, closes #118.&#xD;
@@ -192,8 +201,17 @@ v0.1.0&#xD;
 - Multiple instances of the same calculator type are now allowed to be open, closes #15.&#xD;
 - Clicking 'Open' on a calculator in the grid view now opens it's tab, closes #14.</comment>
   </entry>
-  <entry targetMediaFileId="36" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.2.1_macos.dmg" newVersion="1.2.1" newMediaFileId="36" fileSize="14057607" bundledJre="" archive="false">
-    <comment language="en">v1.2.1&#xD;
+  <entry targetMediaFileId="23" updatableVersionMin="" updatableVersionMax="" fileName="NinjaCalc_v1.3.0_windows.exe" newVersion="1.3.0" newMediaFileId="23" fileSize="15126016" bundledJre="" archive="false">
+    <comment language="en">v1.3.0&#xD;
+------&#xD;
+&#xD;
+- Added CRC calculator, closes #122.&#xD;
+- Fixed issue with install4j dependency, closes #123.&#xD;
+- Removed .idea/workspace.xml file from repo, closes #124.&#xD;
+- Added a text-based calculator variable, closes #125.&#xD;
+- Added check so that calculator variables can't be accidentally added to the same calculator twice, closes #126.&#xD;
+&#xD;
+v1.2.1&#xD;
 ------&#xD;
 &#xD;
 - Disabled metric prefixes for IPC-2152 calculator variables, closes #118.&#xD;
