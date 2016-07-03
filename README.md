@@ -69,10 +69,9 @@ Creating a static diagram image and laying the calculator variable UI elements o
 All calculators that use static images for their background diagrams have a Visio file called `diagram.vsd` in their respective folder. Microsoft Visio is used to create the diagram, which is then exported as an image and used inside the NinjaCalc application.
 
 
-# Creating Installable Packages
+# Release Process
 
 The team at [ej-technologies](https://www.ej-technologies.com/) have graciously donated me an open-source licensed version of ![install4j](https://www.ej-technologies.com/images/product_banners/install4j_small.png), [the multi-platform installer builder for Java applications](http://www.ej-technologies.com/products/install4j/overview.html).
-
 
 Myself (gbmhunter) currently holds the license for this software, and so I am the only one that can currently create installable packages for NinjaCalc releases.
 
