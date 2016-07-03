@@ -12,26 +12,26 @@ import org.junit.Test;
  */
 public class CrcGenericTests {
 
-//    @Test
-//    public void Generic3BitCrcTest() throws Exception {
-//
-//        Integer buffer[] = {(int)'1', (int)'2', (int)'3', (int)'4', (int)'5', (int)'6', (int)'7', (int)'8', (int)'9'};
-//
-//        CrcGeneric crcGeneric = new CrcGeneric(
-//                3,
-//                (long)0x3,
-//                (long)0x7,
-//                (long)0x0,
-//                true,
-//                true);
-//
-//        for(Integer dataByte : buffer) {
-//            crcGeneric.updatev2(dataByte);
-//        }
-//        Assert.assertEquals(0x6, crcGeneric.getValue());
-//
-//    }
-//
+    @Test
+    public void Generic3BitCrcTest() throws Exception {
+
+        Integer buffer[] = {(int)'1', (int)'2', (int)'3', (int)'4', (int)'5', (int)'6', (int)'7', (int)'8', (int)'9'};
+
+        CrcGeneric crcGeneric = new CrcGeneric(
+                3,
+                (long)0x3,
+                (long)0x7,
+                (long)0x0,
+                true,
+                true);
+
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0x6, crcGeneric.getValue());
+
+    }
+
     @Test
     public void Generic3BitCrcTest2() throws Exception {
 
@@ -46,9 +46,49 @@ public class CrcGenericTests {
                 false);
 
         for(Integer dataByte : buffer) {
-            crcGeneric.updatev2(dataByte);
+            crcGeneric.update(dataByte);
         }
         Assert.assertEquals(0x5, crcGeneric.getValue());
+
+    }
+
+    @Test
+    public void Generic4BitCrcTest() throws Exception {
+
+        Integer buffer[] = {(int)'1', (int)'2', (int)'3', (int)'4', (int)'5', (int)'6', (int)'7', (int)'8', (int)'9'};
+
+        CrcGeneric crcGeneric = new CrcGeneric(
+                4,
+                (long)0x3,
+                (long)0x0,
+                (long)0x0,
+                true,
+                true);
+
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0x7, crcGeneric.getValue());
+
+    }
+
+    @Test
+    public void Generic5BitCrcTest() throws Exception {
+
+        Integer buffer[] = {(int)'1', (int)'2', (int)'3', (int)'4', (int)'5', (int)'6', (int)'7', (int)'8', (int)'9'};
+
+        CrcGeneric crcGeneric = new CrcGeneric(
+                5,
+                (long)0x09,
+                (long)0x09,
+                (long)0x00,
+                false,
+                false);
+
+        for(Integer dataByte : buffer) {
+            crcGeneric.update(dataByte);
+        }
+        Assert.assertEquals(0x00, crcGeneric.getValue());
 
     }
 

@@ -366,12 +366,12 @@ public class CrcCalcModel extends Calculator {
                 // Update all info about new CRC algorithm
                 selectedCrcNameLabel.setText(crcAlgorithmParameters.name);
                 crcWidthLabel.setText(Integer.toString(crcAlgorithmParameters.crcWidthBits));
-                generatorPolynomialLabel.setText(String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcAlgorithmParameters.crcPolynomial));
-                selectedCrcInitValueLabel.setText(String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcAlgorithmParameters.startingValue));
+                generatorPolynomialLabel.setText(String.format("0x%0" + (crcAlgorithmParameters.crcWidthBits + 3) / 4 + "X", crcAlgorithmParameters.crcPolynomial));
+                selectedCrcInitValueLabel.setText(String.format("0x%0" + (crcAlgorithmParameters.crcWidthBits + 3) / 4 + "X", crcAlgorithmParameters.startingValue));
                 selectedCrcReflectDataInLabel.setText(Boolean.toString(crcAlgorithmParameters.reflectData));
                 selectedCrcReflectCrcOutLabel.setText(Boolean.toString(crcAlgorithmParameters.reflectRemainder));
-                selectedCrcXorOutLabel.setText(String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcAlgorithmParameters.finalXorValue));
-                selectedCrcCheckLabel.setText(String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcAlgorithmParameters.checkValue));
+                selectedCrcXorOutLabel.setText(String.format("0x%0" + (crcAlgorithmParameters.crcWidthBits + 3) / 4 + "X", crcAlgorithmParameters.finalXorValue));
+                selectedCrcCheckLabel.setText(String.format("0x%0" + (crcAlgorithmParameters.crcWidthBits + 3) / 4 + "X", crcAlgorithmParameters.checkValue));
 
             }
         });
@@ -409,7 +409,7 @@ public class CrcCalcModel extends Calculator {
             long crcResult = crcGeneric.getValue();
 
             // Convert to hex for display
-            String crcResultAsHex = String.format("0x%0" + crcAlgorithmParameters.crcWidthBits / 4 + "X", crcResult);
+            String crcResultAsHex = String.format("0x%0" + ((crcAlgorithmParameters.crcWidthBits + 3) / 4)  + "X", crcResult);
 
             return crcResultAsHex;
 

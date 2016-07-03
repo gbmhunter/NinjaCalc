@@ -17,7 +17,19 @@ import java.util.EnumMap;
 public class CrcCatalogue {
 
     public enum PresetCrcAlgorithmsIds {
-        //CRC_3_ROHC,
+        CRC_3_ROHC,
+        CRC_4_INTERLAKEN,
+        CRC_4_ITU,
+        CRC_5_EPC,
+        CRC_5_ITU,
+        CRC_5_USB,
+        CRC_6_CDMA2000_A,
+        CRC_6_CDMA2000_B,
+        CRC_6_DARC,
+        CRC_6_ITU,
+        CRC_7,
+        CRC_7_ROHC,
+        CRC_7_UMTS,
         CRC_8_CDMA2000,
         CRC_8_DARC,
         CRC_8_EBU,
@@ -53,17 +65,161 @@ public class CrcCatalogue {
 
         presetCrcAlgorithms = new EnumMap<>(PresetCrcAlgorithmsIds.class);
 
-//        presetCrcAlgorithms.put(
-//                PresetCrcAlgorithmsIds.CRC_3_ROHC,
-//                new CrcAlgorithmParameters(
-//                        "CRC-3/ROHC",
-//                        3,
-//                        0x3,
-//                        0x7,
-//                        true,
-//                        true,
-//                        0x00,
-//                        0x6));
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_3_ROHC,
+                new CrcAlgorithmParameters(
+                        "CRC-3/ROHC",
+                        3,
+                        0x3,
+                        0x7,
+                        true,
+                        true,
+                        0x00,
+                        0x6));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_4_INTERLAKEN,
+                new CrcAlgorithmParameters(
+                        "CRC-4/INTERLAKEN",
+                        4,
+                        0x3,
+                        0xF,
+                        false,
+                        false,
+                        0xF,
+                        0xB));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_4_ITU,
+                new CrcAlgorithmParameters(
+                        "CRC-4/ITU",
+                        4,
+                        0x3,
+                        0x0,
+                        true,
+                        true,
+                        0x0,
+                        0x7));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_5_EPC,
+                new CrcAlgorithmParameters(
+                        "CRC-5/EPC",
+                        5,
+                        0x09,
+                        0x09,
+                        false,
+                        false,
+                        0x00,
+                        0x00));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_5_ITU,
+                new CrcAlgorithmParameters(
+                        "CRC-5/ITU",
+                        5,
+                        0x15,
+                        0x00,
+                        true,
+                        true,
+                        0x00,
+                        0x07));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_5_USB,
+                new CrcAlgorithmParameters(
+                        "CRC-5/USB",
+                        5,
+                        0x05,
+                        0x1F,
+                        true,
+                        true,
+                        0x1F,
+                        0x19));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_6_CDMA2000_A,
+                new CrcAlgorithmParameters(
+                        "CRC-6/CDMA2000-A",
+                        6,
+                        0x27,
+                        0x3F,
+                        false,
+                        false,
+                        0x00,
+                        0x0D));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_6_CDMA2000_B,
+                new CrcAlgorithmParameters(
+                        "CRC-6/CDMA2000-B",
+                        6,
+                        0x07,
+                        0x3F,
+                        false,
+                        false,
+                        0x00,
+                        0x3B));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_6_DARC,
+                new CrcAlgorithmParameters(
+                        "CRC-6/DARC",
+                        6,
+                        0x19,
+                        0x00,
+                        true,
+                        true,
+                        0x00,
+                        0x26));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_6_ITU,
+                new CrcAlgorithmParameters(
+                        "CRC-6/ITU",
+                        6,
+                        0x03,
+                        0x00,
+                        true,
+                        true,
+                        0x00,
+                        0x06));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_7,
+                new CrcAlgorithmParameters(
+                        "CRC-7",
+                        7,
+                        0x09,
+                        0x00,
+                        false,
+                        false,
+                        0x00,
+                        0x75));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_7_ROHC,
+                new CrcAlgorithmParameters(
+                        "CRC-7/ROHC",
+                        7,
+                        0x4F,
+                        0x7F,
+                        true,
+                        true,
+                        0x00,
+                        0x53));
+
+        presetCrcAlgorithms.put(
+                PresetCrcAlgorithmsIds.CRC_7_UMTS,
+                new CrcAlgorithmParameters(
+                        "CRC-7/UMTS",
+                        7,
+                        0x45,
+                        0x00,
+                        false,
+                        false,
+                        0x00,
+                        0x61));
 
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_8_CDMA2000,
