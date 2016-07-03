@@ -1,4 +1,4 @@
-vX.X.X
+v1.3.0
 ------
 
 - Added CRC calculator, closes #122.

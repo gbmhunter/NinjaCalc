@@ -8,8 +8,8 @@
 
 - Author: gbmhunter <gbmhunter@gmail.com> ([www.mbedded.ninja](http://www.mbedded.ninja))
 - Created: 2015-11-02
-- Last Modified: 2016-05-15
-- Version: v1.2.1
+- Last Modified: 2016-07-03
+- Version: v1.3.0
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: Java
@@ -79,7 +79,7 @@ The install4j script is located at `/NinjaCalc.install4j`.
 
 1. After code changes are complete, make sure the NinjaCalc.jar artifact has been built from within IntelliJ (`Build->Build Artifacts->NinjaCalc:jar->Build`).
 2. Open the `/NinjaCalc.install4j` file in "install4j Multi-Platform Edition".
-3. Update the "Version" field as appropriate.
+3. Update the "Version" field as appropriate, then click "Save Project".
 4. Click the "Build Project" button.
 5. Wait until build completes. install4j should have created installer files for each supported platform (currently Windows and Mac OS), as well as an updates.xml file, in the `install` directory.
 6. Overwrite the old `updates.xml` file in the repos root directory with the one that install4j created in the `install` directory.
