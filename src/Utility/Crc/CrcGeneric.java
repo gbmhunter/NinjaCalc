@@ -105,25 +105,54 @@ public class CrcGeneric implements Checksum {
             input = BitMirror.doMirror(input, 8);
         }
 
+
+        //boolean handledDataBeingSmallerThanCrc = false;
+
         // XOR-in the next byte of data, shifting it first
         // depending on the polynomial width.
         // This trick allows us to operate on one byte of data at a time before
         // considering the next
         crcValue ^= (input << (crcWidthBits - DATA_WIDTH_BITS));
 
-        for (int j = 0; j < DATA_WIDTH_BITS; j++)
-        {
+        for (int j = 0; j < DATA_WIDTH_BITS; j++) {
+
+
+//            if((DATA_WIDTH_BITS - j <= crcWidthBits) && !handledDataBeingSmallerThanCrc) {
+//                crcValue ^= (input << (crcWidthBits - DATA_WIDTH_BITS));
+//                handledDataBeingSmallerThanCrc = true;
+//            }
+
             // Check to see if MSB is 1, if so, we need
             // to XOR with polynomial
-            if ((crcValue & (1L << (crcWidthBits - 1))) != 0)
-            {
+            if ((crcValue & (1L << (crcWidthBits - 1))) != 0) {
                 crcValue = ((crcValue << 1) ^ crcPolynomial) & mask;
-            }
-            else
-            {
+            } else {
                 crcValue = (crcValue << 1) & mask;
             }
         }
+
+    }
+
+
+    public void updatev2(int b) {
+
+        long input = b;
+
+        long poly8 = (crcPolynomial << (8 - crcWidthBits));
+
+        if(reflectData) {
+            input = BitMirror.doMirror(input, 8);
+        }
+
+        crcValue <<= 8 - crcWidthBits;
+
+        crcValue ^= b;
+        for (int k = 0; k < 8; k++)
+            crcValue = ((crcValue & 0x80) != 0) ? (crcValue << 1) ^ poly8 : crcValue << 1;
+
+        crcValue &= 0xff;
+        crcValue >>= 8 - crcWidthBits;
+
     }
 
     @Override

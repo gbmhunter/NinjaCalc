@@ -17,6 +17,7 @@ import java.util.EnumMap;
 public class CrcCatalogue {
 
     public enum PresetCrcAlgorithmsIds {
+        //CRC_3_ROHC,
         CRC_8_CDMA2000,
         CRC_8_DARC,
         CRC_8_EBU,
@@ -51,6 +52,18 @@ public class CrcCatalogue {
     static {
 
         presetCrcAlgorithms = new EnumMap<>(PresetCrcAlgorithmsIds.class);
+
+//        presetCrcAlgorithms.put(
+//                PresetCrcAlgorithmsIds.CRC_3_ROHC,
+//                new CrcAlgorithmParameters(
+//                        "CRC-3/ROHC",
+//                        3,
+//                        0x3,
+//                        0x7,
+//                        true,
+//                        true,
+//                        0x00,
+//                        0x6));
 
         presetCrcAlgorithms.put(
                 PresetCrcAlgorithmsIds.CRC_8_CDMA2000,

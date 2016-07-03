@@ -12,6 +12,46 @@ import org.junit.Test;
  */
 public class CrcGenericTests {
 
+//    @Test
+//    public void Generic3BitCrcTest() throws Exception {
+//
+//        Integer buffer[] = {(int)'1', (int)'2', (int)'3', (int)'4', (int)'5', (int)'6', (int)'7', (int)'8', (int)'9'};
+//
+//        CrcGeneric crcGeneric = new CrcGeneric(
+//                3,
+//                (long)0x3,
+//                (long)0x7,
+//                (long)0x0,
+//                true,
+//                true);
+//
+//        for(Integer dataByte : buffer) {
+//            crcGeneric.updatev2(dataByte);
+//        }
+//        Assert.assertEquals(0x6, crcGeneric.getValue());
+//
+//    }
+//
+    @Test
+    public void Generic3BitCrcTest2() throws Exception {
+
+        Integer buffer[] = {0x01, 0x02, 0x03};
+
+        CrcGeneric crcGeneric = new CrcGeneric(
+                3,
+                (long)0x3,
+                (long)0x0,
+                (long)0x0,
+                false,
+                false);
+
+        for(Integer dataByte : buffer) {
+            crcGeneric.updatev2(dataByte);
+        }
+        Assert.assertEquals(0x5, crcGeneric.getValue());
+
+    }
+
     @Test
     public void Generic8BitCrcTest() throws Exception {
 
