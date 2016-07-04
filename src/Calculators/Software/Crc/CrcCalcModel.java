@@ -158,8 +158,8 @@ public class CrcCalcModel extends Calculator {
 
     public CrcCalcModel() {
 
-        super("CRC Values",
-                "Calculate CRC values from either a large number of popular CRC algorithms or define one yourself.",
+        super("CRC Calculator",
+                "Calculate CRC values from either a large number of popular CRC algorithms or a user-defined one.",
                 new String[]{"Software"},
                 new String[]{"crc", "cycle redundancy check", "smbus", "comms", "bus", "embedded", "messaging", "networking", "parity", "bits", "xor"});
 

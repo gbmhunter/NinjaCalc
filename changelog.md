@@ -1,3 +1,9 @@
+vX.X.X
+------
+
+- Replaced image for "Metric Prefix Support" on front page of website, closes #127.
+- Renamed "CRC Values" calculator to "CRC Calculator", closes #128.
+
 v1.3.0
 ------
 
