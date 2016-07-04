@@ -3,6 +3,7 @@ vX.X.X
 
 - Replaced image for "Metric Prefix Support" on front page of website, closes #127.
 - Renamed "CRC Values" calculator to "CRC Calculator", closes #128.
+- Removed extra "0x" from start of custom CRC value output on the CRC calculator, closes #129.
 
 v1.3.0
 ------

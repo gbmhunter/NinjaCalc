@@ -171,11 +171,8 @@
                     <VBox prefHeight="20"></VBox>
 
                     <HBox alignment="CENTER" spacing="10">
-                        <Label GridPane.rowIndex="3" GridPane.columnIndex="0">CRC Value:</Label>
-                        <HBox GridPane.rowIndex="3" GridPane.columnIndex="1" alignment="CENTER">
-                            <Label>0x</Label>
-                            <TextField fx:id="customCrcValueTextField"></TextField>
-                        </HBox>
+                        <Label>CRC Value:</Label>
+                        <TextField fx:id="customCrcValueTextField"></TextField>
                     </HBox>
 
                 </VBox>
