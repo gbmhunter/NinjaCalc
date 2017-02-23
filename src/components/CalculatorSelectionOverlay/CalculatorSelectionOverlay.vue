@@ -14,7 +14,6 @@
 
               </CalcPreview>
             </div>
-            <img src="../../assets/logo.png">
           </div>
 
           <div class="modal-footer">

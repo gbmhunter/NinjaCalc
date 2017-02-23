@@ -1,6 +1,12 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
   <md-card md-with-hover class="calc-preview">
 
+    <md-card-media>
+      <img :src="imageUrl" style="width: 180px;">
+
+      <md-ink-ripple></md-ink-ripple>
+    </md-card-media>
+
     <md-card-header>
       <div class="md-title">{{title}}</div>
       <!--<div class="md-subhead">Subtitle here</div>-->
@@ -10,7 +16,7 @@
       Test description.
     </md-card-content>
 
-    <img :src="imageUrl">
+
 
     <!--<md-button id="open-button" class="md-raised md-primary">Open</md-button>-->
 
@@ -50,8 +56,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .calc-preview {
-    width: 200px;
-    height: 300px;
+    width: 250px;
+    height: 350px;
     margin: 15px;
 
   }
