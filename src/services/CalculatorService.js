@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 class CalculatorService {
   constructor (name) {
     this.name = name
@@ -10,6 +12,9 @@ class CalculatorService {
     console.log(calculator)
 
     this.calculators.push(calculator)
+
+    // Register Vue component
+    Vue.component(calculator.mainView.name, calculator.mainView)
   }
 
   setupStore (store) {
@@ -22,7 +27,7 @@ class CalculatorService {
       console.log('calculator = ')
       console.log(calculator)
 
-      store.commit('registerCalc', { name: calculator.displayName, componentName: calculator.name, imagePath: calculator.imagePath })
+      store.commit('registerCalc', { name: calculator.displayName, componentName: calculator.mainView.name, imagePath: calculator.imagePath })
     }
   }
 }

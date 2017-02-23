@@ -71,15 +71,22 @@
   import { CalculatorServiceSingleton } from './services/CalculatorService'
 
   import LeftSideMenu from './components/LeftSideMenu/LeftSideMenu'
+  // import MainView from './components/OhmsLawCalculator/MainView'
   import CalculatorSelectionOverlay from './components/CalculatorSelectionOverlay/CalculatorSelectionOverlay'
+
   import OhmsLawCalculator from './components/OhmsLawCalculator/OhmsLawCalculator'
+
+  console.log('LeftSideMenu =')
+  console.log(LeftSideMenu)
+  // console.log('MainView =')
+  // console.log(MainView)
 
   export default {
     name: 'app',
     components: {
       LeftSideMenu,
-      CalculatorSelectionOverlay,
-      OhmsLawCalculator
+      CalculatorSelectionOverlay
+      // OhmsLawCalculator
     },
     computed: {
       openCalcs () {
@@ -107,6 +114,10 @@
 
       // Setup calculators
       var calculatorService = CalculatorServiceSingleton.getInstance()
+
+      console.log('OhmsLawCalculator =')
+      console.log(OhmsLawCalculator)
+      calculatorService.registerCalc(OhmsLawCalculator)
       calculatorService.setupStore(this.$store)
     }
   }

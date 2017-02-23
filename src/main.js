@@ -16,8 +16,6 @@ Vue.use(BootstrapVue)
 // Loading of bootstrap CSS is required for BootstrapVue to work correctly
 import 'bootstrap-vue/node_modules/bootstrap/dist/css/bootstrap.css'
 
-import OhmsLawCalculator from './components/OhmsLawCalculator/OhmsLawCalculator'
-
 /* eslint-disable no-unused-vars */
 const store = new Vuex.Store({
   state: {
@@ -56,6 +54,6 @@ var vm = new Vue({
   el: '#app',
   store,
   template: '<App/>',
-  components: { App, OhmsLawCalculator }
+  components: { App }
 })
 
