@@ -10,6 +10,12 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 Vue.use(VueMaterial)
 
+import BootstrapVue from 'bootstrap-vue'
+// Globally register bootstrap-vue components
+Vue.use(BootstrapVue)
+// Loading of bootstrap CSS is required for BootstrapVue to work correctly
+import 'bootstrap-vue/node_modules/bootstrap/dist/css/bootstrap.css'
+
 import OhmsLawCalculator from './components/OhmsLawCalculator/OhmsLawCalculator'
 
 /* eslint-disable no-unused-vars */

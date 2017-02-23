@@ -2,176 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28749833-3ca7-4d22-bb15-cbfb33440635" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/NinjaCalc_jar.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/description.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/i4jruntime.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/org_scilab_forge_jlatexmath_1_0_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/org_testfx_testfx_core_4_0_2_alpha.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/org_testfx_testfx_junit_4_0_2_alpha.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/symja_java8_2016_04_15.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NinjaCalc.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NinjaCalc.install4j" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/EvalEx-1.1-javadoc.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/EvalEx-1.1-sources.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/EvalEx-1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/guava-18.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/hamcrest-all-1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/hamcrest-core-1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/i4jruntime.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/jlatexmath-1.0.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/jlatexmath-1.0.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/junit-4.12-javadoc.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/junit-4.12-sources.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/junit-4.12.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/symja_java8-2016-04-15.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/testfx-core-4.0.2-alpha-javadoc.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/testfx-core-4.0.2-alpha-sources.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/testfx-core-4.0.2-alpha.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/testfx-junit-4.0.2-alpha-javadoc.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/testfx-junit-4.0.2-alpha-sources.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/testfx-junit-4.0.2-alpha.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/OhmsLawCalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/diagram.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/diagram.vsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/grid-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/OhmsLaw/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/ResistorDividerCalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/diagram.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/diagram.vsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/grid-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/grid-icon.vsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/ResistorDivider/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/ESeriesResistanceRow.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderCalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderCalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/diagram.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/diagram.vsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/grid-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/grid-icon.xcf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Basic/StandardResistanceFinder/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/LowPassRCCalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/basic-equation.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/diagram.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/diagram.vsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/grid-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/grid-icon.vsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Filters/LowPassRC/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/TrackCurrentIpc2152CalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/grid-icon(old).png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/grid-icon(old).xcf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/grid-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/ipc-2152-copper-thickness-modifier-copper-weight-versus-c5-graph.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/ipc-2152-copper-thickness-modifier-graph-with-trendlines.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2152/temperature-icon.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/TrackCurrentIpc2221ACalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/grid-icon(old).png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/grid-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/grid-icon.xcf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/temperature-icon.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/ViaCurrentIpc2221ACalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/img/grid-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/img/via-with-dimensions.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/img/via-with-dimensions.vsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/DewPointMagnus/DewPointMagnusCalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/DewPointMagnus/DewPointMagnusCalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/DewPointMagnus/basic-equation.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/DewPointMagnus/cold-temperature-guage.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/DewPointMagnus/grid-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/DewPointMagnus/hot-temperature-guage.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/DewPointMagnus/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/DewPointMagnus/water-drop-and-percentage-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/NtcThermistorCalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/grid-icon.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Electronics/Sensors/NtcThermistor/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Scientific/ScientificCalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Scientific/calculatorWebView.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Scientific/grid-icon.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Scientific/math.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Scientific/style.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Software/Crc/CrcAlgorithmRow.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Software/Crc/CrcCalcModel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Software/Crc/CrcCalcView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Software/Crc/diagram.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Software/Crc/diagram.vsd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Software/Crc/grid-icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Software/Crc/grid-icon.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Calculators/Software/Crc/info.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/AutoScalingStackPane.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcValidationLevel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcValidationLevels.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcValidationResult.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcVar/CalcVarBase.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcVar/CalcVarDirections.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcVar/ComboBox/CalcVarComboBox.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcVar/Generic/CalcVarGeneric.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcVar/ICalcVarBaseCallback.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcVar/Numerical/CalcVarNumerical.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcVar/Numerical/CalcVarNumericalInput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcVar/Numerical/CalcVarNumericalOutput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcVar/RadioButtonGroup/CalcVarRadioButtonGroup.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/CalcVar/Text/CalcVarText.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/Calculator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/IDirectionFunction.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/IEquationFunction.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/IOpenCalcListener.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/IUnitConversionFunction.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/IValidationFunction.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/NumberPreference.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/NumberUnit.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/NumberUnitFunction.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/NumberUnitMultiplier.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/StyleSheets/default.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/UnitConversionConstants.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/Validator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/View/CalculatorGridElement/CalculatorGridElementController.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/View/CalculatorGridElement/CalculatorGridElementView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/View/Dimension/Dimension.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/View/Dimension/Dimension.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core/View/Dimension/DimensionController.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/MainWindow/MainWindowController.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/MainWindow/MainWindowView.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Utility/BitMirror/BitMirror.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Utility/Crc/Crc16XModem.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Utility/Crc/CrcAlgorithmParameters.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Utility/Crc/CrcCatalogue.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Utility/Crc/CrcGeneric.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Utility/MetricPrefixes/MetricPrefixes.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Utility/MetricPrefixes/RoundingMethods.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Utility/Rounding.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Utility/StandardResistanceFinder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/img/icon.ico" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/img/menu-stack-hamburger-128x118.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Calculators/Electronics/Basic/StandardResistanceFinder/StandardResistanceFinderModelTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Core/CalcVar/CalcVarTextTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Utility/BitMirror/BitMirrorTests.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Utility/Crc/Crc16XModemTests.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Utility/Crc/CrcCatalogueTests.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Utility/Crc/CrcGenericTests.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Utility/MetricPrefixes/MetrixPrefixesTests.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Utility/RoundingTests.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/Utility/StandardResistanceFinderTests.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/updates.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/OhmsLawCalculator/OhmsLawCalculator.vue" afterPath="$PROJECT_DIR$/src/components/OhmsLawCalculator/OhmsLawCalculator.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.js" afterPath="$PROJECT_DIR$/src/main.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -192,11 +26,12 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="37" column="44" lean-forward="false" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
+            <state relative-caret-position="238">
+              <caret line="15" column="74" lean-forward="false" selection-start-line="15" selection-start-column="74" selection-end-line="15" selection-end-column="74" />
               <folding>
                 <element signature="e#140#161#0" expanded="true" />
                 <element signature="e#226#264#0" expanded="true" />
+                <element signature="e#515#583#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -205,8 +40,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="15" lean-forward="false" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+            <state relative-caret-position="170">
+              <caret line="10" column="35" lean-forward="true" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -217,8 +52,8 @@
       <file leaf-file-name="App.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/App.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1785">
-              <caret line="109" column="47" lean-forward="false" selection-start-line="109" selection-start-column="47" selection-end-line="109" selection-end-column="47" />
+            <state relative-caret-position="408">
+              <caret line="69" column="0" lean-forward="true" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="e#1943#2016#0" expanded="true" />
@@ -261,8 +96,9 @@
         <entry file="file://$PROJECT_DIR$/src/components/OhmsLawCalculator/OhmsLawCalculator.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="26" column="30" lean-forward="true" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
+              <caret line="7" column="31" lean-forward="false" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
               <folding>
+                <element signature="n#style#0;n#b-form-input#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
               </folding>
@@ -301,7 +137,6 @@
         <option value="$PROJECT_DIR$/src/components/LeftSideBar/LeftSideBar.vue" />
         <option value="$PROJECT_DIR$/src/components/Test/Test.vue" />
         <option value="$PROJECT_DIR$/src/components/Hello.vue" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/src/components/Modal/Modal.vue" />
         <option value="$PROJECT_DIR$/src/components/LeftSideMenu/LeftSideMenu.vue" />
         <option value="$PROJECT_DIR$/src/components/OhmsLawCalculator/MainView.vue" />
@@ -310,6 +145,7 @@
         <option value="$PROJECT_DIR$/src/misc/Singleton.js" />
         <option value="$PROJECT_DIR$/src/App.vue" />
         <option value="$PROJECT_DIR$/src/services/CalculatorService.js" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/src/main.js" />
         <option value="$PROJECT_DIR$/src/components/OhmsLawCalculator/OhmsLawCalculator.vue" />
       </list>
@@ -356,123 +192,43 @@
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
+              <option name="myItemId" value="NinjaCalc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
+              <option name="myItemId" value="NinjaCalc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
+              <option name="myItemId" value="NinjaCalc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
+              <option name="myItemId" value="NinjaCalc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="node_modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
+              <option name="myItemId" value="NinjaCalc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
+              <option name="myItemId" value="NinjaCalc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="node_modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="misc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OhmsLawCalculator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LeftSideMenu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NinjaCalc-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
+              <option name="myItemId" value="vue-strap" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -566,12 +322,12 @@
       <updated>1487719346239</updated>
       <workItem from="1487719351786" duration="6582000" />
       <workItem from="1487773013727" duration="27129000" />
-      <workItem from="1487807026419" duration="3000" />
+      <workItem from="1487807026419" duration="1314000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33714000" />
+    <option name="totallyTimeSpent" value="35025000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -580,11 +336,11 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -595,6 +351,25 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
@@ -614,6 +389,7 @@
           <folding>
             <element signature="e#140#161#0" expanded="true" />
             <element signature="e#226#264#0" expanded="true" />
+            <element signature="e#515#583#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -668,6 +444,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="n#style#0;n#b-form-input#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
           </folding>
@@ -725,6 +502,7 @@
           <folding>
             <element signature="e#140#161#0" expanded="true" />
             <element signature="e#226#264#0" expanded="true" />
+            <element signature="e#515#583#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -748,51 +526,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/OhmsLawCalculator/MainView.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1785">
-          <caret line="109" column="47" lean-forward="false" selection-start-line="109" selection-start-column="47" selection-end-line="109" selection-end-column="47" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#1943#2016#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="37" column="44" lean-forward="false" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
-          <folding>
-            <element signature="e#140#161#0" expanded="true" />
-            <element signature="e#226#264#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/services/CalculatorService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="24" column="32" lean-forward="false" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="15" lean-forward="false" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -812,11 +550,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/OhmsLawCalculator/MainView.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/vue-strap/src/Input.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1122">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="69" column="0" lean-forward="true" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#1943#2016#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="35" lean-forward="true" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="15" column="74" lean-forward="false" selection-start-line="15" selection-start-column="74" selection-end-line="15" selection-end-column="74" />
+          <folding>
+            <element signature="e#140#161#0" expanded="true" />
+            <element signature="e#226#264#0" expanded="true" />
+            <element signature="e#515#583#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/OhmsLawCalculator/OhmsLawCalculator.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="26" column="30" lean-forward="true" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
+          <caret line="7" column="31" lean-forward="false" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
           <folding>
+            <element signature="n#style#0;n#b-form-input#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
           </folding>

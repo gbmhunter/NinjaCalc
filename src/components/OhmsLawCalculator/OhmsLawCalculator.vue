@@ -2,7 +2,13 @@
 
   <div>
     <div>
-      V = <input v-model="voltage" @keyup="varsChanged">
+
+      Voltage
+      <b-form-input style="width:200px;" v-model="voltage"
+                    type="text"
+      ></b-form-input>
+
+      <!--V = <input v-model="voltage" @keyup="varsChanged">-->
       <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="voltage"></md-radio>
     </div>
     <div style="height: 20px;"></div>
@@ -36,8 +42,7 @@
       }
     },
     components: {},
-    computed: {
-    },
+    computed: {},
     watch: {},
     methods: {
       varsChanged () {
