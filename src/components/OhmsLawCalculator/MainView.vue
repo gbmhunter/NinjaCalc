@@ -9,31 +9,55 @@
     <!-- ========================================= -->
     <!-- =============== VOLTAGE ================= -->
     <!-- ========================================= -->
-    <div style="left: 10px; top: 240px;">
+    <div class="variable-container" style="left: 10px; top: 240px;">
+
       <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="voltage"
-                style="left: 20px; top: 0px"></md-radio>
-      <b-form-input style="left: 0px; top: 70px; width: 150px;" v-model="voltage" type="text"
-                    @input="varsChanged"></b-form-input>
+                style="position: absolute; left: 20px; top: 0px"></md-radio>
+
+      <div style="left: 0px; top: 80px; display: flex; align-items: center;">
+        <b-form-input class="variable-value" v-model="voltage" type="text"
+                      @input="varsChanged"></b-form-input>
+        <div style="width: 5px;"></div>
+        <select v-model="selVoltageUnit" class="variable-units">
+          <option v-for="option in voltageUnits" :value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <!-- ========================================= -->
     <!-- =============== CURRENT ================= -->
     <!-- ========================================= -->
     <div style="left: 440px; top: 340px;">
-      <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="current"
-                style="left: 90px;"></md-radio>
-      <b-form-input style="left: 0px; top: 70px; width:150px;" v-model="current" type="text"
-                    @input="varsChanged"></b-form-input>
+      <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="current"></md-radio>
+
+      <div style="left: 0px; top: 70px; display: flex; align-items: center;">
+        <b-form-input v-model="current" type="text" @input="varsChanged" class="variable-value"></b-form-input>
+        <div style="width: 5px;"></div>
+        <select v-model="selCurrentUnit" class="variable-units">
+          <option v-for="option in currentUnits" :value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <!-- ========================================= -->
     <!-- ============= RESISTANCE ================ -->
     <!-- ========================================= -->
     <div style="left: 450px; top: 140px;">
-      <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="resistance"
-                style="left: 90px;"></md-radio>
-      <b-form-input style="left: 0px; top: 70px; width:150px;" v-model="resistance" type="text"
-                    @input="varsChanged"></b-form-input>
+      <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="resistance"></md-radio>
+
+      <div style="left: 0px; top: 70px; display: flex; align-items: center;">
+        <b-form-input v-model="resistance" type="text" @input="varsChanged" class="variable-value"></b-form-input>
+        <div style="width: 5px;"></div>
+        <select v-model="selResistanceUnit" class="variable-units">
+          <option v-for="option in resistanceUnits" :value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
     </div>
 
   </div>
@@ -48,8 +72,29 @@
     data: function () {
       return {
         voltage: '',
+        voltageUnits: [
+          {text: 'mV', value: 1e-3},
+          {text: 'V', value: 1}
+        ],
+        selVoltageUnit: 'V',
+
         current: '',
+        currentUnits: [
+          {text: 'uA', value: 1e-6},
+          {text: 'mA', value: 1e-3},
+          {text: 'A', value: 1}
+        ],
+        selCurrentUnit: 'V',
+
         resistance: '',
+        resistanceUnits: [
+          {text: 'mO', value: 1e-3},
+          {text: 'O', value: 1},
+          {text: 'kO', value: 1e3},
+          {text: 'MO', value: 1e6}
+        ],
+        selResistanceUnit: 'V',
+
         calcWhat: 'resistance'
       }
     },
@@ -92,7 +137,21 @@
     position: relative;
   }
 
-  .diagram-container * {
+  .diagram-container > * {
     position: absolute;
   }
+
+  .variable-container > * {
+    position: absolute;
+  }
+
+  .variable-value {
+    width: 150px;
+    height: 40px;
+  }
+
+  .variable-units {
+    height: 40px;
+  }
+
 </style>

@@ -10,6 +10,10 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 Vue.use(VueMaterial)
 
+// Setup v-select component
+import vSelect from 'vue-select'
+Vue.component(vSelect)
+
 import BootstrapVue from 'bootstrap-vue'
 // Globally register bootstrap-vue components
 Vue.use(BootstrapVue)

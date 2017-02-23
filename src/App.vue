@@ -45,8 +45,7 @@
       <div class="centered">
         <div class="md-display-1">No calculators are open! Do you wish to create one?</div>
         <div style="height: 20px;"></div>
-        <md-button @click.native="showCalculatorSelectionOverlay" class="md-raised md-primary">New Calculator
-        </md-button>
+        <md-button @click.native="showCalculatorSelectionOverlay" class="md-raised md-primary">New Calculator</md-button>
       </div>
     </div>
 
