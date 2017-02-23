@@ -1,26 +1,41 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
 
-  <div>
-    <div>
 
-      Voltage
-      <b-form-input style="width:200px;" v-model="voltage"
-                    type="text"
-      ></b-form-input>
+  <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
-      <!--V = <input v-model="voltage" @keyup="varsChanged">-->
-      <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="voltage"></md-radio>
+    <!-- Background image is centered in diagram container -->
+    <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 500px; height: 500px; z-index: -1">
+
+    <!-- ========================================= -->
+    <!-- =============== VOLTAGE ================= -->
+    <!-- ========================================= -->
+    <div style="left: 10px; top: 240px;">
+      <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="voltage"
+                style="left: 20px; top: 0px"></md-radio>
+      <b-form-input style="left: 0px; top: 70px; width: 150px;" v-model="voltage" type="text"
+                    @input="varsChanged"></b-form-input>
     </div>
-    <div style="height: 20px;"></div>
-    <div>
-      I = <input v-model="current" @keyup="varsChanged">
-      <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="current"></md-radio>
+
+    <!-- ========================================= -->
+    <!-- =============== CURRENT ================= -->
+    <!-- ========================================= -->
+    <div style="left: 440px; top: 340px;">
+      <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="current"
+                style="left: 90px;"></md-radio>
+      <b-form-input style="left: 0px; top: 70px; width:150px;" v-model="current" type="text"
+                    @input="varsChanged"></b-form-input>
     </div>
-    <div style="height: 20px;"></div>
-    <div>
-      R = <input v-model="resistance" @keyup="varsChanged">
-      <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="resistance"></md-radio>
+
+    <!-- ========================================= -->
+    <!-- ============= RESISTANCE ================ -->
+    <!-- ========================================= -->
+    <div style="left: 450px; top: 140px;">
+      <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="resistance"
+                style="left: 90px;"></md-radio>
+      <b-form-input style="left: 0px; top: 70px; width:150px;" v-model="resistance" type="text"
+                    @input="varsChanged"></b-form-input>
     </div>
+
   </div>
 
 </template>
@@ -73,5 +88,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .diagram-container {
+    position: relative;
+  }
 
+  .diagram-container * {
+    position: absolute;
+  }
 </style>

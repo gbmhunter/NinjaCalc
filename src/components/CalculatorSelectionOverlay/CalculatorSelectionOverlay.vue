@@ -45,9 +45,6 @@
       },
       overlayClicked (event) {
 
-      },
-      imagePath () {
-        return require('../../components/OhmsLawCalculator/' + 'grid-icon.png')
       }
     },
     mounted () {

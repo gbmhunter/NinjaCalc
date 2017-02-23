@@ -1,8 +1,8 @@
 import MainView from './MainView'
 
-console.log('OhmsLawCalculator.js called!')
-console.log('MainView =')
-console.log(MainView)
+// console.log('OhmsLawCalculator.js called!')
+// console.log('MainView =')
+// console.log(MainView)
 
 var ohmsLawCalculator = {
   displayName: 'Ohm\'s Law',

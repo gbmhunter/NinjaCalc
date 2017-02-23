@@ -52,7 +52,7 @@
 
     <!-- Only show calculator tabs if calculators are open -->
     <md-tabs v-if="this.openCalcs.length">
-      <md-tab v-for="item in openCalcs" :md-label="item.name">
+      <md-tab v-for="item in openCalcs" :md-label="item.name" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
         <component :is="item.componentName"></component>
       </md-tab>
     </md-tabs>
@@ -151,4 +151,14 @@
   .centered {
     margin: auto;
   }
+
+  .md-tabs-wrapper {
+    width: 100% !important;
+  }
+
+  /* The tab content should take up all available space */
+  .md-tabs-content {
+    height: 100% !important;
+  }
+
 </style>
