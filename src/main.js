@@ -45,7 +45,7 @@ const store = new Vuex.Store({
       })
     },
     registerCalc (state, payload) {
-      state.availableCalcs.push({ name: payload.name, componentName: payload.componentName })
+      state.availableCalcs.push({ name: payload.name, componentName: payload.componentName, imagePath: payload.imagePath })
     }
   }
 })

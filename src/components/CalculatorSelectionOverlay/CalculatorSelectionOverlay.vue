@@ -7,8 +7,14 @@
 
           <div class="modal-body">
             <div class="preview-grid">
-              <CalcPreview v-for="item in $store.state.availableCalcs" :title='item.name' :componentName="item.componentName"></CalcPreview>
+              <CalcPreview v-for="item in $store.state.availableCalcs"
+                           :title='item.name'
+                           :componentName="item.componentName"
+                            :imageUrl="item.imagePath">
+
+              </CalcPreview>
             </div>
+            <img src="../../assets/logo.png">
           </div>
 
           <div class="modal-footer">
@@ -40,6 +46,9 @@
       },
       overlayClicked (event) {
 
+      },
+      imagePath () {
+        return require('../../components/OhmsLawCalculator/' + 'grid-icon.png')
       }
     },
     mounted () {

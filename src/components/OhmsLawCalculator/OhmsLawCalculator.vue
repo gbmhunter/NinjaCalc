@@ -32,6 +32,7 @@
   var temp = {
     displayName: 'Ohm\'s Law',
     name: 'ohms-law-calculator',
+    imagePath: require('../../components/OhmsLawCalculator/grid-icon.png'),
     props: {},
     data: function () {
       return {

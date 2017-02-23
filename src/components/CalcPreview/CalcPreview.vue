@@ -10,6 +10,8 @@
       Test description.
     </md-card-content>
 
+    <img :src="imageUrl">
+
     <!--<md-button id="open-button" class="md-raised md-primary">Open</md-button>-->
 
 
@@ -23,7 +25,7 @@
 
   export default {
     name: 'calc-preview',
-    props: ['title', 'componentName'],
+    props: ['title', 'componentName', 'imageUrl'],
     components: {},
     computed: {},
     methods: {
