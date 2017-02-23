@@ -14,7 +14,7 @@ import BootstrapVue from 'bootstrap-vue'
 // Globally register bootstrap-vue components
 Vue.use(BootstrapVue)
 // Loading of bootstrap CSS is required for BootstrapVue to work correctly
-import 'bootstrap-vue/node_modules/bootstrap/dist/css/bootstrap.css'
+// import './assets/bootstrap.css'
 
 /* eslint-disable no-unused-vars */
 const store = new Vuex.Store({
