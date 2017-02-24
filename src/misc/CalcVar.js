@@ -21,12 +21,17 @@ export default class CalcVar {
     })
 
     // ============================================ //
-    // ========= UI SELECT FOR UNITS SETUP ======== //
+    // ================= UNITS SETUP ============== //
     // ============================================ //
     if (typeof initObj.uiSelectUnits === 'undefined') {
       throw new Error('Valid UI select element for units was not provided to calculator variable "' + this.name + '".')
     }
     this.uiSelectUnits = initObj.uiSelectUnits
+
+    // Attach listener to dropdown
+    this.uiSelectUnits.addEventListener('change', () => {
+      this.unitDropdownChanged()
+    })
 
     this.units = initObj.units
 
@@ -46,6 +51,9 @@ export default class CalcVar {
     }
     this.selUnit = selUnitObj
 
+    // ============================================ //
+    // ============== RAW/DISP VAL SETUP ========== //
+    // ============================================ //
     this.rawVal = initObj.initRawVal
 
     // We can now work out the initial displayed value
@@ -62,6 +70,7 @@ export default class CalcVar {
   }
 
   getRawVal () {
+    console.log('getRawVal() called. this.rawVal = ' + this.rawVal)
     return this.rawVal
   }
 
@@ -81,6 +90,27 @@ export default class CalcVar {
     this.calc.reCalcOutputs()
   }
 
+  unitDropdownChanged () {
+    console.log('unitDropdownChanged() called.')
+
+    console.log(this.uiSelectUnits.value)
+
+    // Find unit object based of text in dropdown
+    var selUnitObj = this.units.find((element) => {
+      return element.text === this.uiSelectUnits.value
+    })
+    this.selUnit = selUnitObj
+
+    console.log('this.selUnit now = ' + this.selUnit)
+
+    if (this.typeEqn() === 'input') {
+      // Recalculate raw value from displayed value
+      this.rawVal = this.dispVal * this.selUnit.multi
+    }
+
+    this.calc.reCalcOutputs()
+  }
+
   getDispVal () {
     console.log('getDispVal() called.')
     return this.dispVal
@@ -94,7 +124,7 @@ export default class CalcVar {
     }
 
     this.rawVal = this.eqn()
-    this.dispVal = this.rawVal * this.selUnit.multi
+    this.dispVal = this.rawVal / this.selUnit.multi
 
     // Update input that user sees
     this.valueInput.value = this.dispVal
