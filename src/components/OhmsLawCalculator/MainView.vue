@@ -14,12 +14,15 @@
                 style="position: absolute; left: 20px; top: 0px"></md-radio>
 
       <div style="left: 0px; top: 80px; display: flex; align-items: center;">
-        <b-form-input v-model="calc.getVar('voltage').dispVal" class="variable-value" type="text"
-                      @input="varsChanged"></b-form-input>
+        <!-- VALUE -->
+        <!--<b-form-input class="variable-value" type="text" :value="12"
+                      @input="calc.getVar('voltage').setDispVal($event)"></b-form-input>-->
+        <input ref="voltageInput">
         <div style="width: 5px;"></div>
-        <select v-model="calc.getVar('voltage').selUnit" class="variable-units">
-          <option v-for="option in calc.getVar('voltage').units" :value="option.value">
-            {{ option.text }}
+
+        <!-- UNITS -->
+        <select ref="voltageUnits" class="variable-units">
+          <option>
           </option>
         </select>
       </div>
@@ -32,13 +35,15 @@
       <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="current"></md-radio>
 
       <div style="left: 0px; top: 70px; display: flex; align-items: center;">
-        <b-form-input v-model="calc.getVar('current').dispVal" type="text" @input="varsChanged" class="variable-value"></b-form-input>
+        <!--<b-form-input v-model="calc.getVar('current').dispVal" type="text" @input="varsChanged" class="variable-value"></b-form-input>-->
+        <input ref="currentInput">
+
         <div style="width: 5px;"></div>
-        <select v-model="calc.getVar('current').selUnit" class="variable-units">
-          <option v-for="option in calc.getVar('current').units" :value="option.value">
-            {{ option.text }}
-          </option>
-        </select>
+        <!--<select v-model="calc.getVar('current').selUnit" class="variable-units">-->
+          <!--<option v-for="option in calc.getVar('current').units" :value="option.value">-->
+            <!--{{ option.text }}-->
+          <!--</option>-->
+        <!--</select>-->
       </div>
     </div>
 
@@ -49,13 +54,15 @@
       <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="resistance"></md-radio>
 
       <div style="left: 0px; top: 70px; display: flex; align-items: center;">
-        <b-form-input v-model="calc.getVar('resistance').dispVal" type="text" @input="varsChanged" class="variable-value"></b-form-input>
-        <div style="width: 5px;"></div>
-        <select v-model="calc.getVar('resistance').selUnit" class="variable-units">
-          <option v-for="option in calc.getVar('resistance').units" :value="option.value">
-            {{ option.text }}
-          </option>
-        </select>
+        <!--<b-form-input v-model="calc.getVar('resistance').dispVal" type="text" @input="varsChanged" class="variable-value"></b-form-input>-->
+
+        <input ref="resistanceInput">
+        <!--<div style="width: 5px;"></div>-->
+        <!--<select v-model="calc.getVar('resistance').selUnit" class="variable-units">-->
+          <!--<option v-for="option in calc.getVar('resistance').units" :value="option.value">-->
+            <!--{{ option.text }}-->
+          <!--</option>-->
+        <!--</select>-->
       </div>
     </div>
 
@@ -68,45 +75,13 @@
   import Calculator from '../../misc/Calculator'
   import CalcVar from '../../misc/CalcVar'
 
-  var calculator = new Calculator()
-  calculator.addVariable(new CalcVar({
-    name: 'voltage',
-    initRawVal: '',
-    units: [
-      {text: 'mV', value: 1e-3},
-      {text: 'V', value: 1}
-    ],
-    selUnit: 'V'
-  }))
-  calculator.addVariable(new CalcVar({
-    name: 'current',
-    initRawVal: '',
-    units: [
-      {text: 'uA', value: 1e-6},
-      {text: 'mA', value: 1e-3},
-      {text: 'A', value: 1}
-    ],
-    selUnit: 'A'
-  }))
-  calculator.addVariable(new CalcVar({
-    name: 'resistance',
-    initRawVal: '',
-    units: [
-      {text: 'mΩ', value: 1e-3},
-      {text: 'Ω', value: 1},
-      {text: 'kΩ', value: 1e3},
-      {text: 'MΩ', value: 1e6}
-    ],
-    selUnit: 'Ω'
-  }))
-
   var temp = {
     name: 'ohms-law-calculator',
     props: {},
     data: function () {
       return {
-        calc: calculator,
-        calcWhat: 'resistance'
+        calcWhat: 'resistance',
+        test: '5.61'
       }
     },
     components: {},
@@ -117,34 +92,65 @@
       }
     },
     methods: {
-      varsChanged () {
-        console.log('varsChanged() called.')
-
-        var calc = this.calc
-
-        switch (this.calcWhat) {
-          case 'voltage':
-            // this.voltage = { ...this.voltage, rawVal: this.current.rawVal * this.resistance.rawVal }
-            calc.getVar('voltage').dispVal = calc.getVar('current').dispVal * calc.getVar('resistance').dispVal
-            break
-          case 'current':
-            // this.current = { ...this.current, rawVal: this.voltage.rawVal / this.resistance.rawVal }
-            calc.getVar('current').dispVal = calc.getVar('voltage').dispVal / calc.getVar('resistance').dispVal
-            break
-          case 'resistance':
-            calc.getVar('resistance').dispVal = calc.getVar('voltage').dispVal / calc.getVar('current').dispVal
-            break
-        }
-
-        console.log('this.calc (before) =')
-        console.log(this.calc)
-        this.calc = Object.assign(Object.create(Calculator.prototype), calc)
-        console.log('this.calc (after) =')
-        console.log(this.calc)
-      }
     },
     mounted () {
       console.log('OhmsLawCalculator.mounted() called.')
+
+      var calc = new Calculator()
+      calc.addVariable(new CalcVar({
+        name: 'voltage',
+        valueInput: this.$refs.voltageInput,
+        initRawVal: '',
+        units: [
+          {text: 'mV', value: 1e-3},
+          {text: 'V', value: 1}
+        ],
+        selUnit: 'V',
+        eqn: () => {
+          return 2
+        },
+        typeEqn: () => {
+          return 'input'
+        },
+        calc: calc
+      }))
+      calc.addVariable(new CalcVar({
+        name: 'current',
+        valueInput: this.$refs.currentInput,
+        initRawVal: '',
+        units: [
+          {text: 'uA', value: 1e-6},
+          {text: 'mA', value: 1e-3},
+          {text: 'A', value: 1}
+        ],
+        selUnit: 'A',
+        eqn: () => {
+          return 4
+        },
+        typeEqn: () => {
+          return 'input'
+        },
+        calc: calc
+      }))
+      calc.addVariable(new CalcVar({
+        name: 'resistance',
+        valueInput: this.$refs.resistanceInput,
+        initRawVal: '',
+        units: [
+          {text: 'mΩ', value: 1e-3},
+          {text: 'Ω', value: 1},
+          {text: 'kΩ', value: 1e3},
+          {text: 'MΩ', value: 1e6}
+        ],
+        selUnit: 'Ω',
+        eqn: () => {
+          return calc.getVar('voltage').getRawVal() / calc.getVar('current').getRawVal()
+        },
+        typeEqn: () => {
+          return 'output'
+        },
+        calc: calc
+      }))
     }
   }
 

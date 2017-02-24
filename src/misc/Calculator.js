@@ -1,3 +1,5 @@
+'use strict'
+
 export default class Calculator {
 
   constructor () {
@@ -6,11 +8,11 @@ export default class Calculator {
     this.vars = []
   }
 
-  addVariable (variable) {
+  addVariable = (variable) => {
     this.vars.push(variable)
   }
 
-  getVar (name) {
+  getVar = (name) => {
     var variable = this.vars.find((element) => {
       return element.name === name
     })
@@ -20,5 +22,17 @@ export default class Calculator {
     }
 
     return variable
+  }
+
+  reCalcOutputs = () => {
+    console.log('reCalcOutputs() called.')
+    console.log(this)
+    for (let calcVar of this.vars) {
+      console.log(calcVar)
+      if (calcVar.typeEqn() === 'output') {
+        console.log('Recalculating "' + calcVar.name + '".')
+        calcVar.reCalc()
+      }
+    }
   }
 }
