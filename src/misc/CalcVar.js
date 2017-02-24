@@ -7,28 +7,49 @@ export default class CalcVar {
 
     console.log('voltageInput =')
     console.log(initObj.valueInput)
-    this.valueInput = initObj.valueInput
+
+    // ============================================ //
+    // ========= UI INPUT FOR VALUE SETUP ========= //
+    // ============================================ //
+    if (typeof initObj.uiInputValue === 'undefined') {
+      throw new Error('Valid UI input element for value was not provided to calculator variable "' + this.name + '".')
+    }
+    this.valueInput = initObj.uiInputValue
 
     this.valueInput.addEventListener('keyup', () => {
       this.displayValChanged()
     })
 
-    this.rawVal = initObj.initRawVal
+    // ============================================ //
+    // ========= UI SELECT FOR UNITS SETUP ======== //
+    // ============================================ //
+    if (typeof initObj.uiSelectUnits === 'undefined') {
+      throw new Error('Valid UI select element for units was not provided to calculator variable "' + this.name + '".')
+    }
+    this.uiSelectUnits = initObj.uiSelectUnits
 
     this.units = initObj.units
 
+    // Populate unit dropdowns
+    for (let unit of this.units) {
+      var option = document.createElement('option')
+      option.text = unit.text
+      this.uiSelectUnits.add(option)
+    }
+
+    // Set the default unit
     var selUnitObj = initObj.units.find((element) => {
       return element.text === initObj.selUnit
     })
-
     if (typeof selUnitObj === 'undefined') {
       throw new Error('Selected unit "' + initObj.selUnit + '" cannot be found in units array.')
     }
+    this.selUnit = selUnitObj
 
-    this.selUnit = selUnitObj.value
+    this.rawVal = initObj.initRawVal
 
     // We can now work out the initial displayed value
-    this.dispVal = this.rawVal / this.selUnit
+    this.dispVal = this.rawVal / this.selUnit.multi
 
     // Save reference to calculator
     this.calc = initObj.calc
@@ -47,14 +68,14 @@ export default class CalcVar {
   setRawVal (value) {
     console.log('setRawVal() called.')
     this.rawVal = value
-    this.dispVal = this.rawVal * this.selUnit
+    this.dispVal = this.rawVal * this.selUnit.multi
   }
 
   displayValChanged () {
     this.dispVal = this.valueInput.value
     console.log('this.dispVal = ' + this.dispVal)
 
-    this.rawVal = this.dispVal * this.selUnit
+    this.rawVal = this.dispVal * this.selUnit.multi
     console.log('this.rawVal = ' + this.rawVal)
 
     this.calc.reCalcOutputs()
@@ -73,7 +94,7 @@ export default class CalcVar {
     }
 
     this.rawVal = this.eqn()
-    this.dispVal = this.rawVal * this.selUnit
+    this.dispVal = this.rawVal * this.selUnit.multi
 
     // Update input that user sees
     this.valueInput.value = this.dispVal
