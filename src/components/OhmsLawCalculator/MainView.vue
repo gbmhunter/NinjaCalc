@@ -13,7 +13,7 @@
       <!-- INPUT/OUTPUT DECIDER -->
       <input type="radio" ref="voltageRadio" name="calcWhat" style="left: 0px; top: 20px">
 
-      <div style="left: 0px; top: 70px; display: flex; align-items: center;">
+      <div style="left: 0px; top: 70px; display: flex; align-items: center;" class="value-unit-container">
         <!-- VALUE -->
         <input ref="voltageInput" class="variable-value">
         <div style="width: 5px;"></div>
@@ -26,13 +26,11 @@
     <!-- ========================================= -->
     <!-- =============== CURRENT ================= -->
     <!-- ========================================= -->
-    <div style="left: 440px; top: 340px;">
-      <!--<md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="current"></md-radio>-->
+    <div style="left: 440px; top: 360px;">
 
       <input type="radio" ref="currentRadio" name="calcWhat">
-      <div style="left: 0px; top: 70px; display: flex; align-items: center;">
+      <div style="left: 0px; top: 50px; display: flex; align-items: center;" class="value-unit-container">
 
-        <!--<b-form-input v-model="calc.getVar('current').dispVal" type="text" @input="varsChanged" class="variable-value"></b-form-input>-->
         <input ref="currentInput" class="variable-value">
         <div style="width: 5px;"></div>
 
@@ -44,12 +42,11 @@
     <!-- ========================================= -->
     <!-- ============= RESISTANCE ================ -->
     <!-- ========================================= -->
-    <div style="left: 450px; top: 140px;">
+    <div style="left: 450px; top: 160px;">
       <!--<md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="resistance"></md-radio>-->
       <input type="radio" ref="resistanceRadio" name="calcWhat">
 
-      <div style="left: 0px; top: 70px; display: flex; align-items: center;">
-        <!--<b-form-input v-model="calc.getVar('resistance').dispVal" type="text" @input="varsChanged" class="variable-value"></b-form-input>-->
+      <div style="left: 0px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
 
         <input ref="resistanceInput" class="variable-value">
         <div style="width: 5px;"></div>
@@ -179,6 +176,10 @@
   }
 
   .variable-container > * {
+    position: absolute;
+  }
+
+  .value-unit-container {
     position: absolute;
   }
 
