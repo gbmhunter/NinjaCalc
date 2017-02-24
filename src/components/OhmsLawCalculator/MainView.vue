@@ -1,6 +1,5 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
 
-
   <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
     <!-- Background image is centered in diagram container -->
@@ -15,11 +14,11 @@
                 style="position: absolute; left: 20px; top: 0px"></md-radio>
 
       <div style="left: 0px; top: 80px; display: flex; align-items: center;">
-        <b-form-input class="variable-value" v-model="voltage" type="text"
+        <b-form-input class="variable-value" v-model="voltage.rawVal" type="text"
                       @input="varsChanged"></b-form-input>
         <div style="width: 5px;"></div>
-        <select v-model="selVoltageUnit" class="variable-units">
-          <option v-for="option in voltageUnits" :value="option.value">
+        <select v-model="voltage.selUnit" class="variable-units">
+          <option v-for="option in voltage.units" :value="option.value">
             {{ option.text }}
           </option>
         </select>
@@ -33,10 +32,10 @@
       <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="current"></md-radio>
 
       <div style="left: 0px; top: 70px; display: flex; align-items: center;">
-        <b-form-input v-model="current" type="text" @input="varsChanged" class="variable-value"></b-form-input>
+        <b-form-input v-model="current.rawVal" type="text" @input="varsChanged" class="variable-value"></b-form-input>
         <div style="width: 5px;"></div>
-        <select v-model="selCurrentUnit" class="variable-units">
-          <option v-for="option in currentUnits" :value="option.value">
+        <select v-model="current.selUnit" class="variable-units">
+          <option v-for="option in current.units" :value="option.value">
             {{ option.text }}
           </option>
         </select>
@@ -50,10 +49,10 @@
       <md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="resistance"></md-radio>
 
       <div style="left: 0px; top: 70px; display: flex; align-items: center;">
-        <b-form-input v-model="resistance" type="text" @input="varsChanged" class="variable-value"></b-form-input>
+        <b-form-input v-model="resistance.rawVal" type="text" @input="varsChanged" class="variable-value"></b-form-input>
         <div style="width: 5px;"></div>
-        <select v-model="selResistanceUnit" class="variable-units">
-          <option v-for="option in resistanceUnits" :value="option.value">
+        <select v-model="resistance.selUnit" class="variable-units">
+          <option v-for="option in resistance.units" :value="option.value">
             {{ option.text }}
           </option>
         </select>
@@ -66,58 +65,69 @@
 
 <script>
 
+  import CalcVar from '../../misc/CalcVar'
+
   var temp = {
     name: 'ohms-law-calculator',
     props: {},
     data: function () {
       return {
-        voltage: '',
-        voltageUnits: [
-          {text: 'mV', value: 1e-3},
-          {text: 'V', value: 1}
-        ],
-        selVoltageUnit: 'V',
+        voltage: new CalcVar({
+          name: 'voltage',
+          initRawVal: '',
+          units: [
+            {text: 'mV', value: 1e-3},
+            {text: 'V', value: 1}
+          ],
+          selUnit: 'V'
+        }),
 
-        current: '',
-        currentUnits: [
-          {text: 'uA', value: 1e-6},
-          {text: 'mA', value: 1e-3},
-          {text: 'A', value: 1}
-        ],
-        selCurrentUnit: 'V',
+        current: new CalcVar({
+          name: 'current',
+          initRawVal: '',
+          units: [
+            {text: 'uA', value: 1e-6},
+            {text: 'mA', value: 1e-3},
+            {text: 'A', value: 1}
+          ],
+          selUnit: 'A'
+        }),
 
-        resistance: '',
-        resistanceUnits: [
-          {text: 'mO', value: 1e-3},
-          {text: 'O', value: 1},
-          {text: 'kO', value: 1e3},
-          {text: 'MO', value: 1e6}
-        ],
-        selResistanceUnit: 'V',
+        resistance: new CalcVar({
+          name: 'resistance',
+          initRawVal: '',
+          units: [
+            {text: 'mΩ', value: 1e-3},
+            {text: 'Ω', value: 1},
+            {text: 'kΩ', value: 1e3},
+            {text: 'MΩ', value: 1e6}
+          ],
+          selUnit: 'Ω'
+        }),
 
         calcWhat: 'resistance'
       }
     },
     components: {},
     computed: {},
-    watch: {},
+    watch: {
+      selUnit () {
+        console.log(this.selUnit)
+      }
+    },
     methods: {
       varsChanged () {
         console.log('varsChanged() called.')
 
-//        if (this.calcWhat === 'resistance') {
-//          this.resistance = this.voltage / this.current
-//        }
-
         switch (this.calcWhat) {
           case 'voltage':
-            this.voltage = this.current * this.resistance
+            this.voltage = { ...this.voltage, rawVal: this.current.rawVal * this.resistance.rawVal }
             break
           case 'current':
-            this.current = this.voltage / this.resistance
+            this.current = { ...this.current, rawVal: this.voltage.rawVal / this.resistance.rawVal }
             break
           case 'resistance':
-            this.resistance = this.voltage / this.current
+            this.resistance = { ...this.resistance, rawVal: this.voltage.rawVal / this.current.rawVal }
             break
         }
       }
