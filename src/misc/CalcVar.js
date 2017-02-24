@@ -25,5 +25,8 @@ export default class CalcVar {
     }
 
     this.selUnit = selUnitObj.value
+
+    // We can now work out the initial displayed value
+    this.dispVal = this.rawVal / this.selUnit
   }
 }
