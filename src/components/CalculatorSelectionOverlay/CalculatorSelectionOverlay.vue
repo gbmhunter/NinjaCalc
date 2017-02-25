@@ -7,11 +7,12 @@
 
           <div class="modal-body">
             <div class="preview-grid">
+              <!-- GENERATE CALCULATOR PREVIEWS -->
               <CalcPreview v-for="item in $store.state.availableCalcs"
-                           :title='item.name'
-                           :componentName="item.componentName"
+                           :title='item.displayName'
+                           :description="item.description"
+                           :componentName="item.mainView.name"
                             :imageUrl="item.imagePath">
-
               </CalcPreview>
             </div>
           </div>

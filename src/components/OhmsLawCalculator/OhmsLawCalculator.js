@@ -6,6 +6,7 @@ import MainView from './MainView'
 
 var ohmsLawCalculator = {
   displayName: 'Ohm\'s Law',
+  description: 'The hammer in any electrical engineers toolbox. calculate voltage, resistance and current using Ohm\'s law.',
   mainView: MainView,
   imagePath: require('../../components/OhmsLawCalculator/grid-icon.png')
 }

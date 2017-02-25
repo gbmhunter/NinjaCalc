@@ -27,7 +27,7 @@ class CalculatorService {
       console.log('calculator = ')
       console.log(calculator)
 
-      store.commit('registerCalc', { name: calculator.displayName, componentName: calculator.mainView.name, imagePath: calculator.imagePath })
+      store.commit('registerCalc', calculator)
     }
   }
 }

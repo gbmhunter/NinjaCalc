@@ -26,9 +26,9 @@
     <!-- ========================================= -->
     <!-- =============== CURRENT ================= -->
     <!-- ========================================= -->
-    <div style="left: 440px; top: 360px;">
+    <div class="variable-container" style="left: 440px; top: 360px;">
 
-      <input type="radio" ref="currentRadio" name="calcWhat">
+      <input type="radio" ref="currentRadio" name="calcWhat" style="left: 100px; top: 0px;">
       <div style="left: 0px; top: 50px; display: flex; align-items: center;" class="value-unit-container">
 
         <input ref="currentInput" class="variable-value">
@@ -42,9 +42,9 @@
     <!-- ========================================= -->
     <!-- ============= RESISTANCE ================ -->
     <!-- ========================================= -->
-    <div style="left: 450px; top: 160px;">
+    <div class="variable-container" style="left: 450px; top: 160px;">
       <!--<md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="resistance"></md-radio>-->
-      <input type="radio" ref="resistanceRadio" name="calcWhat">
+      <input type="radio" ref="resistanceRadio" name="calcWhat" style="left: 100px; top: 0px;">
 
       <div style="left: 0px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
 

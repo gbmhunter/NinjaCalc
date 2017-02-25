@@ -2,7 +2,7 @@
   <md-card md-with-hover class="calc-preview">
 
     <md-card-media>
-      <img :src="imageUrl" style="width: 180px;">
+      <img :src="imageUrl" style="width: 160px;">
 
       <md-ink-ripple></md-ink-ripple>
     </md-card-media>
@@ -13,9 +13,8 @@
     </md-card-header>
 
     <md-card-content>
-      Test description.
+      {{ description }}
     </md-card-content>
-
 
 
     <!--<md-button id="open-button" class="md-raised md-primary">Open</md-button>-->
@@ -31,7 +30,24 @@
 
   export default {
     name: 'calc-preview',
-    props: ['title', 'componentName', 'imageUrl'],
+    props: {
+      title: {
+        type: String,
+        required: true
+      },
+      description: {
+        type: String,
+        required: true
+      },
+      componentName: {
+        type: String,
+        required: true
+      },
+      imageUrl: {
+        type: String,
+        required: true
+      }
+    },
     components: {},
     computed: {},
     methods: {
@@ -49,6 +65,13 @@
           componentName: this.componentName
         })
       }
+    },
+    mounted: () => {
+      console.log('CalcPreview.mounted() called.')
+//      console.log(this.description)
+//      if (!this.description) {
+//        throw new Error('A description must be passed to CalcPreview.')
+//      }
     }
   }
 </script>
@@ -64,6 +87,10 @@
 
   #open-button {
     width: 70px;
+  }
+
+  div.md-card-header {
+    padding: 0px !important;
   }
 
 </style>
