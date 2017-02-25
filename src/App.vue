@@ -73,7 +73,7 @@
   // import MainView from './components/OhmsLawCalculator/MainView'
   import CalculatorSelectionOverlay from './components/CalculatorSelectionOverlay/CalculatorSelectionOverlay'
 
-  import OhmsLawCalculator from './components/OhmsLawCalculator/OhmsLawCalculator'
+  import OhmsLawCalculator from './components/Calculators/OhmsLawCalculator/OhmsLawCalculator'
 
   console.log('LeftSideMenu =')
   console.log(LeftSideMenu)

@@ -51,6 +51,7 @@
         <input ref="resistanceInput" class="variable-value">
         <div style="width: 5px;"></div>
 
+
         <!-- UNITS -->
         <select ref="resistanceSelectUnits" class="variable-units"></select>
       </div>
@@ -62,8 +63,8 @@
 
 <script>
 
-  import Calculator from '../../misc/Calculator'
-  import CalcVar from '../../misc/CalcVar'
+  import Calculator from 'src/misc/Calculator'
+  import CalcVar from 'src/misc/CalcVar'
 
   var temp = {
     name: 'ohms-law-calculator',
