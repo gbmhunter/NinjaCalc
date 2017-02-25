@@ -66,7 +66,7 @@
   import Calculator from 'src/misc/Calculator'
   import CalcVar from 'src/misc/CalcVar'
 
-  var temp = {
+  export default {
     name: 'ohms-law-calculator',
     props: {},
     data: function () {
@@ -147,6 +147,7 @@
           {text: 'MΩ', multi: 1e6}
         ],
         selUnit: 'Ω',
+
         eqn: () => {
           return calc.getVar('voltage').getRawVal() / calc.getVar('current').getRawVal()
         },
@@ -161,8 +162,6 @@
       }))
     }
   }
-
-  export default temp
 
 </script>
 

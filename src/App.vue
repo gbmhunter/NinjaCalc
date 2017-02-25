@@ -67,13 +67,15 @@
 
 <script>
 
-  import { CalculatorServiceSingleton } from './services/CalculatorService'
+//  import { CalculatorServiceSingleton } from './services/CalculatorService'
 
+  import Vue from 'vue'
   import LeftSideMenu from './components/LeftSideMenu/LeftSideMenu'
   // import MainView from './components/OhmsLawCalculator/MainView'
   import CalculatorSelectionOverlay from './components/CalculatorSelectionOverlay/CalculatorSelectionOverlay'
 
   import OhmsLawCalculator from './components/Calculators/OhmsLawCalculator/OhmsLawCalculator'
+  import ResistorDividerCalculator from './components/Calculators/ResistorDivider/Calculator'
 
   console.log('LeftSideMenu =')
   console.log(LeftSideMenu)
@@ -107,17 +109,23 @@
     },
     mounted () {
       // this.$refs.leftSidenav.toggle()
-      console.log('App.mounted() called')
-      console.log('CalculatorService =')
-      console.log(CalculatorServiceSingleton)
+//      console.log('App.mounted() called')
+//      console.log('CalculatorService =')
+//      console.log(CalculatorServiceSingleton)
+//
+//      // Setup calculators
+//      var calculatorService = CalculatorServiceSingleton.getInstance()
+//
+//      console.log('OhmsLawCalculator =')
+//      console.log(OhmsLawCalculator)
+//      calculatorService.registerCalc(OhmsLawCalculator)
+//      calculatorService.setupStore(this.$store)
 
-      // Setup calculators
-      var calculatorService = CalculatorServiceSingleton.getInstance()
+      Vue.component(OhmsLawCalculator.mainView.name, OhmsLawCalculator.mainView)
+      this.$store.commit('registerCalc', OhmsLawCalculator)
 
-      console.log('OhmsLawCalculator =')
-      console.log(OhmsLawCalculator)
-      calculatorService.registerCalc(OhmsLawCalculator)
-      calculatorService.setupStore(this.$store)
+      Vue.component(ResistorDividerCalculator.mainView.name, ResistorDividerCalculator.mainView)
+      this.$store.commit('registerCalc', ResistorDividerCalculator)
     }
   }
 </script>
