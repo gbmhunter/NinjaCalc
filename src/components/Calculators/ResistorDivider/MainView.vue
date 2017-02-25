@@ -1,8 +1,24 @@
-<template xmlns:v-on="http://www.w3.org/1999/xhtml">
+<template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
   <div>
-    <input v-model="calc.getVar('testIn').uiValue" v-on:keyup="calc.getVar('testIn').onUiChange()">
-    <input v-model="calc.getVar('testOut').uiValue" v-on:keyup="calc.getVar('testOut').onUiChange()">
+
+    <div>
+      <input v-model="calc.getVar('testIn').dispVal" v-on:keyup="calc.getVar('testIn').onDispValChange()">
+      <select v-model="calc.getVar('testIn').selUnit" v-on:change="calc.getVar('testIn').onUnitChange()">
+        <option v-for="option in calc.getVar('testIn').units" v-bind:value="option.value">
+          {{ option.text }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <input v-model="calc.getVar('testOut').dispVal" v-on:keyup="calc.getVar('testOut').onDispValChange()">
+      <select v-model="calc.getVar('testOut').selUnit" v-on:change="calc.getVar('testOut').onUnitChange()">
+        <option v-for="option in calc.getVar('testOut').units" v-bind:value="option.value">
+          {{ option.text }}
+        </option>
+      </select>
+    </div>
   </div>
 
 </template>
@@ -20,7 +36,7 @@
     }
 
     getVar = (name) => {
-      console.log('getVar() called with name = ' + name)
+//      console.log('getVar() called with name = ' + name)
       var variable = this.calcVars.find((element) => {
         return element.name === name
       })
@@ -29,8 +45,8 @@
         throw new Error('Requested variable "' + name + '" does not exist in calculator.')
       }
 
-      console.log('returning = ')
-      console.log(variable)
+//      console.log('returning = ')
+//      console.log(variable)
 
       return variable
     }
@@ -54,14 +70,42 @@
       this.name = initObj.name
       this.typeEqn = initObj.typeEqn
       this.eqn = initObj.eqn
+
+      this.units = initObj.units
+      this.selUnit = initObj.selUnit
+
       this.calc = initObj.calc
 
-      this.uiValue = ''
+      this.rawVal = initObj.rawVal
+
+      // We can now work out the initial displayed value
+      if (this.rawVal === '') {
+        this.dispVal = ''
+      } else {
+        this.dispVal = this.rawVal / this.selUnit.value
+      }
+
+      console.log('calcVar =')
+      console.log(this)
     }
 
-    onUiChange = () => {
-      console.log('onUiChange() called.')
-      console.log('this.uiValue =' + this.uiValue)
+    onDispValChange = () => {
+      console.log('onDispValChange() called.')
+      console.log('this.dispVal =' + this.dispVal)
+
+      this.rawVal = this.dispVal * this.selUnit
+      console.log('this.rawVal = ' + this.rawVal)
+
+      this.calc.reCalcOutputs()
+    }
+
+    onUnitChange = () => {
+      console.log('onUnitsChange() called.')
+
+      if (this.typeEqn() === 'input') {
+        // Recalculate raw value from displayed value
+        this.rawVal = this.dispVal * this.selUnit
+      }
 
       this.calc.reCalcOutputs()
     }
@@ -73,7 +117,8 @@
         throw new Error('reCalc() called for variable that was not an output.')
       }
 
-      this.uiValue = this.eqn()
+      this.rawVal = this.eqn()
+      this.dispVal = this.rawVal / this.selUnit
     }
 
   }
@@ -84,6 +129,15 @@
     typeEqn: () => {
       return 'input'
     },
+    eqn: () => {
+      throw new Error('eqn() called on input!')
+    },
+    rawVal: '',
+    units: [
+      {text: 'mV', value: 1e-3},
+      {text: 'V', value: 1}
+    ],
+    selUnit: 1,
     calc: calc
   }))
   calc.addVar(testIn)
@@ -93,8 +147,14 @@
       return 'output'
     },
     eqn: () => {
-      return calc.getVar('testIn').uiValue * 2
+      return calc.getVar('testIn').rawVal * 2
     },
+    rawVal: '',
+    units: [
+      {text: 'mV', value: 1e-3},
+      {text: 'V', value: 1}
+    ],
+    selUnit: 1,
     calc: calc
   }))
   calc.addVar(testOut)
