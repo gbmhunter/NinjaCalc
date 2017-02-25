@@ -3,18 +3,36 @@
   <div>
 
     <div>
-      <input v-model="calc.getVar('testIn').dispVal" v-on:keyup="calc.getVar('testIn').onDispValChange()">
-      <select v-model="calc.getVar('testIn').selUnit" v-on:change="calc.getVar('testIn').onUnitChange()">
-        <option v-for="option in calc.getVar('testIn').units" v-bind:value="option.value">
+      <input v-model="calc.getVar('vIn').dispVal" v-on:keyup="calc.getVar('vIn').onDispValChange()">
+      <select v-model="calc.getVar('vIn').selUnit" v-on:change="calc.getVar('vIn').onUnitChange()">
+        <option v-for="option in calc.getVar('vIn').units" v-bind:value="option.value">
           {{ option.text }}
         </option>
       </select>
     </div>
 
     <div>
-      <input v-model="calc.getVar('testOut').dispVal" v-on:keyup="calc.getVar('testOut').onDispValChange()">
-      <select v-model="calc.getVar('testOut').selUnit" v-on:change="calc.getVar('testOut').onUnitChange()">
-        <option v-for="option in calc.getVar('testOut').units" v-bind:value="option.value">
+      <input v-model="calc.getVar('rTop').dispVal" v-on:keyup="calc.getVar('rTop').onDispValChange()">
+      <select v-model="calc.getVar('rTop').selUnit" v-on:change="calc.getVar('rTop').onUnitChange()">
+        <option v-for="option in calc.getVar('rTop').units" v-bind:value="option.value">
+          {{ option.text }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <input v-model="calc.getVar('rBot').dispVal" v-on:keyup="calc.getVar('rBot').onDispValChange()">
+      <select v-model="calc.getVar('rBot').selUnit" v-on:change="calc.getVar('rBot').onUnitChange()">
+        <option v-for="option in calc.getVar('rBot').units" v-bind:value="option.value">
+          {{ option.text }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <input v-model="calc.getVar('vOut').dispVal" v-on:keyup="calc.getVar('vOut').onDispValChange()">
+      <select v-model="calc.getVar('vOut').selUnit" v-on:change="calc.getVar('vOut').onUnitChange()">
+        <option v-for="option in calc.getVar('vOut').units" v-bind:value="option.value">
           {{ option.text }}
         </option>
       </select>
@@ -44,9 +62,6 @@
       if (typeof variable === 'undefined') {
         throw new Error('Requested variable "' + name + '" does not exist in calculator.')
       }
-
-//      console.log('returning = ')
-//      console.log(variable)
 
       return variable
     }
@@ -124,8 +139,12 @@
   }
 
   var calc = new Calculator()
-  var testIn = new CalcVar(new CalcVar({
-    name: 'testIn',
+
+  // ============================================ //
+  // ===================== vIn ================== //
+  // ============================================ //
+  var vIn = new CalcVar(new CalcVar({
+    name: 'vIn',
     typeEqn: () => {
       return 'input'
     },
@@ -140,14 +159,69 @@
     selUnit: 1,
     calc: calc
   }))
-  calc.addVar(testIn)
-  var testOut = new CalcVar(new CalcVar({
-    name: 'testOut',
+  calc.addVar(vIn)
+
+  // ============================================ //
+  // ===================== rTop ================= //
+  // ============================================ //
+  var rTop = new CalcVar(new CalcVar({
+    name: 'rTop',
+    typeEqn: () => {
+      return 'input'
+    },
+    eqn: () => {
+      return calc.getVar('testIn').rawVal * 2
+    },
+    rawVal: '',
+    units: [
+      {text: 'mΩ', value: 1e-3},
+      {text: 'Ω', value: 1},
+      {text: 'kΩ', value: 1e3},
+      {text: 'MΩ', value: 1e6}
+    ],
+    selUnit: 1,
+    calc: calc
+  }))
+  calc.addVar(rTop)
+
+  // ============================================ //
+  // ===================== rTop ================= //
+  // ============================================ //
+  var rBot = new CalcVar(new CalcVar({
+    name: 'rBot',
+    typeEqn: () => {
+      return 'input'
+    },
+    eqn: () => {
+      return calc.getVar('testIn').rawVal * 2
+    },
+    rawVal: '',
+    units: [
+      {text: 'mΩ', value: 1e-3},
+      {text: 'Ω', value: 1},
+      {text: 'kΩ', value: 1e3},
+      {text: 'MΩ', value: 1e6}
+    ],
+    selUnit: 1,
+    calc: calc
+  }))
+  calc.addVar(rBot)
+
+  // ============================================ //
+  // ===================== vOut ================== //
+  // ============================================ //
+  var vOut = new CalcVar(new CalcVar({
+    name: 'vOut',
     typeEqn: () => {
       return 'output'
     },
     eqn: () => {
-      return calc.getVar('testIn').rawVal * 2
+      // Read dependency variables
+      var vIn = calc.getVar('vIn').rawVal
+      var rTop = calc.getVar('rTop').rawVal
+      var rBot = calc.getVar('rBot').rawVal
+
+      return ((vIn * rBot) / (rTop + rBot))
     },
     rawVal: '',
     units: [
@@ -157,8 +231,11 @@
     selUnit: 1,
     calc: calc
   }))
-  calc.addVar(testOut)
+  calc.addVar(vOut)
 
+  // ============================================ //
+  // =================== vue Object ============= //
+  // ============================================ //
   var temp = {
     name: 'resistor-divider-calculator',
     props: {},
@@ -171,9 +248,6 @@
     computed: {},
     watch: {},
     methods: {
-      test () {
-        console.log('test() called.')
-      },
       mounted () {
         console.log('ResistorDivider.mounted() called.')
       }
