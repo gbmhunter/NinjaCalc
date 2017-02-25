@@ -9,6 +9,7 @@
           {{ option.text }}
         </option>
       </select>
+      <input type="radio" value="vIn" v-model="calc.outputVar">
     </div>
 
     <div>
@@ -18,6 +19,7 @@
           {{ option.text }}
         </option>
       </select>
+      <input type="radio" value="rTop" v-model="calc.outputVar">
     </div>
 
     <div>
@@ -27,6 +29,7 @@
           {{ option.text }}
         </option>
       </select>
+      <input type="radio" value="rBot" v-model="calc.outputVar">
     </div>
 
     <div>
@@ -36,6 +39,7 @@
           {{ option.text }}
         </option>
       </select>
+      <input type="radio" value="vOut" v-model="calc.outputVar">
     </div>
   </div>
 
@@ -139,6 +143,7 @@
   }
 
   var calc = new Calculator()
+  calc.outputVar = 'vOut'
 
   // ============================================ //
   // ===================== vIn ================== //
@@ -146,10 +151,19 @@
   var vIn = new CalcVar(new CalcVar({
     name: 'vIn',
     typeEqn: () => {
-      return 'input'
+      if (calc.outputVar === 'vIn') {
+        return 'output'
+      } else {
+        return 'input'
+      }
     },
     eqn: () => {
-      throw new Error('eqn() called on input!')
+      // Read dependency variables
+      var vOut = calc.getVar('vOut').rawVal
+      var rTop = calc.getVar('rTop').rawVal
+      var rBot = calc.getVar('rBot').rawVal
+
+      return ((vOut * (rTop + rBot)) / rBot)
     },
     rawVal: '',
     units: [
@@ -167,10 +181,19 @@
   var rTop = new CalcVar(new CalcVar({
     name: 'rTop',
     typeEqn: () => {
-      return 'input'
+      if (calc.outputVar === 'rTop') {
+        return 'output'
+      } else {
+        return 'input'
+      }
     },
     eqn: () => {
-      return calc.getVar('testIn').rawVal * 2
+      // Read dependency variables
+      var vIn = calc.getVar('vIn').rawVal
+      var rBot = calc.getVar('rBot').rawVal
+      var vOut = calc.getVar('vOut').rawVal
+
+      return ((rBot * (vIn - vOut)) / vOut)
     },
     rawVal: '',
     units: [
@@ -185,15 +208,24 @@
   calc.addVar(rTop)
 
   // ============================================ //
-  // ===================== rTop ================= //
+  // ===================== rBot ================= //
   // ============================================ //
   var rBot = new CalcVar(new CalcVar({
     name: 'rBot',
     typeEqn: () => {
-      return 'input'
+      if (calc.outputVar === 'rBot') {
+        return 'output'
+      } else {
+        return 'input'
+      }
     },
     eqn: () => {
-      return calc.getVar('testIn').rawVal * 2
+      // Read dependency variables
+      var vIn = calc.getVar('vIn').rawVal
+      var rTop = calc.getVar('rTop').rawVal
+      var vOut = calc.getVar('vOut').rawVal
+
+      return ((rTop * vOut) / (vIn - vOut))
     },
     rawVal: '',
     units: [
@@ -208,12 +240,16 @@
   calc.addVar(rBot)
 
   // ============================================ //
-  // ===================== vOut ================== //
+  // ===================== vOut ================= //
   // ============================================ //
   var vOut = new CalcVar(new CalcVar({
     name: 'vOut',
     typeEqn: () => {
-      return 'output'
+      if (calc.outputVar === 'vOut') {
+        return 'output'
+      } else {
+        return 'input'
+      }
     },
     eqn: () => {
       // Read dependency variables
@@ -241,7 +277,8 @@
     props: {},
     data: function () {
       return {
-        calc: calc
+        calc: calc,
+        outputVar: 'vOut'
       }
     },
     components: {},
