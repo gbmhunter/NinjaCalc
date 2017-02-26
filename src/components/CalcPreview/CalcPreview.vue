@@ -15,10 +15,6 @@
       {{ description }}
     </md-card-content>
 
-
-    <!--<md-button id="open-button" class="md-raised md-primary">Open</md-button>-->
-
-
     <md-card-actions>
       <md-button @click.native="open">Open</md-button>
     </md-card-actions>
