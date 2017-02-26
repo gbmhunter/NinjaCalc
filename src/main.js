@@ -25,6 +25,9 @@ import KeenUI from 'keen-ui'
 Vue.use(KeenUI)
 import 'keen-ui/dist/keen-ui.css'
 
+import CalcValueAndUnit from 'src/misc/CalculatorEngineV2/CalcValueAndUnit'
+Vue.component('calc-value-and-unit', CalcValueAndUnit)
+
 /* eslint-disable no-unused-vars */
 const store = new Vuex.Store({
   state: {

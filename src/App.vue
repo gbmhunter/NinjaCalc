@@ -69,7 +69,6 @@
       CalculatorSelectionOverlay,
       Tabs,
       Tab
-      // OhmsLawCalculator
     },
     computed: {
       openCalcs () {

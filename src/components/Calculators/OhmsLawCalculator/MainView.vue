@@ -10,17 +10,7 @@
     <!-- ========================================= -->
     <div class="variable-container" style="left: 0px; top: 240px;">
 
-      <div style="left: 0px; top: 70px; display: flex; align-items: center;" class="value-unit-container">
-        <!-- VALUE -->
-        <input v-model="calc.getVar('voltage').dispVal" v-on:keyup="calc.getVar('voltage').onDispValChange()" class="variable-value">
-
-        <!-- UNITS -->
-        <select v-model="calc.getVar('voltage').selUnit" v-on:change="calc.getVar('voltage').onUnitChange()" class="variable-units">
-          <option v-for="option in calc.getVar('voltage').units" v-bind:value="option.value">
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
+      <calc-value-and-unit :calcVar="calc.getVar('voltage')" style="left: 0px; top: 70px;"></calc-value-and-unit>
 
       <!-- INPUT/OUTPUT DECIDER -->
       <input type="radio" value="voltage" v-model="calc.outputVar" style="left: 0px; top: 20px">
@@ -31,19 +21,7 @@
     <!-- ========================================= -->
     <div class="variable-container" style="left: 440px; top: 360px;">
 
-      <div style="left: 0px; top: 50px; display: flex; align-items: center;" class="value-unit-container">
-
-        <!-- VALUE -->
-        <!--<input ref="currentInput" class="variable-value">-->
-        <input v-model="calc.getVar('current').dispVal" v-on:keyup="calc.getVar('current').onDispValChange()" class="variable-value">
-
-        <!-- UNITS -->
-        <select v-model="calc.getVar('current').selUnit" v-on:change="calc.getVar('current').onUnitChange()" class="variable-units">
-          <option v-for="option in calc.getVar('current').units" v-bind:value="option.value">
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
+      <calc-value-and-unit :calcVar="calc.getVar('current')" style="left: 0px; top: 50px;"></calc-value-and-unit>
 
       <!-- INPUT/OUTPUT DECIDER -->
       <input type="radio" value="current" v-model="calc.outputVar" style="left: 100px; top: 0px">
@@ -54,18 +32,7 @@
     <!-- ========================================= -->
     <div class="variable-container" style="left: 450px; top: 160px;">
 
-      <div style="left: 0px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
-
-        <!-- VALUE -->
-        <input v-model="calc.getVar('resistance').dispVal" v-on:keyup="calc.getVar('resistance').onDispValChange()" class="variable-value">
-
-        <!-- UNITS -->
-        <select v-model="calc.getVar('resistance').selUnit" v-on:change="calc.getVar('resistance').onUnitChange()" class="variable-units">
-          <option v-for="option in calc.getVar('resistance').units" v-bind:value="option.value">
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
+      <calc-value-and-unit :calcVar="calc.getVar('resistance')" style="left: 0px; top: 40px;"></calc-value-and-unit>
 
       <!-- INPUT/OUTPUT DECIDER -->
       <input type="radio" value="resistance" v-model="calc.outputVar" style="left: 100px; top: 0px">
@@ -87,6 +54,8 @@
   // ============================================ //
   export default {
     name: 'ohms-law-calculator',
+    components: {
+    },
     data: function () {
       var calc = new Calc()
 
@@ -209,19 +178,6 @@
 
   .variable-container > * {
     position: absolute;
-  }
-
-  .value-unit-container {
-    position: absolute;
-  }
-
-  .variable-value {
-    width: 150px;
-    height: 40px;
-  }
-
-  .variable-units {
-    height: 40px;
   }
 
   input[type="radio"] {

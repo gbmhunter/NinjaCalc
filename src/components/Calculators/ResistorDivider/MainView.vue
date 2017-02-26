@@ -1,5 +1,5 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-  <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
+  <div id="resistor-divider-calculator" class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
     <!-- Background image is centered in diagram container -->
     <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 550px; height: 550px; z-index: 0;">
@@ -8,16 +8,7 @@
     <!-- =============================================== vIn ======================================= -->
     <!-- =========================================================================================== -->
     <div class="variable-container" style="left: 30px; top: 290px;">
-      <div style="left: -10px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
-        <input v-model="calc.getVar('vIn').dispVal" v-on:keyup="calc.getVar('vIn').onDispValChange()"
-               class="variable-value">
-        <select v-model="calc.getVar('vIn').selUnit" v-on:change="calc.getVar('vIn').onUnitChange()"
-                class="variable-units">
-          <option v-for="option in calc.getVar('vIn').units" v-bind:value="option.value">
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
+      <calc-value-and-unit :calcVar="calc.getVar('vIn')" style="left: -10px; top: 40px;"></calc-value-and-unit>
       <input type="radio" value="vIn" v-model="calc.outputVar">
     </div>
 
@@ -25,16 +16,7 @@
     <!-- ============================================= Rtop ======================================== -->
     <!-- =========================================================================================== -->
     <div class="variable-container" style="left: 330px; top: 140px;">
-      <div style="left: 0px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
-        <input v-model="calc.getVar('rTop').dispVal" v-on:keyup="calc.getVar('rTop').onDispValChange()"
-               class="variable-value">
-        <select v-model="calc.getVar('rTop').selUnit" v-on:change="calc.getVar('rTop').onUnitChange()"
-                class="variable-units">
-          <option v-for="option in calc.getVar('rTop').units" v-bind:value="option.value">
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
+      <calc-value-and-unit :calcVar="calc.getVar('rTop')" style="left: 0px; top: 40px;"></calc-value-and-unit>
       <input type="radio" value="rTop" v-model="calc.outputVar" style="left: 90px;">
     </div>
 
@@ -42,16 +24,7 @@
     <!-- ============================================= Rbot ======================================== -->
     <!-- =========================================================================================== -->
     <div class="variable-container" style="left: 330px; top: 340px;">
-      <div style="left: 0px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
-        <input v-model="calc.getVar('rBot').dispVal" v-on:keyup="calc.getVar('rBot').onDispValChange()"
-               class="variable-value">
-        <select v-model="calc.getVar('rBot').selUnit" v-on:change="calc.getVar('rBot').onUnitChange()"
-                class="variable-units">
-          <option v-for="option in calc.getVar('rBot').units" v-bind:value="option.value">
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
+      <calc-value-and-unit :calcVar="calc.getVar('rBot')" style="left: 0px; top: 40px;"></calc-value-and-unit>
       <input type="radio" value="rBot" v-model="calc.outputVar" style="left: 90px;">
     </div>
 
@@ -59,16 +32,7 @@
     <!-- ============================================= Vout ======================================== -->
     <!-- =========================================================================================== -->
     <div class="variable-container" style="left: 480px; top: 400px;">
-      <div style="left: 0px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
-        <input v-model="calc.getVar('vOut').dispVal" v-on:keyup="calc.getVar('vOut').onDispValChange()"
-               class="variable-value">
-        <select v-model="calc.getVar('vOut').selUnit" v-on:change="calc.getVar('vOut').onUnitChange()"
-                class="variable-units">
-          <option v-for="option in calc.getVar('vOut').units" v-bind:value="option.value">
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
+      <calc-value-and-unit :calcVar="calc.getVar('vOut')" style="left: 0px; top: 40px;"></calc-value-and-unit>
       <input type="radio" value="vOut" v-model="calc.outputVar" style="left: 120px;">
     </div>
   </div>
@@ -243,24 +207,26 @@
     position: absolute;
   }
 
-  .value-unit-container {
-    position: absolute;
-  }
-
-  .variable-value {
-    width: 100px;
-    height: 30px;
-  }
-
-  .variable-units {
-    height: 30px;
-
-    /* Add some spacing between variable value and units */
-    margin-left: 5px;
-  }
-
   input[type="radio"] {
     transform: scale(1.5)
+  }
+
+</style>
+
+<style>
+
+  /* WARNING
+  Make sure to apply the #resistor-divider-calculator selector to all styles in here,
+  otherwise you run the risk of modifying other parts of the app.
+   */
+
+  #resistor-divider-calculator .variable-value {
+    width: 100px !important;
+    height: 30px !important;
+  }
+
+  #resistor-divider-calculator .variable-units {
+    height: 30px !important;
   }
 
 </style>
