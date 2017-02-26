@@ -82,113 +82,116 @@
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
 
-  var calc = new Calc()
-
-  // Create new variable in class for determining what is input and output
-  calc.outputVar = 'resistance'
-
-  // ============================================ //
-  // =================== voltage ================ //
-  // ============================================ //
-  var voltage = new CalcVar(new CalcVar({
-    name: 'voltage',
-    typeEqn: () => {
-      if (calc.outputVar === 'voltage') {
-        return 'output'
-      } else {
-        return 'input'
-      }
-    },
-    eqn: () => {
-      // Read dependency variables
-      var current = calc.getVar('current').getRawVal()
-      var resistance = calc.getVar('resistance').getRawVal()
-
-      return (current * resistance)
-    },
-    rawVal: '',
-    units: [
-      {text: 'mV', value: 1e-3},
-      {text: 'V', value: 1}
-    ],
-    selUnit: 1,
-    roundTo: 4,
-    calc: calc
-  }))
-  calc.addVar(voltage)
-
-  // ============================================ //
-  // =================== current ================ //
-  // ============================================ //
-  var current = new CalcVar(new CalcVar({
-    name: 'current',
-    typeEqn: () => {
-      if (calc.outputVar === 'current') {
-        return 'output'
-      } else {
-        return 'input'
-      }
-    },
-    eqn: () => {
-      // Read dependency variables
-      var voltage = calc.getVar('voltage').getRawVal()
-      var resistance = calc.getVar('resistance').getRawVal()
-
-      return (voltage / resistance)
-    },
-    rawVal: '',
-    units: [
-      {text: 'uA', value: 1e-6},
-      {text: 'mA', value: 1e-3},
-      {text: 'A', value: 1}
-    ],
-    selUnit: 1,
-    roundTo: 4,
-    calc: calc
-  }))
-  calc.addVar(current)
-
-  // ============================================ //
-  // ================= resistance =============== //
-  // ============================================ //
-  var resistance = new CalcVar(new CalcVar({
-    name: 'resistance',
-    typeEqn: () => {
-      if (calc.outputVar === 'resistance') {
-        return 'output'
-      } else {
-        return 'input'
-      }
-    },
-    eqn: () => {
-      // Read dependency variables
-      var voltage = calc.getVar('voltage').getRawVal()
-      var current = calc.getVar('current').getRawVal()
-
-      return (voltage / current)
-    },
-    rawVal: '',
-    units: [
-      {text: 'mΩ', value: 1e-3},
-      {text: 'Ω', value: 1},
-      {text: 'kΩ', value: 1e3},
-      {text: 'MΩ', value: 1e6}
-    ],
-    selUnit: 1,
-    roundTo: 4,
-    calc: calc
-  }))
-  calc.addVar(resistance)
-
   // ============================================ //
   // =================== vue Object ============= //
   // ============================================ //
   export default {
     name: 'ohms-law-calculator',
     data: function () {
+      var calc = new Calc()
+
+      // Create new variable in class for determining what is input and output
+      calc.outputVar = 'resistance'
+
+      // ============================================ //
+      // =================== voltage ================ //
+      // ============================================ //
+      var voltage = new CalcVar(new CalcVar({
+        name: 'voltage',
+        typeEqn: () => {
+          if (calc.outputVar === 'voltage') {
+            return 'output'
+          } else {
+            return 'input'
+          }
+        },
+        eqn: () => {
+          // Read dependency variables
+          var current = calc.getVar('current').getRawVal()
+          var resistance = calc.getVar('resistance').getRawVal()
+
+          return (current * resistance)
+        },
+        rawVal: '',
+        units: [
+          {text: 'mV', value: 1e-3},
+          {text: 'V', value: 1}
+        ],
+        selUnit: 1,
+        roundTo: 4,
+        calc: calc
+      }))
+      calc.addVar(voltage)
+
+      // ============================================ //
+      // =================== current ================ //
+      // ============================================ //
+      var current = new CalcVar(new CalcVar({
+        name: 'current',
+        typeEqn: () => {
+          if (calc.outputVar === 'current') {
+            return 'output'
+          } else {
+            return 'input'
+          }
+        },
+        eqn: () => {
+          // Read dependency variables
+          var voltage = calc.getVar('voltage').getRawVal()
+          var resistance = calc.getVar('resistance').getRawVal()
+
+          return (voltage / resistance)
+        },
+        rawVal: '',
+        units: [
+          {text: 'uA', value: 1e-6},
+          {text: 'mA', value: 1e-3},
+          {text: 'A', value: 1}
+        ],
+        selUnit: 1,
+        roundTo: 4,
+        calc: calc
+      }))
+      calc.addVar(current)
+
+      // ============================================ //
+      // ================= resistance =============== //
+      // ============================================ //
+      var resistance = new CalcVar(new CalcVar({
+        name: 'resistance',
+        typeEqn: () => {
+          if (calc.outputVar === 'resistance') {
+            return 'output'
+          } else {
+            return 'input'
+          }
+        },
+        eqn: () => {
+          // Read dependency variables
+          var voltage = calc.getVar('voltage').getRawVal()
+          var current = calc.getVar('current').getRawVal()
+
+          return (voltage / current)
+        },
+        rawVal: '',
+        units: [
+          {text: 'mΩ', value: 1e-3},
+          {text: 'Ω', value: 1},
+          {text: 'kΩ', value: 1e3},
+          {text: 'MΩ', value: 1e6}
+        ],
+        selUnit: 1,
+        roundTo: 4,
+        calc: calc
+      }))
+      calc.addVar(resistance)
+
       return {
         calc: calc
       }
+    },
+    mounted () {
+      console.log('Ohm\'s Law calculator mounted.')
     }
   }
 

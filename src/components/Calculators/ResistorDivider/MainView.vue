@@ -82,145 +82,145 @@
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
 
-  var calc = new Calc()
-
-  // Create new variable in class for determining what is input and output
-  calc.outputVar = 'vOut'
-
-  // ============================================ //
-  // ===================== vIn ================== //
-  // ============================================ //
-  var vIn = new CalcVar(new CalcVar({
-    name: 'vIn',
-    typeEqn: () => {
-      if (calc.outputVar === 'vIn') {
-        return 'output'
-      } else {
-        return 'input'
-      }
-    },
-    eqn: () => {
-      // Read dependency variables
-      var vOut = calc.getVar('vOut').getRawVal()
-      var rTop = calc.getVar('rTop').getRawVal()
-      var rBot = calc.getVar('rBot').getRawVal()
-
-      return ((vOut * (rTop + rBot)) / rBot)
-    },
-    rawVal: '',
-    units: [
-      {text: 'mV', value: 1e-3},
-      {text: 'V', value: 1}
-    ],
-    selUnit: 1,
-    roundTo: 4,
-    calc: calc
-  }))
-  calc.addVar(vIn)
-
-  // ============================================ //
-  // ===================== rTop ================= //
-  // ============================================ //
-  var rTop = new CalcVar(new CalcVar({
-    name: 'rTop',
-    typeEqn: () => {
-      if (calc.outputVar === 'rTop') {
-        return 'output'
-      } else {
-        return 'input'
-      }
-    },
-    eqn: () => {
-      // Read dependency variables
-      var vIn = calc.getVar('vIn').getRawVal()
-      var rBot = calc.getVar('rBot').getRawVal()
-      var vOut = calc.getVar('vOut').getRawVal()
-
-      return ((rBot * (vIn - vOut)) / vOut)
-    },
-    rawVal: '',
-    units: [
-      {text: 'mΩ', value: 1e-3},
-      {text: 'Ω', value: 1},
-      {text: 'kΩ', value: 1e3},
-      {text: 'MΩ', value: 1e6}
-    ],
-    selUnit: 1,
-    roundTo: 4,
-    calc: calc
-  }))
-  calc.addVar(rTop)
-
-  // ============================================ //
-  // ===================== rBot ================= //
-  // ============================================ //
-  var rBot = new CalcVar(new CalcVar({
-    name: 'rBot',
-    typeEqn: () => {
-      if (calc.outputVar === 'rBot') {
-        return 'output'
-      } else {
-        return 'input'
-      }
-    },
-    eqn: () => {
-      // Read dependency variables
-      var vIn = calc.getVar('vIn').getRawVal()
-      var rTop = calc.getVar('rTop').getRawVal()
-      var vOut = calc.getVar('vOut').getRawVal()
-
-      return ((rTop * vOut) / (vIn - vOut))
-    },
-    rawVal: '',
-    units: [
-      {text: 'mΩ', value: 1e-3},
-      {text: 'Ω', value: 1},
-      {text: 'kΩ', value: 1e3},
-      {text: 'MΩ', value: 1e6}
-    ],
-    selUnit: 1,
-    roundTo: 4,
-    calc: calc
-  }))
-  calc.addVar(rBot)
-
-  // ============================================ //
-  // ===================== vOut ================= //
-  // ============================================ //
-  var vOut = new CalcVar(new CalcVar({
-    name: 'vOut',
-    typeEqn: () => {
-      if (calc.outputVar === 'vOut') {
-        return 'output'
-      } else {
-        return 'input'
-      }
-    },
-    eqn: () => {
-      // Read dependency variables
-      var vIn = calc.getVar('vIn').getRawVal()
-      var rTop = calc.getVar('rTop').getRawVal()
-      var rBot = calc.getVar('rBot').getRawVal()
-
-      return ((vIn * rBot) / (rTop + rBot))
-    },
-    rawVal: '',
-    units: [
-      {text: 'mV', value: 1e-3},
-      {text: 'V', value: 1}
-    ],
-    selUnit: 1,
-    roundTo: 4,
-    calc: calc
-  }))
-  calc.addVar(vOut)
-
   // ============================================ //
   // =================== vue Object ============= //
   // ============================================ //
   export default {
     name: 'resistor-divider-calculator',
     data: function () {
+      var calc = new Calc()
+
+      // Create new variable in class for determining what is input and output
+      calc.outputVar = 'vOut'
+
+      // ============================================ //
+      // ===================== vIn ================== //
+      // ============================================ //
+      var vIn = new CalcVar(new CalcVar({
+        name: 'vIn',
+        typeEqn: () => {
+          if (calc.outputVar === 'vIn') {
+            return 'output'
+          } else {
+            return 'input'
+          }
+        },
+        eqn: () => {
+          // Read dependency variables
+          var vOut = calc.getVar('vOut').getRawVal()
+          var rTop = calc.getVar('rTop').getRawVal()
+          var rBot = calc.getVar('rBot').getRawVal()
+
+          return ((vOut * (rTop + rBot)) / rBot)
+        },
+        rawVal: '',
+        units: [
+          {text: 'mV', value: 1e-3},
+          {text: 'V', value: 1}
+        ],
+        selUnit: 1,
+        roundTo: 4,
+        calc: calc
+      }))
+      calc.addVar(vIn)
+
+      // ============================================ //
+      // ===================== rTop ================= //
+      // ============================================ //
+      var rTop = new CalcVar(new CalcVar({
+        name: 'rTop',
+        typeEqn: () => {
+          if (calc.outputVar === 'rTop') {
+            return 'output'
+          } else {
+            return 'input'
+          }
+        },
+        eqn: () => {
+          // Read dependency variables
+          var vIn = calc.getVar('vIn').getRawVal()
+          var rBot = calc.getVar('rBot').getRawVal()
+          var vOut = calc.getVar('vOut').getRawVal()
+
+          return ((rBot * (vIn - vOut)) / vOut)
+        },
+        rawVal: '',
+        units: [
+          {text: 'mΩ', value: 1e-3},
+          {text: 'Ω', value: 1},
+          {text: 'kΩ', value: 1e3},
+          {text: 'MΩ', value: 1e6}
+        ],
+        selUnit: 1,
+        roundTo: 4,
+        calc: calc
+      }))
+      calc.addVar(rTop)
+
+      // ============================================ //
+      // ===================== rBot ================= //
+      // ============================================ //
+      var rBot = new CalcVar(new CalcVar({
+        name: 'rBot',
+        typeEqn: () => {
+          if (calc.outputVar === 'rBot') {
+            return 'output'
+          } else {
+            return 'input'
+          }
+        },
+        eqn: () => {
+          // Read dependency variables
+          var vIn = calc.getVar('vIn').getRawVal()
+          var rTop = calc.getVar('rTop').getRawVal()
+          var vOut = calc.getVar('vOut').getRawVal()
+
+          return ((rTop * vOut) / (vIn - vOut))
+        },
+        rawVal: '',
+        units: [
+          {text: 'mΩ', value: 1e-3},
+          {text: 'Ω', value: 1},
+          {text: 'kΩ', value: 1e3},
+          {text: 'MΩ', value: 1e6}
+        ],
+        selUnit: 1,
+        roundTo: 4,
+        calc: calc
+      }))
+      calc.addVar(rBot)
+
+      // ============================================ //
+      // ===================== vOut ================= //
+      // ============================================ //
+      var vOut = new CalcVar(new CalcVar({
+        name: 'vOut',
+        typeEqn: () => {
+          if (calc.outputVar === 'vOut') {
+            return 'output'
+          } else {
+            return 'input'
+          }
+        },
+        eqn: () => {
+          // Read dependency variables
+          var vIn = calc.getVar('vIn').getRawVal()
+          var rTop = calc.getVar('rTop').getRawVal()
+          var rBot = calc.getVar('rBot').getRawVal()
+
+          return ((vIn * rBot) / (rTop + rBot))
+        },
+        rawVal: '',
+        units: [
+          {text: 'mV', value: 1e-3},
+          {text: 'V', value: 1}
+        ],
+        selUnit: 1,
+        roundTo: 4,
+        calc: calc
+      }))
+      calc.addVar(vOut)
+
       return {
         calc: calc
       }
