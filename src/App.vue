@@ -51,8 +51,8 @@
   // import MainView from './components/OhmsLawCalculator/MainView'
   import CalculatorSelectionOverlay from './components/CalculatorSelectionOverlay/CalculatorSelectionOverlay'
 
-  import OhmsLawCalculator from './components/Calculators/OhmsLawCalculator/OhmsLawCalculator'
-  import ResistorDividerCalculator from './components/Calculators/ResistorDivider/Calculator'
+  import OhmsLawCalculator from './components/Calculators/OhmsLawCalculator/Calc'
+  import ResistorDividerCalculator from './components/Calculators/ResistorDivider/Calc'
 
   import Tabs from 'bootstrap-vue/components/tabs.vue'
   import Tab from 'bootstrap-vue/components/tab.vue'

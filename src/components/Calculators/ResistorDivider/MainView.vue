@@ -77,10 +77,14 @@
 
 <script>
 
+  'use strict'
+
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
 
   var calc = new Calc()
+
+  // Create new variable in class for determining what is input and output
   calc.outputVar = 'vOut'
 
   // ============================================ //
@@ -216,18 +220,9 @@
   // ============================================ //
   export default {
     name: 'resistor-divider-calculator',
-    props: {},
     data: function () {
       return {
         calc: calc
-      }
-    },
-    components: {},
-    computed: {},
-    watch: {},
-    methods: {
-      mounted () {
-        console.log('ResistorDivider.mounted() called.')
       }
     }
   }

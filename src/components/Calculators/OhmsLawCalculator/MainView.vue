@@ -1,4 +1,4 @@
-<template xmlns:v-on="http://www.w3.org/1999/xhtml">
+<template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
   <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
@@ -10,17 +10,20 @@
     <!-- ========================================= -->
     <div class="variable-container" style="left: 0px; top: 240px;">
 
-      <!-- INPUT/OUTPUT DECIDER -->
-      <input type="radio" ref="voltageRadio" name="calcWhat" style="left: 0px; top: 20px">
-
       <div style="left: 0px; top: 70px; display: flex; align-items: center;" class="value-unit-container">
         <!-- VALUE -->
-        <input ref="voltageInput" class="variable-value">
-        <div style="width: 5px;"></div>
+        <input v-model="calc.getVar('voltage').dispVal" v-on:keyup="calc.getVar('voltage').onDispValChange()" class="variable-value">
 
         <!-- UNITS -->
-        <select ref="voltageSelectUnits" class="variable-units"></select>
+        <select v-model="calc.getVar('voltage').selUnit" v-on:change="calc.getVar('voltage').onUnitChange()" class="variable-units">
+          <option v-for="option in calc.getVar('voltage').units" v-bind:value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
       </div>
+
+      <!-- INPUT/OUTPUT DECIDER -->
+      <input type="radio" value="voltage" v-model="calc.outputVar" style="left: 0px; top: 20px">
     </div>
 
     <!-- ========================================= -->
@@ -28,33 +31,44 @@
     <!-- ========================================= -->
     <div class="variable-container" style="left: 440px; top: 360px;">
 
-      <input type="radio" ref="currentRadio" name="calcWhat" style="left: 100px; top: 0px;">
       <div style="left: 0px; top: 50px; display: flex; align-items: center;" class="value-unit-container">
 
-        <input ref="currentInput" class="variable-value">
-        <div style="width: 5px;"></div>
+        <!-- VALUE -->
+        <!--<input ref="currentInput" class="variable-value">-->
+        <input v-model="calc.getVar('current').dispVal" v-on:keyup="calc.getVar('current').onDispValChange()" class="variable-value">
 
         <!-- UNITS -->
-        <select ref="currentSelectUnits" class="variable-units"></select>
+        <select v-model="calc.getVar('current').selUnit" v-on:change="calc.getVar('current').onUnitChange()" class="variable-units">
+          <option v-for="option in calc.getVar('current').units" v-bind:value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
       </div>
+
+      <!-- INPUT/OUTPUT DECIDER -->
+      <input type="radio" value="current" v-model="calc.outputVar" style="left: 100px; top: 0px">
     </div>
 
     <!-- ========================================= -->
     <!-- ============= RESISTANCE ================ -->
     <!-- ========================================= -->
     <div class="variable-container" style="left: 450px; top: 160px;">
-      <!--<md-radio v-model="calcWhat" id="my-test1" name="my-test-group1" md-value="resistance"></md-radio>-->
-      <input type="radio" ref="resistanceRadio" name="calcWhat" style="left: 100px; top: 0px;">
 
       <div style="left: 0px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
 
-        <input ref="resistanceInput" class="variable-value">
-        <div style="width: 5px;"></div>
-
+        <!-- VALUE -->
+        <input v-model="calc.getVar('resistance').dispVal" v-on:keyup="calc.getVar('resistance').onDispValChange()" class="variable-value">
 
         <!-- UNITS -->
-        <select ref="resistanceSelectUnits" class="variable-units"></select>
+        <select v-model="calc.getVar('resistance').selUnit" v-on:change="calc.getVar('resistance').onUnitChange()" class="variable-units">
+          <option v-for="option in calc.getVar('resistance').units" v-bind:value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
       </div>
+
+      <!-- INPUT/OUTPUT DECIDER -->
+      <input type="radio" value="resistance" v-model="calc.outputVar" style="left: 100px; top: 0px">
     </div>
 
   </div>
@@ -63,103 +77,118 @@
 
 <script>
 
-  import Calculator from 'src/misc/Calculator'
-  import CalcVar from 'src/misc/CalcVar'
+  'use strict'
 
+  import Calc from 'src/misc/CalculatorEngineV2/Calc'
+  import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
+
+  var calc = new Calc()
+
+  // Create new variable in class for determining what is input and output
+  calc.outputVar = 'resistance'
+
+  // ============================================ //
+  // =================== voltage ================ //
+  // ============================================ //
+  var voltage = new CalcVar(new CalcVar({
+    name: 'voltage',
+    typeEqn: () => {
+      if (calc.outputVar === 'voltage') {
+        return 'output'
+      } else {
+        return 'input'
+      }
+    },
+    eqn: () => {
+      // Read dependency variables
+      var current = calc.getVar('current').getRawVal()
+      var resistance = calc.getVar('resistance').getRawVal()
+
+      return (current * resistance)
+    },
+    rawVal: '',
+    units: [
+      {text: 'mV', value: 1e-3},
+      {text: 'V', value: 1}
+    ],
+    selUnit: 1,
+    roundTo: 4,
+    calc: calc
+  }))
+  calc.addVar(voltage)
+
+  // ============================================ //
+  // =================== current ================ //
+  // ============================================ //
+  var current = new CalcVar(new CalcVar({
+    name: 'current',
+    typeEqn: () => {
+      if (calc.outputVar === 'current') {
+        return 'output'
+      } else {
+        return 'input'
+      }
+    },
+    eqn: () => {
+      // Read dependency variables
+      var voltage = calc.getVar('voltage').getRawVal()
+      var resistance = calc.getVar('resistance').getRawVal()
+
+      return (voltage / resistance)
+    },
+    rawVal: '',
+    units: [
+      {text: 'uA', value: 1e-6},
+      {text: 'mA', value: 1e-3},
+      {text: 'A', value: 1}
+    ],
+    selUnit: 1,
+    roundTo: 4,
+    calc: calc
+  }))
+  calc.addVar(current)
+
+  // ============================================ //
+  // ================= resistance =============== //
+  // ============================================ //
+  var resistance = new CalcVar(new CalcVar({
+    name: 'resistance',
+    typeEqn: () => {
+      if (calc.outputVar === 'resistance') {
+        return 'output'
+      } else {
+        return 'input'
+      }
+    },
+    eqn: () => {
+      // Read dependency variables
+      var voltage = calc.getVar('voltage').getRawVal()
+      var current = calc.getVar('current').getRawVal()
+
+      return (voltage / current)
+    },
+    rawVal: '',
+    units: [
+      {text: 'mΩ', value: 1e-3},
+      {text: 'Ω', value: 1},
+      {text: 'kΩ', value: 1e3},
+      {text: 'MΩ', value: 1e6}
+    ],
+    selUnit: 1,
+    roundTo: 4,
+    calc: calc
+  }))
+  calc.addVar(resistance)
+
+  // ============================================ //
+  // =================== vue Object ============= //
+  // ============================================ //
   export default {
     name: 'ohms-law-calculator',
-    props: {},
     data: function () {
       return {
-        calcWhat: 'resistance',
-        test: '5.61'
+        calc: calc
       }
-    },
-    components: {},
-    computed: {},
-    watch: {
-      selUnit () {
-        console.log(this.selUnit)
-      }
-    },
-    methods: {},
-    mounted () {
-      console.log('OhmsLawCalculator.mounted() called.')
-
-      // Check resistance (default variable that is an output)
-      this.$refs.resistanceRadio.checked = true
-
-      var calc = new Calculator()
-      calc.addVariable(new CalcVar({
-        name: 'voltage',
-        uiInputValue: this.$refs.voltageInput,
-        uiSelectUnits: this.$refs.voltageSelectUnits,
-        initRawVal: '',
-        units: [
-          {text: 'mV', multi: 1e-3},
-          {text: 'V', multi: 1}
-        ],
-        selUnit: 'V',
-        eqn: () => {
-          return calc.getVar('current').getRawVal() * calc.getVar('resistance').getRawVal()
-        },
-        typeEqn: () => {
-          if (this.$refs.voltageRadio.checked) {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        calc: calc
-      }))
-      calc.addVariable(new CalcVar({
-        name: 'current',
-        uiInputValue: this.$refs.currentInput,
-        uiSelectUnits: this.$refs.currentSelectUnits,
-        initRawVal: '',
-        units: [
-          {text: 'uA', multi: 1e-6},
-          {text: 'mA', multi: 1e-3},
-          {text: 'A', multi: 1}
-        ],
-        selUnit: 'A',
-        eqn: () => {
-          return calc.getVar('voltage').getRawVal() / calc.getVar('resistance').getRawVal()
-        },
-        typeEqn: () => {
-          if (this.$refs.currentRadio.checked) {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        calc: calc
-      }))
-      calc.addVariable(new CalcVar({
-        name: 'resistance',
-        uiInputValue: this.$refs.resistanceInput,
-        uiSelectUnits: this.$refs.resistanceSelectUnits,
-        initRawVal: '',
-        units: [
-          {text: 'mΩ', multi: 1e-3},
-          {text: 'Ω', multi: 1},
-          {text: 'kΩ', multi: 1e3},
-          {text: 'MΩ', multi: 1e6}
-        ],
-        selUnit: 'Ω',
-
-        eqn: () => {
-          return calc.getVar('voltage').getRawVal() / calc.getVar('current').getRawVal()
-        },
-        typeEqn: () => {
-          if (this.$refs.resistanceRadio.checked) {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        calc: calc
-      }))
     }
   }
 

@@ -18,9 +18,9 @@ import BootstrapVue from 'bootstrap-vue'
 // Globally register bootstrap-vue components
 Vue.use(BootstrapVue)
 // Loading of bootstrap CSS is required for BootstrapVue to work correctly
-// import './assets/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
+// KeenUI is used for the tabs
 import KeenUI from 'keen-ui'
 Vue.use(KeenUI)
 import 'keen-ui/dist/keen-ui.css'
