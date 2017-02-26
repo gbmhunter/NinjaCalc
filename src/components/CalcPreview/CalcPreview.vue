@@ -2,8 +2,7 @@
   <md-card md-with-hover class="calc-preview">
 
     <md-card-media>
-      <img :src="imageUrl" style="width: 160px;">
-
+      <img :src="imageUrl" style="max-width: 160px; max-height: 160px; width: auto; height: auto;">
       <md-ink-ripple></md-ink-ripple>
     </md-card-media>
 
