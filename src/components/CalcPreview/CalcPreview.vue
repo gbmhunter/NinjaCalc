@@ -1,24 +1,33 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
-  <md-card md-with-hover class="calc-preview">
 
-    <md-card-media>
-      <img :src="imageUrl" style="max-width: 160px; max-height: 160px; width: auto; height: auto;">
-      <md-ink-ripple></md-ink-ripple>
-    </md-card-media>
+  <div>
+    <md-card md-with-hover class="calc-preview">
+      <!-- This div wraps the entire card content, and is just so that anywhere on the card
+       can be clicked to open the calculator -->
+      <div v-on:click="open()" style="z-index: 100;">
+        <md-card-media>
+          <img :src="imageUrl" style="max-width: 160px; max-height: 160px; width: auto; height: auto;">
+          <md-ink-ripple></md-ink-ripple>
+        </md-card-media>
 
-    <md-card-header>
-      <div class="md-title">{{title}}</div>
-      <!--<div class="md-subhead">Subtitle here</div>-->
-    </md-card-header>
+        <md-card-header>
+          <div class="md-title">{{title}}</div>
+          <!--<div class="md-subhead">Subtitle here</div>-->
+        </md-card-header>
 
-    <md-card-content>
-      {{ description }}
-    </md-card-content>
+        <md-card-content>
+          {{ description }}
+        </md-card-content>
 
-    <md-card-actions>
-      <md-button @click.native="open">Open</md-button>
-    </md-card-actions>
-  </md-card>
+        <md-card-actions>
+          <!-- This button is for appearances only, in reality anywhere on the card can be clicked
+          to open the calculator -->
+          <md-button>Open</md-button>
+        </md-card-actions>
+      </div>
+    </md-card>
+  </div>
+
 </template>
 
 <script>
