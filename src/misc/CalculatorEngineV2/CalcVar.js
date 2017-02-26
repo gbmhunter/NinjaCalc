@@ -12,12 +12,16 @@ export default class CalcVar {
 
     this.rawVal = initObj.rawVal
 
-    // We can now work out the initial displayed value
-    if (this.rawVal === '') {
-      this.dispVal = ''
-    } else {
-      this.dispVal = this.rawVal / this.selUnit.value
+    // ============================================ //
+    // ================= ROUNDING ================= //
+    // ============================================ //
+    if (typeof initObj.roundTo === 'undefined' || initObj.roundTo === null) {
+      throw new Error('roundTo parameter was not provided to CalcVar() for variable "' + this.name + '".')
     }
+    this.roundTo = initObj.roundTo
+
+    // We can now work out the initial displayed value
+    this.calcDispValFromRawVal()
 
     console.log('calcVar =')
     console.log(this)
@@ -52,14 +56,26 @@ export default class CalcVar {
   }
 
   reCalc = () => {
-    console.log('reCalc() called.')
+    console.log('reCalc() called for "' + this.name + '".')
 
     if (this.typeEqn() !== 'output') {
       throw new Error('reCalc() called for variable that was not an output.')
     }
 
     this.rawVal = this.eqn()
-    this.dispVal = this.rawVal / this.selUnit
+
+    this.calcDispValFromRawVal()
   }
 
+  calcDispValFromRawVal = () => {
+    if (this.rawVal === '') {
+      this.dispVal = ''
+    } else {
+      var unRoundedDispVal = this.rawVal / this.selUnit
+
+      // This uses 'significant figure' style rounding
+      var roundedDispVal = unRoundedDispVal.toPrecision(this.roundTo)
+      this.dispVal = roundedDispVal
+    }
+  }
 }
