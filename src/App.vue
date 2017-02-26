@@ -35,26 +35,36 @@
   <div id="app">
 
     <div id="left-bar">
-      <md-button class="md-icon-button" @click.native="showLeftSideNav">
-        <md-icon>menu</md-icon>
-      </md-button>
+      <div id="menu-button-wrapper">
+        <md-button id="menu-button" class="md-icon-button" @click.native="showLeftSideNav">
+          <md-icon>menu</md-icon>
+        </md-button>
+      </div>
     </div>
 
-    <!-- Only show this if no calculators are open -->
+    <!--Only show this if no calculators are open-->
     <div id="no-calc-screen" v-if="!this.$store.state.openCalcs.length">
       <div class="centered">
         <div class="md-display-1">No calculators are open! Do you wish to create one?</div>
         <div style="height: 20px;"></div>
-        <md-button @click.native="showCalculatorSelectionOverlay" class="md-raised md-primary">New Calculator</md-button>
+        <md-button @click.native="showCalculatorSelectionOverlay" class="md-raised md-primary">New Calculator
+        </md-button>
       </div>
     </div>
 
     <!-- Only show calculator tabs if calculators are open -->
-    <md-tabs v-if="this.openCalcs.length">
-      <md-tab v-for="item in openCalcs" :md-label="item.name" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+    <!--<md-tabs v-if="this.openCalcs.length">-->
+    <!--<md-tab v-for="item in openCalcs" :md-label="item.name" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">-->
+    <!--<component :is="item.componentName"></component>-->
+    <!--</md-tab>-->
+    <!--</md-tabs>-->
+
+    <ui-tabs type="text" :grow="true" v-if="this.openCalcs.length">
+      <ui-tab v-for="item in openCalcs" :title="item.name">
         <component :is="item.componentName"></component>
-      </md-tab>
-    </md-tabs>
+      </ui-tab>
+    </ui-tabs>
+
 
     <!-- OBJECTS NOT IN DOC FLOW -->
     <calculator-selection-overlay
@@ -64,10 +74,9 @@
 </template>
 
 
-
 <script>
 
-//  import { CalculatorServiceSingleton } from './services/CalculatorService'
+  //  import { CalculatorServiceSingleton } from './services/CalculatorService'
 
   import Vue from 'vue'
   import LeftSideMenu from './components/LeftSideMenu/LeftSideMenu'
@@ -76,6 +85,9 @@
 
   import OhmsLawCalculator from './components/Calculators/OhmsLawCalculator/OhmsLawCalculator'
   import ResistorDividerCalculator from './components/Calculators/ResistorDivider/Calculator'
+
+  import Tabs from 'bootstrap-vue/components/tabs.vue'
+  import Tab from 'bootstrap-vue/components/tab.vue'
 
   console.log('LeftSideMenu =')
   console.log(LeftSideMenu)
@@ -86,7 +98,9 @@
     name: 'app',
     components: {
       LeftSideMenu,
-      CalculatorSelectionOverlay
+      CalculatorSelectionOverlay,
+      Tabs,
+      Tab
       // OhmsLawCalculator
     },
     computed: {
@@ -159,13 +173,46 @@
     margin: auto;
   }
 
-  .md-tabs-wrapper {
-    width: 100% !important;
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
 
-  /* The tab content should take up all available space */
-  .md-tabs-content {
-    height: 100% !important;
+  html {
+    font-size: 100%;
+  }
+
+  .ui-tabs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ui-tabs__body {
+    border-width: 0px !important;
+    padding: 0px !important;
+    height: 100%;
+  }
+
+  .ui-tab {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* This selector gets weird of weird raised offset in the text for the first
+  header tab title */
+  ul:not(.md-list) > li + li {
+    margin-top: 0px !important;
+  }
+
+  #menu-button-wrapper {
+    /* This height exactly matches the height of the tab header bar */
+    height: 48px;
+
+    /* This colour exactly matches the colour of the tab header bar */
+    background-color: #eeeeee;
   }
 
 </style>

@@ -21,6 +21,10 @@ Vue.use(BootstrapVue)
 // import './assets/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
+import KeenUI from 'keen-ui'
+Vue.use(KeenUI)
+import 'keen-ui/dist/keen-ui.css'
+
 /* eslint-disable no-unused-vars */
 const store = new Vuex.Store({
   state: {

@@ -2,7 +2,7 @@
   <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
     <!-- Background image is centered in diagram container -->
-    <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 550px; height: 550px; z-index: -1">
+    <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 550px; height: 550px; z-index: 0;">
 
     <!-- =========================================================================================== -->
     <!-- =============================================== vIn ======================================= -->
