@@ -1,45 +1,75 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+  <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
-  <div>
+    <!-- Background image is centered in diagram container -->
+    <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 550px; height: 550px; z-index: -1">
 
-    <div>
-      <input v-model="calc.getVar('vIn').dispVal" v-on:keyup="calc.getVar('vIn').onDispValChange()">
-      <select v-model="calc.getVar('vIn').selUnit" v-on:change="calc.getVar('vIn').onUnitChange()">
-        <option v-for="option in calc.getVar('vIn').units" v-bind:value="option.value">
-          {{ option.text }}
-        </option>
-      </select>
+    <!-- =========================================================================================== -->
+    <!-- =============================================== vIn ======================================= -->
+    <!-- =========================================================================================== -->
+    <div class="variable-container" style="left: 30px; top: 290px;">
+      <div style="left: -10px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
+        <input v-model="calc.getVar('vIn').dispVal" v-on:keyup="calc.getVar('vIn').onDispValChange()"
+               class="variable-value">
+        <select v-model="calc.getVar('vIn').selUnit" v-on:change="calc.getVar('vIn').onUnitChange()"
+                class="variable-units">
+          <option v-for="option in calc.getVar('vIn').units" v-bind:value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
       <input type="radio" value="vIn" v-model="calc.outputVar">
     </div>
 
-    <div>
-      <input v-model="calc.getVar('rTop').dispVal" v-on:keyup="calc.getVar('rTop').onDispValChange()">
-      <select v-model="calc.getVar('rTop').selUnit" v-on:change="calc.getVar('rTop').onUnitChange()">
-        <option v-for="option in calc.getVar('rTop').units" v-bind:value="option.value">
-          {{ option.text }}
-        </option>
-      </select>
-      <input type="radio" value="rTop" v-model="calc.outputVar">
+    <!-- =========================================================================================== -->
+    <!-- ============================================= Rtop ======================================== -->
+    <!-- =========================================================================================== -->
+    <div class="variable-container" style="left: 330px; top: 140px;">
+      <div style="left: 0px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
+        <input v-model="calc.getVar('rTop').dispVal" v-on:keyup="calc.getVar('rTop').onDispValChange()"
+               class="variable-value">
+        <select v-model="calc.getVar('rTop').selUnit" v-on:change="calc.getVar('rTop').onUnitChange()"
+                class="variable-units">
+          <option v-for="option in calc.getVar('rTop').units" v-bind:value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
+      <input type="radio" value="rTop" v-model="calc.outputVar" style="left: 90px;">
     </div>
 
-    <div>
-      <input v-model="calc.getVar('rBot').dispVal" v-on:keyup="calc.getVar('rBot').onDispValChange()">
-      <select v-model="calc.getVar('rBot').selUnit" v-on:change="calc.getVar('rBot').onUnitChange()">
-        <option v-for="option in calc.getVar('rBot').units" v-bind:value="option.value">
-          {{ option.text }}
-        </option>
-      </select>
-      <input type="radio" value="rBot" v-model="calc.outputVar">
+    <!-- =========================================================================================== -->
+    <!-- ============================================= Rbot ======================================== -->
+    <!-- =========================================================================================== -->
+    <div class="variable-container" style="left: 330px; top: 340px;">
+      <div style="left: 0px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
+        <input v-model="calc.getVar('rBot').dispVal" v-on:keyup="calc.getVar('rBot').onDispValChange()"
+               class="variable-value">
+        <select v-model="calc.getVar('rBot').selUnit" v-on:change="calc.getVar('rBot').onUnitChange()"
+                class="variable-units">
+          <option v-for="option in calc.getVar('rBot').units" v-bind:value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
+      <input type="radio" value="rBot" v-model="calc.outputVar" style="left: 90px;">
     </div>
 
-    <div>
-      <input v-model="calc.getVar('vOut').dispVal" v-on:keyup="calc.getVar('vOut').onDispValChange()">
-      <select v-model="calc.getVar('vOut').selUnit" v-on:change="calc.getVar('vOut').onUnitChange()">
-        <option v-for="option in calc.getVar('vOut').units" v-bind:value="option.value">
-          {{ option.text }}
-        </option>
-      </select>
-      <input type="radio" value="vOut" v-model="calc.outputVar">
+    <!-- =========================================================================================== -->
+    <!-- ============================================= Vout ======================================== -->
+    <!-- =========================================================================================== -->
+    <div class="variable-container" style="left: 480px; top: 400px;">
+      <div style="left: 0px; top: 40px; display: flex; align-items: center;" class="value-unit-container">
+        <input v-model="calc.getVar('vOut').dispVal" v-on:keyup="calc.getVar('vOut').onDispValChange()"
+               class="variable-value">
+        <select v-model="calc.getVar('vOut').selUnit" v-on:change="calc.getVar('vOut').onUnitChange()"
+                class="variable-units">
+          <option v-for="option in calc.getVar('vOut').units" v-bind:value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
+      <input type="radio" value="vOut" v-model="calc.outputVar" style="left: 120px;">
     </div>
   </div>
 
@@ -47,102 +77,10 @@
 
 <script>
 
-  class Calculator {
+  import Calc from 'src/misc/CalculatorEngineV2/Calc'
+  import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
 
-    constructor () {
-      this.calcVars = []
-    }
-
-    addVar = (calcVar) => {
-      this.calcVars.push(calcVar)
-    }
-
-    getVar = (name) => {
-//      console.log('getVar() called with name = ' + name)
-      var variable = this.calcVars.find((element) => {
-        return element.name === name
-      })
-
-      if (typeof variable === 'undefined') {
-        throw new Error('Requested variable "' + name + '" does not exist in calculator.')
-      }
-
-      return variable
-    }
-
-    reCalcOutputs = () => {
-      console.log('reCalcOutputs() called.')
-      console.log(this)
-      for (let calcVar of this.calcVars) {
-        console.log(calcVar)
-        if (calcVar.typeEqn() === 'output') {
-          console.log('Recalculating "' + calcVar.name + '".')
-          calcVar.reCalc()
-        }
-      }
-    }
-  }
-
-  class CalcVar {
-
-    constructor (initObj) {
-      this.name = initObj.name
-      this.typeEqn = initObj.typeEqn
-      this.eqn = initObj.eqn
-
-      this.units = initObj.units
-      this.selUnit = initObj.selUnit
-
-      this.calc = initObj.calc
-
-      this.rawVal = initObj.rawVal
-
-      // We can now work out the initial displayed value
-      if (this.rawVal === '') {
-        this.dispVal = ''
-      } else {
-        this.dispVal = this.rawVal / this.selUnit.value
-      }
-
-      console.log('calcVar =')
-      console.log(this)
-    }
-
-    onDispValChange = () => {
-      console.log('onDispValChange() called.')
-      console.log('this.dispVal =' + this.dispVal)
-
-      this.rawVal = this.dispVal * this.selUnit
-      console.log('this.rawVal = ' + this.rawVal)
-
-      this.calc.reCalcOutputs()
-    }
-
-    onUnitChange = () => {
-      console.log('onUnitsChange() called.')
-
-      if (this.typeEqn() === 'input') {
-        // Recalculate raw value from displayed value
-        this.rawVal = this.dispVal * this.selUnit
-      }
-
-      this.calc.reCalcOutputs()
-    }
-
-    reCalc = () => {
-      console.log('reCalc() called.')
-
-      if (this.typeEqn() !== 'output') {
-        throw new Error('reCalc() called for variable that was not an output.')
-      }
-
-      this.rawVal = this.eqn()
-      this.dispVal = this.rawVal / this.selUnit
-    }
-
-  }
-
-  var calc = new Calculator()
+  var calc = new Calc()
   calc.outputVar = 'vOut'
 
   // ============================================ //
@@ -272,13 +210,12 @@
   // ============================================ //
   // =================== vue Object ============= //
   // ============================================ //
-  var temp = {
+  export default {
     name: 'resistor-divider-calculator',
     props: {},
     data: function () {
       return {
-        calc: calc,
-        outputVar: 'vOut'
+        calc: calc
       }
     },
     components: {},
@@ -290,8 +227,6 @@
       }
     }
   }
-
-  export default temp
 
 </script>
 
@@ -314,12 +249,15 @@
   }
 
   .variable-value {
-    width: 150px;
-    height: 40px;
+    width: 100px;
+    height: 30px;
   }
 
   .variable-units {
-    height: 40px;
+    height: 30px;
+
+    /* Add some spacing between variable value and units */
+    margin-left: 5px;
   }
 
   input[type="radio"] {
