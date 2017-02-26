@@ -23,6 +23,13 @@ export default class CalcVar {
     console.log(this)
   }
 
+  getRawVal = () => {
+    return this.rawVal
+  }
+
+  /**
+   * Designed to be called by vue once this.dispVal has been changed.
+   */
   onDispValChange = () => {
     console.log('onDispValChange() called.')
     console.log('this.dispVal =' + this.dispVal)

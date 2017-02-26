@@ -97,9 +97,9 @@
     },
     eqn: () => {
       // Read dependency variables
-      var vOut = calc.getVar('vOut').rawVal
-      var rTop = calc.getVar('rTop').rawVal
-      var rBot = calc.getVar('rBot').rawVal
+      var vOut = calc.getVar('vOut').getRawVal()
+      var rTop = calc.getVar('rTop').getRawVal()
+      var rBot = calc.getVar('rBot').getRawVal()
 
       return ((vOut * (rTop + rBot)) / rBot)
     },
@@ -127,9 +127,9 @@
     },
     eqn: () => {
       // Read dependency variables
-      var vIn = calc.getVar('vIn').rawVal
-      var rBot = calc.getVar('rBot').rawVal
-      var vOut = calc.getVar('vOut').rawVal
+      var vIn = calc.getVar('vIn').getRawVal()
+      var rBot = calc.getVar('rBot').getRawVal()
+      var vOut = calc.getVar('vOut').getRawVal()
 
       return ((rBot * (vIn - vOut)) / vOut)
     },
@@ -159,9 +159,9 @@
     },
     eqn: () => {
       // Read dependency variables
-      var vIn = calc.getVar('vIn').rawVal
-      var rTop = calc.getVar('rTop').rawVal
-      var vOut = calc.getVar('vOut').rawVal
+      var vIn = calc.getVar('vIn').getRawVal()
+      var rTop = calc.getVar('rTop').getRawVal()
+      var vOut = calc.getVar('vOut').getRawVal()
 
       return ((rTop * vOut) / (vIn - vOut))
     },
@@ -191,9 +191,9 @@
     },
     eqn: () => {
       // Read dependency variables
-      var vIn = calc.getVar('vIn').rawVal
-      var rTop = calc.getVar('rTop').rawVal
-      var rBot = calc.getVar('rBot').rawVal
+      var vIn = calc.getVar('vIn').getRawVal()
+      var rTop = calc.getVar('rTop').getRawVal()
+      var rBot = calc.getVar('rBot').getRawVal()
 
       return ((vIn * rBot) / (rTop + rBot))
     },
