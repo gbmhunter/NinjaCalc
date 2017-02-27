@@ -1,5 +1,7 @@
 'use strict'
 
+import PresetValidators from './PresetValidators'
+
 export default class CalcVar {
 
   constructor (initObj) {
@@ -27,8 +29,16 @@ export default class CalcVar {
     // We can now work out the initial displayed value
     this.calcDispValFromRawVal()
 
-    console.log('calcVar =')
-    console.log(this)
+    // ============================================ //
+    // ================ VALIDATORS ================ //
+    // ============================================ //
+
+    this.validators = []
+    if (initObj.validators) {
+      this.validators = initObj.validators
+    }
+
+    this.validationResult = 'ok'
   }
 
   getRawVal = () => {
@@ -45,6 +55,7 @@ export default class CalcVar {
     this.rawVal = this.dispVal * this.selUnit
     console.log('this.rawVal = ' + this.rawVal)
 
+    this.validate()
     this.reCalcOutputs()
   }
 
@@ -54,6 +65,7 @@ export default class CalcVar {
     if (this.typeEqn() === 'input') {
       // Recalculate raw value from displayed value
       this.rawVal = this.dispVal * this.selUnit
+      this.validate()
     }
 
     this.reCalcOutputs()
@@ -69,6 +81,7 @@ export default class CalcVar {
     this.rawVal = this.eqn()
 
     this.calcDispValFromRawVal()
+    this.validate()
   }
 
   calcDispValFromRawVal = () => {
@@ -89,4 +102,69 @@ export default class CalcVar {
     }
     this.calc.reCalcOutputs()
   }
+
+  validate = () => {
+    console.log('CalcVar.validate() called for "' + this.name + '".')
+    console.log('this.validators =')
+    console.log(this.validators)
+
+    this.validationResult = 'ok'
+
+    var self = this
+    this.validators.map(function (validator) {
+      console.log('validator =')
+      console.log(validator)
+
+      var validationResult = 'ok'
+
+      if (typeof validator === 'function') {
+        // Validator must be a custom function
+        var result = validator()
+
+        switch (result) {
+          case 'ok':
+            console.log('validator returned ok.')
+            validationResult = 'ok'
+            break
+          case 'error':
+            console.log('validator returned error.')
+            validationResult = 'error'
+        }
+      } else {
+        // Validator must be a preset
+        if (validator === PresetValidators.IS_NUMBER) {
+          console.log('validator === PresetValidators.IS_NUMBER')
+          if (self.isNumber(self.dispVal)) {
+            console.log('dispVal is a valid number.')
+            validationResult = 'ok'
+          } else {
+            console.log('dispVal is NOT a valid number.')
+            validationResult = 'error'
+          }
+        }
+      }
+
+      // Finally, compare this validation result with the one set in the variable. Only
+      // overwrite IF this validation result is worse than what was already present
+      switch (self.validationResult) {
+        case 'ok':
+          self.validationResult = validationResult
+          break
+        case 'warning':
+          if (self.validationResult === 'ok') {
+            self.validationResult = validationResult
+          }
+          break
+        case 'error':
+          // Do nothing
+          break
+      }
+    })
+  }
+
+  isNumber = (number) => {
+    console.log('isNumber() called with number = ' + number)
+    return !isNaN(number)
+  }
+
 }

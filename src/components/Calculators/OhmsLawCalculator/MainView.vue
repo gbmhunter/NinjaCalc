@@ -48,6 +48,7 @@
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
+  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -87,7 +88,10 @@
           {text: 'V', value: 1}
         ],
         selUnit: 1,
-        roundTo: 4
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER
+        ]
       }))
       calc.addVar(voltage)
 
@@ -117,7 +121,10 @@
           {text: 'A', value: 1}
         ],
         selUnit: 1,
-        roundTo: 4
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER
+        ]
       }))
       calc.addVar(current)
 
@@ -148,7 +155,10 @@
           {text: 'MΩ', value: 1e6}
         ],
         selUnit: 1,
-        roundTo: 4
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER
+        ]
       }))
       calc.addVar(resistance)
 
