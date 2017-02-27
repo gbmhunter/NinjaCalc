@@ -15,7 +15,7 @@
 <script>
 
   export default {
-    name: 'calc-value',
+    name: 'calc-value-and-unit',
     props: {
       calcVar: {
         type: Object,

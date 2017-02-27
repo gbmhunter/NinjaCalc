@@ -29,6 +29,11 @@ import 'keen-ui/dist/keen-ui.css'
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
 
+// =========================================== //
+// ==== CALCULATOR COMPONENT REGISTRATION ==== //
+// =========================================== //
+import CalcValue from 'src/misc/CalculatorEngineV2/CalcValue'
+Vue.component('calc-value', CalcValue)
 import CalcValueAndUnit from 'src/misc/CalculatorEngineV2/CalcValueAndUnit'
 Vue.component('calc-value-and-unit', CalcValueAndUnit)
 

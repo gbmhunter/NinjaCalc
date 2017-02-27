@@ -53,6 +53,7 @@
 
   import OhmsLawCalculator from './components/Calculators/OhmsLawCalculator/Calc'
   import ResistorDividerCalculator from './components/Calculators/ResistorDivider/Calc'
+  import StandardResistanceCalculator from './components/Calculators/StandardResistance/Calc'
 
   import Tabs from 'bootstrap-vue/components/tabs.vue'
   import Tab from 'bootstrap-vue/components/tab.vue'
@@ -107,6 +108,9 @@
 
       Vue.component(ResistorDividerCalculator.mainView.name, ResistorDividerCalculator.mainView)
       this.$store.commit('registerCalc', ResistorDividerCalculator)
+
+      Vue.component(StandardResistanceCalculator.mainView.name, StandardResistanceCalculator.mainView)
+      this.$store.commit('registerCalc', StandardResistanceCalculator)
     }
   }
 </script>
