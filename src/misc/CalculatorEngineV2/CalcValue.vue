@@ -1,10 +1,9 @@
 <!-- This template is designed to work with CalculatorEngineV2 -->
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
   <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()" v-tooltip="calcVar.validationMsg"
-         class="variable-value" :class="calcVar.validationResult"
+         class="variable-value" :class="[ calcVar.validationResult ]"
+         :readonly="readonly"
          :style="{ width: width + 'px', height: height + 'px' }">
-
 </template>
 
 <script>
@@ -24,11 +23,19 @@
       height: {
         type: Number,
         required: false,
-        default: 40
+        default: 35
       }
     },
     components: {},
-    computed: {},
+    computed: {
+      readonly () {
+        if (this.calcVar.typeEqn() === 'output') {
+          return true
+        } else {
+          return false
+        }
+      }
+    },
     methods: {},
     mounted () {
     }
@@ -49,6 +56,5 @@
   .error {
     background-color: rgba(255, 0, 0, 0.24);
   }
-
 
 </style>

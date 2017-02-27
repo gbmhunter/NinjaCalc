@@ -2,7 +2,9 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
   <div class="value-unit-container">
-    <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()" v-tooltip="calcVar.validationMsg" class="variable-value" :class="calcVar.validationResult">
+    <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()" v-tooltip="calcVar.validationMsg"
+           :readonly="readonly"
+           class="variable-value" :class="calcVar.validationResult">
     <select v-model="calcVar.selUnit" v-on:change="calcVar.onUnitChange()" class="variable-units">
       <option v-for="option in calcVar.units" v-bind:value="option.value">
         {{ option.text }}
@@ -23,7 +25,15 @@
       }
     },
     components: {},
-    computed: {},
+    computed: {
+      readonly () {
+        if (this.calcVar.typeEqn() === 'output') {
+          return true
+        } else {
+          return false
+        }
+      }
+    },
     methods: {},
     mounted () {
       console.log('CalcValue.mounted() called.')
