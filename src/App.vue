@@ -182,4 +182,28 @@
     background-color: #eeeeee;
   }
 
+  .tooltip {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s;
+    pointer-events: none;
+    padding: 2px;
+    z-index: 10000;
+  }
+
+  .tooltip .tooltip-content {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+  }
+
+  .tooltip.tooltip-open-transitionend {
+    display: block;
+  }
+
+  .tooltip.tooltip-after-open {
+    opacity: 1;
+  }
+
 </style>

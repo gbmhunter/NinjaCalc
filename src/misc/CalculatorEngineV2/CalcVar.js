@@ -39,6 +39,7 @@ export default class CalcVar {
     }
 
     this.validationResult = 'ok'
+    this.validationMsg = ''
   }
 
   getRawVal = () => {
@@ -109,6 +110,7 @@ export default class CalcVar {
     console.log(this.validators)
 
     this.validationResult = 'ok'
+    this.validationMsg = ''
 
     var self = this
     this.validators.map(function (validator) {
@@ -116,6 +118,7 @@ export default class CalcVar {
       console.log(validator)
 
       var validationResult = 'ok'
+      var validationMsg = ''
 
       if (typeof validator === 'function') {
         // Validator must be a custom function
@@ -141,6 +144,7 @@ export default class CalcVar {
             } else {
               console.log('dispVal is NOT a valid number.')
               validationResult = 'error'
+              validationMsg = 'Variable must be a valid number.'
             }
             break
           case PresetValidators.IS_POSITIVE:
@@ -149,6 +153,7 @@ export default class CalcVar {
               validationResult = 'ok'
             } else {
               validationResult = 'error'
+              validationMsg = 'Variable must be positive number (or 0).'
             }
             break
           default:
@@ -161,10 +166,12 @@ export default class CalcVar {
       switch (self.validationResult) {
         case 'ok':
           self.validationResult = validationResult
+          self.validationMsg = validationMsg
           break
         case 'warning':
           if (self.validationResult === 'ok') {
             self.validationResult = validationResult
+            self.validationMsg = validationMsg
           }
           break
         case 'error':

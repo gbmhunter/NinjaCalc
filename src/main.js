@@ -25,6 +25,10 @@ import KeenUI from 'keen-ui'
 Vue.use(KeenUI)
 import 'keen-ui/dist/keen-ui.css'
 
+// v-tooltip is used for calculator variable tooltips
+import VTooltip from 'v-tooltip'
+Vue.use(VTooltip)
+
 import CalcValueAndUnit from 'src/misc/CalculatorEngineV2/CalcValueAndUnit'
 Vue.component('calc-value-and-unit', CalcValueAndUnit)
 
