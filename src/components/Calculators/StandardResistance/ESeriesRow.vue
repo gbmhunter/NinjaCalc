@@ -1,13 +1,13 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
-  <tr class="header-row">
+  <tr>
     <td>{{ eSeries.name }}</td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestResistance')"></calc-value></td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestResistanceError')"></calc-value></td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistance')"></calc-value></td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistanceError')"></calc-value></td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistance')"></calc-value></td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistanceError')"></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestResistance')" width=120></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestResistanceError')" width=80></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistance')" width=120></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistanceError')" width=80></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistance')" width=120></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistanceError')" width=80></calc-value></td>
   </tr>
 
 </template>
@@ -220,5 +220,4 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

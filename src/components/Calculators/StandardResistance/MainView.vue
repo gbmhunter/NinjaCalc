@@ -6,8 +6,13 @@
     <!-- ====== DESIRED RESISTANCE (input) ======= -->
     <!-- ========================================= -->
 
-    <calc-value :calcVar="calc.getVar('desiredResistance')"></calc-value>
-    <span>Ω</span>
+    <div>
+      <span style="padding-right: 10px">Desired Resistance</span>
+      <calc-value :calcVar="calc.getVar('desiredResistance')"></calc-value>
+      <span>Ω</span>
+    </div>
+
+    <div style="height: 50px"></div>
 
     <!-- ========================================= -->
     <!-- ===== E-SERIES RESISTANCES (outputs) ==== -->
@@ -18,7 +23,7 @@
 
       <tr class="header-row">
         <td>Series</td>
-        <td>Closest Resistance</td>
+        <td id="closest-resistance">Closest Resistance</td>
         <td>Percentage Error</td>
         <td>Closest Equal or Lower Resistance</td>
         <td>Percentage Error</td>
@@ -60,6 +65,7 @@
       ESeriesRow
     },
     data: function () {
+      console.log('data called.')
       var calc = new Calc()
 
       // ============================================ //
@@ -115,6 +121,10 @@
     align-items: center;
     /* Center vertically */
     justify-content: center;
+  }
+
+  #closest-resistance {
+    width: 30px;
   }
 
 </style>
