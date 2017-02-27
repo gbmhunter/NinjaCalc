@@ -4,7 +4,7 @@
   <div class="value-unit-container">
     <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()" v-tooltip="calcVar.validationMsg"
            :readonly="readonly"
-           class="variable-value" :class="calcVar.validationResult">
+           class="variable-value" :class="[ calcVar.validationResult, calcVar.typeEqn() ]">
     <select v-model="calcVar.selUnit" v-on:change="calcVar.onUnitChange()" class="variable-units">
       <option v-for="option in calcVar.units" v-bind:value="option.value">
         {{ option.text }}
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+
+  import './style.css'
 
   export default {
     name: 'calc-value-and-unit',
@@ -59,18 +61,5 @@
     height: 40px;
     margin-left: 5px;
   }
-
-  .ok {
-    background-color: rgba(45, 255, 0, 0.29);
-  }
-
-  .warning {
-    background-color: rgba(255, 165, 0, 0.31);
-  }
-
-  .error {
-    background-color: rgba(255, 0, 0, 0.24);
-  }
-
 
 </style>
