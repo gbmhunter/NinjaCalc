@@ -6,8 +6,8 @@
     <!-- ====== DESIRED RESISTANCE (input) ======= -->
     <!-- ========================================= -->
 
-    <calc-value :calcVar="calc.getVar('desiredResistance')"></calc-value><span>Ω</span>
-
+    <calc-value :calcVar="calc.getVar('desiredResistance')"></calc-value>
+    <span>Ω</span>
 
     <!-- ========================================= -->
     <!-- ===== E-SERIES RESISTANCES (outputs) ==== -->
@@ -26,10 +26,12 @@
         <td>Percentage Error</td>
       </tr>
 
-      <tr>
-        <td>E6</td>
-        <td><calc-value :calcVar="calc.getVar('desiredResistance')"></calc-value><span>Ω</span></td>
-      </tr>
+      <e-series-row :calc="calc" :eSeries="standardResistanceFinder.eSeriesOptions.E6"></e-series-row>
+      <e-series-row :calc="calc" :eSeries="standardResistanceFinder.eSeriesOptions.E12"></e-series-row>
+      <e-series-row :calc="calc" :eSeries="standardResistanceFinder.eSeriesOptions.E24"></e-series-row>
+      <e-series-row :calc="calc" :eSeries="standardResistanceFinder.eSeriesOptions.E48"></e-series-row>
+      <e-series-row :calc="calc" :eSeries="standardResistanceFinder.eSeriesOptions.E96"></e-series-row>
+      <e-series-row :calc="calc" :eSeries="standardResistanceFinder.eSeriesOptions.E192"></e-series-row>
       </tbody>
     </table>
 
@@ -45,37 +47,9 @@
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
+  import ESeriesRow from './ESeriesRow.vue'
 
   var standardResistanceFinder = new StandardResistanceFinder()
-
-  /**
-   * Helper function to create all the necessary calculator variables for an entire
-   * row in the table (a complete resistor series).
-   * @param calc
-   * @param seriesName
-   */
-  function createCalcVariablesForSeries (calc, seriesName) {
-    var resistance = new CalcVar(new CalcVar({
-      name: seriesName + 'Resistance',
-      typeEqn: () => {
-        return 'output'
-      },
-      eqn: () => {
-        return standardResistanceFinder.find(seriesName)
-      },
-      rawVal: '',
-      units: [
-        {text: 'V', value: 1}
-      ],
-      selUnit: 1,
-      roundTo: 4,
-      validators: [
-        PresetValidators.IS_NUMBER,
-        PresetValidators.IS_POSITIVE
-      ]
-    }))
-    calc.addVar(resistance)
-  }
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -83,6 +57,7 @@
   export default {
     name: 'standard-resistance-calculator',
     components: {
+      ESeriesRow
     },
     data: function () {
       var calc = new Calc()
@@ -95,7 +70,8 @@
         typeEqn: () => {
           return 'input'
         },
-        eqn: () => {},
+        eqn: () => {
+        },
         rawVal: '',
         units: [
           {text: 'mV', value: 1e-3},
@@ -110,18 +86,17 @@
       }))
       calc.addVar(desiredResistance)
 
-      createCalcVariablesForSeries(calc, 'e6')
-
       // Configure calculator to default state now that all
       // variables have been added.
       calc.init()
 
       return {
-        calc: calc
+        calc: calc,
+        standardResistanceFinder: standardResistanceFinder
       }
     },
     mounted () {
-      console.log('Ohm\'s Law calculator mounted.')
+      console.log('Standard Resistance calculator mounted.')
     }
   }
 
@@ -131,6 +106,15 @@
 <style scoped>
   .header-row {
     font-weight: bold;
+  }
+
+  .calc-container {
+    display: flex;
+    flex-direction: column;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    justify-content: center;
   }
 
 </style>

@@ -50,18 +50,18 @@ export default class CalcVar {
    * Designed to be called by vue once this.dispVal has been changed.
    */
   onDispValChange = () => {
-    console.log('onDispValChange() called.')
-    console.log('this.dispVal =' + this.dispVal)
+    // console.log('onDispValChange() called.')
+    // console.log('this.dispVal =' + this.dispVal)
 
     this.rawVal = this.dispVal * this.selUnit
-    console.log('this.rawVal = ' + this.rawVal)
+    // console.log('this.rawVal = ' + this.rawVal)
 
     this.validate()
     this.reCalcOutputs()
   }
 
   onUnitChange = () => {
-    console.log('onUnitsChange() called.')
+    // console.log('onUnitsChange() called.')
 
     if (this.typeEqn() === 'input') {
       // Recalculate raw value from displayed value
@@ -73,7 +73,7 @@ export default class CalcVar {
   }
 
   reCalc = () => {
-    console.log('reCalc() called for "' + this.name + '".')
+    // console.log('reCalc() called for "' + this.name + '".')
 
     if (this.typeEqn() !== 'output') {
       throw new Error('reCalc() called for variable that was not an output.')
@@ -105,17 +105,17 @@ export default class CalcVar {
   }
 
   validate = () => {
-    console.log('CalcVar.validate() called for "' + this.name + '".')
-    console.log('this.validators =')
-    console.log(this.validators)
+    // console.log('CalcVar.validate() called for "' + this.name + '".')
+    // console.log('this.validators =')
+    // console.log(this.validators)
 
     this.validationResult = 'ok'
     this.validationMsg = ''
 
     var self = this
     this.validators.map(function (validator) {
-      console.log('validator =')
-      console.log(validator)
+      // console.log('validator =')
+      // console.log(validator)
 
       var validationResult = 'ok'
       var validationMsg = ''
@@ -126,29 +126,29 @@ export default class CalcVar {
 
         switch (result) {
           case 'ok':
-            console.log('validator returned ok.')
+            // console.log('validator returned ok.')
             validationResult = 'ok'
             break
           case 'error':
-            console.log('validator returned error.')
+            // console.log('validator returned error.')
             validationResult = 'error'
         }
       } else {
         // Validator must be a preset
         switch (validator) {
           case PresetValidators.IS_NUMBER:
-            console.log('validator === PresetValidators.IS_NUMBER')
+            // console.log('validator === PresetValidators.IS_NUMBER')
             if (self.isStringANumber(self.dispVal)) {
-              console.log('dispVal is a valid number.')
+              // console.log('dispVal is a valid number.')
               validationResult = 'ok'
             } else {
-              console.log('dispVal is NOT a valid number.')
+              // console.log('dispVal is NOT a valid number.')
               validationResult = 'error'
               validationMsg = 'Variable must be a valid number.'
             }
             break
           case PresetValidators.IS_POSITIVE:
-            console.log('validator = ' + validator)
+            // console.log('validator = ' + validator)
             if (self.dispVal >= 0) {
               validationResult = 'ok'
             } else {
@@ -186,7 +186,7 @@ export default class CalcVar {
       return false
     }
 
-    console.log('isNumber() called with number = ' + number)
+    // console.log('isNumber() called with number = ' + number)
     return !isNaN(number)
   }
 

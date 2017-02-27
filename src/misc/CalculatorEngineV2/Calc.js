@@ -27,12 +27,12 @@ export default class Calc {
   }
 
   reCalcOutputs = () => {
-    console.log('reCalcOutputs() called.')
-    console.log(this)
+    // console.log('reCalcOutputs() called.')
+    // console.log(this)
     for (let calcVar of this.calcVars) {
-      console.log(calcVar)
+      // console.log(calcVar)
       if (calcVar.typeEqn() === 'output') {
-        console.log('Recalculating "' + calcVar.name + '".')
+        // console.log('Recalculating "' + calcVar.name + '".')
         calcVar.reCalc()
       }
     }
@@ -46,7 +46,7 @@ export default class Calc {
     for (let calcVar of this.calcVars) {
       calcVar.validate()
       if (calcVar.typeEqn() === 'output') {
-        console.log('Recalculating "' + calcVar.name + '".')
+        // console.log('Recalculating "' + calcVar.name + '".')
         calcVar.reCalc()
       }
     }

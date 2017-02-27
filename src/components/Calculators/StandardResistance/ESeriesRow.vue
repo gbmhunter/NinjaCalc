@@ -1,0 +1,224 @@
+<template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+  <tr class="header-row">
+    <td>{{ eSeries.name }}</td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestResistance')"></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestResistanceError')"></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistance')"></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistanceError')"></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistance')"></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistanceError')"></calc-value></td>
+  </tr>
+
+</template>
+
+<script>
+
+  'use strict'
+
+  import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
+  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
+  import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
+
+  var standardResistanceFinder = new StandardResistanceFinder()
+
+  // ============================================ //
+  // =================== vue Object ============= //
+  // ============================================ //
+  export default {
+    name: 'e-series-row',
+    components: {},
+    props: {
+      calc: {
+        type: Object,
+        required: true
+      },
+      eSeries: {
+        type: Object,
+        required: true
+      }
+    },
+    data: function () {
+      // ============================================ //
+      // ============= CLOSEST RESISTANCE =========== //
+      // ============================================ //
+      var closestResistance = new CalcVar(new CalcVar({
+        name: this.eSeries.name + 'ClosestResistance',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables
+          var desiredResistance = this.calc.getVar('desiredResistance').getRawVal()
+          return standardResistanceFinder.find(desiredResistance, this.eSeries, standardResistanceFinder.searchMethods.CLOSEST)
+        },
+        rawVal: '',
+        units: [
+          {text: 'V', value: 1}
+        ],
+        selUnit: 1,
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
+        ]
+      }))
+      this.calc.addVar(closestResistance)
+
+      // ============================================ //
+      // ========= CLOSEST RESISTANCE ERROR ========= //
+      // ============================================ //
+      var closestResistanceError = new CalcVar(new CalcVar({
+        name: this.eSeries.name + 'ClosestResistanceError',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables
+          var desiredResistanceValue = this.calc.getVar('desiredResistance').getRawVal()
+          var closestResistance = this.calc.getVar(this.eSeries.name + 'ClosestResistance').getRawVal()
+
+          // Calculate percentage difference
+          var percentageDiff = (Math.abs(closestResistance - desiredResistanceValue) / desiredResistanceValue) * 100.0
+          console.log('percentageDiff = ' + percentageDiff)
+          return percentageDiff
+        },
+        rawVal: '',
+        units: [
+          {text: 'V', value: 1}
+        ],
+        selUnit: 1,
+        roundTo: 2,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
+        ]
+      }))
+      this.calc.addVar(closestResistanceError)
+
+      // ============================================ //
+      // ==== CLOSEST EQUAL OR LOWER RESISTANCE  ==== //
+      // ============================================ //
+      var closestEqualOrLowerResistance = new CalcVar(new CalcVar({
+        name: this.eSeries.name + 'ClosestEqualOrLowerResistance',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables
+          var desiredResistance = this.calc.getVar('desiredResistance').getRawVal()
+          return standardResistanceFinder.find(desiredResistance, this.eSeries, standardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_LOWER)
+        },
+        rawVal: '',
+        units: [
+          {text: 'V', value: 1}
+        ],
+        selUnit: 1,
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
+        ]
+      }))
+      this.calc.addVar(closestEqualOrLowerResistance)
+
+      // ============================================ //
+      // = CLOSEST EQUAL OR LOWER RESISTANCE ERROR == //
+      // ============================================ //
+      var closestEqualOrLowerResistanceError = new CalcVar(new CalcVar({
+        name: this.eSeries.name + 'ClosestEqualOrLowerResistanceError',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables
+          var desiredResistanceValue = this.calc.getVar('desiredResistance').getRawVal()
+          var closestEqualOrLowerResistance = this.calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistance').getRawVal()
+
+          // Calculate percentage difference
+          var percentageDiff = (Math.abs(closestEqualOrLowerResistance - desiredResistanceValue) / desiredResistanceValue) * 100.0
+          return percentageDiff
+        },
+        rawVal: '',
+        units: [
+          {text: 'V', value: 1}
+        ],
+        selUnit: 1,
+        roundTo: 2,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
+        ]
+      }))
+      this.calc.addVar(closestEqualOrLowerResistanceError)
+
+      // ============================================ //
+      // ==== CLOSEST EQUAL OR HIGHER RESISTANCE  === //
+      // ============================================ //
+      var closestEqualOrHigherResistance = new CalcVar(new CalcVar({
+        name: this.eSeries.name + 'ClosestEqualOrHigherResistance',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables
+          var desiredResistance = this.calc.getVar('desiredResistance').getRawVal()
+          return standardResistanceFinder.find(desiredResistance, this.eSeries, standardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_HIGHER)
+        },
+        rawVal: '',
+        units: [
+          {text: 'V', value: 1}
+        ],
+        selUnit: 1,
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
+        ]
+      }))
+      this.calc.addVar(closestEqualOrHigherResistance)
+
+      // ============================================ //
+      // = CLOSEST EQUAL OR HIGHER RESISTANCE ERROR = //
+      // ============================================ //
+      var closestEqualOrHigherResistanceError = new CalcVar(new CalcVar({
+        name: this.eSeries.name + 'ClosestEqualOrHigherResistanceError',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables
+          var desiredResistanceValue = this.calc.getVar('desiredResistance').getRawVal()
+          var closestEqualOrHigherResistance = this.calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistance').getRawVal()
+
+          // Calculate percentage difference
+          var percentageDiff = (Math.abs(closestEqualOrHigherResistance - desiredResistanceValue) / desiredResistanceValue) * 100.0
+          return percentageDiff
+        },
+        rawVal: '',
+        units: [
+          {text: 'V', value: 1}
+        ],
+        selUnit: 1,
+        roundTo: 2,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
+        ]
+      }))
+      this.calc.addVar(closestEqualOrHigherResistanceError)
+
+      return {
+      }
+    },
+    mounted () {
+      console.log('ESeriesRow mounted.')
+    }
+  }
+
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+</style>
