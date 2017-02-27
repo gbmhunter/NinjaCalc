@@ -132,15 +132,27 @@ export default class CalcVar {
         }
       } else {
         // Validator must be a preset
-        if (validator === PresetValidators.IS_NUMBER) {
-          console.log('validator === PresetValidators.IS_NUMBER')
-          if (self.isNumber(self.dispVal)) {
-            console.log('dispVal is a valid number.')
-            validationResult = 'ok'
-          } else {
-            console.log('dispVal is NOT a valid number.')
-            validationResult = 'error'
-          }
+        switch (validator) {
+          case PresetValidators.IS_NUMBER:
+            console.log('validator === PresetValidators.IS_NUMBER')
+            if (self.isStringANumber(self.dispVal)) {
+              console.log('dispVal is a valid number.')
+              validationResult = 'ok'
+            } else {
+              console.log('dispVal is NOT a valid number.')
+              validationResult = 'error'
+            }
+            break
+          case PresetValidators.IS_POSITIVE:
+            console.log('validator = ' + validator)
+            if (self.dispVal >= 0) {
+              validationResult = 'ok'
+            } else {
+              validationResult = 'error'
+            }
+            break
+          default:
+            throw new Error('Preset validation type "' + validator + '" is not supported.')
         }
       }
 
@@ -162,7 +174,11 @@ export default class CalcVar {
     })
   }
 
-  isNumber = (number) => {
+  isStringANumber = (number) => {
+    if (number === '') {
+      return false
+    }
+
     console.log('isNumber() called with number = ' + number)
     return !isNaN(number)
   }

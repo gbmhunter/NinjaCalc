@@ -45,6 +45,7 @@
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
+  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -83,7 +84,11 @@
           {text: 'V', value: 1}
         ],
         selUnit: 1,
-        roundTo: 4
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
+        ]
       }))
       calc.addVar(vIn)
 
@@ -115,7 +120,11 @@
           {text: 'MΩ', value: 1e6}
         ],
         selUnit: 1,
-        roundTo: 4
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
+        ]
       }))
       calc.addVar(rTop)
 
@@ -147,7 +156,11 @@
           {text: 'MΩ', value: 1e6}
         ],
         selUnit: 1,
-        roundTo: 4
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
+        ]
       }))
       calc.addVar(rBot)
 
@@ -177,9 +190,17 @@
           {text: 'V', value: 1}
         ],
         selUnit: 1,
-        roundTo: 4
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
+        ]
       }))
       calc.addVar(vOut)
+
+      // Configure calculator to default state now that all
+      // variables have been added.
+      calc.init()
 
       return {
         calc: calc

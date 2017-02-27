@@ -37,4 +37,18 @@ export default class Calc {
       }
     }
   }
+
+  /**
+   * Designed to be called once all calculator variables have been added to
+   * the calculator via addVar().
+   */
+  init = () => {
+    for (let calcVar of this.calcVars) {
+      calcVar.validate()
+      if (calcVar.typeEqn() === 'output') {
+        console.log('Recalculating "' + calcVar.name + '".')
+        calcVar.reCalc()
+      }
+    }
+  }
 }

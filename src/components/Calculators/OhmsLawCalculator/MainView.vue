@@ -90,7 +90,8 @@
         selUnit: 1,
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
         ]
       }))
       calc.addVar(voltage)
@@ -123,7 +124,8 @@
         selUnit: 1,
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
         ]
       }))
       calc.addVar(current)
@@ -157,10 +159,15 @@
         selUnit: 1,
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_POSITIVE
         ]
       }))
       calc.addVar(resistance)
+
+      // Configure calculator to default state now that all
+      // variables have been added.
+      calc.init()
 
       return {
         calc: calc

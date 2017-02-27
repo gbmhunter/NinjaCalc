@@ -7,3 +7,4 @@ export default class PresetValidators {
   }
 }
 PresetValidators.IS_NUMBER = new PresetValidators('IS_NUMBER')
+PresetValidators.IS_POSITIVE = new PresetValidators('IS_POSITIVE')
