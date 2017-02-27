@@ -83,8 +83,7 @@
           {text: 'V', value: 1}
         ],
         selUnit: 1,
-        roundTo: 4,
-        calc: calc
+        roundTo: 4
       }))
       calc.addVar(vIn)
 
@@ -116,8 +115,7 @@
           {text: 'MΩ', value: 1e6}
         ],
         selUnit: 1,
-        roundTo: 4,
-        calc: calc
+        roundTo: 4
       }))
       calc.addVar(rTop)
 
@@ -149,8 +147,7 @@
           {text: 'MΩ', value: 1e6}
         ],
         selUnit: 1,
-        roundTo: 4,
-        calc: calc
+        roundTo: 4
       }))
       calc.addVar(rBot)
 
@@ -180,8 +177,7 @@
           {text: 'V', value: 1}
         ],
         selUnit: 1,
-        roundTo: 4,
-        calc: calc
+        roundTo: 4
       }))
       calc.addVar(vOut)
 

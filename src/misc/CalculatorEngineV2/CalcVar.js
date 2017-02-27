@@ -10,7 +10,9 @@ export default class CalcVar {
     this.units = initObj.units
     this.selUnit = initObj.selUnit
 
-    this.calc = initObj.calc
+    // this.calc will be assigned when the calculator variable is added
+    // to a calculator via Calc.addVar()
+    this.calc = null
 
     this.rawVal = initObj.rawVal
 
@@ -43,7 +45,7 @@ export default class CalcVar {
     this.rawVal = this.dispVal * this.selUnit
     console.log('this.rawVal = ' + this.rawVal)
 
-    this.calc.reCalcOutputs()
+    this.reCalcOutputs()
   }
 
   onUnitChange = () => {
@@ -54,7 +56,7 @@ export default class CalcVar {
       this.rawVal = this.dispVal * this.selUnit
     }
 
-    this.calc.reCalcOutputs()
+    this.reCalcOutputs()
   }
 
   reCalc = () => {
@@ -79,5 +81,12 @@ export default class CalcVar {
       var roundedDispVal = unRoundedDispVal.toPrecision(this.roundTo)
       this.dispVal = roundedDispVal
     }
+  }
+
+  reCalcOutputs = () => {
+    if (!this.calc) {
+      throw new Error('Calc var "' + this.name + '" has not been added to a calculator with Calc.addVar().')
+    }
+    this.calc.reCalcOutputs()
   }
 }

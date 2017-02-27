@@ -8,6 +8,9 @@ export default class Calc {
 
   addVar = (calcVar) => {
     this.calcVars.push(calcVar)
+
+    // Save reference to calculator in CalcVar object
+    calcVar.calc = this
   }
 
   getVar = (name) => {

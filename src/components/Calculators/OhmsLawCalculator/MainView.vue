@@ -87,8 +87,7 @@
           {text: 'V', value: 1}
         ],
         selUnit: 1,
-        roundTo: 4,
-        calc: calc
+        roundTo: 4
       }))
       calc.addVar(voltage)
 
@@ -118,8 +117,7 @@
           {text: 'A', value: 1}
         ],
         selUnit: 1,
-        roundTo: 4,
-        calc: calc
+        roundTo: 4
       }))
       calc.addVar(current)
 
@@ -150,8 +148,7 @@
           {text: 'MΩ', value: 1e6}
         ],
         selUnit: 1,
-        roundTo: 4,
-        calc: calc
+        roundTo: 4
       }))
       calc.addVar(resistance)
 
