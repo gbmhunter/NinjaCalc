@@ -45,9 +45,9 @@
   // import MainView from './components/OhmsLawCalculator/MainView'
   import CalculatorSelectionOverlay from './components/CalculatorSelectionOverlay/CalculatorSelectionOverlay'
 
-  import OhmsLawCalculator from './components/Calculators/OhmsLawCalculator/Calc'
-  import ResistorDividerCalculator from './components/Calculators/ResistorDivider/Calc'
-  import StandardResistanceCalculator from './components/Calculators/StandardResistance/Calc'
+  import OhmsLawCalculator from './components/Calculators/Electronics/Basic/OhmsLaw/Calc'
+  import ResistorDividerCalculator from './components/Calculators/Electronics/Basic/ResistorDivider/Calc'
+  import StandardResistanceCalculator from './components/Calculators/Electronics/Basic/StandardResistance/Calc'
   import LowPassRCCalculator from './components/Calculators/Electronics/Filters/LowPassRC/Calc'
 
   console.log('LeftSideMenu =')

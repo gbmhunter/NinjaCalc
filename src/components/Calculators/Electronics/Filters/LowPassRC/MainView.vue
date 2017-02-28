@@ -25,7 +25,7 @@
     <!-- === FCUTOFF (cut-off frequency) (i/o) === -->
     <!-- ========================================= -->
     <div class="variable-container" style="left: 150px; top: 340px;">
-      <calc-value-and-unit :calcVar="calc.getVar('fcutoff')" style="left: 90px; top: 0px;"></calc-value-and-unit>
+      <calc-value-and-unit :calcVar="calc.getVar('fcutoff')" width="100" style="left: 90px; top: 0px;"></calc-value-and-unit>
       <input type="radio" value="fcutoff" v-model="calc.outputVar" style="left: 0px; top: 10px">
     </div>
 
