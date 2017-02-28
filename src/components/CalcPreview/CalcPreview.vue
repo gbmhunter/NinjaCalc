@@ -1,31 +1,14 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
 
-  <div>
-    <md-card md-with-hover class="calc-preview">
-      <!-- This div wraps the entire card content, and is just so that anywhere on the card
-       can be clicked to open the calculator -->
-      <div v-on:click="open()" style="z-index: 100;">
-        <md-card-media>
-          <img :src="imageUrl" style="max-width: 160px; max-height: 160px; width: auto; height: auto;">
-          <md-ink-ripple></md-ink-ripple>
-        </md-card-media>
+  <div v-on:click="open()" id="calc-preview-container">
 
-        <md-card-header>
-          <div class="md-title">{{title}}</div>
-          <!--<div class="md-subhead">Subtitle here</div>-->
-        </md-card-header>
+    <div id="image-wrapper"><img :src="imageUrl" id="image"></div>
 
-        <md-card-content>
-          {{ description }}
-        </md-card-content>
+    <div id="title">{{ title }}</div>
 
-        <md-card-actions>
-          <!-- This button is for appearances only, in reality anywhere on the card can be clicked
-          to open the calculator -->
-          <md-button>Open</md-button>
-        </md-card-actions>
-      </div>
-    </md-card>
+    <div id="description">{{ description }}</div>
+
+    <div id="open-button"><ui-button color="primary" size="small">Open</ui-button></div>
   </div>
 
 </template>
@@ -71,30 +54,72 @@
       }
     },
     mounted: () => {
-      console.log('CalcPreview.mounted() called.')
-//      console.log(this.description)
-//      if (!this.description) {
-//        throw new Error('A description must be passed to CalcPreview.')
-//      }
+//      console.log('CalcPreview.mounted() called.')
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .calc-preview {
-    width: 250px;
-    height: 350px;
-    margin: 15px;
 
+  /* The slow way */
+  #calc-preview-container {
+
+    width: 200px;
+    height: 300px;
+
+    margin: 10px;
+    padding: 5px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    border-radius: 5px;
+    border-color: #cdcdcd;
+    border-width: 1px;
+    border-style: solid;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,0.20);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+
+  /* Transition to a bigger shadow on hover */
+  #calc-preview-container:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  #image-wrapper {
+    /* This makes the image wrapper always the same height, even though the
+    actual height of the image may differ slightly */
+    height: 120px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #image {
+    max-width: 140px;
+    max-height: 120px;
+
+    width: auto;
+    height: auto;
+  }
+
+  #title {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  #description {
+    font-size: 12px;
   }
 
   #open-button {
-    width: 70px;
-  }
-
-  div.md-card-header {
-    padding: 0px !important;
+    margin-right: 10px;
+    display: flex;
+    justify-content: flex-end;
   }
 
 </style>
