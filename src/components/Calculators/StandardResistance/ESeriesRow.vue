@@ -14,7 +14,7 @@
 
 <script>
 
-  'use strict'
+//  'use strict'
 
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'

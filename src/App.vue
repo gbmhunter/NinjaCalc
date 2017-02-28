@@ -49,9 +49,6 @@
   import ResistorDividerCalculator from './components/Calculators/ResistorDivider/Calc'
   import StandardResistanceCalculator from './components/Calculators/StandardResistance/Calc'
 
-  import Tabs from 'bootstrap-vue/components/tabs.vue'
-  import Tab from 'bootstrap-vue/components/tab.vue'
-
   console.log('LeftSideMenu =')
   console.log(LeftSideMenu)
   // console.log('MainView =')
@@ -61,9 +58,7 @@
     name: 'app',
     components: {
       LeftSideMenu,
-      CalculatorSelectionOverlay,
-      Tabs,
-      Tab
+      CalculatorSelectionOverlay
     },
     data: function () {
       return {}

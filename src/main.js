@@ -14,11 +14,11 @@ Vue.use(VueMaterial)
 import vSelect from 'vue-select'
 Vue.component(vSelect)
 
-import BootstrapVue from 'bootstrap-vue'
+// import BootstrapVue from 'bootstrap-vue'
 // Globally register bootstrap-vue components
-Vue.use(BootstrapVue)
+// Vue.use(BootstrapVue)
 // Loading of bootstrap CSS is required for BootstrapVue to work correctly
-import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap/dist/css/bootstrap.css'
 
 // KeenUI is used for the tabs
 import KeenUI from 'keen-ui'

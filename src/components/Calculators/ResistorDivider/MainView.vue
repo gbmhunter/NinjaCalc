@@ -42,7 +42,7 @@
 
 <script>
 
-  'use strict'
+//  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
