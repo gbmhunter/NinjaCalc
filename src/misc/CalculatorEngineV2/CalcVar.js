@@ -1,6 +1,7 @@
 'use strict'
 
 import PresetValidators from './PresetValidators'
+import { CustomValidator } from './CustomValidator'
 
 export default class CalcVar {
 
@@ -69,9 +70,12 @@ export default class CalcVar {
     // console.log('this.rawVal = ' + this.rawVal)
 
     this.validate()
-    this.reCalcOutputs()
+    this.triggerReCalcOutputsAndValidate()
   }
 
+  /**
+   * Designed to be called by vue once this.selUnit has been changed.
+   */
   onUnitChange = () => {
     // console.log('onUnitsChange() called.')
 
@@ -81,7 +85,7 @@ export default class CalcVar {
       this.validate()
     }
 
-    this.reCalcOutputs()
+    this.triggerReCalcOutputsAndValidate()
   }
 
   reCalc = () => {
@@ -109,11 +113,11 @@ export default class CalcVar {
     }
   }
 
-  reCalcOutputs = () => {
+  triggerReCalcOutputsAndValidate = () => {
     if (!this.calc) {
       throw new Error('Calc var "' + this.name + '" has not been added to a calculator with Calc.addVar().')
     }
-    this.calc.reCalcOutputs()
+    this.calc.reCalcOutputsAndValidate()
   }
 
   validate = () => {
@@ -132,18 +136,14 @@ export default class CalcVar {
       var validationResult = 'ok'
       var validationMsg = ''
 
-      if (typeof validator === 'function') {
+      if (validator instanceof CustomValidator) {
+        console.log('validator is a instance of CustomValidator.')
         // Validator must be a custom function
-        var result = validator()
+        var result = validator.func()
 
-        switch (result) {
-          case 'ok':
-            // console.log('validator returned ok.')
-            validationResult = 'ok'
-            break
-          case 'error':
-            // console.log('validator returned error.')
-            validationResult = 'error'
+        if (!result) {
+          validationResult = validator.level
+          validationMsg = validator.text
         }
       } else {
         // Validator must be a preset

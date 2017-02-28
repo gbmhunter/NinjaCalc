@@ -26,7 +26,7 @@ export default class Calc {
     return variable
   }
 
-  reCalcOutputs = () => {
+  reCalcOutputsAndValidate = () => {
     // console.log('reCalcOutputs() called.')
     // console.log(this)
     for (let calcVar of this.calcVars) {
@@ -35,6 +35,11 @@ export default class Calc {
         // console.log('Recalculating "' + calcVar.name + '".')
         calcVar.reCalc()
       }
+    }
+
+    // Now re-validate all calculator variables
+    for (let calcVar of this.calcVars) {
+      calcVar.validate()
     }
   }
 

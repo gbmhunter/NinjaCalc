@@ -47,6 +47,7 @@
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
+  import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -88,7 +89,17 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_POSITIVE,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              var vIn = calc.getVar('vIn').getRawVal()
+              var vOut = calc.getVar('vOut').getRawVal()
+              return vIn > vOut
+            },
+            text: 'Vin must be greater than Vout. It is impossible for Vin to be less than Vout because a resistor divider can only reduce the input voltage.',
+            level: 'error'
+          })
         ],
         helpText: 'The input voltage to the top of the resistor divider (also equal to the voltage across the entire resistor divider).'
       })
@@ -197,7 +208,17 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_POSITIVE,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              var vIn = calc.getVar('vIn').getRawVal()
+              var vOut = calc.getVar('vOut').getRawVal()
+              return vOut < vIn
+            },
+            text: 'Vout must be less than Vin. It is impossible for Vout to be greater than Vin because a resistor divider can only reduce the input voltage.',
+            level: 'error'
+          })
         ],
         helpText: 'The resistor divider output voltage. The is also equal to the voltage across the bottom resistor.' +
         ' Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.'
