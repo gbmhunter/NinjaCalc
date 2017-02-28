@@ -3,7 +3,8 @@
   <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
     <!-- Background image is centered in diagram container -->
-    <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 500px; height: 500px; z-index: 0">
+    <!--<img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 500px; height: 500px; z-index: 0">-->
+    <canvas ref="canvas" style="position: absolute; left: 0px; top: 0px; width: 600px; height: 600px;"></canvas>
 
     <!-- ========================================= -->
     <!-- =============== VOLTAGE ================= -->
@@ -54,7 +55,7 @@
   // =================== vue Object ============= //
   // ============================================ //
   export default {
-    name: 'ohms-law-calculator',
+    name: 'track-current-ipc-2152-calculator',
     components: {
     },
     data: function () {
@@ -173,8 +174,23 @@
         calc: calc
       }
     },
+    methods: {
+      drawCanvas: function () {
+        var canvas = this.$refs.canvas
+        var context = canvas.getContext('2d')
+
+        context.beginPath()
+        context.rect(0, 5, 20, 10)
+        context.fillStyle = 'green'
+        context.fill()
+        context.lineWidth = 2
+        context.strokeStyle = 'black'
+        context.stroke()
+      }
+    },
     mounted () {
       console.log('Ohm\'s Law calculator mounted.')
+      this.drawCanvas()
     }
   }
 

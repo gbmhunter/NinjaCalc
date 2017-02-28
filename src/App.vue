@@ -49,6 +49,7 @@
   import ResistorDividerCalculator from './components/Calculators/Electronics/Basic/ResistorDivider/Calc'
   import StandardResistanceCalculator from './components/Calculators/Electronics/Basic/StandardResistance/Calc'
   import LowPassRCCalculator from './components/Calculators/Electronics/Filters/LowPassRC/Calc'
+  import TrackCurrentIpc2152Calculator from './components/Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
 
   console.log('LeftSideMenu =')
   console.log(LeftSideMenu)
@@ -96,6 +97,9 @@
       }
     },
     mounted () {
+      // ============================================ //
+      // ========== ELECTRONICS -> BASIC ============ //
+      // ============================================ //
       Vue.component(OhmsLawCalculator.mainView.name, OhmsLawCalculator.mainView)
       this.$store.commit('registerCalc', OhmsLawCalculator)
 
@@ -105,8 +109,19 @@
       Vue.component(StandardResistanceCalculator.mainView.name, StandardResistanceCalculator.mainView)
       this.$store.commit('registerCalc', StandardResistanceCalculator)
 
+      // ============================================ //
+      // ========= ELECTRONICS -> FILTERS =========== //
+      // ============================================ //
+
       Vue.component(LowPassRCCalculator.mainView.name, LowPassRCCalculator.mainView)
       this.$store.commit('registerCalc', LowPassRCCalculator)
+
+      // ============================================ //
+      // =========== ELECTRONICS -> PCB ============= //
+      // ============================================ //
+
+      Vue.component(TrackCurrentIpc2152Calculator.mainView.name, TrackCurrentIpc2152Calculator.mainView)
+      this.$store.commit('registerCalc', TrackCurrentIpc2152Calculator)
     }
   }
 </script>
