@@ -51,6 +51,9 @@
           name: this.title,
           componentName: this.componentName
         })
+
+        // Show this calculator
+        this.$store.commit('setNewCalcAsOpenTab', {})
       }
     },
     mounted: () => {

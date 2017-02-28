@@ -44,7 +44,8 @@ const store = new Vuex.Store({
     showLeftSideBar: false,
     showCalculatorSelectionOverlay: false,
     availableCalcs: [],
-    openCalcs: []
+    openCalcs: [],
+    activeTabId: ''
   },
   mutations: {
     increment (state, payload) {
@@ -60,13 +61,20 @@ const store = new Vuex.Store({
       console.log('openCalculator() called. payload.name = "' + payload.name + '".')
       state.openCalcs.push({
         name: payload.name,
-        componentName: payload.componentName
+        componentName: payload.componentName,
+        // Unique ID is used as a unique tab ID
+        uniqueId: state.openCalcs.length
       })
     },
     registerCalc (state, payload) {
       console.log('registerCalc() called with payload =')
       console.log(payload)
       state.availableCalcs.push(payload)
+    },
+    setNewCalcAsOpenTab (state, payload) {
+      console.log('setNewCalcAsOpenTab() called with payload =')
+      console.log(payload)
+      state.activeTabId = state.openCalcs[state.openCalcs.length - 1].uniqueId
     }
   }
 })

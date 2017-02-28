@@ -21,14 +21,8 @@
     </div>
 
     <!-- Only show calculator tabs if calculators are open -->
-    <!--<md-tabs v-if="this.openCalcs.length">-->
-    <!--<md-tab v-for="item in openCalcs" :md-label="item.name" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">-->
-    <!--<component :is="item.componentName"></component>-->
-    <!--</md-tab>-->
-    <!--</md-tabs>-->
-
-    <ui-tabs type="text" :grow="true" v-if="this.openCalcs.length">
-      <ui-tab v-for="item in openCalcs" :title="item.name">
+    <ui-tabs ref="tabs" type="text" :grow="true" v-if="this.$store.state.openCalcs.length">
+      <ui-tab v-for="item in this.$store.state.openCalcs" :title="item.name" :id="item.uniqueId">
         <component :is="item.componentName"></component>
       </ui-tab>
     </ui-tabs>
@@ -71,10 +65,14 @@
       Tabs,
       Tab
     },
+    data: function () {
+      return {}
+    },
     computed: {
-      openCalcs () {
-        console.log('openCalcs() called.')
-        return this.$store.state.openCalcs
+      activeTabId () {
+        console.log('App.activeTabId() called.')
+
+        return this.$store.state.activeTabId
       }
     },
     methods: {
@@ -89,20 +87,29 @@
         })
       }
     },
-    mounted () {
-      // this.$refs.leftSidenav.toggle()
-//      console.log('App.mounted() called')
-//      console.log('CalculatorService =')
-//      console.log(CalculatorServiceSingleton)
-//
-//      // Setup calculators
-//      var calculatorService = CalculatorServiceSingleton.getInstance()
-//
-//      console.log('OhmsLawCalculator =')
-//      console.log(OhmsLawCalculator)
-//      calculatorService.registerCalc(OhmsLawCalculator)
-//      calculatorService.setupStore(this.$store)
+    watch: {
+      activeTabId: function () {
+        console.log('activeTabId CHANGED!')
 
+        var self = this
+
+        // We need to wait until after render to set the active tab, as the tab has not been
+        // inserted into the DOM yet
+        Vue.nextTick(function () {
+          console.log(self.$refs)
+          console.log('this.$refs.tabs =')
+          console.log(self.$refs.tabs)
+
+          if (typeof self.$refs.tabs !== 'undefined') {
+            var tabId = self.$store.state.openCalcs[self.$store.state.openCalcs.length - 1].uniqueId
+            console.log('Setting active tab to id = "' + tabId)
+            self.$refs.tabs.setActiveTab(tabId)
+            // this.$refs.tabs.selectNextTab()
+          }
+        })
+      }
+    },
+    mounted () {
       Vue.component(OhmsLawCalculator.mainView.name, OhmsLawCalculator.mainView)
       this.$store.commit('registerCalc', OhmsLawCalculator)
 
