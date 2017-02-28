@@ -51,6 +51,8 @@
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
+  import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
+
   import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
   import ESeriesRow from './ESeriesRow.vue'
 
@@ -87,7 +89,16 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_POSITIVE,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              var desiredResistance = calc.getVar('desiredResistance').getRawVal()
+              return (desiredResistance >= 1.0 && desiredResistance <= 10.0e6)
+            },
+            text: 'The desired resistance is outside the "normal" purchasable resistance range of 1Ω to 10MΩ. Some or all of the standard E-series may not have a resistor available with the desired resistance.',
+            level: 'warning'
+          })
         ],
         helpText: 'The resistance you actually want. The closest value to this resistance will be found in each resistor series.'
       })

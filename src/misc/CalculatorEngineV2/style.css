@@ -1,6 +1,10 @@
 input {
   border-style: solid;
   border-radius: 2px;
+
+  /* Add a small amount of padding before the first number in the input
+  text box (otherwise the number collides with the side of the input border). */
+  padding-left: 5px;
 }
 
 .ok {
