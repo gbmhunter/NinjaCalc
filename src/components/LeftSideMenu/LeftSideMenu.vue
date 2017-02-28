@@ -8,7 +8,8 @@
       </div>
     </md-toolbar>
 
-    <md-button @click.native="showCalculatorSelectionOverlay" class="md-raised md-primary">New Calculator</md-button>
+    <div style="height: 50px;"></div>
+    <ui-button @click.native="showCalculatorSelectionOverlay" color="primary">New Calculator</ui-button>
   </md-sidenav>
     <!--{{ this.$store.state.showLeftSideBar }}-->
   </div>
