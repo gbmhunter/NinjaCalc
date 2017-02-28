@@ -60,7 +60,7 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The closest resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
       })
@@ -92,7 +92,7 @@
         roundTo: 2,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The percentage difference between the closest ' + this.eSeries.name + ' series resistance and your desired resistance.'
       })
@@ -119,7 +119,7 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The closest equal or higher resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
       })
@@ -150,7 +150,7 @@
         roundTo: 2,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The percentage difference between the closest equal or lower ' + this.eSeries.name + ' series resistance and your desired resistance.'
       })
@@ -177,7 +177,7 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The closest equal or higher resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
       })
@@ -208,7 +208,7 @@
         roundTo: 2,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The percentage difference between the closest equal or higher ' + this.eSeries.name + ' series resistance and your desired resistance.'
       })

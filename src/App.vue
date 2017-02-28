@@ -48,6 +48,7 @@
   import OhmsLawCalculator from './components/Calculators/OhmsLawCalculator/Calc'
   import ResistorDividerCalculator from './components/Calculators/ResistorDivider/Calc'
   import StandardResistanceCalculator from './components/Calculators/StandardResistance/Calc'
+  import LowPassRCCalculator from './components/Calculators/Electronics/Filters/LowPassRC/Calc'
 
   console.log('LeftSideMenu =')
   console.log(LeftSideMenu)
@@ -103,6 +104,9 @@
 
       Vue.component(StandardResistanceCalculator.mainView.name, StandardResistanceCalculator.mainView)
       this.$store.commit('registerCalc', StandardResistanceCalculator)
+
+      Vue.component(LowPassRCCalculator.mainView.name, LowPassRCCalculator.mainView)
+      this.$store.commit('registerCalc', LowPassRCCalculator)
     }
   }
 </script>

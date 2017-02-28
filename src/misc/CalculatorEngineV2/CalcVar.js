@@ -159,13 +159,20 @@ export default class CalcVar {
               validationMsg = 'Variable must be a valid number.'
             }
             break
-          case PresetValidators.IS_POSITIVE:
-            // console.log('validator = ' + validator)
+          case PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO:
             if (self.dispVal >= 0) {
               validationResult = 'ok'
             } else {
               validationResult = 'error'
-              validationMsg = 'Variable must be positive number (or 0).'
+              validationMsg = 'Variable must be greater than or equal to 0.'
+            }
+            break
+          case PresetValidators.IS_GREATER_THAN_ZERO:
+            if (self.dispVal > 0) {
+              validationResult = 'ok'
+            } else {
+              validationResult = 'error'
+              validationMsg = 'Variable must be greater than 0.'
             }
             break
           default:

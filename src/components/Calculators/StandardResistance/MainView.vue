@@ -89,7 +89,7 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE,
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables

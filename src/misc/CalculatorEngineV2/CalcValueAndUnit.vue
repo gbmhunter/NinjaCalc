@@ -6,9 +6,9 @@
       <md-tooltip md-direction="top" v-html="toolTipMsg"></md-tooltip>
       <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()"
              :readonly="readonly"
-             class="variable-value" :class="[ calcVar.validationResult, calcVar.typeEqn() ]">
+             class="variable-value" :class="[ calcVar.validationResult, calcVar.typeEqn() ]" :style="{ width: width + 'px', height: height + 'px' }">
     </div>
-    <select v-model="calcVar.selUnit" v-on:change="calcVar.onUnitChange()" class="variable-units">
+    <select v-model="calcVar.selUnit" v-on:change="calcVar.onUnitChange()" class="variable-units" :style="{ height: height + 'px' }">
       <option v-for="option in calcVar.units" v-bind:value="option.value">
         {{ option.text }}
       </option>
@@ -27,6 +27,16 @@
       calcVar: {
         type: Object,
         required: true
+      },
+      width: {
+        type: Number,
+        required: false,
+        default: 150
+      },
+      height: {
+        type: Number,
+        required: false,
+        default: 35
       }
     },
     components: {},
@@ -61,11 +71,6 @@
   .value-unit-container {
     display: flex;
     align-items: center;
-  }
-
-  .variable-value {
-    width: 150px;
-    height: 40px;
   }
 
   .variable-units {

@@ -91,7 +91,7 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The voltage across the resistor.'
       })
@@ -126,7 +126,7 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The current going through the resistor.'
       })
@@ -162,7 +162,7 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_POSITIVE
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The resistance of the resistor (or other resistive circuit component).'
       })
