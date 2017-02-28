@@ -207,4 +207,13 @@
     opacity: 1;
   }
 
+  /* This targets the Material Design tooltips, which by default have
+  a fixed height, which means that multiple lines of text do not work.
+  This fixes this limitation.
+   */
+  span.md-tooltip {
+    height: auto !important;
+    font-size: 12px;
+  }
+
 </style>

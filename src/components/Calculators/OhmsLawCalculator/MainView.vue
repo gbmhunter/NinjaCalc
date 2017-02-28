@@ -66,7 +66,7 @@
       // ============================================ //
       // =================== voltage ================ //
       // ============================================ //
-      var voltage = new CalcVar(new CalcVar({
+      var voltage = new CalcVar({
         name: 'voltage',
         typeEqn: () => {
           if (calc.outputVar === 'voltage') {
@@ -92,14 +92,15 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The voltage across the resistor.'
+      })
       calc.addVar(voltage)
 
       // ============================================ //
       // =================== current ================ //
       // ============================================ //
-      var current = new CalcVar(new CalcVar({
+      var current = new CalcVar({
         name: 'current',
         typeEqn: () => {
           if (calc.outputVar === 'current') {
@@ -126,14 +127,15 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The current going through the resistor.'
+      })
       calc.addVar(current)
 
       // ============================================ //
       // ================= resistance =============== //
       // ============================================ //
-      var resistance = new CalcVar(new CalcVar({
+      var resistance = new CalcVar({
         name: 'resistance',
         typeEqn: () => {
           if (calc.outputVar === 'resistance') {
@@ -161,8 +163,9 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The resistance of the resistor (or other resistive circuit component).'
+      })
       calc.addVar(resistance)
 
       // Configure calculator to default state now that all

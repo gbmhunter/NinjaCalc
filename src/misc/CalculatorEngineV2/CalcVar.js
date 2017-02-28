@@ -38,8 +38,20 @@ export default class CalcVar {
       this.validators = initObj.validators
     }
 
+    // Set default validation settings
     this.validationResult = 'ok'
     this.validationMsg = ''
+
+    // ============================================ //
+    // ================= HELP TEXT ================ //
+    // ============================================ //
+
+    // Save help text. This will be presented in the tool-tip along
+    // with and validator messages.
+    if (!initObj.helpText) {
+      throw new Error('No helpText string provided to CalcVar() for variable "' + this.name + '".')
+    }
+    this.helpText = initObj.helpText
   }
 
   getRawVal = () => {

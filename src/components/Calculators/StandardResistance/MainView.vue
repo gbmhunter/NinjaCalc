@@ -6,10 +6,10 @@
     <!-- ====== DESIRED RESISTANCE (input) ======= -->
     <!-- ========================================= -->
 
-    <div>
+    <div style="display: flex; align-items: center">
       <span style="padding-right: 10px">Desired Resistance</span>
       <calc-value :calcVar="calc.getVar('desiredResistance')"></calc-value>
-      <span>Ω</span>
+      <span style="padding-left: 5px;">Ω</span>
     </div>
 
     <div style="height: 50px"></div>
@@ -71,7 +71,7 @@
       // ============================================ //
       // ======== DESIRED RESISTANCE (input) ======== //
       // ============================================ //
-      var desiredResistance = new CalcVar(new CalcVar({
+      var desiredResistance = new CalcVar({
         name: 'desiredResistance',
         typeEqn: () => {
           return 'input'
@@ -88,8 +88,9 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The resistance you actually want. The closest value to this resistance will be found in each resistor series.'
+      })
       calc.addVar(desiredResistance)
 
       // Configure calculator to default state now that all

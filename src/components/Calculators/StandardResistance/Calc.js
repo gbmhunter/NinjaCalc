@@ -1,7 +1,7 @@
 import MainView from './MainView'
 
 export default {
-  displayName: 'Resistance Divider',
+  displayName: 'Standard Resistance Finder',
   description: 'Find the closest E-series (e.g. E12, E96) resistor (preferred value) to your desired resistance.',
   imagePath: require('./grid-icon.png'),
   category: [ 'Electronics', 'Basic' ],

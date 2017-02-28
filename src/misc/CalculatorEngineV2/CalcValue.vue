@@ -1,9 +1,12 @@
 <!-- This template is designed to work with CalculatorEngineV2 -->
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-  <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()" v-tooltip="calcVar.validationMsg"
-         class="variable-value" :class="[ calcVar.validationResult, calcVar.typeEqn() ]"
-         :readonly="readonly"
-         :style="{ width: width + 'px', height: height + 'px' }">
+  <div>
+    <md-tooltip md-direction="top" v-html="toolTipMsg"></md-tooltip>
+    <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()"
+           class="variable-value" :class="[ calcVar.validationResult, calcVar.typeEqn() ]"
+           :readonly="readonly"
+           :style="{ width: width + 'px', height: height + 'px' }">
+  </div>
 </template>
 
 <script>
@@ -36,6 +39,14 @@
         } else {
           return false
         }
+      },
+      toolTipMsg () {
+        // This is raw HTML (so we can add line breaks)
+        var toolTipMsg = ''
+        toolTipMsg += this.calcVar.helpText
+        toolTipMsg += '<br><br>'
+        toolTipMsg += this.calcVar.validationMsg
+        return toolTipMsg
       }
     },
     methods: {},

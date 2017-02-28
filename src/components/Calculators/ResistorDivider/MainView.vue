@@ -1,5 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-  <div id="resistor-divider-calculator" class="diagram-container" style="position: relative; width: 600px; height: 600px;">
+  <div id="resistor-divider-calculator" class="diagram-container"
+       style="position: relative; width: 600px; height: 600px;">
 
     <!-- Background image is centered in diagram container -->
     <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 550px; height: 550px; z-index: 0;">
@@ -61,7 +62,7 @@
       // ============================================ //
       // ===================== vIn ================== //
       // ============================================ //
-      var vIn = new CalcVar(new CalcVar({
+      var vIn = new CalcVar({
         name: 'vIn',
         typeEqn: () => {
           if (calc.outputVar === 'vIn') {
@@ -88,14 +89,15 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The input voltage to the top of the resistor divider (also equal to the voltage across the entire resistor divider).'
+      })
       calc.addVar(vIn)
 
       // ============================================ //
       // ===================== rTop ================= //
       // ============================================ //
-      var rTop = new CalcVar(new CalcVar({
+      var rTop = new CalcVar({
         name: 'rTop',
         typeEqn: () => {
           if (calc.outputVar === 'rTop') {
@@ -124,14 +126,15 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The resistance of the top resistor in the resistor divider.'
+      })
       calc.addVar(rTop)
 
       // ============================================ //
       // ===================== rBot ================= //
       // ============================================ //
-      var rBot = new CalcVar(new CalcVar({
+      var rBot = new CalcVar({
         name: 'rBot',
         typeEqn: () => {
           if (calc.outputVar === 'rBot') {
@@ -160,14 +163,15 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The resistance of the bottom resistor in the resistor divider.'
+      })
       calc.addVar(rBot)
 
       // ============================================ //
       // ===================== vOut ================= //
       // ============================================ //
-      var vOut = new CalcVar(new CalcVar({
+      var vOut = new CalcVar({
         name: 'vOut',
         typeEqn: () => {
           if (calc.outputVar === 'vOut') {
@@ -194,8 +198,10 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The resistor divider output voltage. The is also equal to the voltage across the bottom resistor.' +
+        ' Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.'
+      })
       calc.addVar(vOut)
 
       // Configure calculator to default state now that all

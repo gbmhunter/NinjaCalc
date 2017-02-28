@@ -42,7 +42,7 @@
       // ============================================ //
       // ============= CLOSEST RESISTANCE =========== //
       // ============================================ //
-      var closestResistance = new CalcVar(new CalcVar({
+      var closestResistance = new CalcVar({
         name: this.eSeries.name + 'ClosestResistance',
         typeEqn: () => {
           return 'output'
@@ -61,14 +61,15 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The closest resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
+      })
       this.calc.addVar(closestResistance)
 
       // ============================================ //
       // ========= CLOSEST RESISTANCE ERROR ========= //
       // ============================================ //
-      var closestResistanceError = new CalcVar(new CalcVar({
+      var closestResistanceError = new CalcVar({
         name: this.eSeries.name + 'ClosestResistanceError',
         typeEqn: () => {
           return 'output'
@@ -92,14 +93,15 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The percentage difference between the closest ' + this.eSeries.name + ' series resistance and your desired resistance.'
+      })
       this.calc.addVar(closestResistanceError)
 
       // ============================================ //
       // ==== CLOSEST EQUAL OR LOWER RESISTANCE  ==== //
       // ============================================ //
-      var closestEqualOrLowerResistance = new CalcVar(new CalcVar({
+      var closestEqualOrLowerResistance = new CalcVar({
         name: this.eSeries.name + 'ClosestEqualOrLowerResistance',
         typeEqn: () => {
           return 'output'
@@ -118,14 +120,15 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The closest equal or higher resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
+      })
       this.calc.addVar(closestEqualOrLowerResistance)
 
       // ============================================ //
       // = CLOSEST EQUAL OR LOWER RESISTANCE ERROR == //
       // ============================================ //
-      var closestEqualOrLowerResistanceError = new CalcVar(new CalcVar({
+      var closestEqualOrLowerResistanceError = new CalcVar({
         name: this.eSeries.name + 'ClosestEqualOrLowerResistanceError',
         typeEqn: () => {
           return 'output'
@@ -148,14 +151,15 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The percentage difference between the closest equal or lower ' + this.eSeries.name + ' series resistance and your desired resistance.'
+      })
       this.calc.addVar(closestEqualOrLowerResistanceError)
 
       // ============================================ //
       // ==== CLOSEST EQUAL OR HIGHER RESISTANCE  === //
       // ============================================ //
-      var closestEqualOrHigherResistance = new CalcVar(new CalcVar({
+      var closestEqualOrHigherResistance = new CalcVar({
         name: this.eSeries.name + 'ClosestEqualOrHigherResistance',
         typeEqn: () => {
           return 'output'
@@ -174,14 +178,15 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The closest equal or higher resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
+      })
       this.calc.addVar(closestEqualOrHigherResistance)
 
       // ============================================ //
       // = CLOSEST EQUAL OR HIGHER RESISTANCE ERROR = //
       // ============================================ //
-      var closestEqualOrHigherResistanceError = new CalcVar(new CalcVar({
+      var closestEqualOrHigherResistanceError = new CalcVar({
         name: this.eSeries.name + 'ClosestEqualOrHigherResistanceError',
         typeEqn: () => {
           return 'output'
@@ -204,8 +209,9 @@
         validators: [
           PresetValidators.IS_NUMBER,
           PresetValidators.IS_POSITIVE
-        ]
-      }))
+        ],
+        helpText: 'The percentage difference between the closest equal or higher ' + this.eSeries.name + ' series resistance and your desired resistance.'
+      })
       this.calc.addVar(closestEqualOrHigherResistanceError)
 
       return {
