@@ -22,7 +22,7 @@
 
     <!-- Only show calculator tabs if calculators are open -->
     <ui-tabs ref="tabs" type="text" :grow="true" v-if="this.$store.state.openCalcs.length">
-      <ui-tab v-for="item in this.$store.state.openCalcs" :title="item.name" :id="item.uniqueId">
+      <ui-tab v-for="item in this.$store.state.openCalcs" :title="item.name" :id="item.uniqueId.toString()">
         <component :is="item.componentName"></component>
       </ui-tab>
     </ui-tabs>
@@ -89,23 +89,13 @@
     },
     watch: {
       activeTabId: function () {
-        console.log('activeTabId CHANGED!')
-
         var self = this
-
         // We need to wait until after render to set the active tab, as the tab has not been
         // inserted into the DOM yet
         Vue.nextTick(function () {
-          console.log(self.$refs)
-          console.log('this.$refs.tabs =')
-          console.log(self.$refs.tabs)
-
-          if (typeof self.$refs.tabs !== 'undefined') {
-            var tabId = self.$store.state.openCalcs[self.$store.state.openCalcs.length - 1].uniqueId
-            console.log('Setting active tab to id = "' + tabId)
-            self.$refs.tabs.setActiveTab(tabId)
-            // this.$refs.tabs.selectNextTab()
-          }
+          var tabId = self.$store.state.openCalcs[self.$store.state.openCalcs.length - 1].uniqueId
+          console.log('Setting active tab to id = "' + tabId)
+          self.$refs.tabs.setActiveTab(tabId.toString())
         })
       }
     },
