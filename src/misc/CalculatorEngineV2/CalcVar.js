@@ -10,25 +10,11 @@ export default class CalcVar {
     this.typeEqn = initObj.typeEqn
     this.eqn = initObj.eqn
 
-    this.units = initObj.units
-    this.selUnit = initObj.selUnit
-
     // this.calc will be assigned when the calculator variable is added
     // to a calculator via Calc.addVar()
     this.calc = null
 
     this.rawVal = initObj.rawVal
-
-    // ============================================ //
-    // ================= ROUNDING ================= //
-    // ============================================ //
-    if (typeof initObj.roundTo === 'undefined' || initObj.roundTo === null) {
-      throw new Error('roundTo parameter was not provided to CalcVar() for variable "' + this.name + '".')
-    }
-    this.roundTo = initObj.roundTo
-
-    // We can now work out the initial displayed value
-    this.calcDispValFromRawVal()
 
     // ============================================ //
     // ================ VALIDATORS ================ //
@@ -73,23 +59,8 @@ export default class CalcVar {
     this.triggerReCalcOutputsAndValidate()
   }
 
-  /**
-   * Designed to be called by vue once this.selUnit has been changed.
-   */
-  onUnitChange = () => {
-    // console.log('onUnitsChange() called.')
-
-    if (this.typeEqn() === 'input') {
-      // Recalculate raw value from displayed value
-      this.rawVal = this.dispVal * this.selUnit
-      this.validate()
-    }
-
-    this.triggerReCalcOutputsAndValidate()
-  }
-
   reCalc = () => {
-    // console.log('reCalc() called for "' + this.name + '".')
+    console.log('reCalc() called for "' + this.name + '".')
 
     if (this.typeEqn() !== 'output') {
       throw new Error('reCalc() called for variable that was not an output.')
@@ -99,18 +70,6 @@ export default class CalcVar {
 
     this.calcDispValFromRawVal()
     this.validate()
-  }
-
-  calcDispValFromRawVal = () => {
-    if (this.rawVal === '') {
-      this.dispVal = ''
-    } else {
-      var unRoundedDispVal = this.rawVal / this.selUnit
-
-      // This uses 'significant figure' style rounding
-      var roundedDispVal = unRoundedDispVal.toPrecision(this.roundTo)
-      this.dispVal = roundedDispVal
-    }
   }
 
   triggerReCalcOutputsAndValidate = () => {

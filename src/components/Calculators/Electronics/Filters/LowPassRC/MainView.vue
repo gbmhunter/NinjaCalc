@@ -38,7 +38,7 @@
 //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
+  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
@@ -56,7 +56,7 @@
       // ============================================ //
       // ============== RESISTANCE (i/o) ============ //
       // ============================================ //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'resistance',
         typeEqn: () => {
           if (calc.outputVar === 'resistance') {
@@ -91,7 +91,7 @@
       // ============================================ //
       // ============= CAPACITANCE (i/o) ============ //
       // ============================================ //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'capacitance',
         typeEqn: () => {
           if (calc.outputVar === 'capacitance') {
@@ -127,7 +127,7 @@
       // ============================================ //
       // =========== CUTOFF FREQUENCY (i/o) ========= //
       // ============================================ //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'fcutoff',
         typeEqn: () => {
           if (calc.outputVar === 'fcutoff') {

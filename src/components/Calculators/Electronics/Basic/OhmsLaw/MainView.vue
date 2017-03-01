@@ -47,7 +47,7 @@
 //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
+  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
@@ -66,7 +66,7 @@
       // ============================================ //
       // =================== voltage ================ //
       // ============================================ //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'voltage',
         typeEqn: () => {
           if (calc.outputVar === 'voltage') {
@@ -99,7 +99,7 @@
       // ============================================ //
       // =================== current ================ //
       // ============================================ //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'current',
         typeEqn: () => {
           if (calc.outputVar === 'current') {
@@ -133,7 +133,7 @@
       // ============================================ //
       // ================= resistance =============== //
       // ============================================ //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'resistance',
         typeEqn: () => {
           if (calc.outputVar === 'resistance') {

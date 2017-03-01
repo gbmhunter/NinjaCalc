@@ -35,9 +35,45 @@
       <!-- ========================================= -->
       <!-- ======== BOARD THICKNESS (input) ======== -->
       <!-- ========================================= -->
-      <div class="variable-container" style="left: 550px; top: 170px;">
+      <div class="variable-container" style="left: -110px; top: 170px;">
         <span class="variable-name">Board Thickness</span>
         <calc-value-and-unit :calcVar="calc.getVar('boardThickness')"></calc-value-and-unit>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- ====== IS PLANE PRESENT (combobox) ====== -->
+      <!-- ========================================= -->
+      <div class="variable-container" style="left: 550px; top: 370px;">
+        <span class="variable-name">Is Plane Present?</span>
+        <select v-model="calc.getVar('isPlanePresent').val" v-on:change="calc.getVar('isPlanePresent').onValChange()">
+          <option v-for="option in calc.getVar('isPlanePresent').options" v-bind:value="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- ======== PLANE PROXIMITY (input) ======== -->
+      <!-- ========================================= -->
+      <div class="variable-container" style="left: 550px; top: 170px;">
+        <span class="variable-name">Plane Proximity</span>
+        <calc-value-and-unit :calcVar="calc.getVar('planeProximity')"></calc-value-and-unit>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- ====== THERMAL CONDUCTIVITY (input) ===== -->
+      <!-- ========================================= -->
+      <div class="variable-container" style="left: 100px; top: 330px;">
+        <span class="variable-name">Thermal Conductivity</span>
+        <calc-value-and-unit :calcVar="calc.getVar('thermalConductivity')"></calc-value-and-unit>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- ======= MIN. TRACK WIDTH (output) ======= -->
+      <!-- ========================================= -->
+      <div class="variable-container" style="left: 200px; top: -20px;">
+        <span class="variable-name">Min. Track Width</span>
+        <calc-value-and-unit :calcVar="calc.getVar('minTrackWidth')"></calc-value-and-unit>
       </div>
 
     </div>
@@ -57,6 +93,18 @@
       <span class="variable-name">Board Thickness Modifier</span>
       <calc-value-and-unit :calcVar="calc.getVar('boardThicknessModifier')"></calc-value-and-unit>
     </div>
+    <div class="variable-container">
+      <span class="variable-name">Plane Proximity Modifier</span>
+      <calc-value-and-unit :calcVar="calc.getVar('planeProximityModifier')"></calc-value-and-unit>
+    </div>
+    <div class="variable-container">
+      <span class="variable-name">Thermal Conductivity Modifier</span>
+      <calc-value-and-unit :calcVar="calc.getVar('thermalConductivityModifier')"></calc-value-and-unit>
+    </div>
+    <div class="variable-container">
+      <span class="variable-name">Adjusted Track Cross-Sectional Area</span>
+      <calc-value-and-unit :calcVar="calc.getVar('adjustedTrackCrossSectionalArea')"></calc-value-and-unit>
+    </div>
 
   </div>
 </template>
@@ -66,7 +114,8 @@
   //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
+  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import { CalcVarComboBox } from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
 
@@ -77,6 +126,7 @@
   //  const UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ = 0.0000350012
   const UNIT_CONVERSION_M_PER_MIL = 25.4 / 1e6
   const UNIT_CONVERSION_M2_PER_MIL2 = UNIT_CONVERSION_M_PER_MIL * UNIT_CONVERSION_M_PER_MIL
+  const UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF = 1.73 // eslint-disable-line camelcase
   const COPPER_THICKNESS_M_PER_OZ = 0.0000350012
   const METERS_PER_INCH = 25.4 / 1000
   const METERS_PER_MILS = METERS_PER_INCH / 1000.0
@@ -145,12 +195,12 @@
   const BOARD_THICKNESS_TREND_LINE_COEF_B = -7.5501997929e-01
 
   // PLANE PROXIMITY CONSTANTS
-//  const PLANE_PROXIMITY_TREND_LINE_COEF_M = 3.1298662911e-03
-//  const PLANE_PROXIMITY_TREND_LINE_COEF_C = 4.0450883823e-01
+  const PLANE_PROXIMITY_TREND_LINE_COEF_M = 3.1298662911e-03
+  const PLANE_PROXIMITY_TREND_LINE_COEF_C = 4.0450883823e-01
 
   // THERMAL CONDUCTIVITY CONSTANTS
-//  const THERMAL_CONDUCTIVITY_TREND_LINE_COEF_M = -1.4210148167e+00
-//  const THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C = 1.1958174134e+00
+  const THERMAL_CONDUCTIVITY_TREND_LINE_COEF_M = -1.4210148167e+00
+  const THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C = 1.1958174134e+00
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -164,7 +214,7 @@
       // ============================================ //
       // ============ TRACK CURRENT (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'trackCurrent',
         typeEqn: () => {
           return 'input'
@@ -209,7 +259,7 @@
       // ============================================ //
       // ============= TEMP. RISE (input) =========== //
       // ============================================ //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'tempRise',
         typeEqn: () => {
           return 'input'
@@ -252,7 +302,7 @@
       // ============================================================================================= //
       // ============================ UN-ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ================ //
       // ============================================================================================= //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'unadjustedTrackCrossSectionalArea',
         typeEqn: () => {
           return 'output'
@@ -292,7 +342,7 @@
       // ============================================ //
       // ========== TRACK THICKNESS (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'trackThickness',
         typeEqn: () => {
           return 'input'
@@ -338,7 +388,7 @@
       // ============================================================================================= //
       // =============================== TRACK THICKNESS MODIFIER (output) =========================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'trackThicknessModifier',
         typeEqn: () => {
           return 'output'
@@ -391,7 +441,7 @@
       // ============================================================================================= //
       // ===================================== BOARD THICKNESS (input) =============================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'boardThickness',
         typeEqn: () => {
           return 'input'
@@ -436,7 +486,7 @@
       // ============================================================================================= //
       // =============================== BOARD THICKNESS MODIFIER (output) =========================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'boardThicknessModifier',
         typeEqn: () => {
           return 'output'
@@ -469,8 +519,22 @@
       // ============================================================================================= //
       // ==================================== IS PLANE PRESENT (combobox) ============================ //
       // ============================================================================================= //
-      calc.addVar(new CalcVar({
+      calc.addVar(new CalcVarComboBox({
         name: 'isPlanePresent',
+        options: [
+          'True',
+          'False'
+        ],
+        defaultVal: 'True',
+        validators: [],
+        helpText: 'Set this to "True" if there is a copper plane either above or below the current-carrying track, and then enter the distance to it in the "Plane Proximity" field. If there is no plane, set this to "False", and the "Plane Proximity" variable will also disappear.'
+      }))
+
+      // ============================================================================================= //
+      // ===================================== PLANE PROXIMITY (input) =============================== //
+      // ============================================================================================= //
+      calc.addVar(new CalcVarNumeral({
+        name: 'planeProximity',
         typeEqn: () => {
           return 'input'
         },
@@ -478,12 +542,249 @@
         },
         rawVal: '',
         units: [
+          {text: 'um', value: 1e-6},
+          {text: 'mm', value: 1e-3},
+          {text: 'mils', value: METERS_PER_MILS}
+        ],
+        selUnit: 1e-3,
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const planeProximity = calc.getVar('planeProximity').getRawVal()
+              return (planeProximity >= 144e-6)
+            },
+            text: 'Plane proximity is below the minimum value (144um) extracted from the plane proximity modifier graph in IPC-2152.' +
+            ' Results might not be as accurate (extrapolation will occur).',
+            level: 'warning'
+          }),
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const planeProximity = calc.getVar('planeProximity').getRawVal()
+              return (planeProximity <= 2.40e-3)
+            },
+            text: 'Plane proximity is above the maximum value (2.40mm) extracted from the plane proximity modifier graph in IPC-2152.' +
+            ' Results might not be as accurate (extrapolation will occur).',
+            level: 'warning'
+          }),
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const planeProximity = calc.getVar('planeProximity').getRawVal()
+              const boardThickness = calc.getVar('boardThickness').getRawVal()
+              return (planeProximity <= boardThickness)
+            },
+            text: 'Plane proximity cannot be larger than total board thickness (this just does not make sense!).',
+            level: 'error'
+          })
+        ],
+        helpText: 'The distance from the current-carrying track to the closest copper plane. If it is a 2-layer 1.6mm PCB, with the current-carrying track on one side and ground on the other side, then the plane proximity would be 1.6mm. For 4 or more layer boards, this value is likely to be much less.'
+      }))
+
+      // ============================================================================================= //
+      // =============================== PLANE PROXIMITY MODIFIER (output) =========================== //
+      // ============================================================================================= //
+      calc.addVar(new CalcVarNumeral({
+        name: 'planeProximityModifier',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables.
+          // isPlanePresent should be a string, either 'True' or 'False'
+          const isPlanePresent = calc.getVar('isPlanePresent').getVal()
+          const planeProximityM = calc.getVar('planeProximity').getRawVal()
+
+          if (isPlanePresent === 'False') {
+            // Lets not modify the cross-sectional area by anything if no plane is present
+            // (multiply by 1)
+            return 1.0
+          }
+
+          // Plane must be present at this point
+
+          // Convert to "mils" units, as this is what is used in IPC-2152 graphs
+          const planeProximityMils = planeProximityM * (1 / UNIT_CONVERSION_M_PER_MIL)
+
+          const planeProximityModifierMulti = PLANE_PROXIMITY_TREND_LINE_COEF_M * planeProximityMils +
+            PLANE_PROXIMITY_TREND_LINE_COEF_C
+
+          return planeProximityModifierMulti
+        },
+        rawVal: '',
+        units: [
           {text: 'no unit', value: 1e0}
         ],
-        selUnit: 1e1,
+        selUnit: 1e0,
         roundTo: 4,
-        validators: [],
-        helpText: 'Set this to "True" if there is a copper plane either above or below the current-carrying track, and then enter the distance to it in the "Plane Proximity" field. If there is no plane, set this to "False", and the "Plane Proximity" variable will also disappear.'
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+        ],
+        helpText: 'The modifier to adjust the cross-sectional area with based on the board thickness.'
+      }))
+
+      // ============================================================================================= //
+      // =================================== THERMAL CONDUCTIVITY (input) ============================ //
+      // ============================================================================================= //
+      calc.addVar(new CalcVarNumeral({
+        name: 'thermalConductivity',
+        typeEqn: () => {
+          return 'input'
+        },
+        eqn: () => {},
+        rawVal: '0.20',
+        units: [
+          {text: 'W/(m*K)', value: 1e0},
+          {text: 'BTU/(hour*ft*F)', value: UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF}
+        ],
+        selUnit: 1e0,
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const thermalConductivity = calc.getVar('thermalConductivity').getRawVal()
+              return (thermalConductivity >= 180e-3)
+            },
+            text: 'Thermal conductivity is below the minimum value (180mW/m*c) extracted from the thermal conductivity modififer graph in IPC-2152.' +
+            ' Results might not be as accurate (extrapolation will occur).',
+            level: 'warning'
+          }),
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const thermalConductivity = calc.getVar('thermalConductivity').getRawVal()
+              return (thermalConductivity <= 340e-3)
+            },
+            text: 'Thermal conductivity is above the maximum value (340mW/m*c) extracted from the thermal conductivity modififer graph in IPC-2152.' +
+            ' Results might not be as accurate (extrapolation will occur).',
+            level: 'warning'
+          })
+        ],
+        helpText: 'The thermal conductivity of the PCB. This is normally hard to determine, but for most FR4 PCBs this is around 0.20Wm-1K-1.'
+      }))
+
+      // ============================================================================================= //
+      // ============================ THERMAL CONDUCTIVITY MODIFIER (output) ========================= //
+      // ============================================================================================= //
+      calc.addVar(new CalcVarNumeral({
+        name: 'thermalConductivityModifier',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables
+          const thermalConductivityWattnMeternDegC = calc.getVar('thermalConductivity').getRawVal()
+
+          // Convert to BTU/(ft*hour*F), as this is what the IPC-2152 graph used
+          const thermalConductivityBtunFtnHournDegF = thermalConductivityWattnMeternDegC *
+            (1 / UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF) // eslint-disable-line camelcase
+
+          const thermalConductivityModifierMulti = THERMAL_CONDUCTIVITY_TREND_LINE_COEF_M *
+            thermalConductivityBtunFtnHournDegF + THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C
+
+          return thermalConductivityModifierMulti
+        },
+        rawVal: '',
+        units: [
+          {text: 'no unit', value: 1e0}
+        ],
+        selUnit: 1e0,
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+        ],
+        helpText: 'The modifier to adjust the cross-sectional area with based on the thermal conductivity of the PCB.'
+      }))
+
+      // ============================================================================================= //
+      // ========================= ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ====================== //
+      // ============================================================================================= //
+      calc.addVar(new CalcVarNumeral({
+        name: 'adjustedTrackCrossSectionalArea',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables
+          const unadjustedTrackCrossSectionalArea = calc.getVar('unadjustedTrackCrossSectionalArea').getRawVal()
+          const trackThicknessModifier = calc.getVar('trackThicknessModifier').getRawVal()
+          const boardThicknessModifier = calc.getVar('boardThicknessModifier').getRawVal()
+          const planeProximityModifier = calc.getVar('planeProximityModifier').getRawVal()
+          const thermalConductivityModifier = calc.getVar('thermalConductivityModifier').getRawVal()
+
+          const adjustedTrackCrosssectionalAreaM2 =
+            unadjustedTrackCrossSectionalArea *
+            trackThicknessModifier *
+            boardThicknessModifier *
+            planeProximityModifier *
+            thermalConductivityModifier
+
+          return adjustedTrackCrosssectionalAreaM2
+        },
+        rawVal: '',
+        units: [
+          {text: 'um²', value: 1e-12},
+          {text: 'mils²', value: UNIT_CONVERSION_M2_PER_MIL2},
+          {text: 'mm²', value: 1e-6}
+        ],
+        selUnit: 1e-12,
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+        ],
+        helpText: 'The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers.'
+      }))
+
+      // ============================================================================================= //
+      // ===================================== MIN. TRACK WIDTH (output) ============================= //
+      // ============================================================================================= //
+      calc.addVar(new CalcVarNumeral({
+        name: 'minTrackWidth',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables
+          const trackThickness = calc.getVar('trackThickness').getRawVal()
+          const adjustedTrackCrossSectionalArea = calc.getVar('adjustedTrackCrossSectionalArea').getRawVal()
+
+          const minimumTrackWidthM = adjustedTrackCrossSectionalArea / trackThickness
+
+          return minimumTrackWidthM
+        },
+        rawVal: '',
+        units: [
+          {text: 'um', value: 1e-6},
+          {text: 'mm', value: 1e-3},
+          {text: 'mils', value: METERS_PER_MILS}
+        ],
+        selUnit: 1e-3,
+        roundTo: 4,
+        validators: [
+          PresetValidators.IS_NUMBER,
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const minTrackWidth = calc.getVar('minTrackWidth').getRawVal()
+
+              return minTrackWidth > 0
+            },
+            text: 'Oh oh, one of the input variables is too far away from the data obtained from the IPC-2152 graphs, and the equations have produced a negative track width. Try and make sure input variables are green (or if orange, not too far away from being green).',
+            level: 'error'
+          })
+        ],
+        helpText: 'The minimum track width needed to carry the specified current without exceeding the given temperature rise.'
       }))
 
       // Configure calculator to default state now that all

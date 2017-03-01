@@ -45,7 +45,7 @@
 //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
+  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
 
@@ -63,7 +63,7 @@
       // ============================================ //
       // ===================== vIn ================== //
       // ============================================ //
-      var vIn = new CalcVar({
+      var vIn = new CalcVarNumeral({
         name: 'vIn',
         typeEqn: () => {
           if (calc.outputVar === 'vIn') {
@@ -108,7 +108,7 @@
       // ============================================ //
       // ===================== rTop ================= //
       // ============================================ //
-      var rTop = new CalcVar({
+      var rTop = new CalcVarNumeral({
         name: 'rTop',
         typeEqn: () => {
           if (calc.outputVar === 'rTop') {
@@ -145,7 +145,7 @@
       // ============================================ //
       // ===================== rBot ================= //
       // ============================================ //
-      var rBot = new CalcVar({
+      var rBot = new CalcVarNumeral({
         name: 'rBot',
         typeEqn: () => {
           if (calc.outputVar === 'rBot') {
@@ -182,7 +182,7 @@
       // ============================================ //
       // ===================== vOut ================= //
       // ============================================ //
-      var vOut = new CalcVar({
+      var vOut = new CalcVarNumeral({
         name: 'vOut',
         typeEqn: () => {
           if (calc.outputVar === 'vOut') {

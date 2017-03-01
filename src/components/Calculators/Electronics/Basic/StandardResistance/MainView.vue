@@ -49,7 +49,7 @@
 //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
+  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
 
@@ -73,7 +73,7 @@
       // ============================================ //
       // ======== DESIRED RESISTANCE (input) ======== //
       // ============================================ //
-      var desiredResistance = new CalcVar({
+      calc.addVar(new CalcVarNumeral({
         name: 'desiredResistance',
         typeEqn: () => {
           return 'input'
@@ -101,8 +101,7 @@
           })
         ],
         helpText: 'The resistance you actually want. The closest value to this resistance will be found in each resistor series.'
-      })
-      calc.addVar(desiredResistance)
+      }))
 
       // Configure calculator to default state now that all
       // variables have been added.
