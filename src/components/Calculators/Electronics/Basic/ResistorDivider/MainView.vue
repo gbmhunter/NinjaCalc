@@ -1,5 +1,25 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="calculator-container">
+
+    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px;">
+      The following calculator works out either \( V_{in} \), \( R_1 \), \( R_2 \), or \( V_{out}\), given the other three parameters, using the resistive voltage divider equation:
+
+      $$ V_{out}=\frac{R_2}{R_1+R_2}V_{in} $$
+
+      <p style="text-align: center;">
+        where:<br>
+        \( V_{in} \) = input voltage<br>
+        \( R_1 \) = resistance of resistor 1 (see diagram)<br>
+        \( R_2 \) = resistance of resistor 2 (see diagram)<br>
+        \( V_{out} \) = output voltage
+      </p>
+
+      It is assumed that the output impedance on \( V_{out} \) is significantly higher than \( R_2 \) so that it doesn't matter (for example, \( V_{out} \) is connected to an op-amp input, analogue microcontroller input or similar).
+      The quiescent current through the divider, \( I_q \), is also calculated, which can be useful to know when designing power-saving circuits. The equation to find \( I_q \) is:
+
+      $$ I_q = \frac{V_{in}}{R_1+R_2} $$
+    </ui-collapsible>
+
     <div id="resistor-divider-calculator" class="diagram-container"
          style="position: relative; width: 600px; height: 600px;">
 
@@ -233,6 +253,9 @@
       return {
         calc: calc
       }
+    },
+    mounted () {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
     }
   }
 

@@ -235,4 +235,11 @@
     margin: auto;
   }
 
+  /* Targets the "expandable" calculator info sections at the top of
+  each calculator */
+  .calc-info {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
 </style>

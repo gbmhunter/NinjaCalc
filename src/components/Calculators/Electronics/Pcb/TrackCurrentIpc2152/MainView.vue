@@ -969,8 +969,9 @@
       }
     },
     mounted () {
-      console.log('Ohm\'s Law calculator mounted.')
+//      console.log('Ohm\'s Law calculator mounted.')
       this.drawCanvas()
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
     }
   }
 
