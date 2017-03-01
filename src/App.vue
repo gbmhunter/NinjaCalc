@@ -226,8 +226,15 @@
   This fixes this limitation.
    */
   span.md-tooltip {
+    max-width: 300px !important;
     height: auto !important;
     font-size: 12px;
+
+    /* Justify the left/right sides of the text within tooltip */
+    text-align: justify;
+
+    /* This makes the tooltip text within the span element wrap correctly. */
+    white-space: normal;
   }
 
   div.calculator-container {
@@ -240,6 +247,9 @@
   .calc-info {
     padding-top: 20px;
     padding-bottom: 20px;
+
+    /* Justify the left/right sides of the text within tooltip */
+    text-align: justify;
   }
 
 </style>
