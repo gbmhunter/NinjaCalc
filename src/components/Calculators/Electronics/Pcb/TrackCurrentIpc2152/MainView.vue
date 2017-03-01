@@ -2,11 +2,11 @@
 
   <div>
 
-    <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
+    <div class="diagram-container" style="position: relative; width: 600px; height: 500px;">
 
       <!-- Background image is centered in diagram container -->
       <!--<img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 500px; height: 500px; z-index: 0">-->
-      <canvas ref="canvas" style="width: 600px; height: 600px; left: 0px; top: 0px;"></canvas>
+      <canvas ref="canvas" style="width: 600px; height: 500px; left: 0px; top: 0px;"></canvas>
 
       <!-- ========================================= -->
       <!-- ========== TRACK CURRENT (input) ======== -->
@@ -19,7 +19,8 @@
       <!-- ========================================= -->
       <!-- =========== TEMP. RISE (input) ========== -->
       <!-- ========================================= -->
-      <div class="variable-container" style="left: 450px; top: 0px;">
+      <img :src="require('./temperature-icon.jpg')" style="max-width: 90px; left: 410px; top: -10px;">
+      <div class="variable-container" style="left: 500px; top: -10px;">
         <span class="variable-name">Temp. Rise</span>
         <calc-value-and-unit :calcVar="calc.getVar('tempRise')"></calc-value-and-unit>
       </div>
@@ -45,7 +46,7 @@
       <!-- ========================================= -->
       <div class="variable-container" style="left: 550px; top: 370px;">
         <span class="variable-name">Is Plane Present?</span>
-        <select v-model="calc.getVar('isPlanePresent').val" v-on:change="calc.getVar('isPlanePresent').onValChange()">
+        <select v-model="calc.getVar('isPlanePresent').val" v-on:change="calc.getVar('isPlanePresent').onValChange()" style="width: 80px; height: 30px; font-size: 20px;">
           <option v-for="option in calc.getVar('isPlanePresent').options" v-bind:value="option">
             {{ option }}
           </option>
@@ -78,33 +79,48 @@
 
     </div>
 
-    <!-- =============================================== -->
-    <!-- UN-ADJUSTED TRACK CROSS-SECTIONAL AREA (output) -->
-    <!-- =============================================== -->
-    <div class="variable-container">
-      <span class="variable-name">Unadjusted Track Cross-Sectional Area</span>
-      <calc-value-and-unit :calcVar="calc.getVar('unadjustedTrackCrossSectionalArea')"></calc-value-and-unit>
-    </div>
-    <div class="variable-container">
-      <span class="variable-name">Track Thickness Modifier</span>
-      <calc-value-and-unit :calcVar="calc.getVar('trackThicknessModifier')"></calc-value-and-unit>
-    </div>
-    <div class="variable-container">
-      <span class="variable-name">Board Thickness Modifier</span>
-      <calc-value-and-unit :calcVar="calc.getVar('boardThicknessModifier')"></calc-value-and-unit>
-    </div>
-    <div class="variable-container">
-      <span class="variable-name">Plane Proximity Modifier</span>
-      <calc-value-and-unit :calcVar="calc.getVar('planeProximityModifier')"></calc-value-and-unit>
-    </div>
-    <div class="variable-container">
-      <span class="variable-name">Thermal Conductivity Modifier</span>
-      <calc-value-and-unit :calcVar="calc.getVar('thermalConductivityModifier')"></calc-value-and-unit>
-    </div>
-    <div class="variable-container">
-      <span class="variable-name">Adjusted Track Cross-Sectional Area</span>
-      <calc-value-and-unit :calcVar="calc.getVar('adjustedTrackCrossSectionalArea')"></calc-value-and-unit>
-    </div>
+    <ui-collapsible title="Intermediate Variables">
+      <table>
+        <tbody>
+        <tr>
+          <td><span class="variable-name">Unadjusted Track Cross-Sectional Area</span></td>
+          <td>
+            <calc-value-and-unit :calcVar="calc.getVar('unadjustedTrackCrossSectionalArea')"></calc-value-and-unit>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="variable-name">Track Thickness Modifier</span></td>
+          <td>
+            <calc-value-and-unit :calcVar="calc.getVar('trackThicknessModifier')"></calc-value-and-unit>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="variable-name">Board Thickness Modifier</span></td>
+          <td>
+            <calc-value-and-unit :calcVar="calc.getVar('boardThicknessModifier')"></calc-value-and-unit>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="variable-name">Plane Proximity Modifier</span></td>
+          <td>
+            <calc-value-and-unit :calcVar="calc.getVar('planeProximityModifier')"></calc-value-and-unit>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="variable-name">Thermal Conductivity Modifier</span></td>
+          <td>
+            <calc-value-and-unit :calcVar="calc.getVar('thermalConductivityModifier')"></calc-value-and-unit>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="variable-name">Adjusted Track Cross-Sectional Area</span></td>
+          <td>
+            <calc-value-and-unit :calcVar="calc.getVar('adjustedTrackCrossSectionalArea')"></calc-value-and-unit>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </ui-collapsible>
 
   </div>
 </template>
@@ -114,8 +130,8 @@
   //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
-  import { CalcVarComboBox } from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
+  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
 
@@ -636,11 +652,15 @@
         typeEqn: () => {
           return 'input'
         },
-        eqn: () => {},
+        eqn: () => {
+        },
         rawVal: '0.20',
         units: [
           {text: 'W/(m*K)', value: 1e0},
-          {text: 'BTU/(hour*ft*F)', value: UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF}
+          {
+            text: 'BTU/(hour*ft*F)',
+            value: UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF
+          }
         ],
         selUnit: 1e0,
         roundTo: 4,
@@ -800,7 +820,7 @@
         var canvas = this.$refs.canvas
         var context = canvas.getContext('2d')
         canvas.width = 600
-        canvas.height = 600
+        canvas.height = 500
 
         const copperThickness = 40
         const pcbThickness = 100
