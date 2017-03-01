@@ -1,53 +1,54 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-  <div id="resistor-divider-calculator" class="diagram-container"
-       style="position: relative; width: 600px; height: 600px;">
+  <div class="calculator-container">
+    <div id="resistor-divider-calculator" class="diagram-container"
+         style="position: relative; width: 600px; height: 600px;">
 
-    <!-- Background image is centered in diagram container -->
-    <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 550px; height: 550px; z-index: 0;">
+      <!-- Background image is centered in diagram container -->
+      <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 550px; height: 550px; z-index: 0;">
 
-    <!-- =========================================================================================== -->
-    <!-- =============================================== vIn ======================================= -->
-    <!-- =========================================================================================== -->
-    <div class="variable-container" style="left: 30px; top: 290px;">
-      <calc-value-and-unit :calcVar="calc.getVar('vIn')" style="left: -10px; top: 40px;"></calc-value-and-unit>
-      <input type="radio" value="vIn" v-model="calc.outputVar">
-    </div>
+      <!-- =========================================================================================== -->
+      <!-- =============================================== vIn ======================================= -->
+      <!-- =========================================================================================== -->
+      <div class="variable-container" style="left: 30px; top: 290px;">
+        <calc-value-and-unit :calcVar="calc.getVar('vIn')" style="left: -10px; top: 40px;"></calc-value-and-unit>
+        <input type="radio" value="vIn" v-model="calc.outputVar">
+      </div>
 
-    <!-- =========================================================================================== -->
-    <!-- ============================================= Rtop ======================================== -->
-    <!-- =========================================================================================== -->
-    <div class="variable-container" style="left: 330px; top: 140px;">
-      <calc-value-and-unit :calcVar="calc.getVar('rTop')" style="left: 0px; top: 40px;"></calc-value-and-unit>
-      <input type="radio" value="rTop" v-model="calc.outputVar" style="left: 90px;">
-    </div>
+      <!-- =========================================================================================== -->
+      <!-- ============================================= Rtop ======================================== -->
+      <!-- =========================================================================================== -->
+      <div class="variable-container" style="left: 330px; top: 140px;">
+        <calc-value-and-unit :calcVar="calc.getVar('rTop')" style="left: 0px; top: 40px;"></calc-value-and-unit>
+        <input type="radio" value="rTop" v-model="calc.outputVar" style="left: 90px;">
+      </div>
 
-    <!-- =========================================================================================== -->
-    <!-- ============================================= Rbot ======================================== -->
-    <!-- =========================================================================================== -->
-    <div class="variable-container" style="left: 330px; top: 340px;">
-      <calc-value-and-unit :calcVar="calc.getVar('rBot')" style="left: 0px; top: 40px;"></calc-value-and-unit>
-      <input type="radio" value="rBot" v-model="calc.outputVar" style="left: 90px;">
-    </div>
+      <!-- =========================================================================================== -->
+      <!-- ============================================= Rbot ======================================== -->
+      <!-- =========================================================================================== -->
+      <div class="variable-container" style="left: 330px; top: 340px;">
+        <calc-value-and-unit :calcVar="calc.getVar('rBot')" style="left: 0px; top: 40px;"></calc-value-and-unit>
+        <input type="radio" value="rBot" v-model="calc.outputVar" style="left: 90px;">
+      </div>
 
-    <!-- =========================================================================================== -->
-    <!-- ============================================= Vout ======================================== -->
-    <!-- =========================================================================================== -->
-    <div class="variable-container" style="left: 480px; top: 400px;">
-      <calc-value-and-unit :calcVar="calc.getVar('vOut')" style="left: 0px; top: 40px;"></calc-value-and-unit>
-      <input type="radio" value="vOut" v-model="calc.outputVar" style="left: 120px;">
+      <!-- =========================================================================================== -->
+      <!-- ============================================= Vout ======================================== -->
+      <!-- =========================================================================================== -->
+      <div class="variable-container" style="left: 480px; top: 400px;">
+        <calc-value-and-unit :calcVar="calc.getVar('vOut')" style="left: 0px; top: 40px;"></calc-value-and-unit>
+        <input type="radio" value="vOut" v-model="calc.outputVar" style="left: 120px;">
+      </div>
     </div>
   </div>
-
 </template>
 
 <script>
 
-//  'use strict'
+  //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
-  import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
+  import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
 
   // ============================================ //
   // =================== vue Object ============= //

@@ -1,7 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
-  <!-- margin: auto prevents the top and bottom of overflowing flex content from NOT being accessable within a flex -->
-  <div style="margin: auto;">
+  <div class="calculator-container" style="margin: auto;">
 
     <!-- SPACER -->
     <div style="height: 50px;"></div>

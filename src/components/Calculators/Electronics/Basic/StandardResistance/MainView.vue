@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
-  <div class="calc-container" style="width: 600px; height: 600px;">
+  <div class="calculator-container" style="width: 600px; height: 600px;">
 
     <!-- ========================================= -->
     <!-- ====== DESIRED RESISTANCE (input) ======= -->
@@ -125,7 +125,7 @@
     font-weight: bold;
   }
 
-  .calc-container {
+  .calculator-container {
     display: flex;
     flex-direction: column;
     /* Center horizontally */

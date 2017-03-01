@@ -1,53 +1,54 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
-  <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
+  <div class="calculator-container">
+    <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
-    <!-- Background image is centered in diagram container -->
-    <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 500px; height: 500px; z-index: 0">
+      <!-- Background image is centered in diagram container -->
+      <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 500px; height: 500px; z-index: 0">
 
-    <!-- ========================================= -->
-    <!-- =============== VOLTAGE ================= -->
-    <!-- ========================================= -->
-    <div class="variable-container" style="left: 0px; top: 240px;">
+      <!-- ========================================= -->
+      <!-- =============== VOLTAGE ================= -->
+      <!-- ========================================= -->
+      <div class="variable-container" style="left: 0px; top: 240px;">
 
-      <calc-value-and-unit :calcVar="calc.getVar('voltage')" style="left: 0px; top: 70px;"></calc-value-and-unit>
+        <calc-value-and-unit :calcVar="calc.getVar('voltage')" style="left: 0px; top: 70px;"></calc-value-and-unit>
 
-      <!-- INPUT/OUTPUT DECIDER -->
-      <input type="radio" value="voltage" v-model="calc.outputVar" style="left: 0px; top: 20px">
+        <!-- INPUT/OUTPUT DECIDER -->
+        <input type="radio" value="voltage" v-model="calc.outputVar" style="left: 0px; top: 20px">
+      </div>
+
+      <!-- ========================================= -->
+      <!-- =============== CURRENT ================= -->
+      <!-- ========================================= -->
+      <div class="variable-container" style="left: 440px; top: 360px;">
+
+        <calc-value-and-unit :calcVar="calc.getVar('current')" style="left: 0px; top: 50px;"></calc-value-and-unit>
+
+        <!-- INPUT/OUTPUT DECIDER -->
+        <input type="radio" value="current" v-model="calc.outputVar" style="left: 100px; top: 0px">
+      </div>
+
+      <!-- ========================================= -->
+      <!-- ============= RESISTANCE ================ -->
+      <!-- ========================================= -->
+      <div class="variable-container" style="left: 450px; top: 160px;">
+
+        <calc-value-and-unit :calcVar="calc.getVar('resistance')" style="left: 0px; top: 40px;"></calc-value-and-unit>
+
+        <!-- INPUT/OUTPUT DECIDER -->
+        <input type="radio" value="resistance" v-model="calc.outputVar" style="left: 100px; top: 0px">
+      </div>
     </div>
-
-    <!-- ========================================= -->
-    <!-- =============== CURRENT ================= -->
-    <!-- ========================================= -->
-    <div class="variable-container" style="left: 440px; top: 360px;">
-
-      <calc-value-and-unit :calcVar="calc.getVar('current')" style="left: 0px; top: 50px;"></calc-value-and-unit>
-
-      <!-- INPUT/OUTPUT DECIDER -->
-      <input type="radio" value="current" v-model="calc.outputVar" style="left: 100px; top: 0px">
-    </div>
-
-    <!-- ========================================= -->
-    <!-- ============= RESISTANCE ================ -->
-    <!-- ========================================= -->
-    <div class="variable-container" style="left: 450px; top: 160px;">
-
-      <calc-value-and-unit :calcVar="calc.getVar('resistance')" style="left: 0px; top: 40px;"></calc-value-and-unit>
-
-      <!-- INPUT/OUTPUT DECIDER -->
-      <input type="radio" value="resistance" v-model="calc.outputVar" style="left: 100px; top: 0px">
-    </div>
-
   </div>
 
 </template>
 
 <script>
 
-//  'use strict'
+  //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
@@ -55,8 +56,7 @@
   // ============================================ //
   export default {
     name: 'ohms-law-calculator',
-    components: {
-    },
+    components: {},
     data: function () {
       var calc = new Calc()
 

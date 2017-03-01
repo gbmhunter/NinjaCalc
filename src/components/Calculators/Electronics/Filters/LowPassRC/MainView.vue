@@ -1,44 +1,49 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
-  <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
+  <div class="calculator-container">
+    <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
-    <!-- Background image is centered in diagram container -->
-    <img :src="require('./diagram.png')" style="left: 50px; top: 50px; max-width: 500px; height: auto; z-index: 0">
+      <!-- Background image is centered in diagram container -->
+      <img :src="require('./diagram.png')" style="left: 50px; top: 50px; max-width: 500px; height: auto; z-index: 0">
 
-    <!-- ========================================= -->
-    <!-- =========== RESISTANCE (i/o) ============ -->
-    <!-- ========================================= -->
-    <div class="variable-container" style="left: 160px; top: 55px;">
-      <calc-value-and-unit :calcVar="calc.getVar('resistance')" width="100" style="left: 90px; top: 0px;"></calc-value-and-unit>
-      <input type="radio" value="resistance" v-model="calc.outputVar" style="left: 0px; top: 10px">
+      <!-- ========================================= -->
+      <!-- =========== RESISTANCE (i/o) ============ -->
+      <!-- ========================================= -->
+      <div class="variable-container" style="left: 160px; top: 55px;">
+        <calc-value-and-unit :calcVar="calc.getVar('resistance')" width="100"
+                             style="left: 90px; top: 0px;"></calc-value-and-unit>
+        <input type="radio" value="resistance" v-model="calc.outputVar" style="left: 0px; top: 10px">
+      </div>
+
+      <!-- ========================================= -->
+      <!-- =========== CAPACITANCE (i/o) =========== -->
+      <!-- ========================================= -->
+      <div class="variable-container" style="left: 370px; top: 160px;">
+        <calc-value-and-unit :calcVar="calc.getVar('capacitance')" width="100"
+                             style="left: 0px; top: 40px;"></calc-value-and-unit>
+        <input type="radio" value="capacitance" v-model="calc.outputVar" style="left: 50px; top: 0px">
+      </div>
+
+      <!-- ========================================= -->
+      <!-- === FCUTOFF (cut-off frequency) (i/o) === -->
+      <!-- ========================================= -->
+      <div class="variable-container" style="left: 150px; top: 340px;">
+        <calc-value-and-unit :calcVar="calc.getVar('fcutoff')" width="100"
+                             style="left: 90px; top: 0px;"></calc-value-and-unit>
+        <input type="radio" value="fcutoff" v-model="calc.outputVar" style="left: 0px; top: 10px">
+      </div>
+
     </div>
-
-    <!-- ========================================= -->
-    <!-- =========== CAPACITANCE (i/o) =========== -->
-    <!-- ========================================= -->
-    <div class="variable-container" style="left: 370px; top: 160px;">
-      <calc-value-and-unit :calcVar="calc.getVar('capacitance')" width="100" style="left: 0px; top: 40px;"></calc-value-and-unit>
-      <input type="radio" value="capacitance" v-model="calc.outputVar" style="left: 50px; top: 0px">
-    </div>
-
-    <!-- ========================================= -->
-    <!-- === FCUTOFF (cut-off frequency) (i/o) === -->
-    <!-- ========================================= -->
-    <div class="variable-container" style="left: 150px; top: 340px;">
-      <calc-value-and-unit :calcVar="calc.getVar('fcutoff')" width="100" style="left: 90px; top: 0px;"></calc-value-and-unit>
-      <input type="radio" value="fcutoff" v-model="calc.outputVar" style="left: 0px; top: 10px">
-    </div>
-
   </div>
 
 </template>
 
 <script>
 
-//  'use strict'
+  //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
@@ -167,7 +172,8 @@
         calc: calc
       }
     },
-    mounted () {}
+    mounted () {
+    }
   }
 
 </script>

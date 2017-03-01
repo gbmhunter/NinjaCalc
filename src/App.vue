@@ -179,8 +179,8 @@
   .ui-tab {
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /*align-items: center;
+    justify-content: center;*/
   }
 
   /* This selector gets weird of weird raised offset in the text for the first
@@ -197,7 +197,7 @@
     background-color: #eeeeee;
   }
 
-  .tooltip {
+  /*.tooltip {
     display: none;
     opacity: 0;
     transition: opacity 1s;
@@ -219,7 +219,7 @@
 
   .tooltip.tooltip-after-open {
     opacity: 1;
-  }
+  }*/
 
   /* This targets the Material Design tooltips, which by default have
   a fixed height, which means that multiple lines of text do not work.
@@ -228,6 +228,11 @@
   span.md-tooltip {
     height: auto !important;
     font-size: 12px;
+  }
+
+  div.calculator-container {
+    /* margin: auto prevents the top and bottom of overflowing flex content from NOT being accessable within a flex */
+    margin: auto;
   }
 
 </style>
