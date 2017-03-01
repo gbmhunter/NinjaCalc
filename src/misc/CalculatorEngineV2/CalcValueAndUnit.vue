@@ -31,7 +31,7 @@
       width: {
         type: Number,
         required: false,
-        default: 150
+        default: 100
       },
       height: {
         type: Number,
@@ -70,6 +70,7 @@
 <style scoped>
   .value-unit-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
   }
 

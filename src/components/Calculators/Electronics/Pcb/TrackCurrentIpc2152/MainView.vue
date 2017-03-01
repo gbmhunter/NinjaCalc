@@ -4,39 +4,22 @@
 
     <!-- Background image is centered in diagram container -->
     <!--<img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 500px; height: 500px; z-index: 0">-->
-    <canvas ref="canvas" style="position: absolute; left: 0px; top: 0px; width: 600px; height: 600px;"></canvas>
+    <canvas ref="canvas" style="width: 600px; height: 600px; left: 0px; top: 0px;"></canvas>
 
     <!-- ========================================= -->
-    <!-- =============== VOLTAGE ================= -->
+    <!-- ========== TRACK CURRENT (input) ======== -->
     <!-- ========================================= -->
-    <div class="variable-container" style="left: 0px; top: 240px;">
-
-      <calc-value-and-unit :calcVar="calc.getVar('voltage')" style="left: 0px; top: 70px;"></calc-value-and-unit>
-
-      <!-- INPUT/OUTPUT DECIDER -->
-      <input type="radio" value="voltage" v-model="calc.outputVar" style="left: 0px; top: 20px">
+    <div class="variable-container" style="left: 0px; top: 0px;">
+      <span class="variable-name">Track Current</span>
+      <calc-value-and-unit :calcVar="calc.getVar('trackCurrent')" style="left: 0px; top: 70px;"></calc-value-and-unit>
     </div>
 
     <!-- ========================================= -->
-    <!-- =============== CURRENT ================= -->
+    <!-- =========== TEMP. RISE (input) ========== -->
     <!-- ========================================= -->
-    <div class="variable-container" style="left: 440px; top: 360px;">
-
-      <calc-value-and-unit :calcVar="calc.getVar('current')" style="left: 0px; top: 50px;"></calc-value-and-unit>
-
-      <!-- INPUT/OUTPUT DECIDER -->
-      <input type="radio" value="current" v-model="calc.outputVar" style="left: 100px; top: 0px">
-    </div>
-
-    <!-- ========================================= -->
-    <!-- ============= RESISTANCE ================ -->
-    <!-- ========================================= -->
-    <div class="variable-container" style="left: 450px; top: 160px;">
-
-      <calc-value-and-unit :calcVar="calc.getVar('resistance')" style="left: 0px; top: 40px;"></calc-value-and-unit>
-
-      <!-- INPUT/OUTPUT DECIDER -->
-      <input type="radio" value="resistance" v-model="calc.outputVar" style="left: 100px; top: 0px">
+    <div class="variable-container" style="left: 450px; top: 0px;">
+      <span class="variable-name" style="left: 0px; top: 0px;">Temp. Rise</span>
+      <calc-value-and-unit :calcVar="calc.getVar('tempRise')" style="left: 0px; top: 70px;"></calc-value-and-unit>
     </div>
 
   </div>
@@ -45,77 +28,31 @@
 
 <script>
 
-//  'use strict'
+  //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
+  import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
 
   // ============================================ //
   // =================== vue Object ============= //
   // ============================================ //
   export default {
     name: 'track-current-ipc-2152-calculator',
-    components: {
-    },
+    components: {},
     data: function () {
       var calc = new Calc()
 
-      // Create new variable in class for determining what is input and output
-      calc.outputVar = 'resistance'
-
       // ============================================ //
-      // =================== voltage ================ //
+      // ============ TRACK CURRENT (input) ========= //
       // ============================================ //
       calc.addVar(new CalcVar({
-        name: 'voltage',
+        name: 'trackCurrent',
         typeEqn: () => {
-          if (calc.outputVar === 'voltage') {
-            return 'output'
-          } else {
-            return 'input'
-          }
+          return 'input'
         },
-        eqn: () => {
-          // Read dependency variables
-          var current = calc.getVar('current').getRawVal()
-          var resistance = calc.getVar('resistance').getRawVal()
-
-          return (current * resistance)
-        },
-        rawVal: '',
-        units: [
-          {text: 'mV', value: 1e-3},
-          {text: 'V', value: 1}
-        ],
-        selUnit: 1,
-        roundTo: 4,
-        validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The voltage across the resistor.'
-      }))
-
-      // ============================================ //
-      // =================== current ================ //
-      // ============================================ //
-      calc.addVar(new CalcVar({
-        name: 'current',
-        typeEqn: () => {
-          if (calc.outputVar === 'current') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          var voltage = calc.getVar('voltage').getRawVal()
-          var resistance = calc.getVar('resistance').getRawVal()
-
-          return (voltage / resistance)
-        },
+        eqn: () => {},
         rawVal: '',
         units: [
           {text: 'uA', value: 1e-6},
@@ -126,44 +63,71 @@
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              var trackCurrent = calc.getVar('trackCurrent').getRawVal()
+              return (trackCurrent >= 274e-3)
+            },
+            text: 'Current is below the minimum value (274mA) extracted from the universal graph in IPC-2152.' +
+            ' Results might not be as accurate (extrapolation will occur).',
+            level: 'warning'
+          }),
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              var trackCurrent = calc.getVar('trackCurrent').getRawVal()
+              return (trackCurrent <= 26.0)
+            },
+            text: 'Current is above the maximum value (26A) extracted from the universal graph in IPC-2152.' +
+            ' Results might not be as accurate (extrapolation will occur).',
+            level: 'warning'
+          })
         ],
-        helpText: 'The current going through the resistor.'
+        helpText: 'The current you want the PCB track to be able to handle.'
       }))
 
       // ============================================ //
-      // ================= resistance =============== //
+      // ============= TEMP. RISE (input) =========== //
       // ============================================ //
       calc.addVar(new CalcVar({
-        name: 'resistance',
+        name: 'tempRise',
         typeEqn: () => {
-          if (calc.outputVar === 'resistance') {
-            return 'output'
-          } else {
-            return 'input'
-          }
+          return 'input'
         },
-        eqn: () => {
-          // Read dependency variables
-          var voltage = calc.getVar('voltage').getRawVal()
-          var current = calc.getVar('current').getRawVal()
-
-          return (voltage / current)
-        },
+        eqn: () => {},
         rawVal: '',
         units: [
-          {text: 'mΩ', value: 1e-3},
-          {text: 'Ω', value: 1},
-          {text: 'kΩ', value: 1e3},
-          {text: 'MΩ', value: 1e6}
+          {text: '°C', value: 1e0}
         ],
         selUnit: 1,
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              var tempRise = calc.getVar('tempRise').getRawVal()
+              return (tempRise >= 1.0)
+            },
+            text: 'Temp. rise is below the minimum value (1°c) extracted from the universal graph in IPC-2152.' +
+            ' Results might not be as accurate (extrapolation will occur).',
+            level: 'warning'
+          }),
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              var tempRise = calc.getVar('tempRise').getRawVal()
+              return (tempRise <= 100.0)
+            },
+            text: 'Temp. rise is above the maximum value (100°C) extracted from the universal graph in IPC-2152.' +
+            ' Results might not be as accurate (extrapolation will occur).',
+            level: 'warning'
+          })
         ],
-        helpText: 'The resistance of the resistor (or other resistive circuit component).'
+        helpText: 'The maximum desired temperature rise due to the current flowing through the track. 20-40°C is a common value for this.'
       }))
 
       // Configure calculator to default state now that all
@@ -178,13 +142,101 @@
       drawCanvas: function () {
         var canvas = this.$refs.canvas
         var context = canvas.getContext('2d')
+        canvas.width = 600
+        canvas.height = 600
+
+        const copperThickness = 40
+        const pcbThickness = 100
+        const pcbWidth = 400
+
+        const topLeftX = 100
+        const topLeftY = 100
+
+        // ============================================ //
+        // =============== TOP COPPER TRACK =========== //
+        // ============================================ //
+        const trackWidthBot = 120
+        const trackWidthTop = 80
 
         context.beginPath()
-        context.rect(0, 5, 20, 10)
-        context.fillStyle = 'green'
+        context.moveTo(topLeftX + pcbWidth / 2 - trackWidthTop / 2, topLeftY)
+        context.lineTo(topLeftX + pcbWidth / 2 + trackWidthTop / 2, topLeftY)
+        context.lineTo(topLeftX + pcbWidth / 2 + trackWidthBot / 2, topLeftY + copperThickness)
+        context.lineTo(topLeftX + pcbWidth / 2 - trackWidthBot / 2, topLeftY + copperThickness)
+        context.closePath()
+        context.fillStyle = '#d9a654'
         context.fill()
         context.lineWidth = 2
         context.strokeStyle = 'black'
+        context.stroke()
+
+        // ============================================ //
+        // =============== GREEN FR4 PCB ============== //
+        // ============================================ //
+        const pcbStartY = topLeftY + copperThickness
+
+        context.beginPath()
+        context.rect(topLeftX, pcbStartY, pcbWidth, pcbThickness)
+        context.fillStyle = '#3d8f00'
+        context.fill()
+        context.lineWidth = 2
+        context.strokeStyle = 'black'
+        context.stroke()
+
+        // ============================================ //
+        // ============= BOTTOM COPPER PANE =========== //
+        // ============================================ //
+        const copperPlaneStartY = pcbStartY + pcbThickness
+
+        context.beginPath()
+        context.rect(topLeftX, copperPlaneStartY, pcbWidth, copperThickness)
+        context.fillStyle = '#d9a654'
+        context.fill()
+        context.lineWidth = 2
+        context.strokeStyle = 'black'
+        context.stroke()
+
+        // ============================================ //
+        // =========== BOARD THICKNESS ARROW ========== //
+        // ============================================ //
+        const arrowStopY = copperPlaneStartY + copperThickness
+        this.canvasArrow(context, topLeftX - 20, topLeftY, topLeftX - 20, arrowStopY)
+
+        // ============================================ //
+        // ============= TRACK WIDTH ARROW ============ //
+        // ============================================ //
+        const trackWidthArrowStartX = topLeftX + pcbWidth / 2 - (trackWidthTop / 2)
+        const trackWidthArrowStopX = topLeftX + pcbWidth / 2 + (trackWidthTop / 2)
+        this.canvasArrow(context, trackWidthArrowStartX, topLeftY - 20, trackWidthArrowStopX, topLeftY - 20)
+
+        // ============================================ //
+        // =========== TRACK THICKNESS ARROW ========== //
+        // ============================================ //
+        const trackThicknessAndPlaneProximityArrowX = topLeftX + pcbWidth + 20
+        this.canvasArrow(context, trackThicknessAndPlaneProximityArrowX, topLeftY, trackThicknessAndPlaneProximityArrowX, topLeftY + copperThickness)
+
+        // ============================================ //
+        // =========== PLANE PROXIMITY ARROW ========== //
+        // ============================================ //
+        this.canvasArrow(context, trackThicknessAndPlaneProximityArrowX, topLeftY + copperThickness, trackThicknessAndPlaneProximityArrowX, copperPlaneStartY + copperThickness)
+      },
+      canvasArrow: function (context, fromx, fromy, tox, toy) {
+        var headlen = 10   // length of head in pixels
+        var angle = Math.atan2(toy - fromy, tox - fromx)
+        context.beginPath()
+        context.moveTo(fromx, fromy)
+        // Start arrow head
+        context.lineTo(fromx + headlen * Math.cos(angle + Math.PI / 6), fromy + headlen * Math.sin(angle + Math.PI / 6))
+        context.moveTo(fromx, fromy)
+        context.lineTo(fromx + headlen * Math.cos(angle - Math.PI / 6), fromy + headlen * Math.sin(angle - Math.PI / 6))
+
+        context.moveTo(fromx, fromy)
+
+        // End arrow head
+        context.lineTo(tox, toy)
+        context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6))
+        context.moveTo(tox, toy)
+        context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6))
         context.stroke()
       }
     },
@@ -207,7 +259,8 @@
   }
 
   .variable-container > * {
-    position: absolute;
+    display: flex;
+    flex-direction: column;
   }
 
   input[type="radio"] {
