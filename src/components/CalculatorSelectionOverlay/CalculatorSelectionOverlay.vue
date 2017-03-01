@@ -17,9 +17,9 @@
             </div>
           </div>
 
-          <div class="modal-footer">
-              <md-button class="md-raised md-primary" @click="$emit('close')">Close</md-button>
-          </div>
+          <!--<div class="modal-footer">-->
+              <!--<md-button class="md-raised md-primary" @click="$emit('close')">Close</md-button>-->
+          <!--</div>-->
         </div>
       </div>
     </div>
