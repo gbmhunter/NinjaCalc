@@ -50,6 +50,7 @@
   import StandardResistanceCalculator from './components/Calculators/Electronics/Basic/StandardResistance/Calc'
   import LowPassRCCalculator from './components/Calculators/Electronics/Filters/LowPassRC/Calc'
   import TrackCurrentIpc2152Calculator from './components/Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
+  import { dewPointMagnusCalculator } from './components/Calculators/Electronics/Sensors/DewPointMagnus/Calc'
 
   console.log('LeftSideMenu =')
   console.log(LeftSideMenu)
@@ -115,6 +116,13 @@
 
       Vue.component(LowPassRCCalculator.mainView.name, LowPassRCCalculator.mainView)
       this.$store.commit('registerCalc', LowPassRCCalculator)
+
+      // ============================================ //
+      // ========= ELECTRONICS -> SENSORS =========== //
+      // ============================================ //
+
+      Vue.component(dewPointMagnusCalculator.mainView.name, dewPointMagnusCalculator.mainView)
+      this.$store.commit('registerCalc', dewPointMagnusCalculator)
 
       // ============================================ //
       // =========== ELECTRONICS -> PCB ============= //

@@ -14,7 +14,11 @@ export default class CalcVar {
     // to a calculator via Calc.addVar()
     this.calc = null
 
-    this.rawVal = initObj.rawVal
+    if (initObj.rawVal === '') {
+      this.rawVal = ''
+    } else {
+      this.rawVal = parseFloat(initObj.rawVal)
+    }
 
     // ============================================ //
     // ================ VALIDATORS ================ //
@@ -52,7 +56,7 @@ export default class CalcVar {
     // console.log('onDispValChange() called.')
     // console.log('this.dispVal =' + this.dispVal)
 
-    this.rawVal = this.dispVal * this.selUnit
+    this.rawVal = parseFloat(this.dispVal) * parseFloat(this.selUnit)
     // console.log('this.rawVal = ' + this.rawVal)
 
     this.validate()
