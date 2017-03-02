@@ -49,6 +49,7 @@
   import ResistorDividerCalculator from './components/Calculators/Electronics/Basic/ResistorDivider/Calc'
   import StandardResistanceCalculator from './components/Calculators/Electronics/Basic/StandardResistance/Calc'
   import LowPassRCCalculator from './components/Calculators/Electronics/Filters/LowPassRC/Calc'
+  import { trackCurrentIpc2221ACalculator } from './components/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
   import TrackCurrentIpc2152Calculator from './components/Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
   import { dewPointMagnusCalculator } from './components/Calculators/Electronics/Sensors/DewPointMagnus/Calc'
   import { ntcThermistorTemperature } from './components/Calculators/Electronics/Sensors/NtcThermistor/Calc'
@@ -131,6 +132,9 @@
       // ============================================ //
       // =========== ELECTRONICS -> PCB ============= //
       // ============================================ //
+
+      Vue.component(trackCurrentIpc2221ACalculator.mainView.name, trackCurrentIpc2221ACalculator.mainView)
+      this.$store.commit('registerCalc', trackCurrentIpc2221ACalculator)
 
       Vue.component(TrackCurrentIpc2152Calculator.mainView.name, TrackCurrentIpc2152Calculator.mainView)
       this.$store.commit('registerCalc', TrackCurrentIpc2152Calculator)
