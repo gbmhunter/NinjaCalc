@@ -11,8 +11,8 @@ import MainView from './MainView'
  * @last-modified   2017-03-02
  */
 export var ntcThermistorTemperature = {
-  displayName: 'NTC Thermistor Temperature',
-  description: 'Calculate the temperature of a NTC thermistor given it\'s resistance.',
+  displayName: 'NTC Thermistor',
+  description: 'Calculate the temperature/resistance (reference or actual), or beta-coefficient of NTC thermistors.',
   imagePath: require('./grid-icon.jpg'),
   category: [ 'Electronics', 'Sensors' ],
   tags: [ 'temperature', 'thermistor', 'ntc', 'negative', 'coefficient', 'sensor', 'resistor' ],
