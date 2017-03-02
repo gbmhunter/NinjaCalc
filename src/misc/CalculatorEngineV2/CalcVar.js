@@ -60,7 +60,7 @@ export default class CalcVar {
   }
 
   reCalc = () => {
-    console.log('reCalc() called for "' + this.name + '".')
+    // console.log('reCalc() called for "' + this.name + '".')
 
     if (this.typeEqn() !== 'output') {
       throw new Error('reCalc() called for variable that was not an output.')
@@ -96,7 +96,7 @@ export default class CalcVar {
       var validationMsg = ''
 
       if (validator instanceof CustomValidator) {
-        console.log('validator is a instance of CustomValidator.')
+        // console.log('validator is a instance of CustomValidator.')
         // Validator must be a custom function
         var result = validator.func()
 

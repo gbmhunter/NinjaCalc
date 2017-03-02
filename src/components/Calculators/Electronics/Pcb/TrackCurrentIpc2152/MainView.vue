@@ -49,11 +49,11 @@
     <!-- SPACER -->
     <div style="height: 50px;"></div>
 
-    <div class="diagram-container" style="position: relative; width: 600px; height: 500px;">
+    <div class="diagram-container" style="position: relative; width: 600px; height: 450px;">
 
       <!-- Background image is centered in diagram container -->
       <!--<img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 500px; height: 500px; z-index: 0">-->
-      <canvas ref="canvas" style="width: 600px; height: 500px; left: 0px; top: 0px;"></canvas>
+      <canvas ref="canvas" style="width: 600px; height: 450px; left: 0px; top: 0px;"></canvas>
 
       <!-- ========================================= -->
       <!-- ========== TRACK CURRENT (input) ======== -->
@@ -91,7 +91,7 @@
       <!-- ========================================= -->
       <!-- ====== IS PLANE PRESENT (combobox) ====== -->
       <!-- ========================================= -->
-      <div class="variable-container" style="left: 550px; top: 370px;">
+      <div class="variable-container" style="left: 500px; top: 300px;">
         <span class="variable-name">Is Plane Present?</span>
         <select v-model="calc.getVar('isPlanePresent').val" v-on:change="calc.getVar('isPlanePresent').onValChange()"
                 style="width: 80px; height: 30px; font-size: 20px;">
@@ -104,7 +104,7 @@
       <!-- ========================================= -->
       <!-- ======== PLANE PROXIMITY (input) ======== -->
       <!-- ========================================= -->
-      <div class="variable-container" style="left: 550px; top: 170px;">
+      <div v-show="calc.getVar('isPlanePresent').val === 'True'" class="variable-container" style="left: 550px; top: 170px;">
         <span class="variable-name">Plane Proximity</span>
         <calc-value-and-unit :calcVar="calc.getVar('planeProximity')"></calc-value-and-unit>
       </div>
@@ -177,8 +177,6 @@
 </template>
 
 <script>
-
-  //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
@@ -866,12 +864,30 @@
         calc: calc
       }
     },
+    computed: {
+      isPlanePresent () {
+        if (this.calc.getVar('isPlanePresent').getVal() === 'True') {
+          return true
+        } else {
+          return false
+        }
+      }
+    },
+    watch: {
+      isPlanePresent () {
+        this.drawCanvas({
+          isPlanePresent: this.isPlanePresent
+        })
+      }
+    },
     methods: {
-      drawCanvas: function () {
+      drawCanvas: function (inputObj) {
+        console.log('drawCanvas() called with inputObj =')
+        console.log(inputObj)
         var canvas = this.$refs.canvas
         var context = canvas.getContext('2d')
         canvas.width = 600
-        canvas.height = 500
+        canvas.height = 450
 
         const copperThickness = 40
         const pcbThickness = 100
@@ -916,19 +932,23 @@
         // ============================================ //
         const copperPlaneStartY = pcbStartY + pcbThickness
 
-        context.beginPath()
-        context.rect(topLeftX, copperPlaneStartY, pcbWidth, copperThickness)
-        context.fillStyle = '#d9a654'
-        context.fill()
-        context.lineWidth = 2
-        context.strokeStyle = 'black'
-        context.stroke()
-
+        var pcbStopY
+        if (inputObj.isPlanePresent) {
+          context.beginPath()
+          context.rect(topLeftX, copperPlaneStartY, pcbWidth, copperThickness)
+          context.fillStyle = '#d9a654'
+          context.fill()
+          context.lineWidth = 2
+          context.strokeStyle = 'black'
+          context.stroke()
+          pcbStopY = copperPlaneStartY + copperThickness
+        } else {
+          pcbStopY = copperPlaneStartY
+        }
         // ============================================ //
         // =========== BOARD THICKNESS ARROW ========== //
         // ============================================ //
-        const arrowStopY = copperPlaneStartY + copperThickness
-        this.canvasArrow(context, topLeftX - 20, topLeftY, topLeftX - 20, arrowStopY)
+        this.canvasArrow(context, topLeftX - 20, topLeftY, topLeftX - 20, pcbStopY)
 
         // ============================================ //
         // ============= TRACK WIDTH ARROW ============ //
@@ -946,7 +966,9 @@
         // ============================================ //
         // =========== PLANE PROXIMITY ARROW ========== //
         // ============================================ //
-        this.canvasArrow(context, trackThicknessAndPlaneProximityArrowX, topLeftY + copperThickness, trackThicknessAndPlaneProximityArrowX, copperPlaneStartY + copperThickness)
+        if (inputObj.isPlanePresent) {
+          this.canvasArrow(context, trackThicknessAndPlaneProximityArrowX, topLeftY + copperThickness, trackThicknessAndPlaneProximityArrowX, pcbStopY)
+        }
       },
       canvasArrow: function (context, fromx, fromy, tox, toy) {
         var headlen = 10   // length of head in pixels
@@ -970,7 +992,9 @@
     },
     mounted () {
 //      console.log('Ohm\'s Law calculator mounted.')
-      this.drawCanvas()
+      this.drawCanvas({
+        isPlanePresent: this.isPlanePresent
+      })
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
     }
   }
