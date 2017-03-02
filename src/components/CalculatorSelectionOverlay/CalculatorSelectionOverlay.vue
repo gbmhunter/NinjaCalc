@@ -58,9 +58,20 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+  /* This is the grid that holds all of the calculator preview objects. */
   .preview-grid {
-    display: flex;
 
+    height: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    /* This makes the calculators appears as if they are in a grid system
+     space-inbetween does not work so well for the last, incomplete row */
+    justify-content: flex-start;
+
+    /* Adds scroll-bars when there are too many calculator previews to fit in the screen. */
+    overflow-y: scroll;
   }
 
 
@@ -102,7 +113,8 @@
   }
 
   .modal-body {
-    margin: 20px 0;
+    height: 100%;
+    /*margin: 20px 0;*/
   }
 
   .modal-default-button {
