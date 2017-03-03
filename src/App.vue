@@ -53,6 +53,7 @@
   import TrackCurrentIpc2152Calculator from './components/Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
   import { dewPointMagnusCalculator } from './components/Calculators/Electronics/Sensors/DewPointMagnus/Calc'
   import { ntcThermistorTemperature } from './components/Calculators/Electronics/Sensors/NtcThermistor/Calc'
+  import { viaCurrentIpc2221ACalculator } from './components/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
 
   console.log('LeftSideMenu =')
   console.log(LeftSideMenu)
@@ -138,6 +139,9 @@
 
       Vue.component(TrackCurrentIpc2152Calculator.mainView.name, TrackCurrentIpc2152Calculator.mainView)
       this.$store.commit('registerCalc', TrackCurrentIpc2152Calculator)
+
+      Vue.component(viaCurrentIpc2221ACalculator.mainView.name, viaCurrentIpc2221ACalculator.mainView)
+      this.$store.commit('registerCalc', viaCurrentIpc2221ACalculator)
     }
   }
 </script>

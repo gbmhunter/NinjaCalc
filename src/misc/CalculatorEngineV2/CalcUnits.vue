@@ -1,13 +1,11 @@
 <!-- This template is designed to work with CalculatorEngineV2 -->
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-
   <select v-model="calcVar.selUnit" v-on:change="calcVar.onUnitChange()" class="variable-units"
-          :style="{ height: height + 'px' }">
+          :style="{ width: width + 'px', height: height + 'px' }">
     <option v-for="option in calcVar.units" v-bind:value="option.value">
       {{ option.text }}
     </option>
   </select>
-
 </template>
 
 <script>
@@ -24,7 +22,7 @@
       width: {
         type: Number,
         required: false,
-        default: 100
+        default: 80
       },
       height: {
         type: Number,
@@ -34,11 +32,9 @@
     },
     components: {},
     computed: {
-      readonly () {
-      },
+      readonly () {},
       methods: {},
-      mounted () {
-      }
+      mounted () {}
     }
   }
 </script>
