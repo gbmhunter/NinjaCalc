@@ -12,7 +12,7 @@
         \( f_c \) = the cutoff frequency of the low-pass RC filter (a.k.a knee frequency, -3dB point)<br>
         \( R \) = resistance of the resistor<br>
         \( C \) = capacitance of the capacitor<br>
-      <p>
+      </p>
     </ui-collapsible>
 
     <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
