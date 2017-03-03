@@ -1,5 +1,7 @@
 // 'use strict'
 
+import { CalcVarNumeral } from './CalcVarNumeral'
+
 export default class Calc {
 
   constructor () {
@@ -31,7 +33,8 @@ export default class Calc {
     // console.log(this)
     for (let calcVar of this.calcVars) {
       // console.log(calcVar)
-      if (calcVar.typeEqn() === 'output') {
+      console.log(CalcVarNumeral)
+      if ((calcVar instanceof CalcVarNumeral) && (calcVar.typeEqn() === 'output')) {
         // console.log('Recalculating "' + calcVar.name + '".')
         calcVar.reCalc()
       }

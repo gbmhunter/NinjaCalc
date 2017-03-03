@@ -16,7 +16,7 @@
 
 //  'use strict'
 
-  import CalcVar from 'src/misc/CalculatorEngineV2/CalcVar'
+  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
 
@@ -42,7 +42,7 @@
       // ============================================ //
       // ============= CLOSEST RESISTANCE =========== //
       // ============================================ //
-      var closestResistance = new CalcVar({
+      var closestResistance = new CalcVarNumeral({
         name: this.eSeries.name + 'ClosestResistance',
         typeEqn: () => {
           return 'output'
@@ -69,7 +69,7 @@
       // ============================================ //
       // ========= CLOSEST RESISTANCE ERROR ========= //
       // ============================================ //
-      var closestResistanceError = new CalcVar({
+      var closestResistanceError = new CalcVarNumeral({
         name: this.eSeries.name + 'ClosestResistanceError',
         typeEqn: () => {
           return 'output'
@@ -101,7 +101,7 @@
       // ============================================ //
       // ==== CLOSEST EQUAL OR LOWER RESISTANCE  ==== //
       // ============================================ //
-      var closestEqualOrLowerResistance = new CalcVar({
+      var closestEqualOrLowerResistance = new CalcVarNumeral({
         name: this.eSeries.name + 'ClosestEqualOrLowerResistance',
         typeEqn: () => {
           return 'output'
@@ -128,7 +128,7 @@
       // ============================================ //
       // = CLOSEST EQUAL OR LOWER RESISTANCE ERROR == //
       // ============================================ //
-      var closestEqualOrLowerResistanceError = new CalcVar({
+      var closestEqualOrLowerResistanceError = new CalcVarNumeral({
         name: this.eSeries.name + 'ClosestEqualOrLowerResistanceError',
         typeEqn: () => {
           return 'output'
@@ -159,7 +159,7 @@
       // ============================================ //
       // ==== CLOSEST EQUAL OR HIGHER RESISTANCE  === //
       // ============================================ //
-      var closestEqualOrHigherResistance = new CalcVar({
+      var closestEqualOrHigherResistance = new CalcVarNumeral({
         name: this.eSeries.name + 'ClosestEqualOrHigherResistance',
         typeEqn: () => {
           return 'output'
@@ -186,7 +186,7 @@
       // ============================================ //
       // = CLOSEST EQUAL OR HIGHER RESISTANCE ERROR = //
       // ============================================ //
-      var closestEqualOrHigherResistanceError = new CalcVar({
+      var closestEqualOrHigherResistanceError = new CalcVarNumeral({
         name: this.eSeries.name + 'ClosestEqualOrHigherResistanceError',
         typeEqn: () => {
           return 'output'

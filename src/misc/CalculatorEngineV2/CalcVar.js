@@ -1,11 +1,19 @@
-// 'use strict'
+'use strict'
 
 import PresetValidators from './PresetValidators'
 import { CustomValidator } from './CustomValidator'
 
+/**
+ * "Abtract" class that represents a calculator variable.
+ */
 export default class CalcVar {
 
   constructor (initObj) {
+    // This is an "abstract" class, prevent user from instantiating one directly
+    if (this.constructor === CalcVar) {
+      throw new TypeError('Abstract class "CalcVar" cannot be instantiated directly. initObj.name = ' + initObj.name)
+    }
+
     this.name = initObj.name
     this.typeEqn = initObj.typeEqn
     this.eqn = initObj.eqn
@@ -61,19 +69,6 @@ export default class CalcVar {
 
     this.validate()
     this.triggerReCalcOutputsAndValidate()
-  }
-
-  reCalc = () => {
-    // console.log('reCalc() called for "' + this.name + '".')
-
-    if (this.typeEqn() !== 'output') {
-      throw new Error('reCalc() called for variable that was not an output.')
-    }
-
-    this.rawVal = this.eqn()
-
-    this.calcDispValFromRawVal()
-    this.validate()
   }
 
   triggerReCalcOutputsAndValidate = () => {

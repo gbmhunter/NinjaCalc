@@ -44,4 +44,17 @@ export class CalcVarNumeral extends CalcVar {
       this.dispVal = roundedDispVal
     }
   }
+
+  reCalc = () => {
+    console.log('CalcVarNumerical.reCalc() called for "' + this.name + '".')
+
+    if (this.typeEqn() !== 'output') {
+      throw new Error('reCalc() called for variable that was not an output.')
+    }
+
+    this.rawVal = this.eqn()
+
+    this.calcDispValFromRawVal()
+    this.validate()
+  }
 }
