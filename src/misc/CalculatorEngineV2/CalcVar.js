@@ -2,7 +2,6 @@
 
 import PresetValidators from './PresetValidators'
 import {CustomValidator} from './CustomValidator'
-import {CalcVarInvisible} from './CalcVarInvisible'
 
 /**
  * "Abtract" class that represents a calculator variable.
@@ -55,10 +54,10 @@ export default class CalcVar {
 
     // Save help text. This will be presented in the tool-tip along
     // with and validator messages.
-    if ((!(this instanceof CalcVarInvisible)) && (!initObj.helpText)) {
-      throw new Error('No helpText string provided to CalcVar() for variable "' + this.name + '".')
-    }
-    this.helpText = initObj.helpText
+    // if ((!initObj.helpText)) {
+    //   throw new Error('No helpText string provided to CalcVar() for variable "' + this.name + '".')
+    // }
+    // this.helpText = initObj.helpText
   }
 
   getRawVal = () => {

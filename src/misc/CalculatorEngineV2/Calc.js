@@ -29,7 +29,7 @@ export default class Calc {
   }
 
   reCalcOutputsAndValidate = () => {
-    // console.log('reCalcOutputs() called.')
+    console.log('reCalcOutputs() called.')
     // console.log(this)
     for (let calcVar of this.calcVars) {
       // console.log(calcVar)

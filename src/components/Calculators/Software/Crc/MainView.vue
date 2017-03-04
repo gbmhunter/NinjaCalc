@@ -27,7 +27,7 @@
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
-//  import {CalcVarInvisible} from 'src/misc/CalculatorEngineV2/CalcVarInvisible'
+  import {CalcVarInvisible} from 'src/misc/CalculatorEngineV2/CalcVarInvisible'
   //  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
@@ -74,11 +74,14 @@
       // ============================================ //
       // ============== CRC VAR INVISIBLE =========== //
       // ============================================ //
-//      calc.addVar(new CalcVarInvisible({
-//        name: 'convertedCrcData',
-//        defaultVal: '',
-//        validators: []
-//      }))
+      calc.addVar(new CalcVarInvisible({
+        name: 'convertedCrcData',
+        eqn: () => {
+          return '1'
+        },
+        defaultVal: '',
+        validators: []
+      }))
 
       // Configure calculator to default state now that all
       // variables have been added.
