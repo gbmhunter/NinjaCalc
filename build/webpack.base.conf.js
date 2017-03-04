@@ -69,7 +69,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(xcf|vsd)(\?.*)?$/,
+        test: /\.(xcf|vsd|xml)(\?.*)?$/,
         loader: 'ignore-loader'
       }
     ]

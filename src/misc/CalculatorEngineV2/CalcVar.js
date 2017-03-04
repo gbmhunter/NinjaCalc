@@ -1,7 +1,8 @@
 'use strict'
 
 import PresetValidators from './PresetValidators'
-import { CustomValidator } from './CustomValidator'
+import {CustomValidator} from './CustomValidator'
+import {CalcVarInvisible} from './CalcVarInvisible'
 
 /**
  * "Abtract" class that represents a calculator variable.
@@ -11,9 +12,16 @@ export default class CalcVar {
   constructor (initObj) {
     // This is an "abstract" class, prevent user from instantiating one directly
     if (this.constructor === CalcVar) {
-      throw new TypeError('Abstract class "CalcVar" cannot be instantiated directly. initObj.name = ' + initObj.name)
+      throw new TypeError('Abstract class "CalcVar" cannot be instantiated directly.')
     }
 
+    if (!initObj) {
+      throw new Error('An initObj must be provided to CalcVar.constructor().')
+    }
+
+    if (!initObj.name) {
+      throw new Error('Please provide a unique calculator variable name via initObj.name.')
+    }
     this.name = initObj.name
     this.typeEqn = initObj.typeEqn
     this.eqn = initObj.eqn
@@ -47,7 +55,7 @@ export default class CalcVar {
 
     // Save help text. This will be presented in the tool-tip along
     // with and validator messages.
-    if (!initObj.helpText) {
+    if ((!(this instanceof CalcVarInvisible)) && (!initObj.helpText)) {
       throw new Error('No helpText string provided to CalcVar() for variable "' + this.name + '".')
     }
     this.helpText = initObj.helpText
