@@ -52,12 +52,14 @@
 <script>
 
   //  'use strict'
+  var bigInt = require('big-integer')
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import {CalcVarInvisible} from 'src/misc/CalculatorEngineV2/CalcVarInvisible'
   //  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
+  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -66,6 +68,19 @@
     name: 'crc-calculator',
     components: {},
     data: function () {
+      var crcGeneric = new CrcGeneric({
+        name: 'MAXIM',
+        crcWidthBits: 8,
+        crcPolynomial: bigInt('0x31', 16),
+        startingValue: bigInt('0x00', 16),
+        reflectData: false,
+        reflectRemainder: false,
+        finalXorValue: bigInt('0x00', 16),
+        checkValue: bigInt('0xA1', 16)
+      })
+      console.log('crcGeneric =')
+      console.log(crcGeneric)
+
       var calc = new Calc()
 
       // Create new variable in class for determining what is input and output
