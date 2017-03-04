@@ -62,17 +62,9 @@ export default class StandardResistanceFinder {
         this.e48Values.push(this.e192Values[i])
       }
     }
-
-    console.log('StandardResistanceFinder() finished. this =')
-    console.log(this)
   }
 
   find = (desiredResistance, eSeries, searchMethod) => {
-    console.log('find() called with desiredResistance = ' + desiredResistance)
-    console.log('eSeries =')
-    console.log(eSeries)
-    console.log('and searchMethod = ')
-    console.log(searchMethod.name)
     // Check for special case where desired resistance is 0. Strictly speaking, this does not belong
     // in any E-series, but 0R links are common place so we will return 0.0 anyway.
     if (desiredResistance === 0.0) {
@@ -104,23 +96,12 @@ export default class StandardResistanceFinder {
       default:
         throw new Error('Provided eSeriesOption "' + eSeries.name + '" is not supported.')
     }
-    console.log('selectedRange =')
-    console.log(selectedRange)
 
     var order = this.findOrder(desiredResistance) - 2
-    console.log('order = ' + order)
-
     var scaledDesiredResistance = this.scaleWrtOrder(desiredResistance, order)
-    console.log('scaledDesiredResistance = ' + scaledDesiredResistance)
-
     var closestScaledResistance = this.findClosestMatch(scaledDesiredResistance, selectedRange, searchMethod)
-    console.log('closestScaledResistance = ' + closestScaledResistance)
-
     var scaleFactor = Math.pow(10, order)
-    console.log('scaleFactor = ' + scaleFactor)
-
     var closestResistance = closestScaledResistance * scaleFactor
-    console.log('closestResistance = ' + closestResistance)
 
     return closestResistance
   }
@@ -166,14 +147,9 @@ export default class StandardResistanceFinder {
         //    and lower than array[i]. We need to find which one is closer (based on percentage difference)
         // 2) We have stopped either on the second or last element of the array. If it is the second, val will
         //    be closest to array[i-1], if it is the last, val will be closest to array[i].
-        console.log('Stopped when i = ' + i)
-        console.log('Closest value 1 = ' + array[i - 1])
-        console.log('Closest value 2 = ' + array[i])
 
         var lowerPercDiff = ((val - array[i - 1]) / array[i - 1]) * 100.0
-        console.log('Percentage diff 1 = ' + lowerPercDiff)
         var higherPercDiff = ((val - array[i]) / array[i]) * 100.0
-        console.log('Percentage diff 2 = ' + higherPercDiff)
 
         if (Math.abs(lowerPercDiff) < Math.abs(higherPercDiff)) {
           return array[i - 1]
@@ -181,8 +157,6 @@ export default class StandardResistanceFinder {
           return array[i]
         }
       case this.searchMethods.CLOSEST_EQUAL_OR_LOWER:
-        console.log('Finding closest equal or lower value to "' + val + '" in array =')
-        console.log(array)
 
         // First make sure there is a lower value in the array
         if (array[0] > val) {
@@ -211,7 +185,8 @@ export default class StandardResistanceFinder {
         }
 
         // Special case here where the first larger number is the first number of the next series
-        throw new Error('StandardResistanceFinder.Find() called with searchMethod = CLOSEST_EQUAL_OR_HIGHER, but there was no value in the array which was equal of higher than the provided value of ' + val)
+        throw new Error('StandardResistanceFinder.Find() called with searchMethod = CLOSEST_EQUAL_OR_HIGHER, ' +
+          'but there was no value in the array which was equal of higher than the provided value of ' + val)
     }
 
     throw new Error('Code reached invalid place. Case must not of been handled correctly in switch statement.')
