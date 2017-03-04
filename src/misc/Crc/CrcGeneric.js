@@ -4,6 +4,7 @@ export class CrcGeneric {
   constructor (initObj) {
     console.log('CrcGeneric.initObj() called.')
 
+    this.name = initObj.name
     this.crcWidthBits = initObj.crcWidthBits
     this.crcPolynomial = initObj.crcPolynomial
     this.startingValue = initObj.startingValue
