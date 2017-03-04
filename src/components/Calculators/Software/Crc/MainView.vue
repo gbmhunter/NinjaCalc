@@ -43,7 +43,7 @@
       calc.outputVar = 'resistance'
 
       // ============================================ //
-      // =================== CRC DATA =============== //
+      // ========== CRC DATA (string input) ========= //
       // ============================================ //
       calc.addVar(new CalcVarString({
         name: 'crcData',
@@ -58,7 +58,7 @@
       }))
 
       // ============================================ //
-      // ================ CRC DATA TYPE ============= //
+      // ========= CRC DATA TYPE (combobox) ========= //
       // ============================================ //
       calc.addVar(new CalcVarComboBox({
         name: 'crcDataType',
@@ -72,12 +72,64 @@
       }))
 
       // ============================================ //
-      // ============== CRC VAR INVISIBLE =========== //
+      // ======= CONVERTED CRC DATA (invisible) ===== //
       // ============================================ //
       calc.addVar(new CalcVarInvisible({
         name: 'convertedCrcData',
         eqn: () => {
-          return '1'
+          const crcDataString = calc.getVar('crcData').getVal()
+          const inputDataType = calc.getVar('crcDataType').getVal()
+
+          // Convert this string into a list of integers
+          var buffer = []
+          var i
+          if (inputDataType === 'ASCII/Unicode') {
+            for (i = 0; i < crcDataString.length; i++) {
+              var currentChar = crcDataString.charAt(i)
+
+              // Convert the character into it's equivalent Unicode integer
+              // Note: Since Unicode is a complete superset of ASCII, this will
+              // work for ASCII characters to
+              buffer.add(currentChar)
+            }
+          } else if (inputDataType === 'Hex') {
+            // Note: i gets incremented each time by 2
+            for (i = 0; i < crcDataString.length; i += 2) {
+              var hexByte
+              // Special case if string length is odd, for the last value we
+              // have to extract just one character
+              if (crcDataString.length() - i === 1) {
+                hexByte = crcDataString.substring(i, i + 1)
+              } else {
+                // Extract 2-character strings from the CRC data
+                hexByte = crcDataString.substring(i, i + 2)
+              }
+
+              var integerValueOfHex = parseInt(hexByte, 16)
+              buffer.add(integerValueOfHex)
+
+              if (isNaN(integerValueOfHex)) {
+                // We will get here if the input data is not valid hex, e.g. it has
+                // characters after f in the input
+//                crcDataCalcVar.validationResults.add(
+//                  new CalcValidationResult(
+//                    CalcValidationLevels.Error,
+//                    "Input data is not valid. If in \"Hex\"mode, data must contain only the numerals 0-9 and the characters A-F. Do not add \"0x\"to the start of the hex number."));
+//                crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Error;
+//                crcDataCalcVar.updateUIBasedOnValidationResults();
+                console.log('isNaN!')
+
+                return []
+              }
+              buffer.add(integerValueOfHex)
+            }
+          }
+          // If we make it to here, everything was o.k.
+//          crcDataCalcVar.validationResults.clear();
+//          crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
+//          crcDataCalcVar.updateUIBasedOnValidationResults();
+
+          return buffer
         },
         defaultVal: '',
         validators: []

@@ -7,5 +7,11 @@ export class CalcVarString extends CalcVar {
   constructor (initObj) {
     super(initObj)
     this.test = 'test'
+
+    this.val = initObj.defaultVal
+  }
+
+  getVal = () => {
+    return this.val
   }
 }
