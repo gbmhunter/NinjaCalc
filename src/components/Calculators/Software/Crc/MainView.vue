@@ -3,21 +3,48 @@
   <div class="calculator-container">
 
     <ui-collapsible title="Info" class="calc-info" style="max-width: 600px;">
-      <p>This calculator takes in the provided data (as either ASCII/Unicode or hex) and calculates the resulting CRC value using a range of popular CRC algorithms.</p>
+      <p>This calculator takes in the provided data (as either ASCII/Unicode or hex) and calculates the resulting CRC
+        value using a range of popular CRC algorithms.</p>
 
-      <p>When the ASCII/Unicode radiobutton is selected, values entered into the CRC data textbox will be treated as ASCII/Unicode characters. These characters will then be converted to their corresponding Unicode integer values. (Unicode is a complete superset of ASCII, so all ASCII characters map to the same integer values as Unicode characters).</p>
+      <p>When the ASCII/Unicode radiobutton is selected, values entered into the CRC data textbox will be treated as
+        ASCII/Unicode characters. These characters will then be converted to their corresponding Unicode integer values.
+        (Unicode is a complete superset of ASCII, so all ASCII characters map to the same integer values as Unicode
+        characters).</p>
 
     </ui-collapsible>
 
-    <calc-var-string :calcVar="calc.getVar('crcData')"></calc-var-string>
-    <select v-model="calc.getVar('crcDataType').val" v-on:change="calc.getVar('crcDataType').onValChange()"
-            style="width: 100px; height: 30px; font-size: 20px;">
-      <option v-for="option in calc.getVar('crcDataType').options" v-bind:value="option">
-        {{ option }}
-      </option>
-    </select>
+    <!-- =========================================================================================== -->
+    <!-- ========================================= INPUT DATA ====================================== -->
+    <!-- =========================================================================================== -->
 
-  </div>
+    <div style="display: flex; justify-content: center;">
+      <div>CRC Data</div>
+      <calc-var-string :calcVar="calc.getVar('crcData')" :width=200></calc-var-string>
+    </div>
+
+    <div style="display: flex;">
+      <div>Data Format</div>
+      <select v-model="calc.getVar('crcDataType').val" v-on:change="calc.getVar('crcDataType').onValChange()"
+              style="width: 200px; height: 30px; font-size: 20px;">
+        <option v-for="option in calc.getVar('crcDataType').options" v-bind:value="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
+
+    <!-- =========================================================================================== -->
+    <!-- =================================== COMMON CRC ALGORITHMS ================================= -->
+    <!-- =========================================================================================== -->
+
+    <div id="common-crc-algorithms">
+      <table>
+        <tr>
+          <td>CRC Name</td>
+          <td>CRC Value</td>
+        </tr>
+      </table>
+    </div>
+
   </div>
 
 </template>
