@@ -9,11 +9,13 @@
 
     </ui-collapsible>
 
-    <!-- ========================================= -->
-    <!-- =============== VOLTAGE ================= -->
-    <!-- ========================================= -->
-
     <calc-value :calcVar="calc.getVar('crcData')"></calc-value>
+    <select v-model="calc.getVar('crcDataType').val" v-on:change="calc.getVar('crcDataType').onValChange()"
+            style="width: 100px; height: 30px; font-size: 20px;">
+      <option v-for="option in calc.getVar('crcDataType').options" v-bind:value="option">
+        {{ option }}
+      </option>
+    </select>
 
   </div>
   </div>
