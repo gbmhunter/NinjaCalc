@@ -1,6 +1,8 @@
 // 'use strict'
 
 import { CalcVarNumeral } from './CalcVarNumeral'
+import { CalcVarString } from './CalcVarString'
+import { CalcVarInvisible } from './CalcVarInvisible'
 
 export default class Calc {
 
@@ -32,10 +34,16 @@ export default class Calc {
     console.log('reCalcOutputs() called.')
     // console.log(this)
     for (let calcVar of this.calcVars) {
-      // console.log(calcVar)
-      console.log(CalcVarNumeral)
+      console.log(calcVar instanceof CalcVarString)
       if ((calcVar instanceof CalcVarNumeral) && (calcVar.typeEqn() === 'output')) {
-        // console.log('Recalculating "' + calcVar.name + '".')
+        calcVar.reCalc()
+      }
+      if ((calcVar instanceof CalcVarString) && (calcVar.typeEqn() === 'output')) {
+        console.log('test')
+        calcVar.reCalc()
+      }
+      if ((calcVar instanceof CalcVarInvisible) && (calcVar.typeEqn() === 'output')) {
+        console.log('test')
         calcVar.reCalc()
       }
     }

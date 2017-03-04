@@ -38,6 +38,8 @@ import CalcValueAndUnit from 'src/misc/CalculatorEngineV2/CalcValueAndUnit'
 Vue.component('calc-value-and-unit', CalcValueAndUnit)
 import CalcUnits from 'src/misc/CalculatorEngineV2/CalcUnits'
 Vue.component('calc-units', CalcUnits)
+import CalcVarString from 'src/misc/CalculatorEngineV2/view/CalcVarString'
+Vue.component('calc-var-string', CalcVarString)
 
 /* eslint-disable no-unused-vars */
 const store = new Vuex.Store({

@@ -9,7 +9,7 @@
 
     </ui-collapsible>
 
-    <calc-value :calcVar="calc.getVar('crcData')"></calc-value>
+    <calc-var-string :calcVar="calc.getVar('crcData')"></calc-var-string>
     <select v-model="calc.getVar('crcDataType').val" v-on:change="calc.getVar('crcDataType').onValChange()"
             style="width: 100px; height: 30px; font-size: 20px;">
       <option v-for="option in calc.getVar('crcDataType').options" v-bind:value="option">
@@ -80,6 +80,7 @@
         name: 'convertedCrcData',
         eqn: () => {
           const crcDataString = calc.getVar('crcData').getVal()
+          console.log('crcDataString = ' + crcDataString)
           const inputDataType = calc.getVar('crcDataType').getVal()
 
           // Convert this string into a list of integers
@@ -87,12 +88,12 @@
           var i
           if (inputDataType === 'ASCII/Unicode') {
             for (i = 0; i < crcDataString.length; i++) {
-              var currentChar = crcDataString.charAt(i)
+              var currentChar = crcDataString.charCodeAt(i)
 
               // Convert the character into it's equivalent Unicode integer
               // Note: Since Unicode is a complete superset of ASCII, this will
               // work for ASCII characters to
-              buffer.add(currentChar)
+              buffer.push(currentChar)
             }
           } else if (inputDataType === 'Hex') {
             // Note: i gets incremented each time by 2
@@ -108,7 +109,7 @@
               }
 
               var integerValueOfHex = parseInt(hexByte, 16)
-              buffer.add(integerValueOfHex)
+              buffer.push(integerValueOfHex)
 
               if (isNaN(integerValueOfHex)) {
                 // We will get here if the input data is not valid hex, e.g. it has
@@ -130,7 +131,8 @@
 //          crcDataCalcVar.validationResults.clear();
 //          crcDataCalcVar.worstValidationLevel = CalcValidationLevels.Ok;
 //          crcDataCalcVar.updateUIBasedOnValidationResults();
-
+          console.log('Converted CRC data =')
+          console.log(buffer)
           return buffer
         },
         defaultVal: '',

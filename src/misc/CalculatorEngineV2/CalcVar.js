@@ -64,20 +64,6 @@ export default class CalcVar {
     return this.rawVal
   }
 
-  /**
-   * Designed to be called by vue once this.dispVal has been changed.
-   */
-  onDispValChange = () => {
-    // console.log('onDispValChange() called.')
-    // console.log('this.dispVal =' + this.dispVal)
-
-    this.rawVal = parseFloat(this.dispVal) * parseFloat(this.selUnit)
-    // console.log('this.rawVal = ' + this.rawVal)
-
-    this.validate()
-    this.triggerReCalcOutputsAndValidate()
-  }
-
   triggerReCalcOutputsAndValidate = () => {
     if (!this.calc) {
       throw new Error('Calc var "' + this.name + '" has not been added to a calculator with Calc.addVar().')
