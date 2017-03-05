@@ -1,6 +1,29 @@
 var bigInt = require('big-integer')
 import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
 
+describe('CrcGeneric 4-bit tests.', function () {
+  var crcGeneric = new CrcGeneric({
+    name: 'CRC-4/ITU',
+    crcWidthBits: 4,
+    crcPolynomial: bigInt('0x3', 16),
+    startingValue: bigInt('0x0', 16),
+    reflectData: true,
+    reflectRemainder: true,
+    finalXorValue: bigInt('0x0', 16),
+    checkValue: bigInt('0x7', 16)
+  })
+
+  it('update() test', function () {
+    expect(crcGeneric.getHex()).to.equal('0')
+    crcGeneric.update(0x01)
+    expect(crcGeneric.getHex()).to.equal('7')
+    crcGeneric.update(0x02)
+    expect(crcGeneric.getHex()).to.equal('2')
+    crcGeneric.update(0x03)
+    expect(crcGeneric.getHex()).to.equal('7')
+  })
+})
+
 describe('CrcGeneric 8-bit tests.', function () {
   var crcGeneric = new CrcGeneric({
     name: 'CRC-8/ITU',
@@ -82,3 +105,26 @@ describe('CrcGeneric 32-bit tests.', function () {
     expect(crcGeneric.getHex()).to.equal('5396EBAE')
   })
 })
+
+// describe('CrcGeneric 64-bit tests.', function () {
+//   var crcGeneric = new CrcGeneric({
+//     name: 'CRC-64',
+//     crcWidthBits: 64,
+//     crcPolynomial: bigInt('0x42F0E1EBA9EA3693', 16),
+//     startingValue: bigInt('0x0000000000000000', 16),
+//     reflectData: false,
+//     reflectRemainder: false,
+//     finalXorValue: bigInt('0x0000000000000000', 16),
+//     checkValue: bigInt('0x6C40DF5F0B497347', 16)
+//   })
+//
+//   it('update() test', function () {
+//     expect(crcGeneric.getHex()).to.equal('0000000000000000')
+//     crcGeneric.update(0x01)
+//     expect(crcGeneric.getHex()).to.equal('42F0E1EBA9EA3693')
+//     crcGeneric.update(0x02)
+//     expect(crcGeneric.getHex()).to.equal('2AE4E9BC005AB22F')
+//     crcGeneric.update(0x03)
+//     expect(crcGeneric.getHex()).to.equal('F805609ECE1ECBF3')
+//   })
+// })

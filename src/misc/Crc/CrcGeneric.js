@@ -46,14 +46,12 @@ export class CrcGeneric {
   update = (byteOfData) => {
     console.log('CrcGeneric.update() called with byteOfData = ' + byteOfData)
 
-    var input = byteOfData
+    // Convert to bigInt
+    var input = bigInt(byteOfData)
 
     if (this.reflectData) {
       input = this.doMirror(input, 8)
     }
-
-    // Convert to bigInt
-    input = bigInt(input)
 
     if (this.crcWidthBits - this.DATA_WIDTH_BITS >= 0) {
       // CRC POLYNOMIAL WIDTH >= DATA WIDTH
@@ -76,16 +74,21 @@ export class CrcGeneric {
       }
     } else {
       // CRC POLYNOMIAL WIDTH < DATA WIDTH
+      console.log('CRC poly width < data width')
+      this.crcValue = this.crcValue.shiftLeft(this.DATA_WIDTH_BITS - this.crcWidthBits)
 
-      this.crcValue <<= this.DATA_WIDTH_BITS - this.crcWidthBits
-
-      this.crcValue ^= input
+      this.crcValue = this.crcValue.xor(input)
       for (var k = 0; k < 8; k++) {
-        this.crcValue = ((this.crcValue & 0x80) !== 0) ? (this.crcValue << 1) ^ this.shiftedPolynomial : this.crcValue << 1
+        // this.crcValue = ((this.crcValue & 0x80) !== 0) ? (this.crcValue << 1) ^ this.shiftedPolynomial : this.crcValue << 1
+        if(this.crcValue.and(0x80).notEquals(0)) {
+          this.crcValue = this.crcValue.shiftLeft(1).xor(this.shiftedPolynomial)
+        } else {
+          this.crcValue = this.crcValue.shiftLeft(1)
+        }
       }
 
-      this.crcValue &= 0xFF
-      this.crcValue >>= this.DATA_WIDTH_BITS - this.crcWidthBits
+      this.crcValue = this.crcValue.and(0xFF)
+      this.crcValue = this.crcValue.shiftRight(this.DATA_WIDTH_BITS - this.crcWidthBits)
     }
 
     console.log('update() finished. crcValue = ' + this.crcValue)
@@ -97,7 +100,7 @@ export class CrcGeneric {
     for (var i = 0; i < numBits; i++) {
       output = output.shiftLeft(1)
       output = output.or(input.and(1))
-      input = input.rightShift(1)
+      input = input.shiftRight(1)
     }
 
     return output
