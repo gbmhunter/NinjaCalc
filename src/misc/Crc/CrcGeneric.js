@@ -33,17 +33,27 @@ export class CrcGeneric {
     this.shiftedPolynomial = this.crcPolynomial.shiftLeft(8 - this.crcWidthBits)
 
     // Initialise the CRC value with the starting value
-    this.crcValue = this.startingValue
+    this.crcValue = bigInt(this.startingValue)
+    console.log('initObj.startingValue =')
+    console.log(initObj.startingValue)
+    console.log('this.startingValue = ')
+    console.log(this.startingValue)
+
+    console.log('CrcGeneric.constructor() finished. this =')
+    console.log(this)
   }
 
   update = (byteOfData) => {
-    console.log('CrcGeneric.update() called.')
+    console.log('CrcGeneric.update() called with byteOfData = ' + byteOfData)
 
     var input = byteOfData
 
     if (this.reflectData) {
       input = this.doMirror(input, 8)
     }
+
+    // Convert to bigInt
+    input = bigInt(input)
 
     if (this.crcWidthBits - this.DATA_WIDTH_BITS >= 0) {
       // CRC POLYNOMIAL WIDTH >= DATA WIDTH
@@ -52,15 +62,16 @@ export class CrcGeneric {
       // depending on the polynomial width.
       // This trick allows us to operate on one byte of data at a time before
       // considering the next
-      this.crcValue ^= (input << (this.crcWidthBits - this.DATA_WIDTH_BITS))
+      // this.crcValue ^= (input << (this.crcWidthBits - this.DATA_WIDTH_BITS))
+      this.crcValue = this.crcValue.xor(input.shiftLeft(this.crcWidthBits - this.DATA_WIDTH_BITS))
 
       for (var j = 0; j < this.DATA_WIDTH_BITS; j++) {
         // Check to see if MSB is 1, if so, we need
         // to XOR with polynomial
-        if ((this.crcValue & (1 << (this.crcWidthBits - 1))) !== 0) {
-          this.crcValue = ((this.crcValue << 1) ^ this.crcPolynomial) & this.mask
+        if (this.crcValue.and((bigInt(1).shiftLeft(this.crcWidthBits - 1))).notEquals(0)) {
+          this.crcValue = ((this.crcValue.shiftLeft(1).xor(this.crcPolynomial)).and(this.mask))
         } else {
-          this.crcValue = (this.crcValue << 1) & this.mask
+          this.crcValue = this.crcValue.shiftLeft(1).and(this.mask)
         }
       }
     } else {
@@ -76,6 +87,8 @@ export class CrcGeneric {
       this.crcValue &= 0xFF
       this.crcValue >>= this.DATA_WIDTH_BITS - this.crcWidthBits
     }
+
+    console.log('update() finished. crcValue = ' + this.crcValue)
   }
 
   doMirror = (input, numBits) => {
@@ -86,6 +99,19 @@ export class CrcGeneric {
       output |= (input & 1)
       input >>= 1
     }
+
+    return output
+  }
+
+  getValue = () => {
+    var output = 0
+    if (this.reflectRemainder) {
+      output = this.doMirror(this.crcValue, this.crcWidthBits)
+    } else {
+      output = this.crcValue
+    }
+
+    output ^= this.finalXorValue
 
     return output
   }
