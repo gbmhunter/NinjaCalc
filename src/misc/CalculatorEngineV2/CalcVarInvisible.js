@@ -15,7 +15,6 @@ export class CalcVarInvisible extends CalcVar {
       return 'output'
     }
     super(initObj)
-    this.test = 'test'
   }
 
   reCalc = () => {
@@ -24,5 +23,9 @@ export class CalcVarInvisible extends CalcVar {
     this.val = this.eqn()
 
     this.validate()
+  }
+
+  getVal = () => {
+    return this.val
   }
 }

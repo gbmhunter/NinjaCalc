@@ -42,6 +42,10 @@
           <td>CRC Name</td>
           <td>CRC Value</td>
         </tr>
+        <tr>
+          <td>CRC-8/Maxim</td>
+          <td><calc-var-string :calcVar="calc.getVar('crcValCrc8Maxim')" :width=200></calc-var-string></td>
+        </tr>
       </table>
     </div>
 
@@ -68,19 +72,6 @@
     name: 'crc-calculator',
     components: {},
     data: function () {
-      var crcGeneric = new CrcGeneric({
-        name: 'MAXIM',
-        crcWidthBits: 8,
-        crcPolynomial: bigInt('0x31', 16),
-        startingValue: bigInt('0x00', 16),
-        reflectData: false,
-        reflectRemainder: false,
-        finalXorValue: bigInt('0x00', 16),
-        checkValue: bigInt('0xA1', 16)
-      })
-      console.log('crcGeneric =')
-      console.log(crcGeneric)
-
       var calc = new Calc()
 
       // Create new variable in class for determining what is input and output
@@ -138,12 +129,15 @@
               buffer.push(currentChar)
             }
           } else if (inputDataType === 'Hex') {
+            console.log('inputDataType === Hex')
+            console.log(crcDataString)
             // Note: i gets incremented each time by 2
             for (i = 0; i < crcDataString.length; i += 2) {
+              console.log('i = ' + i)
               var hexByte
               // Special case if string length is odd, for the last value we
               // have to extract just one character
-              if (crcDataString.length() - i === 1) {
+              if (crcDataString.length - i === 1) {
                 hexByte = crcDataString.substring(i, i + 1)
               } else {
                 // Extract 2-character strings from the CRC data
@@ -151,8 +145,6 @@
               }
 
               var integerValueOfHex = parseInt(hexByte, 16)
-              buffer.push(integerValueOfHex)
-
               if (isNaN(integerValueOfHex)) {
                 // We will get here if the input data is not valid hex, e.g. it has
                 // characters after f in the input
@@ -166,7 +158,7 @@
 
                 return []
               }
-              buffer.add(integerValueOfHex)
+              buffer.push(integerValueOfHex)
             }
           }
           // If we make it to here, everything was o.k.
@@ -179,6 +171,38 @@
         },
         defaultVal: '',
         validators: []
+      }))
+
+      // ============================================ //
+      // ======== CRC-8 MAXIM (string input) ======== //
+      // ============================================ //
+      calc.addVar(new CalcVarString({
+        name: 'crcValCrc8Maxim',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          const crcData = calc.getVar('convertedCrcData').getVal()
+
+          // Create CRC engine
+          var crcGeneric = new CrcGeneric({
+            name: 'MAXIM',
+            crcWidthBits: 8,
+            crcPolynomial: bigInt('0x31', 16),
+            startingValue: bigInt('0x00', 16),
+            reflectData: true,
+            reflectRemainder: true,
+            finalXorValue: bigInt('0x00', 16),
+            checkValue: bigInt('0xA1', 16)
+          })
+          for (var i = 0; i < crcData.length; i++) {
+            crcGeneric.update(crcData[i])
+          }
+          return crcGeneric.getHex()
+        },
+        defaultVal: '',
+        validators: [],
+        helpText: 'The textual input.'
       }))
 
       // Configure calculator to default state now that all

@@ -20,4 +20,12 @@ export class CalcVarString extends CalcVar {
     this.validate()
     this.triggerReCalcOutputsAndValidate()
   }
+
+  reCalc = () => {
+    if (this.typeEqn() !== 'output') {
+      throw new Error('reCalc() called for variable that was not an output.')
+    }
+    this.val = this.eqn()
+    this.validate()
+  }
 }

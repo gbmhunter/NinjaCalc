@@ -80,7 +80,7 @@ export class CrcGeneric {
       this.crcValue = this.crcValue.xor(input)
       for (var k = 0; k < 8; k++) {
         // this.crcValue = ((this.crcValue & 0x80) !== 0) ? (this.crcValue << 1) ^ this.shiftedPolynomial : this.crcValue << 1
-        if(this.crcValue.and(0x80).notEquals(0)) {
+        if (this.crcValue.and(0x80).notEquals(0)) {
           this.crcValue = this.crcValue.shiftLeft(1).xor(this.shiftedPolynomial)
         } else {
           this.crcValue = this.crcValue.shiftLeft(1)
@@ -107,6 +107,8 @@ export class CrcGeneric {
   }
 
   getValue = () => {
+    console.log('CrcGeneric.getValue() called. this.crcValue =')
+    console.log(this.crcValue)
     var output
     if (this.reflectRemainder) {
       output = this.doMirror(this.crcValue, this.crcWidthBits)
@@ -120,7 +122,10 @@ export class CrcGeneric {
   }
 
   getHex = () => {
+    console.log('CrcGeneric.getHex() called.')
     var value = bigInt(this.getValue())
+    console.log('value =')
+    console.log(value)
     // Convert to hex
     var hex = value.toString(16)
     // Convert to upper-case (bigInt.toString() returns lower-case hex characters)
@@ -128,7 +133,7 @@ export class CrcGeneric {
     // Now pad with zero's until it is the same width as the polynomial (in hex)
     var numHexChars = Math.ceil(this.crcWidthBits / 4)
     while (hex.length < numHexChars) {
-      hex = '0' + hex;
+      hex = '0' + hex
     }
     return hex
   }
