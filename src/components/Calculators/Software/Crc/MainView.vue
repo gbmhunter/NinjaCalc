@@ -44,7 +44,7 @@
         </tr>
         <tr>
           <td>CRC-8/Maxim</td>
-          <td><calc-var-string :calcVar="calc.getVar('crcValCrc8Maxim')" :width=200></calc-var-string></td>
+          <td><common-crc-algorithms-row :calc="calc"></common-crc-algorithms-row></td>
         </tr>
       </table>
     </div>
@@ -62,15 +62,17 @@
   import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import {CalcVarInvisible} from 'src/misc/CalculatorEngineV2/CalcVarInvisible'
-  //  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
+  import CommonCrcAlgorithmsRow from './CommonCrcAlgorithmsRow'
 
   // ============================================ //
   // =================== vue Object ============= //
   // ============================================ //
   export default {
     name: 'crc-calculator',
-    components: {},
+    components: {
+      CommonCrcAlgorithmsRow
+    },
     data: function () {
       var calc = new Calc()
 
@@ -225,10 +227,6 @@
 <style scoped>
   .diagram-container {
     position: relative;
-  }
-
-  .diagram-container > * {
-    position: absolute;
   }
 
   .variable-container > * {
