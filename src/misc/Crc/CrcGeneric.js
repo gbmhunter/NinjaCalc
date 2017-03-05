@@ -92,28 +92,42 @@ export class CrcGeneric {
   }
 
   doMirror = (input, numBits) => {
-    var output = 0
+    var output = bigInt(0)
 
     for (var i = 0; i < numBits; i++) {
-      output <<= 1
-      output |= (input & 1)
-      input >>= 1
+      output = output.shiftLeft(1)
+      output = output.or(input.and(1))
+      input = input.rightShift(1)
     }
 
     return output
   }
 
   getValue = () => {
-    var output = 0
+    var output
     if (this.reflectRemainder) {
       output = this.doMirror(this.crcValue, this.crcWidthBits)
     } else {
       output = this.crcValue
     }
 
-    output ^= this.finalXorValue
+    output = output.xor(this.finalXorValue)
 
     return output
+  }
+
+  getHex = () => {
+    var value = bigInt(this.getValue())
+    // Convert to hex
+    var hex = value.toString(16)
+    // Convert to upper-case (bigInt.toString() returns lower-case hex characters)
+    hex = hex.toUpperCase()
+    // Now pad with zero's until it is the same width as the polynomial (in hex)
+    var numHexChars = Math.ceil(this.crcWidthBits / 4)
+    while (hex.length < numHexChars) {
+      hex = '0' + hex;
+    }
+    return hex
   }
 
 }
