@@ -11,6 +11,7 @@ export class CrcGeneric {
     this.finalXorValue = initObj.finalXorValue
     this.reflectData = initObj.reflectData
     this.reflectRemainder = initObj.reflectRemainder
+    this.checkValue = initObj.checkValue
 
     this.mask = bigInt('0')
     this.shiftedPolynomial = bigInt('0')
