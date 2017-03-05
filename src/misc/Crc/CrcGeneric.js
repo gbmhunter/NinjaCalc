@@ -4,6 +4,8 @@ export class CrcGeneric {
   constructor (initObj) {
     console.log('CrcGeneric.initObj() called.')
 
+    this.DATA_WIDTH_BITS = 8
+
     this.name = initObj.name
     this.crcWidthBits = initObj.crcWidthBits
     this.crcPolynomial = initObj.crcPolynomial
@@ -34,8 +36,58 @@ export class CrcGeneric {
     this.crcValue = this.startingValue
   }
 
-  update = () => {
+  update = (byteOfData) => {
     console.log('CrcGeneric.update() called.')
+
+    var input = byteOfData
+
+    if (this.reflectData) {
+      input = this.doMirror(input, 8)
+    }
+
+    if (this.crcWidthBits - this.DATA_WIDTH_BITS >= 0) {
+      // CRC POLYNOMIAL WIDTH >= DATA WIDTH
+
+      // XOR-in the next byte of data, shifting it first
+      // depending on the polynomial width.
+      // This trick allows us to operate on one byte of data at a time before
+      // considering the next
+      this.crcValue ^= (input << (this.crcWidthBits - this.DATA_WIDTH_BITS))
+
+      for (var j = 0; j < this.DATA_WIDTH_BITS; j++) {
+        // Check to see if MSB is 1, if so, we need
+        // to XOR with polynomial
+        if ((this.crcValue & (1 << (this.crcWidthBits - 1))) !== 0) {
+          this.crcValue = ((this.crcValue << 1) ^ this.crcPolynomial) & this.mask
+        } else {
+          this.crcValue = (this.crcValue << 1) & this.mask
+        }
+      }
+    } else {
+      // CRC POLYNOMIAL WIDTH < DATA WIDTH
+
+      this.crcValue <<= this.DATA_WIDTH_BITS - this.crcWidthBits
+
+      this.crcValue ^= input
+      for (var k = 0; k < 8; k++) {
+        this.crcValue = ((this.crcValue & 0x80) !== 0) ? (this.crcValue << 1) ^ this.shiftedPolynomial : this.crcValue << 1
+      }
+
+      this.crcValue &= 0xFF
+      this.crcValue >>= this.DATA_WIDTH_BITS - this.crcWidthBits
+    }
+  }
+
+  doMirror = (input, numBits) => {
+    var output = 0
+
+    for (var i = 0; i < numBits; i++) {
+      output <<= 1
+      output |= (input & 1)
+      input >>= 1
+    }
+
+    return output
   }
 
 }
