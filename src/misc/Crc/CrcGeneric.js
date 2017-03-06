@@ -143,4 +143,8 @@ export class CrcGeneric {
     return hex
   }
 
+  reset = () => {
+    this.crcValue = bigInt(this.startingValue)
+  }
+
 }

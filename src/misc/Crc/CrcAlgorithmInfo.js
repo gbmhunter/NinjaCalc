@@ -8,7 +8,5 @@ export class CrcAlgorithmInfo {
     this.reflectRemainder = initObj.reflectRemainder
     this.finalXorValue = initObj.finalXorValue
     this.checkValue = initObj.checkValue
-    // console.log('this =')
-    // console.log(this)
   }
 }

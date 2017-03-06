@@ -18,7 +18,7 @@ export class CalcVarInvisible extends CalcVar {
   }
 
   reCalc = () => {
-    console.log('CalcVarInvisible.reCalc() called for "' + this.name + '".')
+    // console.log('CalcVarInvisible.reCalc() called for "' + this.name + '".')
 
     this.val = this.eqn()
 

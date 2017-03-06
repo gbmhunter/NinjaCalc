@@ -62,7 +62,7 @@ const store = new Vuex.Store({
       state.showCalculatorSelectionOverlay = payload.trueFalse
     },
     openCalculator (state, payload) {
-      console.log('openCalculator() called. payload.name = "' + payload.name + '".')
+      // console.log('openCalculator() called. payload.name = "' + payload.name + '".')
       state.openCalcs.push({
         name: payload.name,
         componentName: payload.componentName,
@@ -71,13 +71,13 @@ const store = new Vuex.Store({
       })
     },
     registerCalc (state, payload) {
-      console.log('registerCalc() called with payload =')
-      console.log(payload)
+      // console.log('registerCalc() called with payload =')
+      // console.log(payload)
       state.availableCalcs.push(payload)
     },
     setNewCalcAsOpenTab (state, payload) {
-      console.log('setNewCalcAsOpenTab() called with payload =')
-      console.log(payload)
+      // console.log('setNewCalcAsOpenTab() called with payload =')
+      // console.log(payload)
       state.activeTabId = state.openCalcs[state.openCalcs.length - 1].uniqueId
     }
   }

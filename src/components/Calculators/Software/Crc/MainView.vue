@@ -42,7 +42,7 @@
           <td>CRC Name</td>
           <td>CRC Value</td>
         </tr>
-        <common-crc-algorithms-row></common-crc-algorithms-row>
+        <common-crc-algorithms-row :calc="calc" :crcCatalogue="crcCatalogue" :crcEnum="crcIds.CRC_8_MAXIM"></common-crc-algorithms-row>
       </table>
     </div>
 
@@ -53,21 +53,26 @@
 <script>
 
   //  'use strict'
-  var bigInt = require('big-integer')
+//  var bigInt = require('big-integer')
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import {CalcVarInvisible} from 'src/misc/CalculatorEngineV2/CalcVarInvisible'
+
   //  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
-  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
+  //  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
+  import {crcCatalogue, crcIds} from 'src/misc/Crc/CrcCatalogue'
+  import CommonCrcAlgorithmsRow from './CommonCrcAlgorithmsRow'
 
   // ============================================ //
   // =================== vue Object ============= //
   // ============================================ //
   export default {
     name: 'crc-calculator',
-    components: {},
+    components: {
+      CommonCrcAlgorithmsRow
+    },
     data: function () {
       var calc = new Calc()
 
@@ -171,49 +176,16 @@
         validators: []
       }))
 
-      // ============================================ //
-      // ======== CRC-8 MAXIM (string input) ======== //
-      // ============================================ //
-      calc.addVar(new CalcVarString({
-        name: 'crcValCrc8Maxim',
-        typeEqn: () => {
-          return 'output'
-        },
-        eqn: () => {
-          const crcData = calc.getVar('convertedCrcData').getVal()
-
-          // Create CRC engine
-          var crcGeneric = new CrcGeneric({
-            name: 'MAXIM',
-            crcWidthBits: 8,
-            crcPolynomial: bigInt('0x31', 16),
-            startingValue: bigInt('0x00', 16),
-            reflectData: true,
-            reflectRemainder: true,
-            finalXorValue: bigInt('0x00', 16),
-            checkValue: bigInt('0xA1', 16)
-          })
-          for (var i = 0; i < crcData.length; i++) {
-            crcGeneric.update(crcData[i])
-          }
-          return crcGeneric.getHex()
-        },
-        defaultVal: '',
-        validators: [],
-        helpText: 'The textual input.'
-      }))
-
-      // Configure calculator to default state now that all
-      // variables have been added.
-      calc.init()
-
       return {
-        calc: calc
+        calc: calc,
+        crcCatalogue: crcCatalogue,
+        crcIds: crcIds
       }
     },
     mounted () {
-//      console.log('Ohm\'s Law calculator mounted.')
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+      // calc.init() has to be done after mount, as calculator variables
+      // are created by some of the UI elements (incl. <common-crc-algorithms-row>)
+      this.calc.init()
     }
   }
 
