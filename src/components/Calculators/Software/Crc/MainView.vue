@@ -42,10 +42,7 @@
           <td>CRC Name</td>
           <td>CRC Value</td>
         </tr>
-        <tr>
-          <td>CRC-8/Maxim</td>
-          <td><common-crc-algorithms-row :calc="calc"></common-crc-algorithms-row></td>
-        </tr>
+        <common-crc-algorithms-row></common-crc-algorithms-row>
       </table>
     </div>
 
@@ -62,17 +59,15 @@
   import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import {CalcVarInvisible} from 'src/misc/CalculatorEngineV2/CalcVarInvisible'
+  //  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
-  import CommonCrcAlgorithmsRow from './CommonCrcAlgorithmsRow'
 
   // ============================================ //
   // =================== vue Object ============= //
   // ============================================ //
   export default {
     name: 'crc-calculator',
-    components: {
-      CommonCrcAlgorithmsRow
-    },
+    components: {},
     data: function () {
       var calc = new Calc()
 
@@ -147,6 +142,7 @@
               }
 
               var integerValueOfHex = parseInt(hexByte, 16)
+
               if (isNaN(integerValueOfHex)) {
                 // We will get here if the input data is not valid hex, e.g. it has
                 // characters after f in the input
@@ -227,6 +223,10 @@
 <style scoped>
   .diagram-container {
     position: relative;
+  }
+
+  .diagram-container > * {
+    position: absolute;
   }
 
   .variable-container > * {

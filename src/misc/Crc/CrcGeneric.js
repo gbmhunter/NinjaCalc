@@ -2,11 +2,16 @@ import bigInt from 'big-integer'
 
 export class CrcGeneric {
   constructor (initObj) {
-    console.log('CrcGeneric.initObj() called.')
+    console.log('CrcGeneric.initObj() called with initObj =')
+    console.log(initObj)
 
     this.DATA_WIDTH_BITS = 8
 
     this.name = initObj.name
+
+    if (!initObj.crcWidthBits) {
+      throw new Error('Please provide initObj.crcWidthBits to CrcGeneric.constructor().')
+    }
     this.crcWidthBits = initObj.crcWidthBits
     this.crcPolynomial = initObj.crcPolynomial
     this.startingValue = initObj.startingValue
