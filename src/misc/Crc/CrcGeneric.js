@@ -1,4 +1,4 @@
-var bigInt = require('big-integer')
+import bigInt from 'big-integer'
 
 export class CrcGeneric {
   constructor (initObj) {
@@ -107,8 +107,8 @@ export class CrcGeneric {
   }
 
   getValue = () => {
-    console.log('CrcGeneric.getValue() called. this.crcValue =')
-    console.log(this.crcValue)
+    // console.log('CrcGeneric.getValue() called. this.crcValue =')
+    // console.log(this.crcValue)
     var output
     if (this.reflectRemainder) {
       output = this.doMirror(this.crcValue, this.crcWidthBits)
@@ -122,10 +122,10 @@ export class CrcGeneric {
   }
 
   getHex = () => {
-    console.log('CrcGeneric.getHex() called.')
+    // console.log('CrcGeneric.getHex() called.')
     var value = bigInt(this.getValue())
-    console.log('value =')
-    console.log(value)
+    // console.log('value =')
+    // console.log(value)
     // Convert to hex
     var hex = value.toString(16)
     // Convert to upper-case (bigInt.toString() returns lower-case hex characters)
