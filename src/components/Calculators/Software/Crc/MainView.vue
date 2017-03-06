@@ -1,8 +1,8 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
-  <div class="calculator-container">
+  <div class="calculator-container" style="display: flex; flex-direction: column;">
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px;">
+    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px; margin: auto;">
       <p>This calculator takes in the provided data (as either ASCII/Unicode or hex) and calculates the resulting CRC
         value using a range of popular CRC algorithms.</p>
 
@@ -17,19 +17,24 @@
     <!-- ========================================= INPUT DATA ====================================== -->
     <!-- =========================================================================================== -->
 
-    <div style="display: flex; justify-content: center;">
-      <div>CRC Data</div>
-      <calc-var-string :calcVar="calc.getVar('crcData')" :width=200></calc-var-string>
-    </div>
-
-    <div style="display: flex;">
-      <div>Data Format</div>
-      <select v-model="calc.getVar('crcDataType').val" v-on:change="calc.getVar('crcDataType').onValChange()"
-              style="width: 200px; height: 30px; font-size: 20px;">
-        <option v-for="option in calc.getVar('crcDataType').options" v-bind:value="option">
-          {{ option }}
-        </option>
-      </select>
+    <div id="input-data" style="display: flex; flex-direction: column; align-content: center;">
+      <div style="display: flex; justify-content: center; align-content: center;">
+        <div>CRC Data</div>
+        <div style="width: 10px;"></div>
+        <calc-var-string :calcVar="calc.getVar('crcData')" :width=400></calc-var-string>
+      </div>
+      <!-- SPACER -->
+      <div style="height: 10px;"></div>
+      <div style="display: flex; margin: auto;">
+        <div>Data Format</div>
+        <div style="width: 10px;"></div>
+        <select v-model="calc.getVar('crcDataType').val" v-on:change="calc.getVar('crcDataType').onValChange()"
+                style="width: 150px; height: 30px; font-size: 14px;">
+          <option v-for="option in calc.getVar('crcDataType').options" v-bind:value="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <div id="common-and-user-selectable-hdiv" style="display: flex;">
@@ -83,6 +88,48 @@
           </tr>
         </table>
 
+        <div style="height: 10px;"></div>
+
+        <!-- ADDITIONAL INFORMATION TABLE -->
+        <table id="additional-information-table">
+          <tr>
+            <td>Name:</td>
+            <td>{{selectedCrcAlgorithmInfo.name}}</td>
+          </tr>
+          <tr>
+            <td>CRC Width (bits):</td>
+            <td>{{selectedCrcAlgorithmInfo.crcWidthBits}}</td>
+          </tr>
+          <tr>
+            <td>Generator Polynomial:</td>
+            <td>{{'0x' + selectedCrcAlgorithmInfo.crcPolynomial}}</td>
+          </tr>
+          <tr>
+            <td>Generator Polynomial:</td>
+            <td>{{'0x' +selectedCrcAlgorithmInfo.crcPolynomial}}</td>
+          </tr>
+          <tr>
+            <td>Starting Value:</td>
+            <td>{{'0x' + selectedCrcAlgorithmInfo.startingValue}}</td>
+          </tr>
+          <tr>
+            <td>Reflect Data:</td>
+            <td>{{selectedCrcAlgorithmInfo.reflectData}}</td>
+          </tr>
+          <tr>
+            <td>Reflect CRC Out:</td>
+            <td>{{selectedCrcAlgorithmInfo.reflectRemainder}}</td>
+          </tr>
+          <tr>
+            <td>XOR Out:</td>
+            <td>{{'0x' + selectedCrcAlgorithmInfo.finalXorValue}}</td>
+          </tr>
+          <tr>
+            <td>Check:</td>
+            <td>{{'0x' + selectedCrcAlgorithmInfo.checkValue}}</td>
+          </tr>
+        </table>
+
       </div>
     </div>
 
@@ -103,6 +150,9 @@
   //  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
   import {crcCatalogue, crcIds} from 'src/misc/Crc/CrcCatalogue'
+
+  import {stringManipulation} from 'src/misc/StringManipulation/StringManipulation'
+
   import CommonCrcAlgorithmsRow from './CommonCrcAlgorithmsRow'
 
   // ============================================ //
@@ -251,6 +301,17 @@
           console.log(usersAlgorithmChoice)
           // We need to create a CRC engine based on the selected algorithm
           var crcAlgorithmInfo = crcCatalogue.get(usersAlgorithmChoice)
+
+          // UPDATE THE SELECTED CRC INFO THAT IS BOUND TO UI
+          this.selectedCrcAlgorithmInfo.name = crcAlgorithmInfo.name
+          this.selectedCrcAlgorithmInfo.crcWidthBits = crcAlgorithmInfo.crcWidthBits
+          this.selectedCrcAlgorithmInfo.crcPolynomial = stringManipulation.formatHex(crcAlgorithmInfo.crcPolynomial.toString(16), crcAlgorithmInfo.crcWidthBits)
+          this.selectedCrcAlgorithmInfo.startingValue = stringManipulation.formatHex(crcAlgorithmInfo.startingValue.toString(16), crcAlgorithmInfo.crcWidthBits)
+          this.selectedCrcAlgorithmInfo.reflectData = crcAlgorithmInfo.reflectData
+          this.selectedCrcAlgorithmInfo.reflectRemainder = crcAlgorithmInfo.reflectRemainder
+          this.selectedCrcAlgorithmInfo.finalXorValue = stringManipulation.formatHex(crcAlgorithmInfo.finalXorValue.toString(16), crcAlgorithmInfo.crcWidthBits)
+          this.selectedCrcAlgorithmInfo.checkValue = stringManipulation.formatHex(crcAlgorithmInfo.checkValue.toString(16), crcAlgorithmInfo.crcWidthBits)
+
           var crcEngine = new CrcGeneric({
             name: crcAlgorithmInfo.name,
             crcWidthBits: crcAlgorithmInfo.crcWidthBits,
@@ -275,7 +336,13 @@
       return {
         calc: calc,
         crcCatalogue: crcCatalogue,
-        crcIds: crcIds
+        crcIds: crcIds,
+        selectedCrcAlgorithmInfo: {
+          name: '',
+          crcWidthBits: '',
+          crcPolynomial: '',
+          startingValue: ''
+        }
       }
     },
     mounted () {
@@ -306,6 +373,16 @@
 
   .header-row {
     font-style: italic;
+  }
+
+  table td {
+    text-align: left;
+  }
+
+  /* This targets the second column of the additional information table */
+  #additional-information-table td:first-child + td {
+    color: #989898;
+    text-align: left;
   }
 
 </style>

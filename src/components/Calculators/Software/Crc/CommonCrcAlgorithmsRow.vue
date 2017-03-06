@@ -80,12 +80,12 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  .variable-container > * {
-    position: absolute;
+  table td {
+    text-align: left;
   }
 
-  input[type="radio"] {
-    transform: scale(1.5)
+  input {
+    color: #989898 !important;
   }
 
 </style>

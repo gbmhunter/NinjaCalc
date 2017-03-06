@@ -116,11 +116,7 @@ export class CrcGeneric {
   }
 
   getHex = () => {
-    // console.log('CrcGeneric.getHex() called.')
     var value = bigInt(this.getValue())
-    // console.log('value =')
-    // console.log(value)
-    // Convert to hex
     var hex = value.toString(16)
     // Convert to upper-case (bigInt.toString() returns lower-case hex characters)
     hex = hex.toUpperCase()
