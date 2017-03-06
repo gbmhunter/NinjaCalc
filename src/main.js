@@ -40,6 +40,8 @@ import CalcUnits from 'src/misc/CalculatorEngineV2/CalcUnits'
 Vue.component('calc-units', CalcUnits)
 import CalcVarString from 'src/misc/CalculatorEngineV2/view/CalcVarString'
 Vue.component('calc-var-string', CalcVarString)
+import CalcVarCheckbox from 'src/misc/CalculatorEngineV2/view/CalcVarCheckbox'
+Vue.component('calc-var-checkbox', CalcVarCheckbox)
 
 /* eslint-disable no-unused-vars */
 const store = new Vuex.Store({

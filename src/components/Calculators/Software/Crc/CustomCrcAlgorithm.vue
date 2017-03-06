@@ -1,29 +1,30 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
 <div id="custom-crc-algorithm" class="section-container" style="display: flex; flex-direction: column;">
-  <span>Custom Algorithm</span>
+  <span class="section-title">Custom Algorithm</span>
   <table style="margin: auto;">
     <tr>
       <td>CRC Width (bits):</td>
       <td><calc-value :calcVar="calc.getVar('customCrcWidthBits')"></calc-value></td>
       <td>Generator Polynomial:</td>
-      <td><calc-value :calcVar="calc.getVar('customCrcGeneratorPolynomial')"></calc-value></td>
+      <td><calc-var-string :calcVar="calc.getVar('customCrcGeneratorPolynomial')"></calc-var-string></td>
     </tr>
     <tr>
       <td>Reflect Data:</td>
-      <td></td>
+      <td><calc-var-checkbox :calcVar="calc.getVar('customCrcReflectData')"></calc-var-checkbox></td>
       <td>Init Value:</td>
-      <td></td>
+      <td><calc-var-string :calcVar="calc.getVar('customCrcStartValue')"></calc-var-string></td>
     </tr>
     <tr>
       <td>Reflect CRC Out:</td>
-      <td></td>
+      <td><calc-var-checkbox :calcVar="calc.getVar('customCrcReflectCrcOut')"></calc-var-checkbox></td>
       <td>XOR Out:</td>
-      <td></td>
+      <td><calc-var-string :calcVar="calc.getVar('customCrcXorOut')"></calc-var-string></td>
     </tr>
   </table>
-  <div>
+  <div style="display: flex; margin: auto;">
     <span>CRC Value:</span>
+    <calc-var-string :calcVar="calc.getVar('customCrcValue')" :width=300></calc-var-string>
   </div>
 </div>
 
@@ -35,6 +36,7 @@
   //  import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
+  import {CalcVarCheckbox} from 'src/misc/CalculatorEngineV2/CalcVarCheckbox'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 //  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
 
@@ -86,6 +88,68 @@
         validators: [],
         helpText: 'The generator polynomial for the CRC, in hex. Please describe this in standard form, i.e. by excluding the MSB of the polynomial, ' +
         'and not reversing the bit order. The generator polynomial cannot have more bits than the width of the CRC.'
+      }))
+
+      // ============================================ //
+      // ====== REFLECT DATA (checkbox input) ======= //
+      // ============================================ //
+      this.calc.addVar(new CalcVarCheckbox({
+        name: 'customCrcReflectData',
+        defaultVal: '',
+        validators: [],
+        helpText: ''
+      }))
+
+      // ============================================ //
+      // ========= INIT VALUE (string input) ======== //
+      // ============================================ //
+      this.calc.addVar(new CalcVarString({
+        name: 'customCrcStartValue',
+        typeEqn: () => {
+          return 'input'
+        },
+        defaultVal: '',
+        validators: [],
+        helpText: ''
+      }))
+
+      // ============================================ //
+      // ====== REFLECT OUT (checkbox input) ======= //
+      // ============================================ //
+      this.calc.addVar(new CalcVarCheckbox({
+        name: 'customCrcReflectCrcOut',
+        defaultVal: '',
+        validators: [],
+        helpText: ''
+      }))
+
+      // ============================================ //
+      // =========== XOR OUT (string input) ========= //
+      // ============================================ //
+      this.calc.addVar(new CalcVarString({
+        name: 'customCrcXorOut',
+        typeEqn: () => {
+          return 'input'
+        },
+        defaultVal: '',
+        validators: [],
+        helpText: ''
+      }))
+
+      // ============================================ //
+      // ========= CRC VALUE (string output) ======== //
+      // ============================================ //
+      this.calc.addVar(new CalcVarString({
+        name: 'customCrcValue',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          return 'abc'
+        },
+        defaultVal: '',
+        validators: [],
+        helpText: ''
       }))
 
       return {

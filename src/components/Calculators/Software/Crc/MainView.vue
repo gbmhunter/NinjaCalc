@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
-  <div class="calculator-container" style="display: flex; flex-direction: column;">
+  <div id="crc-calculator" class="calculator-container" style="display: flex; flex-direction: column;">
 
     <ui-collapsible title="Info" class="calc-info" style="max-width: 600px; margin: auto;">
       <p>This calculator takes in the provided data (as either ASCII/Unicode or hex) and calculates the resulting CRC
@@ -357,6 +357,12 @@
 
 </script>
 
+<style>
+  #crc-calculator .section-title {
+    font-weight: bold;
+  }
+</style>
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
@@ -368,10 +374,6 @@
     border-color: #b9b9b9;
     border-width: 2px;
     border-radius: 5px;
-  }
-
-  .section-title {
-    font-weight: bold;
   }
 
   .header-row {
