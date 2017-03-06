@@ -132,6 +132,7 @@
 
       </div>
     </div>
+    <custom-crc-algorithm :calc="calc"></custom-crc-algorithm>
 
   </div>
 
@@ -154,6 +155,7 @@
   import {stringManipulation} from 'src/misc/StringManipulation/StringManipulation'
 
   import CommonCrcAlgorithmsRow from './CommonCrcAlgorithmsRow'
+  import CustomCrcAlgorithm from './CustomCrcAlgorithm'
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -161,7 +163,8 @@
   export default {
     name: 'crc-calculator',
     components: {
-      CommonCrcAlgorithmsRow
+      CommonCrcAlgorithmsRow,
+      CustomCrcAlgorithm
     },
     data: function () {
       var calc = new Calc()
