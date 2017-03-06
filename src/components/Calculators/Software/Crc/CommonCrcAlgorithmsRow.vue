@@ -38,7 +38,7 @@
       var value = this.crcCatalogue.get(this.crcEnum)
       console.log('Retrieved CRC value from map. value =')
       console.log(value)
-      var crcGeneric = new CrcGeneric({
+      var crcEngine = new CrcGeneric({
         name: value.name,
         crcWidthBits: value.crcWidthBits,
         crcPolynomial: value.crcPolynomial,
@@ -48,8 +48,9 @@
         finalXorValue: value.finalXorValue,
         checkValue: value.checkValue
       })
-      console.log(crcGeneric)
-      // Create calculator variable
+      console.log(crcEngine)
+      // Create calculator variable which uses the above CRC engine in it's equation
+      // function
       this.calc.addVar(new CalcVarString({
         name: this.crcEnum,
         typeEqn: () => {
@@ -68,7 +69,7 @@
         helpText: 'The textual input.'
       }))
       return {
-        crcEngine: crcGeneric
+        crcEngine: crcEngine
       }
     },
     mounted () {}

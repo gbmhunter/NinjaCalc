@@ -27,30 +27,31 @@ describe('CrcCatalogue object tests.', function () {
 })
 
 describe('CrcCatalogue CRC check value tests.', function () {
-  console.log('to be implemented')
-  for (var [key, value] of crcCatalogue.presetCrcAlgorithms) {
-    console.log(key + ' = ' + value)
-    // Create a CRC engine with this algorithm info
-    var crcGeneric = new CrcGeneric({
-      name: value.name,
-      crcWidthBits: value.crcWidthBits,
-      crcPolynomial: value.crcPolynomial,
-      startingValue: value.startingValue,
-      reflectData: value.reflectData,
-      reflectRemainder: value.reflectRemainder,
-      finalXorValue: value.finalXorValue,
-      checkValue: value.checkValue
-    })
-    console.log('crcGeneric =')
-    console.log(crcGeneric)
-    var dataArray = [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
-    for (let data of dataArray) {
-      crcGeneric.update(data.charCodeAt())
-    }
-    var result = crcGeneric.getValue().toJSNumber()
-    console.log(result)
-    it('Compare "' + value.name + '" CRC algorithm to check value.', function () {
+  it('Compare CRC algorithm to check value.', function () {
+    console.log('to be implemented')
+    for (var [key, value] of crcCatalogue.presetCrcAlgorithms) {
+      console.log(key + ' = ' + value)
+      // Create a CRC engine with this algorithm info
+      var crcGeneric = new CrcGeneric({
+        name: value.name,
+        crcWidthBits: value.crcWidthBits,
+        crcPolynomial: value.crcPolynomial,
+        startingValue: value.startingValue,
+        reflectData: value.reflectData,
+        reflectRemainder: value.reflectRemainder,
+        finalXorValue: value.finalXorValue,
+        checkValue: value.checkValue
+      })
+      console.log('crcGeneric =')
+      console.log(crcGeneric)
+      var dataArray = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+      for (let data of dataArray) {
+        crcGeneric.update(data.charCodeAt())
+      }
+      var result = crcGeneric.getValue().toJSNumber()
+      console.log(result)
+
       expect(result).to.equal(value.checkValue.toJSNumber())
-    })
-  }
+    }
+  })
 })

@@ -46,6 +46,16 @@
       </table>
     </div>
 
+    <div id="user-selectable-algorithm">
+      <span>User Selectable Algorithm</span>
+      <select v-model="calc.getVar('usersAlgorithmChoice').val" v-on:change="calc.getVar('usersAlgorithmChoice').onValChange()"
+              style="width: 200px; height: 30px; font-size: 20px;">
+        <option v-for="option in calc.getVar('usersAlgorithmChoice').options" v-bind:value="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
+
   </div>
 
 </template>
@@ -175,6 +185,23 @@
         defaultVal: '',
         validators: []
       }))
+
+      // ============================================ //
+      // ==== USER SELECTABLE ALGORITHM COMBOBOX ==== //
+      // ============================================ //
+      var userSelectableCrcAlgorithmVar = new CalcVarComboBox({
+        name: 'usersAlgorithmChoice',
+        options: [],
+        defaultVal: '',
+        validators: [],
+        helpText: 'The type of data in the "CRC Data" textbox.'
+      })
+      crcCatalogue.presetCrcAlgorithms.forEach(function (value, key, map) {
+        console.log('value =')
+        console.log(value)
+        userSelectableCrcAlgorithmVar.options.push(value.name)
+      })
+      calc.addVar(userSelectableCrcAlgorithmVar)
 
       return {
         calc: calc,
