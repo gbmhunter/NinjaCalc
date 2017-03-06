@@ -32,28 +32,58 @@
       </select>
     </div>
 
-    <!-- =========================================================================================== -->
-    <!-- =================================== COMMON CRC ALGORITHMS ================================= -->
-    <!-- =========================================================================================== -->
+    <div id="common-and-user-selectable-hdiv" style="display: flex;">
+      <!-- =========================================================================================== -->
+      <!-- =================================== COMMON CRC ALGORITHMS ================================= -->
+      <!-- =========================================================================================== -->
+      <div id="common-crc-algorithms" class="section-container">
+        <span class="section-title">Common CRC Algorithms</span>
+        <table>
+          <tr class="header-row">
+            <td>CRC Name</td>
+            <td>CRC Value</td>
+          </tr>
+          <common-crc-algorithms-row :calc="calc" :crcCatalogue="crcCatalogue"
+                                     :crcEnum="crcIds.CRC_8_MAXIM"></common-crc-algorithms-row>
+          <common-crc-algorithms-row :calc="calc" :crcCatalogue="crcCatalogue"
+                                     :crcEnum="crcIds.CRC_8_SMBUS"></common-crc-algorithms-row>
+          <common-crc-algorithms-row :calc="calc" :crcCatalogue="crcCatalogue"
+                                     :crcEnum="crcIds.CRC_16_CCITT_FALSE"></common-crc-algorithms-row>
+          <common-crc-algorithms-row :calc="calc" :crcCatalogue="crcCatalogue"
+                                     :crcEnum="crcIds.CRC_16_KERMIT_CCITT_TRUE"></common-crc-algorithms-row>
+          <common-crc-algorithms-row :calc="calc" :crcCatalogue="crcCatalogue"
+                                     :crcEnum="crcIds.CRC_16_MAXIM"></common-crc-algorithms-row>
+          <common-crc-algorithms-row :calc="calc" :crcCatalogue="crcCatalogue"
+                                     :crcEnum="crcIds.CRC_16_MODBUS"></common-crc-algorithms-row>
+        </table>
+      </div>
 
-    <div id="common-crc-algorithms">
-      <table>
-        <tr>
-          <td>CRC Name</td>
-          <td>CRC Value</td>
-        </tr>
-        <common-crc-algorithms-row :calc="calc" :crcCatalogue="crcCatalogue" :crcEnum="crcIds.CRC_8_MAXIM"></common-crc-algorithms-row>
-      </table>
-    </div>
+      <!-- =========================================================================================== -->
+      <!-- ================================= USER SELECTABLE ALGORITHM =============================== -->
+      <!-- =========================================================================================== -->
+      <div id="user-selectable-algorithm" class="section-container" style="display: flex; flex-direction: column;">
+        <span class="section-title">User Selectable Algorithm</span>
 
-    <div id="user-selectable-algorithm">
-      <span>User Selectable Algorithm</span>
-      <select v-model="calc.getVar('usersAlgorithmChoice').val" v-on:change="calc.getVar('usersAlgorithmChoice').onValChange()"
-              style="width: 200px; height: 30px; font-size: 20px;">
-        <option v-for="option in calc.getVar('usersAlgorithmChoice').options" v-bind:value="option">
-          {{ option }}
-        </option>
-      </select>
+        <table>
+          <tr>
+            <td>Algorithm</td>
+            <td>CRC Value</td>
+          </tr>
+          <tr>
+            <td><select v-model="calc.getVar('usersAlgorithmChoice').val"
+                        v-on:change="calc.getVar('usersAlgorithmChoice').onValChange()"
+                        style="width: 200px; height: 30px; font-size: 14px;">
+              <option v-for="option in calc.getVar('usersAlgorithmChoice').options" v-bind:value="option">
+                {{ option }}
+              </option>
+            </select></td>
+            <td>
+              <calc-var-string :calcVar="calc.getVar('userSelectableCrcValue')" :width=200></calc-var-string>
+            </td>
+          </tr>
+        </table>
+
+      </div>
     </div>
 
   </div>
@@ -63,7 +93,7 @@
 <script>
 
   //  'use strict'
-//  var bigInt = require('big-integer')
+  //  var bigInt = require('big-integer')
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
@@ -71,7 +101,7 @@
   import {CalcVarInvisible} from 'src/misc/CalculatorEngineV2/CalcVarInvisible'
 
   //  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
-  //  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
+  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
   import {crcCatalogue, crcIds} from 'src/misc/Crc/CrcCatalogue'
   import CommonCrcAlgorithmsRow from './CommonCrcAlgorithmsRow'
 
@@ -192,16 +222,55 @@
       var userSelectableCrcAlgorithmVar = new CalcVarComboBox({
         name: 'usersAlgorithmChoice',
         options: [],
-        defaultVal: '',
+        defaultVal: 'CRC_32_POSIX_CKSUM',
         validators: [],
         helpText: 'The type of data in the "CRC Data" textbox.'
       })
-      crcCatalogue.presetCrcAlgorithms.forEach(function (value, key, map) {
-        console.log('value =')
-        console.log(value)
-        userSelectableCrcAlgorithmVar.options.push(value.name)
-      })
+//      crcCatalogue.presetCrcAlgorithms.forEach(function (value, key, map) {
+//        userSelectableCrcAlgorithmVar.options.push(value.name)
+//      })
+      for (var prop in crcIds) {
+//        console.log('obj.' + prop, '=', obj[prop]);
+        userSelectableCrcAlgorithmVar.options.push(crcIds[prop])
+      }
       calc.addVar(userSelectableCrcAlgorithmVar)
+
+      // ============================================ //
+      // ========= USER SELECTABLE CRC VALUE ======== //
+      // ============================================ //
+      calc.addVar(new CalcVarString({
+        name: 'userSelectableCrcValue',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          // Read dependency variables
+          const crcData = this.calc.getVar('convertedCrcData').getVal()
+          const usersAlgorithmChoice = this.calc.getVar('usersAlgorithmChoice').getVal()
+          console.log('usersAlgorithmChoice = ')
+          console.log(usersAlgorithmChoice)
+          // We need to create a CRC engine based on the selected algorithm
+          var crcAlgorithmInfo = crcCatalogue.get(usersAlgorithmChoice)
+          var crcEngine = new CrcGeneric({
+            name: crcAlgorithmInfo.name,
+            crcWidthBits: crcAlgorithmInfo.crcWidthBits,
+            crcPolynomial: crcAlgorithmInfo.crcPolynomial,
+            startingValue: crcAlgorithmInfo.startingValue,
+            reflectData: crcAlgorithmInfo.reflectData,
+            reflectRemainder: crcAlgorithmInfo.reflectRemainder,
+            finalXorValue: crcAlgorithmInfo.finalXorValue
+          })
+          for (var i = 0; i < crcData.length; i++) {
+            crcEngine.update(crcData[i])
+          }
+          // Prepend '0x' at the front, as getHex() does not do this
+          // for us
+          return '0x' + crcEngine.getHex()
+        },
+        defaultVal: '',
+        validators: [],
+        helpText: 'The textual input.'
+      }))
 
       return {
         calc: calc,
@@ -220,20 +289,23 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .diagram-container {
-    position: relative;
+
+  div.section-container {
+    margin: 10px;
+    padding: 10px;
+
+    border-style: solid;
+    border-color: #b9b9b9;
+    border-width: 2px;
+    border-radius: 5px;
   }
 
-  .diagram-container > * {
-    position: absolute;
+  .section-title {
+    font-weight: bold;
   }
 
-  .variable-container > * {
-    position: absolute;
-  }
-
-  input[type="radio"] {
-    transform: scale(1.5)
+  .header-row {
+    font-style: italic;
   }
 
 </style>

@@ -36,8 +36,6 @@
     },
     data: function () {
       var value = this.crcCatalogue.get(this.crcEnum)
-      console.log('Retrieved CRC value from map. value =')
-      console.log(value)
       var crcEngine = new CrcGeneric({
         name: value.name,
         crcWidthBits: value.crcWidthBits,
@@ -62,7 +60,9 @@
           for (var i = 0; i < crcData.length; i++) {
             this.crcEngine.update(crcData[i])
           }
-          return this.crcEngine.getHex()
+          // Prepend '0x' at the front, as getHex() does not do this
+          // for us
+          return '0x' + this.crcEngine.getHex()
         },
         defaultVal: '',
         validators: [],

@@ -2,9 +2,6 @@ import bigInt from 'big-integer'
 
 export class CrcGeneric {
   constructor (initObj) {
-    console.log('CrcGeneric.initObj() called with initObj =')
-    console.log(initObj)
-
     this.DATA_WIDTH_BITS = 8
 
     this.name = initObj.name
@@ -39,17 +36,10 @@ export class CrcGeneric {
 
     // Initialise the CRC value with the starting value
     this.crcValue = bigInt(this.startingValue)
-    console.log('initObj.startingValue =')
-    console.log(initObj.startingValue)
-    console.log('this.startingValue = ')
-    console.log(this.startingValue)
-
-    console.log('CrcGeneric.constructor() finished. this =')
-    console.log(this)
   }
 
   update = (byteOfData) => {
-    console.log('CrcGeneric.update() called with byteOfData = ' + byteOfData)
+    // console.log('CrcGeneric.update() called with byteOfData = ' + byteOfData)
 
     // Convert to bigInt
     var input = bigInt(byteOfData)
@@ -79,7 +69,7 @@ export class CrcGeneric {
       }
     } else {
       // CRC POLYNOMIAL WIDTH < DATA WIDTH
-      console.log('CRC poly width < data width')
+      // console.log('CRC poly width < data width')
       this.crcValue = this.crcValue.shiftLeft(this.DATA_WIDTH_BITS - this.crcWidthBits)
 
       this.crcValue = this.crcValue.xor(input)
@@ -95,8 +85,7 @@ export class CrcGeneric {
       this.crcValue = this.crcValue.and(0xFF)
       this.crcValue = this.crcValue.shiftRight(this.DATA_WIDTH_BITS - this.crcWidthBits)
     }
-
-    console.log('update() finished. crcValue = ' + this.crcValue)
+    // console.log('update() finished. crcValue = ' + this.crcValue)
   }
 
   doMirror = (input, numBits) => {
