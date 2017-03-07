@@ -16,7 +16,7 @@ export class CalcVarCheckbox extends CalcVar {
    * the user selects something in the combobox.
    */
   onValChange = () => {
-    console.log('onValChange() called. this.val = ' + this.val)
+    console.log('CalcVarCheckbox.onValChange() called. this.val = ' + this.val)
     this.triggerReCalcOutputsAndValidate()
   }
 

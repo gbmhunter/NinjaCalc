@@ -3,7 +3,7 @@
   <div>
     <md-tooltip md-direction="top" v-html="toolTipMsg"></md-tooltip>
     <input type="checkbox"
-      v-model="calcVar.val" v-on:keyup="calcVar.onValChange()"
+      v-model="calcVar.val" v-on:change="calcVar.onValChange()"
            :class="[ calcVar.validationResult, calcVar.typeEqn() ]"
            :readonly="readonly"
            :style="{ width: width + 'px', height: height + 'px' }">
