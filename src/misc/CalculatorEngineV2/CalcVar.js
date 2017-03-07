@@ -75,7 +75,7 @@ export default class CalcVar {
     // console.log('CalcVar.validate() called for "' + this.name + '".')
     // console.log('this.validators =')
     // console.log(this.validators)
-
+    // Reset current validation result
     this.validationResult = 'ok'
     this.validationMsg = ''
 

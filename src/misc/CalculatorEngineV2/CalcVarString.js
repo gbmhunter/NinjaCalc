@@ -1,10 +1,22 @@
 import CalcVar from './CalcVar'
-console.log(CalcVar)
+import {CustomValidator} from './CustomValidator'
+
+/**
+ * This variable enumerates the preset validators available to the CalcVarString class.
+ * @type {{IS_HEX: string}}
+ */
+export var CalcVarStringPresetValidators = {
+  IS_HEX: 'IS_HEX'
+}
+
 /**
  * A calculator variable which accepts a generic string.
  */
 export class CalcVarString extends CalcVar {
   constructor (initObj) {
+    if (!(initObj.validators instanceof Array)) {
+      throw new Error('Please provide an array to initObj.validators to the CalcVarString.constructor() for variable "' + initObj.name + '".')
+    }
     super(initObj)
 
     this.val = initObj.defaultVal
@@ -15,6 +27,9 @@ export class CalcVarString extends CalcVar {
     return this.val
   }
 
+  /**
+   * Designed to be called by vue.
+   */
   onValChange = () => {
     console.log('CalcVarString.onValChange() called. this.val = ' + this.val)
     this.validate()
@@ -27,5 +42,77 @@ export class CalcVarString extends CalcVar {
     }
     this.val = this.eqn()
     this.validate()
+  }
+
+  /**
+   * Provide validate() function.
+   */
+  validate = () => {
+    console.log('CalcVarString.validate() called.')
+    // Reset current validation result
+    this.validationResult = 'ok'
+    this.validationMsg = ''
+    console.log(this)
+    var self = this
+    this.validators.map(function (validator) {
+      var validationResult = 'ok'
+      var validationMsg = ''
+      if (validator instanceof CustomValidator) {
+        // Validator must be a custom function
+        var result = validator.func()
+        if (!result) {
+          validationResult = validator.level
+          validationMsg = validator.text
+        }
+      } else {
+        // Validator must be a preset
+        switch (validator) {
+          case CalcVarStringPresetValidators.IS_HEX:
+            if (!self.validateHex()) {
+              console.log('INVALID HEX')
+              validationResult = 'error'
+              validationMsg = 'Value must be Hex number. Only the numbers 0-9 and characters A-F are allowed.'
+            } else {
+              console.log('VALID HEX')
+            }
+            break
+          default:
+            throw new Error('Validator was not recognised!')
+        }
+      }
+      // Finally, compare this validation result with the one set in the variable. Only
+      // overwrite IF this validation result is worse than what was already present
+      switch (self.validationResult) {
+        case 'ok':
+          self.validationResult = validationResult
+          self.validationMsg = validationMsg
+          break
+        case 'warning':
+          if (self.validationResult === 'ok') {
+            self.validationResult = validationResult
+            self.validationMsg = validationMsg
+          }
+          break
+        case 'error':
+          // Do nothing
+          break
+      }
+    })
+  }
+
+  validateHex = () => {
+    var regExp = /^[0-9A-Fa-f]+$/
+    var inputString = this.val
+
+    if (typeof inputString !== 'string') {
+      console.log('blah')
+      return false
+    }
+
+    if (regExp.test(inputString)) {
+      return true
+    } else {
+      return false
+    }
   }
 }

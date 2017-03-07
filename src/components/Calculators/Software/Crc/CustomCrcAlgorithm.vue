@@ -39,7 +39,7 @@
   //  var bigInt = require('big-integer')
   //  import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
-  import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
+  import {CalcVarString, CalcVarStringPresetValidators} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarCheckbox} from 'src/misc/CalculatorEngineV2/CalcVarCheckbox'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 //  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
@@ -89,7 +89,9 @@
           return 'input'
         },
         defaultVal: '',
-        validators: [],
+        validators: [
+          CalcVarStringPresetValidators.IS_HEX
+        ],
         helpText: 'The generator polynomial for the CRC, in hex. Please describe this in standard form, i.e. by excluding the MSB of the polynomial, ' +
         'and not reversing the bit order. The generator polynomial cannot have more bits than the width of the CRC.'
       }))
@@ -113,7 +115,9 @@
           return 'input'
         },
         defaultVal: '',
-        validators: [],
+        validators: [
+          CalcVarStringPresetValidators.IS_HEX
+        ],
         helpText: ''
       }))
 
@@ -136,7 +140,9 @@
           return 'input'
         },
         defaultVal: '',
-        validators: [],
+        validators: [
+          CalcVarStringPresetValidators.IS_HEX
+        ],
         helpText: ''
       }))
 
@@ -152,7 +158,9 @@
           return 'abc'
         },
         defaultVal: '',
-        validators: [],
+        validators: [
+          CalcVarStringPresetValidators.IS_HEX
+        ],
         helpText: ''
       }))
 
