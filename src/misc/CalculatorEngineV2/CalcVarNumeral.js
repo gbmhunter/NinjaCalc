@@ -16,6 +16,14 @@ export class CalcVarNumeral extends CalcVar {
 
     // We can now work out the initial displayed value
     this.calcDispValFromRawVal()
+
+    // ============================================ //
+    // ================= HELP TEXT ================ //
+    // ============================================ //
+    if (!initObj.helpText) {
+      throw new Error('Please provide help text via initObj.helpText to the CalcVarString.constructor() for variable "' + initObj.name + '".')
+    }
+    this.helpText = initObj.helpText
   }
 
   /**

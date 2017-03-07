@@ -19,14 +19,14 @@
 
     <div id="input-data" style="display: flex; flex-direction: column; align-content: center;">
       <div style="display: flex; justify-content: center; align-content: center;">
-        <div>CRC Data</div>
+        <div style="align-self: center;">CRC Data</div>
         <div style="width: 10px;"></div>
         <calc-var-string :calcVar="calc.getVar('crcData')" :width=400></calc-var-string>
       </div>
       <!-- SPACER -->
       <div style="height: 10px;"></div>
       <div style="display: flex; margin: auto;">
-        <div>Data Format</div>
+        <div style="align-self: center;">Data Format</div>
         <div style="width: 10px;"></div>
         <select v-model="calc.getVar('crcDataType').val" v-on:change="calc.getVar('crcDataType').onValChange()"
                 style="width: 150px; height: 30px; font-size: 14px;">
@@ -140,15 +140,12 @@
 
 <script>
 
-  //  'use strict'
-  //  var bigInt = require('big-integer')
-
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import {CalcVarInvisible} from 'src/misc/CalculatorEngineV2/CalcVarInvisible'
+  import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
 
-  //  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
   import {crcCatalogue, crcIds} from 'src/misc/Crc/CrcCatalogue'
 
@@ -183,8 +180,30 @@
         eqn: () => {
         },
         defaultVal: '',
-        validators: [],
-        helpText: 'The textual input.'
+        validators: [
+          // This is essentially to make sure it is hex, but ONLY if the
+          // data format of "Hex" has been selected
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const crcData = this.calc.getVar('crcData').getVal()
+              const crcDataFormat = this.calc.getVar('crcDataType').getVal()
+
+              // This validator is only converned with validating hex, so return if it
+              // is not in hex format
+              if (crcDataFormat !== 'Hex') return true
+
+              if (stringManipulation.isHex(crcData)) {
+                return true
+              } else {
+                return false
+              }
+            },
+            text: 'Value must be valid "hex" number. Only the numbers 0-9 and characters A-F are allowed (and no "0x" prefix).',
+            level: 'error'
+          })
+        ],
+        helpText: 'Input the data you wish to calculate the CRC for here.'
       }))
 
       // ============================================ //
@@ -277,7 +296,7 @@
         options: [],
         defaultVal: 'CRC_32_POSIX_CKSUM',
         validators: [],
-        helpText: 'The type of data in the "CRC Data" textbox.'
+        helpText: 'The CRC algorithm you wish to use.'
       })
 //      crcCatalogue.presetCrcAlgorithms.forEach(function (value, key, map) {
 //        userSelectableCrcAlgorithmVar.options.push(value.name)
@@ -333,7 +352,7 @@
         },
         defaultVal: '',
         validators: [],
-        helpText: 'The textual input.'
+        helpText: 'The output value of the choosen CRC algorithm, using the input data given above.'
       }))
 
       return {

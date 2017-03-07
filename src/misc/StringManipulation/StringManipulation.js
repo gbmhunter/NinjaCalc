@@ -9,5 +9,19 @@ class StringManipulation {
     }
     return hexString
   }
+
+  isHex = (inputString) => {
+    var regExp = /^[0-9A-Fa-f]+$/
+
+    if (typeof inputString !== 'string') {
+      return false
+    }
+
+    if (regExp.test(inputString)) {
+      return true
+    } else {
+      return false
+    }
+  }
 }
 export let stringManipulation = new StringManipulation()

@@ -1,3 +1,5 @@
+import {stringManipulation} from 'src/misc/StringManipulation/StringManipulation'
+
 import CalcVar from './CalcVar'
 import {CustomValidator} from './CustomValidator'
 
@@ -14,16 +16,21 @@ export var CalcVarStringPresetValidators = {
  */
 export class CalcVarString extends CalcVar {
   constructor (initObj) {
+    // Check initObj
     if (!(initObj.validators instanceof Array)) {
       throw new Error('Please provide an array to initObj.validators to the CalcVarString.constructor() for variable "' + initObj.name + '".')
     }
+    if (!initObj.helpText) {
+      throw new Error('Please provide help text via initObj.helpText to the CalcVarString.constructor() for variable "' + initObj.name + '".')
+    }
+
     super(initObj)
 
     this.val = initObj.defaultVal
+    this.helpText = initObj.helpText
   }
 
   getVal = () => {
-    console.log('CalcVarString.getVal() called.')
     return this.val
   }
 
@@ -31,7 +38,6 @@ export class CalcVarString extends CalcVar {
    * Designed to be called by vue.
    */
   onValChange = () => {
-    console.log('CalcVarString.onValChange() called. this.val = ' + this.val)
     this.validate()
     this.triggerReCalcOutputsAndValidate()
   }
@@ -48,11 +54,9 @@ export class CalcVarString extends CalcVar {
    * Provide validate() function.
    */
   validate = () => {
-    console.log('CalcVarString.validate() called.')
     // Reset current validation result
     this.validationResult = 'ok'
     this.validationMsg = ''
-    console.log(this)
     var self = this
     this.validators.map(function (validator) {
       var validationResult = 'ok'
@@ -68,12 +72,9 @@ export class CalcVarString extends CalcVar {
         // Validator must be a preset
         switch (validator) {
           case CalcVarStringPresetValidators.IS_HEX:
-            if (!self.validateHex()) {
-              console.log('INVALID HEX')
+            if (!stringManipulation.isHex(self.val)) {
               validationResult = 'error'
-              validationMsg = 'Value must be Hex number. Only the numbers 0-9 and characters A-F are allowed.'
-            } else {
-              console.log('VALID HEX')
+              validationMsg = 'Value must be valid "hex" number. Only the numbers 0-9 and characters A-F are allowed (and no "0x" prefix).'
             }
             break
           default:
@@ -98,21 +99,5 @@ export class CalcVarString extends CalcVar {
           break
       }
     })
-  }
-
-  validateHex = () => {
-    var regExp = /^[0-9A-Fa-f]+$/
-    var inputString = this.val
-
-    if (typeof inputString !== 'string') {
-      console.log('blah')
-      return false
-    }
-
-    if (regExp.test(inputString)) {
-      return true
-    } else {
-      return false
-    }
   }
 }

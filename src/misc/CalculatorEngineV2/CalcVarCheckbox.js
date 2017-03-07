@@ -9,6 +9,7 @@ export class CalcVarCheckbox extends CalcVar {
     super(initObj)
 
     this.val = initObj.defaultVal
+    this.helpText = initObj.helpText
   }
 
   /**

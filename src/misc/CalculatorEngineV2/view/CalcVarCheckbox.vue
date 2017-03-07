@@ -24,12 +24,12 @@
       width: {
         type: Number,
         required: false,
-        default: 100
+        default: 20
       },
       height: {
         type: Number,
         required: false,
-        default: 35
+        default: 20
       }
     },
     components: {},
