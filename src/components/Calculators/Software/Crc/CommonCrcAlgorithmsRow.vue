@@ -46,7 +46,6 @@
         finalXorValue: value.finalXorValue,
         checkValue: value.checkValue
       })
-      console.log(crcEngine)
       // Create calculator variable which uses the above CRC engine in it's equation
       // function
       this.calc.addVar(new CalcVarString({

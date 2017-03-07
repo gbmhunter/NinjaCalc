@@ -7,23 +7,27 @@
       <td>CRC Width (bits):</td>
       <td><calc-value :calcVar="calc.getVar('customCrcWidthBits')"></calc-value></td>
       <td>Generator Polynomial:</td>
-      <td><calc-var-string :calcVar="calc.getVar('customCrcGeneratorPolynomial')"></calc-var-string></td>
+      <td>0x</td>
+      <td><calc-var-string :calcVar="calc.getVar('customCrcGeneratorPolynomial')" :width=200></calc-var-string></td>
     </tr>
     <tr>
       <td>Reflect Data:</td>
       <td><calc-var-checkbox :calcVar="calc.getVar('customCrcReflectData')"></calc-var-checkbox></td>
       <td>Init Value:</td>
-      <td><calc-var-string :calcVar="calc.getVar('customCrcStartValue')"></calc-var-string></td>
+      <td>0x</td>
+      <td><calc-var-string :calcVar="calc.getVar('customCrcStartValue')" :width=200></calc-var-string></td>
     </tr>
     <tr>
       <td>Reflect CRC Out:</td>
       <td><calc-var-checkbox :calcVar="calc.getVar('customCrcReflectCrcOut')"></calc-var-checkbox></td>
       <td>XOR Out:</td>
-      <td><calc-var-string :calcVar="calc.getVar('customCrcXorOut')"></calc-var-string></td>
+      <td>0x</td>
+      <td><calc-var-string :calcVar="calc.getVar('customCrcXorOut')" :width=200></calc-var-string></td>
     </tr>
   </table>
+  <div style="height: 15px;"></div>
   <div style="display: flex; margin: auto;">
-    <span>CRC Value:</span>
+    CRC Value: 0x
     <calc-var-string :calcVar="calc.getVar('customCrcValue')" :width=300></calc-var-string>
   </div>
 </div>

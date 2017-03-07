@@ -31,24 +31,20 @@ export default class Calc {
   }
 
   reCalcOutputsAndValidate = () => {
-    console.log('reCalcOutputs() called.')
-    // console.log(this)
     for (let calcVar of this.calcVars) {
-      console.log(calcVar instanceof CalcVarString)
       if ((calcVar instanceof CalcVarNumeral) && (calcVar.typeEqn() === 'output')) {
         calcVar.reCalc()
       }
       if ((calcVar instanceof CalcVarString) && (calcVar.typeEqn() === 'output')) {
-        console.log('test')
         calcVar.reCalc()
       }
       if ((calcVar instanceof CalcVarInvisible) && (calcVar.typeEqn() === 'output')) {
-        console.log('test')
         calcVar.reCalc()
       }
     }
 
     // Now re-validate all calculator variables
+    // (inputs and outputs)
     for (let calcVar of this.calcVars) {
       calcVar.validate()
     }
