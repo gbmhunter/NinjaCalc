@@ -8,14 +8,14 @@
       <td><calc-value :calcVar="calc.getVar('customCrcWidthBits')"></calc-value></td>
       <td>Generator Polynomial:</td>
       <td>0x</td>
-      <td><calc-var-string :calcVar="calc.getVar('customCrcGeneratorPolynomial')" :width=200></calc-var-string></td>
+      <td><calc-var-string :calcVar="calc.getVar('customCrcPolynomial')" :width=200></calc-var-string></td>
     </tr>
     <tr>
       <td>Reflect Data:</td>
       <td><calc-var-checkbox :calcVar="calc.getVar('customCrcReflectData')"></calc-var-checkbox></td>
       <td>Init Value:</td>
       <td>0x</td>
-      <td><calc-var-string :calcVar="calc.getVar('customCrcStartValue')" :width=200></calc-var-string></td>
+      <td><calc-var-string :calcVar="calc.getVar('customCrcInitialValue')" :width=200></calc-var-string></td>
     </tr>
     <tr>
       <td>Reflect CRC Out:</td>
@@ -36,13 +36,13 @@
 
 <script>
 
-  //  var bigInt = require('big-integer')
+  var bigInt = require('big-integer')
   //  import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import {CalcVarString, CalcVarStringPresetValidators} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarCheckbox} from 'src/misc/CalculatorEngineV2/CalcVarCheckbox'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
-//  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
+  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -84,7 +84,7 @@
       // ========= POLYNOMIAL (string input) ======== //
       // ============================================ //
       this.calc.addVar(new CalcVarString({
-        name: 'customCrcGeneratorPolynomial',
+        name: 'customCrcPolynomial',
         typeEqn: () => {
           return 'input'
         },
@@ -110,7 +110,7 @@
       // ========= INIT VALUE (string input) ======== //
       // ============================================ //
       this.calc.addVar(new CalcVarString({
-        name: 'customCrcStartValue',
+        name: 'customCrcInitialValue',
         typeEqn: () => {
           return 'input'
         },
@@ -155,7 +155,47 @@
           return 'output'
         },
         eqn: () => {
-          return 'abc'
+          // Read dependencies
+          const crcData = this.calc.getVar('convertedCrcData').getVal()
+          const crcWidth = this.calc.getVar('customCrcWidthBits').getRawVal()
+          const crcGeneratorPolynomial = this.calc.getVar('customCrcPolynomial').getVal()
+          const crcInitialValue = this.calc.getVar('customCrcInitialValue').getVal()
+          const reflectDataIn = this.calc.getVar('customCrcReflectData').getVal()
+          const reflectCrcOut = this.calc.getVar('customCrcReflectCrcOut').getVal()
+          const crcXorOut = this.calc.getVar('customCrcXorOut').getVal()
+
+          // Check all inputs are valid
+          if (this.calc.getVar('convertedCrcData').validationResult !== 'ok') return ''
+          if (this.calc.getVar('customCrcWidthBits').validationResult !== 'ok') return ''
+          if (this.calc.getVar('customCrcPolynomial').validationResult !== 'ok') return ''
+          if (this.calc.getVar('customCrcInitialValue').validationResult !== 'ok') return ''
+          if (this.calc.getVar('customCrcReflectData').validationResult !== 'ok') return ''
+          if (this.calc.getVar('customCrcReflectCrcOut').validationResult !== 'ok') return ''
+          if (this.calc.getVar('customCrcXorOut').validationResult !== 'ok') return ''
+
+          // Convert dependencies as necessary
+          const generatorPolynomialAsBigInt = bigInt(crcGeneratorPolynomial, 16)
+          const initialValueAsBigInt = bigInt(crcInitialValue, 16)
+          const xorOutAsLong = bigInt(crcXorOut, 16)
+
+          var initObj = {
+            name: 'Custom Algorithm',
+            crcWidthBits: crcWidth,
+            crcPolynomial: generatorPolynomialAsBigInt,
+            startingValue: initialValueAsBigInt,
+            reflectData: reflectDataIn,
+            reflectRemainder: reflectCrcOut,
+            finalXorValue: xorOutAsLong
+          }
+          console.log(initObj)
+
+          // Generate a CRC engine from the information we have obtained
+          var crcEngine = new CrcGeneric(initObj)
+
+          for (var i = 0; i < crcData.length; i++) {
+            crcEngine.update(crcData[i])
+          }
+          return crcEngine.getHex()
         },
         defaultVal: '',
         validators: [
