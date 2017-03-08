@@ -11,5 +11,6 @@ console.log('server started '+port);
 // ping the Heroku app and keep it alive
 var http = require("http");
 setInterval(function() {
-  http.get('http://http://ninja-calc.herokuapp.com');
+  console.log('Pinging http://ninja-calc.mbedded.ninja/.');
+  http.get('http://ninja-calc.mbedded.ninja/');
 }, 300000); // every 5 minutes (300000)
