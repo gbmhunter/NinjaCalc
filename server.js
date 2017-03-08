@@ -12,8 +12,10 @@ console.log('Server started on port "' + port + '".');
 console.log('Setting up 5min ping...')
 var http = require("http");
 setInterval(function() {
+  // The URL below CANNOT be one which is redirected! (e.g. http://ninja-calc.mbedded.ninja),
+  // as this does not seem to keep the app alive.
   console.log('Pinging http://ninja-calc.herokuapp.com/.');
   http.get('http://ninja-calc.herokuapp.com/');
-}, 300000); // every 5 minutes (300000)
+}, 5*60*1000); // every 5 minutes
 
 console.log('server.js finished.')
