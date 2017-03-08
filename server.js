@@ -12,8 +12,8 @@ console.log('Server started on port "' + port + '".');
 console.log('Setting up 5min ping...')
 var http = require("http");
 setInterval(function() {
-  console.log('Pinging http://ninja-calc.mbedded.ninja/.');
-  http.get('http://ninja-calc.mbedded.ninja/');
+  console.log('Pinging http://ninja-calc.herokuapp.com/.');
+  http.get('http://ninja-calc.herokuapp.com/');
 }, 300000); // every 5 minutes (300000)
 
 console.log('server.js finished.')
