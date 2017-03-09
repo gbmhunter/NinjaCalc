@@ -2,7 +2,8 @@
 
   <div id="app">
 
-    <div id="left-bar">
+    <!-- This is a long, thin menu down the left-hand side of the screen -->
+    <div id="left-bar" style="width: 50px; background-color: #eeeeee;">
       <div id="menu-button-wrapper">
         <md-button id="menu-button" class="md-icon-button" @click.native="showLeftSideNav">
           <md-icon>menu</md-icon>
@@ -21,12 +22,18 @@
     </div>
 
     <!-- Only show calculator tabs if calculators are open -->
-    <ui-tabs ref="tabs" type="text" :grow="true" v-if="this.$store.state.openCalcs.length">
-      <ui-tab v-for="item in this.$store.state.openCalcs" :title="item.name" :id="item.uniqueId.toString()">
-        <component :is="item.componentName"></component>
-      </ui-tab>
-    </ui-tabs>
+    <!--<ui-tabs ref="tabs" type="text" :grow="true" v-if="this.$store.state.openCalcs.length">-->
+      <!--<ui-tab v-for="item in this.$store.state.openCalcs" :title="item.name" :id="item.uniqueId.toString()">-->
+        <!--<component :is="item.componentName"></component>-->
+      <!--</ui-tab>-->
+    <!--</ui-tabs>-->
 
+    <el-tabs type="card" v-if="this.$store.state.openCalcs.length" v-model="activeTabId">
+      <!-- The name property is the unique ID which identifies the tab -->
+      <el-tab-pane v-for="item in this.$store.state.openCalcs" :label="item.name" :name="item.uniqueId.toString()">
+        <component :is="item.componentName"></component>
+      </el-tab-pane>
+    </el-tabs>
 
     <!-- OBJECTS NOT IN DOC FLOW -->
     <calculator-selection-overlay
@@ -74,7 +81,7 @@
       activeTabId () {
         console.log('App.activeTabId() called.')
 
-        return this.$store.state.activeTabId
+        return this.$store.state.activeTabId.toString()
       }
     },
     methods: {
@@ -89,18 +96,7 @@
         })
       }
     },
-    watch: {
-      activeTabId: function () {
-        var self = this
-        // We need to wait until after render to set the active tab, as the tab has not been
-        // inserted into the DOM yet
-        Vue.nextTick(function () {
-          var tabId = self.$store.state.openCalcs[self.$store.state.openCalcs.length - 1].uniqueId
-          console.log('Setting active tab to id = "' + tabId)
-          self.$refs.tabs.setActiveTab(tabId.toString())
-        })
-      }
-    },
+    watch: {},
     mounted () {
       // ============================================ //
       // ========== ELECTRONICS -> BASIC ============ //
@@ -167,10 +163,6 @@
     height: 100%;
   }
 
-  #left-bar {
-    width: 50px;
-  }
-
   #no-calc-screen {
     display: flex;
 
@@ -193,61 +185,32 @@
     font-size: 100%;
   }
 
-  .ui-tabs {
+  /* ===== TAB STYLING ===== */
+  div.el-tabs {
+    width: 100%;
+    height: 100%;
+
     display: flex;
     flex-direction: column;
+
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
-  .ui-tabs__body {
-    border-width: 0px !important;
-    padding: 0px !important;
+  div.el-tabs__content {
     height: 100%;
   }
 
-  .ui-tab {
+  div.el-tab-pane {
+    width: 100%;
     height: 100%;
+
     display: flex;
-    /*align-items: center;
-    justify-content: center;*/
+
+    /* This gives scroll-bars if calculator content is too large for screen in vertical direction */
+    overflow-y: auto;
   }
-
-  /* This selector gets weird of weird raised offset in the text for the first
-  header tab title */
-  ul:not(.md-list) > li + li {
-    margin-top: 0px !important;
-  }
-
-  #menu-button-wrapper {
-    /* This height exactly matches the height of the tab header bar */
-    height: 48px;
-
-    /* This colour exactly matches the colour of the tab header bar */
-    background-color: #eeeeee;
-  }
-
-  /*.tooltip {
-    display: none;
-    opacity: 0;
-    transition: opacity 1s;
-    pointer-events: none;
-    padding: 2px;
-    z-index: 10000;
-  }
-
-  .tooltip .tooltip-content {
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    border-radius: 10px;
-    padding: 5px;
-  }
-
-  .tooltip.tooltip-open-transitionend {
-    display: block;
-  }
-
-  .tooltip.tooltip-after-open {
-    opacity: 1;
-  }*/
 
   /* This targets the Material Design tooltips, which by default have
   a fixed height, which means that multiple lines of text do not work.

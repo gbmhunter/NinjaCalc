@@ -1,16 +1,16 @@
 <template>
 
   <div>
-  <md-sidenav class="md-left" ref="leftSidenav" @close="sideBarClosed()">
-    <md-toolbar class="md-large">
-      <div class="md-toolbar-container">
-        <h3 class="md-title">Menu</h3>
-      </div>
-    </md-toolbar>
+    <md-sidenav class="md-left" ref="leftSidenav" @close="sideBarClosed()">
+      <md-toolbar class="md-large">
+        <div class="md-toolbar-container">
+          <h3 class="md-title">Menu</h3>
+        </div>
+      </md-toolbar>
 
-    <div style="height: 50px;"></div>
-    <ui-button @click.native="showCalculatorSelectionOverlay" color="primary">New Calculator</ui-button>
-  </md-sidenav>
+      <div style="height: 50px;"></div>
+      <ui-button @click.native="showCalculatorSelectionOverlay" color="primary">New Calculator</ui-button>
+    </md-sidenav>
     <!--{{ this.$store.state.showLeftSideBar }}-->
   </div>
 
