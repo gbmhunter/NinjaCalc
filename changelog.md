@@ -3,6 +3,7 @@ v2.0.0
 
 - Ported NinjaCalc to a web app.
 - Replaced the current tabs with tabs from Element (vue UI component library), closes #137.
+- Fixed scrolling issue with calculator selection overlay, closes #138.
 
 v1.3.0
 ------

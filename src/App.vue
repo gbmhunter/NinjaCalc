@@ -243,4 +243,15 @@
     text-align: justify;
   }
 
+  div.modal-mask {
+    display: flex !important;
+  }
+
+  div.modal-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-content: center !important;
+    justify-content: center !important;
+  }
+
 </style>
