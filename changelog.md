@@ -1,3 +1,10 @@
+v2.0.0
+------
+
+- Ported NinjaCalc to a web app.
+- Replaced the current tabs with tabs from Element (vue UI component library), closes #137.
+- Fixed scrolling issue with calculator selection overlay, closes #138.
+
 v1.3.0
 ------
 
@@ -135,7 +142,7 @@ v0.3.3
 - Added grid icon for the IPC2221A Track Current calculator.
 - Added application icon, closes #21.
 
-v0.3.2 
+v0.3.2
 ------
 
 - Improved unit tests for Ohm's Law calculator.
