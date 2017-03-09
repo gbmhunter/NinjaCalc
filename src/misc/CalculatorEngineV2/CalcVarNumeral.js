@@ -54,7 +54,7 @@ export class CalcVarNumeral extends CalcVar {
   }
 
   reCalc = () => {
-    console.log('CalcVarNumerical.reCalc() called for "' + this.name + '".')
+    // console.log('CalcVarNumerical.reCalc() called for "' + this.name + '".')
 
     if (this.typeEqn() !== 'output') {
       throw new Error('reCalc() called for variable that was not an output.')

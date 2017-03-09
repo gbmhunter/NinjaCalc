@@ -58,11 +58,7 @@
       }
     },
     methods: {},
-    mounted () {
-      console.log('CalcValue.mounted() called.')
-      console.log('this.calcVar =')
-      console.log(this.calcVar)
-    }
+    mounted () {}
   }
 </script>
 

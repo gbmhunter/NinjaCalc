@@ -2,6 +2,7 @@ vX.X.X
 ------
 
 - Added data so that NinjaCalc website appears correctly when linked to on social media, closes #136.
+- Added ability to close a calculator tab, closes #139.
 
 v2.0.0
 ------

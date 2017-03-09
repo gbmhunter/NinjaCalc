@@ -68,24 +68,61 @@ const store = new Vuex.Store({
     showCalculatorSelectionOverlay (state, payload) {
       state.showCalculatorSelectionOverlay = payload.trueFalse
     },
-    openCalculator (state, payload) {
-      // console.log('openCalculator() called. payload.name = "' + payload.name + '".')
-      state.openCalcs.push({
-        name: payload.name,
-        componentName: payload.componentName,
-        // Unique ID is used as a unique tab ID
-        uniqueId: state.openCalcs.length
-      })
-    },
     registerCalc (state, payload) {
       // console.log('registerCalc() called with payload =')
       // console.log(payload)
       state.availableCalcs.push(payload)
     },
+    openCalculator (state, payload) {
+      // Find a unique ID to use
+      var maxId = 0
+      state.openCalcs.forEach((calc, index) => {
+        if (calc.uniqueId > maxId) {
+          maxId = calc.uniqueId
+        }
+      })
+      const newUniqueId = maxId + 1
+      console.log('newUniqueId = ' + newUniqueId)
+
+      state.openCalcs.push({
+        name: payload.name,
+        componentName: payload.componentName,
+        // Unique ID is used as a unique tab ID
+        uniqueId: newUniqueId
+      })
+    },
     setNewCalcAsOpenTab (state, payload) {
       // console.log('setNewCalcAsOpenTab() called with payload =')
       // console.log(payload)
       state.activeTabId = state.openCalcs[state.openCalcs.length - 1].uniqueId
+    },
+    closeCalculator (state, payload) {
+      console.log('closeCalculator() called with payload.uniqueId = ' + payload.uniqueId)
+      if (!payload.uniqueId) {
+        throw new Error('Please provide payload.uniqueId to closeCalculator().')
+      }
+      // We need to search through the open calculators and find the one which matches the
+      // provided ID
+      if (state.activeTabId === payload.uniqueId) {
+        console.log('Closing currently active tab.')
+        // Since the user wants to close the currently active tab, we need to find
+        // the next best calculator tab to set as the active tab
+        state.openCalcs.forEach((calc, index) => {
+          console.log('calc =')
+          console.log(calc)
+          if (calc.uniqueId === payload.uniqueId) {
+            console.log('Calculator found!')
+            let nextCalc = state.openCalcs[index + 1] || state.openCalcs[index - 1]
+            console.log('nextCalc =')
+            console.log(nextCalc)
+            if (nextCalc) {
+              state.activeTabId = nextCalc.uniqueId
+            }
+          }
+        })
+      }
+
+      state.openCalcs = state.openCalcs.filter(calc => calc.uniqueId !== payload.uniqueId)
     }
   }
 })

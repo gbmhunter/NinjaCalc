@@ -28,7 +28,9 @@
       <!--</ui-tab>-->
     <!--</ui-tabs>-->
 
-    <el-tabs type="card" v-if="this.$store.state.openCalcs.length" v-model="activeTabId">
+    <!-- The "editable" property allows you to close tabs. Note that by default this also adds a "+" button on the far-
+    right of the tab header, but we disable this in CSS -->
+    <el-tabs type="card" v-if="this.$store.state.openCalcs.length" v-model="activeTabId" editable @edit="handleTabsEdit">
       <!-- The name property is the unique ID which identifies the tab -->
       <el-tab-pane v-for="item in this.$store.state.openCalcs" :label="item.name" :name="item.uniqueId.toString()">
         <component :is="item.componentName"></component>
@@ -94,6 +96,22 @@
         this.$store.commit('showLeftSideBar', {
           trueFalse: true
         })
+      },
+      handleTabsEdit (targetName, action) {
+        console.log('App.handleTabEdit() called.')
+        switch (action) {
+          case 'add':
+            // This should never get called, since we hid the "add" button!
+            throw new Error('action.add() is not supported by App.handleTabsEdit().')
+          case 'remove':
+            this.$store.commit('closeCalculator', {
+              // Need to convert string to integer
+              uniqueId: parseInt(targetName)
+            })
+            break
+          default:
+            throw new Error('Provided action to handleTabsEdit() was not supported.')
+        }
       }
     },
     watch: {},
@@ -196,6 +214,13 @@
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
+  }
+
+  /* This hides the "+" button which is automatically added
+  to the far-right of the tab header when the "editable"
+  property is supplied to the tab component */
+  span.el-tabs__new-tab {
+    display: none;
   }
 
   div.el-tabs__content {
