@@ -116,7 +116,7 @@
         },
         rawVal: '',
         units: [
-          new UnitMulti({ name: 'C', multi: 1e0 }),
+          new UnitMulti({ name: '°C', multi: 1e0 }),
           new UnitFunc({
             name: 'F',
             toUnit: function (baseValue) {
@@ -127,7 +127,7 @@
             }
           })
         ],
-        defaultUnitName: 'C',
+        defaultUnitName: '°C',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER
@@ -196,7 +196,7 @@
         },
         rawVal: '',
         units: [
-          new UnitMulti({ name: 'C', multi: 1e0 }),
+          new UnitMulti({ name: '°C', multi: 1e0 }),
           new UnitFunc({
             name: 'F',
             toUnit: function (baseValue) {
@@ -207,7 +207,7 @@
             }
           })
         ],
-        defaultUnitName: 'C',
+        defaultUnitName: '°C',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER
@@ -247,7 +247,7 @@
         eqn: () => {},
         rawVal: '243.04',
         units: [
-          new UnitMulti({ name: 'C', multi: 1e0 }),
+          new UnitMulti({ name: '°C', multi: 1e0 }),
           new UnitFunc({
             name: 'F',
             toUnit: function (baseValue) {
@@ -258,7 +258,7 @@
             }
           })
         ],
-        defaultUnitName: 'C',
+        defaultUnitName: '°C',
         roundTo: 5,
         validators: [
           PresetValidators.IS_NUMBER
