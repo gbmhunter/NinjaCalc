@@ -10,7 +10,7 @@
 
 <script>
 
-  import './style.css'
+  import '../style.css'
 
   export default {
     name: 'calc-unit',

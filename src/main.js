@@ -34,11 +34,11 @@ Vue.use(ElementUI)
 // =========================================== //
 // ==== CALCULATOR COMPONENT REGISTRATION ==== //
 // =========================================== //
-import CalcValue from 'src/misc/CalculatorEngineV2/CalcValue'
+import CalcValue from 'misc/CalculatorEngineV2/view/CalcValue'
 Vue.component('calc-value', CalcValue)
-import CalcValueAndUnit from 'src/misc/CalculatorEngineV2/CalcValueAndUnit'
+import CalcValueAndUnit from 'misc/CalculatorEngineV2/view/CalcValueAndUnit'
 Vue.component('calc-value-and-unit', CalcValueAndUnit)
-import CalcUnits from 'src/misc/CalculatorEngineV2/CalcUnits'
+import CalcUnits from 'misc/CalculatorEngineV2/view/CalcUnits'
 Vue.component('calc-units', CalcUnits)
 import CalcVarString from 'src/misc/CalculatorEngineV2/view/CalcVarString'
 Vue.component('calc-var-string', CalcVarString)

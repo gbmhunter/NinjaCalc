@@ -1,20 +1,28 @@
 <!-- This template is designed to work with CalculatorEngineV2 -->
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-  <div>
-    <md-tooltip md-direction="top" v-html="toolTipMsg"></md-tooltip>
-    <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()"
-           class="variable-value" :class="[ calcVar.validationResult, calcVar.typeEqn() ]"
-           :readonly="readonly"
-           :style="{ width: width + 'px', height: height + 'px' }">
+
+  <div :id="calcVar.name" class="value-unit-container">
+    <div>
+      <md-tooltip md-direction="top" v-html="toolTipMsg"></md-tooltip>
+      <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()"
+             :readonly="readonly"
+             class="variable-value" :class="[ calcVar.validationResult, calcVar.typeEqn() ]" :style="{ width: width + 'px', height: height + 'px' }">
+    </div>
+    <select v-model="calcVar.selUnit" v-on:change="calcVar.onUnitChange()" class="variable-units" :style="{ height: height + 'px' }">
+      <option v-for="option in calcVar.units" v-bind:value="option.value">
+        {{ option.text }}
+      </option>
+    </select>
   </div>
+
 </template>
 
 <script>
 
-  import './style.css'
+  import '../style.css'
 
   export default {
-    name: 'calc-value',
+    name: 'calc-value-and-unit',
     props: {
       calcVar: {
         type: Object,
@@ -50,12 +58,21 @@
       }
     },
     methods: {},
-    mounted () {
-    }
+    mounted () {}
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .value-unit-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .variable-units {
+    height: 40px;
+    margin-left: 5px;
+  }
 
 </style>
