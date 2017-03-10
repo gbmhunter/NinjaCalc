@@ -1,11 +1,7 @@
 os:
   - linux
-  - osx
 language: node_js
 node_js:
-  - "4"
-  - "5"
-  - "6"
   - "7"
 sudo: required
 dist: trusty
@@ -21,7 +17,6 @@ before_install:
  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo dpkg -i google-chrome*.deb; fi
 install:
   - npm install
-  - npm run install-selenium
 before_script:
   - npm run build
 script:
