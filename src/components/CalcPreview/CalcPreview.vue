@@ -4,7 +4,7 @@
 
     <div id="image-wrapper"><img :src="imageUrl" id="image"></div>
 
-    <div id="title">{{ title }}</div>
+    <div id="title" style="font-size: 20px; font-weight: bold;">{{ title }}</div>
 
     <div id="description">{{ description }}</div>
 
@@ -108,11 +108,6 @@
 
     width: auto;
     height: auto;
-  }
-
-  #title {
-    font-size: 20px;
-    font-weight: 500;
   }
 
   #description {
