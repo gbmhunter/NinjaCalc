@@ -8,9 +8,9 @@
              :readonly="readonly"
              class="variable-value" :class="[ calcVar.validationResult, calcVar.typeEqn() ]" :style="{ width: width + 'px', height: height + 'px' }">
     </div>
-    <select v-model="calcVar.selUnit" v-on:change="calcVar.onUnitChange()" class="variable-units" :style="{ height: height + 'px' }">
-      <option v-for="option in calcVar.units" v-bind:value="option.value">
-        {{ option.text }}
+    <select v-model="calcVar.selUnitName" v-on:change="calcVar.onUnitChange()" class="variable-units" :style="{ height: height + 'px' }">
+      <option v-for="option in calcVar.units" v-bind:value="option.name">
+        {{ option.name }}
       </option>
     </select>
   </div>

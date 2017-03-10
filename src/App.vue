@@ -47,6 +47,8 @@
 
 <script>
 
+  /* eslint-disable */
+
   //  import { CalculatorServiceSingleton } from './services/CalculatorService'
 
   import Vue from 'vue'
@@ -122,48 +124,48 @@
       Vue.component(OhmsLawCalculator.mainView.name, OhmsLawCalculator.mainView)
       this.$store.commit('registerCalc', OhmsLawCalculator)
 
-      Vue.component(ResistorDividerCalculator.mainView.name, ResistorDividerCalculator.mainView)
-      this.$store.commit('registerCalc', ResistorDividerCalculator)
-
-      Vue.component(StandardResistanceCalculator.mainView.name, StandardResistanceCalculator.mainView)
-      this.$store.commit('registerCalc', StandardResistanceCalculator)
-
-      // ============================================ //
-      // ========= ELECTRONICS -> FILTERS =========== //
-      // ============================================ //
-
-      Vue.component(LowPassRCCalculator.mainView.name, LowPassRCCalculator.mainView)
-      this.$store.commit('registerCalc', LowPassRCCalculator)
-
+//      Vue.component(ResistorDividerCalculator.mainView.name, ResistorDividerCalculator.mainView)
+//      this.$store.commit('registerCalc', ResistorDividerCalculator)
+//
+//      Vue.component(StandardResistanceCalculator.mainView.name, StandardResistanceCalculator.mainView)
+//      this.$store.commit('registerCalc', StandardResistanceCalculator)
+//
+//      // ============================================ //
+//      // ========= ELECTRONICS -> FILTERS =========== //
+//      // ============================================ //
+//
+//      Vue.component(LowPassRCCalculator.mainView.name, LowPassRCCalculator.mainView)
+//      this.$store.commit('registerCalc', LowPassRCCalculator)
+//
       // ============================================ //
       // ========= ELECTRONICS -> SENSORS =========== //
       // ============================================ //
 
       Vue.component(dewPointMagnusCalculator.mainView.name, dewPointMagnusCalculator.mainView)
       this.$store.commit('registerCalc', dewPointMagnusCalculator)
-
-      Vue.component(ntcThermistorTemperature.mainView.name, ntcThermistorTemperature.mainView)
-      this.$store.commit('registerCalc', ntcThermistorTemperature)
-
-      // ============================================ //
-      // =========== ELECTRONICS -> PCB ============= //
-      // ============================================ //
-
-      Vue.component(trackCurrentIpc2221ACalculator.mainView.name, trackCurrentIpc2221ACalculator.mainView)
-      this.$store.commit('registerCalc', trackCurrentIpc2221ACalculator)
-
-      Vue.component(TrackCurrentIpc2152Calculator.mainView.name, TrackCurrentIpc2152Calculator.mainView)
-      this.$store.commit('registerCalc', TrackCurrentIpc2152Calculator)
-
-      Vue.component(viaCurrentIpc2221ACalculator.mainView.name, viaCurrentIpc2221ACalculator.mainView)
-      this.$store.commit('registerCalc', viaCurrentIpc2221ACalculator)
-
-      // ============================================ //
-      // ================== SOFTWARE ================ //
-      // ============================================ //
-
-      Vue.component(crcCalculator.mainView.name, crcCalculator.mainView)
-      this.$store.commit('registerCalc', crcCalculator)
+//
+//      Vue.component(ntcThermistorTemperature.mainView.name, ntcThermistorTemperature.mainView)
+//      this.$store.commit('registerCalc', ntcThermistorTemperature)
+//
+//      // ============================================ //
+//      // =========== ELECTRONICS -> PCB ============= //
+//      // ============================================ //
+//
+//      Vue.component(trackCurrentIpc2221ACalculator.mainView.name, trackCurrentIpc2221ACalculator.mainView)
+//      this.$store.commit('registerCalc', trackCurrentIpc2221ACalculator)
+//
+//      Vue.component(TrackCurrentIpc2152Calculator.mainView.name, TrackCurrentIpc2152Calculator.mainView)
+//      this.$store.commit('registerCalc', TrackCurrentIpc2152Calculator)
+//
+//      Vue.component(viaCurrentIpc2221ACalculator.mainView.name, viaCurrentIpc2221ACalculator.mainView)
+//      this.$store.commit('registerCalc', viaCurrentIpc2221ACalculator)
+//
+//      // ============================================ //
+//      // ================== SOFTWARE ================ //
+//      // ============================================ //
+//
+//      Vue.component(crcCalculator.mainView.name, crcCalculator.mainView)
+//      this.$store.commit('registerCalc', crcCalculator)
     }
   }
 </script>

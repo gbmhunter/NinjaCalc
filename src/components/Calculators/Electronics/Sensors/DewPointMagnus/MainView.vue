@@ -73,7 +73,9 @@
   //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
+  import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   /* eslint-disable camelcase */
@@ -114,9 +116,18 @@
         },
         rawVal: '',
         units: [
-          {text: '°C', value: 1e0}
+          new UnitMulti({ name: 'C', multi: 1e0 }),
+          new UnitFunc({
+            name: 'F',
+            toUnit: function (baseValue) {
+              return baseValue * 1.8 + 32
+            },
+            fromUnit: function (unitValue) {
+              return (unitValue - 32) / 1.8
+            }
+          })
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'C',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER
@@ -148,9 +159,9 @@
         },
         rawVal: '',
         units: [
-          {text: '%', value: 1e0}
+          new UnitMulti({ name: '%', multi: 1e0 })
         ],
-        selUnit: 1e0,
+        defaultUnitName: '%',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -185,9 +196,18 @@
         },
         rawVal: '',
         units: [
-          {text: '°C', value: 1e0}
+          new UnitMulti({ name: 'C', multi: 1e0 }),
+          new UnitFunc({
+            name: 'F',
+            toUnit: function (baseValue) {
+              return baseValue * 1.8 + 32
+            },
+            fromUnit: function (unitValue) {
+              return (unitValue - 32) / 1.8
+            }
+          })
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'C',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER
@@ -206,9 +226,9 @@
         eqn: () => {},
         rawVal: '17.625',
         units: [
-          {text: 'no unit', value: 1e0}
+          new UnitMulti({ name: 'no unit', multi: 1e0 })
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'no unit',
         roundTo: 5,
         validators: [
           PresetValidators.IS_NUMBER
@@ -227,9 +247,18 @@
         eqn: () => {},
         rawVal: '243.04',
         units: [
-          {text: '°C', value: 1e0}
+          new UnitMulti({ name: 'C', multi: 1e0 }),
+          new UnitFunc({
+            name: 'F',
+            toUnit: function (baseValue) {
+              return baseValue * 1.8 + 32
+            },
+            fromUnit: function (unitValue) {
+              return (unitValue - 32) / 1.8
+            }
+          })
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'C',
         roundTo: 5,
         validators: [
           PresetValidators.IS_NUMBER
