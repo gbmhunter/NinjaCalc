@@ -183,13 +183,17 @@
       // variables have been added.
       calc.init()
 
+      console.log('MainView.data() finished.')
+
       return {
         calc: calc
       }
     },
     mounted () {
 //      console.log('Ohm\'s Law calculator mounted.')
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+      if (window.MathJax) {
+        window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+      }
     }
   }
 

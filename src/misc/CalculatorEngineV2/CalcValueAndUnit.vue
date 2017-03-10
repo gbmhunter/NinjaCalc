@@ -1,7 +1,7 @@
 <!-- This template is designed to work with CalculatorEngineV2 -->
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
-  <div class="value-unit-container">
+  <div :id="calcVar.name" class="value-unit-container">
     <div>
       <md-tooltip md-direction="top" v-html="toolTipMsg"></md-tooltip>
       <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()"

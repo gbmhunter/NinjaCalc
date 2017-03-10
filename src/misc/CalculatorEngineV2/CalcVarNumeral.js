@@ -30,8 +30,6 @@ export class CalcVarNumeral extends CalcVar {
    * Designed to be called by vue once this.selUnit has been changed.
    */
   onUnitChange = () => {
-    // console.log('onUnitsChange() called.')
-
     if (this.typeEqn() === 'input') {
       // Recalculate raw value from displayed value
       this.rawVal = this.dispVal * this.selUnit
@@ -70,9 +68,6 @@ export class CalcVarNumeral extends CalcVar {
    * Designed to be called by vue once this.dispVal has been changed.
    */
   onDispValChange = () => {
-    // console.log('onDispValChange() called.')
-    // console.log('this.dispVal =' + this.dispVal)
-
     this.rawVal = parseFloat(this.dispVal) * parseFloat(this.selUnit)
     // console.log('this.rawVal = ' + this.rawVal)
 

@@ -18,7 +18,6 @@ export default class Calc {
   }
 
   getVar = (name) => {
-//      console.log('getVar() called with name = ' + name)
     var variable = this.calcVars.find((element) => {
       return element.name === name
     })
