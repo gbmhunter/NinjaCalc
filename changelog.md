@@ -2,6 +2,7 @@ vX.X.X
 ------
 
 - Renamed CalcVarNumeral to CalcVarNumeric, closes #143.
+- Moved the vuex store into it's own directory, closes #144.
 
 v2.1.0
 ------
