@@ -1,4 +1,4 @@
-vX.X.X
+v2.1.0
 ------
 
 - Added data so that NinjaCalc website appears correctly when linked to on social media, closes #136.
