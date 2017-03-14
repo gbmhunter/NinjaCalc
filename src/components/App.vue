@@ -21,13 +21,6 @@
       </div>
     </div>
 
-    <!-- Only show calculator tabs if calculators are open -->
-    <!--<ui-tabs ref="tabs" type="text" :grow="true" v-if="this.$store.state.openCalcs.length">-->
-      <!--<ui-tab v-for="item in this.$store.state.openCalcs" :title="item.name" :id="item.uniqueId.toString()">-->
-        <!--<component :is="item.componentName"></component>-->
-      <!--</ui-tab>-->
-    <!--</ui-tabs>-->
-
     <!-- The "editable" property allows you to close tabs. Note that by default this also adds a "+" button on the far-
     right of the tab header, but we disable this in CSS -->
     <el-tabs type="card" v-if="this.$store.state.openCalcs.length" v-model="activeTabId" editable @edit="handleTabsEdit">
@@ -49,23 +42,20 @@
 
   /* eslint-disable */
 
-  //  import { CalculatorServiceSingleton } from './services/CalculatorService'
-
   import Vue from 'vue'
-  import LeftSideMenu from './components/LeftSideMenu/LeftSideMenu'
-  // import MainView from './components/OhmsLawCalculator/MainView'
-  import CalculatorSelectionOverlay from './components/CalculatorSelectionOverlay/CalculatorSelectionOverlay'
+  import LeftSideMenu from './LeftSideMenu/LeftSideMenu'
+  import CalculatorSelectionOverlay from './CalculatorSelectionOverlay/CalculatorSelectionOverlay'
 
-  import OhmsLawCalculator from './components/Calculators/Electronics/Basic/OhmsLaw/Calc'
-  import ResistorDividerCalculator from './components/Calculators/Electronics/Basic/ResistorDivider/Calc'
-  import StandardResistanceCalculator from './components/Calculators/Electronics/Basic/StandardResistance/Calc'
-  import LowPassRCCalculator from './components/Calculators/Electronics/Filters/LowPassRC/Calc'
-  import { trackCurrentIpc2221ACalculator } from './components/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
-  import TrackCurrentIpc2152Calculator from './components/Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
-  import { dewPointMagnusCalculator } from './components/Calculators/Electronics/Sensors/DewPointMagnus/Calc'
-  import { ntcThermistorTemperature } from './components/Calculators/Electronics/Sensors/NtcThermistor/Calc'
-  import { viaCurrentIpc2221ACalculator } from './components/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
-  import { crcCalculator } from './components/Calculators/Software/Crc/Calc'
+  import OhmsLawCalculator from './Calculators/Electronics/Basic/OhmsLaw/Calc'
+  import ResistorDividerCalculator from './Calculators/Electronics/Basic/ResistorDivider/Calc'
+  import StandardResistanceCalculator from './Calculators/Electronics/Basic/StandardResistance/Calc'
+  import LowPassRCCalculator from './Calculators/Electronics/Filters/LowPassRC/Calc'
+  import { trackCurrentIpc2221ACalculator } from './Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
+  import TrackCurrentIpc2152Calculator from './Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
+  import { dewPointMagnusCalculator } from './Calculators/Electronics/Sensors/DewPointMagnus/Calc'
+  import { ntcThermistorTemperature } from './Calculators/Electronics/Sensors/NtcThermistor/Calc'
+  import { viaCurrentIpc2221ACalculator } from './Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
+  import { crcCalculator } from './Calculators/Software/Crc/Calc'
 
   export default {
     name: 'app',
