@@ -41,6 +41,7 @@
   import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import {CalcVarString, CalcVarStringPresetValidators} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarCheckbox} from 'src/misc/CalculatorEngineV2/CalcVarCheckbox'
+  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
@@ -70,9 +71,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'no unit', value: 1e0}
+          new UnitMulti({name: 'no unit', multi: 1e0})
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,

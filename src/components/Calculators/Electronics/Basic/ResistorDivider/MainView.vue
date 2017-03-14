@@ -67,6 +67,7 @@
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
 
@@ -103,10 +104,10 @@
         },
         rawVal: '',
         units: [
-          {text: 'mV', value: 1e-3},
-          {text: 'V', value: 1}
+          new UnitMulti({name: 'mV', multi: 1e-3}),
+          new UnitMulti({name: 'V', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: 'V',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -148,12 +149,13 @@
         },
         rawVal: '',
         units: [
-          {text: 'mΩ', value: 1e-3},
-          {text: 'Ω', value: 1},
-          {text: 'kΩ', value: 1e3},
-          {text: 'MΩ', value: 1e6}
+          new UnitMulti({name: 'mΩ', multi: 1e-3}),
+          new UnitMulti({name: 'Ω', multi: 1e0}),
+          new UnitMulti({name: 'kΩ', multi: 1e3}),
+          new UnitMulti({name: 'MΩ', multi: 1e6}),
+          new UnitMulti({name: 'GΩ', multi: 1e9})
         ],
-        selUnit: 1,
+        defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -185,12 +187,13 @@
         },
         rawVal: '',
         units: [
-          {text: 'mΩ', value: 1e-3},
-          {text: 'Ω', value: 1},
-          {text: 'kΩ', value: 1e3},
-          {text: 'MΩ', value: 1e6}
+          new UnitMulti({name: 'mΩ', multi: 1e-3}),
+          new UnitMulti({name: 'Ω', multi: 1e0}),
+          new UnitMulti({name: 'kΩ', multi: 1e3}),
+          new UnitMulti({name: 'MΩ', multi: 1e6}),
+          new UnitMulti({name: 'GΩ', multi: 1e9})
         ],
-        selUnit: 1,
+        defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -222,10 +225,10 @@
         },
         rawVal: '',
         units: [
-          {text: 'mV', value: 1e-3},
-          {text: 'V', value: 1}
+          new UnitMulti({name: 'mV', multi: 1e-3}),
+          new UnitMulti({name: 'V', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: 'V',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,

@@ -1,16 +1,16 @@
 <!-- This template is designed to work with CalculatorEngineV2 -->
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
-  <div class="value-unit-container">
+  <div :id="calcVar.name" class="value-unit-container">
     <div>
       <md-tooltip md-direction="top" v-html="toolTipMsg"></md-tooltip>
       <input v-model="calcVar.dispVal" v-on:keyup="calcVar.onDispValChange()"
              :readonly="readonly"
              class="variable-value" :class="[ calcVar.validationResult, calcVar.typeEqn() ]" :style="{ width: width + 'px', height: height + 'px' }">
     </div>
-    <select v-model="calcVar.selUnit" v-on:change="calcVar.onUnitChange()" class="variable-units" :style="{ height: height + 'px' }">
-      <option v-for="option in calcVar.units" v-bind:value="option.value">
-        {{ option.text }}
+    <select v-model="calcVar.selUnitName" v-on:change="calcVar.onUnitChange()" class="variable-units" :style="{ height: height + 'px' }">
+      <option v-for="option in calcVar.units" v-bind:value="option.name">
+        {{ option.name }}
       </option>
     </select>
   </div>
@@ -19,7 +19,7 @@
 
 <script>
 
-  import './style.css'
+  import '../style.css'
 
   export default {
     name: 'calc-value-and-unit',
@@ -58,11 +58,7 @@
       }
     },
     methods: {},
-    mounted () {
-      console.log('CalcValue.mounted() called.')
-      console.log('this.calcVar =')
-      console.log(this.calcVar)
-    }
+    mounted () {}
   }
 </script>
 

@@ -1,3 +1,12 @@
+v2.1.0
+------
+
+- Added data so that NinjaCalc website appears correctly when linked to on social media, closes #136.
+- Added ability to close a calculator tab, closes #139.
+- Added support for function-based units for numerical calculator variables, closes #140.
+- Removed value property from the Unit class, closes #141.
+- Added "search" functionality to the calculator selection overlay, closes #142.
+
 v2.0.0
 ------
 

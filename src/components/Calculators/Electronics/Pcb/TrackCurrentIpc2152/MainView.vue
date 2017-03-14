@@ -181,22 +181,16 @@
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
+  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
+  import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
+  import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
 
   // ============================================================================================= //
   // ============================================ CONSTANTS ====================================== //
   // ============================================================================================= //
   const NUM_MILS_PER_MM = 1000 / 25.4
-  //  const UNIT_CONVERSION_COPPER_THICKNESS_M_PER_OZ = 0.0000350012
-  const UNIT_CONVERSION_M_PER_MIL = 25.4 / 1e6
-  const UNIT_CONVERSION_M2_PER_MIL2 = UNIT_CONVERSION_M_PER_MIL * UNIT_CONVERSION_M_PER_MIL
-  const UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF = 1.73 // eslint-disable-line camelcase
-  const COPPER_THICKNESS_M_PER_OZ = 0.0000350012
-  const METERS_PER_INCH = 25.4 / 1000
-  const METERS_PER_MILS = METERS_PER_INCH / 1000.0
-
-  //  const UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF = 1.73
 
   // UNIVERSAL CHART CONSTANTS
 
@@ -288,11 +282,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'uA', value: 1e-6},
-          {text: 'mA', value: 1e-3},
-          {text: 'A', value: 1}
+          new UnitMulti({name: 'uA', multi: 1e-6}),
+          new UnitMulti({name: 'mA', multi: 1e-3}),
+          new UnitMulti({name: 'A', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: 'A',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -333,9 +327,18 @@
         },
         rawVal: '',
         units: [
-          {text: '°C', value: 1e0}
+          new UnitMulti({ name: '°C', multi: 1e0 }),
+          new UnitFunc({
+            name: 'F',
+            toUnit: function (baseValue) {
+              return baseValue * 1.8 + 32
+            },
+            fromUnit: function (unitValue) {
+              return (unitValue - 32) / 1.8
+            }
+          })
         ],
-        selUnit: 1,
+        defaultUnitName: '°C',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -391,11 +394,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'um²', value: 1e-12},
-          {text: 'mils²', value: UNIT_CONVERSION_M2_PER_MIL2},
-          {text: 'mm²', value: 1e-6}
+          new UnitMulti({ name: 'um²', multi: 1e-12 }),
+          new UnitMulti({ name: 'mils²', multi: unitConversionConstants.M2_PER_MIL2 }),
+          new UnitMulti({ name: 'mm²', multi: 1e-6 })
         ],
-        selUnit: 1e-12,
+        defaultUnitName: 'um²',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -416,12 +419,12 @@
         },
         rawVal: '',
         units: [
-          {text: 'um', value: 1e-6},
-          {text: 'mm', value: 1e-3},
-          {text: 'oz', value: COPPER_THICKNESS_M_PER_OZ},
-          {text: 'mils', value: METERS_PER_MILS}
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'oz', multi: unitConversionConstants.COPPER_THICKNESS_M_PER_OZ}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
-        selUnit: 1e-6,
+        defaultUnitName: 'um',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -464,7 +467,7 @@
           const trackThicknessM = calc.getVar('trackThickness').getRawVal()
 
           // Convert to "oz" units, as this is what is used in IPC-2152 graphs
-          const trackThicknessOz = trackThicknessM * (1 / COPPER_THICKNESS_M_PER_OZ)
+          const trackThicknessOz = trackThicknessM * (1 / unitConversionConstants.COPPER_THICKNESS_M_PER_OZ)
 
           // Lets calculate the two co-efficients for the fixed-temp trend line
           // double[] trackThicknessTrendLineCoefA = new double[TRACK_THICKNESS_TREND_LINE_COEF_COEF_A.length];
@@ -492,9 +495,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'no unit', value: 1e0}
+          new UnitMulti({name: 'no unit', multi: 1e0})
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -515,11 +518,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'um', value: 1e-6},
-          {text: 'mm', value: 1e-3},
-          {text: 'mils', value: METERS_PER_MILS}
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
-        selUnit: 1e-3,
+        defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -561,7 +564,7 @@
           const boardThicknessM = calc.getVar('boardThickness').getRawVal()
 
           // Convert to "mils" units, as this is what is used in IPC-2152 graphs
-          const boardThicknessMils = boardThicknessM * (1 / UNIT_CONVERSION_M_PER_MIL)
+          const boardThicknessMils = boardThicknessM * (1 / unitConversionConstants.METERS_PER_MILS)
 
           const boardThicknessModifierMulti = BOARD_THICKNESS_TREND_LINE_COEF_A *
             Math.pow(boardThicknessMils, BOARD_THICKNESS_TREND_LINE_COEF_B)
@@ -570,9 +573,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'no unit', value: 1e0}
+          new UnitMulti({name: 'no unit', multi: 1e0})
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -607,11 +610,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'um', value: 1e-6},
-          {text: 'mm', value: 1e-3},
-          {text: 'mils', value: METERS_PER_MILS}
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
-        selUnit: 1e-3,
+        defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -673,7 +676,7 @@
           // Plane must be present at this point
 
           // Convert to "mils" units, as this is what is used in IPC-2152 graphs
-          const planeProximityMils = planeProximityM * (1 / UNIT_CONVERSION_M_PER_MIL)
+          const planeProximityMils = planeProximityM * (1 / unitConversionConstants.METERS_PER_MILS)
 
           const planeProximityModifierMulti = PLANE_PROXIMITY_TREND_LINE_COEF_M * planeProximityMils +
             PLANE_PROXIMITY_TREND_LINE_COEF_C
@@ -682,9 +685,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'no unit', value: 1e0}
+          new UnitMulti({name: 'no unit', multi: 1e0})
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -705,13 +708,10 @@
         },
         rawVal: '0.20',
         units: [
-          {text: 'W/(m*K)', value: 1e0},
-          {
-            text: 'BTU/(hour*ft*F)',
-            value: UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF
-          }
+          new UnitMulti({name: 'W/(m*K)', multi: 1e0}),
+          new UnitMulti({name: 'BTU/(hour*ft*F)', multi: unitConversionConstants.THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF})
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'W/(m*K)',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -754,7 +754,7 @@
 
           // Convert to BTU/(ft*hour*F), as this is what the IPC-2152 graph used
           const thermalConductivityBtunFtnHournDegF = thermalConductivityWattnMeternDegC *
-            (1 / UNIT_CONVERSION_THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF) // eslint-disable-line camelcase
+            (1 / unitConversionConstants.THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF) // eslint-disable-line camelcase
 
           const thermalConductivityModifierMulti = THERMAL_CONDUCTIVITY_TREND_LINE_COEF_M *
             thermalConductivityBtunFtnHournDegF + THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C
@@ -763,9 +763,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'no unit', value: 1e0}
+          new UnitMulti({name: 'no unit', multi: 1e0})
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -801,11 +801,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'um²', value: 1e-12},
-          {text: 'mils²', value: UNIT_CONVERSION_M2_PER_MIL2},
-          {text: 'mm²', value: 1e-6}
+          new UnitMulti({ name: 'um²', multi: 1e-12 }),
+          new UnitMulti({ name: 'mils²', multi: unitConversionConstants.M2_PER_MIL2 }),
+          new UnitMulti({ name: 'mm²', multi: 1e-6 })
         ],
-        selUnit: 1e-12,
+        defaultUnitName: 'um²',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -833,11 +833,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'um', value: 1e-6},
-          {text: 'mm', value: 1e-3},
-          {text: 'mils', value: METERS_PER_MILS}
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
-        selUnit: 1e-3,
+        defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,

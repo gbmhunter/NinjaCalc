@@ -14,7 +14,10 @@ module.exports = function (config) {
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'sinon-chai'],
     reporters: ['spec', 'coverage'],
-    files: ['./index.js'],
+    files: [
+      '../../node_modules/phantomjs-polyfill-find/find-polyfill.js', // This find polyfill is required because as of 2017-03, phantom-js does not support the array.find() prototype.
+      './index.js'
+    ],
     preprocessors: {
       './index.js': ['webpack', 'sourcemap']
     },

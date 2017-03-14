@@ -1,25 +1,28 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
-
   <transition name="modal">
     <div class="modal-mask" v-on:click="borderClicked">
       <div class="modal-wrapper">
+        <!-- The .stop below prevents the click event from bubbling, resulting in the
+        overlay only being closed when the modal-mask is clicked directly -->
         <div class="modal-container" v-on:click.stop="overlayClicked">
-
-          <div class="modal-body">
-            <div class="preview-grid">
-              <!-- GENERATE CALCULATOR PREVIEWS -->
-              <CalcPreview v-for="item in $store.state.availableCalcs"
+          <div class="modal-body" style="display: flex; flex-direction: column; height: 100%;">
+            <!-- SEARCH CONTAINER -->
+            <div id="search-container">
+              <span style="padding-right: 5px;">Search</span>
+              <input v-model="searchText" style="width: 400px; height: 25px;">
+            </div>
+            <!-- GENERATE CALCULATOR PREVIEWS -->
+            <transition-group name="list" tag="div" class="preview-grid">
+              <CalcPreview v-for="item in $store.state.filteredAvailableCalcs"
+                           class="list-complete-item"
                            :title='item.displayName'
                            :description="item.description"
                            :componentName="item.mainView.name"
-                            :imageUrl="item.imagePath">
+                           :imageUrl="item.imagePath"
+                           :key="item.displayName"> <!-- key is important for transition to work correctly -->
               </CalcPreview>
-            </div>
+            </transition-group>
           </div>
-
-          <!--<div class="modal-footer">-->
-              <!--<md-button class="md-raised md-primary" @click="$emit('close')">Close</md-button>-->
-          <!--</div>-->
         </div>
       </div>
     </div>
@@ -35,7 +38,18 @@
     components: {
       CalcPreview
     },
+    data: function () {
+      return {}
+    },
     computed: {
+      searchText: {
+        get () {
+          return this.$store.state.searchText
+        },
+        set (value) {
+          this.$store.dispatch('setSearchText', value)
+        }
+      }
     },
     methods: {
       borderClicked (event) {
@@ -45,12 +59,12 @@
         })
       },
       overlayClicked (event) {
-
+        // Do nothing, this handler exists purely to swallow event
+        // (event does not bubble because of .stop modifier in HTML)
       }
     },
+    watch: {},
     mounted () {
-      console.log('CalculatorSelectionOverlay.mounted() called.')
-      this.showModal = true
     }
   }
 </script>
@@ -74,7 +88,6 @@
     overflow-y: scroll;
   }
 
-
   .modal-mask {
     position: fixed;
     z-index: 9998;
@@ -91,6 +104,7 @@
     display: table-cell;
     vertical-align: middle;
 
+    width: 100%;
     height: 100%;
   }
 
@@ -110,15 +124,6 @@
   .modal-header h3 {
     margin-top: 0;
     color: #42b983;
-  }
-
-  .modal-body {
-    height: 100%;
-    /*margin: 20px 0;*/
-  }
-
-  .modal-default-button {
-    float: right;
   }
 
   /*
@@ -142,6 +147,17 @@
   .modal-leave-active .modal-container {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
+  }
+
+  /* Transition setup for "tile sliding" effect on the calculator preview
+  objects when search text is entered */
+  .list-leave-active {
+    position: absolute !important;
+  }
+
+  .list-move {
+    /* The time below determines the length of the move transition */
+    transition: transform 0.7s !important;
   }
 
 </style>

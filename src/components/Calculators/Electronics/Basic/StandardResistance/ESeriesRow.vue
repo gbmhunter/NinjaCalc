@@ -2,12 +2,12 @@
 
   <tr>
     <td>{{ eSeries.name }}</td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestResistance')" width=120></calc-value></td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestResistanceError')" width=80></calc-value></td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistance')" width=120></calc-value></td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistanceError')" width=80></calc-value></td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistance')" width=120></calc-value></td>
-    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistanceError')" width=80></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestResistance')" :width=120></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestResistanceError')" :width=80></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistance')" :width=120></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrLowerResistanceError')" :width=80></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistance')" :width=120></calc-value></td>
+    <td><calc-value :calcVar="calc.getVar(this.eSeries.name + 'ClosestEqualOrHigherResistanceError')" :width=80></calc-value></td>
   </tr>
 
 </template>
@@ -17,6 +17,7 @@
 //  'use strict'
 
   import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import { UnitMulti } from 'src/misc/CalculatorEngineV2/UnitMulti'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
 
@@ -54,9 +55,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'V', value: 1}
+          new UnitMulti({name: 'Ω', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -86,9 +87,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'V', value: 1}
+          new UnitMulti({name: '%', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: '%',
         roundTo: 2,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -113,9 +114,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'V', value: 1}
+          new UnitMulti({name: 'Ω', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -144,9 +145,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'V', value: 1}
+          new UnitMulti({name: '%', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: '%',
         roundTo: 2,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -171,9 +172,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'V', value: 1}
+          new UnitMulti({name: 'Ω', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -202,9 +203,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'V', value: 1}
+          new UnitMulti({name: '%', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: '%',
         roundTo: 2,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -217,9 +218,7 @@
       return {
       }
     },
-    mounted () {
-      console.log('ESeriesRow mounted.')
-    }
+    mounted () {}
   }
 
 </script>

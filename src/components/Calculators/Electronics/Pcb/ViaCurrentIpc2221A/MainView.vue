@@ -118,8 +118,10 @@
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
+  import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
-  import {UnitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
+  import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
 
   /* eslint-disable camelcase */
 
@@ -148,10 +150,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'um', value: 1e-6},
-          {text: 'mm', value: 1e-3}
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
-        selUnit: 1e-3,
+        defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -172,11 +175,12 @@
         },
         rawVal: '',
         units: [
-          {text: 'um', value: 1e-6},
-          {text: 'oz', value: UnitConversionConstants.COPPER_THICKNESS_M_PER_OZ},
-          {text: 'mils', value: UnitConversionConstants.METERS_PER_MILS}
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'oz', multi: unitConversionConstants.COPPER_THICKNESS_M_PER_OZ}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
-        selUnit: 1e-6,
+        defaultUnitName: 'um',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -197,11 +201,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'um', value: 1e-6},
-          {text: 'mm', value: 1e-3},
-          {text: 'mils', value: UnitConversionConstants.METERS_PER_MILS}
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
-        selUnit: 1e-3,
+        defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -223,9 +227,18 @@
         },
         rawVal: '20.0',
         units: [
-          {text: '°C', value: 1e0}
+          new UnitMulti({ name: '°C', multi: 1e0 }),
+          new UnitFunc({
+            name: 'F',
+            toUnit: function (baseValue) {
+              return baseValue * 1.8 + 32
+            },
+            fromUnit: function (unitValue) {
+              return (unitValue - 32) / 1.8
+            }
+          })
         ],
-        selUnit: 1e0,
+        defaultUnitName: '°C',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -246,9 +259,9 @@
         },
         rawVal: '19e-9',
         units: [
-          {text: 'Ω⋅m', value: 1e0}
+          new UnitMulti({name: 'Ω⋅m', multi: 1e0})
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'Ω⋅m',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -269,9 +282,9 @@
         },
         rawVal: '401.8',
         units: [
-          {text: 'W/K⋅m', value: 1e0}
+          new UnitMulti({name: 'W/K⋅m', multi: 1e0})
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'W/K⋅m',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -297,9 +310,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'm2', value: 1e0}
+          new UnitMulti({ name: 'um²', multi: 1e-12 }),
+          new UnitMulti({ name: 'mils²', multi: unitConversionConstants.M2_PER_MIL2 }),
+          new UnitMulti({ name: 'mm²', multi: 1e-6 })
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'um²',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -326,9 +341,9 @@
         },
         rawVal: '',
         units: [
-          {text: 'mΩ', value: 1e-3}
+          new UnitMulti({ name: 'mΩ', multi: 1e-3 })
         ],
-        selUnit: 1e-3,
+        defaultUnitName: 'mΩ',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -355,9 +370,9 @@
         },
         rawVal: '',
         units: [
-          {text: '°C/W', value: 1e0}
+          new UnitMulti({ name: '°C/W', multi: 1e0 })
         ],
-        selUnit: 1e0,
+        defaultUnitName: '°C/W',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -387,9 +402,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'A', value: 1e0}
+          new UnitMulti({name: 'uA', multi: 1e-6}),
+          new UnitMulti({name: 'mA', multi: 1e-3}),
+          new UnitMulti({name: 'A', multi: 1})
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'A',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,

@@ -106,15 +106,17 @@
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
+  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
+  import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
+  import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
 
   // ============================================================================================= //
   // ============================================ CONSTANTS ====================================== //
   // ============================================================================================= //
-  const COPPER_THICKNESS_M_PER_OZ = 0.0000350012
-  const METERS_PER_INCH = 25.4 / 1000
-  const METERS_PER_MILS = METERS_PER_INCH / 1000.0
+//  const METERS_PER_INCH = 25.4 / 1000
+//  const METERS_PER_MILS = METERS_PER_INCH / 1000.0
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -137,11 +139,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'uA', value: 1e-6},
-          {text: 'mA', value: 1e-3},
-          {text: 'A', value: 1}
+          new UnitMulti({name: 'uA', multi: 1e-6}),
+          new UnitMulti({name: 'mA', multi: 1e-3}),
+          new UnitMulti({name: 'A', multi: 1e0})
         ],
-        selUnit: 1e0,
+        defaultUnitName: 'A',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -171,9 +173,18 @@
         },
         rawVal: '',
         units: [
-          {text: '°C', value: 1e0}
+          new UnitMulti({ name: '°C', multi: 1e0 }),
+          new UnitFunc({
+            name: 'F',
+            toUnit: function (baseValue) {
+              return baseValue * 1.8 + 32
+            },
+            fromUnit: function (unitValue) {
+              return (unitValue - 32) / 1.8
+            }
+          })
         ],
-        selUnit: 1e0,
+        defaultUnitName: '°C',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -212,12 +223,12 @@
         },
         rawVal: '',
         units: [
-          {text: 'um', value: 1e-6},
-          {text: 'mm', value: 1e-3},
-          {text: 'oz', value: COPPER_THICKNESS_M_PER_OZ},
-          {text: 'mils', value: METERS_PER_MILS}
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'oz', multi: unitConversionConstants.COPPER_THICKNESS_M_PER_OZ}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
-        selUnit: 1e-6,
+        defaultUnitName: 'um',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -285,11 +296,11 @@
         },
         rawVal: '',
         units: [
-          {text: 'um', value: 1e-6},
-          {text: 'mm', value: 1e-3},
-          {text: 'mils', value: METERS_PER_MILS}
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
-        selUnit: 1e-3,
+        defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,

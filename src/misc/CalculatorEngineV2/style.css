@@ -1,4 +1,6 @@
-input {
+/* The variable-value class is applied to the input object of CalcValue,
+CalcValueAndUnit, and CalcVarString */
+input.variable-value {
   border-style: solid;
   border-radius: 2px;
 

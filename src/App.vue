@@ -28,7 +28,9 @@
       <!--</ui-tab>-->
     <!--</ui-tabs>-->
 
-    <el-tabs type="card" v-if="this.$store.state.openCalcs.length" v-model="activeTabId">
+    <!-- The "editable" property allows you to close tabs. Note that by default this also adds a "+" button on the far-
+    right of the tab header, but we disable this in CSS -->
+    <el-tabs type="card" v-if="this.$store.state.openCalcs.length" v-model="activeTabId" editable @edit="handleTabsEdit">
       <!-- The name property is the unique ID which identifies the tab -->
       <el-tab-pane v-for="item in this.$store.state.openCalcs" :label="item.name" :name="item.uniqueId.toString()">
         <component :is="item.componentName"></component>
@@ -44,6 +46,8 @@
 
 
 <script>
+
+  /* eslint-disable */
 
   //  import { CalculatorServiceSingleton } from './services/CalculatorService'
 
@@ -62,11 +66,6 @@
   import { ntcThermistorTemperature } from './components/Calculators/Electronics/Sensors/NtcThermistor/Calc'
   import { viaCurrentIpc2221ACalculator } from './components/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
   import { crcCalculator } from './components/Calculators/Software/Crc/Calc'
-
-  console.log('LeftSideMenu =')
-  console.log(LeftSideMenu)
-  // console.log('MainView =')
-  // console.log(MainView)
 
   export default {
     name: 'app',
@@ -94,6 +93,22 @@
         this.$store.commit('showLeftSideBar', {
           trueFalse: true
         })
+      },
+      handleTabsEdit (targetName, action) {
+        console.log('App.handleTabEdit() called.')
+        switch (action) {
+          case 'add':
+            // This should never get called, since we hid the "add" button!
+            throw new Error('action.add() is not supported by App.handleTabsEdit().')
+          case 'remove':
+            this.$store.commit('closeCalculator', {
+              // Need to convert string to integer
+              uniqueId: parseInt(targetName)
+            })
+            break
+          default:
+            throw new Error('Provided action to handleTabsEdit() was not supported.')
+        }
       }
     },
     watch: {},
@@ -102,50 +117,50 @@
       // ========== ELECTRONICS -> BASIC ============ //
       // ============================================ //
       Vue.component(OhmsLawCalculator.mainView.name, OhmsLawCalculator.mainView)
-      this.$store.commit('registerCalc', OhmsLawCalculator)
+      this.$store.dispatch('registerCalc', OhmsLawCalculator)
 
       Vue.component(ResistorDividerCalculator.mainView.name, ResistorDividerCalculator.mainView)
-      this.$store.commit('registerCalc', ResistorDividerCalculator)
+      this.$store.dispatch('registerCalc', ResistorDividerCalculator)
 
       Vue.component(StandardResistanceCalculator.mainView.name, StandardResistanceCalculator.mainView)
-      this.$store.commit('registerCalc', StandardResistanceCalculator)
+      this.$store.dispatch('registerCalc', StandardResistanceCalculator)
 
       // ============================================ //
       // ========= ELECTRONICS -> FILTERS =========== //
       // ============================================ //
 
       Vue.component(LowPassRCCalculator.mainView.name, LowPassRCCalculator.mainView)
-      this.$store.commit('registerCalc', LowPassRCCalculator)
+      this.$store.dispatch('registerCalc', LowPassRCCalculator)
 
       // ============================================ //
       // ========= ELECTRONICS -> SENSORS =========== //
       // ============================================ //
 
       Vue.component(dewPointMagnusCalculator.mainView.name, dewPointMagnusCalculator.mainView)
-      this.$store.commit('registerCalc', dewPointMagnusCalculator)
+      this.$store.dispatch('registerCalc', dewPointMagnusCalculator)
 
       Vue.component(ntcThermistorTemperature.mainView.name, ntcThermistorTemperature.mainView)
-      this.$store.commit('registerCalc', ntcThermistorTemperature)
+      this.$store.dispatch('registerCalc', ntcThermistorTemperature)
 
       // ============================================ //
       // =========== ELECTRONICS -> PCB ============= //
       // ============================================ //
 
       Vue.component(trackCurrentIpc2221ACalculator.mainView.name, trackCurrentIpc2221ACalculator.mainView)
-      this.$store.commit('registerCalc', trackCurrentIpc2221ACalculator)
+      this.$store.dispatch('registerCalc', trackCurrentIpc2221ACalculator)
 
       Vue.component(TrackCurrentIpc2152Calculator.mainView.name, TrackCurrentIpc2152Calculator.mainView)
-      this.$store.commit('registerCalc', TrackCurrentIpc2152Calculator)
+      this.$store.dispatch('registerCalc', TrackCurrentIpc2152Calculator)
 
       Vue.component(viaCurrentIpc2221ACalculator.mainView.name, viaCurrentIpc2221ACalculator.mainView)
-      this.$store.commit('registerCalc', viaCurrentIpc2221ACalculator)
+      this.$store.dispatch('registerCalc', viaCurrentIpc2221ACalculator)
 
       // ============================================ //
       // ================== SOFTWARE ================ //
       // ============================================ //
 
       Vue.component(crcCalculator.mainView.name, crcCalculator.mainView)
-      this.$store.commit('registerCalc', crcCalculator)
+      this.$store.dispatch('registerCalc', crcCalculator)
     }
   }
 </script>
@@ -196,6 +211,13 @@
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
+  }
+
+  /* This hides the "+" button which is automatically added
+  to the far-right of the tab header when the "editable"
+  property is supplied to the tab component */
+  span.el-tabs__new-tab {
+    display: none;
   }
 
   div.el-tabs__content {

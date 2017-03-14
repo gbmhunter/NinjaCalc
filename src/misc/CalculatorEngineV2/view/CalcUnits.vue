@@ -1,16 +1,16 @@
 <!-- This template is designed to work with CalculatorEngineV2 -->
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-  <select v-model="calcVar.selUnit" v-on:change="calcVar.onUnitChange()" class="variable-units"
+  <select v-model="calcVar.selUnitName" v-on:change="calcVar.onUnitChange()" class="variable-units"
           :style="{ width: width + 'px', height: height + 'px' }">
-    <option v-for="option in calcVar.units" v-bind:value="option.value">
-      {{ option.text }}
+    <option v-for="option in calcVar.units" v-bind:value="option.name">
+      {{ option.name }}
     </option>
   </select>
 </template>
 
 <script>
 
-  import './style.css'
+  import '../style.css'
 
   export default {
     name: 'calc-unit',

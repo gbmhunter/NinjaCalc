@@ -58,6 +58,7 @@
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
@@ -93,12 +94,12 @@
         },
         rawVal: '',
         units: [
-          {text: 'mΩ', value: 1e-3},
-          {text: 'Ω', value: 1},
-          {text: 'kΩ', value: 1e3},
-          {text: 'MΩ', value: 1e6}
+          new UnitMulti({name: 'mΩ', multi: 1e-3}),
+          new UnitMulti({name: 'Ω', multi: 1e0}),
+          new UnitMulti({name: 'kΩ', multi: 1e3}),
+          new UnitMulti({name: 'MΩ', multi: 1e6})
         ],
-        selUnit: 1,
+        defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -128,13 +129,13 @@
         },
         rawVal: '',
         units: [
-          {text: 'pF', value: 1e-12},
-          {text: 'nF', value: 1e-9},
-          {text: 'uF', value: 1e-6},
-          {text: 'mF', value: 1e-3},
-          {text: 'F', value: 1}
+          new UnitMulti({name: 'pF', multi: 1e-12}),
+          new UnitMulti({name: 'nF', multi: 1e-9}),
+          new UnitMulti({name: 'uF', multi: 1e-6}),
+          new UnitMulti({name: 'mF', multi: 1e-3}),
+          new UnitMulti({name: 'F', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: 'uF',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
@@ -164,12 +165,12 @@
         },
         rawVal: '',
         units: [
-          {text: 'Hz', value: 1e0},
-          {text: 'kHz', value: 1e3},
-          {text: 'MHz', value: 1e6},
-          {text: 'GHz', value: 1e9}
+          new UnitMulti({name: 'Hz', multi: 1e0}),
+          new UnitMulti({name: 'kHz', multi: 1e0}),
+          new UnitMulti({name: 'MHz', multi: 1e0}),
+          new UnitMulti({name: 'GHz', multi: 1e0})
         ],
-        selUnit: 1,
+        defaultUnitName: 'kHz',
         roundTo: 4,
         validators: [
           PresetValidators.IS_NUMBER,
