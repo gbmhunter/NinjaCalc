@@ -67,11 +67,6 @@
   import { viaCurrentIpc2221ACalculator } from './components/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
   import { crcCalculator } from './components/Calculators/Software/Crc/Calc'
 
-  console.log('LeftSideMenu =')
-  console.log(LeftSideMenu)
-  // console.log('MainView =')
-  // console.log(MainView)
-
   export default {
     name: 'app',
     components: {

@@ -8,7 +8,7 @@
           <div class="modal-body">
             <div id="search-container">
               Search:
-              <input style="width: 200px; height: 25px;">
+              <input v-model="searchText" style="width: 200px; height: 25px;">
             </div>
             <div class="preview-grid">
               <!-- GENERATE CALCULATOR PREVIEWS -->
@@ -35,6 +35,11 @@
     components: {
       CalcPreview
     },
+    data: function () {
+      return {
+        searchText: ''
+      }
+    },
     computed: {
     },
     methods: {
@@ -47,6 +52,11 @@
       overlayClicked (event) {
         // Do nothing, this handler exists purely to swallow event
         // (event does not bubble because of .stop modifier in HTML)
+      }
+    },
+    watch: {
+      searchText: function () {
+        console.log('GGHGHGH')
       }
     },
     mounted () {}
