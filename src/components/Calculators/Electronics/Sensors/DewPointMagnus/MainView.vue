@@ -73,7 +73,7 @@
   //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
@@ -95,7 +95,7 @@
       // ============================================ //
       // =========== AIR TEMPERATURE (i/o) ========== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'airTemperature',
         typeEqn: () => {
           if (calc.outputVar === 'airTemperature') {
@@ -138,7 +138,7 @@
       // ============================================ //
       // ========== RELATIVE HUMIDITY (i/o) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'relativeHumidity',
         typeEqn: () => {
           if (calc.outputVar === 'relativeHumidity') {
@@ -173,7 +173,7 @@
       // ============================================ //
       // =============== DEW POINT (i/o) ============ //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'dewPoint',
         typeEqn: () => {
           if (calc.outputVar === 'dewPoint') {
@@ -218,7 +218,7 @@
       // ============================================ //
       // ============ B COEFFICIENT (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'bCoefficient',
         typeEqn: () => {
           return 'input'
@@ -239,7 +239,7 @@
       // ============================================ //
       // ============ C COEFFICIENT (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'cCoefficient',
         typeEqn: () => {
           return 'input'

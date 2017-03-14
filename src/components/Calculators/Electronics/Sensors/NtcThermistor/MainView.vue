@@ -104,7 +104,7 @@
   //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
@@ -126,7 +126,7 @@
       // ============================================ //
       // ================== BETA (i/o) ============== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'beta',
         typeEqn: () => {
           if (calc.outputVar === 'beta') {
@@ -161,7 +161,7 @@
       // ============================================ //
       // ======== REFERENCE RESISTANCE (i/o) ======== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'referenceResistance',
         typeEqn: () => {
           if (calc.outputVar === 'referenceResistance') {
@@ -199,7 +199,7 @@
       // ============================================ //
       // ======== REFERENCE TEMPERATURE (i/o) ======= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'referenceTemperature',
         typeEqn: () => {
           if (calc.outputVar === 'referenceTemperature') {
@@ -251,7 +251,7 @@
       // ============================================ //
       // ======== THERMISTOR RESISTANCE (i/o) ======= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'thermistorResistance',
         typeEqn: () => {
           if (calc.outputVar === 'thermistorResistance') {
@@ -289,7 +289,7 @@
       // ============================================ //
       // ======= THERMISTOR TEMPERATURE (i/o) ======= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'thermistorTemperature',
         typeEqn: () => {
           if (calc.outputVar === 'thermistorTemperature') {

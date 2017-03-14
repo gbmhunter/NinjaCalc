@@ -1,3 +1,8 @@
+vX.X.X
+------
+
+- Renamed CalcVarNumeral to CalcVarNumeric, closes #143.
+
 v2.1.0
 ------
 

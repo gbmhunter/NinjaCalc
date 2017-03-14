@@ -117,7 +117,7 @@
   //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
@@ -141,7 +141,7 @@
       // ============================================ //
       // ====== FINISHED HOLE DIAMETER (input) ====== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'finishedHoleDiameter_M',
         typeEqn: () => {
           return 'input'
@@ -166,7 +166,7 @@
       // ============================================ //
       // ========= PLATING THICKNESS (input) ======== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'platingThickness_M',
         typeEqn: () => {
           return 'input'
@@ -192,7 +192,7 @@
       // ============================================ //
       // ============= VIA LENGTH (input) =========== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'viaLength_M',
         typeEqn: () => {
           return 'input'
@@ -218,7 +218,7 @@
       // ============================================ //
       // ========== TEMPERATURE RISE (input) ======== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'temperatureRise_DegC',
         typeEqn: () => {
           return 'input'
@@ -250,7 +250,7 @@
       // ============================================ //
       // ===== PLATED COPPER RESISTIVITY (input) ==== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'platedCopperResistivity_OhmM',
         typeEqn: () => {
           return 'input'
@@ -273,7 +273,7 @@
       // ============================================ //
       // == SPECIFIC THERMAL CONDUCTIVITY (input) === //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'specificThermalConductivity_WpKm',
         typeEqn: () => {
           return 'input'
@@ -296,7 +296,7 @@
       // ============================================ //
       // ===== VIA CROSS-SECTIONAL AREA (output) ==== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'viaCrossSectionalArea_M2',
         typeEqn: () => {
           return 'output'
@@ -326,7 +326,7 @@
       // ============================================ //
       // ============ VIA RESISTANCE (output) ======= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'viaResistance_Ohms',
         typeEqn: () => {
           return 'output'
@@ -355,7 +355,7 @@
       // ============================================ //
       // ========== THERMAL RESISTANCE (output) ===== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'thermalResistance_DegCpWatt',
         typeEqn: () => {
           return 'output'
@@ -384,7 +384,7 @@
       // ============================================ //
       // ========== CURRENT LIMIT (output) ========== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'currentLimit_A',
         typeEqn: () => {
           return 'output'

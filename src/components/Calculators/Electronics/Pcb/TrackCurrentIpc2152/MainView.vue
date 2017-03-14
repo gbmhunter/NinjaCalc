@@ -179,7 +179,7 @@
 <script>
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
@@ -273,7 +273,7 @@
       // ============================================ //
       // ============ TRACK CURRENT (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'trackCurrent',
         typeEqn: () => {
           return 'input'
@@ -318,7 +318,7 @@
       // ============================================ //
       // ============= TEMP. RISE (input) =========== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'tempRise',
         typeEqn: () => {
           return 'input'
@@ -370,7 +370,7 @@
       // ============================================================================================= //
       // ============================ UN-ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ================ //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'unadjustedTrackCrossSectionalArea',
         typeEqn: () => {
           return 'output'
@@ -410,7 +410,7 @@
       // ============================================ //
       // ========== TRACK THICKNESS (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'trackThickness',
         typeEqn: () => {
           return 'input'
@@ -456,7 +456,7 @@
       // ============================================================================================= //
       // =============================== TRACK THICKNESS MODIFIER (output) =========================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'trackThicknessModifier',
         typeEqn: () => {
           return 'output'
@@ -509,7 +509,7 @@
       // ============================================================================================= //
       // ===================================== BOARD THICKNESS (input) =============================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'boardThickness',
         typeEqn: () => {
           return 'input'
@@ -554,7 +554,7 @@
       // ============================================================================================= //
       // =============================== BOARD THICKNESS MODIFIER (output) =========================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'boardThicknessModifier',
         typeEqn: () => {
           return 'output'
@@ -601,7 +601,7 @@
       // ============================================================================================= //
       // ===================================== PLANE PROXIMITY (input) =============================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'planeProximity',
         typeEqn: () => {
           return 'input'
@@ -656,7 +656,7 @@
       // ============================================================================================= //
       // =============================== PLANE PROXIMITY MODIFIER (output) =========================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'planeProximityModifier',
         typeEqn: () => {
           return 'output'
@@ -699,7 +699,7 @@
       // ============================================================================================= //
       // =================================== THERMAL CONDUCTIVITY (input) ============================ //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'thermalConductivity',
         typeEqn: () => {
           return 'input'
@@ -743,7 +743,7 @@
       // ============================================================================================= //
       // ============================ THERMAL CONDUCTIVITY MODIFIER (output) ========================= //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'thermalConductivityModifier',
         typeEqn: () => {
           return 'output'
@@ -777,7 +777,7 @@
       // ============================================================================================= //
       // ========================= ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ====================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'adjustedTrackCrossSectionalArea',
         typeEqn: () => {
           return 'output'
@@ -817,7 +817,7 @@
       // ============================================================================================= //
       // ===================================== MIN. TRACK WIDTH (output) ============================= //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'minTrackWidth',
         typeEqn: () => {
           return 'output'

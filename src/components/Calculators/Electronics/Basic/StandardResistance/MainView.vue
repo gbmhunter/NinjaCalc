@@ -63,7 +63,7 @@
 //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
@@ -88,7 +88,7 @@
       // ============================================ //
       // ======== DESIRED RESISTANCE (input) ======== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'desiredResistance',
         typeEqn: () => {
           return 'input'

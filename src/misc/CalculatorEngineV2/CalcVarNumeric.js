@@ -2,7 +2,7 @@ import CalcVar from './CalcVar'
 import {UnitMulti} from './UnitMulti'
 import {UnitFunc} from './UnitFunc'
 
-export class CalcVarNumeral extends CalcVar {
+export class CalcVarNumeric extends CalcVar {
   constructor (initObj) {
     super(initObj)
 
@@ -10,11 +10,11 @@ export class CalcVarNumeral extends CalcVar {
     // =================== UNITS ================== //
     // ============================================ //
 
-    // CalcVarNumeral is the only calculator variable type which
+    // CalcVarNumeric is the only calculator variable type which
     // has unit support
     this.units = initObj.units
 
-    if (!initObj.defaultUnitName) throw new Error('Please provide a default unit name via initObj.defaultUnitName to CalcVarNumeral.constructor() for variable "' + initObj.name + '".')
+    if (!initObj.defaultUnitName) throw new Error('Please provide a default unit name via initObj.defaultUnitName to CalcVarNumeric.constructor() for variable "' + initObj.name + '".')
     this.selUnitName = initObj.defaultUnitName
     console.log('this.selUnitName = ' + this.selUnitName)
     this.selUnit = this.findUnitFromName(this.selUnitName)
@@ -43,7 +43,7 @@ export class CalcVarNumeral extends CalcVar {
    * Designed to be called by vue once this.selUnit has been changed.
    */
   onUnitChange = () => {
-    console.log('CalcVarNumeral.onUnitChange() called.')
+    console.log('CalcVarNumeric.onUnitChange() called.')
     console.log('this.selUnitName = ' + this.selUnitName)
 
     this.selUnit = this.findUnitFromName(this.selUnitName)
@@ -112,7 +112,7 @@ export class CalcVarNumeral extends CalcVar {
   }
 
   findUnitFromName = (unitName) => {
-    // console.log('CalcVarNumeral.findUnitFromName() called with unitName = ' + unitName)
+    // console.log('CalcVarNumeric.findUnitFromName() called with unitName = ' + unitName)
     var foundUnit = null
     this.units.forEach(function (element) {
       // console.log(element)

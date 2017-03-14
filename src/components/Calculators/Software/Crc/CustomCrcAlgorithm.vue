@@ -38,7 +38,7 @@
 
   var bigInt = require('big-integer')
   //  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {CalcVarString, CalcVarStringPresetValidators} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarCheckbox} from 'src/misc/CalculatorEngineV2/CalcVarCheckbox'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
@@ -62,7 +62,7 @@
       // ============================================ //
       // ======== CRC WIDTH (numerical input) ======= //
       // ============================================ //
-      this.calc.addVar(new CalcVarNumeral({
+      this.calc.addVar(new CalcVarNumeric({
         name: 'customCrcWidthBits',
         typeEqn: () => {
           return 'input'
