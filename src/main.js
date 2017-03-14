@@ -34,15 +34,15 @@ Vue.use(ElementUI)
 // =========================================== //
 // ==== CALCULATOR COMPONENT REGISTRATION ==== //
 // =========================================== //
-import CalcValue from 'misc/CalculatorEngineV2/view/CalcValue'
+import CalcValue from 'misc/CalculatorEngineV2/view/CalcValue.vue'
 Vue.component('calc-value', CalcValue)
-import CalcValueAndUnit from 'misc/CalculatorEngineV2/view/CalcValueAndUnit'
+import CalcValueAndUnit from 'misc/CalculatorEngineV2/view/CalcValueAndUnit.vue'
 Vue.component('calc-value-and-unit', CalcValueAndUnit)
-import CalcUnits from 'misc/CalculatorEngineV2/view/CalcUnits'
+import CalcUnits from 'misc/CalculatorEngineV2/view/CalcUnits.vue'
 Vue.component('calc-units', CalcUnits)
-import CalcVarString from 'src/misc/CalculatorEngineV2/view/CalcVarString'
+import CalcVarString from 'src/misc/CalculatorEngineV2/view/CalcVarString.vue'
 Vue.component('calc-var-string', CalcVarString)
-import CalcVarCheckbox from 'src/misc/CalculatorEngineV2/view/CalcVarCheckbox'
+import CalcVarCheckbox from 'src/misc/CalculatorEngineV2/view/CalcVarCheckbox.vue'
 Vue.component('calc-var-checkbox', CalcVarCheckbox)
 
 /* eslint-disable no-unused-vars */

@@ -6,19 +6,22 @@
         overlay only being closed when the modal-mask is clicked directly -->
         <div class="modal-container" v-on:click.stop="overlayClicked">
           <div class="modal-body" style="display: flex; flex-direction: column; height: 100%;">
+            <!-- SEARCH CONTAINER -->
             <div id="search-container">
               <span style="padding-right: 5px;">Search</span>
               <input v-model="searchText" style="width: 400px; height: 25px;">
             </div>
-            <div class="preview-grid">
-              <!-- GENERATE CALCULATOR PREVIEWS -->
+            <!-- GENERATE CALCULATOR PREVIEWS -->
+            <transition-group name="list" tag="div" class="preview-grid">
               <CalcPreview v-for="item in $store.state.filteredAvailableCalcs"
+                           class="list-complete-item"
                            :title='item.displayName'
                            :description="item.description"
                            :componentName="item.mainView.name"
-                            :imageUrl="item.imagePath">
+                           :imageUrl="item.imagePath"
+                           :key="item.displayName"> <!-- key is important for transition to work correctly -->
               </CalcPreview>
-            </div>
+            </transition-group>
           </div>
         </div>
       </div>
@@ -61,7 +64,8 @@
       }
     },
     watch: {},
-    mounted () {}
+    mounted () {
+    }
   }
 </script>
 
@@ -83,7 +87,6 @@
     /* Adds scroll-bars when there are too many calculator previews to fit in the screen. */
     overflow-y: scroll;
   }
-
 
   .modal-mask {
     position: fixed;
@@ -144,6 +147,16 @@
   .modal-leave-active .modal-container {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
+  }
+
+  /* Transition setup for "tile sliding" effect on the calculator preview
+  objects when search text is entered */
+  .list-leave-active {
+    position: absolute !important;
+  }
+
+  .list-move {
+    transition: transform 1s !important;
   }
 
 </style>
