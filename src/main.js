@@ -53,12 +53,10 @@ const store = new Vuex.Store({
     showCalculatorSelectionOverlay: false,
     availableCalcs: [],
     openCalcs: [],
-    activeTabId: ''
+    activeTabId: '',
+    searchText: ''
   },
   mutations: {
-    increment (state, payload) {
-      state.count += payload.amount
-    },
     showLeftSideBar (state, payload) {
       state.showLeftSideBar = payload.trueFalse
     },
@@ -119,7 +117,12 @@ const store = new Vuex.Store({
         })
       }
 
+      // Now that we have selected the next best calculator that is going to remain open,
+      // close the requested calculator by removing it from the openCalcs array
       state.openCalcs = state.openCalcs.filter(calc => calc.uniqueId !== payload.uniqueId)
+    },
+    setSearchText (state, payload) {
+      state.searchText = payload
     }
   }
 })

@@ -36,11 +36,17 @@
       CalcPreview
     },
     data: function () {
-      return {
-        searchText: ''
-      }
+      return {}
     },
     computed: {
+      searchText: {
+        get () {
+          return this.$store.state.searchText
+        },
+        set (value) {
+          this.$store.commit('setSearchText', value)
+        }
+      }
     },
     methods: {
       borderClicked (event) {
@@ -54,11 +60,7 @@
         // (event does not bubble because of .stop modifier in HTML)
       }
     },
-    watch: {
-      searchText: function () {
-        console.log('GGHGHGH')
-      }
-    },
+    watch: {},
     mounted () {}
   }
 </script>
