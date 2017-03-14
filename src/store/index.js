@@ -9,9 +9,6 @@ export default new Vuex.Store({
     count: 0,
     showLeftSideBar: false,
     showCalculatorSelectionOverlay: false,
-
-    // This is updated whenever the search text is changed.
-    filteredAvailableCalcs: [],
     openCalcs: [],
     activeTabId: '',
     searchText: ''
@@ -77,37 +74,9 @@ export default new Vuex.Store({
     },
     setSearchText (state, payload) {
       state.searchText = payload
-    },
-    updateFilteredAvailableCalcs (state, payload) {
-      // Update the filtered available calculators. If the search text is '' (i.e.
-      // empty), return all the calculators.
-      if (state.searchText === '') {
-        state.filteredAvailableCalcs = state.core.availableCalcs
-        return
-      }
-      state.filteredAvailableCalcs = state.core.availableCalcs.filter(calc => {
-        // Create regex pattern from search text
-        var regex = new RegExp(state.searchText, 'gi')
-        // Search in calculator title (display name)
-        if (calc.displayName.match(regex)) return true
-        // Search through the tags
-        for (var tag of calc.tags) {
-          if (tag.match(regex)) return true
-        }
-      })
     }
   },
   actions: {
-    /**
-     * Call this to register a calculator with the app. This is typically done at
-     * start-up.
-     * @param context
-     * @param value     The calculator you wish to register.
-     */
-    registerCalc (context, value) {
-      context.commit('registerCalc', value)
-      context.commit('updateFilteredAvailableCalcs')
-    },
     /**
      * This will set the search text, and also update the filteredAvailableCalcs variable,
      * depending on the search text.
@@ -116,7 +85,7 @@ export default new Vuex.Store({
      */
     setSearchText (context, value) {
       context.commit('setSearchText', value)
-      context.commit('updateFilteredAvailableCalcs')
+      context.commit('updateFilteredAvailableCalcs', context.state.searchText)
     }
   },
   modules: {

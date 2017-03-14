@@ -13,7 +13,7 @@
             </div>
             <!-- GENERATE CALCULATOR PREVIEWS -->
             <transition-group name="list" tag="div" class="preview-grid">
-              <CalcPreview v-for="item in $store.state.filteredAvailableCalcs"
+              <CalcPreview v-for="item in $store.state.core.filteredAvailableCalcs"
                            class="list-complete-item"
                            :title='item.displayName'
                            :description="item.description"
@@ -53,7 +53,6 @@
     },
     methods: {
       borderClicked (event) {
-        console.log('border clicked')
         this.$store.commit('showCalculatorSelectionOverlay', {
           trueFalse: false
         })
