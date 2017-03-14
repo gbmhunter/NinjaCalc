@@ -156,7 +156,8 @@
   }
 
   .list-move {
-    transition: transform 1s !important;
+    /* The time below determines the length of the move transition */
+    transition: transform 0.7s !important;
   }
 
 </style>

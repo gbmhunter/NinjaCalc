@@ -94,6 +94,11 @@
 
     box-shadow: 0 2px 4px rgba(0,0,0,0.20);
     transition: box-shadow 0.3s ease-in-out;
+
+    /* Giving the calculator preview objects a background color
+    makes the move transition applied to them look better (when one slides over another,
+    you can't see them both) */
+    background-color: white;
   }
 
   /* Transition to a bigger shadow on hover */
