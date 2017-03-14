@@ -117,50 +117,50 @@
       // ========== ELECTRONICS -> BASIC ============ //
       // ============================================ //
       Vue.component(OhmsLawCalculator.mainView.name, OhmsLawCalculator.mainView)
-      this.$store.commit('registerCalc', OhmsLawCalculator)
+      this.$store.dispatch('registerCalc', OhmsLawCalculator)
 
       Vue.component(ResistorDividerCalculator.mainView.name, ResistorDividerCalculator.mainView)
-      this.$store.commit('registerCalc', ResistorDividerCalculator)
+      this.$store.dispatch('registerCalc', ResistorDividerCalculator)
 
       Vue.component(StandardResistanceCalculator.mainView.name, StandardResistanceCalculator.mainView)
-      this.$store.commit('registerCalc', StandardResistanceCalculator)
+      this.$store.dispatch('registerCalc', StandardResistanceCalculator)
 
       // ============================================ //
       // ========= ELECTRONICS -> FILTERS =========== //
       // ============================================ //
 
       Vue.component(LowPassRCCalculator.mainView.name, LowPassRCCalculator.mainView)
-      this.$store.commit('registerCalc', LowPassRCCalculator)
+      this.$store.dispatch('registerCalc', LowPassRCCalculator)
 
       // ============================================ //
       // ========= ELECTRONICS -> SENSORS =========== //
       // ============================================ //
 
       Vue.component(dewPointMagnusCalculator.mainView.name, dewPointMagnusCalculator.mainView)
-      this.$store.commit('registerCalc', dewPointMagnusCalculator)
+      this.$store.dispatch('registerCalc', dewPointMagnusCalculator)
 
       Vue.component(ntcThermistorTemperature.mainView.name, ntcThermistorTemperature.mainView)
-      this.$store.commit('registerCalc', ntcThermistorTemperature)
+      this.$store.dispatch('registerCalc', ntcThermistorTemperature)
 
       // ============================================ //
       // =========== ELECTRONICS -> PCB ============= //
       // ============================================ //
 
       Vue.component(trackCurrentIpc2221ACalculator.mainView.name, trackCurrentIpc2221ACalculator.mainView)
-      this.$store.commit('registerCalc', trackCurrentIpc2221ACalculator)
+      this.$store.dispatch('registerCalc', trackCurrentIpc2221ACalculator)
 
       Vue.component(TrackCurrentIpc2152Calculator.mainView.name, TrackCurrentIpc2152Calculator.mainView)
-      this.$store.commit('registerCalc', TrackCurrentIpc2152Calculator)
+      this.$store.dispatch('registerCalc', TrackCurrentIpc2152Calculator)
 
       Vue.component(viaCurrentIpc2221ACalculator.mainView.name, viaCurrentIpc2221ACalculator.mainView)
-      this.$store.commit('registerCalc', viaCurrentIpc2221ACalculator)
+      this.$store.dispatch('registerCalc', viaCurrentIpc2221ACalculator)
 
       // ============================================ //
       // ================== SOFTWARE ================ //
       // ============================================ //
 
       Vue.component(crcCalculator.mainView.name, crcCalculator.mainView)
-      this.$store.commit('registerCalc', crcCalculator)
+      this.$store.dispatch('registerCalc', crcCalculator)
     }
   }
 </script>

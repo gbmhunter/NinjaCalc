@@ -12,7 +12,7 @@
             </div>
             <div class="preview-grid">
               <!-- GENERATE CALCULATOR PREVIEWS -->
-              <CalcPreview v-for="item in $store.state.availableCalcs"
+              <CalcPreview v-for="item in $store.state.filteredAvailableCalcs"
                            :title='item.displayName'
                            :description="item.description"
                            :componentName="item.mainView.name"
@@ -44,7 +44,7 @@
           return this.$store.state.searchText
         },
         set (value) {
-          this.$store.commit('setSearchText', value)
+          this.$store.dispatch('setSearchText', value)
         }
       }
     },

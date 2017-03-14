@@ -51,7 +51,13 @@ const store = new Vuex.Store({
     count: 0,
     showLeftSideBar: false,
     showCalculatorSelectionOverlay: false,
+
+    // Complete list of calculators that the user can open.
+    // These are presented to the user, but filtered first.
     availableCalcs: [],
+
+    // This is updated whenever the search text is changed.
+    filteredAvailableCalcs: [],
     openCalcs: [],
     activeTabId: '',
     searchText: ''
@@ -64,8 +70,6 @@ const store = new Vuex.Store({
       state.showCalculatorSelectionOverlay = payload.trueFalse
     },
     registerCalc (state, payload) {
-      // console.log('registerCalc() called with payload =')
-      // console.log(payload)
       state.availableCalcs.push(payload)
     },
     openCalculator (state, payload) {
@@ -77,7 +81,6 @@ const store = new Vuex.Store({
         }
       })
       const newUniqueId = maxId + 1
-      console.log('newUniqueId = ' + newUniqueId)
 
       state.openCalcs.push({
         name: payload.name,
@@ -123,6 +126,36 @@ const store = new Vuex.Store({
     },
     setSearchText (state, payload) {
       state.searchText = payload
+    },
+    findFilteredAvailableCalcs (state, payload) {
+      // Update the filtered available calculators. If the search text is '' (i.e.
+      // empty), return all the calculators.
+      if (state.searchText === '') {
+        state.filteredAvailableCalcs = state.availableCalcs
+        return
+      }
+      state.filteredAvailableCalcs = state.availableCalcs.filter(calc => {
+        // Search through the tags
+        for (var tag of calc.tags) {
+          console.log('tag = ' + tag)
+          var index = tag.indexOf(state.searchText)
+          if (index !== -1) {
+            console.log('match found!')
+            return true
+          }
+        }
+      })
+      console.log(state.filteredAvailableCalcs)
+    }
+  },
+  actions: {
+    registerCalc (context, value) {
+      context.commit('registerCalc', value)
+      context.commit('findFilteredAvailableCalcs')
+    },
+    setSearchText (context, value) {
+      context.commit('setSearchText', value)
+      context.commit('findFilteredAvailableCalcs')
     }
   }
 })
