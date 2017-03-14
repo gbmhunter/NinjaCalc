@@ -2,15 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
+import core from './modules/core'
+
 export default new Vuex.Store({
   state: {
     count: 0,
     showLeftSideBar: false,
     showCalculatorSelectionOverlay: false,
-
-    // Complete list of calculators that the user can open.
-    // These are presented to the user, but filtered first.
-    availableCalcs: [],
 
     // This is updated whenever the search text is changed.
     filteredAvailableCalcs: [],
@@ -24,9 +22,6 @@ export default new Vuex.Store({
     },
     showCalculatorSelectionOverlay (state, payload) {
       state.showCalculatorSelectionOverlay = payload.trueFalse
-    },
-    registerCalc (state, payload) {
-      state.availableCalcs.push(payload)
     },
     openCalculator (state, payload) {
       // Find a unique ID to use
@@ -87,10 +82,10 @@ export default new Vuex.Store({
       // Update the filtered available calculators. If the search text is '' (i.e.
       // empty), return all the calculators.
       if (state.searchText === '') {
-        state.filteredAvailableCalcs = state.availableCalcs
+        state.filteredAvailableCalcs = state.core.availableCalcs
         return
       }
-      state.filteredAvailableCalcs = state.availableCalcs.filter(calc => {
+      state.filteredAvailableCalcs = state.core.availableCalcs.filter(calc => {
         // Create regex pattern from search text
         var regex = new RegExp(state.searchText, 'gi')
         // Search in calculator title (display name)
@@ -123,5 +118,8 @@ export default new Vuex.Store({
       context.commit('setSearchText', value)
       context.commit('updateFilteredAvailableCalcs')
     }
+  },
+  modules: {
+    core
   }
 })
