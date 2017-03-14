@@ -135,17 +135,15 @@ const store = new Vuex.Store({
         return
       }
       state.filteredAvailableCalcs = state.availableCalcs.filter(calc => {
+        // Create regex pattern from search text
+        var regex = new RegExp(state.searchText, 'gi')
+        // Search in calculator title (display name)
+        if (calc.displayName.match(regex)) return true
         // Search through the tags
         for (var tag of calc.tags) {
-          console.log('tag = ' + tag)
-          var index = tag.indexOf(state.searchText)
-          if (index !== -1) {
-            console.log('match found!')
-            return true
-          }
+          if (tag.match(regex)) return true
         }
       })
-      console.log(state.filteredAvailableCalcs)
     }
   },
   actions: {
