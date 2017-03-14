@@ -32,6 +32,15 @@ See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a lis
 1. Open the project in WebStorm (`.idea/workspace.xml` file included in repo), or your favourite text/code editor.
 1. Develop!
 
+# Releasing
+
+1. Make sure you are on the `develop` branch and all changes from `feature/xxx` branches have been merged into it.
+1. Update `changelog.md` with a list of changes since the last release, under a heading which is the new version number (e.g. `v1.2.0`).
+1. Commit the changes made above to the `develop` branch.
+1. Merge the `develop` branch into the `master` branch.
+1. Tag the commit on the master branch with the version number (e.g. `v1.2.0`).
+1. Push all branches to the remote GitHub repo. Heroku will automatically build and deploy the new version committed onto the `master` branch.
+
 # Changelog
 
 See [changelog.md](../blob/master/changelog.md).
