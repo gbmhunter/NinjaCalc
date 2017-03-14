@@ -1,11 +1,15 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
-
   <transition name="modal">
     <div class="modal-mask" v-on:click="borderClicked">
       <div class="modal-wrapper">
+        <!-- The .stop below prevents the click event from bubbling, resulting in the
+        overlay only being closed when the modal-mask is clicked directly -->
         <div class="modal-container" v-on:click.stop="overlayClicked">
-
           <div class="modal-body">
+            <div id="search-container">
+              Search:
+              <input style="width: 200px; height: 25px;">
+            </div>
             <div class="preview-grid">
               <!-- GENERATE CALCULATOR PREVIEWS -->
               <CalcPreview v-for="item in $store.state.availableCalcs"
@@ -16,10 +20,6 @@
               </CalcPreview>
             </div>
           </div>
-
-          <!--<div class="modal-footer">-->
-              <!--<md-button class="md-raised md-primary" @click="$emit('close')">Close</md-button>-->
-          <!--</div>-->
         </div>
       </div>
     </div>
@@ -115,10 +115,6 @@
   .modal-body {
     height: 100%;
     /*margin: 20px 0;*/
-  }
-
-  .modal-default-button {
-    float: right;
   }
 
   /*
