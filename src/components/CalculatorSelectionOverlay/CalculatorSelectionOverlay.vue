@@ -5,10 +5,10 @@
         <!-- The .stop below prevents the click event from bubbling, resulting in the
         overlay only being closed when the modal-mask is clicked directly -->
         <div class="modal-container" v-on:click.stop="overlayClicked">
-          <div class="modal-body">
+          <div class="modal-body" style="display: flex; flex-direction: column; height: 100%;">
             <div id="search-container">
-              Search:
-              <input v-model="searchText" style="width: 200px; height: 25px;">
+              <span style="padding-right: 5px;">Search</span>
+              <input v-model="searchText" style="width: 400px; height: 25px;">
             </div>
             <div class="preview-grid">
               <!-- GENERATE CALCULATOR PREVIEWS -->
@@ -101,6 +101,7 @@
     display: table-cell;
     vertical-align: middle;
 
+    width: 100%;
     height: 100%;
   }
 
@@ -120,11 +121,6 @@
   .modal-header h3 {
     margin-top: 0;
     color: #42b983;
-  }
-
-  .modal-body {
-    height: 100%;
-    /*margin: 20px 0;*/
   }
 
   /*

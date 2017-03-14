@@ -127,7 +127,7 @@ const store = new Vuex.Store({
     setSearchText (state, payload) {
       state.searchText = payload
     },
-    findFilteredAvailableCalcs (state, payload) {
+    updateFilteredAvailableCalcs (state, payload) {
       // Update the filtered available calculators. If the search text is '' (i.e.
       // empty), return all the calculators.
       if (state.searchText === '') {
@@ -149,13 +149,25 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    /**
+     * Call this to register a calculator with the app. This is typically done at
+     * start-up.
+     * @param context
+     * @param value     The calculator you wish to register.
+     */
     registerCalc (context, value) {
       context.commit('registerCalc', value)
-      context.commit('findFilteredAvailableCalcs')
+      context.commit('updateFilteredAvailableCalcs')
     },
+    /**
+     * This will set the search text, and also update the filteredAvailableCalcs variable,
+     * depending on the search text.
+     * @param context
+     * @param value
+     */
     setSearchText (context, value) {
       context.commit('setSearchText', value)
-      context.commit('findFilteredAvailableCalcs')
+      context.commit('updateFilteredAvailableCalcs')
     }
   }
 })
