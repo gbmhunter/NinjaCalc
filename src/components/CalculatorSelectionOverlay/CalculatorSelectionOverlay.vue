@@ -45,13 +45,11 @@
         })
       },
       overlayClicked (event) {
-
+        // Do nothing, this handler exists purely to swallow event
+        // (event does not bubble because of .stop modifier in HTML)
       }
     },
-    mounted () {
-      console.log('CalculatorSelectionOverlay.mounted() called.')
-      this.showModal = true
-    }
+    mounted () {}
   }
 </script>
 
