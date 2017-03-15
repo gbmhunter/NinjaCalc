@@ -4,7 +4,9 @@ const state = {
   availableCalcs: [],
 
   // This is updated whenever the search text is changed.
-  filteredAvailableCalcs: []
+  filteredAvailableCalcs: [],
+
+  openCalcs: []
 }
 
 // mutations
@@ -31,6 +33,23 @@ const mutations = {
         if (tag.match(regex)) return true
       }
     })
+  },
+  openCalc (state, payload) {
+    // Find a unique ID to use
+    var maxId = 0
+    state.openCalcs.forEach((calc, index) => {
+      if (calc.uniqueId > maxId) {
+        maxId = calc.uniqueId
+      }
+    })
+    const newUniqueId = maxId + 1
+
+    state.openCalcs.push({
+      name: payload.name,
+      componentName: payload.componentName,
+      // Unique ID is used as a unique tab ID
+      uniqueId: newUniqueId
+    })
   }
 }
 
@@ -42,11 +61,13 @@ const actions = {
    * @param value     The calculator you wish to register.
    */
   registerCalc ({state, commit, rootState}, value) {
-    console.log('registerCalc() called with state =')
-    console.log(state)
-    console.log(rootState)
     commit('registerCalc', value)
     commit('updateFilteredAvailableCalcs', rootState.searchText)
+  },
+  openCalc  ({state, commit, rootState}, value) {
+    console.log('core.actions.openCalc() called.')
+    commit('openCalc', value)
+    commit('setLastCalcAsActive')
   }
 }
 

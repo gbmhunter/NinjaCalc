@@ -52,14 +52,11 @@
           trueFalse: false
         })
 
-        // Add calculator
-        this.$store.commit('openCalculator', {
+        // Dispatch open calculation action to store
+        this.$store.dispatch('openCalc', {
           name: this.title,
           componentName: this.componentName
         })
-
-        // Show this calculator
-        this.$store.commit('setNewCalcAsOpenTab', {})
       }
     },
     mounted: () => {

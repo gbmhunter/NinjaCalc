@@ -9,7 +9,6 @@ export default new Vuex.Store({
     count: 0,
     showLeftSideBar: false,
     showCalculatorSelectionOverlay: false,
-    openCalcs: [],
     activeTabId: '',
     searchText: ''
   },
@@ -19,28 +18,6 @@ export default new Vuex.Store({
     },
     showCalculatorSelectionOverlay (state, payload) {
       state.showCalculatorSelectionOverlay = payload.trueFalse
-    },
-    openCalculator (state, payload) {
-      // Find a unique ID to use
-      var maxId = 0
-      state.openCalcs.forEach((calc, index) => {
-        if (calc.uniqueId > maxId) {
-          maxId = calc.uniqueId
-        }
-      })
-      const newUniqueId = maxId + 1
-
-      state.openCalcs.push({
-        name: payload.name,
-        componentName: payload.componentName,
-        // Unique ID is used as a unique tab ID
-        uniqueId: newUniqueId
-      })
-    },
-    setNewCalcAsOpenTab (state, payload) {
-      // console.log('setNewCalcAsOpenTab() called with payload =')
-      // console.log(payload)
-      state.activeTabId = state.openCalcs[state.openCalcs.length - 1].uniqueId
     },
     closeCalculator (state, payload) {
       console.log('closeCalculator() called with payload.uniqueId = ' + payload.uniqueId)
@@ -53,12 +30,12 @@ export default new Vuex.Store({
         console.log('Closing currently active tab.')
         // Since the user wants to close the currently active tab, we need to find
         // the next best calculator tab to set as the active tab
-        state.openCalcs.forEach((calc, index) => {
+        state.core.openCalcs.forEach((calc, index) => {
           console.log('calc =')
           console.log(calc)
           if (calc.uniqueId === payload.uniqueId) {
             console.log('Calculator found!')
-            let nextCalc = state.openCalcs[index + 1] || state.openCalcs[index - 1]
+            let nextCalc = state.core.openCalcs[index + 1] || state.core.openCalcs[index - 1]
             console.log('nextCalc =')
             console.log(nextCalc)
             if (nextCalc) {
@@ -70,10 +47,14 @@ export default new Vuex.Store({
 
       // Now that we have selected the next best calculator that is going to remain open,
       // close the requested calculator by removing it from the openCalcs array
-      state.openCalcs = state.openCalcs.filter(calc => calc.uniqueId !== payload.uniqueId)
+      state.core.openCalcs = state.core.openCalcs.filter(calc => calc.uniqueId !== payload.uniqueId)
     },
     setSearchText (state, payload) {
       state.searchText = payload
+    },
+    setLastCalcAsActive (state, payload) {
+      console.log('setLastCalcAsActive() called.')
+      state.activeTabId = state.core.openCalcs[state.core.openCalcs.length - 1].uniqueId
     }
   },
   actions: {

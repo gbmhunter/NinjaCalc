@@ -12,7 +12,7 @@
     </div>
 
     <!--Only show this if no calculators are open-->
-    <div id="no-calc-screen" v-if="!this.$store.state.openCalcs.length">
+    <div id="no-calc-screen" v-if="!this.$store.state.core.openCalcs.length">
       <div class="centered">
         <div class="md-display-1">No calculators are open! Do you wish to create one?</div>
         <div style="height: 20px;"></div>
@@ -23,9 +23,9 @@
 
     <!-- The "editable" property allows you to close tabs. Note that by default this also adds a "+" button on the far-
     right of the tab header, but we disable this in CSS -->
-    <el-tabs type="card" v-if="this.$store.state.openCalcs.length" v-model="activeTabId" editable @edit="handleTabsEdit">
+    <el-tabs type="card" v-if="this.$store.state.core.openCalcs.length" v-model="activeTabId" editable @edit="handleTabsEdit">
       <!-- The name property is the unique ID which identifies the tab -->
-      <el-tab-pane v-for="item in this.$store.state.openCalcs" :label="item.name" :name="item.uniqueId.toString()">
+      <el-tab-pane v-for="item in this.$store.state.core.openCalcs" :label="item.name" :name="item.uniqueId.toString()">
         <component :is="item.componentName"></component>
       </el-tab-pane>
     </el-tabs>
