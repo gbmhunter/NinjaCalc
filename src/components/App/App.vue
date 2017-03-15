@@ -69,9 +69,10 @@
     },
     computed: {
       activeTabId () {
-        console.log('App.activeTabId() called.')
-
         return this.$store.state.activeTabId.toString()
+      },
+      route () {
+        return this.$store.state.route
       }
     },
     methods: {
@@ -100,9 +101,32 @@
           default:
             throw new Error('Provided action to handleTabsEdit() was not supported.')
         }
+      },
+      handleRouteChange () {
+        // Make sure path is valid calculator
+        const calcName = this.route.path.substring(1, this.route.path.length)
+        var foundCalc = this.$store.state.core.availableCalcs.find((element) => {
+          return element.mainView.name === calcName
+        })
+        if (!foundCalc) {
+          // If no calculator was found, fail silently
+          return
+        }
+
+        // Calc was found, so open calculator
+        this.$store.dispatch('openCalc', {
+          // Remove the first "/"
+          componentName: calcName
+        })
       }
     },
-    watch: {},
+    watch: {
+      route () {
+        console.log('route() watcher called.')
+        console.log(this.route)
+        this.handleRouteChange()
+      }
+    },
     mounted () {
       // ============================================ //
       // ========== ELECTRONICS -> BASIC ============ //
@@ -144,6 +168,10 @@
       // ============================================ //
 
       this.$store.dispatch('registerCalc', crcCalculator)
+
+      // Call this for the first time, since it may be already set,
+      // and we only start listening for changes from this point onwards.
+      this.handleRouteChange()
     }
   }
 </script>
