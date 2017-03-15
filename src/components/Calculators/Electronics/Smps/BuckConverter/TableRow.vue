@@ -3,9 +3,11 @@
   <tr>
     <td>{{ variableName }}</td>
     <td>\({{ symbol }}\)</td>
-    <td><calc-value :calcVar="calcVar" :width=120></calc-value></td>
     <td>
-      <!--<calc-units :calcVar="calcVar"></calc-units>-->
+      <calc-value :calcVar="calcVar" :width=120></calc-value>
+    </td>
+    <td>
+      <calc-units :calcVar="calcVar"></calc-units>
     </td>
     <td>{{ notes }}</td>
   </tr>
@@ -13,10 +15,6 @@
 </template>
 
 <script>
-
-//  import { CalcVarNumeric } from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-//  import { UnitMulti } from 'src/misc/CalculatorEngineV2/UnitMulti'
-//  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
   // =================== vue Object ============= //
