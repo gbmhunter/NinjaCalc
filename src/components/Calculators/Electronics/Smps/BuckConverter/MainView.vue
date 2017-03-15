@@ -383,9 +383,9 @@
         calc: calc
       }
     },
+    methods: {},
     mounted () {
       this.calc.init()
-
       if (window.MathJax) window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
     }
   }
