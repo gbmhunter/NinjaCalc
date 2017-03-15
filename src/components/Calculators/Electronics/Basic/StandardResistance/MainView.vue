@@ -116,13 +116,14 @@
         ],
         helpText: 'The resistance you actually want. The closest value to this resistance will be found in each resistor series.'
       }))
-      calc.init()
+
       return {
         calc: calc,
         standardResistanceFinder: standardResistanceFinder
       }
     },
     mounted () {
+      this.calc.init()
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
     }
   }

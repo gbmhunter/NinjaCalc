@@ -29,7 +29,6 @@ export class CalcVarNumeric extends CalcVar {
 
     if (!initObj.defaultUnitName) throw new Error('Please provide a default unit name via initObj.defaultUnitName to CalcVarNumeric.constructor() for variable "' + initObj.name + '".')
     this.selUnitName = initObj.defaultUnitName
-    console.log('this.selUnitName = ' + this.selUnitName)
     this.selUnit = this.findUnitFromName(this.selUnitName)
 
     // ============================================ //

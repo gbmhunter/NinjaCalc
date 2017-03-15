@@ -14,13 +14,9 @@
 
 <script>
 
-//  'use strict'
-
-  import { CalcVarNumeric } from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import { CalcVarNumeric, NumericValidators } from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import { UnitMulti } from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import NumericValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
-
   var standardResistanceFinder = new StandardResistanceFinder()
 
   // ============================================ //
@@ -51,6 +47,7 @@
         eqn: () => {
           // Read dependency variables
           var desiredResistance = this.calc.getVar('desiredResistance').getRawVal()
+          if (!desiredResistance) return ''
           return standardResistanceFinder.find(desiredResistance, this.eSeries, standardResistanceFinder.searchMethods.CLOSEST)
         },
         rawVal: '',
@@ -82,7 +79,6 @@
 
           // Calculate percentage difference
           var percentageDiff = (Math.abs(closestResistance - desiredResistanceValue) / desiredResistanceValue) * 100.0
-          console.log('percentageDiff = ' + percentageDiff)
           return percentageDiff
         },
         rawVal: '',
@@ -110,6 +106,7 @@
         eqn: () => {
           // Read dependency variables
           var desiredResistance = this.calc.getVar('desiredResistance').getRawVal()
+          if (!desiredResistance) return ''
           return standardResistanceFinder.find(desiredResistance, this.eSeries, standardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_LOWER)
         },
         rawVal: '',
@@ -168,6 +165,7 @@
         eqn: () => {
           // Read dependency variables
           var desiredResistance = this.calc.getVar('desiredResistance').getRawVal()
+          if (!desiredResistance) return ''
           return standardResistanceFinder.find(desiredResistance, this.eSeries, standardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_HIGHER)
         },
         rawVal: '',
@@ -216,6 +214,7 @@
       this.calc.addVar(closestEqualOrHigherResistanceError)
 
       return {
+        // No data to return, calc is owned by parent view object (MainView.vue)
       }
     },
     mounted () {}
