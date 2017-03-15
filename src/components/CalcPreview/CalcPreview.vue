@@ -53,10 +53,15 @@
         })
 
         // Dispatch open calculation action to store
-        this.$store.dispatch('openCalc', {
-          name: this.title,
-          componentName: this.componentName
-        })
+//        this.$store.dispatch('openCalc', {
+//          name: this.title,
+//          componentName: this.componentName
+//        })
+
+        // Instead of dispatching an action (as above), we now
+        // use the router to open a calculator. This should be more SEO
+        // friendly
+        this.$router.push('/' + this.componentName)
       }
     },
     mounted: () => {
