@@ -107,11 +107,10 @@
 <script>
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
 
@@ -143,8 +142,8 @@
         defaultUnitName: 'A',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_THAN_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -184,8 +183,8 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -228,8 +227,8 @@
         defaultUnitName: 'um',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -300,8 +299,8 @@
         defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The minimum track width needed to carry the specified current without exceeding the given temperature rise.'
       }))

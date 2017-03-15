@@ -101,13 +101,10 @@
 
 <script>
 
-  //  'use strict'
-
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   /* eslint-disable camelcase */
 
@@ -152,8 +149,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The coefficient beta. This is usually specified in the thermistors datasheet.'
       }))
@@ -190,8 +187,8 @@
         defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The resistance of the thermistor at the reference point. This is usually when the thermistor is at 25°C.'
       }))
@@ -243,7 +240,7 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER
+          NumericValidators.IS_NUMBER
         ],
         helpText: 'The temperature of the thermistor at the reference point. This is usually 25°C.'
       }))
@@ -280,8 +277,8 @@
         defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The present resistance of the thermistor, at temperature T.'
       }))
@@ -333,7 +330,7 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER
+          NumericValidators.IS_NUMBER
         ],
         helpText: 'The present temperature of the thermistor, at resistance R.'
       }))

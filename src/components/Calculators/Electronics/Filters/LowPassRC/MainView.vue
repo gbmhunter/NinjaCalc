@@ -54,12 +54,9 @@
 
 <script>
 
-  //  'use strict'
-
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -102,8 +99,8 @@
         defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_THAN_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The resistance of the resistor in the low-pass LC filter.'
       }))
@@ -138,8 +135,8 @@
         defaultUnitName: 'uF',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_THAN_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The capacitance of the capacitor in the low-pass LC filter.'
       }))
@@ -173,8 +170,8 @@
         defaultUnitName: 'kHz',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_THAN_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The cut-off frequency of the low-pass RC filter. This is the point where the output signal is attenuated by -3dB (70.7%) of the input. Also known as the corner or breakpoint frequency.'
       }))

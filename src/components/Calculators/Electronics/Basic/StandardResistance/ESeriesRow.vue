@@ -18,7 +18,7 @@
 
   import { CalcVarNumeric } from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import { UnitMulti } from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
+  import NumericValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
 
   var standardResistanceFinder = new StandardResistanceFinder()
@@ -60,8 +60,8 @@
         defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The closest resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
       })
@@ -92,8 +92,8 @@
         defaultUnitName: '%',
         roundTo: 2,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The percentage difference between the closest ' + this.eSeries.name + ' series resistance and your desired resistance.'
       })
@@ -119,8 +119,8 @@
         defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The closest equal or higher resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
       })
@@ -150,8 +150,8 @@
         defaultUnitName: '%',
         roundTo: 2,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The percentage difference between the closest equal or lower ' + this.eSeries.name + ' series resistance and your desired resistance.'
       })
@@ -177,8 +177,8 @@
         defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The closest equal or higher resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
       })
@@ -208,8 +208,8 @@
         defaultUnitName: '%',
         roundTo: 2,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The percentage difference between the closest equal or higher ' + this.eSeries.name + ' series resistance and your desired resistance.'
       })

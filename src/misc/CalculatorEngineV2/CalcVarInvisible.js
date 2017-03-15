@@ -28,4 +28,8 @@ export class CalcVarInvisible extends CalcVar {
   getVal = () => {
     return this.val
   }
+
+  validate = () => {
+    // Do nothing
+  }
 }

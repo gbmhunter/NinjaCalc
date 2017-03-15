@@ -1,6 +1,19 @@
 import CalcVar from './CalcVar'
+import {CustomValidator} from './CustomValidator'
 import {UnitMulti} from './UnitMulti'
 import {UnitFunc} from './UnitFunc'
+
+export class NumericValidators {
+  constructor (name) {
+    this.name = name
+  }
+  toString () {
+    return `NumericValidators.${this.name}`
+  }
+}
+NumericValidators.IS_NUMBER = new NumericValidators('IS_NUMBER')
+NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO = new NumericValidators('IS_GREATER_OR_EQUAL_TO_ZERO')
+NumericValidators.IS_GREATER_THAN_ZERO = new NumericValidators('IS_GREATER_THAN_ZERO')
 
 export class CalcVarNumeric extends CalcVar {
   constructor (initObj) {
@@ -128,5 +141,79 @@ export class CalcVarNumeric extends CalcVar {
     } else {
       throw new Error('Could not find unit with name "' + unitName + '" in calculator variable "' + this.name + '".')
     }
+  }
+
+  /**
+   * Provide validate() function.
+   */
+  validate = () => {
+    console.log('CalcVarNumeric.validate() called.')
+    console.log(this)
+    // Reset current validation result
+    this.validationResult = 'ok'
+    this.validationMsg = ''
+    var self = this
+    this.validators.map(function (validator) {
+      var validationResult = 'ok'
+      var validationMsg = ''
+      if (validator instanceof CustomValidator) {
+        // Validator must be a custom function
+        var result = validator.func()
+        if (!result) {
+          validationResult = validator.level
+          validationMsg = validator.text
+        }
+      } else {
+        // Validator must be a preset
+        switch (validator) {
+          case NumericValidators.IS_NUMBER:
+            // console.log('validator === PresetValidators.IS_NUMBER')
+            if (self.isStringANumber(self.dispVal)) {
+              // console.log('dispVal is a valid number.')
+              validationResult = 'ok'
+            } else {
+              // console.log('dispVal is NOT a valid number.')
+              validationResult = 'error'
+              validationMsg = 'Variable must be a valid number.'
+            }
+            break
+          case NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO:
+            if (self.dispVal >= 0) {
+              validationResult = 'ok'
+            } else {
+              validationResult = 'error'
+              validationMsg = 'Variable must be greater than or equal to 0.'
+            }
+            break
+          case NumericValidators.IS_GREATER_THAN_ZERO:
+            if (self.dispVal > 0) {
+              validationResult = 'ok'
+            } else {
+              validationResult = 'error'
+              validationMsg = 'Variable must be greater than 0.'
+            }
+            break
+          default:
+            throw new Error('Preset validation type "' + validator + '" is not supported.')
+        }
+      }
+      // Finally, compare this validation result with the one set in the variable. Only
+      // overwrite IF this validation result is worse than what was already present
+      switch (self.validationResult) {
+        case 'ok':
+          self.validationResult = validationResult
+          self.validationMsg = validationMsg
+          break
+        case 'warning':
+          if (self.validationResult === 'ok') {
+            self.validationResult = validationResult
+            self.validationMsg = validationMsg
+          }
+          break
+        case 'error':
+          // Do nothing
+          break
+      }
+    })
   }
 }

@@ -117,10 +117,9 @@
   //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
 
   /* eslint-disable camelcase */
@@ -157,8 +156,8 @@
         defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The finished hole diameter of the via. This is not the same as the drilled hole diameter, as the via is then plated.'
       }))
@@ -183,8 +182,8 @@
         defaultUnitName: 'um',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The plating thickness of the via walls. This is usually the same as the thickness of the start and end copper layers that the via connects to.'
       }))
@@ -208,8 +207,8 @@
         defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The length of the via. This is equal to the distance between the copper planes the via starts and ends on.' +
         ' For a simple 2-layer 1.6mm thick PCB, the via height is also 1.6mm. This could also be called the height of the via.'
@@ -241,8 +240,8 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The maximum temperature rise above ambient you are allowing for the via. A rule-of-thumb for this value is between 10-40°C.'
       }))
@@ -264,8 +263,8 @@
         defaultUnitName: 'Ω⋅m',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The resistivity of the plated copper which the via is made from.'
       }))
@@ -287,8 +286,8 @@
         defaultUnitName: 'W/K⋅m',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The specific thermal conductivity, k, of the plated copper which the via is made from.'
       }))
@@ -317,8 +316,8 @@
         defaultUnitName: 'um²',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The cross-sectional area of the via (the area of the via as viewed from the top down).'
       }))
@@ -346,8 +345,8 @@
         defaultUnitName: 'mΩ',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The resistance of the via. This is the resistance as measured from the top to the bottom of the via.'
       }))
@@ -375,8 +374,8 @@
         defaultUnitName: '°C/W',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The thermal resistance of the via.'
       }))
@@ -409,8 +408,8 @@
         defaultUnitName: 'A',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The maximum current the via can take before it rises to the specified temperature above ambient.'
       }))

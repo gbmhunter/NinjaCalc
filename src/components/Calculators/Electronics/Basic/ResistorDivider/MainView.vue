@@ -66,9 +66,8 @@
   //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
 
   // ============================================ //
@@ -110,8 +109,8 @@
         defaultUnitName: 'V',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -158,8 +157,8 @@
         defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The resistance of the top resistor in the resistor divider.'
       })
@@ -196,8 +195,8 @@
         defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The resistance of the bottom resistor in the resistor divider.'
       })
@@ -231,8 +230,8 @@
         defaultUnitName: 'V',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables

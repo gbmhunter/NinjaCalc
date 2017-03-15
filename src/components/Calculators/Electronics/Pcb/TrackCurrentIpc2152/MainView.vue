@@ -181,11 +181,10 @@
 <script>
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
 
@@ -291,8 +290,8 @@
         defaultUnitName: 'A',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -343,8 +342,8 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -403,8 +402,8 @@
         defaultUnitName: 'um²',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The unadjusted cross-sectional area. This gets multiplied by the many modifiers to give an adjusted cross-sectional area.'
       }))
@@ -429,8 +428,8 @@
         defaultUnitName: 'um',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -502,8 +501,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The modifier to adjust the cross-sectional area with based on the track thickness.'
       }))
@@ -527,8 +526,8 @@
         defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -580,8 +579,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The modifier to adjust the cross-sectional area with based on the board thickness.'
       }))
@@ -619,8 +618,8 @@
         defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -692,8 +691,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The modifier to adjust the cross-sectional area with based on the board thickness.'
       }))
@@ -716,8 +715,8 @@
         defaultUnitName: 'W/(m*K)',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -770,8 +769,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The modifier to adjust the cross-sectional area with based on the thermal conductivity of the PCB.'
       }))
@@ -810,8 +809,8 @@
         defaultUnitName: 'um²',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers.'
       }))
@@ -842,8 +841,8 @@
         defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables

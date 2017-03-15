@@ -61,9 +61,8 @@
 <script>
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
   import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
   import ESeriesRow from './ESeriesRow.vue'
@@ -103,8 +102,8 @@
         defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables

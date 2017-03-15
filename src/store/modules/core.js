@@ -17,8 +17,6 @@ const mutations = {
     state.availableCalcs.push(payload)
   },
   updateFilteredAvailableCalcs (state, searchText) {
-    console.log('updateFilteredAvailableCalcs() called with payload = ' + searchText)
-
     // Update the filtered available calculators. If the search text is '' (i.e.
     // empty), return all the calculators.
     if (searchText === '') {

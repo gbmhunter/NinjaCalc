@@ -59,12 +59,9 @@
 
 <script>
 
-  //  'use strict'
-
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -73,6 +70,8 @@
     name: 'ohms-law-calculator',
     components: {},
     data: function () {
+      console.log('data() called')
+      console.log(NumericValidators.IS_NUMBER)
       var calc = new Calc()
 
       // Create new variable in class for determining what is input and output
@@ -105,8 +104,8 @@
         defaultUnitName: 'V',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The voltage across the resistor.'
       }))
@@ -139,8 +138,8 @@
         defaultUnitName: 'A',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The current going through the resistor.'
       }))
@@ -175,8 +174,8 @@
         defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The resistance of the resistor (or other resistive circuit component).'
       }))

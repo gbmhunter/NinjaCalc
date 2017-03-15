@@ -38,11 +38,10 @@
 
   var bigInt = require('big-integer')
   //  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {CalcVarString, CalcVarStringPresetValidators} from 'src/misc/CalculatorEngineV2/CalcVarString'
   import {CalcVarCheckbox} from 'src/misc/CalculatorEngineV2/CalcVarCheckbox'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
 
@@ -76,8 +75,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_THAN_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The width of the CRC generator polynomial (and resulting CRC value).'
       }))
