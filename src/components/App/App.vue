@@ -174,6 +174,12 @@
 
       this.$store.dispatch('registerCalc', crcCalculator)
 
+      // Show the overlay by default.
+      // THIS MUST BE DONE BEFORE handlerRouteChange() IS CALLED
+      this.$store.commit('showCalculatorSelectionOverlay', {
+        trueFalse: true
+      })
+
       // Call this for the first time, since it may be already set,
       // and we only start listening for changes from this point onwards.
       this.handleRouteChange()
