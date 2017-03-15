@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 const state = {
   // Complete list of calculators that the user can open.
   // These are presented to the user, but filtered first.
@@ -69,6 +71,7 @@ const actions = {
    * @param value     The calculator you wish to register.
    */
   registerCalc ({state, commit, rootState}, value) {
+    Vue.component(value.mainView.name, value.mainView)
     commit('registerCalc', value)
     commit('updateFilteredAvailableCalcs', rootState.searchText)
   },

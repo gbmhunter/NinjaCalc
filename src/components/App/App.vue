@@ -43,19 +43,20 @@
   /* eslint-disable */
 
   import Vue from 'vue'
-  import LeftSideMenu from './LeftSideMenu/LeftSideMenu'
-  import CalculatorSelectionOverlay from './CalculatorSelectionOverlay/CalculatorSelectionOverlay'
+  import LeftSideMenu from '../LeftSideMenu/LeftSideMenu'
+  import CalculatorSelectionOverlay from '../CalculatorSelectionOverlay/CalculatorSelectionOverlay'
 
-  import OhmsLawCalculator from './Calculators/Electronics/Basic/OhmsLaw/Calc'
-  import ResistorDividerCalculator from './Calculators/Electronics/Basic/ResistorDivider/Calc'
-  import StandardResistanceCalculator from './Calculators/Electronics/Basic/StandardResistance/Calc'
-  import LowPassRCCalculator from './Calculators/Electronics/Filters/LowPassRC/Calc'
-  import { trackCurrentIpc2221ACalculator } from './Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
-  import TrackCurrentIpc2152Calculator from './Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
-  import { dewPointMagnusCalculator } from './Calculators/Electronics/Sensors/DewPointMagnus/Calc'
-  import { ntcThermistorTemperature } from './Calculators/Electronics/Sensors/NtcThermistor/Calc'
-  import { viaCurrentIpc2221ACalculator } from './Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
-  import { crcCalculator } from './Calculators/Software/Crc/Calc'
+  import OhmsLawCalculator from '../Calculators/Electronics/Basic/OhmsLaw/Calc'
+  import ResistorDividerCalculator from '../Calculators/Electronics/Basic/ResistorDivider/Calc'
+  import StandardResistanceCalculator from '../Calculators/Electronics/Basic/StandardResistance/Calc'
+  import LowPassRCCalculator from '../Calculators/Electronics/Filters/LowPassRC/Calc'
+  import TrackCurrentIpc2152Calculator from '../Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
+  import { trackCurrentIpc2221ACalculator } from '../Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
+  import { viaCurrentIpc2221ACalculator } from '../Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
+  import { dewPointMagnusCalculator } from '../Calculators/Electronics/Sensors/DewPointMagnus/Calc'
+  import { ntcThermistorTemperature } from '../Calculators/Electronics/Sensors/NtcThermistor/Calc'
+  import BuckConverter from '../Calculators/Electronics/Smps/BuckConverter/Calc'
+  import { crcCalculator } from '../Calculators/Software/Crc/Calc'
 
   export default {
     name: 'app',
@@ -106,50 +107,42 @@
       // ============================================ //
       // ========== ELECTRONICS -> BASIC ============ //
       // ============================================ //
-      Vue.component(OhmsLawCalculator.mainView.name, OhmsLawCalculator.mainView)
+
       this.$store.dispatch('registerCalc', OhmsLawCalculator)
-
-      Vue.component(ResistorDividerCalculator.mainView.name, ResistorDividerCalculator.mainView)
       this.$store.dispatch('registerCalc', ResistorDividerCalculator)
-
-      Vue.component(StandardResistanceCalculator.mainView.name, StandardResistanceCalculator.mainView)
       this.$store.dispatch('registerCalc', StandardResistanceCalculator)
 
       // ============================================ //
       // ========= ELECTRONICS -> FILTERS =========== //
       // ============================================ //
 
-      Vue.component(LowPassRCCalculator.mainView.name, LowPassRCCalculator.mainView)
       this.$store.dispatch('registerCalc', LowPassRCCalculator)
+
+      // ============================================ //
+      // =========== ELECTRONICS -> SMPS ============ //
+      // ============================================ //
+
+      this.$store.dispatch('registerCalc', BuckConverter)
 
       // ============================================ //
       // ========= ELECTRONICS -> SENSORS =========== //
       // ============================================ //
 
-      Vue.component(dewPointMagnusCalculator.mainView.name, dewPointMagnusCalculator.mainView)
       this.$store.dispatch('registerCalc', dewPointMagnusCalculator)
-
-      Vue.component(ntcThermistorTemperature.mainView.name, ntcThermistorTemperature.mainView)
       this.$store.dispatch('registerCalc', ntcThermistorTemperature)
 
       // ============================================ //
       // =========== ELECTRONICS -> PCB ============= //
       // ============================================ //
 
-      Vue.component(trackCurrentIpc2221ACalculator.mainView.name, trackCurrentIpc2221ACalculator.mainView)
       this.$store.dispatch('registerCalc', trackCurrentIpc2221ACalculator)
-
-      Vue.component(TrackCurrentIpc2152Calculator.mainView.name, TrackCurrentIpc2152Calculator.mainView)
       this.$store.dispatch('registerCalc', TrackCurrentIpc2152Calculator)
-
-      Vue.component(viaCurrentIpc2221ACalculator.mainView.name, viaCurrentIpc2221ACalculator.mainView)
       this.$store.dispatch('registerCalc', viaCurrentIpc2221ACalculator)
 
       // ============================================ //
       // ================== SOFTWARE ================ //
       // ============================================ //
 
-      Vue.component(crcCalculator.mainView.name, crcCalculator.mainView)
       this.$store.dispatch('registerCalc', crcCalculator)
     }
   }

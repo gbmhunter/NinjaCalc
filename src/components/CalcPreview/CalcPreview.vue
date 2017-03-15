@@ -114,7 +114,7 @@
   }
 
   #image {
-    max-width: 140px;
+    max-width: 190px;
     max-height: 120px;
 
     width: auto;

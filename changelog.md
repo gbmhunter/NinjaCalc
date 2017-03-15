@@ -5,6 +5,7 @@ vX.X.X
 - Moved the vuex store into it's own directory, closes #144.
 - Moved App.vue into the "components" directory, closes #145.
 - Added link on the IPC-2221A track current calculator to the better IPC-2152 calculator, closes #119.
+- Added a "Buck Converter (SMPS)" calculator to NinjaCalc, closes #146.
 
 v2.1.0
 ------
