@@ -5,7 +5,7 @@
     <!-- SPACER -->
     <div style="height: 50px;"></div>
 
-    <ui-collapsible title="Info" style="max-width: 800px;">
+    <ui-collapsible title="Info" class="calc-info" style="max-width: 800px;">
       <p>This calculator can find the minimum allowed PCB track width for a given continuous current. Takes into account
         the allowed temperature rise, copper track thickness, proximity to planes, total thickness of the PCB, and PCB
         material in accordance with IPC-2152.</p>
@@ -44,6 +44,8 @@
         hours.</p>
 
       <p>Remember this calculator does not take into account other nearby heat sources.</p>
+
+      <p>This stanard is designed to supersede the older IPC-2221A standard. It is designed to produce a more accurate track width calculation, but does require more variables. <a @click="openIpc2221ACalc">However, if you do want to use the older IPC-2221A standard, click here</a>.</p>
     </ui-collapsible>
 
     <!-- SPACER -->
@@ -988,10 +990,12 @@
         context.moveTo(tox, toy)
         context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6))
         context.stroke()
+      },
+      openIpc2221ACalc: function () {
+        this.$store.dispatch('openCalc', { componentName: 'track-current-ipc-2221a-calculator' })
       }
     },
     mounted () {
-//      console.log('Ohm\'s Law calculator mounted.')
       this.drawCanvas({
         isPlanePresent: this.isPlanePresent
       })

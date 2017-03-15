@@ -4,6 +4,7 @@ vX.X.X
 - Renamed CalcVarNumeral to CalcVarNumeric, closes #143.
 - Moved the vuex store into it's own directory, closes #144.
 - Moved App.vue into the "components" directory, closes #145.
+- Added link on the IPC-2221A track current calculator to the better IPC-2152 calculator, closes #119.
 
 v2.1.0
 ------

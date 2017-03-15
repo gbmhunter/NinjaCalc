@@ -5,7 +5,7 @@
     <!-- SPACER -->
     <div style="height: 50px;"></div>
 
-    <ui-collapsible title="Info" style="max-width: 800px;">
+    <ui-collapsible title="Info" class="calc-info" style="max-width: 800px;">
       <p>This calculator can find the minimum PCB track width (external or internal layer) given the track current, the
         allowed temperature rise, and copper layer thickness.</p>
 
@@ -39,6 +39,9 @@
         defined in UL746B as the temperature at which 50% of the materials properties are retained after 100,000 hours.</p>
 
       <p>Remember this calculator does not take into account other nearby heat sources.</p>
+
+      <p>The IPC-2152 standard supersedes this standard. It is designed to produce a more accurate track width calculation, but does require more variables.
+        <a @click="openIpc2152Calc">Click here to open an IPC-2152 calculator</a>.</p>
     </ui-collapsible>
 
     <!-- SPACER -->
@@ -111,12 +114,6 @@
   import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
-
-  // ============================================================================================= //
-  // ============================================ CONSTANTS ====================================== //
-  // ============================================================================================= //
-//  const METERS_PER_INCH = 25.4 / 1000
-//  const METERS_PER_MILS = METERS_PER_INCH / 1000.0
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -433,6 +430,9 @@
         context.moveTo(tox, toy)
         context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6))
         context.stroke()
+      },
+      openIpc2152Calc: function () {
+        this.$store.dispatch('openCalc', { componentName: 'track-current-ipc-2152-calculator' })
       }
     },
     mounted () {

@@ -44,9 +44,17 @@ const mutations = {
     })
     const newUniqueId = maxId + 1
 
+    // Check to make sure componentName is valid
+    var foundCalc = state.availableCalcs.find((element) => {
+      return element.mainView.name === payload.componentName
+    })
+    if (!foundCalc) {
+      throw new Error('openCalc() requested to open "' + payload.componentName + '", but no calculator with this ID was found in the array of available calculators.')
+    }
+
     state.openCalcs.push({
-      name: payload.name,
-      componentName: payload.componentName,
+      name: foundCalc.displayName,
+      componentName: foundCalc.mainView.name,
       // Unique ID is used as a unique tab ID
       uniqueId: newUniqueId
     })
