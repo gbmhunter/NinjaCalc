@@ -113,6 +113,11 @@
           return
         }
 
+        // Hide the overlay
+        this.$store.commit('showCalculatorSelectionOverlay', {
+          trueFalse: false
+        })
+
         // Calc was found, so open calculator
         this.$store.dispatch('openCalc', {
           // Remove the first "/"

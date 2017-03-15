@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
 
-  <div v-on:click="open()" id="calc-preview-container">
+  <router-link tag="div" :to="'/' + componentName" id="calc-preview-container">
 
     <div id="image-wrapper"><img :src="imageUrl" id="image"></div>
     <div style="height: 5px;"></div>
@@ -13,9 +13,9 @@
            style="font-size: 12px; text-align: justify; padding: 0px 4px 0px 4px;">{{ description }}</div>
     </div>
 
-
-    <div id="open-button"><ui-button color="primary" size="small">Open</ui-button></div>
-  </div>
+    <div id="open-button">
+      <ui-button color="primary" size="small">Open</ui-button></div>
+  </router-link>
 
 </template>
 
@@ -43,27 +43,7 @@
     },
     components: {},
     computed: {},
-    methods: {
-      open () {
-        console.log('open() called.')
-
-        // Hide the overlay
-        this.$store.commit('showCalculatorSelectionOverlay', {
-          trueFalse: false
-        })
-
-        // Dispatch open calculation action to store
-//        this.$store.dispatch('openCalc', {
-//          name: this.title,
-//          componentName: this.componentName
-//        })
-
-        // Instead of dispatching an action (as above), we now
-        // use the router to open a calculator. This should be more SEO
-        // friendly
-        this.$router.push('/' + this.componentName)
-      }
-    },
+    methods: {},
     mounted: () => {
 //      console.log('CalcPreview.mounted() called.')
     }
