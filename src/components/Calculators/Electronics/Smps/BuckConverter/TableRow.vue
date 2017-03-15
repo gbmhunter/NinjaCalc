@@ -4,7 +4,9 @@
     <td>{{ variableName }}</td>
     <td>\({{ symbol }}\)</td>
     <td><calc-value :calcVar="calcVar" :width=120></calc-value></td>
-    <td><calc-units :calcVar="calcVar"></calc-units></td>
+    <td>
+      <!--<calc-units :calcVar="calcVar"></calc-units>-->
+    </td>
     <td>{{ notes }}</td>
   </tr>
 
