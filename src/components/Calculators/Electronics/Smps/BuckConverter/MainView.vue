@@ -79,6 +79,7 @@
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import TableRow from './TableRow.vue'
   import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
 
   // ============================================ //
@@ -109,7 +110,7 @@
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The input voltage.'
       }))
@@ -131,7 +132,18 @@
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO,
+          new CustomValidator({
+            func: function () {
+              // Read dependency variables
+              const vIn_V = calc.getVar('vIn_V').getRawVal()
+              const vOut_V = calc.getVar('vOut_V').getRawVal()
+
+              return vOut_V <= vIn_V
+            },
+            text: 'Vout must be less than or equal to Vin.',
+            level: 'error'
+          })
         ],
         helpText: 'The output voltage.'
       }))
@@ -154,7 +166,18 @@
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO,
+          new CustomValidator({
+            func: function () {
+              // Read dependency variables
+              const vIn_V = calc.getVar('vIn_V').getRawVal()
+              const vD_V = calc.getVar('vD_V').getRawVal()
+
+              return vD_V < vIn_V
+            },
+            text: 'Vd must be less than Vin.',
+            level: 'error'
+          })
         ],
         helpText: 'The diode voltage drop.'
       }))
@@ -177,7 +200,18 @@
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO,
+          new CustomValidator({
+            func: function () {
+              // Read dependency variables
+              const vIn_V = calc.getVar('vIn_V').getRawVal()
+              const vSw_V = calc.getVar('vSw_V').getRawVal()
+
+              return vSw_V < vIn_V
+            },
+            text: 'Vsw must be less than Vin.',
+            level: 'error'
+          })
         ],
         helpText: 'The switching element voltage drop.'
       }))
@@ -208,7 +242,15 @@
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          new CustomValidator({
+            func: function () {
+              // Read dependency variables
+              const dutyCycle_Ratio = calc.getVar('dutyCycle_Ratio').getRawVal()
+              return (dutyCycle_Ratio >= 0.0) && (dutyCycle_Ratio <= 1.0)
+            },
+            text: 'The duty cycle must be between 0 and 1 (or 0 and 100%).',
+            level: 'error'
+          })
         ],
         helpText: 'The duty cycle.'
       }))
@@ -232,7 +274,7 @@
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The switching frequency.'
       }))
@@ -255,7 +297,7 @@
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The average output current.'
       }))
@@ -269,16 +311,33 @@
           return 'input'
         },
         eqn: function () {},
-        rawVal: '',
+        rawVal: '0.4',    // 40% current ripple is a common design goal
         units: [
           new UnitMulti({name: '%', multi: 1e-2}),
           new UnitMulti({name: 'no unit', multi: 1e0})
         ],
         defaultUnitName: '%',
-        roundTo: 4,
+        roundTo: 3,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          new CustomValidator({
+            func: function () {
+              // Read dependency variables
+              const iOutRipple_Ratio = calc.getVar('iOutRipple_Ratio').getRawVal()
+              return (iOutRipple_Ratio >= 0.0) && (iOutRipple_Ratio <= 1.0)
+            },
+            text: 'The output ripple current ratio must be between 0 and 1 (or 0 and 100%).',
+            level: 'error'
+          }),
+          new CustomValidator({
+            func: function () {
+              // Read dependency variables
+              const iOutRipple_Ratio = calc.getVar('iOutRipple_Ratio').getRawVal()
+              return iOutRipple_Ratio <= 0.5
+            },
+            text: 'You normally want the output current ripple to be below 50%.',
+            level: 'warning'
+          })
         ],
         helpText: 'The percentage output current ripple.'
       }))
@@ -315,7 +374,7 @@
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The inductance.'
       }))

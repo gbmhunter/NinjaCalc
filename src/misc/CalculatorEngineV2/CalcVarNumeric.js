@@ -147,8 +147,6 @@ export class CalcVarNumeric extends CalcVar {
    * Provide validate() function.
    */
   validate = () => {
-    console.log('CalcVarNumeric.validate() called.')
-    console.log(this)
     // Reset current validation result
     this.validationResult = 'ok'
     this.validationMsg = ''
