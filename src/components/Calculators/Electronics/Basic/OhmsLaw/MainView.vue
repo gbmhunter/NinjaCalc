@@ -25,10 +25,10 @@
       <!-- ========================================= -->
       <div class="variable-container" style="left: 0px; top: 240px;">
 
-        <calc-value-and-unit :calcVar="calc.getVar('voltage')" style="left: 0px; top: 70px;"></calc-value-and-unit>
+        <calc-value-and-unit :calcVar="calc.getVar('voltage_V')" style="left: 0px; top: 70px;"></calc-value-and-unit>
 
         <!-- INPUT/OUTPUT DECIDER -->
-        <input type="radio" value="voltage" v-model="calc.outputVar" style="left: 0px; top: 20px">
+        <input type="radio" value="voltage_V" v-model="calc.outputVar" style="left: 0px; top: 20px">
       </div>
 
       <!-- ========================================= -->
@@ -36,10 +36,10 @@
       <!-- ========================================= -->
       <div class="variable-container" style="left: 440px; top: 360px;">
 
-        <calc-value-and-unit :calcVar="calc.getVar('current')" style="left: 0px; top: 50px;"></calc-value-and-unit>
+        <calc-value-and-unit :calcVar="calc.getVar('current_A')" style="left: 0px; top: 50px;"></calc-value-and-unit>
 
         <!-- INPUT/OUTPUT DECIDER -->
-        <input type="radio" value="current" v-model="calc.outputVar" style="left: 100px; top: 0px">
+        <input type="radio" value="current_A" v-model="calc.outputVar" style="left: 100px; top: 0px">
       </div>
 
       <!-- ========================================= -->
@@ -47,10 +47,10 @@
       <!-- ========================================= -->
       <div class="variable-container" style="left: 450px; top: 160px;">
 
-        <calc-value-and-unit :calcVar="calc.getVar('resistance')" style="left: 0px; top: 40px;"></calc-value-and-unit>
+        <calc-value-and-unit :calcVar="calc.getVar('resistance_Ohms')" style="left: 0px; top: 40px;"></calc-value-and-unit>
 
         <!-- INPUT/OUTPUT DECIDER -->
-        <input type="radio" value="resistance" v-model="calc.outputVar" style="left: 100px; top: 0px">
+        <input type="radio" value="resistance_Ohms" v-model="calc.outputVar" style="left: 100px; top: 0px">
       </div>
     </div>
   </div>
@@ -75,15 +75,15 @@
       var calc = new Calc()
 
       // Create new variable in class for determining what is input and output
-      calc.outputVar = 'resistance'
+      calc.outputVar = 'resistance_Ohms'
 
       // ============================================ //
       // =================== VOLTAGE ================ //
       // ============================================ //
       calc.addVar(new CalcVarNumeric({
-        name: 'voltage',
+        name: 'voltage_V',
         typeEqn: () => {
-          if (calc.outputVar === 'voltage') {
+          if (calc.outputVar === 'voltage_V') {
             return 'output'
           } else {
             return 'input'
@@ -91,21 +91,21 @@
         },
         eqn: () => {
           // Read dependency variables
-          var current = calc.getVar('current').getRawVal()
-          var resistance = calc.getVar('resistance').getRawVal()
+          const current = calc.getVar('current_A').getRawVal()
+          const resistance = calc.getVar('resistance_Ohms').getRawVal()
 
           return (current * resistance)
         },
         rawVal: '',
         units: [
           new UnitMulti({name: 'mV', multi: 1e-3}),
-          new UnitMulti({name: 'V', multi: 1})
+          new UnitMulti({name: 'V', multi: 1e0})
         ],
         defaultUnitName: 'V',
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The voltage across the resistor.'
       }))
@@ -114,9 +114,9 @@
       // =================== CURRENT ================ //
       // ============================================ //
       calc.addVar(new CalcVarNumeric({
-        name: 'current',
+        name: 'current_A',
         typeEqn: () => {
-          if (calc.outputVar === 'current') {
+          if (calc.outputVar === 'current_A') {
             return 'output'
           } else {
             return 'input'
@@ -124,8 +124,8 @@
         },
         eqn: () => {
           // Read dependency variables
-          var voltage = calc.getVar('voltage').getRawVal()
-          var resistance = calc.getVar('resistance').getRawVal()
+          const voltage = calc.getVar('voltage_V').getRawVal()
+          const resistance = calc.getVar('resistance_Ohms').getRawVal()
 
           return (voltage / resistance)
         },
@@ -133,13 +133,13 @@
         units: [
           new UnitMulti({name: 'uA', multi: 1e-6}),
           new UnitMulti({name: 'mA', multi: 1e-3}),
-          new UnitMulti({name: 'A', multi: 1})
+          new UnitMulti({name: 'A', multi: 1e0})
         ],
         defaultUnitName: 'A',
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The current going through the resistor.'
       }))
@@ -148,9 +148,9 @@
       // ================= RESISTANCE =============== //
       // ============================================ //
       calc.addVar(new CalcVarNumeric({
-        name: 'resistance',
+        name: 'resistance_Ohms',
         typeEqn: () => {
-          if (calc.outputVar === 'resistance') {
+          if (calc.outputVar === 'resistance_Ohms') {
             return 'output'
           } else {
             return 'input'
@@ -158,8 +158,8 @@
         },
         eqn: () => {
           // Read dependency variables
-          var voltage = calc.getVar('voltage').getRawVal()
-          var current = calc.getVar('current').getRawVal()
+          const voltage = calc.getVar('voltage_V').getRawVal()
+          const current = calc.getVar('current_A').getRawVal()
 
           return (voltage / current)
         },
@@ -175,23 +175,20 @@
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The resistance of the resistor (or other resistive circuit component).'
       }))
-
-      // Configure calculator to default state now that all
-      // variables have been added.
-      calc.init()
-
-      console.log('MainView.data() finished.')
 
       return {
         calc: calc
       }
     },
     mounted () {
-//      console.log('Ohm\'s Law calculator mounted.')
+      // Configure calculator to default state now that
+      // UI has been created
+      this.calc.init()
+
       if (window.MathJax) {
         window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
       }
