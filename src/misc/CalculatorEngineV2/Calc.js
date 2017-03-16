@@ -1,6 +1,6 @@
 // 'use strict'
 
-import { CalcVarNumeral } from './CalcVarNumeral'
+import { CalcVarNumeric } from './CalcVarNumeric'
 import { CalcVarString } from './CalcVarString'
 import { CalcVarInvisible } from './CalcVarInvisible'
 
@@ -31,7 +31,7 @@ export default class Calc {
 
   reCalcOutputsAndValidate = () => {
     for (let calcVar of this.calcVars) {
-      if ((calcVar instanceof CalcVarNumeral) && (calcVar.typeEqn() === 'output')) {
+      if ((calcVar instanceof CalcVarNumeric) && (calcVar.typeEqn() === 'output')) {
         calcVar.reCalc()
       }
       if ((calcVar instanceof CalcVarString) && (calcVar.typeEqn() === 'output')) {

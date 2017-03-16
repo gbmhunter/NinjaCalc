@@ -28,7 +28,9 @@ describe('CrcCatalogue object tests.', function () {
 
 describe('CrcCatalogue CRC check value tests.', function () {
   it('Compare CRC algorithm to check value.', function () {
-    for (var [key, value] of crcCatalogue.presetCrcAlgorithms) {
+    for (var entry of crcCatalogue.presetCrcAlgorithms) {
+      // Extract just the value (don't need the key)
+      var value = entry[1]
       // Create a CRC engine with this algorithm info
       var crcGeneric = new CrcGeneric({
         name: value.name,

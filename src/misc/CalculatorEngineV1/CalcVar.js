@@ -1,12 +1,7 @@
 export default class CalcVar {
 
   constructor (initObj) {
-    console.log('CalcVar.constructor() called with name = ')
-    console.log(initObj.name)
     this.name = initObj.name
-
-    console.log('voltageInput =')
-    console.log(initObj.valueInput)
 
     // ============================================ //
     // ========= UI INPUT FOR VALUE SETUP ========= //
@@ -64,44 +59,31 @@ export default class CalcVar {
 
     this.eqn = initObj.eqn
     this.typeEqn = initObj.typeEqn
-
-    console.log('calcVar =')
-    console.log(this)
   }
 
   getRawVal () {
-    console.log('getRawVal() called. this.rawVal = ' + this.rawVal)
     return this.rawVal
   }
 
   setRawVal (value) {
-    console.log('setRawVal() called.')
     this.rawVal = value
     this.dispVal = this.rawVal * this.selUnit.multi
   }
 
   displayValChanged () {
     this.dispVal = this.valueInput.value
-    console.log('this.dispVal = ' + this.dispVal)
 
     this.rawVal = this.dispVal * this.selUnit.multi
-    console.log('this.rawVal = ' + this.rawVal)
 
     this.calc.reCalcOutputs()
   }
 
   unitDropdownChanged () {
-    console.log('unitDropdownChanged() called.')
-
-    console.log(this.uiSelectUnits.value)
-
     // Find unit object based of text in dropdown
     var selUnitObj = this.units.find((element) => {
       return element.text === this.uiSelectUnits.value
     })
     this.selUnit = selUnitObj
-
-    console.log('this.selUnit now = ' + this.selUnit)
 
     if (this.typeEqn() === 'input') {
       // Recalculate raw value from displayed value
@@ -112,13 +94,10 @@ export default class CalcVar {
   }
 
   getDispVal () {
-    console.log('getDispVal() called.')
     return this.dispVal
   }
 
   reCalc = () => {
-    console.log('reCalc() called.')
-
     if (this.typeEqn() !== 'output') {
       throw new Error('reCalc() called for variable that was not an output.')
     }

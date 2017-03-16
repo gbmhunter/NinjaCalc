@@ -31,11 +31,7 @@
       }
     },
     components: {},
-    computed: {
-      readonly () {},
-      methods: {},
-      mounted () {}
-    }
+    computed: {}
   }
 </script>
 

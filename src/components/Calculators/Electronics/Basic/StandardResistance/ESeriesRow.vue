@@ -14,13 +14,9 @@
 
 <script>
 
-//  'use strict'
-
-  import { CalcVarNumeral } from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import { CalcVarNumeric, NumericValidators } from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import { UnitMulti } from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
-
   var standardResistanceFinder = new StandardResistanceFinder()
 
   // ============================================ //
@@ -43,7 +39,7 @@
       // ============================================ //
       // ============= CLOSEST RESISTANCE =========== //
       // ============================================ //
-      var closestResistance = new CalcVarNumeral({
+      var closestResistance = new CalcVarNumeric({
         name: this.eSeries.name + 'ClosestResistance',
         typeEqn: () => {
           return 'output'
@@ -51,6 +47,7 @@
         eqn: () => {
           // Read dependency variables
           var desiredResistance = this.calc.getVar('desiredResistance').getRawVal()
+          if (!desiredResistance) return ''
           return standardResistanceFinder.find(desiredResistance, this.eSeries, standardResistanceFinder.searchMethods.CLOSEST)
         },
         rawVal: '',
@@ -60,8 +57,8 @@
         defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The closest resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
       })
@@ -70,7 +67,7 @@
       // ============================================ //
       // ========= CLOSEST RESISTANCE ERROR ========= //
       // ============================================ //
-      var closestResistanceError = new CalcVarNumeral({
+      var closestResistanceError = new CalcVarNumeric({
         name: this.eSeries.name + 'ClosestResistanceError',
         typeEqn: () => {
           return 'output'
@@ -82,7 +79,6 @@
 
           // Calculate percentage difference
           var percentageDiff = (Math.abs(closestResistance - desiredResistanceValue) / desiredResistanceValue) * 100.0
-          console.log('percentageDiff = ' + percentageDiff)
           return percentageDiff
         },
         rawVal: '',
@@ -92,8 +88,8 @@
         defaultUnitName: '%',
         roundTo: 2,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The percentage difference between the closest ' + this.eSeries.name + ' series resistance and your desired resistance.'
       })
@@ -102,7 +98,7 @@
       // ============================================ //
       // ==== CLOSEST EQUAL OR LOWER RESISTANCE  ==== //
       // ============================================ //
-      var closestEqualOrLowerResistance = new CalcVarNumeral({
+      var closestEqualOrLowerResistance = new CalcVarNumeric({
         name: this.eSeries.name + 'ClosestEqualOrLowerResistance',
         typeEqn: () => {
           return 'output'
@@ -110,6 +106,7 @@
         eqn: () => {
           // Read dependency variables
           var desiredResistance = this.calc.getVar('desiredResistance').getRawVal()
+          if (!desiredResistance) return ''
           return standardResistanceFinder.find(desiredResistance, this.eSeries, standardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_LOWER)
         },
         rawVal: '',
@@ -119,8 +116,8 @@
         defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The closest equal or higher resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
       })
@@ -129,7 +126,7 @@
       // ============================================ //
       // = CLOSEST EQUAL OR LOWER RESISTANCE ERROR == //
       // ============================================ //
-      var closestEqualOrLowerResistanceError = new CalcVarNumeral({
+      var closestEqualOrLowerResistanceError = new CalcVarNumeric({
         name: this.eSeries.name + 'ClosestEqualOrLowerResistanceError',
         typeEqn: () => {
           return 'output'
@@ -150,8 +147,8 @@
         defaultUnitName: '%',
         roundTo: 2,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The percentage difference between the closest equal or lower ' + this.eSeries.name + ' series resistance and your desired resistance.'
       })
@@ -160,7 +157,7 @@
       // ============================================ //
       // ==== CLOSEST EQUAL OR HIGHER RESISTANCE  === //
       // ============================================ //
-      var closestEqualOrHigherResistance = new CalcVarNumeral({
+      var closestEqualOrHigherResistance = new CalcVarNumeric({
         name: this.eSeries.name + 'ClosestEqualOrHigherResistance',
         typeEqn: () => {
           return 'output'
@@ -168,6 +165,7 @@
         eqn: () => {
           // Read dependency variables
           var desiredResistance = this.calc.getVar('desiredResistance').getRawVal()
+          if (!desiredResistance) return ''
           return standardResistanceFinder.find(desiredResistance, this.eSeries, standardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_HIGHER)
         },
         rawVal: '',
@@ -177,8 +175,8 @@
         defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The closest equal or higher resistance in the ' + this.eSeries.name + ' series to your desired resistance.'
       })
@@ -187,7 +185,7 @@
       // ============================================ //
       // = CLOSEST EQUAL OR HIGHER RESISTANCE ERROR = //
       // ============================================ //
-      var closestEqualOrHigherResistanceError = new CalcVarNumeral({
+      var closestEqualOrHigherResistanceError = new CalcVarNumeric({
         name: this.eSeries.name + 'ClosestEqualOrHigherResistanceError',
         typeEqn: () => {
           return 'output'
@@ -208,14 +206,15 @@
         defaultUnitName: '%',
         roundTo: 2,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The percentage difference between the closest equal or higher ' + this.eSeries.name + ' series resistance and your desired resistance.'
       })
       this.calc.addVar(closestEqualOrHigherResistanceError)
 
       return {
+        // No data to return, calc is owned by parent view object (MainView.vue)
       }
     },
     mounted () {}

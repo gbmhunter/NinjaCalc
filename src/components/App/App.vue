@@ -12,7 +12,7 @@
     </div>
 
     <!--Only show this if no calculators are open-->
-    <div id="no-calc-screen" v-if="!this.$store.state.openCalcs.length">
+    <div id="no-calc-screen" v-if="!this.$store.state.core.openCalcs.length">
       <div class="centered">
         <div class="md-display-1">No calculators are open! Do you wish to create one?</div>
         <div style="height: 20px;"></div>
@@ -21,18 +21,11 @@
       </div>
     </div>
 
-    <!-- Only show calculator tabs if calculators are open -->
-    <!--<ui-tabs ref="tabs" type="text" :grow="true" v-if="this.$store.state.openCalcs.length">-->
-      <!--<ui-tab v-for="item in this.$store.state.openCalcs" :title="item.name" :id="item.uniqueId.toString()">-->
-        <!--<component :is="item.componentName"></component>-->
-      <!--</ui-tab>-->
-    <!--</ui-tabs>-->
-
     <!-- The "editable" property allows you to close tabs. Note that by default this also adds a "+" button on the far-
     right of the tab header, but we disable this in CSS -->
-    <el-tabs type="card" v-if="this.$store.state.openCalcs.length" v-model="activeTabId" editable @edit="handleTabsEdit">
+    <el-tabs type="card" v-if="this.$store.state.core.openCalcs.length" v-model="activeTabId" editable @edit="handleTabsEdit">
       <!-- The name property is the unique ID which identifies the tab -->
-      <el-tab-pane v-for="item in this.$store.state.openCalcs" :label="item.name" :name="item.uniqueId.toString()">
+      <el-tab-pane v-for="item in this.$store.state.core.openCalcs" :label="item.name" :name="item.uniqueId.toString()">
         <component :is="item.componentName"></component>
       </el-tab-pane>
     </el-tabs>
@@ -49,23 +42,21 @@
 
   /* eslint-disable */
 
-  //  import { CalculatorServiceSingleton } from './services/CalculatorService'
-
   import Vue from 'vue'
-  import LeftSideMenu from './components/LeftSideMenu/LeftSideMenu'
-  // import MainView from './components/OhmsLawCalculator/MainView'
-  import CalculatorSelectionOverlay from './components/CalculatorSelectionOverlay/CalculatorSelectionOverlay'
+  import LeftSideMenu from '../LeftSideMenu/LeftSideMenu'
+  import CalculatorSelectionOverlay from '../CalculatorSelectionOverlay/CalculatorSelectionOverlay'
 
-  import OhmsLawCalculator from './components/Calculators/Electronics/Basic/OhmsLaw/Calc'
-  import ResistorDividerCalculator from './components/Calculators/Electronics/Basic/ResistorDivider/Calc'
-  import StandardResistanceCalculator from './components/Calculators/Electronics/Basic/StandardResistance/Calc'
-  import LowPassRCCalculator from './components/Calculators/Electronics/Filters/LowPassRC/Calc'
-  import { trackCurrentIpc2221ACalculator } from './components/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
-  import TrackCurrentIpc2152Calculator from './components/Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
-  import { dewPointMagnusCalculator } from './components/Calculators/Electronics/Sensors/DewPointMagnus/Calc'
-  import { ntcThermistorTemperature } from './components/Calculators/Electronics/Sensors/NtcThermistor/Calc'
-  import { viaCurrentIpc2221ACalculator } from './components/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
-  import { crcCalculator } from './components/Calculators/Software/Crc/Calc'
+  import OhmsLawCalculator from '../Calculators/Electronics/Basic/OhmsLaw/Calc'
+  import ResistorDividerCalculator from '../Calculators/Electronics/Basic/ResistorDivider/Calc'
+  import StandardResistanceCalculator from '../Calculators/Electronics/Basic/StandardResistance/Calc'
+  import LowPassRCCalculator from '../Calculators/Electronics/Filters/LowPassRC/Calc'
+  import TrackCurrentIpc2152Calculator from '../Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
+  import { trackCurrentIpc2221ACalculator } from '../Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
+  import { viaCurrentIpc2221ACalculator } from '../Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
+  import { dewPointMagnusCalculator } from '../Calculators/Electronics/Sensors/DewPointMagnus/Calc'
+  import { ntcThermistorTemperature } from '../Calculators/Electronics/Sensors/NtcThermistor/Calc'
+  import BuckConverter from '../Calculators/Electronics/Smps/BuckConverter/Calc'
+  import { crcCalculator } from '../Calculators/Software/Crc/Calc'
 
   export default {
     name: 'app',
@@ -78,9 +69,10 @@
     },
     computed: {
       activeTabId () {
-        console.log('App.activeTabId() called.')
-
         return this.$store.state.activeTabId.toString()
+      },
+      route () {
+        return this.$store.state.route
       }
     },
     methods: {
@@ -109,58 +101,88 @@
           default:
             throw new Error('Provided action to handleTabsEdit() was not supported.')
         }
+      },
+      handleRouteChange () {
+        // Make sure path is valid calculator
+        const calcName = this.route.path.substring(1, this.route.path.length)
+        var foundCalc = this.$store.state.core.availableCalcs.find((element) => {
+          return element.mainView.name === calcName
+        })
+        if (!foundCalc) {
+          // If no calculator was found, fail silently
+          return
+        }
+
+        // Hide the overlay
+        this.$store.commit('showCalculatorSelectionOverlay', {
+          trueFalse: false
+        })
+
+        // Calc was found, so open calculator
+        this.$store.dispatch('openCalc', {
+          // Remove the first "/"
+          componentName: calcName
+        })
       }
     },
-    watch: {},
+    watch: {
+      route () {
+        console.log('route() watcher called.')
+        console.log(this.route)
+        this.handleRouteChange()
+      }
+    },
     mounted () {
       // ============================================ //
       // ========== ELECTRONICS -> BASIC ============ //
       // ============================================ //
-      Vue.component(OhmsLawCalculator.mainView.name, OhmsLawCalculator.mainView)
+
       this.$store.dispatch('registerCalc', OhmsLawCalculator)
-
-      Vue.component(ResistorDividerCalculator.mainView.name, ResistorDividerCalculator.mainView)
       this.$store.dispatch('registerCalc', ResistorDividerCalculator)
-
-      Vue.component(StandardResistanceCalculator.mainView.name, StandardResistanceCalculator.mainView)
       this.$store.dispatch('registerCalc', StandardResistanceCalculator)
 
       // ============================================ //
       // ========= ELECTRONICS -> FILTERS =========== //
       // ============================================ //
 
-      Vue.component(LowPassRCCalculator.mainView.name, LowPassRCCalculator.mainView)
       this.$store.dispatch('registerCalc', LowPassRCCalculator)
+
+      // ============================================ //
+      // =========== ELECTRONICS -> SMPS ============ //
+      // ============================================ //
+
+      this.$store.dispatch('registerCalc', BuckConverter)
 
       // ============================================ //
       // ========= ELECTRONICS -> SENSORS =========== //
       // ============================================ //
 
-      Vue.component(dewPointMagnusCalculator.mainView.name, dewPointMagnusCalculator.mainView)
       this.$store.dispatch('registerCalc', dewPointMagnusCalculator)
-
-      Vue.component(ntcThermistorTemperature.mainView.name, ntcThermistorTemperature.mainView)
       this.$store.dispatch('registerCalc', ntcThermistorTemperature)
 
       // ============================================ //
       // =========== ELECTRONICS -> PCB ============= //
       // ============================================ //
 
-      Vue.component(trackCurrentIpc2221ACalculator.mainView.name, trackCurrentIpc2221ACalculator.mainView)
       this.$store.dispatch('registerCalc', trackCurrentIpc2221ACalculator)
-
-      Vue.component(TrackCurrentIpc2152Calculator.mainView.name, TrackCurrentIpc2152Calculator.mainView)
       this.$store.dispatch('registerCalc', TrackCurrentIpc2152Calculator)
-
-      Vue.component(viaCurrentIpc2221ACalculator.mainView.name, viaCurrentIpc2221ACalculator.mainView)
       this.$store.dispatch('registerCalc', viaCurrentIpc2221ACalculator)
 
       // ============================================ //
       // ================== SOFTWARE ================ //
       // ============================================ //
 
-      Vue.component(crcCalculator.mainView.name, crcCalculator.mainView)
       this.$store.dispatch('registerCalc', crcCalculator)
+
+      // Show the overlay by default.
+      // THIS MUST BE DONE BEFORE handlerRouteChange() IS CALLED
+      this.$store.commit('showCalculatorSelectionOverlay', {
+        trueFalse: true
+      })
+
+      // Call this for the first time, since it may be already set,
+      // and we only start listening for changes from this point onwards.
+      this.handleRouteChange()
     }
   }
 </script>

@@ -60,14 +60,10 @@
 
 <script>
 
-//  'use strict'
-
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
-
   import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
   import ESeriesRow from './ESeriesRow.vue'
 
@@ -88,7 +84,7 @@
       // ============================================ //
       // ======== DESIRED RESISTANCE (input) ======== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'desiredResistance',
         typeEqn: () => {
           return 'input'
@@ -106,8 +102,8 @@
         defaultUnitName: 'Ω',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -121,17 +117,13 @@
         helpText: 'The resistance you actually want. The closest value to this resistance will be found in each resistor series.'
       }))
 
-      // Configure calculator to default state now that all
-      // variables have been added.
-      calc.init()
-
       return {
         calc: calc,
         standardResistanceFinder: standardResistanceFinder
       }
     },
     mounted () {
-//      console.log('Standard Resistance calculator mounted.')
+      this.calc.init()
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
     }
   }

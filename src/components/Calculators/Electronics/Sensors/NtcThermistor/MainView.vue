@@ -101,13 +101,10 @@
 
 <script>
 
-  //  'use strict'
-
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   /* eslint-disable camelcase */
 
@@ -126,7 +123,7 @@
       // ============================================ //
       // ================== BETA (i/o) ============== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'beta',
         typeEqn: () => {
           if (calc.outputVar === 'beta') {
@@ -152,8 +149,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The coefficient beta. This is usually specified in the thermistors datasheet.'
       }))
@@ -161,7 +158,7 @@
       // ============================================ //
       // ======== REFERENCE RESISTANCE (i/o) ======== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'referenceResistance',
         typeEqn: () => {
           if (calc.outputVar === 'referenceResistance') {
@@ -190,8 +187,8 @@
         defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The resistance of the thermistor at the reference point. This is usually when the thermistor is at 25°C.'
       }))
@@ -199,7 +196,7 @@
       // ============================================ //
       // ======== REFERENCE TEMPERATURE (i/o) ======= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'referenceTemperature',
         typeEqn: () => {
           if (calc.outputVar === 'referenceTemperature') {
@@ -243,7 +240,7 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER
+          NumericValidators.IS_NUMBER
         ],
         helpText: 'The temperature of the thermistor at the reference point. This is usually 25°C.'
       }))
@@ -251,7 +248,7 @@
       // ============================================ //
       // ======== THERMISTOR RESISTANCE (i/o) ======= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'thermistorResistance',
         typeEqn: () => {
           if (calc.outputVar === 'thermistorResistance') {
@@ -280,8 +277,8 @@
         defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The present resistance of the thermistor, at temperature T.'
       }))
@@ -289,7 +286,7 @@
       // ============================================ //
       // ======= THERMISTOR TEMPERATURE (i/o) ======= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'thermistorTemperature',
         typeEqn: () => {
           if (calc.outputVar === 'thermistorTemperature') {
@@ -333,7 +330,7 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER
+          NumericValidators.IS_NUMBER
         ],
         helpText: 'The present temperature of the thermistor, at resistance R.'
       }))

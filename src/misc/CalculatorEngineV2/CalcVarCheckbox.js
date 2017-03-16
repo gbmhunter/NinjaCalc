@@ -24,4 +24,8 @@ export class CalcVarCheckbox extends CalcVar {
   getVal = () => {
     return this.val
   }
+
+  validate = () => {
+    // Do nothing
+  }
 }

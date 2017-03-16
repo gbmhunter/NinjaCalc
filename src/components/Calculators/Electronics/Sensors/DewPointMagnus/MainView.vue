@@ -70,13 +70,10 @@
 
 <script>
 
-  //  'use strict'
-
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
 
   /* eslint-disable camelcase */
 
@@ -95,7 +92,7 @@
       // ============================================ //
       // =========== AIR TEMPERATURE (i/o) ========== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'airTemperature',
         typeEqn: () => {
           if (calc.outputVar === 'airTemperature') {
@@ -130,7 +127,7 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER
+          NumericValidators.IS_NUMBER
         ],
         helpText: 'The temperature of the air. This must be the same temperature at which the relative humidity was measured at.'
       }))
@@ -138,7 +135,7 @@
       // ============================================ //
       // ========== RELATIVE HUMIDITY (i/o) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'relativeHumidity',
         typeEqn: () => {
           if (calc.outputVar === 'relativeHumidity') {
@@ -164,8 +161,8 @@
         defaultUnitName: '%',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The relative humidity the the air, expressed as a percentage of the total amount of water the air could hold at the current temperature.'
       }))
@@ -173,7 +170,7 @@
       // ============================================ //
       // =============== DEW POINT (i/o) ============ //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'dewPoint',
         typeEqn: () => {
           if (calc.outputVar === 'dewPoint') {
@@ -210,7 +207,7 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER
+          NumericValidators.IS_NUMBER
         ],
         helpText: 'If the air is cooled to the dew point temperature, then dew (condensation) will start to form. This value is allowed to be below the freezing point of water.'
       }))
@@ -218,7 +215,7 @@
       // ============================================ //
       // ============ B COEFFICIENT (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'bCoefficient',
         typeEqn: () => {
           return 'input'
@@ -231,7 +228,7 @@
         defaultUnitName: 'no unit',
         roundTo: 5,
         validators: [
-          PresetValidators.IS_NUMBER
+          NumericValidators.IS_NUMBER
         ],
         helpText: 'The b coefficient of the Magnus equation.'
       }))
@@ -239,7 +236,7 @@
       // ============================================ //
       // ============ C COEFFICIENT (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'cCoefficient',
         typeEqn: () => {
           return 'input'
@@ -261,7 +258,7 @@
         defaultUnitName: '°C',
         roundTo: 5,
         validators: [
-          PresetValidators.IS_NUMBER
+          NumericValidators.IS_NUMBER
         ],
         helpText: 'The c coefficient of the Magnus equation.'
       }))

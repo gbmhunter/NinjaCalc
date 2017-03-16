@@ -23,4 +23,8 @@ export class CalcVarComboBox extends CalcVar {
   getVal = () => {
     return this.val
   }
+
+  validate = () => {
+    // Do nothing
+  }
 }

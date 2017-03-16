@@ -5,7 +5,7 @@
     <!-- SPACER -->
     <div style="height: 50px;"></div>
 
-    <ui-collapsible title="Info" style="max-width: 800px;">
+    <ui-collapsible title="Info" class="calc-info" style="max-width: 800px;">
       <p>This calculator can find the minimum PCB track width (external or internal layer) given the track current, the
         allowed temperature rise, and copper layer thickness.</p>
 
@@ -39,6 +39,9 @@
         defined in UL746B as the temperature at which 50% of the materials properties are retained after 100,000 hours.</p>
 
       <p>Remember this calculator does not take into account other nearby heat sources.</p>
+
+      <p>The IPC-2152 standard supersedes this standard. It is designed to produce a more accurate track width calculation, but does require more variables.
+        <a @click="openIpc2152Calc">Click here to open an IPC-2152 calculator</a>.</p>
     </ui-collapsible>
 
     <!-- SPACER -->
@@ -104,19 +107,12 @@
 <script>
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
-
-  // ============================================================================================= //
-  // ============================================ CONSTANTS ====================================== //
-  // ============================================================================================= //
-//  const METERS_PER_INCH = 25.4 / 1000
-//  const METERS_PER_MILS = METERS_PER_INCH / 1000.0
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -130,7 +126,7 @@
       // ============================================ //
       // ============ TRACK CURRENT (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'trackCurrent',
         typeEqn: () => {
           return 'input'
@@ -146,8 +142,8 @@
         defaultUnitName: 'A',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_THAN_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -164,7 +160,7 @@
       // ============================================ //
       // ============= TEMP. RISE (input) =========== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'tempRise',
         typeEqn: () => {
           return 'input'
@@ -187,8 +183,8 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -214,7 +210,7 @@
       // ============================================ //
       // ========== TRACK THICKNESS (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'trackThickness',
         typeEqn: () => {
           return 'input'
@@ -231,8 +227,8 @@
         defaultUnitName: 'um',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -272,7 +268,7 @@
       // ============================================================================================= //
       // ===================================== MIN. TRACK WIDTH (output) ============================= //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'minTrackWidth',
         typeEqn: () => {
           return 'output'
@@ -303,8 +299,8 @@
         defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The minimum track width needed to carry the specified current without exceeding the given temperature rise.'
       }))
@@ -433,6 +429,9 @@
         context.moveTo(tox, toy)
         context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6))
         context.stroke()
+      },
+      openIpc2152Calc: function () {
+        this.$store.dispatch('openCalc', { componentName: 'track-current-ipc-2152-calculator' })
       }
     },
     mounted () {

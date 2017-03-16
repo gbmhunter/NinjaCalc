@@ -1,10 +1,12 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import Vuex from 'vuex'
-import App from './App'
+import App from './components/App/App'
 
-Vue.use(Vuex)
+/* eslint-disable no-unused-vars */
+
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
 
 // vue-material is used for md-tooltips, which display
 // calculator variable info
@@ -31,6 +33,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 Vue.use(ElementUI)
 
+import './style/style.css'
+
 // =========================================== //
 // ==== CALCULATOR COMPONENT REGISTRATION ==== //
 // =========================================== //
@@ -45,130 +49,32 @@ Vue.component('calc-var-string', CalcVarString)
 import CalcVarCheckbox from 'src/misc/CalculatorEngineV2/view/CalcVarCheckbox.vue'
 Vue.component('calc-var-checkbox', CalcVarCheckbox)
 
-/* eslint-disable no-unused-vars */
-const store = new Vuex.Store({
-  state: {
-    count: 0,
-    showLeftSideBar: false,
-    showCalculatorSelectionOverlay: false,
+import store from './store'
 
-    // Complete list of calculators that the user can open.
-    // These are presented to the user, but filtered first.
-    availableCalcs: [],
+// 1. Define route components.
+// These can be imported from other files
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
 
-    // This is updated whenever the search text is changed.
-    filteredAvailableCalcs: [],
-    openCalcs: [],
-    activeTabId: '',
-    searchText: ''
-  },
-  mutations: {
-    showLeftSideBar (state, payload) {
-      state.showLeftSideBar = payload.trueFalse
-    },
-    showCalculatorSelectionOverlay (state, payload) {
-      state.showCalculatorSelectionOverlay = payload.trueFalse
-    },
-    registerCalc (state, payload) {
-      state.availableCalcs.push(payload)
-    },
-    openCalculator (state, payload) {
-      // Find a unique ID to use
-      var maxId = 0
-      state.openCalcs.forEach((calc, index) => {
-        if (calc.uniqueId > maxId) {
-          maxId = calc.uniqueId
-        }
-      })
-      const newUniqueId = maxId + 1
+// 2. Define some routes
+// Each route should map to a component. The "component" can
+// either be an actual component constructor created via
+// Vue.extend(), or just a component options object.
+// We'll talk about nested routes later.
+const routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar }
+]
 
-      state.openCalcs.push({
-        name: payload.name,
-        componentName: payload.componentName,
-        // Unique ID is used as a unique tab ID
-        uniqueId: newUniqueId
-      })
-    },
-    setNewCalcAsOpenTab (state, payload) {
-      // console.log('setNewCalcAsOpenTab() called with payload =')
-      // console.log(payload)
-      state.activeTabId = state.openCalcs[state.openCalcs.length - 1].uniqueId
-    },
-    closeCalculator (state, payload) {
-      console.log('closeCalculator() called with payload.uniqueId = ' + payload.uniqueId)
-      if (!payload.uniqueId) {
-        throw new Error('Please provide payload.uniqueId to closeCalculator().')
-      }
-      // We need to search through the open calculators and find the one which matches the
-      // provided ID
-      if (state.activeTabId === payload.uniqueId) {
-        console.log('Closing currently active tab.')
-        // Since the user wants to close the currently active tab, we need to find
-        // the next best calculator tab to set as the active tab
-        state.openCalcs.forEach((calc, index) => {
-          console.log('calc =')
-          console.log(calc)
-          if (calc.uniqueId === payload.uniqueId) {
-            console.log('Calculator found!')
-            let nextCalc = state.openCalcs[index + 1] || state.openCalcs[index - 1]
-            console.log('nextCalc =')
-            console.log(nextCalc)
-            if (nextCalc) {
-              state.activeTabId = nextCalc.uniqueId
-            }
-          }
-        })
-      }
-
-      // Now that we have selected the next best calculator that is going to remain open,
-      // close the requested calculator by removing it from the openCalcs array
-      state.openCalcs = state.openCalcs.filter(calc => calc.uniqueId !== payload.uniqueId)
-    },
-    setSearchText (state, payload) {
-      state.searchText = payload
-    },
-    updateFilteredAvailableCalcs (state, payload) {
-      // Update the filtered available calculators. If the search text is '' (i.e.
-      // empty), return all the calculators.
-      if (state.searchText === '') {
-        state.filteredAvailableCalcs = state.availableCalcs
-        return
-      }
-      state.filteredAvailableCalcs = state.availableCalcs.filter(calc => {
-        // Create regex pattern from search text
-        var regex = new RegExp(state.searchText, 'gi')
-        // Search in calculator title (display name)
-        if (calc.displayName.match(regex)) return true
-        // Search through the tags
-        for (var tag of calc.tags) {
-          if (tag.match(regex)) return true
-        }
-      })
-    }
-  },
-  actions: {
-    /**
-     * Call this to register a calculator with the app. This is typically done at
-     * start-up.
-     * @param context
-     * @param value     The calculator you wish to register.
-     */
-    registerCalc (context, value) {
-      context.commit('registerCalc', value)
-      context.commit('updateFilteredAvailableCalcs')
-    },
-    /**
-     * This will set the search text, and also update the filteredAvailableCalcs variable,
-     * depending on the search text.
-     * @param context
-     * @param value
-     */
-    setSearchText (context, value) {
-      context.commit('setSearchText', value)
-      context.commit('updateFilteredAvailableCalcs')
-    }
-  }
+// 3. Create the router instance and pass the `routes` option
+// You can pass in additional options here, but let's
+// keep it simple for now.
+const router = new VueRouter({
+  routes // short for routes: routes
 })
+
+import { sync } from 'vuex-router-sync'
+sync(store, router)
 
 // ROOT INSTANCE
 /* eslint-disable no-new */
@@ -176,6 +82,7 @@ var vm = new Vue({
   el: '#app',
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  router
 })
 

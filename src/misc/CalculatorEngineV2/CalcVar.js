@@ -1,10 +1,5 @@
-'use strict'
-
-import PresetValidators from './PresetValidators'
-import {CustomValidator} from './CustomValidator'
-
 /**
- * "Abtract" class that represents a calculator variable.
+ * "Abstract" class that represents a calculator variable.
  */
 export default class CalcVar {
 
@@ -38,9 +33,15 @@ export default class CalcVar {
     // ============================================ //
     // ================ VALIDATORS ================ //
     // ============================================ //
-
     this.validators = []
     if (initObj.validators) {
+      // Make sure all validators are defined
+      for (var validator of initObj.validators) {
+        if (!validator) {
+          throw new Error('Undefined validator provided to calculator variable "' + this.name + '".')
+        }
+      }
+
       this.validators = initObj.validators
     }
 
@@ -72,83 +73,7 @@ export default class CalcVar {
   }
 
   validate = () => {
-    // console.log('CalcVar.validate() called for "' + this.name + '".')
-    // console.log('this.validators =')
-    // console.log(this.validators)
-    // Reset current validation result
-    this.validationResult = 'ok'
-    this.validationMsg = ''
-
-    var self = this
-    this.validators.map(function (validator) {
-      // console.log('validator =')
-      // console.log(validator)
-
-      var validationResult = 'ok'
-      var validationMsg = ''
-
-      if (validator instanceof CustomValidator) {
-        // console.log('validator is a instance of CustomValidator.')
-        // Validator must be a custom function
-        var result = validator.func()
-
-        if (!result) {
-          validationResult = validator.level
-          validationMsg = validator.text
-        }
-      } else {
-        // Validator must be a preset
-        switch (validator) {
-          case PresetValidators.IS_NUMBER:
-            // console.log('validator === PresetValidators.IS_NUMBER')
-            if (self.isStringANumber(self.dispVal)) {
-              // console.log('dispVal is a valid number.')
-              validationResult = 'ok'
-            } else {
-              // console.log('dispVal is NOT a valid number.')
-              validationResult = 'error'
-              validationMsg = 'Variable must be a valid number.'
-            }
-            break
-          case PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO:
-            if (self.dispVal >= 0) {
-              validationResult = 'ok'
-            } else {
-              validationResult = 'error'
-              validationMsg = 'Variable must be greater than or equal to 0.'
-            }
-            break
-          case PresetValidators.IS_GREATER_THAN_ZERO:
-            if (self.dispVal > 0) {
-              validationResult = 'ok'
-            } else {
-              validationResult = 'error'
-              validationMsg = 'Variable must be greater than 0.'
-            }
-            break
-          default:
-            throw new Error('Preset validation type "' + validator + '" is not supported.')
-        }
-      }
-
-      // Finally, compare this validation result with the one set in the variable. Only
-      // overwrite IF this validation result is worse than what was already present
-      switch (self.validationResult) {
-        case 'ok':
-          self.validationResult = validationResult
-          self.validationMsg = validationMsg
-          break
-        case 'warning':
-          if (self.validationResult === 'ok') {
-            self.validationResult = validationResult
-            self.validationMsg = validationMsg
-          }
-          break
-        case 'error':
-          // Do nothing
-          break
-      }
-    })
+    throw new Error('Virtual method validate() called for calculator variable "' + this.name + '".')
   }
 
   isStringANumber = (number) => {

@@ -1,8 +1,21 @@
 import CalcVar from './CalcVar'
+import {CustomValidator} from './CustomValidator'
 import {UnitMulti} from './UnitMulti'
 import {UnitFunc} from './UnitFunc'
 
-export class CalcVarNumeral extends CalcVar {
+export class NumericValidators {
+  constructor (name) {
+    this.name = name
+  }
+  toString () {
+    return `NumericValidators.${this.name}`
+  }
+}
+NumericValidators.IS_NUMBER = new NumericValidators('IS_NUMBER')
+NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO = new NumericValidators('IS_GREATER_OR_EQUAL_TO_ZERO')
+NumericValidators.IS_GREATER_THAN_ZERO = new NumericValidators('IS_GREATER_THAN_ZERO')
+
+export class CalcVarNumeric extends CalcVar {
   constructor (initObj) {
     super(initObj)
 
@@ -10,13 +23,12 @@ export class CalcVarNumeral extends CalcVar {
     // =================== UNITS ================== //
     // ============================================ //
 
-    // CalcVarNumeral is the only calculator variable type which
+    // CalcVarNumeric is the only calculator variable type which
     // has unit support
     this.units = initObj.units
 
-    if (!initObj.defaultUnitName) throw new Error('Please provide a default unit name via initObj.defaultUnitName to CalcVarNumeral.constructor() for variable "' + initObj.name + '".')
+    if (!initObj.defaultUnitName) throw new Error('Please provide a default unit name via initObj.defaultUnitName to CalcVarNumeric.constructor() for variable "' + initObj.name + '".')
     this.selUnitName = initObj.defaultUnitName
-    console.log('this.selUnitName = ' + this.selUnitName)
     this.selUnit = this.findUnitFromName(this.selUnitName)
 
     // ============================================ //
@@ -43,7 +55,7 @@ export class CalcVarNumeral extends CalcVar {
    * Designed to be called by vue once this.selUnit has been changed.
    */
   onUnitChange = () => {
-    console.log('CalcVarNumeral.onUnitChange() called.')
+    console.log('CalcVarNumeric.onUnitChange() called.')
     console.log('this.selUnitName = ' + this.selUnitName)
 
     this.selUnit = this.findUnitFromName(this.selUnitName)
@@ -112,7 +124,7 @@ export class CalcVarNumeral extends CalcVar {
   }
 
   findUnitFromName = (unitName) => {
-    // console.log('CalcVarNumeral.findUnitFromName() called with unitName = ' + unitName)
+    // console.log('CalcVarNumeric.findUnitFromName() called with unitName = ' + unitName)
     var foundUnit = null
     this.units.forEach(function (element) {
       // console.log(element)
@@ -128,5 +140,77 @@ export class CalcVarNumeral extends CalcVar {
     } else {
       throw new Error('Could not find unit with name "' + unitName + '" in calculator variable "' + this.name + '".')
     }
+  }
+
+  /**
+   * Provide validate() function.
+   */
+  validate = () => {
+    // Reset current validation result
+    this.validationResult = 'ok'
+    this.validationMsg = ''
+    var self = this
+    this.validators.map(function (validator) {
+      var validationResult = 'ok'
+      var validationMsg = ''
+      if (validator instanceof CustomValidator) {
+        // Validator must be a custom function
+        var result = validator.func()
+        if (!result) {
+          validationResult = validator.level
+          validationMsg = validator.text
+        }
+      } else {
+        // Validator must be a preset
+        switch (validator) {
+          case NumericValidators.IS_NUMBER:
+            // console.log('validator === PresetValidators.IS_NUMBER')
+            if (self.isStringANumber(self.dispVal)) {
+              // console.log('dispVal is a valid number.')
+              validationResult = 'ok'
+            } else {
+              // console.log('dispVal is NOT a valid number.')
+              validationResult = 'error'
+              validationMsg = 'Variable must be a valid number.'
+            }
+            break
+          case NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO:
+            if (self.dispVal >= 0) {
+              validationResult = 'ok'
+            } else {
+              validationResult = 'error'
+              validationMsg = 'Variable must be greater than or equal to 0.'
+            }
+            break
+          case NumericValidators.IS_GREATER_THAN_ZERO:
+            if (self.dispVal > 0) {
+              validationResult = 'ok'
+            } else {
+              validationResult = 'error'
+              validationMsg = 'Variable must be greater than 0.'
+            }
+            break
+          default:
+            throw new Error('Preset validation type "' + validator + '" is not supported.')
+        }
+      }
+      // Finally, compare this validation result with the one set in the variable. Only
+      // overwrite IF this validation result is worse than what was already present
+      switch (self.validationResult) {
+        case 'ok':
+          self.validationResult = validationResult
+          self.validationMsg = validationMsg
+          break
+        case 'warning':
+          if (self.validationResult === 'ok') {
+            self.validationResult = validationResult
+            self.validationMsg = validationMsg
+          }
+          break
+        case 'error':
+          // Do nothing
+          break
+      }
+    })
   }
 }

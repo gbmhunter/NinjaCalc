@@ -37,7 +37,7 @@ See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a lis
 1. Make sure you are on the `develop` branch and all changes from `feature/xxx` branches have been merged into it.
 1. Update `changelog.md` with a list of changes since the last release, under a heading which is the new version number (e.g. `v1.2.0`).
 1. Commit the changes made above to the `develop` branch.
-1. Merge the `develop` branch into the `master` branch.
+1. Merge the `develop` branch into the `master` branch. **MAKE SURE** that you create a new commit while doing this, even if fast-forward is possible.
 1. Tag the commit on the master branch with the version number (e.g. `v1.2.0`).
 1. Push all branches to the remote GitHub repo. Heroku will automatically build and deploy the new version committed onto the `master` branch.
 

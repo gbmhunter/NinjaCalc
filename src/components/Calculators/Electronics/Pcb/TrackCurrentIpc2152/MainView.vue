@@ -5,7 +5,7 @@
     <!-- SPACER -->
     <div style="height: 50px;"></div>
 
-    <ui-collapsible title="Info" style="max-width: 800px;">
+    <ui-collapsible title="Info" class="calc-info" style="max-width: 800px;">
       <p>This calculator can find the minimum allowed PCB track width for a given continuous current. Takes into account
         the allowed temperature rise, copper track thickness, proximity to planes, total thickness of the PCB, and PCB
         material in accordance with IPC-2152.</p>
@@ -44,6 +44,8 @@
         hours.</p>
 
       <p>Remember this calculator does not take into account other nearby heat sources.</p>
+
+      <p>This stanard is designed to supersede the older IPC-2221A standard. It is designed to produce a more accurate track width calculation, but does require more variables. <a @click="openIpc2221ACalc">However, if you do want to use the older IPC-2221A standard, click here</a>.</p>
     </ui-collapsible>
 
     <!-- SPACER -->
@@ -179,11 +181,10 @@
 <script>
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
 
@@ -273,7 +274,7 @@
       // ============================================ //
       // ============ TRACK CURRENT (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'trackCurrent',
         typeEqn: () => {
           return 'input'
@@ -289,8 +290,8 @@
         defaultUnitName: 'A',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -318,7 +319,7 @@
       // ============================================ //
       // ============= TEMP. RISE (input) =========== //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'tempRise',
         typeEqn: () => {
           return 'input'
@@ -341,8 +342,8 @@
         defaultUnitName: '°C',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -370,7 +371,7 @@
       // ============================================================================================= //
       // ============================ UN-ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ================ //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'unadjustedTrackCrossSectionalArea',
         typeEqn: () => {
           return 'output'
@@ -401,8 +402,8 @@
         defaultUnitName: 'um²',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The unadjusted cross-sectional area. This gets multiplied by the many modifiers to give an adjusted cross-sectional area.'
       }))
@@ -410,7 +411,7 @@
       // ============================================ //
       // ========== TRACK THICKNESS (input) ========= //
       // ============================================ //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'trackThickness',
         typeEqn: () => {
           return 'input'
@@ -427,8 +428,8 @@
         defaultUnitName: 'um',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -456,7 +457,7 @@
       // ============================================================================================= //
       // =============================== TRACK THICKNESS MODIFIER (output) =========================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'trackThicknessModifier',
         typeEqn: () => {
           return 'output'
@@ -500,8 +501,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The modifier to adjust the cross-sectional area with based on the track thickness.'
       }))
@@ -509,7 +510,7 @@
       // ============================================================================================= //
       // ===================================== BOARD THICKNESS (input) =============================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'boardThickness',
         typeEqn: () => {
           return 'input'
@@ -525,8 +526,8 @@
         defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -554,7 +555,7 @@
       // ============================================================================================= //
       // =============================== BOARD THICKNESS MODIFIER (output) =========================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'boardThicknessModifier',
         typeEqn: () => {
           return 'output'
@@ -578,8 +579,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The modifier to adjust the cross-sectional area with based on the board thickness.'
       }))
@@ -601,7 +602,7 @@
       // ============================================================================================= //
       // ===================================== PLANE PROXIMITY (input) =============================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'planeProximity',
         typeEqn: () => {
           return 'input'
@@ -617,8 +618,8 @@
         defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -656,7 +657,7 @@
       // ============================================================================================= //
       // =============================== PLANE PROXIMITY MODIFIER (output) =========================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'planeProximityModifier',
         typeEqn: () => {
           return 'output'
@@ -690,8 +691,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The modifier to adjust the cross-sectional area with based on the board thickness.'
       }))
@@ -699,7 +700,7 @@
       // ============================================================================================= //
       // =================================== THERMAL CONDUCTIVITY (input) ============================ //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'thermalConductivity',
         typeEqn: () => {
           return 'input'
@@ -714,8 +715,8 @@
         defaultUnitName: 'W/(m*K)',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -743,7 +744,7 @@
       // ============================================================================================= //
       // ============================ THERMAL CONDUCTIVITY MODIFIER (output) ========================= //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'thermalConductivityModifier',
         typeEqn: () => {
           return 'output'
@@ -768,8 +769,8 @@
         defaultUnitName: 'no unit',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The modifier to adjust the cross-sectional area with based on the thermal conductivity of the PCB.'
       }))
@@ -777,7 +778,7 @@
       // ============================================================================================= //
       // ========================= ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ====================== //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'adjustedTrackCrossSectionalArea',
         typeEqn: () => {
           return 'output'
@@ -808,8 +809,8 @@
         defaultUnitName: 'um²',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers.'
       }))
@@ -817,7 +818,7 @@
       // ============================================================================================= //
       // ===================================== MIN. TRACK WIDTH (output) ============================= //
       // ============================================================================================= //
-      calc.addVar(new CalcVarNumeral({
+      calc.addVar(new CalcVarNumeric({
         name: 'minTrackWidth',
         typeEqn: () => {
           return 'output'
@@ -840,8 +841,8 @@
         defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -988,10 +989,12 @@
         context.moveTo(tox, toy)
         context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6))
         context.stroke()
+      },
+      openIpc2221ACalc: function () {
+        this.$store.dispatch('openCalc', { componentName: 'track-current-ipc-2221a-calculator' })
       }
     },
     mounted () {
-//      console.log('Ohm\'s Law calculator mounted.')
       this.drawCanvas({
         isPlanePresent: this.isPlanePresent
       })

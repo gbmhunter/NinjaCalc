@@ -66,9 +66,8 @@
   //  'use strict'
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeral} from 'src/misc/CalculatorEngineV2/CalcVarNumeral'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import PresetValidators from 'src/misc/CalculatorEngineV2/PresetValidators'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
 
   // ============================================ //
@@ -85,7 +84,7 @@
       // ============================================ //
       // ===================== vIn ================== //
       // ============================================ //
-      var vIn = new CalcVarNumeral({
+      var vIn = new CalcVarNumeric({
         name: 'vIn',
         typeEqn: () => {
           if (calc.outputVar === 'vIn') {
@@ -110,8 +109,8 @@
         defaultUnitName: 'V',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
@@ -130,7 +129,7 @@
       // ============================================ //
       // ===================== rTop ================= //
       // ============================================ //
-      var rTop = new CalcVarNumeral({
+      var rTop = new CalcVarNumeric({
         name: 'rTop',
         typeEqn: () => {
           if (calc.outputVar === 'rTop') {
@@ -158,8 +157,8 @@
         defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The resistance of the top resistor in the resistor divider.'
       })
@@ -168,7 +167,7 @@
       // ============================================ //
       // ===================== rBot ================= //
       // ============================================ //
-      var rBot = new CalcVarNumeral({
+      var rBot = new CalcVarNumeric({
         name: 'rBot',
         typeEqn: () => {
           if (calc.outputVar === 'rBot') {
@@ -196,8 +195,8 @@
         defaultUnitName: 'kΩ',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
         helpText: 'The resistance of the bottom resistor in the resistor divider.'
       })
@@ -206,7 +205,7 @@
       // ============================================ //
       // ===================== vOut ================= //
       // ============================================ //
-      var vOut = new CalcVarNumeral({
+      var vOut = new CalcVarNumeric({
         name: 'vOut',
         typeEqn: () => {
           if (calc.outputVar === 'vOut') {
@@ -231,8 +230,8 @@
         defaultUnitName: 'V',
         roundTo: 4,
         validators: [
-          PresetValidators.IS_NUMBER,
-          PresetValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
           new CustomValidator({
             func: () => {
               // Read dependency variables
