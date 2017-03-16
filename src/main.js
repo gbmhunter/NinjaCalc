@@ -5,6 +5,7 @@ import App from './components/App/App'
 
 /* eslint-disable no-unused-vars */
 
+// vue-router used to SEO
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
