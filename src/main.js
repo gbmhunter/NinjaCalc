@@ -5,10 +5,6 @@ import App from './components/App/App'
 
 /* eslint-disable no-unused-vars */
 
-// vue-router used to SEO
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
-
 // vue-material is used for md-tooltips, which display
 // calculator variable info
 import VueMaterial from 'vue-material'
