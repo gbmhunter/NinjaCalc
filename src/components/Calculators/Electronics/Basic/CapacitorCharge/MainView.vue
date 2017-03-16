@@ -3,54 +3,51 @@
   <div class="calculator-container">
 
     <ui-collapsible title="Info" class="calc-info" style="max-width: 600px;">
-      <p>The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:</p>
+      <p>The following calculator works out either charge, capacitance, or voltage given the other two parameters, using the equation:</p>
 
-      <p>$$ V = IR $$</p>
+      <p>$$ Q = CV $$</p>
 
       <p style="text-align: center;">
         where:<br>
-        \( V \) = voltage across the resistor<br>
-        \( I \) = current through the resistor<br>
-        \( R \) = resistance of the resistor<br>
+        \( Q \) = charge in the capacitor<br>
+        \( C \) = capacitance of the capacitor<br>
+        \( V \) = voltage across the capacitor<br>
       </p>
     </ui-collapsible>
 
     <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
       <!-- Background image is centered in diagram container -->
-      <img :src="require('./diagram.png')" style="left: 50px; top: 50px; width: 500px; height: 500px; z-index: 0;">
+      <img :src="require('./diagram.png')" style="left: 0px; top: 0px; width: 600px; z-index: 0">
 
       <!-- ========================================= -->
-      <!-- =============== VOLTAGE ================= -->
+      <!-- ================ CHARGE ================= -->
       <!-- ========================================= -->
-      <div class="variable-container" style="left: 0px; top: 240px;">
-
-        <calc-value-and-unit :calcVar="calc.getVar('voltage_V')" style="left: 0px; top: 70px;" :width=80></calc-value-and-unit>
-
-        <!-- INPUT/OUTPUT DECIDER -->
-        <input type="radio" value="voltage_V" v-model="calc.outputVar" style="left: 0px; top: 20px">
+      <div class="variable-container" style="left: 490px; top: 80px;">
+        <span style="left: 30px; top: 0px; font-size: 40px;">\(Q\)</span>
+        <input type="radio" value="charge_C" v-model="calc.outputVar" style="left: 90px; top: 10px">
+        <calc-value-and-unit :calcVar="calc.getVar('charge_C')" style="left: 0px; top: 60px;" :width=80></calc-value-and-unit>
       </div>
 
       <!-- ========================================= -->
-      <!-- =============== CURRENT ================= -->
+      <!-- ============= CAPACITANCE =============== -->
       <!-- ========================================= -->
-      <div class="variable-container" style="left: 440px; top: 360px;">
-
-        <calc-value-and-unit :calcVar="calc.getVar('current_A')" style="left: 0px; top: 50px;"></calc-value-and-unit>
-
+      <div class="variable-container" style="left: 590px; top: 220px;">
+        <span style="left: 30px; top: -10px; font-size: 40px;">\(C\)</span>
+        <calc-value-and-unit :calcVar="calc.getVar('capacitance_F')" :width=80 style="left: 0px; top: 50px;"></calc-value-and-unit>
         <!-- INPUT/OUTPUT DECIDER -->
-        <input type="radio" value="current_A" v-model="calc.outputVar" style="left: 100px; top: 0px">
+        <input type="radio" value="capacitance_F" v-model="calc.outputVar" style="left: 90px; top: 0px">
       </div>
 
       <!-- ========================================= -->
-      <!-- ============= RESISTANCE ================ -->
+      <!-- ================ VOLTAGE ================ -->
       <!-- ========================================= -->
-      <div class="variable-container" style="left: 450px; top: 160px;">
-
-        <calc-value-and-unit :calcVar="calc.getVar('resistance_Ohms')" style="left: 0px; top: 40px;"></calc-value-and-unit>
+      <div class="variable-container" style="left: 50px; top: 220px;">
+        <span style="left: 30px; top: -20px; font-size: 40px;">\(V\)</span>
+        <calc-value-and-unit :calcVar="calc.getVar('voltage_V')" :width=80 style="left: 0px; top: 40px;"></calc-value-and-unit>
 
         <!-- INPUT/OUTPUT DECIDER -->
-        <input type="radio" value="resistance_Ohms" v-model="calc.outputVar" style="left: 100px; top: 0px">
+        <input type="radio" value="voltage_V" v-model="calc.outputVar" style="left: 80px; top: 0px">
       </div>
     </div>
   </div>
@@ -69,18 +66,86 @@
   // =================== vue Object ============= //
   // ============================================ //
   export default {
-    name: 'ohms-law-calculator',
+    name: 'capacitor-charge-calculator',
     components: {},
     data: function () {
-      console.log('data() called')
-      console.log(NumericValidators.IS_NUMBER)
       var calc = new Calc()
 
       // Create new variable in class for determining what is input and output
-      calc.outputVar = 'resistance_Ohms'
+      calc.outputVar = 'charge_C'
 
       // ============================================ //
-      // =================== VOLTAGE ================ //
+      // =================== CHARGE ================= //
+      // ============================================ //
+      calc.addVar(new CalcVarNumeric({
+        name: 'charge_C',
+        typeEqn: () => {
+          if (calc.outputVar === 'charge_C') {
+            return 'output'
+          } else {
+            return 'input'
+          }
+        },
+        eqn: () => {
+          // Read dependency variables
+          const capacitance_F = calc.getVar('capacitance_F').getRawVal()
+          const voltage_V = calc.getVar('voltage_V').getRawVal()
+
+          return (capacitance_F * voltage_V)
+        },
+        rawVal: '',
+        units: [
+          new UnitMulti({name: 'pC', multi: 1e-12}),
+          new UnitMulti({name: 'nC', multi: 1e-9}),
+          new UnitMulti({name: 'uC', multi: 1e-6}),
+          new UnitMulti({name: 'mC', multi: 1e-3})
+        ],
+        defaultUnitName: 'nC',
+        roundTo: 4,
+        validators: [
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO
+        ],
+        helpText: 'The charge held by the capacitor.'
+      }))
+
+      // ============================================ //
+      // ================= CAPACITANCE ============== //
+      // ============================================ //
+      calc.addVar(new CalcVarNumeric({
+        name: 'capacitance_F',
+        typeEqn: () => {
+          if (calc.outputVar === 'capacitance_F') {
+            return 'output'
+          } else {
+            return 'input'
+          }
+        },
+        eqn: () => {
+          // Read dependency variables
+          const charge_C = calc.getVar('charge_C').getRawVal()
+          const voltage_V = calc.getVar('voltage_V').getRawVal()
+
+          return (charge_C / voltage_V)
+        },
+        rawVal: '',
+        units: [
+          new UnitMulti({name: 'pF', multi: 1e-12}),
+          new UnitMulti({name: 'nF', multi: 1e-9}),
+          new UnitMulti({name: 'uF', multi: 1e-6}),
+          new UnitMulti({name: 'mF', multi: 1e-3})
+        ],
+        defaultUnitName: 'nF',
+        roundTo: 4,
+        validators: [
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO
+        ],
+        helpText: 'The capacitance of the capacitor.'
+      }))
+
+      // ============================================ //
+      // ================ VOLTAGE (i/o) ============= //
       // ============================================ //
       calc.addVar(new CalcVarNumeric({
         name: 'voltage_V',
@@ -93,15 +158,16 @@
         },
         eqn: () => {
           // Read dependency variables
-          const current_A = calc.getVar('current_A').getRawVal()
-          const resistance_Ohms = calc.getVar('resistance_Ohms').getRawVal()
+          const charge_C = calc.getVar('charge_C').getRawVal()
+          const capacitance_F = calc.getVar('capacitance_F').getRawVal()
 
-          return (current_A * resistance_Ohms)
+          return (charge_C / capacitance_F)
         },
         rawVal: '',
         units: [
           new UnitMulti({name: 'mV', multi: 1e-3}),
-          new UnitMulti({name: 'V', multi: 1e0})
+          new UnitMulti({name: 'V', multi: 1e0}),
+          new UnitMulti({name: 'kV', multi: 1e3})
         ],
         defaultUnitName: 'V',
         roundTo: 4,
@@ -109,77 +175,7 @@
           NumericValidators.IS_NUMBER,
           NumericValidators.IS_GREATER_THAN_ZERO
         ],
-        helpText: 'The voltage across the resistor.'
-      }))
-
-      // ============================================ //
-      // =================== CURRENT ================ //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'current_A',
-        typeEqn: () => {
-          if (calc.outputVar === 'current_A') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const voltage_V = calc.getVar('voltage_V').getRawVal()
-          const resistance_Ohms = calc.getVar('resistance_Ohms').getRawVal()
-
-          return (voltage_V / resistance_Ohms)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'uA', multi: 1e-6}),
-          new UnitMulti({name: 'mA', multi: 1e-3}),
-          new UnitMulti({name: 'A', multi: 1e0})
-        ],
-        defaultUnitName: 'A',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
-        ],
-        helpText: 'The current going through the resistor.'
-      }))
-
-      // ============================================ //
-      // ================= RESISTANCE =============== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'resistance_Ohms',
-        typeEqn: () => {
-          if (calc.outputVar === 'resistance_Ohms') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const voltage_V = calc.getVar('voltage_V').getRawVal()
-          const current_A = calc.getVar('current_A').getRawVal()
-
-          return (voltage_V / current_A)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mΩ', multi: 1e-3}),
-          new UnitMulti({name: 'Ω', multi: 1e0}),
-          new UnitMulti({name: 'kΩ', multi: 1e3}),
-          new UnitMulti({name: 'MΩ', multi: 1e6}),
-          new UnitMulti({name: 'GΩ', multi: 1e9})
-        ],
-        defaultUnitName: 'Ω',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
-        ],
-        helpText: 'The resistance of the resistor (or other resistive circuit component).'
+        helpText: 'The voltage across the capacitor.'
       }))
 
       return {
