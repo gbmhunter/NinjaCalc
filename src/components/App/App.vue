@@ -134,7 +134,7 @@
     },
     mounted () {
 
-      console.log('App mounted.')
+      console.log('App mounted. TEST.')
 
       // ============================================ //
       // ========== ELECTRONICS -> BASIC ============ //
