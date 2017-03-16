@@ -71,6 +71,7 @@ const routes = [
 // You can pass in additional options here, but let's
 // keep it simple for now.
 const router = new VueRouter({
+  mode: 'history',  // Removes the "#" from the URL, making them look "normal".
   routes // short for routes: routes
 })
 
