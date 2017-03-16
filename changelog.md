@@ -7,6 +7,7 @@ vX.X.X
 - Added link on the IPC-2221A track current calculator to the better IPC-2152 calculator, closes #119.
 - Added a "Buck Converter (SMPS)" calculator to NinjaCalc, closes #146.
 - Added basic router so SEO can be improved, closes #147.
+- Enabled HTML5 history mode, closes #148.
 
 v2.1.0
 ------

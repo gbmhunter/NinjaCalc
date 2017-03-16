@@ -134,7 +134,7 @@
     },
     mounted () {
 
-      console.log('App mounted. TEST.')
+      console.log('NinjaCalc app mounted.')
 
       // ============================================ //
       // ========== ELECTRONICS -> BASIC ============ //

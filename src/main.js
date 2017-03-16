@@ -71,7 +71,9 @@ const routes = [
 // You can pass in additional options here, but let's
 // keep it simple for now.
 const router = new VueRouter({
-  mode: 'history',  // Removes the "#" from the URL, making them look "normal".
+  // Removes the "#" from the URL, making them look "normal". This also requires server configuration to
+  // work correctly (e.g. a .htaccess file for an Apache server). Server config is located in <repo dir>/server-config
+  mode: 'history',
   routes // short for routes: routes
 })
 
