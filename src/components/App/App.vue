@@ -46,6 +46,7 @@
   import LeftSideMenu from '../LeftSideMenu/LeftSideMenu'
   import CalculatorSelectionOverlay from '../CalculatorSelectionOverlay/CalculatorSelectionOverlay'
 
+  import { capacitorChargeCalculator } from '../Calculators/Electronics/Basic/CapacitorCharge/Calc'
   import OhmsLawCalculator from '../Calculators/Electronics/Basic/OhmsLaw/Calc'
   import ResistorDividerCalculator from '../Calculators/Electronics/Basic/ResistorDivider/Calc'
   import StandardResistanceCalculator from '../Calculators/Electronics/Basic/StandardResistance/Calc'
@@ -140,6 +141,7 @@
       // ========== ELECTRONICS -> BASIC ============ //
       // ============================================ //
 
+      this.$store.dispatch('registerCalc', capacitorChargeCalculator)
       this.$store.dispatch('registerCalc', OhmsLawCalculator)
       this.$store.dispatch('registerCalc', ResistorDividerCalculator)
       this.$store.dispatch('registerCalc', StandardResistanceCalculator)

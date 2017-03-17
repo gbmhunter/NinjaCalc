@@ -1,4 +1,4 @@
-vX.X.X
+v2.2.0
 ------
 
 - Renamed CalcVarNumeral to CalcVarNumeric, closes #143.
@@ -8,6 +8,8 @@ vX.X.X
 - Added a "Buck Converter (SMPS)" calculator to NinjaCalc, closes #146.
 - Added basic router so SEO can be improved, closes #147.
 - Enabled HTML5 history mode, closes #148.
+- Added a "Capacitor Charge" calculator, closes #149.
+- Fixed description of ninja-calc.mbedded.ninja as seen by Google, closes #151.
 
 v2.1.0
 ------

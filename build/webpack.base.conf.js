@@ -69,7 +69,10 @@ module.exports = {
         }
       },
       {
-        test: /\.(xcf|vsd|xml)(\?.*)?$/,
+        // Add all files you want webpack to ignore below!
+        // This is required if you add auxiliary files in the src/ directory
+        // (e.g. a .tex file that was used to generate an image for the calculator)
+        test: /\.(xcf|vsd|xml|tex)(\?.*)?$/,
         loader: 'ignore-loader'
       }
     ]
