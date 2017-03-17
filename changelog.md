@@ -9,6 +9,7 @@ vX.X.X
 - Added basic router so SEO can be improved, closes #147.
 - Enabled HTML5 history mode, closes #148.
 - Added a "Capacitor Charge" calculator, closes #149.
+- Fixed description of ninja-calc.mbedded.ninja as seen by Google, closes #151.
 
 v2.1.0
 ------
