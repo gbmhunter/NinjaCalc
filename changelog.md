@@ -3,6 +3,7 @@ vX.X.X
 
 - Moved calculator URL's to ninja-calc.mbedded.ninja/calc/<calculator-name>, closes #154.
 - Added details of new rsync-based release process to the README, closes #152.
+- Fixed "a embedded calculator" to "an embedded calculator" on README and website, closes #135.
 
 v2.2.0
 ------

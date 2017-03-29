@@ -1,6 +1,6 @@
 # NinjaCalc
 
-#### A embedded engineering calculator suite for doing calculations in a breeze.
+#### An embedded engineering calculator suite for doing calculations in a breeze.
 
 - Author: gbmhunter <gbmhunter@gmail.com> ([www.mbedded.ninja](http://www.mbedded.ninja))
 - Created: 2015-11-02
