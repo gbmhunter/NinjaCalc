@@ -103,6 +103,8 @@
             throw new Error('Provided action to handleTabsEdit() was not supported.')
         }
       },
+      // This should be called everytime the $store.state.route object changes
+      // (i.e. whenever the route path changes) 
       handleRouteChange () {
         // Make sure path is valid calculator
         const calcName = this.route.path.substring(1, this.route.path.length)
