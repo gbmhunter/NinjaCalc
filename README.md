@@ -39,7 +39,9 @@ See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a lis
 1. Commit the changes made above to the `develop` branch.
 1. Merge the `develop` branch into the `master` branch. **MAKE SURE** that you create a new commit while doing this, even if fast-forward is possible.
 1. Tag the commit on the master branch with the version number (e.g. `v1.2.0`).
-1. Push all branches to the remote GitHub repo. Heroku will automatically build and deploy the new version committed onto the `master` branch.
+1. Push all branches to the remote GitHub repo.
+1. To deploy the new files, firstly run `npm install`. This will create production files in the `dist/` directory.
+1. Run `./deploy.sh`. This will copy the production files from `dist/` to the remote server. Note: SSH authentication is required for this work (currently only gbmhunter@gmail.com can do this step).
 
 # Changelog
 
