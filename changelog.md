@@ -1,3 +1,8 @@
+vX.X.X
+------
+
+- Moved calculator URL's to ninja-calc.mbedded.ninja/calc/<calculator-name>, closes #154.
+
 v2.2.0
 ------
 
