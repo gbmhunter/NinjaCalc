@@ -104,15 +104,31 @@
         }
       },
       // This should be called everytime the $store.state.route object changes
-      // (i.e. whenever the route path changes) 
+      // (i.e. whenever the route path changes)
+      // This function performs the state change required due to the route object changing
       handleRouteChange () {
+        // Check to see if route is in the form "/calc/<calculator-name>"
+        var pattern = /^\/calc\//g
+        var regex = new RegExp(pattern)
+        var exec = regex.exec(this.route.path)
+        console.log('exec = ')
+        console.log(exec)
+        if(!exec) {
+          // "/calc/" at start of path was not found
+          console.error('"/calc/" was not found at start of route path.')
+          return
+        }
+        console.log('regex.lastIndex = ' + regex.lastIndex)
+        var calcName = this.route.path.substring(regex.lastIndex)
+        console.log('calcName = ' + calcName)
         // Make sure path is valid calculator
-        const calcName = this.route.path.substring(1, this.route.path.length)
+//        const calcName = this.route.path.substring(1, this.route.path.length)
         var foundCalc = this.$store.state.core.availableCalcs.find((element) => {
           return element.mainView.name === calcName
         })
         if (!foundCalc) {
           // If no calculator was found, fail silently
+          console.error('Calculator "' + calcName + '" was not found.')
           return
         }
 
