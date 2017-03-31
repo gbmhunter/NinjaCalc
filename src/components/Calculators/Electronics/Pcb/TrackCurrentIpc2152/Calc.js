@@ -1,6 +1,6 @@
 import MainView from './MainView'
 
-export default {
+export var trackCurrentIpc2152Calculator = {
   displayName: 'Track Current (IPC-2152)',
   description: 'PCB track current carrying capability calculator, using the IPC-2152 standard.',
   imagePath: require('./grid-icon.png'),

@@ -1,6 +1,6 @@
 import MainView from './MainView'
 
-export default {
+export var standardResistanceCalculator = {
   displayName: 'Standard Resistance Finder',
   description: 'Find the closest E-series (e.g. E12, E96) resistor (preferred value) to your desired resistance.',
   imagePath: require('./grid-icon.png'),

@@ -1,6 +1,6 @@
 import MainView from './MainView'
 
-export default {
+export var resistorDividerCalculator = {
   displayName: 'Resistor Divider',
   description: 'Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.',
   imagePath: require('./grid-icon.png'),

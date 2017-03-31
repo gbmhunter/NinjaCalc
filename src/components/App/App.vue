@@ -47,17 +47,17 @@
   import CalculatorSelectionOverlay from '../CalculatorSelectionOverlay/CalculatorSelectionOverlay'
 
   import { capacitorChargeCalculator } from '../Calculators/Electronics/Basic/CapacitorCharge/Calc'
-  import OhmsLawCalculator from '../Calculators/Electronics/Basic/OhmsLaw/Calc'
-  import ResistorDividerCalculator from '../Calculators/Electronics/Basic/ResistorDivider/Calc'
-  import StandardResistanceCalculator from '../Calculators/Electronics/Basic/StandardResistance/Calc'
-  import LowPassRCCalculator from '../Calculators/Electronics/Filters/LowPassRC/Calc'
+  import { ohmsLawCalculator } from '../Calculators/Electronics/Basic/OhmsLaw/Calc'
+  import { resistorDividerCalculator } from '../Calculators/Electronics/Basic/ResistorDivider/Calc'
+  import { standardResistanceCalculator } from '../Calculators/Electronics/Basic/StandardResistance/Calc'
+  import { lowPassRcCalculator } from '../Calculators/Electronics/Filters/LowPassRC/Calc'
   import { microstripImpedanceCalculator } from '../Calculators/Electronics/Pcb/TrackImpedance/MicrostripImpedance/Calc'
-  import TrackCurrentIpc2152Calculator from '../Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
+  import { trackCurrentIpc2152Calculator } from '../Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
   import { trackCurrentIpc2221ACalculator } from '../Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
   import { viaCurrentIpc2221ACalculator } from '../Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
   import { dewPointMagnusCalculator } from '../Calculators/Electronics/Sensors/DewPointMagnus/Calc'
   import { ntcThermistorTemperature } from '../Calculators/Electronics/Sensors/NtcThermistor/Calc'
-  import BuckConverter from '../Calculators/Electronics/Smps/BuckConverter/Calc'
+  import { buckConverterCalculator } from '../Calculators/Electronics/Smps/BuckConverter/Calc'
   import { crcCalculator } from '../Calculators/Software/Crc/Calc'
 
   export default {
@@ -161,21 +161,21 @@
       // ============================================ //
 
       this.$store.dispatch('registerCalc', capacitorChargeCalculator)
-      this.$store.dispatch('registerCalc', OhmsLawCalculator)
-      this.$store.dispatch('registerCalc', ResistorDividerCalculator)
-      this.$store.dispatch('registerCalc', StandardResistanceCalculator)
+      this.$store.dispatch('registerCalc', ohmsLawCalculator)
+      this.$store.dispatch('registerCalc', resistorDividerCalculator)
+      this.$store.dispatch('registerCalc', standardResistanceCalculator)
 
       // ============================================ //
       // ========= ELECTRONICS -> FILTERS =========== //
       // ============================================ //
 
-      this.$store.dispatch('registerCalc', LowPassRCCalculator)
+      this.$store.dispatch('registerCalc', lowPassRcCalculator)
 
       // ============================================ //
       // =========== ELECTRONICS -> SMPS ============ //
       // ============================================ //
 
-      this.$store.dispatch('registerCalc', BuckConverter)
+      this.$store.dispatch('registerCalc', buckConverterCalculator)
 
       // ============================================ //
       // ========= ELECTRONICS -> SENSORS =========== //
@@ -190,7 +190,7 @@
 
       this.$store.dispatch('registerCalc', microstripImpedanceCalculator)
       this.$store.dispatch('registerCalc', trackCurrentIpc2221ACalculator)
-      this.$store.dispatch('registerCalc', TrackCurrentIpc2152Calculator)
+      this.$store.dispatch('registerCalc', trackCurrentIpc2152Calculator)
       this.$store.dispatch('registerCalc', viaCurrentIpc2221ACalculator)
 
       // ============================================ //

@@ -1,6 +1,6 @@
 import MainView from './MainView'
 
-export default {
+export var ohmsLawCalculator = {
   displayName: 'Ohm\'s Law',
   description: 'The hammer in any electrical engineers toolbox. calculate voltage, resistance and current using Ohm\'s law.',
   imagePath: require('./grid-icon.png'),
