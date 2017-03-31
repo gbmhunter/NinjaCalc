@@ -7,6 +7,21 @@
 
     <ui-collapsible title="Info" class="calc-info" style="max-width: 800px;">
       <p>This calculator can find the impedance of various microstrip and stripline style PCB tracks.</p>
+
+      <p>The following equations are used to calculate the impedance of the microstrip.</p>
+
+      <p>$$ W = w + \frac{t}{\pi} \left[ ln\left(\frac{2h}{t}\right) = 1 \right] $$</p>
+      <p>$$ H = h - 2t $$</p>
+
+      <p>If \( \frac{W}{H} < 1 \)</p>
+      <p>$$ \epsilon_{eff} = \frac{\epsilon_r + 1}{2} + \frac{\epsilon_r - 1}{2}\left[\frac{1}{\sqrt{1 + 12\frac{H}{W}}} + 0.04\left(1 - \frac{W}{H}\right)^2\right] $$</p>
+      <p>$$ Z = \frac{60}{\sqrt{\epsilon_{eff}}} ln\left(\frac{8H}{W} + \frac{W}{4H}\right) $$</p>
+
+      <p>If \( \frac{W}{H} \geq 1 \)</p>
+      <p>$$ \epsilon_{eff} = \frac{\epsilon_r + 1}{2} + \frac{\epsilon_r - 1}{2\sqrt{1 + 12\frac{H}{W}}} $$</p>
+      <p>$$ Z = \frac{120\pi}{ \sqrt{\epsilon_{eff}} \left[ \frac{W}{H} + 1.393 + \frac{2}{3}ln(\frac{W}{H} + 1.444) \right] } $$</p>
+
+      <p>Equations are from <a href="http://www.rfcafe.com/references/electrical/microstrip-eq.htm">http://www.rfcafe.com/references/electrical/microstrip-eq.htm</a>.</p>
     </ui-collapsible>
 
     <!-- Background image is centered in diagram container -->
