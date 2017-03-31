@@ -90,7 +90,7 @@
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
 //  import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
 //  import {CustomValidator} from '../../../../../../misc/CalculatorEngineV2/CustomValidator'
-//  import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
+  import { unitConversionConstants } from 'src/misc/UnitConversionConstants/UnitConversionConstants'
   import { canvasShapes } from 'src/misc/CanvasShapes/CanvasShapes'
 
   // ============================================ //
@@ -115,7 +115,8 @@
         rawVal: '0.2e-3',
         units: [
           new UnitMulti({name: 'um', multi: 1e-6}),
-          new UnitMulti({name: 'mm', multi: 1e-3})
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
         defaultUnitName: 'mm',
         roundTo: 3,
@@ -139,7 +140,9 @@
         rawVal: '32e-6',
         units: [
           new UnitMulti({name: 'um', multi: 1e-6}),
-          new UnitMulti({name: 'mm', multi: 1e-3})
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS}),
+          new UnitMulti({name: 'oz', multi: unitConversionConstants.COPPER_THICKNESS_M_PER_OZ})
         ],
         defaultUnitName: 'um',
         roundTo: 3,
@@ -163,7 +166,8 @@
         rawVal: '1.6e-3',
         units: [
           new UnitMulti({name: 'um', multi: 1e-6}),
-          new UnitMulti({name: 'mm', multi: 1e-3})
+          new UnitMulti({name: 'mm', multi: 1e-3}),
+          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
         ],
         defaultUnitName: 'mm',
         roundTo: 3,
