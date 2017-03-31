@@ -299,14 +299,19 @@
         context.strokeStyle = 'black'
         context.stroke()
 
-        // ============================================ //
-        // =========== TRACK THICKNESS ARROW ========== //
-        // ============================================ //
+        // TRACK THICKNESS ARROW
         const trackThicknessAndPlaneProximityArrowX = topLeftX + pcbWidth + 20
         canvasShapes.drawArrow(context, trackThicknessAndPlaneProximityArrowX, trackStartY, trackThicknessAndPlaneProximityArrowX, trackStopY)
 
+        // SYMBOL
+        context.font = '20px Arial'
         context.fillStyle = 'black'
         context.fillText('t', trackThicknessAndPlaneProximityArrowX + 15, (trackStartY + trackStopY) / 2 + 5)
+
+        // LABEL
+        context.font = 'italic 15px Arial'
+        context.fillStyle = '#484848'
+        context.fillText('track', topLeftX + pcbWidth / 2 - 20, trackStartY + copperThickness / 2 + 5)
 
         // ============================================ //
         // ==================== FR4  ================== //
@@ -326,6 +331,7 @@
         // ============== DIELECTRIC TEXT ============= //
         // ============================================ //
 
+        context.font = '25px Arial'
         context.fillStyle = 'black'
         context.fillText('εᵣ', topLeftX + 50, (fr4StartY + fr4StopY) / 2 + 5)
 
@@ -335,8 +341,15 @@
         const fr4ThicknessArrowX = topLeftX + pcbWidth + 20
         canvasShapes.drawArrow(context, fr4ThicknessArrowX, fr4StartY, fr4ThicknessArrowX, fr4StopY)
 
+        // SYMBOL
+        context.font = '20px Arial'
         context.fillStyle = 'black'
         context.fillText('h', fr4ThicknessArrowX + 15, (fr4StartY + fr4StopY) / 2 + 5)
+
+        // LABEL
+        context.font = 'italic 15px Arial'
+        context.fillStyle = '#484848'
+        context.fillText('substrate', topLeftX + pcbWidth / 2 - 30, fr4StartY + pcbThickness / 2 + 5)
 
         // ============================================ //
         // ============ BOTTOM COPPER PLANE  ========== //
@@ -350,6 +363,11 @@
         context.lineWidth = 2
         context.strokeStyle = 'black'
         context.stroke()
+
+        // LABEL
+        context.font = 'italic 15px Arial'
+        context.fillStyle = '#484848'
+        context.fillText('copper plane', topLeftX + pcbWidth / 2 - 40, botCopperPlaneStartY + copperThickness / 2 + 5)
       }
     },
     mounted () {
