@@ -8,7 +8,15 @@
     <ui-collapsible title="Info" class="calc-info" style="max-width: 800px;">
       <p>This calculator can find the impedance of various microstrip and stripline style PCB tracks.</p>
 
-      <p>The following equations are used to calculate the impedance of the microstrip.</p>
+      <p>To calculate the impedance of a microstrip, we need to know the following parameters of the PCB:</p>
+      <p style="text-align: center;">
+        \( w \) = width of the track (in meters)<br>
+        \( t \) = thickness of the track (in meters)<br>
+        \( h \) = thickness (or height) of the substrate (in meters)<br>
+        \( \epsilon_r \) = the dielectric constant of the PCB substrate
+      </p>
+
+      <p>The following equations can then be used to calculate the impedance of the microstrip:</p>
 
       <p>$$ W = w + \frac{t}{\pi} \left[ ln\left(\frac{2h}{t}\right) = 1 \right] $$</p>
       <p>$$ H = h - 2t $$</p>
@@ -64,6 +72,9 @@
         notes="The impedance of the track."></variable-row-verbose>
     </table>
 
+    <!-- SPACER -->
+    <div style="height: 20px;"></div>
+
   </div>
 </template>
 
@@ -101,13 +112,13 @@
         },
         eqn: () => {
         },
-        rawVal: '',
+        rawVal: '0.2e-3',
         units: [
           new UnitMulti({name: 'um', multi: 1e-6}),
           new UnitMulti({name: 'mm', multi: 1e-3})
         ],
         defaultUnitName: 'mm',
-        roundTo: 4,
+        roundTo: 3,
         validators: [
           NumericValidators.IS_NUMBER,
           NumericValidators.IS_GREATER_THAN_ZERO
@@ -131,7 +142,7 @@
           new UnitMulti({name: 'mm', multi: 1e-3})
         ],
         defaultUnitName: 'um',
-        roundTo: 4,
+        roundTo: 3,
         validators: [
           NumericValidators.IS_NUMBER,
           NumericValidators.IS_GREATER_THAN_ZERO
@@ -155,7 +166,7 @@
           new UnitMulti({name: 'mm', multi: 1e-3})
         ],
         defaultUnitName: 'mm',
-        roundTo: 4,
+        roundTo: 3,
         validators: [
           NumericValidators.IS_NUMBER,
           NumericValidators.IS_GREATER_THAN_ZERO
@@ -178,7 +189,7 @@
           new UnitMulti({name: 'no unit', multi: 1e0})
         ],
         defaultUnitName: 'no unit',
-        roundTo: 4,
+        roundTo: 3,
         validators: [
           NumericValidators.IS_NUMBER,
           NumericValidators.IS_GREATER_THAN_ZERO
@@ -226,7 +237,7 @@
           new UnitMulti({name: 'MΩ', multi: 1e6})
         ],
         defaultUnitName: 'Ω',
-        roundTo: 4,
+        roundTo: 3,
         validators: [
           NumericValidators.IS_NUMBER,
           NumericValidators.IS_GREATER_THAN_ZERO
