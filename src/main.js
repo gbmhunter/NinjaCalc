@@ -45,6 +45,8 @@ import CalcVarString from 'src/misc/CalculatorEngineV2/view/CalcVarString.vue'
 Vue.component('calc-var-string', CalcVarString)
 import CalcVarCheckbox from 'src/misc/CalculatorEngineV2/view/CalcVarCheckbox.vue'
 Vue.component('calc-var-checkbox', CalcVarCheckbox)
+import VariableRowVerbose from 'src/misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
+Vue.component('variable-row-verbose', VariableRowVerbose)
 
 // =========================================== //
 // ============= IMPORT VUEX STORE =========== //

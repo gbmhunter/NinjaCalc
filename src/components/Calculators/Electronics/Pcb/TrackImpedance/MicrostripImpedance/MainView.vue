@@ -19,19 +19,36 @@
 
     </div>
 
+    <table class="calc-table" style="max-width: 900px; margin: auto;">
+      <thead>
+      <tr>
+        <th>Variable Name</th>
+        <th>Symbol</th>
+        <th>Value</th>
+        <th>Units</th>
+        <th>Notes</th>
+      </tr>
+      </thead>
+      <variable-row-verbose
+        variableName="Track width"
+        symbol="w"
+        :calcVar="calc.getVar('trackWidth_M')"
+        notes="The width of the track."></variable-row-verbose>
+    </table>
+
   </div>
 </template>
 
 <script>
 
-  import Calc from '../../../../../../misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from '../../../../../../misc/CalculatorEngineV2/CalcVarNumeric'
+  import Calc from 'src/misc/CalculatorEngineV2/Calc'
+  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
 //  import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
-  import {UnitMulti} from '../../../../../../misc/CalculatorEngineV2/UnitMulti'
+  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
 //  import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
-  import {CustomValidator} from '../../../../../../misc/CalculatorEngineV2/CustomValidator'
+//  import {CustomValidator} from '../../../../../../misc/CalculatorEngineV2/CustomValidator'
 //  import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
-  import { canvasShapes } from '../../../../../../misc/CanvasShapes/CanvasShapes'
+  import { canvasShapes } from 'src/misc/CanvasShapes/CanvasShapes'
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -46,7 +63,7 @@
       // ============ TRACK CURRENT (input) ========= //
       // ============================================ //
       calc.addVar(new CalcVarNumeric({
-        name: 'trackCurrent',
+        name: 'trackWidth_M',
         typeEqn: () => {
           return 'input'
         },
@@ -54,26 +71,16 @@
         },
         rawVal: '',
         units: [
-          new UnitMulti({name: 'uA', multi: 1e-6}),
-          new UnitMulti({name: 'mA', multi: 1e-3}),
-          new UnitMulti({name: 'A', multi: 1e0})
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3})
         ],
-        defaultUnitName: 'A',
+        defaultUnitName: 'mm',
         roundTo: 4,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO,
-          new CustomValidator({
-            func: () => {
-              // Read dependency variables
-              var trackCurrent = calc.getVar('trackCurrent').getRawVal()
-              return (trackCurrent <= 35.0)
-            },
-            text: 'Current is above recommended maximum (35A). Equation will not be as accurate (extrapolation will occur).',
-            level: 'warning'
-          })
+          NumericValidators.IS_GREATER_THAN_ZERO
         ],
-        helpText: 'The current you want the PCB track to be able to handle.'
+        helpText: 'The width of the track.'
       }))
 
       // Configure calculator to default state now that all

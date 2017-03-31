@@ -77,7 +77,6 @@
   /* eslint-disable camelcase */
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import VariableRowVerbose from 'src/misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
   import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
@@ -87,9 +86,7 @@
   // ============================================ //
   export default {
     name: 'buck-converter-calculator',
-    components: {
-      VariableRowVerbose
-    },
+    components: {},
     data: function () {
       var calc = new Calc()
 
