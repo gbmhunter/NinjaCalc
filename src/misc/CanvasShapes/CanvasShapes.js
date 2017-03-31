@@ -1,4 +1,10 @@
 class CanvasShapes {
+
+  constructor () {
+    this.trackColor = '#d9a654'
+    this.fr4Color = '#3d8f00'
+  }
+
   /**
    * Draws an double-ended arrow on the provided canvas context.
    * @param context   The canvas context to draw on.

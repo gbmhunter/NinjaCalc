@@ -5,6 +5,7 @@ vX.X.X
 - Added details of new rsync-based release process to the README, closes #152.
 - Fixed "a embedded calculator" to "an embedded calculator" on README and website, closes #135.
 - Moved drawArrow() function into shared javascript file, closes #155.
+- Moved the copper and FR4 colours into shared javascript file, closes #156.
 
 v2.2.0
 ------

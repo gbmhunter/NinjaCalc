@@ -15,7 +15,7 @@
     <div class="diagram-container" style="position: relative; width: 600px; height: 450px;">
 
       <!-- Background image is centered in diagram container -->
-      <canvas ref="canvas" style="width: 600px; height: 450px; left: 0px; top: 0px;"></canvas>
+      <canvas ref="canvas" style="left: 0px; top: 0px; background-color: #5e7382;"></canvas>
 
     </div>
 
@@ -37,7 +37,7 @@
   // =================== vue Object ============= //
   // ============================================ //
   export default {
-    name: 'microstrip-and-stripline-impedance-calculator',
+    name: 'microstrip-impedance-calculator',
     components: {},
     data: function () {
       var calc = new Calc()
@@ -94,29 +94,50 @@
         var canvas = this.$refs.canvas
         var context = canvas.getContext('2d')
         canvas.width = 600
-        canvas.height = 450
+        canvas.height = 300
 
         const copperThickness = 40
         const pcbThickness = 80
         const pcbWidth = 400
+        const trackWidth = 80
 
         const topLeftX = 100
-        const topLeftY = 100
+        const topLeftY = 0
+
+        // ============================================ //
+        // ============= TRACK WIDTH ARROW ============ //
+        // ============================================ //
+        const trackWidthArrowStartX = topLeftX + pcbWidth / 2 - (trackWidth / 2)
+        const trackWidthArrowStopX = topLeftX + pcbWidth / 2 + (trackWidth / 2)
+        const trackWidthArrowY = topLeftY + 50
+        canvasShapes.drawArrow(context, trackWidthArrowStartX, trackWidthArrowY, trackWidthArrowStopX, trackWidthArrowY)
+
+        context.font = '20px Arial'
+        context.fillStyle = 'black'
+        context.fillText('w', (trackWidthArrowStartX + trackWidthArrowStopX) / 2 - 5, trackWidthArrowY - 10)
 
         // ============================================ //
         // ================ COPPER TRACK ============== //
         // ============================================ //
-        const trackWidth = 80
-        const trackStartY = topLeftY + pcbThickness
+        const trackStartY = trackWidthArrowY + 20
         const trackStopY = trackStartY + copperThickness
 
         context.beginPath()
         context.rect(topLeftX + pcbWidth / 2 - trackWidth / 2, trackStartY, trackWidth, copperThickness)
-        context.fillStyle = '#d9a654'
+        context.fillStyle = canvasShapes.trackColor
         context.fill()
         context.lineWidth = 2
         context.strokeStyle = 'black'
         context.stroke()
+
+        // ============================================ //
+        // =========== TRACK THICKNESS ARROW ========== //
+        // ============================================ //
+        const trackThicknessAndPlaneProximityArrowX = topLeftX + pcbWidth + 20
+        canvasShapes.drawArrow(context, trackThicknessAndPlaneProximityArrowX, trackStartY, trackThicknessAndPlaneProximityArrowX, trackStopY)
+
+        context.fillStyle = 'black'
+        context.fillText('t', trackThicknessAndPlaneProximityArrowX + 15, (trackStartY + trackStopY) / 2 + 5)
 
         // ============================================ //
         // ==================== FR4  ================== //
@@ -126,11 +147,27 @@
 
         context.beginPath()
         context.rect(topLeftX, fr4StartY, pcbWidth, pcbThickness)
-        context.fillStyle = '#3d8f00'
+        context.fillStyle = canvasShapes.fr4Color
         context.fill()
         context.lineWidth = 2
         context.strokeStyle = 'black'
         context.stroke()
+
+        // ============================================ //
+        // ============== DIELECTRIC TEXT ============= //
+        // ============================================ //
+
+        context.fillStyle = 'black'
+        context.fillText('εᵣ', topLeftX + 50, (fr4StartY + fr4StopY) / 2 + 5)
+
+        // ============================================ //
+        // ============ FR4 THICKNESS ARROW =========== //
+        // ============================================ //
+        const fr4ThicknessArrowX = topLeftX + pcbWidth + 20
+        canvasShapes.drawArrow(context, fr4ThicknessArrowX, fr4StartY, fr4ThicknessArrowX, fr4StopY)
+
+        context.fillStyle = 'black'
+        context.fillText('h', fr4ThicknessArrowX + 15, (fr4StartY + fr4StopY) / 2 + 5)
 
         // ============================================ //
         // ============ BOTTOM COPPER PLANE  ========== //
@@ -139,24 +176,11 @@
 
         context.beginPath()
         context.rect(topLeftX, botCopperPlaneStartY, pcbWidth, copperThickness)
-        context.fillStyle = '#d9a654'
+        context.fillStyle = canvasShapes.trackColor
         context.fill()
         context.lineWidth = 2
         context.strokeStyle = 'black'
         context.stroke()
-
-        // ============================================ //
-        // ============= TRACK WIDTH ARROW ============ //
-        // ============================================ //
-        const trackWidthArrowStartX = topLeftX + pcbWidth / 2 - (trackWidth / 2)
-        const trackWidthArrowStopX = topLeftX + pcbWidth / 2 + (trackWidth / 2)
-        canvasShapes.drawArrow(context, trackWidthArrowStartX, fr4StopY + 20, trackWidthArrowStopX, fr4StopY + 20)
-
-        // ============================================ //
-        // =========== TRACK THICKNESS ARROW ========== //
-        // ============================================ //
-        const trackThicknessAndPlaneProximityArrowX = topLeftX + pcbWidth + 20
-        canvasShapes.drawArrow(context, trackThicknessAndPlaneProximityArrowX, trackStartY, trackThicknessAndPlaneProximityArrowX, trackStopY)
       }
     },
     mounted () {
