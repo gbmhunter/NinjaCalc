@@ -51,7 +51,7 @@
   import ResistorDividerCalculator from '../Calculators/Electronics/Basic/ResistorDivider/Calc'
   import StandardResistanceCalculator from '../Calculators/Electronics/Basic/StandardResistance/Calc'
   import LowPassRCCalculator from '../Calculators/Electronics/Filters/LowPassRC/Calc'
-  import { microstripImpedanceCalculator } from '../Calculators/Electronics/Pcb/MicrostripImpedance/Calc'
+  import { microstripImpedanceCalculator } from '../Calculators/Electronics/Pcb/TrackImpedance/MicrostripImpedance/Calc'
   import TrackCurrentIpc2152Calculator from '../Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
   import { trackCurrentIpc2221ACalculator } from '../Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
   import { viaCurrentIpc2221ACalculator } from '../Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
