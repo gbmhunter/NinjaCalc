@@ -54,6 +54,8 @@
 
 <script>
 
+  /* eslint-disable camelcase */
+
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
 //  import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
@@ -176,6 +178,24 @@
           return 'output'
         },
         eqn: () => {
+          // Read dependencies
+          const trackWidth_M = calc.getVar('trackWidth_M').getRawVal()
+          const trackThickness_M = calc.getVar('trackThickness_M').getRawVal()
+          const substrateThickness_M = calc.getVar('substrateThickness_M').getRawVal()
+          const substrateDielectric_NoUnit = calc.getVar('substrateDielectric_NoUnit').getRawVal()
+
+          const W = trackWidth_M + (trackThickness_M / Math.PI) * (Math.log(2 * substrateThickness_M / trackThickness_M) + 1)
+          console.log('W = ' + W)
+          const H = substrateThickness_M - 2 * trackThickness_M
+          console.log('H = ' + H)
+
+          var eEff    // Effective substrate impedance
+          var Z       // Track impedance
+          if (W/H < 1) {
+            eEff = 2
+            Z = 2
+          }
+
           return 99
         },
         rawVal: '',
