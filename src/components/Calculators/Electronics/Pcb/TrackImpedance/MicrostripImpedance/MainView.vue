@@ -3,21 +3,14 @@
   <div class="calculator-container" style="margin: auto;">
 
     <!-- SPACER -->
-    <div style="height: 50px;"></div>
+    <div style="height: 20px;"></div>
 
     <ui-collapsible title="Info" class="calc-info" style="max-width: 800px;">
       <p>This calculator can find the impedance of various microstrip and stripline style PCB tracks.</p>
     </ui-collapsible>
 
-    <!-- SPACER -->
-    <div style="height: 50px;"></div>
-
-    <div class="diagram-container" style="position: relative; width: 600px; height: 450px;">
-
-      <!-- Background image is centered in diagram container -->
-      <canvas ref="canvas" style="left: 0px; top: 0px; background-color: #5e7382;"></canvas>
-
-    </div>
+    <!-- Background image is centered in diagram container -->
+    <canvas ref="canvas" style="width: 600px; height: 300px;"></canvas>
 
     <table class="calc-table" style="max-width: 900px; margin: auto;">
       <thead>
@@ -30,10 +23,30 @@
       </tr>
       </thead>
       <variable-row-verbose
-        variableName="Track width"
+        variableName="Track Width"
         symbol="w"
         :calcVar="calc.getVar('trackWidth_M')"
         notes="The width of the track."></variable-row-verbose>
+      <variable-row-verbose
+        variableName="Track Thickness"
+        symbol="t"
+        :calcVar="calc.getVar('trackThickness_M')"
+        notes="The thickness of the track."></variable-row-verbose>
+      <variable-row-verbose
+        variableName="Substrate Height"
+        symbol="t"
+        :calcVar="calc.getVar('substrateHeight_M')"
+        notes="The height of the substrate."></variable-row-verbose>
+      <variable-row-verbose
+        variableName="Substrate Dielectric"
+        symbol="\epsilon_r"
+        :calcVar="calc.getVar('substrateDielectric_NoUnit')"
+        notes="The dielectric of the substrate."></variable-row-verbose>
+      <variable-row-verbose
+        variableName="Track Impedance"
+        symbol="Z"
+        :calcVar="calc.getVar('trackImpedance_Ohms')"
+        notes="The impedance of the track."></variable-row-verbose>
     </table>
 
   </div>
@@ -60,7 +73,7 @@
       var calc = new Calc()
 
       // ============================================ //
-      // ============ TRACK CURRENT (input) ========= //
+      // ============= TRACK WIDTH (input) ========== //
       // ============================================ //
       calc.addVar(new CalcVarNumeric({
         name: 'trackWidth_M',
@@ -81,6 +94,104 @@
           NumericValidators.IS_GREATER_THAN_ZERO
         ],
         helpText: 'The width of the track.'
+      }))
+
+      // ============================================ //
+      // =========== TRACK THICKNESS (input) ======== //
+      // ============================================ //
+      calc.addVar(new CalcVarNumeric({
+        name: 'trackThickness_M',
+        typeEqn: () => {
+          return 'input'
+        },
+        eqn: () => {
+        },
+        rawVal: '32e-6',
+        units: [
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3})
+        ],
+        defaultUnitName: 'um',
+        roundTo: 4,
+        validators: [
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO
+        ],
+        helpText: 'The thickness of the track.'
+      }))
+
+      // ============================================ //
+      // ========== SUBSTRATE HEIGHT (input) ======== //
+      // ============================================ //
+      calc.addVar(new CalcVarNumeric({
+        name: 'substrateHeight_M',
+        typeEqn: () => {
+          return 'input'
+        },
+        eqn: () => {
+        },
+        rawVal: '1.6e-3',
+        units: [
+          new UnitMulti({name: 'um', multi: 1e-6}),
+          new UnitMulti({name: 'mm', multi: 1e-3})
+        ],
+        defaultUnitName: 'mm',
+        roundTo: 4,
+        validators: [
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO
+        ],
+        helpText: 'The height of the substrate.'
+      }))
+
+      // ============================================ //
+      // ======== SUBSTRATE DIELECTRIC (input) ====== //
+      // ============================================ //
+      calc.addVar(new CalcVarNumeric({
+        name: 'substrateDielectric_NoUnit',
+        typeEqn: () => {
+          return 'input'
+        },
+        eqn: () => {
+        },
+        rawVal: '4e0',
+        units: [
+          new UnitMulti({name: 'no unit', multi: 1e0})
+        ],
+        defaultUnitName: 'no unit',
+        roundTo: 4,
+        validators: [
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO
+        ],
+        helpText: 'The dielectric of the substrate.'
+      }))
+
+      // ============================================ //
+      // =========== TRACK IMPEDANCE (input) ======== //
+      // ============================================ //
+      calc.addVar(new CalcVarNumeric({
+        name: 'trackImpedance_Ohms',
+        typeEqn: () => {
+          return 'output'
+        },
+        eqn: () => {
+          return 99
+        },
+        rawVal: '',
+        units: [
+          new UnitMulti({name: 'mΩ', multi: 1e-3}),
+          new UnitMulti({name: 'Ω', multi: 1e0}),
+          new UnitMulti({name: 'kΩ', multi: 1e3}),
+          new UnitMulti({name: 'MΩ', multi: 1e6})
+        ],
+        defaultUnitName: 'Ω',
+        roundTo: 4,
+        validators: [
+          NumericValidators.IS_NUMBER,
+          NumericValidators.IS_GREATER_THAN_ZERO
+        ],
+        helpText: 'The impedance of the track.'
       }))
 
       // Configure calculator to default state now that all
