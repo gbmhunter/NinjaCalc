@@ -33,10 +33,10 @@
         :calcVar="calc.getVar('trackThickness_M')"
         notes="The thickness of the track."></variable-row-verbose>
       <variable-row-verbose
-        variableName="Substrate Height"
+        variableName="Substrate Thickness"
         symbol="t"
-        :calcVar="calc.getVar('substrateHeight_M')"
-        notes="The height of the substrate."></variable-row-verbose>
+        :calcVar="calc.getVar('substrateThickness_M')"
+        notes="The thickness (height) of the substrate."></variable-row-verbose>
       <variable-row-verbose
         variableName="Substrate Dielectric"
         symbol="\epsilon_r"
@@ -55,6 +55,8 @@
 <script>
 
   /* eslint-disable camelcase */
+  /* eslint-disable space-infix-ops */
+  /* eslint-disable space-in-parens */
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
   import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
@@ -123,10 +125,10 @@
       }))
 
       // ============================================ //
-      // ========== SUBSTRATE HEIGHT (input) ======== //
+      // ======== SUBSTRATE THICKNESS (input) ======= //
       // ============================================ //
       calc.addVar(new CalcVarNumeric({
-        name: 'substrateHeight_M',
+        name: 'substrateThickness_M',
         typeEqn: () => {
           return 'input'
         },
@@ -143,7 +145,7 @@
           NumericValidators.IS_NUMBER,
           NumericValidators.IS_GREATER_THAN_ZERO
         ],
-        helpText: 'The height of the substrate.'
+        helpText: 'The thickness (height) of the substrate.'
       }))
 
       // ============================================ //
@@ -179,24 +181,27 @@
         },
         eqn: () => {
           // Read dependencies
-          const trackWidth_M = calc.getVar('trackWidth_M').getRawVal()
-          const trackThickness_M = calc.getVar('trackThickness_M').getRawVal()
-          const substrateThickness_M = calc.getVar('substrateThickness_M').getRawVal()
-          const substrateDielectric_NoUnit = calc.getVar('substrateDielectric_NoUnit').getRawVal()
+          const w = calc.getVar('trackWidth_M').getRawVal()
+          const t = calc.getVar('trackThickness_M').getRawVal()
+          const h = calc.getVar('substrateThickness_M').getRawVal()
+          const eR = calc.getVar('substrateDielectric_NoUnit').getRawVal()
 
-          const W = trackWidth_M + (trackThickness_M / Math.PI) * (Math.log(2 * substrateThickness_M / trackThickness_M) + 1)
+          const W = w + (t / Math.PI) * (Math.log(2 * h / t) + 1)
           console.log('W = ' + W)
-          const H = substrateThickness_M - 2 * trackThickness_M
+          const H = h - 2 * t
           console.log('H = ' + H)
 
           var eEff    // Effective substrate impedance
           var Z       // Track impedance
           if (W/H < 1) {
-            eEff = 2
-            Z = 2
+            eEff = (eR + 1)/2 + ((eR - 1)/2)*((1 / Math.sqrt(1 + 12*H/W)) + 0.04*Math.pow(1 - W/H, 2))
+            Z = (60 / Math.sqrt(eEff)) * Math.log(8*H/W + W/4*H)
+          } else {
+            eEff = (eR + 1)/2 + (eR - 1)/(2*Math.sqrt(1 + 12*H/W))
+            Z = (120*Math.PI) / (Math.sqrt(eEff)*(W/H + 1.393 + (2/3)*Math.log(W/H + 1.444)))
           }
 
-          return 99
+          return Z
         },
         rawVal: '',
         units: [
