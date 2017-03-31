@@ -31,6 +31,7 @@
 //  import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
 //  import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
+  import { canvasShapes } from 'src/misc/CanvasShapes/CanvasShapes'
 
   // ============================================ //
   // =================== vue Object ============= //
@@ -105,18 +106,12 @@
         // ============================================ //
         // ================ COPPER TRACK ============== //
         // ============================================ //
-        const trackWidthBot = 120
-        const trackWidthTop = 80
-
+        const trackWidth = 80
         const trackStartY = topLeftY + pcbThickness
         const trackStopY = trackStartY + copperThickness
 
         context.beginPath()
-        context.moveTo(topLeftX + pcbWidth / 2 - trackWidthTop / 2, trackStartY)
-        context.lineTo(topLeftX + pcbWidth / 2 + trackWidthTop / 2, trackStartY)
-        context.lineTo(topLeftX + pcbWidth / 2 + trackWidthBot / 2, trackStopY)
-        context.lineTo(topLeftX + pcbWidth / 2 - trackWidthBot / 2, trackStopY)
-        context.closePath()
+        context.rect(topLeftX + pcbWidth / 2 - trackWidth / 2, trackStartY, trackWidth, copperThickness)
         context.fillStyle = '#d9a654'
         context.fill()
         context.lineWidth = 2
@@ -124,14 +119,27 @@
         context.stroke()
 
         // ============================================ //
-        // ================= BOTTOM FR4  ============== //
+        // ==================== FR4  ================== //
         // ============================================ //
-        const bottomFr4StartY = trackStopY
-        const bottomFr4StopY = bottomFr4StartY + pcbThickness
+        const fr4StartY = trackStopY
+        const fr4StopY = fr4StartY + pcbThickness
 
         context.beginPath()
-        context.rect(topLeftX, bottomFr4StartY, pcbWidth, pcbThickness)
+        context.rect(topLeftX, fr4StartY, pcbWidth, pcbThickness)
         context.fillStyle = '#3d8f00'
+        context.fill()
+        context.lineWidth = 2
+        context.strokeStyle = 'black'
+        context.stroke()
+
+        // ============================================ //
+        // ============ BOTTOM COPPER PLANE  ========== //
+        // ============================================ //
+        const botCopperPlaneStartY = fr4StopY
+
+        context.beginPath()
+        context.rect(topLeftX, botCopperPlaneStartY, pcbWidth, copperThickness)
+        context.fillStyle = '#d9a654'
         context.fill()
         context.lineWidth = 2
         context.strokeStyle = 'black'
@@ -140,34 +148,15 @@
         // ============================================ //
         // ============= TRACK WIDTH ARROW ============ //
         // ============================================ //
-        const trackWidthArrowStartX = topLeftX + pcbWidth / 2 - (trackWidthTop / 2)
-        const trackWidthArrowStopX = topLeftX + pcbWidth / 2 + (trackWidthTop / 2)
-        this.canvasArrow(context, trackWidthArrowStartX, bottomFr4StopY + 20, trackWidthArrowStopX, bottomFr4StopY + 20)
+        const trackWidthArrowStartX = topLeftX + pcbWidth / 2 - (trackWidth / 2)
+        const trackWidthArrowStopX = topLeftX + pcbWidth / 2 + (trackWidth / 2)
+        canvasShapes.drawArrow(context, trackWidthArrowStartX, fr4StopY + 20, trackWidthArrowStopX, fr4StopY + 20)
 
         // ============================================ //
         // =========== TRACK THICKNESS ARROW ========== //
         // ============================================ //
         const trackThicknessAndPlaneProximityArrowX = topLeftX + pcbWidth + 20
-        this.canvasArrow(context, trackThicknessAndPlaneProximityArrowX, trackStartY, trackThicknessAndPlaneProximityArrowX, trackStopY)
-      },
-      canvasArrow: function (context, fromx, fromy, tox, toy) {
-        var headlen = 10   // length of head in pixels
-        var angle = Math.atan2(toy - fromy, tox - fromx)
-        context.beginPath()
-        context.moveTo(fromx, fromy)
-        // Start arrow head
-        context.lineTo(fromx + headlen * Math.cos(angle + Math.PI / 6), fromy + headlen * Math.sin(angle + Math.PI / 6))
-        context.moveTo(fromx, fromy)
-        context.lineTo(fromx + headlen * Math.cos(angle - Math.PI / 6), fromy + headlen * Math.sin(angle - Math.PI / 6))
-
-        context.moveTo(fromx, fromy)
-
-        // End arrow head
-        context.lineTo(tox, toy)
-        context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6))
-        context.moveTo(tox, toy)
-        context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6))
-        context.stroke()
+        canvasShapes.drawArrow(context, trackThicknessAndPlaneProximityArrowX, trackStartY, trackThicknessAndPlaneProximityArrowX, trackStopY)
       }
     },
     mounted () {
