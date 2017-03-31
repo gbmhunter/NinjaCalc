@@ -6,6 +6,7 @@ vX.X.X
 - Fixed "a embedded calculator" to "an embedded calculator" on README and website, closes #135.
 - Moved drawArrow() function into shared javascript file, closes #155.
 - Moved the copper and FR4 colours into shared javascript file, closes #156.
+- Moved the calculator table rows used in the "Buck Converter" calculator into a shared file, closes #157.
 
 v2.2.0
 ------

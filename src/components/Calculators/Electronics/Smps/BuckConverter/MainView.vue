@@ -18,51 +18,51 @@
         <th>Notes</th>
       </tr>
       </thead>
-      <table-row
+      <variable-row-verbose
         variableName="Input Voltage"
         symbol="V_{in}"
         :calcVar="calc.getVar('vIn_V')"
-        notes="The voltage provided to the input of the buck converter. Usually this is from a DC power supply or battery."></table-row>
-      <table-row
+        notes="The voltage provided to the input of the buck converter. Usually this is from a DC power supply or battery."></variable-row-verbose>
+      <variable-row-verbose
         variableName="Output Voltage"
         symbol="V_{out}"
         :calcVar="calc.getVar('vOut_V')"
-        notes="The output voltage of a buck converter must be equal to or lower than the input voltage."></table-row>
-      <table-row
+        notes="The output voltage of a buck converter must be equal to or lower than the input voltage."></variable-row-verbose>
+      <variable-row-verbose
         variableName="Diode Voltage Drop"
         symbol="V_{D}"
         :calcVar="calc.getVar('vD_V')"
-        notes="The forward voltage drop across the diode when the diode is fully conducting. The diode may be replaced with an active switching element (such as a MOSFET), to reduce power losses. A MOSFET will have a much lower voltage drop than a diode. This is sometimes called the free-wheeling diode."></table-row>
-      <table-row
+        notes="The forward voltage drop across the diode when the diode is fully conducting. The diode may be replaced with an active switching element (such as a MOSFET), to reduce power losses. A MOSFET will have a much lower voltage drop than a diode. This is sometimes called the free-wheeling diode."></variable-row-verbose>
+      <variable-row-verbose
         variableName="Switching Element Voltage Drop"
         symbol="V_{SW}"
         :calcVar="calc.getVar('vSw_V')"
-        notes="The voltage drop across the switching element when the switch is fully ON. The switching element is typically a MOSFET."></table-row>
-      <table-row
+        notes="The voltage drop across the switching element when the switch is fully ON. The switching element is typically a MOSFET."></variable-row-verbose>
+      <variable-row-verbose
         variableName="Duty Cycle"
         symbol="D"
         :calcVar="calc.getVar('dutyCycle_Ratio')"
-        notes="The on/off duty cycle. It is given by the equation $$D = \frac{V_{out} - V_{D}}{V_{in} - V_{SW} - V_{D}} $$ It is typically expressed as a percentage."></table-row>
-      <table-row
+        notes="The on/off duty cycle. It is given by the equation $$D = \frac{V_{out} - V_{D}}{V_{in} - V_{SW} - V_{D}} $$ It is typically expressed as a percentage."></variable-row-verbose>
+      <variable-row-verbose
         variableName="Switching Frequency"
         symbol="f_{SW}"
         :calcVar="calc.getVar('fSw_Hz')"
-        notes="The switching frequency of the transistor (or other switching element)."></table-row>
-      <table-row
+        notes="The switching frequency of the transistor (or other switching element)."></variable-row-verbose>
+      <variable-row-verbose
         variableName="Average Output Current"
         symbol="I_{out}"
         :calcVar="calc.getVar('iOutAvg_A')"
-        notes="The average (DC) output current of the buck converter. Note that this is usually higher than the input current!"></table-row>
-      <table-row
+        notes="The average (DC) output current of the buck converter. Note that this is usually higher than the input current!"></variable-row-verbose>
+      <variable-row-verbose
         variableName="Percentage Output Current Ripple"
         symbol="\frac{\Delta I_{out}}{I_{out}}"
         :calcVar="calc.getVar('iOutRipple_Ratio')"
-        notes="The is the percentage ripple of the output current. Strictly speaking, it is the ratio between the amplitude of the output current's AC component (i.e. the ripple), and the output current's DC component (the average output current). It is recommended that this is no more than 10-20%."></table-row>
-      <table-row
+        notes="The is the percentage ripple of the output current. Strictly speaking, it is the ratio between the amplitude of the output current's AC component (i.e. the ripple), and the output current's DC component (the average output current). It is recommended that this is no more than 10-20%."></variable-row-verbose>
+      <variable-row-verbose
         variableName="Inductance"
         symbol="L"
         :calcVar="calc.getVar('ind_H')"
-        notes="The inductance of the inductor \(L\) in the buck converter. It is given by the equation: $$ L = \frac{ (V_{in} - V{SW} - V_{out}) \cdot D }{ f_{SW} \cdot \Delta I_{out} } $$"></table-row>
+        notes="The inductance of the inductor \(L\) in the buck converter. It is given by the equation: $$ L = \frac{ (V_{in} - V{SW} - V_{out}) \cdot D }{ f_{SW} \cdot \Delta I_{out} } $$"></variable-row-verbose>
     </table>
 
     <!-- SPACER -->
@@ -77,7 +77,7 @@
   /* eslint-disable camelcase */
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import TableRow from './TableRow.vue'
+  import VariableRowVerbose from 'src/misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
   import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
@@ -88,7 +88,7 @@
   export default {
     name: 'buck-converter-calculator',
     components: {
-      TableRow
+      VariableRowVerbose
     },
     data: function () {
       var calc = new Calc()
