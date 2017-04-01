@@ -24,7 +24,7 @@
       <!-- =========== RESISTANCE (i/o) ============ -->
       <!-- ========================================= -->
       <div class="variable-container" style="left: 160px; top: 55px;">
-        <calc-value-and-unit :calcVar="calc.getVar('resistance')" width="100"
+        <calc-value-and-unit :calcVar="calc.getVar('resistance')" :width=100
                              style="left: 90px; top: 0px;"></calc-value-and-unit>
         <input type="radio" value="resistance" v-model="calc.outputVar" style="left: 0px; top: 10px">
       </div>
@@ -33,7 +33,7 @@
       <!-- =========== CAPACITANCE (i/o) =========== -->
       <!-- ========================================= -->
       <div class="variable-container" style="left: 370px; top: 160px;">
-        <calc-value-and-unit :calcVar="calc.getVar('capacitance')" width="100"
+        <calc-value-and-unit :calcVar="calc.getVar('capacitance')" :width=100
                              style="left: 0px; top: 40px;"></calc-value-and-unit>
         <input type="radio" value="capacitance" v-model="calc.outputVar" style="left: 50px; top: 0px">
       </div>
@@ -42,7 +42,7 @@
       <!-- === FCUTOFF (cut-off frequency) (i/o) === -->
       <!-- ========================================= -->
       <div class="variable-container" style="left: 150px; top: 340px;">
-        <calc-value-and-unit :calcVar="calc.getVar('fcutoff')" width="100"
+        <calc-value-and-unit :calcVar="calc.getVar('fcutoff')" :width=100
                              style="left: 90px; top: 0px;"></calc-value-and-unit>
         <input type="radio" value="fcutoff" v-model="calc.outputVar" style="left: 0px; top: 10px">
       </div>

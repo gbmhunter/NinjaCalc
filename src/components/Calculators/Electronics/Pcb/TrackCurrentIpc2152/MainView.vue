@@ -187,6 +187,7 @@
   import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
   import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
   import {unitConversionConstants} from 'src/misc/UnitConversionConstants/UnitConversionConstants'
+  import { canvasShapes } from 'src/misc/CanvasShapes/CanvasShapes'
 
   // ============================================================================================= //
   // ============================================ CONSTANTS ====================================== //
@@ -949,46 +950,27 @@
         // ============================================ //
         // =========== BOARD THICKNESS ARROW ========== //
         // ============================================ //
-        this.canvasArrow(context, topLeftX - 20, topLeftY, topLeftX - 20, pcbStopY)
+        canvasShapes.drawArrow(context, topLeftX - 20, topLeftY, topLeftX - 20, pcbStopY)
 
         // ============================================ //
         // ============= TRACK WIDTH ARROW ============ //
         // ============================================ //
         const trackWidthArrowStartX = topLeftX + pcbWidth / 2 - (trackWidthTop / 2)
         const trackWidthArrowStopX = topLeftX + pcbWidth / 2 + (trackWidthTop / 2)
-        this.canvasArrow(context, trackWidthArrowStartX, topLeftY - 20, trackWidthArrowStopX, topLeftY - 20)
+        canvasShapes.drawArrow(context, trackWidthArrowStartX, topLeftY - 20, trackWidthArrowStopX, topLeftY - 20)
 
         // ============================================ //
         // =========== TRACK THICKNESS ARROW ========== //
         // ============================================ //
         const trackThicknessAndPlaneProximityArrowX = topLeftX + pcbWidth + 20
-        this.canvasArrow(context, trackThicknessAndPlaneProximityArrowX, topLeftY, trackThicknessAndPlaneProximityArrowX, topLeftY + copperThickness)
+        canvasShapes.drawArrow(context, trackThicknessAndPlaneProximityArrowX, topLeftY, trackThicknessAndPlaneProximityArrowX, topLeftY + copperThickness)
 
         // ============================================ //
         // =========== PLANE PROXIMITY ARROW ========== //
         // ============================================ //
         if (inputObj.isPlanePresent) {
-          this.canvasArrow(context, trackThicknessAndPlaneProximityArrowX, topLeftY + copperThickness, trackThicknessAndPlaneProximityArrowX, pcbStopY)
+          canvasShapes.drawArrow(context, trackThicknessAndPlaneProximityArrowX, topLeftY + copperThickness, trackThicknessAndPlaneProximityArrowX, pcbStopY)
         }
-      },
-      canvasArrow: function (context, fromx, fromy, tox, toy) {
-        var headlen = 10   // length of head in pixels
-        var angle = Math.atan2(toy - fromy, tox - fromx)
-        context.beginPath()
-        context.moveTo(fromx, fromy)
-        // Start arrow head
-        context.lineTo(fromx + headlen * Math.cos(angle + Math.PI / 6), fromy + headlen * Math.sin(angle + Math.PI / 6))
-        context.moveTo(fromx, fromy)
-        context.lineTo(fromx + headlen * Math.cos(angle - Math.PI / 6), fromy + headlen * Math.sin(angle - Math.PI / 6))
-
-        context.moveTo(fromx, fromy)
-
-        // End arrow head
-        context.lineTo(tox, toy)
-        context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6))
-        context.moveTo(tox, toy)
-        context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6))
-        context.stroke()
       },
       openIpc2221ACalc: function () {
         this.$store.dispatch('openCalc', { componentName: 'track-current-ipc-2221a-calculator' })

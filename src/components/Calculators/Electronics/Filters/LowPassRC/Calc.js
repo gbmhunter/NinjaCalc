@@ -1,6 +1,6 @@
 import MainView from './MainView'
 
-export default {
+export var lowPassRcCalculator = {
   displayName: 'Low Pass RC',
   description: 'The low-pass RC filter is probably the simplist and most used electronic filter. Great for input signal filtering.',
   imagePath: require('./grid-icon.png'),
