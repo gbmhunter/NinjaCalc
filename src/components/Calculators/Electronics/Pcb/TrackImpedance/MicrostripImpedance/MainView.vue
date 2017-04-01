@@ -16,7 +16,7 @@
         \( \epsilon_r \) = the dielectric constant of the PCB substrate
       </p>
 
-      <p>The following equations can then be used to calculate the impedance of the microstrip:</p>
+      <p>The following equations can then be used to calculate the impedance \(Z\) (in \(\Omega\)) of the microstrip:</p>
 
       <p>$$ W = w + \frac{t}{\pi} \left[ ln\left(\frac{2h}{t}\right) = 1 \right] $$</p>
       <p>$$ H = h - 2t $$</p>
@@ -29,7 +29,9 @@
       <p>$$ \epsilon_{eff} = \frac{\epsilon_r + 1}{2} + \frac{\epsilon_r - 1}{2\sqrt{1 + 12\frac{H}{W}}} $$</p>
       <p>$$ Z = \frac{120\pi}{ \sqrt{\epsilon_{eff}} \left[ \frac{W}{H} + 1.393 + \frac{2}{3}ln(\frac{W}{H} + 1.444) \right] } $$</p>
 
-      <p>Equations are from <a href="http://www.rfcafe.com/references/electrical/microstrip-eq.htm">http://www.rfcafe.com/references/electrical/microstrip-eq.htm</a>.</p>
+      <p>Equations are from <a href="http://www.rfcafe.com/references/electrical/microstrip-eq.htm" target="_blank">http://www.rfcafe.com/references/electrical/microstrip-eq.htm</a>.</p>
+
+      <p>More information on microstrips can be found at <a href="http://blog.mbedded.ninja/pcb-design/impedance-controlled-routing/microstrips" target="_blank">http://blog.mbedded.ninja/pcb-design/impedance-controlled-routing/microstrips</a>.</p>
     </ui-collapsible>
 
     <!-- Background image is centered in diagram container -->
@@ -49,27 +51,27 @@
         variableName="Track Width"
         symbol="w"
         :calcVar="calc.getVar('trackWidth_M')"
-        notes="The width of the track."></variable-row-verbose>
+        notes="The width of the track (microstrip). This is normally measured in mm or mils."></variable-row-verbose>
       <variable-row-verbose
         variableName="Track Thickness"
         symbol="t"
         :calcVar="calc.getVar('trackThickness_M')"
-        notes="The thickness of the track."></variable-row-verbose>
+        notes="The thickness of the track (microstrip). This is the same as the 'weight' of the copper layer the track is on. Usually measured in um or oz./sq foot."></variable-row-verbose>
       <variable-row-verbose
         variableName="Substrate Thickness"
-        symbol="t"
+        symbol="h"
         :calcVar="calc.getVar('substrateThickness_M')"
-        notes="The thickness (height) of the substrate."></variable-row-verbose>
+        notes="The thickness (height) of the substrate. This is also the distance between the track and the plane below it. On a two layer standard thickness PCB, this is usually about 1.6mm. Between two layers of a high-density PCB this value can be much smaller. Usually measured in mm or mils."></variable-row-verbose>
       <variable-row-verbose
         variableName="Substrate Dielectric"
         symbol="\epsilon_r"
         :calcVar="calc.getVar('substrateDielectric_NoUnit')"
-        notes="The dielectric of the substrate."></variable-row-verbose>
+        notes="The dielectric of the substrate. For standard FR-4 PCB material, this value is around 4-4.7."></variable-row-verbose>
       <variable-row-verbose
         variableName="Track Impedance"
         symbol="Z"
         :calcVar="calc.getVar('trackImpedance_Ohms')"
-        notes="The impedance of the track."></variable-row-verbose>
+        notes="The calculated impedance of the track (microstrip). This needs to match the impedance of what ever is connected to each end so that RF reflections do not occur. Value is usually between 20 and 150"></variable-row-verbose>
     </table>
 
     <!-- SPACER -->
