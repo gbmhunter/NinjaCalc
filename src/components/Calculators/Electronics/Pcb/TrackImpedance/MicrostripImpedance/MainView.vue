@@ -85,11 +85,11 @@
   /* eslint-disable space-in-parens */
 
   import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
+  import { CalcVarNumeric, NumericValidators } from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
 //  import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
-  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
+  import { UnitMulti } from 'src/misc/CalculatorEngineV2/UnitMulti'
 //  import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
-//  import {CustomValidator} from '../../../../../../misc/CalculatorEngineV2/CustomValidator'
+  import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
   import { unitConversionConstants } from 'src/misc/UnitConversionConstants/UnitConversionConstants'
   import { canvasShapes } from 'src/misc/CanvasShapes/CanvasShapes'
 
@@ -122,7 +122,16 @@
         roundTo: 3,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const w = calc.getVar('trackWidth_M').getRawVal()
+              return (w <= 10e-3)
+            },
+            text: 'This is a wide track! Results may not be as accurate.',
+            level: 'warning'
+          })
         ],
         helpText: 'The width of the track.'
       }))
@@ -148,7 +157,16 @@
         roundTo: 3,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const t = calc.getVar('trackThickness_M').getRawVal()
+              return (t <= 355.6e-6) // 10oz copper = 355.6um thickness
+            },
+            text: 'This is a very large value for the track thickness (most are less than 355.6um, or 10oz.). Results may not be as accurate.',
+            level: 'warning'
+          })
         ],
         helpText: 'The thickness of the track.'
       }))
@@ -173,7 +191,16 @@
         roundTo: 3,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const h = calc.getVar('substrateThickness_M').getRawVal()
+              return (h <= 2e-3) // Most substrate thickness should be less or equal to 1.6mm
+            },
+            text: 'This is a very large value for the substrate thickness (substrate thickness is typically 1.6mm or less). Results may not be as accurate.',
+            level: 'warning'
+          })
         ],
         helpText: 'The thickness (height) of the substrate.'
       }))
@@ -196,13 +223,22 @@
         roundTo: 3,
         validators: [
           NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
+          NumericValidators.IS_GREATER_THAN_ZERO,
+          new CustomValidator({
+            func: () => {
+              // Read dependency variables
+              const eR = calc.getVar('substrateDielectric_NoUnit').getRawVal()
+              return (eR <= 20.0) // Most dielectrics will be around 3-6
+            },
+            text: 'This is a very large value for the substrate dielectric (dielectric constant is typically around 3-6). Results may not be as accurate.',
+            level: 'warning'
+          })
         ],
         helpText: 'The dielectric of the substrate.'
       }))
 
       // ============================================ //
-      // =========== TRACK IMPEDANCE (input) ======== //
+      // ========== TRACK IMPEDANCE (output) ======== //
       // ============================================ //
       calc.addVar(new CalcVarNumeric({
         name: 'trackImpedance_Ohms',
