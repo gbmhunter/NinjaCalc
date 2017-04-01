@@ -5,7 +5,7 @@
 - Author: gbmhunter <gbmhunter@gmail.com> ([www.mbedded.ninja](http://www.mbedded.ninja))
 - Created: 2015-11-02
 - Last Modified: 2017-03-09
-- Version: v2.0.0
+- Version: v2.3.0
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: Javascript (vue.js)/HTML/CSS
