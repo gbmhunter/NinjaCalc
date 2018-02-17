@@ -29,8 +29,10 @@ See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a lis
 
 1. Download/clone this repository into a folder on your computer.
 1. Run `npm install` to install dependencies (make sure node/npm is installed on your system).
-1. Open the project in WebStorm (`.idea/workspace.xml` file included in repo), or your favourite text/code editor.
+1. Open the project in WebStorm (`.idea/workspace.xml` file is included in repo), or your favourite text/code editor.
 1. Develop!
+1. Type `npm run dev` to start up the app in development mode (it's hot reloadable).
+1. Type `npm run unit` to run the unit tests.
 
 # Releasing
 

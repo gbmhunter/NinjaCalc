@@ -69,7 +69,7 @@
   // =================== vue Object ============= //
   // ============================================ //
   export default {
-    name: 'ohms-law-calculator',
+    name: 'ohms-law-calculator', // This will show up in URL
     components: {},
     data: function () {
       console.log('data() called')

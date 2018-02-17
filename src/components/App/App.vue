@@ -58,6 +58,9 @@
   import { dewPointMagnusCalculator } from '../Calculators/Electronics/Sensors/DewPointMagnus/Calc'
   import { ntcThermistorTemperature } from '../Calculators/Electronics/Sensors/NtcThermistor/Calc'
   import { buckConverterCalculator } from '../Calculators/Electronics/Smps/BuckConverter/Calc'
+
+  import { distanceBetweenTwoCoordinates } from "../Calculators/Geospatial/DistanceBetweenTwoCoordinates/Calc";
+
   import { crcCalculator } from '../Calculators/Software/Crc/Calc'
 
   export default {
@@ -192,6 +195,12 @@
       this.$store.dispatch('registerCalc', trackCurrentIpc2221ACalculator)
       this.$store.dispatch('registerCalc', trackCurrentIpc2152Calculator)
       this.$store.dispatch('registerCalc', viaCurrentIpc2221ACalculator)
+
+      // ============================================ //
+      // ================= GEOSPATIAL =============== //
+      // ============================================ //
+
+      this.$store.dispatch('registerCalc', distanceBetweenTwoCoordinates)
 
       // ============================================ //
       // ================== SOFTWARE ================ //
