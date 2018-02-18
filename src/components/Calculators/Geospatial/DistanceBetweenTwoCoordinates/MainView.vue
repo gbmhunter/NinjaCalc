@@ -8,33 +8,53 @@
     <table>
       <tbody>
       <tr>
-
-        <!-- ========================================= -->
-        <!-- ========= TRACK LAYER (combobox) ======== -->
-        <!-- ========================================= -->
+        <td>Point 1</td>
+        <td><input v-model="point1String" placeholder="10.0,10.0" /></td>
         <td>
-          <span class="variable-name">Coordinate Units</span>
-        </td>
-        <td>
-          <select v-model="calc.getVar('coordinateUnits').val" v-on:change="calc.getVar('coordinateUnits').onValChange()"
-                  style="width: 100px; height: 30px;">
-            <option v-for="option in calc.getVar('coordinateUnits').options" v-bind:value="option">
-              {{ option }}
-            </option>
+          <select v-model="selCoordinateUnit">
+            <option>Degrees</option>
+            <option>Radians</option>
           </select>
         </td>
       </tr>
       <tr>
-        <td>Point 1</td>
-        <td><calc-var-string :calcVar="calc.getVar('point1')" style="left: 0px; top: 70px;" :width=150 /></td>
-      </tr>
-      <tr>
         <td>Point 2</td>
-        <td><calc-var-string :calcVar="calc.getVar('point2')" style="left: 0px; top: 70px;" :width=150 /></td>
+        <td><input v-model="point2String" placeholder="10.0,10.0"/></td>
+        <td>
+          <select v-model="selCoordinateUnit">
+            <option>Degrees</option>
+            <option>Radians</option>
+          </select>
+        </td>
       </tr>
       <tr>
         <td>Distance</td>
-        <td><calc-value-and-unit :calcVar="calc.getVar('distance')" style="left: 0px; top: 70px;" :width=150 /></td>
+        <td><input v-model="distance" :disabled="true"/></td>
+        <td>
+          <select v-model="distanceUnits">
+            <option>km</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Initial Bearing</td>
+        <td><input v-model="initialBearing" :disabled="true"/></td>
+        <td>
+          <select v-model="selCoordinateUnit">
+            <option>Degrees</option>
+            <option>Radians</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Final Bearing</td>
+        <td><input v-model="finalBearing" :disabled="true"/></td>
+        <td>
+          <select v-model="selCoordinateUnit">
+            <option>Degrees</option>
+            <option>Radians</option>
+          </select>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -56,15 +76,8 @@
   import * as topojson from 'topojson'
   import versor from 'versor';
 
-  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  // import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
-  import { UnitMulti } from 'src/misc/CalculatorEngineV2/UnitMulti'
   import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
-  import { CalcVarNumeric } from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import { CalcVarComboBox } from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
   var world110m = require('./world-110m')
-
   var self = null
 
   export default {
@@ -73,137 +86,18 @@
     data: function () {
       console.log('data() called')
 
-      var calc = new Calc()
-
-      // ============================================================================================= //
-      // ==================================== COORDINATE TYPE (combobox) ============================= //
-      // ============================================================================================= //
-      calc.addVar(new CalcVarComboBox({
-        name: 'coordinateUnits',
-        options: [
-          'Degrees',
-          'Radians'
-        ],
-        defaultVal: 'Degrees',
-        validators: [],
-        helpText: 'The units used for the latitude/longitude values.'
-      }))
-
-      // ============================================ //
-      // =================== POINT 1 ================ //
-      // ============================================ //
-
-      calc.addVar(new CalcVarString({
-        name: 'point1',
-        typeEqn: () => {
-          return 'input'
-        },
-        defaultVal: '',
-        validators: [],
-        helpText: 'The point that the great-circle begins at.'
-      }))
-
-      // ============================================ //
-      // =================== POINT 2 ================ //
-      // ============================================ //
-
-      calc.addVar(new CalcVarString({
-        name: 'point2',
-        typeEqn: () => {
-          return 'input'
-        },
-        defaultVal: '',
-        validators: [],
-        helpText: 'The point that the great-circle ends at.'
-      }))
-
-      // ============================================ //
-      // ================== DISTANCE ================ //
-      // ============================================ //
-
-      calc.addVar(new CalcVarNumeric({
-        name: 'distance',
-        typeEqn: () => {
-          return 'output'
-        },
-        eqn: () => {
-          const coordinateUnits = calc.getVar('coordinateUnits').getVal()
-
-          console.log('Y')
-          const point1 = calc.getVar('point1').getVal()
-          console.log('point1 = ' + point1)
-          const point2 = calc.getVar('point2').getVal()
-
-          // Create Coordinate objects from point1,2 inputs
-          var point1Coord = new Coordinate()
-          try {
-            if (coordinateUnits === 'Degrees') {
-              point1Coord.FromString(point1, CoordinateUnits.DEGREES)
-            } else if (coordinateUnits === 'Radians') {
-              point1Coord.FromString(point1, CoordinateUnits.RADIANS)
-            } else {
-              throw Error('Coordinate unit type not supported.')
-            }
-          } catch (e) {
-            console.log('1 failed')
-            return NaN
-          }
-          this.point1 = point1Coord
-
-          var point2Coord = new Coordinate()
-          try {
-            if (coordinateUnits === 'Degrees') {
-              point2Coord.FromString(point2, CoordinateUnits.DEGREES)
-            } else if (coordinateUnits === 'Radians') {
-              point2Coord.FromString(point2, CoordinateUnits.RADIANS)
-            } else {
-              throw Error('Coordinate unit type not supported.')
-            }
-          } catch (e) {
-            console.log('2 failed')
-            return NaN
-          }
-          this.point2 = point2Coord
-
-          return this.geospatial.DistanceBetweenTwoPoints_m(point1Coord, point2Coord)
-        },
-        units: [
-          new UnitMulti({name: 'm', multi: 1e0}),
-          new UnitMulti({name: 'km', multi: 1e3})
-        ],
-        defaultUnitName: 'km',
-        roundTo: 4,
-        defaultVal: '',
-        validators: [],
-        helpText: 'The great-circle distance between point 1 and point 2.'
-      }))
 
       return {
-        calc: calc,
         geospatial: new Geospatial(),
-        inputType: [
-          {name: 'Lat, Lon (degrees)'},
-          {name: 'Lat, Lon (radians)'}
+        coordinateUnits: [
+          {name: 'Degrees'},
+          {name: 'Radians'}
         ],
-        selInputType: 'test',
+        selCoordinateUnit: 'Degrees',
 
-        // current: d3.select('#current'),
-        // canvas: d3.select('#globe'),
-        // context: canvas.node().getContext('2d'),
-        // water: {type: 'Sphere'},
-        // projection: d3.geoOrthographic().precision(0.1),
-        // graticule: d3.geoGraticule10(),
-        // path: d3.geoPath(this.projection).context(context),
-        // v0, // Mouse position in Cartesian coordinates at start of drag gesture.
-        // r0, // Projection rotation as Euler angles at start.
-        // q0, // Projection rotation as versor at start.
-        // lastTime: d3.now(),
-        // degPerMs: degPerSec / 1000,
-        // width,height,
-        // land, countries,
-        // countryList,
-        // autorotate, now, diff, rotation,
-        // currentCountry
+        point1String: null,
+        point2String: null,
+        distanceUnits: 'km',
 
         canvas: null,
         water: {type: 'Sphere'},
@@ -216,18 +110,110 @@
         path: null,
         width: 400,
         height: 400,
-        scaleFactor: 0.90,
-        point1: null,
-        point2: null
+        scaleFactor: 0.90
+      }
+    },
+    computed: {
+      distance: function() {
+        if(this.point1Coord == null || this.point2Coord == null) {
+          return ''
+        }
+
+        var distance_m = this.geospatial.DistanceBetweenTwoPoints_m(this.point1Coord, this.point2Coord);
+
+        var scaledDistance
+        if(this.distanceUnits == 'km')
+          scaledDistance = distance_m/1000.0
+        else
+          throw Error('Distance unit not recognized.')
+
+        return Math.round(scaledDistance)
+      },
+      point1Coord: function() {
+        console.log('point1Coord() called.')
+        var pointCoord = new Coordinate()
+        try {
+          if(this.selCoordinateUnit === 'Degrees') {
+            pointCoord.FromString(this.point1String, CoordinateUnits.DEGREES)
+          } else if(this.selCoordinateUnit === 'Radians') {
+            pointCoord.FromString(this.point1String, CoordinateUnits.RADIANS)
+          }
+        } catch (e) {
+          return null
+        }
+        return pointCoord
+      },
+      point2Coord: function() {
+        console.log('point2Coord() called.')
+        var pointCoord = new Coordinate()
+        try {
+          if(this.selCoordinateUnit === 'Degrees') {
+            pointCoord.FromString(this.point2String, CoordinateUnits.DEGREES)
+          } else if(this.selCoordinateUnit === 'Radians') {
+            pointCoord.FromString(this.point2String, CoordinateUnits.RADIANS)
+          }
+        } catch (e) {
+          return null
+        }
+        return pointCoord
+      },
+      initialBearing: function() {
+
+        if(this.point1Coord == null || this.point2Coord == null) {
+          return ''
+        }
+
+        var y = Math.sin(this.point2Coord.GetLon_rad() - this.point1Coord.GetLon_rad()) * Math.cos(this.point2Coord.GetLat_rad());
+        var x = Math.cos(this.point1Coord.GetLat_rad())*Math.sin(this.point2Coord.GetLat_rad()) -
+          Math.sin(this.point1Coord.GetLat_rad())*Math.cos(this.point2Coord.GetLat_rad())*Math.cos(this.point2Coord.GetLon_rad() - this.point1Coord.GetLon_rad());
+        var bearing_rad = Math.atan2(y, x)
+
+        var bearing_units
+        if(this.selCoordinateUnit === 'Degrees') {
+          bearing_units = bearing_rad*(180.0/Math.PI)
+        } else if(this.selCoordinateUnit === 'Radians') {
+          bearing_units = bearing_rad
+        } else {
+          throw Error('Selected unit not recognized.')
+        }
+
+        return bearing_units.toPrecision(4)
+      },
+      finalBearing: function() {
+
+        if(this.point1Coord == null || this.point2Coord == null) {
+          return ''
+        }
+
+        var y = Math.sin(this.point1Coord.GetLon_rad() - this.point2Coord.GetLon_rad()) * Math.cos(this.point1Coord.GetLat_rad());
+        var x = Math.cos(this.point2Coord.GetLat_rad())*Math.sin(this.point1Coord.GetLat_rad()) -
+          Math.sin(this.point2Coord.GetLat_rad())*Math.cos(this.point1Coord.GetLat_rad())*Math.cos(this.point1Coord.GetLon_rad() - this.point2Coord.GetLon_rad());
+        var bearing_rad = Math.atan2(y, x)
+
+        // Reverse bearing
+        bearing_rad = (bearing_rad + Math.PI) % (2*Math.PI)
+
+        var bearing_units
+        if(this.selCoordinateUnit === 'Degrees') {
+          bearing_units = bearing_rad*(180.0/Math.PI)
+        } else if(this.selCoordinateUnit === 'Radians') {
+          bearing_units = bearing_rad
+        } else {
+          throw Error('Selected unit not recognized.')
+        }
+
+        return bearing_units.toPrecision(4)
+      }
+    },
+    watch: {
+      point1Coord: function(val) {
+        this.render()
+      },
+      point2Coord: function(val) {
+        this.render()
       }
     },
     methods: {
-      calculate: function () {
-        console.log('ZZZZ')
-      },
-      onUnitChange: function () {
-        console.log('ABABAB')
-      },
       fill: function(obj, color) {
         // console.log('fill() called. this.context =')
         // console.log(this.context)
@@ -241,28 +227,6 @@
         this.path(obj)
         this.context.strokeStyle = color
         this.context.stroke()
-      },
-      loadData: function (cb) {
-        // console.log(world110m)
-        // cb(world110m, null)
-        // d3.json('.world-110m.json', function(error, world) {
-          // if (error) {
-          //   console.log(error)
-          //   throw error
-          // }
-          // world = world110m
-          // d3.tsv('https://gist.githubusercontent.com/mbostock/4090846/raw/07e73f3c2d21558489604a0bc434b3a5cf41a867/world-country-names.tsv', function(error, countries) {
-          //   if (error) throw error
-          //   cb(world, countries)
-          // })
-        // })
-      },
-      loadDataCallback: function (world, cList) {
-        // this.land = topojson.feature(world, world.objects.land)
-        // this.countries = topojson.feature(world, world.objects.countries)
-        // this.countryList = cList
-        // this.scale()
-
       },
       scale: function () {
         // console.log('scale() called. this.canvas = ' + this.canvas)
@@ -286,20 +250,20 @@
         this.fill(this.land, this.colorLand)
 
 
-        if(this.point1 != null) {
-          console.log('this.point1 = ' + this.point1.GetLat_rad() + ', ' + this.point1.GetLon_rad())
-          var point = this.projection([this.point1.GetLon_deg(), this.point1.GetLat_deg()])
+        if(this.point1Coord != null) {
+          // console.log('this.point1 = ' + this.point1.GetLat_rad() + ', ' + this.point1.GetLon_rad())
+          var point = this.projection([this.point1Coord.GetLon_deg(), this.point1Coord.GetLat_deg()])
           this.context.beginPath()
           this.context.fillStyle = "red";
-          this.context.arc(point[0], point[1], 10, 0, 2*Math.PI)
+          this.context.arc(point[0], point[1], 5, 0, 2*Math.PI)
           this.context.fill()
         }
 
-        if(this.point2 != null) {
-          var point = this.projection([this.point2.GetLon_deg(), this.point2.GetLat_deg()])
+        if(this.point2Coord != null) {
+          var point = this.projection([this.point2Coord.GetLon_deg(), this.point2Coord.GetLat_deg()])
           this.context.beginPath()
           this.context.fillStyle = "red";
-          this.context.arc(point[0], point[1], 10, 0, 2*Math.PI)
+          this.context.arc(point[0], point[1], 5, 0, 2*Math.PI)
           this.context.fill()
         }
 
@@ -338,7 +302,7 @@
     mounted () {
       // Configure calculator to default state now that
       // UI has been created
-      this.calc.init()
+      // this.calc.init()
 
       if (window.MathJax) {
         window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
@@ -375,6 +339,9 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
+  input {
+    width: 150px;
+  }
 
 </style>
