@@ -63,6 +63,7 @@
   import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
   import { CalcVarNumeric } from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
   import { CalcVarComboBox } from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
+  var world110m = require('./world-110m')
 
   var self = null
 
@@ -242,19 +243,25 @@
         this.context.stroke()
       },
       loadData: function (cb) {
-        d3.json('https://unpkg.com/world-atlas@1/world/110m.json', function(error, world) {
-          if (error) throw error
-          d3.tsv('https://gist.githubusercontent.com/mbostock/4090846/raw/07e73f3c2d21558489604a0bc434b3a5cf41a867/world-country-names.tsv', function(error, countries) {
-            if (error) throw error
-            cb(world, countries)
-          })
-        })
+        // console.log(world110m)
+        // cb(world110m, null)
+        // d3.json('.world-110m.json', function(error, world) {
+          // if (error) {
+          //   console.log(error)
+          //   throw error
+          // }
+          // world = world110m
+          // d3.tsv('https://gist.githubusercontent.com/mbostock/4090846/raw/07e73f3c2d21558489604a0bc434b3a5cf41a867/world-country-names.tsv', function(error, countries) {
+          //   if (error) throw error
+          //   cb(world, countries)
+          // })
+        // })
       },
       loadDataCallback: function (world, cList) {
-        this.land = topojson.feature(world, world.objects.land)
-        this.countries = topojson.feature(world, world.objects.countries)
-        this.countryList = cList
-        this.scale()
+        // this.land = topojson.feature(world, world.objects.land)
+        // this.countries = topojson.feature(world, world.objects.countries)
+        // this.countryList = cList
+        // this.scale()
 
       },
       scale: function () {
@@ -268,7 +275,11 @@
         this.render()
       },
       render: function () {
-        // console.log('render() called. this.water =')
+        console.log('render() called. this.water =')
+        console.log(this.water
+
+
+        )
         this.context.clearRect(0, 0, this.width, this.height)
         this.fill(this.water, this.colorWater)
         this.stroke(this.graticule, this.colorGraticule)
@@ -291,6 +302,18 @@
           this.context.arc(point[0], point[1], 10, 0, 2*Math.PI)
           this.context.fill()
         }
+
+        // if(this.point1 != null && this.point2 != null) {
+        //   var circle = d3.geo.circle().angle(180).origin([0, 52]);
+        //   var circles = [circle()];
+          // this.context.beginPath();
+          // this.path({type: "GeometryCollection", geometries: circles});
+          // this.context.fillStyle = "rgba(0,100,0,.5)";
+          // this.context.fill();
+          // this.context.lineWidth = .2;
+          // this.context.strokeStyle = "#000";
+          // this.context.stroke();
+        // }
 
 
 
@@ -329,7 +352,12 @@
       this.projection = d3.geoOrthographic().precision(0.1)
       this.graticule = d3.geoGraticule10()
       this.path = d3.geoPath(this.projection).context(this.context)
-      this.loadData(this.loadDataCallback)
+      // this.loadData(this.loadDataCallback)
+
+      this.land = topojson.feature(world110m, world110m.objects.land)
+      this.countries = topojson.feature(world110m, world110m.objects.countries)
+      // this.countryList = cList
+      this.scale()
 
       self = this
 
