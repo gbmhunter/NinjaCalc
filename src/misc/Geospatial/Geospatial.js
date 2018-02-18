@@ -55,13 +55,20 @@ export class Coordinate {
     }
     if (units === CoordinateUnits.DEGREES) {
       this.SetLat_deg(lat)
+    } else if (units === CoordinateUnits.RADIANS) {
+      this.SetLat_rad(lat)
     }
     // console.log('this.lat_rad = ' + this.lat_rad)
 
-    this.lon_rad = parseFloat(latlon[1])
+    var lon = parseFloat(latlon[1])
     console.log('this.lon_rad = ' + this.lon_rad)
     if (isNaN(this.lon_rad)) {
       throw new Error('String was not valid')
+    }
+    if (units === CoordinateUnits.DEGREES) {
+      this.SetLon_deg(lon)
+    } else if (units === CoordinateUnits.RADIANS) {
+      this.SetLon_rad(lon)
     }
   }
 }

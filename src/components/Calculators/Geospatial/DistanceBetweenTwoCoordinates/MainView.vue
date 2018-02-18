@@ -147,6 +147,7 @@
             console.log('1 failed')
             return NaN
           }
+          this.point1 = point1Coord
 
           var point2Coord = new Coordinate()
           try {
@@ -161,6 +162,7 @@
             console.log('2 failed')
             return NaN
           }
+          this.point2 = point2Coord
 
           return this.geospatial.DistanceBetweenTwoPoints_m(point1Coord, point2Coord)
         },
@@ -213,7 +215,9 @@
         path: null,
         width: 400,
         height: 400,
-        scaleFactor: 0.90
+        scaleFactor: 0.90,
+        point1: null,
+        point2: null
       }
     },
     methods: {
@@ -269,6 +273,28 @@
         this.fill(this.water, this.colorWater)
         this.stroke(this.graticule, this.colorGraticule)
         this.fill(this.land, this.colorLand)
+
+
+        if(this.point1 != null) {
+          console.log('this.point1 = ' + this.point1.GetLat_rad() + ', ' + this.point1.GetLon_rad())
+          var point = this.projection([this.point1.GetLon_deg(), this.point1.GetLat_deg()])
+          this.context.beginPath()
+          this.context.fillStyle = "red";
+          this.context.arc(point[0], point[1], 10, 0, 2*Math.PI)
+          this.context.fill()
+        }
+
+        if(this.point2 != null) {
+          var point = this.projection([this.point2.GetLon_deg(), this.point2.GetLat_deg()])
+          this.context.beginPath()
+          this.context.fillStyle = "red";
+          this.context.arc(point[0], point[1], 10, 0, 2*Math.PI)
+          this.context.fill()
+        }
+
+
+
+
       },
       dragstarted: function() {
         this.v0 = versor.cartesian(this.projection.invert(d3.mouse(window.document.getElementById("globe-container"))))
