@@ -22,20 +22,53 @@ export class Coordinate {
     this.lon_rad = value
   }
 
-  FromString (value) {
+  GetLat_deg () {
+    return this.lat_rad * (180.0 / Math.PI)
+  }
+
+  SetLat_deg (value) {
+    this.lat_rad = value * (Math.PI / 180.0)
+  }
+
+  GetLon_deg () {
+    return this.lon_rad * (180.0 / Math.PI)
+  }
+
+  SetLon_deg (value) {
+    this.lon_rad = value * (Math.PI / 180.0)
+  }
+
+  FromString (value, units) {
+    // console.log('ABC')
+    // console.log(typeof value)
+    // console.log('t' + units instanceof CoordinateUnits)
+    // if (!(typeof value === 'string') || !(units instanceof CoordinateUnits)) {
+    //   throw new Error('Inputs are invalid.')
+    // }
+
     var latlon = value.split(/, ?/)
     console.log('latlon = ' + latlon)
-    this.lat_rad = parseFloat(latlon[0])
-    console.log('this.lat_rad = ' + this.lat_rad)
-    if (isNaN(this.lat_rad)) {
+
+    var lat = parseFloat(latlon[0])
+    if (isNaN(lat)) {
       throw new Error('String was not valid')
     }
+    if (units === CoordinateUnits.DEGREES) {
+      this.SetLat_deg(lat)
+    }
+    // console.log('this.lat_rad = ' + this.lat_rad)
+
     this.lon_rad = parseFloat(latlon[1])
     console.log('this.lon_rad = ' + this.lon_rad)
     if (isNaN(this.lon_rad)) {
       throw new Error('String was not valid')
     }
   }
+}
+
+export const CoordinateUnits = {
+  DEGREES: 'degrees',
+  RADIANS: 'radians'
 }
 
 export class Geospatial {
