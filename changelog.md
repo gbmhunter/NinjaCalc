@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v3.1.0] - 2018-02-18
+
 ### Added
 - 'Distance Between Two Points' calculator now draws great circle between the two points.
 - Points drawn on sphere now disappear when they rotate around the back of the sphere.
