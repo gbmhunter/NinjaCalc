@@ -56,6 +56,14 @@
           </select>
         </td>
       </tr>
+      <tr>
+        <td>Intermediate Point Fraction</td>
+        <td><input v-model="intermediatePointFraction"/></td>
+      </tr>
+      <tr>
+        <td>Coordinates</td>
+        <td><input v-model="intermediatePointCoordinatesString" :disabled="true"/></td>
+      </tr>
       </tbody>
     </table>
 
@@ -95,9 +103,10 @@
         ],
         selCoordinateUnit: 'Degrees',
 
-        point1String: null,
-        point2String: null,
+        point1String: '-20, -30',
+        point2String: '40, 20',
         distanceUnits: 'km',
+        intermediatePointFraction: 0.5,
 
         canvas: null,
         water: {type: 'Sphere'},
@@ -203,6 +212,44 @@
         }
 
         return bearing_units.toPrecision(4)
+      },
+      intermediatePointCoordinates: function() {
+        if(!this.distance)
+          return ''
+
+        const p1Lat = this.point1Coord.GetLat_rad()
+        const p1Lon = this.point1Coord.GetLon_rad()
+        const p2Lat = this.point2Coord.GetLat_rad()
+        const p2Lon = this.point2Coord.GetLon_rad()
+        const f = parseFloat(this.intermediatePointFraction)
+        const d = this.distance/this.geospatial.EARTH_RADIUS_M
+
+        var A = Math.sin((1-f)*d)/Math.sin(d)
+        var B = Math.sin(f*d)/Math.sin(d)
+        var x = A*Math.cos(p1Lat)*Math.cos(p1Lon) +  B*Math.cos(p2Lat)*Math.cos(p2Lon)
+        var y = A*Math.cos(p1Lat)*Math.sin(p1Lon) +  B*Math.cos(p2Lat)*Math.sin(p2Lon)
+        var z = A*Math.sin(p1Lat) + B*Math.sin(p2Lat)
+        var intPointLat = Math.atan2(z,Math.sqrt(Math.pow(x,2)+Math.pow(y,2)))
+        var intPointLon = Math.atan2(y,x)
+
+        var intPointCoord = new Coordinate()
+        intPointCoord.SetLat_rad(intPointLat)
+        intPointCoord.SetLon_rad(intPointLon)
+        return intPointCoord
+      },
+      intermediatePointCoordinatesString: function() {
+        if(!this.intermediatePointCoordinates)
+          return ''
+
+        if(this.selCoordinateUnit === 'Degrees') {
+          return this.intermediatePointCoordinates.GetLat_deg().toPrecision(4) + ', ' +
+            this.intermediatePointCoordinates.GetLon_deg().toPrecision(4)
+        } else if(this.selCoordinateUnit === 'Radians') {
+          return this.intermediatePointCoordinates.GetLat_rad().toPrecision(4) + ', ' +
+            this.intermediatePointCoordinates.GetLon_rad().toPrecision(4)
+        } else {
+          throw Error('Selected unit not recognized.')
+        }
       }
     },
     watch: {
@@ -210,6 +257,9 @@
         this.render()
       },
       point2Coord: function(val) {
+        this.render()
+      },
+      intermediatePointCoordinates: function(val) {
         this.render()
       }
     },
@@ -240,46 +290,51 @@
       },
       render: function () {
         console.log('render() called. this.water =')
-        console.log(this.water
-
-
-        )
+        console.log(this.water)
         this.context.clearRect(0, 0, this.width, this.height)
         this.fill(this.water, this.colorWater)
+        console.log('this.graticule = ')
+        console.log(this.graticule)
         this.stroke(this.graticule, this.colorGraticule)
         this.fill(this.land, this.colorLand)
 
-
         if(this.point1Coord != null) {
-          // console.log('this.point1 = ' + this.point1.GetLat_rad() + ', ' + this.point1.GetLon_rad())
-          var point = this.projection([this.point1Coord.GetLon_deg(), this.point1Coord.GetLat_deg()])
           this.context.beginPath()
           this.context.fillStyle = "red";
-          this.context.arc(point[0], point[1], 5, 0, 2*Math.PI)
+          this.path({ type: "Point", coordinates: [this.point1Coord.GetLon_deg(), this.point1Coord.GetLat_deg()]})
           this.context.fill()
         }
 
         if(this.point2Coord != null) {
-          var point = this.projection([this.point2Coord.GetLon_deg(), this.point2Coord.GetLat_deg()])
           this.context.beginPath()
           this.context.fillStyle = "red";
-          this.context.arc(point[0], point[1], 5, 0, 2*Math.PI)
+          this.path({ type: "Point", coordinates: [this.point2Coord.GetLon_deg(), this.point2Coord.GetLat_deg()]})
           this.context.fill()
         }
 
-        // if(this.point1 != null && this.point2 != null) {
-        //   var circle = d3.geo.circle().angle(180).origin([0, 52]);
-        //   var circles = [circle()];
-          // this.context.beginPath();
-          // this.path({type: "GeometryCollection", geometries: circles});
-          // this.context.fillStyle = "rgba(0,100,0,.5)";
-          // this.context.fill();
-          // this.context.lineWidth = .2;
-          // this.context.strokeStyle = "#000";
-          // this.context.stroke();
-        // }
+        if(this.point1Coord != null && this.point2Coord != null) {
+          var oldLineWidth = this.context.lineWidth
+          var line = {
+            type: "MultiLineString",
+            coordinates: [[
+              [this.point1Coord.GetLon_deg(), this.point1Coord.GetLat_deg()],
+              [this.point2Coord.GetLon_deg(), this.point2Coord.GetLat_deg()]
+            ]]}
+          this.context.beginPath()
+          this.path(line)
+          this.context.strokeStyle = "red"
+          this.context.lineWidth = 3
+          this.context.stroke()
+          this.context.lineWidth = oldLineWidth
+        }
 
-
+        if(this.intermediatePointCoordinates) {
+          this.context.beginPath()
+          this.context.fillStyle = "orange";
+          this.path({ type: "Point", coordinates:
+              [this.intermediatePointCoordinates.GetLon_deg(), this.intermediatePointCoordinates.GetLat_deg()]})
+          this.context.fill()
+        }
 
 
       },
@@ -314,9 +369,10 @@
 
       this.context = this.canvas.node().getContext('2d')
       this.projection = d3.geoOrthographic().precision(0.1)
+      console.log('blah = ')
+      console.log(d3.geoGraticule10())
       this.graticule = d3.geoGraticule10()
       this.path = d3.geoPath(this.projection).context(this.context)
-      // this.loadData(this.loadDataCallback)
 
       this.land = topojson.feature(world110m, world110m.objects.land)
       this.countries = topojson.feature(world110m, world110m.objects.countries)

@@ -59,7 +59,7 @@
   import { ntcThermistorTemperature } from '../Calculators/Electronics/Sensors/NtcThermistor/Calc'
   import { buckConverterCalculator } from '../Calculators/Electronics/Smps/BuckConverter/Calc'
 
-  import { distanceBetweenTwoCoordinates } from "../Calculators/Geospatial/DistanceBetweenTwoCoordinates/Calc";
+  import { twoCoordinateGeodesics } from "../Calculators/Geospatial/TwoCoordinateGeodesics/Calc";
 
   import { crcCalculator } from '../Calculators/Software/Crc/Calc'
 
@@ -200,7 +200,7 @@
       // ================= GEOSPATIAL =============== //
       // ============================================ //
 
-      this.$store.dispatch('registerCalc', distanceBetweenTwoCoordinates)
+      this.$store.dispatch('registerCalc', twoCoordinateGeodesics)
 
       // ============================================ //
       // ================== SOFTWARE ================ //
