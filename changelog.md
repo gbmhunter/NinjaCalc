@@ -6,9 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- 'Distance Between Two Points' calculator now draws great circle between the two points.
+
 ### Changed
 - Updated changelog to 'Keep a Changelog' standards, closes #159.
-
 
 ## [v3.0.0] - 2018-02-18
 
