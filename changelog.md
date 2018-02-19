@@ -6,14 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Updated changelog to 'Keep a Changelog' standards, closes #159.
+
+
 ## [v3.0.0] - 2018-02-18
 
 ### Added
 - Added basic implementation of 'Distance Between Two Coordinates' calculator.
 
-v2.3.0
-------
+## [v2.3.0] - 2017-03-31
 
+### Changed
 - Moved calculator URL's to ninja-calc.mbedded.ninja/calc/<calculator-name>, closes #154.
 - Added details of new rsync-based release process to the README, closes #152.
 - Fixed "a embedded calculator" to "an embedded calculator" on README and website, closes #135.
@@ -22,9 +26,9 @@ v2.3.0
 - Moved the calculator table rows used in the "Buck Converter" calculator into a shared file, closes #157.
 - Added a microstrip calculator, closes #153.
 
-v2.2.0
-------
+## [v2.2.0] - 2017-03-17
 
+### Changed
 - Renamed CalcVarNumeral to CalcVarNumeric, closes #143.
 - Moved the vuex store into it's own directory, closes #144.
 - Moved App.vue into the "components" directory, closes #145.
@@ -35,43 +39,43 @@ v2.2.0
 - Added a "Capacitor Charge" calculator, closes #149.
 - Fixed description of ninja-calc.mbedded.ninja as seen by Google, closes #151.
 
-v2.1.0
-------
+## [v2.1.0] - 2017-03-14
 
+### Changed
 - Added data so that NinjaCalc website appears correctly when linked to on social media, closes #136.
 - Added ability to close a calculator tab, closes #139.
 - Added support for function-based units for numerical calculator variables, closes #140.
 - Removed value property from the Unit class, closes #141.
 - Added "search" functionality to the calculator selection overlay, closes #142.
 
-v2.0.0
-------
+## [v2.0.0] - 2017-03-09
 
+### Changed
 - Ported NinjaCalc to a web app.
 - Replaced the current tabs with tabs from Element (vue UI component library), closes #137.
 - Fixed scrolling issue with calculator selection overlay, closes #138.
 
-v1.3.0
-------
+## [v1.3.0] - 2016-07-03
 
+### Changed
 - Added CRC calculator, closes #122.
 - Fixed issue with install4j dependency, closes #123.
 - Removed .idea/workspace.xml file from repo, closes #124.
 - Added a text-based calculator variable, closes #125.
 - Added check so that calculator variables can't be accidentally added to the same calculator twice, closes #126.
 
-v1.2.1
-------
+## [v1.2.1] - 2016-05-14
 
+### Changed
 - Disabled metric prefixes for IPC-2152 calculator variables, closes #118.
 - Fixed info section of "Via Current" calculator, closes #112.
 - Added ability to display closest higher value and closest lower value on the standard resistor finder, closes #120.
 - Fixed bug where initial values for calculator variables were not "NaN" (see Standard Resistance Finder calculator for example), closes #117.
 - Fixed bug where splash screen remained in background after app has started, closes #116.
 
-v1.2.0
-------
+## [v1.2.0] - 2016-04-23
 
+### Changed
 - Added automatic update functionality, closes #108.
 - Added a generic "Scientific Calculator", closes #98.
 - Added a dew point calculator based on the Magnus equation, closes #104.
@@ -92,9 +96,9 @@ v1.2.0
 - Fixed bug where tooltip was incorrect for "Desired Resistance" variable in "Standard Resistance Finder" calculator, closes #95.
 
 
-v1.1.0
-------
+## [v1.1.0] - 2016-03-26
 
+### Changed
 - Fixed position of track thickness and plane proximity variables in the IPC-2152 track thickness calculator, closes #82.
 - Fixed bug where capacitance and frequency UI elements were swapped in the Low-Pass RC Filter calculator, closes #80.
 - Grid images can now be passed as a relative path to a calculators constructor, closes #86.
@@ -102,16 +106,16 @@ v1.1.0
 - Closest values from all available series are listed all at once in the standard resistance calculator, closes #88.
 - Added "metric-prefix" capability so that the user can use standard metric prefixes in the calculator variable textfields directly, closes #84.
 
-v1.0.0
-------
+## [v1.0.0] - 2016-01-30
 
+### Changed
 - Changed all source code file encodings to UTF-8, closes #79.
 - Added Javadoc comments to all classes, closes #64.
 - Removed workspace.xml from repo (it changes very frequently), closes #69.
 
-v0.4.1
-------
+## [v0.4.1] - 2016-01-29
 
+### Changed
 - Ported low-pass RC filter calculator to Java, closes #68.
 - Turned the entire grid element in the calculator selection grid into an "Open" button, closes #66.
 - Moved main class outside of class name "MainWindow", closes #70.
@@ -125,14 +129,14 @@ v0.4.1
 - Renamed installer files so they follow a Name -> Version -> Platform syntax, closes #78.
 - Created installer for Mac OS X, closes #77.
 
-v0.4.0
-------
+## [v0.4.0] - 2016-01-28
 
+### Changed
 - Ported application from C# to Java, closes #65.
 
-v0.3.8
-------
+## [v0.3.8] - 2016-01-24
 
+### Changed
 - Renamed "MainWindow" to "NinjaCalc", closes #57.
 - Improved the image for Track Current (IPC-2152) calculator, closes #48.
 - Fixed bug where you couldn't see the app icon on Windows 10 task bar, closes #36.
@@ -142,9 +146,9 @@ v0.3.8
 - Added info about the Visio calculator diagrams to the README, closes #33.
 - Added low pass RC filter calculator, closes #50.
 
-v0.3.7
-------
+## [v0.3.7] - 2016-01-21
 
+### Changed
 - Added info section to IPC-2152 track current calculator, closes #49.
 - Animated the expansion/collapse of the info section, closes #51.
 - Made the application startup in maximised state (full screen size), closes #53.
@@ -153,9 +157,9 @@ v0.3.7
 - Fixed bug where calculator view didn't scroll when mouse was over expanded "Info" text, closes #55.
 - Added variable info to tooltip on mouseover of input textbox or combobox, closes #56.
 
-v0.3.6
-------
+## [v0.3.6] - 2016-01-18
 
+### Changed
 - Added mandatory "category" and "tag" fields to the Calculator class, closes #40.
 - Made the calculator selection grid scrollable, closes #41.
 - Added info to README on how to generate installer, closes #29.
@@ -163,34 +167,34 @@ v0.3.6
 - Added automatic rounding functionality to numerical calculator output variables, closes #44.
 - Added track current calculator based on IPC-2152 standard, closes #42.
 
-v0.3.5
-------
+## [v0.3.5] - 2016-01-15
 
+### Changed
 - Fixed bug where validators where not working correctly on unit change, closes #34.
 - Fixed issue where current flow symbol on the Ohm's Law calculator looked to similar to a diode symbol, closes #35.
 - Moved electronic-related calculators into "electronics" parent-level folder (and namespace), closes #37.
 - Added test to make sure unit change to causes dependent outputs to re-calculate, closes #38.
 - Calculators now scale appropriately as window is resized, closes #39.
 
-v0.3.4
-------
+## [v0.3.4] - 2016-01-09
 
+### Changed
 - Removed CalcDiagrams folder, now using Visio drawings and placing files in relevant calculator folders.
 - Made calculator selection grid expand to window size (with some fixed margin size), closes #31.
 - Added a resistor divider calculator, closes #30.
 - Improved the appearance of the Ohm's Law calculator diagram, closes #32.
 
-v0.3.3
-------
+## [v0.3.3] - 2016-01-09
 
+### Changed
 - Added custom default button style (blue buttons) and added white button style.
 - Improved the appearance of the calculator selection grid.
 - Added grid icon for the IPC2221A Track Current calculator.
 - Added application icon, closes #21.
 
-v0.3.2
-------
+## [v0.3.2] - 2016-01-08
 
+### Changed
 - Improved unit tests for Ohm's Law calculator.
 - Converted CalcVars object from Dictionary to List, closes #23.
 - Removed input variable to validator function, #25.
@@ -201,18 +205,18 @@ v0.3.2
 - Output textbox-style calculator variables no longer gray when disabled, and border gets removed (to make it obvious they are outputs).
 - Added drop shadow to calculator grid elements, closes #28.
 
-v0.3.1
-------
+## [v0.3.1] - 2016-01-08
 
+### Changed
 - Added first unit tests using the inbuilt Microsoft Unit Testing framework.
 - Added IsGreaterThanZero() validator factory method, and added this constraint to all variables in the Ohm's Law calculator.
 - Tooltips on calculator variable textboxes are now displaying the results from value validation.
 - Added ComboBox-style calculator variable.
 - Added Track Current (IPC2152) calculator.
 
-v0.3.0
-------
+## [v0.3.0] - 2016-01-07
 
+### Changed
 - Switched from Electron/Javascript/Node.js to C#/.NET platform.
 - Updated the README appropriately (due to C# switch).
 - Implemented basic "Ohm's Law" calculator.
@@ -220,25 +224,25 @@ v0.3.0
 - Unit selection working correctly.
 - Added basic InnoSetup installer script.
 
-v0.2.1
-------
+## [v0.2.1] - 2015-12-08
 
+### Changed
 - Added track width calculator (not operational yet).
 - NinjaCalc app now has proper icon.
 - Nav menu teaser is now bigger and with "justified text" button.
 
-v0.2.0
-------
+## [v0.2.0] - 2015-12-06
 
+### Changed
 - New modal view for selecting new calculator.
 - Calculators are now filterable by category.
 - New initial view when there are no calculators open.
 - New left drawer menu with small teaser bar.
 - Renamed app title to "NinjaCalc", closes #20.
 
-v0.1.0
--------
+## [v0.1.0] - 2015-11-20
 
+### Changed
 - First release.
 - Got "calc what" radio buttons working again (using Immutable-JS), closes #1.
 - Made the imageSrc path variable within each calculator relative to the calculator, closes #3.
