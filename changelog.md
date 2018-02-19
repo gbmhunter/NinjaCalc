@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- Fixed TravisCI build error, where error was 'npm ERR! enoent ENOENT: no such file or directory, chmod '/home/travis/build/mbedded-ninja/NinjaCalc/node_modules/topojson/node_modules/topojson-server/bin/geo2topo''. This was fixed by removing topojson as a dependency and just using topojson-client, topojson-server and topojson-simplify individually (they are still dependencies).
+
 ## [v3.1.0] - 2018-02-18
 
 ### Added
