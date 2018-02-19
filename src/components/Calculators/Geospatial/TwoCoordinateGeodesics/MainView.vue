@@ -56,6 +56,14 @@
           </select>
         </td>
       </tr>
+      <tr>
+        <td>Intermediate Point Fraction</td>
+        <td><input v-model="intermediatePointFraction"/></td>
+      </tr>
+      <tr>
+        <td>Coordinates</td>
+        <td><input v-model="intermediatePointCoordinatesString" :disabled="true"/></td>
+      </tr>
       </tbody>
     </table>
 
@@ -95,9 +103,10 @@
         ],
         selCoordinateUnit: 'Degrees',
 
-        point1String: null,
-        point2String: null,
+        point1String: '-20, -30',
+        point2String: '40, 20',
         distanceUnits: 'km',
+        intermediatePointFraction: 0.5,
 
         canvas: null,
         water: {type: 'Sphere'},
@@ -203,6 +212,44 @@
         }
 
         return bearing_units.toPrecision(4)
+      },
+      intermediatePointCoordinates: function() {
+        if(!this.distance)
+          return ''
+
+        const p1Lat = this.point1Coord.GetLat_rad()
+        const p1Lon = this.point1Coord.GetLon_rad()
+        const p2Lat = this.point2Coord.GetLat_rad()
+        const p2Lon = this.point2Coord.GetLon_rad()
+        const f = parseFloat(this.intermediatePointFraction)
+        const d = this.distance/this.geospatial.EARTH_RADIUS_M
+
+        var A = Math.sin((1-f)*d)/Math.sin(d)
+        var B = Math.sin(f*d)/Math.sin(d)
+        var x = A*Math.cos(p1Lat)*Math.cos(p1Lon) +  B*Math.cos(p2Lat)*Math.cos(p2Lon)
+        var y = A*Math.cos(p1Lat)*Math.sin(p1Lon) +  B*Math.cos(p2Lat)*Math.sin(p2Lon)
+        var z = A*Math.sin(p1Lat) + B*Math.sin(p2Lat)
+        var intPointLat = Math.atan2(z,Math.sqrt(Math.pow(x,2)+Math.pow(y,2)))
+        var intPointLon = Math.atan2(y,x)
+
+        var intPointCoord = new Coordinate()
+        intPointCoord.SetLat_rad(intPointLat)
+        intPointCoord.SetLon_rad(intPointLon)
+        return intPointCoord
+      },
+      intermediatePointCoordinatesString: function() {
+        if(!this.intermediatePointCoordinates)
+          return ''
+
+        if(this.selCoordinateUnit === 'Degrees') {
+          return this.intermediatePointCoordinates.GetLat_deg().toPrecision(4) + ', ' +
+            this.intermediatePointCoordinates.GetLon_deg().toPrecision(4)
+        } else if(this.selCoordinateUnit === 'Radians') {
+          return this.intermediatePointCoordinates.GetLat_rad().toPrecision(4) + ', ' +
+            this.intermediatePointCoordinates.GetLon_rad().toPrecision(4)
+        } else {
+          throw Error('Selected unit not recognized.')
+        }
       }
     },
     watch: {
@@ -210,6 +257,9 @@
         this.render()
       },
       point2Coord: function(val) {
+        this.render()
+      },
+      intermediatePointCoordinates: function(val) {
         this.render()
       }
     },
@@ -276,6 +326,14 @@
           this.context.lineWidth = 3
           this.context.stroke()
           this.context.lineWidth = oldLineWidth
+        }
+
+        if(this.intermediatePointCoordinates) {
+          this.context.beginPath()
+          this.context.fillStyle = "orange";
+          this.path({ type: "Point", coordinates:
+              [this.intermediatePointCoordinates.GetLon_deg(), this.intermediatePointCoordinates.GetLat_deg()]})
+          this.context.fill()
         }
 
 

@@ -9,9 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - 'Distance Between Two Points' calculator now draws great circle between the two points.
 - Points drawn on sphere now disappear when they rotate around the back of the sphere.
+- Added mid-point calculation (and visuals) to 'Two Coordinate Geodesics' calculator.
 
 ### Changed
 - Updated changelog to 'Keep a Changelog' standards, closes #159.
+- Renamed 'Distance Between Two Points' calculator to 'Two Coordinate Geodesics'.
 
 ## [v3.0.0] - 2018-02-18
 
