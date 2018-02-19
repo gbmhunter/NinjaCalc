@@ -248,23 +248,17 @@
         this.stroke(this.graticule, this.colorGraticule)
         this.fill(this.land, this.colorLand)
 
-
-
-
         if(this.point1Coord != null) {
-          // console.log('this.point1 = ' + this.point1.GetLat_rad() + ', ' + this.point1.GetLon_rad())
-          var point = this.projection([this.point1Coord.GetLon_deg(), this.point1Coord.GetLat_deg()])
           this.context.beginPath()
           this.context.fillStyle = "red";
-          this.context.arc(point[0], point[1], 5, 0, 2*Math.PI)
+          this.path({ type: "Point", coordinates: [this.point1Coord.GetLon_deg(), this.point1Coord.GetLat_deg()]})
           this.context.fill()
         }
 
         if(this.point2Coord != null) {
-          var point = this.projection([this.point2Coord.GetLon_deg(), this.point2Coord.GetLat_deg()])
           this.context.beginPath()
           this.context.fillStyle = "red";
-          this.context.arc(point[0], point[1], 5, 0, 2*Math.PI)
+          this.path({ type: "Point", coordinates: [this.point2Coord.GetLon_deg(), this.point2Coord.GetLat_deg()]})
           this.context.fill()
         }
 
