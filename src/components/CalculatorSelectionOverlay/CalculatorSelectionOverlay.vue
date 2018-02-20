@@ -5,7 +5,13 @@
         <!-- The .stop below prevents the click event from bubbling, resulting in the
         overlay only being closed when the modal-mask is clicked directly -->
         <div class="modal-container" v-on:click.stop="overlayClicked">
-          <div class="modal-body" style="display: flex; flex-direction: column; height: 100%;">
+          <div class="modal-body" style="display: flex; flex-direction: row; height: 100%;">
+            <div style="width: 250px; overflow-x: scroll;">
+              <tree-view :data="treeData" />
+            </div>
+            <!-- The flex: 1 below makes the grid/search take up the remaining horizontal space
+             once the category filter has been assigned space on the left hand-side -->
+          <div style="flex: 1; display: flex; flex-direction: column; height: 100%;">
             <!-- SEARCH CONTAINER -->
             <div id="search-container">
               <span style="padding-right: 5px;">Search</span>
@@ -23,9 +29,10 @@
               </CalcPreview>
             </transition-group>
           </div>
+          </div>
+          </div>
         </div>
       </div>
-    </div>
   </transition>
 </template>
 
@@ -39,7 +46,18 @@
       CalcPreview
     },
     data: function () {
-      return {}
+      return {
+        treeData: [
+          {
+            'name': 'Test1',
+            'children': [
+              {
+                'name': 'Test2'
+              }
+            ]
+          }
+        ]
+      }
     },
     computed: {
       searchText: {
@@ -60,6 +78,9 @@
       overlayClicked (event) {
         // Do nothing, this handler exists purely to swallow event
         // (event does not bubble because of .stop modifier in HTML)
+      },
+      itemClick (node) {
+        console.log(node.model.text + ' clicked !')
       }
     },
     watch: {},
