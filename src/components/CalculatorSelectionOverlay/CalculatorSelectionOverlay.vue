@@ -50,9 +50,11 @@
         treeData: [
           {
             'name': 'Test1',
+            'selected': false,
             'children': [
               {
-                'name': 'Test2'
+                'name': 'Test2',
+                'selected': false
               }
             ]
           }

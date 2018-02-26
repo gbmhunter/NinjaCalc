@@ -30,8 +30,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 Vue.use(ElementUI)
 
-import VJstree from 'vue-jstree'
-Vue.component('v-jstree', VJstree)
+// import VJstree from 'vue-jstree'
+// Vue.component('v-jstree', VJstree)
 
 import './style/style.css'
 
