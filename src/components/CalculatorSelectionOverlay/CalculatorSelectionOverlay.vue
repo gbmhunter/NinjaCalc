@@ -6,18 +6,25 @@
         overlay only being closed when the modal-mask is clicked directly -->
         <div class="modal-container" v-on:click.stop="overlayClicked">
           <div class="modal-body" style="display: flex; flex-direction: row; height: 100%;">
+            <!------------------------>
+            <!-- CATEGORY TREE VIEW -->
+            <!------------------------>
             <div style="width: 250px; overflow-x: scroll;">
               <tree-view :data="treeData" />
             </div>
             <!-- The flex: 1 below makes the grid/search take up the remaining horizontal space
              once the category filter has been assigned space on the left hand-side -->
           <div style="flex: 1; display: flex; flex-direction: column; height: 100%;">
+            <!---------------------->
             <!-- SEARCH CONTAINER -->
+            <!---------------------->
             <div id="search-container">
               <span style="padding-right: 5px;">Search</span>
               <input v-model="searchText" style="width: 400px; height: 25px;">
             </div>
+            <!---------------------------------->
             <!-- GENERATE CALCULATOR PREVIEWS -->
+            <!---------------------------------->
             <transition-group name="list" tag="div" class="preview-grid">
               <CalcPreview v-for="item in $store.state.core.filteredAvailableCalcs"
                            class="list-complete-item"
@@ -47,7 +54,19 @@
     },
     data: function () {
       return {
-        treeData: [
+      }
+    },
+    computed: {
+      searchText: {
+        get () {
+          return this.$store.state.searchText
+        },
+        set (value) {
+          this.$store.dispatch('setSearchText', value)
+        }
+      },
+      treeData () {
+        var output = [
           {
             'name': 'Test1',
             'selected': false,
@@ -59,19 +78,56 @@
             ]
           }
         ]
-      }
-    },
-    computed: {
-      searchText: {
-        get () {
-          return this.$store.state.searchText
-        },
-        set (value) {
-          this.$store.dispatch('setSearchText', value)
+        output = {
+          'name': 'root',
+          'selected': false,
+          'children': []
         }
+
+        console.log(this.$store)
+        var self = this
+        this.$store.state.core.availableCalcs.map(function (calc) {
+          console.log('calc =')
+          console.log(calc)
+          self.addCategoriesToTree(calc.category, output)
+          console.log('After adding category elements for 1 calculator, output =')
+          console.log(output)
+        })
+        return output
       }
     },
     methods: {
+      addCategoriesToTree (categories, treeNode) {
+        console.log('addCategoriesToTree() called with categories =')
+        console.log(categories)
+        console.log(', treeNode =')
+        console.log(treeNode)
+
+        var inTree = false
+        treeNode.children.map(function (childNode) {
+          if (childNode.name === categories[0]) {
+            inTree = true
+          }
+        })
+
+        // Add first category element if it doesn't already exist
+        if (!inTree) {
+          console.log('Category ' + categories[0] + ' not found in tree.')
+          var newTreeNode = {
+            'name': categories[0],
+            'selected': false,
+            'children': []
+          }
+          treeNode.children.push(newTreeNode)
+        }
+
+        // Remove first category element
+        categories.splice(0, 1)
+
+        if (categories.length > 0) {
+          this.addCategoriesToTree(categories, treeNode.children[treeNode.children.length - 1])
+        }
+      },
       borderClicked (event) {
         this.$store.commit('showCalculatorSelectionOverlay', {
           trueFalse: false
@@ -85,7 +141,15 @@
         console.log(node.model.text + ' clicked !')
       }
     },
-    watch: {},
+    watch: {
+      treeData: {
+        handler (val) {
+          console.log('treeData changed!')
+          this.$store.dispatch('setCategory', 'test')
+        },
+        deep: true
+      }
+    },
     mounted () {
     }
   }

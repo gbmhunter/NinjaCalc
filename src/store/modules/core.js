@@ -58,6 +58,9 @@ const mutations = {
       // Unique ID is used as a unique tab ID
       uniqueId: newUniqueId
     })
+  },
+  updateFilteredCalcsOnCategory (state, payload) {
+    console.log('$state.core.mutations.updateFilteredCalcsOnCategory() called.')
   }
 }
 
@@ -77,6 +80,10 @@ const actions = {
     console.log('core.actions.openCalc() called.')
     commit('openCalc', value)
     commit('setLastCalcAsActive')
+  },
+  setCategory ({state, commit, rootState}, value) {
+    console.log('core.actions.setCategory() called.')
+    commit('updateFilteredCalcsOnCategory')
   }
 }
 

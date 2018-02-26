@@ -1,9 +1,8 @@
 <!-- This template is designed to work with CalculatorEngineV2 -->
 <template>
   <div>
-    <p>Test</p>
     <ul>
-      <tree-item v-for="(child, index) in data"
+      <tree-item v-for="(child, index) in data.children"
         :key="index"
         :data="child"/>
     </ul>
@@ -15,7 +14,7 @@
   export default {
     name: 'tree-view',
     props: {
-      data: {type: Array}
+      data: {type: Object}
     },
     components: {},
     computed: {},
