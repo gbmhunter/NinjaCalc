@@ -10,7 +10,7 @@
             <!-- CATEGORY TREE VIEW -->
             <!------------------------>
             <div style="width: 250px; overflow-x: scroll;">
-              <tree-view :data="treeData" />
+              <tree-view :data="treeData" v-on:clicked="categoryClicked" />
             </div>
             <!-- The flex: 1 below makes the grid/search take up the remaining horizontal space
              once the category filter has been assigned space on the left hand-side -->
@@ -87,21 +87,21 @@
         console.log(this.$store)
         var self = this
         this.$store.state.core.availableCalcs.map(function (calc) {
-          console.log('calc =')
-          console.log(calc)
+          // console.log('calc =')
+          // console.log(calc)
           self.addCategoriesToTree(calc.category, output)
-          console.log('After adding category elements for 1 calculator, output =')
-          console.log(output)
+          // console.log('After adding category elements for 1 calculator, output =')
+          // console.log(output)
         })
         return output
       }
     },
     methods: {
       addCategoriesToTree (categories, treeNode) {
-        console.log('addCategoriesToTree() called with categories =')
+        // console.log('addCategoriesToTree() called with categories =')
         console.log(categories)
-        console.log(', treeNode =')
-        console.log(treeNode)
+        // console.log(', treeNode =')
+        // console.log(treeNode)
 
         var inTree = false
         treeNode.children.map(function (childNode) {
@@ -139,17 +139,14 @@
       },
       itemClick (node) {
         console.log(node.model.text + ' clicked !')
+      },
+      categoryClicked (category) {
+        console.log('categoryClicked() called. category =')
+        console.log(category)
+        this.$store.dispatch('setCategory', category)
       }
     },
-    watch: {
-      treeData: {
-        handler (val) {
-          console.log('treeData changed!')
-          this.$store.dispatch('setCategory', 'test')
-        },
-        deep: true
-      }
-    },
+    watch: {},
     mounted () {
     }
   }

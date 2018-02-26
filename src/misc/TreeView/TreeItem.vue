@@ -5,7 +5,8 @@
     <ul>
       <tree-item v-for="(child, index) in data.children"
                  :key="index"
-                 :data="child" />
+                 :data="child"
+                v-on:clicked="handleChildClicked"/>
     </ul>
 
   </li>
@@ -30,7 +31,21 @@
       handleOnClick () {
         console.log('Item clicked. this.data.name = ')
         console.log(this.data.name)
+
         this.data.selected = !this.data.selected
+        console.log('this.data =')
+        console.log(this.data)
+        var category = []
+        category.unshift(this.data.name)
+        this.$emit('clicked', category)
+      },
+      handleChildClicked (category) {
+        console.log('handleChildClicked() called. category = ')
+        console.log(category)
+
+        category.unshift(this.data.name)
+        // Bubble event upwards (should stop at TreeView component)
+        this.$emit('clicked', category)
       }
     },
     mounted () {
