@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v3.2.0] - 2018-02-27
+
 ### Added
 - Added tree view to calculator selection overlay with calculators sorted by category, closes #162.
 
