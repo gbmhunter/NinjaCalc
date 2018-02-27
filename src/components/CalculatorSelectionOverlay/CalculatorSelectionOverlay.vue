@@ -9,7 +9,7 @@
             <!------------------------>
             <!-- CATEGORY TREE VIEW -->
             <!------------------------>
-            <div style="width: 250px; overflow-x: scroll;">
+            <div style="width: 200px; overflow-x: scroll; text-align: left; background-color: rgb(16, 104, 175); color: white;">
               <tree-view :data="treeData" v-on:clicked="categoryClicked" />
             </div>
             <!-- The flex: 1 below makes the grid/search take up the remaining horizontal space

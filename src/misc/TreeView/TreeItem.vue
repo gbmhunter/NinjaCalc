@@ -2,7 +2,7 @@
 <template>
   <li v-on:click.stop="handleOnClick">
     <div :class="classes"><span>{{ data.name }}</span></div>
-    <ul>
+    <ul style="padding-left: 10px;">
       <tree-item v-for="(child, index) in data.children"
                  :key="index"
                  :data="child"
@@ -58,4 +58,5 @@
   .selected {
     background-color: red;
   }
+
 </style>
