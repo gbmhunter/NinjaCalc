@@ -59,7 +59,7 @@
     computed: {
       searchText: {
         get () {
-          return this.$store.state.searchText
+          return this.$store.state.core.searchText
         },
         set (value) {
           this.$store.dispatch('setSearchText', value)
