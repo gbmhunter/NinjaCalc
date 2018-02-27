@@ -81,7 +81,7 @@
   /* eslint-disable */
 
   import * as d3 from 'd3'
-  import * as topojson from 'topojson'
+  import feature from 'topojson-client/src/feature'
   import versor from 'versor';
 
   import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
@@ -374,8 +374,9 @@
       this.graticule = d3.geoGraticule10()
       this.path = d3.geoPath(this.projection).context(this.context)
 
-      this.land = topojson.feature(world110m, world110m.objects.land)
-      this.countries = topojson.feature(world110m, world110m.objects.countries)
+      // feature() is from the topojson-client library (DO NOT ADD topojson AS A DEPENDENCY)
+      this.land = feature(world110m, world110m.objects.land)
+      this.countries = feature(world110m, world110m.objects.countries)
       // this.countryList = cList
       this.scale()
 

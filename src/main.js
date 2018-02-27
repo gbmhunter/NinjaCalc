@@ -30,6 +30,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 Vue.use(ElementUI)
 
+// import VJstree from 'vue-jstree'
+// Vue.component('v-jstree', VJstree)
+
 import './style/style.css'
 
 // =========================================== //
@@ -47,6 +50,15 @@ import CalcVarCheckbox from 'src/misc/CalculatorEngineV2/view/CalcVarCheckbox.vu
 Vue.component('calc-var-checkbox', CalcVarCheckbox)
 import VariableRowVerbose from 'src/misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
 Vue.component('variable-row-verbose', VariableRowVerbose)
+
+// =========================================== //
+// ===== TREE VIEW COMPONENT REGISTRATION ==== //
+// =========================================== //
+import TreeView from 'misc/TreeView/TreeView'
+Vue.component('tree-view', TreeView)
+
+import TreeItem from 'misc/TreeView/TreeItem'
+Vue.component('tree-item', TreeItem)
 
 // =========================================== //
 // ============= IMPORT VUEX STORE =========== //
