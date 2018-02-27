@@ -26,7 +26,7 @@
             <!-- GENERATE CALCULATOR PREVIEWS -->
             <!---------------------------------->
             <transition-group name="list" tag="div" class="preview-grid">
-              <CalcPreview v-for="item in $store.state.core.filteredAvailableCalcs"
+              <CalcPreview v-for="item in $store.state.core.calcsFilteredByCategoryAndSearch"
                            class="list-complete-item"
                            :title='item.displayName'
                            :description="item.description"
@@ -147,11 +147,14 @@
       categoryClicked (category) {
         console.log('categoryClicked() called. category =')
         console.log(category)
-        this.$store.dispatch('setCategory', category)
+        this.$store.dispatch('setSelCategory', category)
       }
     },
     watch: {},
     mounted () {
+      if (!this.$store.state.core.calcsFilteredByCategoryAndSearch) {
+        throw Error('this.$store.state.core.calcsFilteredByCategoryAndSearch was null.')
+      }
     }
   }
 </script>
