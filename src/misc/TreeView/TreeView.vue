@@ -1,11 +1,11 @@
 <!-- This template is designed to work with CalculatorEngineV2 -->
 <template>
-  <div>
-    <ul>
+  <div style="position: relative; background-color: transparent;">
+    <ul style="background-color: transparent;">
       <tree-item v-for="(child, index) in data.children"
         :key="index"
         :data="child"
-                 v-on:clicked="handleChildClicked" />
+                 v-on:clicked="handleChildClicked" style="background-color: transparent;"/>
     </ul>
   </div>
 </template>

@@ -1,8 +1,12 @@
 <!-- This template is designed to work with CalculatorEngineV2 -->
 <template>
-  <li v-on:click.stop="handleOnClick">
-    <div :class="classes"><span>{{ data.name }}</span></div>
-    <ul style="padding-left: 10px;">
+  <li v-on:click.stop="handleOnClick" style="background-color: transparent; margin: 0;">
+    <!-- This div goes behind list element, has width that spans entire width of tree view -->
+    <div class="whole-row" :class="{ hover: isHover }" @mouseover="isHover=true" @mouseout="isHover=false"
+         style="width: 100%; display: block; position: absolute; left: 0; height: 25px; z-index: 0; transition: background-color 0.2s ease;"></div>
+      <div class="name" :class="{ selected: data.selected }" @mouseover="isHover=true" @mouseout="isHover=false"
+           style="z-index: 1; background-color: transparent; position: relative; height: 25px; display: flex; justify-content: center; flex-direction: column;">{{ data.name }}</div>
+    <ul style="padding-left: 10px; background-color: transparent;">
       <tree-item v-for="(child, index) in data.children"
                  :key="index"
                  :data="child"
@@ -19,14 +23,13 @@
     props: {
       data: {type: Object, required: true}
     },
-    components: {},
-    computed: {
-      classes () {
-        return [
-          { 'selected': this.data.selected }
-        ]
+    data () {
+      return {
+        isHover: false
       }
     },
+    components: {},
+    computed: {},
     methods: {
       handleOnClick () {
         console.log('Item clicked. this.data.name = ')
@@ -57,6 +60,11 @@
 <style scoped>
   .selected {
     background-color: red;
+  }
+
+  div.hover {
+    background-color: rgb(33, 150, 243);
+    color: white;
   }
 
 </style>

@@ -9,7 +9,7 @@
             <!------------------------>
             <!-- CATEGORY TREE VIEW -->
             <!------------------------>
-            <div style="width: 200px; overflow-x: scroll; text-align: left; background-color: rgb(16, 104, 175); color: white;">
+            <div style="width: 200px; overflow-x: scroll; text-align: left; background-color: rgb(255, 255, 255);">
               <tree-view :data="treeData" v-on:clicked="categoryClicked" />
             </div>
             <!-- The flex: 1 below makes the grid/search take up the remaining horizontal space
@@ -66,19 +66,7 @@
         }
       },
       treeData () {
-        var output = [
-          {
-            'name': 'Test1',
-            'selected': false,
-            'children': [
-              {
-                'name': 'Test2',
-                'selected': false
-              }
-            ]
-          }
-        ]
-        output = {
+        var output = {
           'name': 'root',
           'selected': false,
           'children': []
