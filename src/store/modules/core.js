@@ -60,7 +60,29 @@ const mutations = {
     })
   },
   updateFilteredCalcsOnCategory (state, payload) {
-    console.log('$state.core.mutations.updateFilteredCalcsOnCategory() called.')
+    console.log('$state.core.mutations.updateFilteredCalcsOnCategory() called. payload =')
+    console.log(payload)
+
+    state.filteredAvailableCalcs = state.availableCalcs.filter(calc => {
+      console.log('calc =')
+      console.log(calc)
+      if (payload.length > calc.category.length) {
+        console.log('Selected category more specific than calc category, excluding...')
+        return false
+      }
+      for (var i = 0; i < payload.length; i++) {
+        if (payload[i] !== calc.category[i]) {
+          console.log('Selected category does not mactch calc category, excluding...')
+          return false
+        }
+      }
+
+      console.log('Selected category matches calculator category.')
+      return true
+    })
+
+    console.log('filteredAvailableCalcs =')
+    console.log(state.filteredAvailableCalcs)
   }
 }
 
@@ -83,7 +105,7 @@ const actions = {
   },
   setCategory ({state, commit, rootState}, value) {
     console.log('core.actions.setCategory() called.')
-    commit('updateFilteredCalcsOnCategory')
+    commit('updateFilteredCalcsOnCategory', value)
   }
 }
 

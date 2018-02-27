@@ -100,6 +100,10 @@
       addCategoriesToTree (categories, treeNode) {
         // console.log('addCategoriesToTree() called with categories =')
         console.log(categories)
+
+        // Copy array, we are going to modify it, and we don't want to touch
+        // the original!
+        categories = categories.slice()
         // console.log(', treeNode =')
         // console.log(treeNode)
 
