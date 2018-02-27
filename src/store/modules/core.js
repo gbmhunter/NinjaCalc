@@ -27,13 +27,13 @@ const mutations = {
     state.searchText = searchText
   },
   updateFilteredCalcsOnSearchText (state) {
-    console.log('updateFilteredAvailableCalcs() called.')
+    // console.log('updateFilteredAvailableCalcs() called.')
     // Update the filtered available calculators. If the search text is '' (i.e.
     // empty), return all the calculators.
     if (state.searchText === '') {
       state.calcsFilteredByCategoryAndSearch = state.calcsFilteredByCategory
-      console.log('state.calcsFilteredByCategoryAndSearch = ')
-      console.log(state.calcsFilteredByCategoryAndSearch)
+      // console.log('state.calcsFilteredByCategoryAndSearch = ')
+      // console.log(state.calcsFilteredByCategoryAndSearch)
       return
     }
     state.calcsFilteredByCategoryAndSearch = state.calcsFilteredByCategory.filter(calc => {
@@ -76,28 +76,28 @@ const mutations = {
     })
   },
   updateFilteredCalcsOnCategory (state) {
-    console.log('$state.core.mutations.updateFilteredCalcsOnCategory() called.')
+    // console.log('$state.core.mutations.updateFilteredCalcsOnCategory() called.')
 
     state.calcsFilteredByCategory = state.availableCalcs.filter(calc => {
-      console.log('calc =')
-      console.log(calc)
+      // console.log('calc =')
+      // console.log(calc)
       if (state.selCategory.length > calc.category.length) {
-        console.log('Selected category more specific than calc category, excluding...')
+        // console.log('Selected category more specific than calc category, excluding...')
         return false
       }
       for (var i = 0; i < state.selCategory.length; i++) {
         if (state.selCategory[i] !== calc.category[i]) {
-          console.log('Selected category does not mactch calc category, excluding...')
+          // console.log('Selected category does not mactch calc category, excluding...')
           return false
         }
       }
 
-      console.log('Selected category matches calculator category.')
+      // console.log('Selected category matches calculator category.')
       return true
     })
 
-    console.log('calcsFilteredByCategory =')
-    console.log(state.calcsFilteredByCategory)
+    // console.log('calcsFilteredByCategory =')
+    // console.log(state.calcsFilteredByCategory)
   }
 }
 
