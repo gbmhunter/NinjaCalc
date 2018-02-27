@@ -5,7 +5,7 @@
     <div class="whole-row" :class="{ hover: isHover, selected: data.selected }" @mouseover="isHover=true" @mouseout="isHover=false"
          style="width: 100%; display: block; position: absolute; left: 0; height: 25px; z-index: 0; transition: background-color 0.2s ease;"></div>
       <div class="name" @mouseover="isHover=true" @mouseout="isHover=false"
-           style="z-index: 1; background-color: transparent; position: relative; height: 25px; display: flex; justify-content: center; flex-direction: column;">{{ data.name }}</div>
+           style="z-index: 1; background-color: transparent; position: relative; height: 25px;">{{ data.name }}</div>
     <ul style="padding-left: 10px; background-color: transparent;">
       <tree-item v-for="(child, index) in model.children"
                  :key="index"

@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v3.2.1] - 2018-02-27
+
+### Fixed
+- Fixed display error with TreeView component where bullet-point and bullet-point text were not on the same line.
+
 ## [v3.2.0] - 2018-02-27
 
 ### Added
