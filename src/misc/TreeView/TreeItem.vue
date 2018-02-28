@@ -2,9 +2,9 @@
 <template>
   <li v-on:click.stop="handleOnClick" style="background-color: transparent; margin: 0;">
     <!-- This div goes behind list element, has width that spans entire width of tree view -->
-    <div class="whole-row" :class="{ hover: isHover, selected: data.selected }" @mouseover="isHover=true" @mouseout="isHover=false"
+    <div class="whole-row clickable" :class="{ hover: isHover, selected: data.selected }" @mouseover="isHover=true" @mouseout="isHover=false"
          style="width: 100%; display: block; position: absolute; left: 0; height: 25px; z-index: 0; transition: background-color 0.2s ease;"></div>
-      <div class="name" @mouseover="isHover=true" @mouseout="isHover=false"
+      <div class="name clickable" @mouseover="isHover=true" @mouseout="isHover=false"
            style="z-index: 1; background-color: transparent; position: relative; height: 25px;">{{ data.name }}</div>
     <ul style="padding-left: 10px; background-color: transparent;">
       <tree-item v-for="(child, index) in model.children"
@@ -72,6 +72,11 @@
   div.hover {
     background-color: rgba(33, 150, 243, 0.7);
     color: white;
+  }
+
+  /* Makes element appear clickable to the user */
+  .clickable {
+    cursor: pointer;
   }
 
 </style>
