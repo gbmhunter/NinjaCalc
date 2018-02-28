@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- Fixed bug where 'Two Coordinate Geodesics' calculator had old URL of '.../calc/distance-between-two-coordinates', closes #164.
+
 ## [v3.2.1] - 2018-02-27
 
 ### Fixed

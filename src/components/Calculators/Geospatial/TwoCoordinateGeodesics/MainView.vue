@@ -89,7 +89,7 @@
   var self = null
 
   export default {
-    name: 'distance-between-two-coordinates', // This will show up in the URL
+    name: 'two-coordinate-geodesics', // This will show up in the URL
     components: {},
     data: function () {
       console.log('data() called')
