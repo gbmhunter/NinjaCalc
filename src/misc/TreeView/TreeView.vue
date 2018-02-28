@@ -25,13 +25,13 @@
     components: {},
     computed: {},
     methods: {
-      handleChildClicked (category) {
-        console.log('handleChildClicked() called. category = ')
-        console.log(category)
+      handleChildClicked (payload) {
+        console.log('handleChildClicked() called. payload = ')
+        console.log(payload)
 
         // category.unshift(this.data.name)
         // Bubble event upwards (should stop at TreeView component)
-        this.$emit('clicked', category)
+        this.$emit('clicked', payload)
       },
       handleUnselectAll () {
         console.log('TreeView.handleUnselectAll() called.')

@@ -132,10 +132,15 @@
       itemClick (node) {
         console.log(node.model.text + ' clicked !')
       },
-      categoryClicked (category) {
-        console.log('categoryClicked() called. category =')
-        console.log(category)
-        this.$store.dispatch('setSelCategory', category)
+      categoryClicked (payload) {
+        console.log('categoryClicked() called. payload =')
+        console.log(payload)
+
+        if (payload.isSelected) {
+          this.$store.dispatch('setSelCategory', payload.category)
+        } else {
+          this.$store.dispatch('setSelCategory', [])
+        }
       }
     },
     watch: {},
