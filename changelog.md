@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Changed justified text in calculator selection grid description to left-aligned, closes #161.
 - Changed cursor when over category tree view to 'clickable' (e.g. index finger), closes #165.
 - Made output variables more easily recognizable as outputs, closes #166.
+- Improved formatting of calculator variables in 'Two Coordinate Geodesics' calculator.
 
 ## [v3.2.1] - 2018-02-27
 

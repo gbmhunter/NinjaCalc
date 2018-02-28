@@ -9,7 +9,7 @@
       <tbody>
       <tr>
         <td>Point 1</td>
-        <td><input v-model="point1String" placeholder="10.0,10.0" /></td>
+        <td><calc-input v-model="point1String" dir="input" placeholder="10.0,10.0" /></td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -19,7 +19,7 @@
       </tr>
       <tr>
         <td>Point 2</td>
-        <td><input v-model="point2String" placeholder="10.0,10.0"/></td>
+        <td><calc-input v-model="point2String" dir="input" placeholder="10.0,10.0"/></td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -29,7 +29,7 @@
       </tr>
       <tr>
         <td>Distance</td>
-        <td><input v-model="distance" :disabled="true"/></td>
+        <td><calc-input v-model="distance" dir="output"/></td>
         <td>
           <select v-model="distanceUnits">
             <option>km</option>
@@ -38,7 +38,7 @@
       </tr>
       <tr>
         <td>Initial Bearing</td>
-        <td><input v-model="initialBearing" :disabled="true"/></td>
+        <td><calc-input v-model="initialBearing" dir="output"/></td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -48,7 +48,7 @@
       </tr>
       <tr>
         <td>Final Bearing</td>
-        <td><input v-model="finalBearing" :disabled="true"/></td>
+        <td><calc-input v-model="finalBearing" dir="output"/></td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -58,11 +58,11 @@
       </tr>
       <tr>
         <td>Intermediate Point Fraction</td>
-        <td><input v-model="intermediatePointFraction"/></td>
+        <td><calc-input v-model="intermediatePointFraction" dir="input"/></td>
       </tr>
       <tr>
         <td>Coordinates</td>
-        <td><input v-model="intermediatePointCoordinatesString" :disabled="true"/></td>
+        <td><calc-input v-model="intermediatePointCoordinatesString" dir="output"/></td>
       </tr>
       </tbody>
     </table>
@@ -84,13 +84,15 @@
   import feature from 'topojson-client/src/feature'
   import versor from 'versor';
 
+  import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
+
   import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
   var world110m = require('./world-110m')
   var self = null
 
   export default {
     name: 'two-coordinate-geodesics', // This will show up in the URL
-    components: {},
+    components: { CalcInput },
     data: function () {
       console.log('data() called')
 
