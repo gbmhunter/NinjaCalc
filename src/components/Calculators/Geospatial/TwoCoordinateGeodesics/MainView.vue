@@ -9,7 +9,13 @@
       <tbody>
       <tr>
         <td>Point 1</td>
-        <td><calc-input v-model="point1String" dir="in" tooltip="The start (first) coordinate." placeholder="10.0,10.0" /></td>
+        <td>
+          <calc-input
+            v-model="point1String"
+            dir="in"
+            tooltip="The start (first) coordinate."
+            placeholder="10.0,10.0"
+            :validator="point1Validator" /></td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -38,7 +44,12 @@
       </tr>
       <tr>
         <td>Initial Bearing</td>
-        <td><calc-input v-model="initialBearing" tooltip="The bearing (relative to North) that you would be facing when standing at point 1 and travelling to point 2." dir="out"/></td>
+        <td>
+          <calc-input
+            v-model="initialBearing"
+            dir="out"
+            tooltip="The bearing (relative to North) that you would be facing when standing at point 1 and travelling to point 2."/>
+        </td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -48,7 +59,12 @@
       </tr>
       <tr>
         <td>Final Bearing</td>
-        <td><calc-input v-model="finalBearing" tooltip="The bearing (relative to North) that you would be facing when you arrive at point 2, having travelled from point 1." dir="out"/></td>
+        <td>
+          <calc-input
+            v-model="finalBearing"
+            dir="out"
+            tooltip="The bearing (relative to North) that you would be facing when you arrive at point 2, having travelled from point 1."/>
+        </td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -58,11 +74,21 @@
       </tr>
       <tr>
         <td>Intermediate Point Fraction</td>
-        <td><calc-input v-model="intermediatePointFraction" dir="in" tooltip="A fractional amount between 0 and 1 the describes how far the intermediate point is between point 1 and point 2." :validator="isNumber"/></td>
+        <td>
+          <calc-input
+          v-model="intermediatePointFraction"
+          dir="in"
+          tooltip="A fractional amount between 0 and 1 the describes how far the intermediate point is between point 1 and point 2."/>
+        </td>
       </tr>
       <tr>
         <td>Coordinates</td>
-        <td><calc-input v-model="intermediatePointCoordinatesString" tooltip="The coordinates of an intermediate point which is between point 1 and 2, determined by the fractional amount above." dir="out"/></td>
+        <td>
+          <calc-input
+            v-model="intermediatePointCoordinatesString"
+            dir="out"
+            tooltip="The coordinates of an intermediate point which is between point 1 and 2, determined by the fractional amount above."/>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -85,6 +111,7 @@
   import versor from 'versor';
 
   import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
+  import Validators from 'src/misc/CalculatorEngineV3/Validators'
 
   import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
   var world110m = require('./world-110m')
@@ -121,7 +148,8 @@
         path: null,
         width: 400,
         height: 400,
-        scaleFactor: 0.90
+        scaleFactor: 0.90,
+        validators: new Validators()
       }
     },
     computed: {
@@ -133,7 +161,7 @@
         var distance_m = this.geospatial.DistanceBetweenTwoPoints_m(this.point1Coord, this.point2Coord);
 
         var scaledDistance
-        if(this.distanceUnits == 'km')
+        if(this.distanceUnits === 'km')
           scaledDistance = distance_m/1000.0
         else
           throw Error('Distance unit not recognized.')
@@ -142,6 +170,7 @@
       },
       point1Coord: function() {
         console.log('point1Coord() called.')
+        console.log(this.$refs.point1)
         var pointCoord = new Coordinate()
         try {
           if(this.selCoordinateUnit === 'Degrees') {
@@ -150,9 +179,21 @@
             pointCoord.FromString(this.point1String, CoordinateUnits.RADIANS)
           }
         } catch (e) {
+          // Set point 1 class to error
           return null
         }
         return pointCoord
+      },
+      point1Validator () {
+        var validator = {}
+        if (this.point1Coord === null) {
+          validator.state = 'error'
+          validator.msg = 'Input could not be converted into a valid coordinate.'
+        } else {
+          validator.state = 'ok'
+          validator.msg = ''
+        }
+        return validator
       },
       point2Coord: function() {
         console.log('point2Coord() called.')
@@ -354,10 +395,6 @@
       },
       dragended: function () {
         // startRotation(rotationDelay)
-      },
-      isNumber (value) {
-        console.log('isNumber() called with value = ' + value)
-        return !isNaN(value)
       }
     },
     mounted () {
