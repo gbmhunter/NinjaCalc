@@ -1,0 +1,58 @@
+/* The variable-value class is applied to the input object of CalcValue,
+CalcValueAndUnit, and CalcVarString */
+input.variable-value {
+  border-style: solid;
+  border-radius: 2px;
+
+  /* Add a small amount of padding before the first number in the input
+  text box (otherwise the number collides with the side of the input border). */
+  padding-left: 5px;
+
+  width: 150px;
+  height: 30px;
+}
+
+.ok {
+  border-color: rgb(38, 148, 30);
+}
+
+.warning {
+  border-color: rgb(211, 118, 35);
+}
+
+.error {
+  border-color: rgb(255, 70, 82);
+}
+
+.ok.input {
+  background-color: rgb(190, 255, 189);
+}
+
+.warning.input {
+  background-color: rgb(255, 221, 144);
+}
+
+.error.input {
+  background-color: rgb(255, 195, 198);
+}
+
+.input {
+  border-width: 3px;
+}
+
+.output {
+  border-width: 3px;
+}
+
+
+/*.input.ok {*/
+  /*border-color: rgb(38, 148, 30);*/
+/*}*/
+
+/*.input.warning {*/
+  /*border-color: rgb(211, 118, 35);*/
+/*}*/
+
+/*.input.error {*/
+  /*border-color: rgb(255, 70, 82);*/
+/*}*/

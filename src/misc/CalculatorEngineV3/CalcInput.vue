@@ -2,28 +2,43 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div>
     <md-tooltip md-direction="top" v-html="toolTipMsg"></md-tooltip>
-    <input v-model="internalValue" :disabled="isDisabled" class="variable-value">
+    <input v-model="internalValue" :disabled="this.dir === 'out'" class="variable-value" :class="{ input: this.dir === 'in', output: this.dir === 'out', ok: this.validatorState, error: !this.validatorState }">
   </div>
 </template>
 
 <script>
+
+  import './style.css'
 
   export default {
     name: 'calc-input',
     props: {
       value: {
         type: [String, Number],
-        required: false,
-        default: ''
+        required: true
       },
       dir: {
         type: [String],
-        required: true
+        required: true,
+        validator (value) {
+          if (value === 'in') {
+            return true
+          } else if (value === 'out') {
+            return true
+          } else {
+            return false
+          }
+        }
       },
       tooltip: {
         type: String,
         required: false,
         default: ''
+      },
+      validator: {
+        type: Function,
+        required: false,
+        default: function () { return true }
       }
     },
     components: {},
@@ -49,6 +64,9 @@
         toolTipMsg += '<br><br>'
         toolTipMsg += 'Testing!'
         return toolTipMsg
+      },
+      validatorState () {
+        return this.validator(this.internalValue)
       }
     },
     methods: {},
@@ -57,7 +75,9 @@
         this.$emit('input', val)
       }
     },
-    mounted () {}
+    mounted () {
+      this.validator()
+    }
   }
 </script>
 

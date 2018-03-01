@@ -9,7 +9,7 @@
       <tbody>
       <tr>
         <td>Point 1</td>
-        <td><calc-input v-model="point1String" dir="input" placeholder="10.0,10.0" /></td>
+        <td><calc-input v-model="point1String" dir="in" tooltip="The start (first) coordinate." placeholder="10.0,10.0" /></td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -19,7 +19,7 @@
       </tr>
       <tr>
         <td>Point 2</td>
-        <td><calc-input v-model="point2String" dir="input" placeholder="10.0,10.0"/></td>
+        <td><calc-input v-model="point2String" dir="in" tooltip="The end (second) coordinate." placeholder="10.0,10.0"/></td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -29,7 +29,7 @@
       </tr>
       <tr>
         <td>Distance</td>
-        <td><calc-input v-model="distance" dir="output"/></td>
+        <td><calc-input v-model="distance" tooltip="The great-circle (shortest) distance between the two points." dir="out"/></td>
         <td>
           <select v-model="distanceUnits">
             <option>km</option>
@@ -38,7 +38,7 @@
       </tr>
       <tr>
         <td>Initial Bearing</td>
-        <td><calc-input v-model="initialBearing" dir="output"/></td>
+        <td><calc-input v-model="initialBearing" tooltip="The bearing (relative to North) that you would be facing when standing at point 1 and travelling to point 2." dir="out"/></td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -48,7 +48,7 @@
       </tr>
       <tr>
         <td>Final Bearing</td>
-        <td><calc-input v-model="finalBearing" dir="output"/></td>
+        <td><calc-input v-model="finalBearing" tooltip="The bearing (relative to North) that you would be facing when you arrive at point 2, having travelled from point 1." dir="out"/></td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -58,11 +58,11 @@
       </tr>
       <tr>
         <td>Intermediate Point Fraction</td>
-        <td><calc-input v-model="intermediatePointFraction" dir="input"/></td>
+        <td><calc-input v-model="intermediatePointFraction" dir="in" tooltip="A fractional amount between 0 and 1 the describes how far the intermediate point is between point 1 and point 2." :validator="isNumber"/></td>
       </tr>
       <tr>
         <td>Coordinates</td>
-        <td><calc-input v-model="intermediatePointCoordinatesString" dir="output"/></td>
+        <td><calc-input v-model="intermediatePointCoordinatesString" tooltip="The coordinates of an intermediate point which is between point 1 and 2, determined by the fractional amount above." dir="out"/></td>
       </tr>
       </tbody>
     </table>
@@ -354,6 +354,10 @@
       },
       dragended: function () {
         // startRotation(rotationDelay)
+      },
+      isNumber (value) {
+        console.log('isNumber() called with value = ' + value)
+        return !isNaN(value)
       }
     },
     mounted () {
