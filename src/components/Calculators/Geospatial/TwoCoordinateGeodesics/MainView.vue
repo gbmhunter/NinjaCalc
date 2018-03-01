@@ -15,7 +15,8 @@
             dir="in"
             tooltip="The start (first) coordinate."
             placeholder="10.0,10.0"
-            :validator="point1Validator" /></td>
+            :validator="point1Validator" />
+        </td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -25,7 +26,14 @@
       </tr>
       <tr>
         <td>Point 2</td>
-        <td><calc-input v-model="point2String" dir="in" tooltip="The end (second) coordinate." placeholder="10.0,10.0"/></td>
+        <td>
+          <calc-input
+            v-model="point2String"
+            dir="in"
+            tooltip="The end (second) coordinate."
+            placeholder="10.0,10.0"
+            :validator="point2Validator"/>
+        </td>
         <td>
           <select v-model="selCoordinateUnit">
             <option>Degrees</option>
@@ -35,7 +43,12 @@
       </tr>
       <tr>
         <td>Distance</td>
-        <td><calc-input v-model="distance" tooltip="The great-circle (shortest) distance between the two points." dir="out"/></td>
+        <td>
+          <calc-input
+            v-model="distance"
+            dir="out"
+            tooltip="The great-circle (shortest) distance between the two points."/>
+        </td>
         <td>
           <select v-model="distanceUnits">
             <option>km</option>
@@ -208,6 +221,17 @@
           return null
         }
         return pointCoord
+      },
+      point2Validator () {
+        var validator = {}
+        if (this.point2Coord === null) {
+          validator.state = 'error'
+          validator.msg = 'Input could not be converted into a valid coordinate.'
+        } else {
+          validator.state = 'ok'
+          validator.msg = ''
+        }
+        return validator
       },
       initialBearing: function() {
 
