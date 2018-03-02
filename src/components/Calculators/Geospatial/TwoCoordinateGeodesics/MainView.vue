@@ -110,6 +110,9 @@
         ],
         selCoordinateUnit: 'Degrees',
         distanceUnits: 'km',
+        //================================================================================================//
+        //=================================== CALCULATOR INPUTS ==========================================//
+        //================================================================================================//
         point1String: {
           dir: 'in',
           value: '-20, -30',
@@ -163,7 +166,7 @@
           value: '',
           tooltip: 'The great-circle (shortest) distance between the two points.',
           validator: {
-            status: 'ok',
+            state: 'ok',
             msg: 'blah'
           }
         }
@@ -243,7 +246,7 @@
           value: '',
           tooltip: 'The bearing (relative to North) that you would be facing when standing at point 1 and travelling to point 2.',
           validator: {
-            status: 'ok',
+            state: 'ok',
             msg: 'blah'
           }
         }
@@ -277,7 +280,7 @@
           value: '',
           tooltip: 'The bearing (relative to North) that you would be facing when you arrive at point 2, having travelled from point 1.',
           validator: {
-            status: 'ok',
+            state: 'ok',
             msg: 'blah'
           }
         }
@@ -340,7 +343,7 @@
           value: '4',
           tooltip: 'The coordinates of an intermediate point which is between point 1 and 2, determined by the fractional amount above.',
           validator: {
-            status: 'ok',
+            state: 'ok',
             msg: 'blah'
           }
         }
