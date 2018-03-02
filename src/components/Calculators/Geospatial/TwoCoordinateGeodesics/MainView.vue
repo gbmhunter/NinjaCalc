@@ -9,38 +9,36 @@
       <tbody>
       <tr>
         <td>Point 1</td>
-        <td><calc-input-2 v-model="point1String"/></td>
+        <td><calc-input v-model="point1String"/></td>
         <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Point 2</td>
-        <td><calc-input-2 v-model="point2String"/></td>
+        <td><calc-input v-model="point2String"/></td>
         <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Distance</td>
-        <td><calc-input-2 v-model="distance" /></td>
+        <td><calc-input v-model="distance" /></td>
         <td><calc-select v-model="selDistanceUnit" :options="distanceUnits" /></td>
       </tr>
       <tr>
         <td>Initial Bearing</td>
-        <td><calc-input-2 v-model="initialBearing"/>
-        </td>
+        <td><calc-input v-model="initialBearing"/></td>
         <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Final Bearing</td>
-        <td><calc-input-2 v-model="finalBearing"/>
-        </td>
+        <td><calc-input v-model="finalBearing"/></td>
         <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Intermediate Point Fraction</td>
-        <td><calc-input-2 v-model="intermediatePointFraction"/></td>
+        <td><calc-input v-model="intermediatePointFraction"/></td>
       </tr>
       <tr>
         <td>Intermediate Point Coordinates</td>
-        <td><calc-input-2 v-model="intermediatePointCoordinatesString"/></td>
+        <td><calc-input v-model="intermediatePointCoordinatesString"/></td>
         <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       </tbody>
@@ -63,8 +61,8 @@
   import feature from 'topojson-client/src/feature'
   import versor from 'versor';
 
+  // import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
   import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
-  import CalcInput2 from 'src/misc/CalculatorEngineV3/CalcInput2'
   import CalcSelect from 'src/misc/CalculatorEngineV3/CalcSelect'
   import Validators from 'src/misc/CalculatorEngineV3/Validators'
 
@@ -74,7 +72,7 @@
 
   export default {
     name: 'two-coordinate-geodesics', // This will show up in the URL
-    components: { CalcInput, CalcInput2, CalcSelect },
+    components: { CalcInput, CalcSelect },
     data: function () {
       console.log('data() called')
 
@@ -98,7 +96,7 @@
           value: '-20, -30',
           tooltip: 'The start (first) coordinate.',
           validator: {
-            msg: 'Test',
+            msg: '',
             state: 'ok'
           }
         },
@@ -108,7 +106,7 @@
           value: '40, 20',
           tooltip: 'The end (second) coordinate.',
           validator: {
-            msg: 'Test',
+            msg: '',
             state: 'ok'
           }
         },
@@ -117,7 +115,7 @@
           value: 0.5,
           tooltip: 'A fractional amount between 0 and 1 the describes how far the intermediate point is between point 1 and point 2.',
           validator: {
-            msg: 'Test',
+            msg: '',
             state: 'ok'
           }
         },
