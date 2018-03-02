@@ -9,55 +9,30 @@
       <tbody>
       <tr>
         <td>Point 1</td>
-        <td><calc-input-2 v-model="point1String"/>
-        </td>
-        <td>
-          <select v-model="selCoordinateUnit">
-            <option>Degrees</option>
-            <option>Radians</option>
-          </select>
-        </td>
+        <td><calc-input-2 v-model="point1String"/></td>
+        <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Point 2</td>
         <td><calc-input-2 v-model="point2String"/></td>
-        <td>
-          <select v-model="selCoordinateUnit">
-            <option>Degrees</option>
-            <option>Radians</option>
-          </select>
-        </td>
+        <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Distance</td>
         <td><calc-input-2 v-model="distance" /></td>
-        <td>
-          <select v-model="distanceUnits">
-            <option>km</option>
-          </select>
-        </td>
+        <td><calc-select v-model="selDistanceUnit" :options="distanceUnits" /></td>
       </tr>
       <tr>
         <td>Initial Bearing</td>
         <td><calc-input-2 v-model="initialBearing"/>
         </td>
-        <td>
-          <select v-model="selCoordinateUnit">
-            <option>Degrees</option>
-            <option>Radians</option>
-          </select>
-        </td>
+        <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Final Bearing</td>
         <td><calc-input-2 v-model="finalBearing"/>
         </td>
-        <td>
-          <select v-model="selCoordinateUnit">
-            <option>Degrees</option>
-            <option>Radians</option>
-          </select>
-        </td>
+        <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Intermediate Point Fraction</td>
@@ -66,6 +41,7 @@
       <tr>
         <td>Intermediate Point Coordinates</td>
         <td><calc-input-2 v-model="intermediatePointCoordinatesString"/></td>
+        <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       </tbody>
     </table>
@@ -89,6 +65,7 @@
 
   import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
   import CalcInput2 from 'src/misc/CalculatorEngineV3/CalcInput2'
+  import CalcSelect from 'src/misc/CalculatorEngineV3/CalcSelect'
   import Validators from 'src/misc/CalculatorEngineV3/Validators'
 
   import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
@@ -97,7 +74,7 @@
 
   export default {
     name: 'two-coordinate-geodesics', // This will show up in the URL
-    components: { CalcInput, CalcInput2 },
+    components: { CalcInput, CalcInput2, CalcSelect },
     data: function () {
       console.log('data() called')
 
@@ -105,11 +82,14 @@
       return {
         geospatial: new Geospatial(),
         coordinateUnits: [
-          {name: 'Degrees'},
-          {name: 'Radians'}
+          'Degrees',
+          'Radians'
         ],
         selCoordinateUnit: 'Degrees',
-        distanceUnits: 'km',
+        distanceUnits: [
+          'km'
+        ],
+        selDistanceUnit: 'km',
         //================================================================================================//
         //=================================== CALCULATOR INPUTS ==========================================//
         //================================================================================================//
@@ -209,7 +189,7 @@
         var distance_m = this.geospatial.DistanceBetweenTwoPoints_m(this.point1Coord, this.point2Coord);
 
         var scaledDistance
-        if (this.distanceUnits === 'km')
+        if (this.selDistanceUnit === 'km')
           scaledDistance = distance_m / 1000.0
         else
           throw Error('Distance unit not recognized.')

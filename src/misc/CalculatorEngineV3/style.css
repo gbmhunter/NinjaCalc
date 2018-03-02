@@ -12,6 +12,10 @@ input.variable-value {
   height: 30px;
 }
 
+select.calc-select {
+  height: 25px;
+}
+
 .ok {
   border-color: rgb(38, 148, 30);
 }
