@@ -158,35 +158,6 @@
       }
     },
     computed: {
-      distance: function() {
-        console.log('distance() called.')
-
-        var output = {
-          dir: 'out',
-          value: '',
-          tooltip: 'The great-circle (shortest) distance between the two points.',
-          validator: {
-            state: 'ok',
-            msg: 'blah'
-          }
-        }
-
-        if(this.point1Coord == null || this.point2Coord == null) {
-          return output
-        }
-
-        var distance_m = this.geospatial.DistanceBetweenTwoPoints_m(this.point1Coord, this.point2Coord);
-
-        var scaledDistance
-        if(this.distanceUnits === 'km')
-          scaledDistance = distance_m/1000.0
-        else
-          throw Error('Distance unit not recognized.')
-
-        var roundedScaledDistance = Math.round(scaledDistance)
-        output.value = roundedScaledDistance
-        return output
-      },
       point1Coord: function() {
         console.log('point1Coord() called.')
         console.log(this.$refs.point1)
@@ -198,21 +169,9 @@
             pointCoord.FromString(this.point1String.value, CoordinateUnits.RADIANS)
           }
         } catch (e) {
-          // Set point 1 class to error
           return null
         }
         return pointCoord
-      },
-      point1Validator () {
-        var validator = {}
-        if (this.point1Coord === null) {
-          validator.state = 'error'
-          validator.msg = 'Input could not be converted into a valid coordinate.'
-        } else {
-          validator.state = 'ok'
-          validator.msg = ''
-        }
-        return validator
       },
       point2Coord: function() {
         console.log('point2Coord() called.')
@@ -228,16 +187,37 @@
         }
         return pointCoord
       },
-      point2Validator () {
-        var validator = {}
-        if (this.point2Coord === null) {
-          validator.state = 'error'
-          validator.msg = 'Input could not be converted into a valid coordinate.'
-        } else {
-          validator.state = 'ok'
-          validator.msg = ''
+      distance: function() {
+        console.log('distance() called.')
+
+        var output = {
+          dir: 'out',
+          value: '',
+          tooltip: 'The great-circle (shortest) distance between the two points.',
+          validator: {
+            state: 'ok',
+            msg: ''
+          }
         }
-        return validator
+
+        if(this.point1Coord == null || this.point2Coord == null) {
+          output.validator.state = 'error'
+          output.validator.msg = 'One or more dependent variables is incorrect.'
+          return output
+        }
+
+        var distance_m = this.geospatial.DistanceBetweenTwoPoints_m(this.point1Coord, this.point2Coord);
+
+        var scaledDistance
+        if (this.distanceUnits === 'km')
+          scaledDistance = distance_m / 1000.0
+        else
+          throw Error('Distance unit not recognized.')
+
+        var roundedScaledDistance = Math.round(scaledDistance)
+        output.value = roundedScaledDistance
+
+        return output
       },
       initialBearing: function() {
 
@@ -247,11 +227,13 @@
           tooltip: 'The bearing (relative to North) that you would be facing when standing at point 1 and travelling to point 2.',
           validator: {
             state: 'ok',
-            msg: 'blah'
+            msg: ''
           }
         }
 
         if(this.point1Coord == null || this.point2Coord == null) {
+          output.validator.state = 'error'
+          output.validator.msg = 'One or more dependent variables is incorrect.'
           return output
         }
 
@@ -281,11 +263,13 @@
           tooltip: 'The bearing (relative to North) that you would be facing when you arrive at point 2, having travelled from point 1.',
           validator: {
             state: 'ok',
-            msg: 'blah'
+            msg: ''
           }
         }
 
         if(this.point1Coord == null || this.point2Coord == null) {
+          output.validator.state = 'error'
+          output.validator.msg = 'One or more dependent variables is incorrect.'
           return output
         }
 
@@ -312,7 +296,8 @@
       },
       intermediatePointCoordinates: function() {
         console.log('intermediatePointCoordinates() called.')
-        if(!this.distance)
+
+        if(!this.distance.value)
           return ''
 
         const p1Lat = this.point1Coord.GetLat_rad()
@@ -340,31 +325,30 @@
 
         var output = {
           dir: 'out',
-          value: '4',
+          value: '',
           tooltip: 'The coordinates of an intermediate point which is between point 1 and 2, determined by the fractional amount above.',
           validator: {
             state: 'ok',
-            msg: 'blah'
+            msg: ''
           }
         }
 
-        var value = ''
-        console.log('intermediatePointCoordinatesString() called.')
-        if(!this.intermediatePointCoordinates)
+        if(!this.intermediatePointCoordinates) {
+          output.validator.state = 'error'
+          output.validator.msg = 'One or more dependent variables is incorrect.'
           return output
-
-        console.log('intermediatePointCoordinatesString() called.')
+        }
+        // console.log('intermediatePointCoordinatesString() called.')
 
         if(this.selCoordinateUnit === 'Degrees') {
-          value = this.intermediatePointCoordinates.GetLat_deg().toPrecision(4) + ', ' +
+          output.value = this.intermediatePointCoordinates.GetLat_deg().toPrecision(4) + ', ' +
             this.intermediatePointCoordinates.GetLon_deg().toPrecision(4)
         } else if(this.selCoordinateUnit === 'Radians') {
-          value = this.intermediatePointCoordinates.GetLat_rad().toPrecision(4) + ', ' +
+          output.value = this.intermediatePointCoordinates.GetLat_rad().toPrecision(4) + ', ' +
             this.intermediatePointCoordinates.GetLon_rad().toPrecision(4)
         } else {
           throw Error('Selected unit not recognized.')
         }
-        output.value = value
         return output
       }
     },

@@ -48,8 +48,8 @@
       },
       inputClasses () {
         return [
-          { 'input': this.value.dir === 'in' },
-          { 'output': this.value.dir === 'out' },
+          { 'dirIn': this.value.dir === 'in' },
+          { 'dirOut': this.value.dir === 'out' },
           { 'error': this.value.validator.state === 'error' },
           { 'ok': this.value.validator.state === 'ok' }
         ]

@@ -36,12 +36,17 @@ input.variable-value {
   background-color: rgb(255, 195, 198);
 }
 
-.input {
+input.dirIn {
   border-width: 3px;
 }
 
-.output {
-  border-width: 3px;
+input.dirOut {
+  border-width: 1px;
+}
+
+.variable-value[disabled="disabled"] {
+  /*color: black;*/
+  font-weight: bold;
 }
 
 
