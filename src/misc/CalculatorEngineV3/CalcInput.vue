@@ -3,7 +3,7 @@
   <div>
     <md-tooltip md-direction="top" v-html="toolTipMsg"></md-tooltip>
     <input
-      v-model="internalValue"
+      v-model="value"
       :disabled="this.dir === 'out'"
       class="variable-value"
       :class="inputClasses">
