@@ -91,6 +91,7 @@
     "vue-strap": "^1.1.36",
     "vue-style-loader": "^2.0.0",
     "vue-template-compiler": "^2.1.10",
+    "vue2-google-maps": "^0.8.8",
     "vuex": "^2.1.2",
     "vuex-router-sync": "^4.1.2",
     "webpack": "^2.2.1",

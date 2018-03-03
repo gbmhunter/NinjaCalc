@@ -60,6 +60,7 @@
   import { buckConverterCalculator } from '../Calculators/Electronics/Smps/BuckConverter/Calc'
 
   import { twoCoordinateGeodesics } from "../Calculators/Geospatial/TwoCoordinateGeodesics/Calc";
+  import { mapPlotter } from "../Calculators/Geospatial/MapPlotter/Calc";
 
   import { crcCalculator } from '../Calculators/Software/Crc/Calc'
 
@@ -200,6 +201,7 @@
       // ================= GEOSPATIAL =============== //
       // ============================================ //
 
+      this.$store.dispatch('registerCalc', mapPlotter)
       this.$store.dispatch('registerCalc', twoCoordinateGeodesics)
 
       // ============================================ //
