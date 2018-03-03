@@ -24,11 +24,11 @@
         :position="m.position"
         :clickable="true"
         :draggable="true"
-        @click="center=m.position"
-      ></gmap-marker>
+        @click="center=m.position"/>
       <gmap-polyline
-        :path="[{ lat: 0.0, lng: 0.0 }, { lat: 45.0, lng: 45.0 }]"
-        :options="{ geodesic: true }"></gmap-polyline>
+        v-for="(arc, index) in arcs"
+        :path="arc.path"
+        :options="{ geodesic: true }" />
     </gmap-map>
 
   </div>
@@ -60,8 +60,11 @@
         // }, {
         //   position: {lat: 11.0, lng: 11.0}
         // }],
-        pointCoordinatesString: '0,  0\n10, 10',
-        arcsString: '0,0,10,10',
+        pointCoordinatesString: '20, -10\n20, 10',
+        arcsString:
+          '15,-20,5,-10\n' +
+          '5,-10,5,10\n' +
+          '5,10,15,20',
         selCoordinateUnit: 'Degrees'
       }
     },
@@ -100,7 +103,36 @@
           var arc = {}
           arc.path = []
 
+          const numbers = arcString.split(',')
+          console.log('numbers =')
+          console.log(numbers)
+
+          for (var i = 0; i < numbers.length/2; i++) {
+            var pointCoord = new Coordinate()
+            const coordString = numbers[2*i] + ', ' + numbers[2*i + 1]
+            console.log('coordString = ' + coordString)
+            try {
+              if (this.selCoordinateUnit === 'Degrees') {
+                pointCoord.FromString(coordString, CoordinateUnits.DEGREES)
+              } else if (this.selCoordinateUnit === 'Radians') {
+                pointCoord.FromString(coordString, CoordinateUnits.RADIANS)
+              }
+            } catch (e) {
+              console.log('ERROR')
+              return
+            }
+            arc.path.push({ lat: pointCoord.GetLat_deg(), lng: pointCoord.GetLon_deg() })
+            console.log('arc =')
+            console.log(arc)
+          }
+
+          arcs.push(arc)
+
         })
+
+        console.log('arcs = ')
+        console.log(arcs)
+        return arcs
       }
     },
     watch: {},
