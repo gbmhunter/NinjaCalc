@@ -92,6 +92,15 @@
         })
 
         return test
+      },
+      arcs () {
+        var arcs = []
+        var arcsStringArray = this.arcsString.split('\n')
+        arcsStringArray.map((arcString) => {
+          var arc = {}
+          arc.path = []
+
+        })
       }
     },
     watch: {},
