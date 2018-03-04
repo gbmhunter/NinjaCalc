@@ -5,13 +5,17 @@
     <div style="flex: 0 1 auto; width: 200px; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
       <span style="font-weight: bold;">Points</span>
       <span style="font-size: 10px;">Enter point coordinates here<br>&lt;lat, lon&gt;:</span>
-      <calc-textarea v-model="pointCoordinatesTextArea" style="width: 100%; height: 200px;"></calc-textarea>
+      <calc-textarea v-model="pointCoordinatesTextArea" style="width: 100%; height: 200px;"/>
 
       <div class="spacer" style="height: 20px;"></div>
 
       <span style="font-weight: bold;">Arcs</span>
       <span style="font-size: 10px;">Enter arc start and end coordinates here<br>&lt;lat_start, lon_start, lat_end, lon_end&gt;:</span>
-      <calc-textarea v-model="arcsTextArea" style="width: 100%; height: 200px;"></calc-textarea>
+      <calc-textarea v-model="arcsTextArea" style="width: 100%; height: 200px;"/>
+
+      <span style="font-size: 12px;">Draw arcs as:</span>
+      <div style="display: flex;"><input type="radio" id="greatCircles" value="Great Circles" v-model="drawArcsAs"/><label for="greatCircles" style="font-size: 10px;">Great circles</label></div>
+      <div style="display: flex;"><input type="radio" id="rhumbLines" value="Rhumb Lines" v-model="drawArcsAs"/><label for="greatCircles" style="font-size: 10px;">Rhumb lines</label></div>
 
       <div class="spacer" style="height: 20px;"></div>
       <button @click="clearAll" style="width: 100px; height: 40px;">Clear All</button>
@@ -39,7 +43,7 @@
         v-for="(arc, index) in arcs"
         :key="'a' + index.toString()"
         :path="arc.path"
-        :options="{ geodesic: true }" />
+        :options="{ geodesic: arc.geodesic }" />
     </gmap-map>
 
   </div>
@@ -86,7 +90,8 @@
             msg: 'Test'
           }
         },
-        selCoordinateUnit: 'Degrees'
+        selCoordinateUnit: 'Degrees',
+        drawArcsAs: 'Great Circles'
       }
     },
     computed: {
@@ -169,6 +174,14 @@
             arc.path.push({ lat: pointCoord.GetLat_deg(), lng: pointCoord.GetLon_deg() })
             console.log('arc =')
             console.log(arc)
+          }
+
+          if (this.drawArcsAs === 'Great Circles') {
+            arc.geodesic = true
+          } else if (this.drawArcsAs === 'Rhumb Lines') {
+            arc.geodesic = false
+          } else {
+            throw Error('drawArcsAs type not recognized.')
           }
 
           arcs.push(arc)
