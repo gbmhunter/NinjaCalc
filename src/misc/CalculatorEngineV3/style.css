@@ -28,15 +28,16 @@ select.calc-select {
   border-color: rgb(255, 70, 82);
 }
 
-.ok.input {
+/* Sets the background color of input and textarea elements */
+.ok.dirIn {
   background-color: rgb(190, 255, 189);
 }
 
-.warning.input {
+.warning.dirIn {
   background-color: rgb(255, 221, 144);
 }
 
-.error.input {
+.error.dirIn {
   background-color: rgb(255, 195, 198);
 }
 

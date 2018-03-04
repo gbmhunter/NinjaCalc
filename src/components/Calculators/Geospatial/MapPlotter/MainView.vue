@@ -5,13 +5,13 @@
     <div style="flex: 0 1 auto; width: 200px; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
       <span style="font-weight: bold;">Points</span>
       <span style="font-size: 10px;">Enter point coordinates here<br>&lt;lat, lon&gt;:</span>
-      <textarea v-model="pointCoordinatesString" style="width: 100%; height: 200px;"></textarea>
+      <calc-textarea v-model="pointCoordinatesString" style="width: 100%; height: 200px;"></calc-textarea>
 
       <div class="spacer" style="height: 20px;"></div>
 
       <span style="font-weight: bold;">Arcs</span>
       <span style="font-size: 10px;">Enter arc start and end coordinates here<br>&lt;lat_start, lon_start, lat_end, lon_end&gt;:</span>
-      <textarea v-model="arcsString" style="width: 100%; height: 200px;"></textarea>
+      <calc-textarea v-model="arcsString" style="width: 100%; height: 200px;"></calc-textarea>
 
       <div class="spacer" style="height: 20px;"></div>
       <button @click="clearAll" style="width: 100px; height: 40px;">Clear All</button>
@@ -33,6 +33,7 @@
         @click="center=m.position"/>
       <gmap-polyline
         v-for="(arc, index) in arcs"
+        :key="'a' + index.toString()"
         :path="arc.path"
         :options="{ geodesic: true }" />
     </gmap-map>
@@ -49,14 +50,13 @@
 
   import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
 
-  // import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
   import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
   import CalcSelect from 'src/misc/CalculatorEngineV3/CalcSelect'
-
+  import CalcTextArea from 'src/misc/CalculatorEngineV3/CalcTextArea'
 
   export default {
     name: 'map-plotter', // This will show up in the URL
-    components: { CalcInput, CalcSelect },
+    components: { 'calc-input': CalcInput, CalcSelect, 'calc-textarea': CalcTextArea },
     data: function () {
 
       return {
@@ -66,11 +66,27 @@
         // }, {
         //   position: {lat: 11.0, lng: 11.0}
         // }],
-        pointCoordinatesString: '20, -10\n20, 10',
-        arcsString:
+        pointCoordinatesString: {
+          dir: 'in',
+          value: '20, -10\n20, 10',
+          help: 'Enter the coordinates for one point per line.',
+          validator: {
+            state: 'ok',
+            msg: 'Test'
+          }
+        },
+        arcsString: {
+          dir: 'in',
+          value:
           '15,-20,5,-10\n' +
           '5,-10,5,10\n' +
           '5,10,15,20',
+          help: 'Enter the start and end coordinates for one arc per line.',
+          validator: {
+            state: 'ok',
+            msg: 'Test'
+          }
+        },
         selCoordinateUnit: 'Degrees'
       }
     },
@@ -78,10 +94,15 @@
       markers () {
         var points = []
 
-        var coordArray = this.pointCoordinatesString.split('\n')
+        var coordArray = this.pointCoordinatesString.value.split('\n')
+        var allPointsValid = true
         coordArray.map((coordString) => {
           console.log('coordString =')
           console.log(coordString)
+
+          // Ignore empty lines
+          if (coordString === '') return
+
           var pointCoord = new Coordinate()
           try {
             if (this.selCoordinateUnit === 'Degrees') {
@@ -90,6 +111,7 @@
               pointCoord.FromString(coordString, CoordinateUnits.RADIANS)
             }
           } catch (e) {
+            allPointsValid = false
             return
           }
           points.push({
@@ -100,18 +122,35 @@
           })
         })
 
+        if (allPointsValid) {
+          this.pointCoordinatesString.validator.state = 'ok'
+          this.pointCoordinatesString.validator.msg = ''
+        } else {
+          this.pointCoordinatesString.validator.state = 'error'
+          this.pointCoordinatesString.validator.msg = 'One or more points is not in the correct format.'
+        }
+
         return points
       },
       arcs () {
         var arcs = []
-        var arcsStringArray = this.arcsString.split('\n')
+        var arcsStringArray = this.arcsString.value.split('\n')
+        var allPointsValid = true
         arcsStringArray.map((arcString) => {
+
+          // Ignore a line which is empty
+          if (arcString === '') return
+
           var arc = {}
           arc.path = []
 
           const numbers = arcString.split(',')
           console.log('numbers =')
           console.log(numbers)
+
+          // Make sure there is just not one point (only one coordinate error will
+          // be handled by the 'FromString' method call below)
+          if (numbers.length === 2) allPointsValid = false
 
           for (var i = 0; i < numbers.length/2; i++) {
             var pointCoord = new Coordinate()
@@ -125,6 +164,7 @@
               }
             } catch (e) {
               console.log('ERROR')
+              allPointsValid = false
               return
             }
             arc.path.push({ lat: pointCoord.GetLat_deg(), lng: pointCoord.GetLon_deg() })
@@ -136,6 +176,14 @@
 
         })
 
+        if (allPointsValid) {
+          this.arcsString.validator.state = 'ok'
+          this.arcsString.validator.msg = ''
+        } else {
+          this.arcsString.validator.state = 'error'
+          this.arcsString.validator.msg = 'One or more arcs is not in the correct format.'
+        }
+
         console.log('arcs = ')
         console.log(arcs)
         return arcs
@@ -145,8 +193,8 @@
     methods: {
       clearAll () {
         // Clears all points and arcs from map (as well as from text boxes)
-        this.pointCoordinatesString = ''
-        this.arcsString = ''
+        this.pointCoordinatesString.value = ''
+        this.arcsString.value = ''
       }
     },
     mounted () {
