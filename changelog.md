@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Changed cursor when over category tree view to 'clickable' (e.g. index finger), closes #165.
 - Made output variables more easily recognizable as outputs, closes #166.
 - Improved formatting of calculator variables in 'Two Coordinate Geodesics' calculator.
+- Fixed bug where open calculator tabs do not have explicit keys, closes #169.
 
 ## [v3.2.1] - 2018-02-27
 
