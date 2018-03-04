@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Added ability to clear category selection by clicking on selected category for a second time, closes #163.
 - New calculator engine called 'CalcEngineV3', which should be easier to customize in a vue component than 'CalcEngineV2'.
+- Added map plotting calculator, closes #167.
+- Added 'Zoom to Fit' button on map plotter calculator, closes #170.
 
 ### Fixed
 - Fixed bug where 'Two Coordinate Geodesics' calculator had old URL of '.../calc/distance-between-two-coordinates', closes #164.

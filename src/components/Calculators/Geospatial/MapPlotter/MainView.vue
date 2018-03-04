@@ -5,22 +5,26 @@
     <div style="flex: 0 1 auto; width: 200px; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
       <span style="font-weight: bold;">Points</span>
       <span style="font-size: 10px;">Enter point coordinates here<br>&lt;lat, lon&gt;:</span>
-      <calc-textarea v-model="pointCoordinatesString" style="width: 100%; height: 200px;"></calc-textarea>
+      <calc-textarea v-model="pointCoordinatesTextArea" style="width: 100%; height: 200px;"></calc-textarea>
 
       <div class="spacer" style="height: 20px;"></div>
 
       <span style="font-weight: bold;">Arcs</span>
       <span style="font-size: 10px;">Enter arc start and end coordinates here<br>&lt;lat_start, lon_start, lat_end, lon_end&gt;:</span>
-      <calc-textarea v-model="arcsString" style="width: 100%; height: 200px;"></calc-textarea>
+      <calc-textarea v-model="arcsTextArea" style="width: 100%; height: 200px;"></calc-textarea>
 
       <div class="spacer" style="height: 20px;"></div>
       <button @click="clearAll" style="width: 100px; height: 40px;">Clear All</button>
+
+      <div class="spacer" style="height: 20px;"></div>
+      <button @click="zoomToFit" style="width: 100px; height: 40px;">Zoom To Fit</button>
     </div>
 
     <div class="spacer" style="width: 10px;"></div>
 
     <!-- RIGHT-HAND SIDE MAP -->
     <gmap-map
+      ref="map"
       :center="center"
       :zoom="2"
       style="flex: 1 1 auto; height: 100%;">
@@ -61,12 +65,7 @@
 
       return {
         center: {lat: 10.0, lng: 10.0},
-        // markers: [{
-        //   position: {lat: 10.0, lng: 10.0}
-        // }, {
-        //   position: {lat: 11.0, lng: 11.0}
-        // }],
-        pointCoordinatesString: {
+        pointCoordinatesTextArea: {
           dir: 'in',
           value: '20, -10\n20, 10',
           help: 'Enter the coordinates for one point per line.',
@@ -75,7 +74,7 @@
             msg: 'Test'
           }
         },
-        arcsString: {
+        arcsTextArea: {
           dir: 'in',
           value:
           '15,-20,5,-10\n' +
@@ -94,7 +93,7 @@
       markers () {
         var points = []
 
-        var coordArray = this.pointCoordinatesString.value.split('\n')
+        var coordArray = this.pointCoordinatesTextArea.value.split('\n')
         var allPointsValid = true
         coordArray.map((coordString) => {
           console.log('coordString =')
@@ -123,20 +122,20 @@
         })
 
         if (allPointsValid) {
-          this.pointCoordinatesString.validator.state = 'ok'
-          this.pointCoordinatesString.validator.msg = ''
+          this.pointCoordinatesTextArea.validator.state = 'ok'
+          this.pointCoordinatesTextArea.validator.msg = ''
         } else {
-          this.pointCoordinatesString.validator.state = 'error'
-          this.pointCoordinatesString.validator.msg = 'One or more points is not in the correct format.'
+          this.pointCoordinatesTextArea.validator.state = 'error'
+          this.pointCoordinatesTextArea.validator.msg = 'One or more points is not in the correct format.'
         }
 
         return points
       },
       arcs () {
         var arcs = []
-        var arcsStringArray = this.arcsString.value.split('\n')
+        var arcsTextAreaArray = this.arcsTextArea.value.split('\n')
         var allPointsValid = true
-        arcsStringArray.map((arcString) => {
+        arcsTextAreaArray.map((arcString) => {
 
           // Ignore a line which is empty
           if (arcString === '') return
@@ -177,11 +176,11 @@
         })
 
         if (allPointsValid) {
-          this.arcsString.validator.state = 'ok'
-          this.arcsString.validator.msg = ''
+          this.arcsTextArea.validator.state = 'ok'
+          this.arcsTextArea.validator.msg = ''
         } else {
-          this.arcsString.validator.state = 'error'
-          this.arcsString.validator.msg = 'One or more arcs is not in the correct format.'
+          this.arcsTextArea.validator.state = 'error'
+          this.arcsTextArea.validator.msg = 'One or more arcs is not in the correct format.'
         }
 
         console.log('arcs = ')
@@ -193,8 +192,39 @@
     methods: {
       clearAll () {
         // Clears all points and arcs from map (as well as from text boxes)
-        this.pointCoordinatesString.value = ''
-        this.arcsString.value = ''
+        this.pointCoordinatesTextArea.value = ''
+        this.arcsTextArea.value = ''
+      },
+      zoomToFit () {
+        // The Google map object is stored with the vue2-google-maps component,
+        // we need to access it directly
+        var map = this.$refs.map.$mapObject
+
+        var bounds = new google.maps.LatLngBounds();
+
+        // Capture all markers
+        for (var i = 0; i < this.markers.length; i++) {
+          bounds.extend({ lat: this.markers[i].position.lat, lng: this.markers[i].position.lng });
+        }
+
+        // Capture all points on arcs
+        for (var i = 0; i < this.arcs.length; i++) {
+          // console.log('this.arc)
+          for (var j = 0; j < this.arcs[i].path.length; j++) {
+            bounds.extend({lat: this.arcs[i].path[j].lat, lng: this.arcs[i].path[j].lng });
+          }
+        }
+
+        map.setCenter(bounds.getCenter())
+        map.fitBounds(bounds);
+
+        // fitBounds() is async so we perform the zoom manipulation from within a callback
+        google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
+          this.setZoom(map.getZoom()-1)
+          if (this.getZoom() > 15) {
+            this.setZoom(15)
+          }
+        })
       }
     },
     mounted () {
