@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v3.3.0] - 2018-03-04
+
 ### Added
 - Added ability to clear category selection by clicking on selected category for a second time, closes #163.
 - New calculator engine called 'CalcEngineV3', which should be easier to customize in a vue component than 'CalcEngineV2'.
