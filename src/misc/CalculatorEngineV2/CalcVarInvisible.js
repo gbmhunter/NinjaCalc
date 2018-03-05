@@ -1,6 +1,5 @@
 import CalcVar from './CalcVar'
-console.log('CalcVarTest called.')
-console.log(CalcVar)
+
 /**
  * A calculator variable which accepts a generic string.
  */

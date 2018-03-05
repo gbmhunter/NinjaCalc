@@ -6,6 +6,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v3.3.0] - 2018-03-04
+
+### Added
+- Added ability to clear category selection by clicking on selected category for a second time, closes #163.
+- New calculator engine called 'CalcEngineV3', which should be easier to customize in a vue component than 'CalcEngineV2'.
+- Added map plotting calculator, closes #167.
+- Added 'Zoom to Fit' button on map plotter calculator, closes #170.
+
+### Fixed
+- Fixed bug where 'Two Coordinate Geodesics' calculator had old URL of '.../calc/distance-between-two-coordinates', closes #164.
+- Changed justified text in calculator selection grid description to left-aligned, closes #161.
+- Changed cursor when over category tree view to 'clickable' (e.g. index finger), closes #165.
+- Made output variables more easily recognizable as outputs, closes #166.
+- Improved formatting of calculator variables in 'Two Coordinate Geodesics' calculator.
+- Fixed bug where open calculator tabs do not have explicit keys, closes #169.
+
+## [v3.2.1] - 2018-02-27
+
+### Fixed
+- Fixed display error with TreeView component where bullet-point and bullet-point text were not on the same line.
+
+## [v3.2.0] - 2018-02-27
+
+### Added
+- Added tree view to calculator selection overlay with calculators sorted by category, closes #162.
+
+### Fixed
+- Fixed TravisCI build error, where error was 'npm ERR! enoent ENOENT: no such file or directory, chmod '/home/travis/build/mbedded-ninja/NinjaCalc/node_modules/topojson/node_modules/topojson-server/bin/geo2topo''. This was fixed by removing topojson as a dependency and just using topojson-client, topojson-server and topojson-simplify individually (they are still dependencies).
+
 ## [v3.1.0] - 2018-02-18
 
 ### Added

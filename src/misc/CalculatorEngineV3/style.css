@@ -7,6 +7,13 @@ input.variable-value {
   /* Add a small amount of padding before the first number in the input
   text box (otherwise the number collides with the side of the input border). */
   padding-left: 5px;
+
+  width: 150px;
+  height: 30px;
+}
+
+select.calc-select {
+  height: 25px;
 }
 
 .ok {
@@ -21,25 +28,32 @@ input.variable-value {
   border-color: rgb(255, 70, 82);
 }
 
-.ok.input {
+/* Sets the background color of input and textarea elements */
+.ok.dirIn {
   background-color: rgb(190, 255, 189);
 }
 
-.warning.input {
+.warning.dirIn {
   background-color: rgb(255, 221, 144);
 }
 
-.error.input {
+.error.dirIn {
   background-color: rgb(255, 195, 198);
 }
 
-.input {
+input.dirIn {
   border-width: 3px;
 }
 
-.output {
-  border-width: 3px;
+input.dirOut {
+  border-width: 1px;
 }
+
+.variable-value[disabled="disabled"] {
+  /*color: black;*/
+  font-weight: bold;
+}
+
 
 /*.input.ok {*/
   /*border-color: rgb(38, 148, 30);*/

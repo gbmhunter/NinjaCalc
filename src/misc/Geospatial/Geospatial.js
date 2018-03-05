@@ -39,15 +39,7 @@ export class Coordinate {
   }
 
   FromString (value, units) {
-    // console.log('ABC')
-    // console.log(typeof value)
-    // console.log('t' + units instanceof CoordinateUnits)
-    // if (!(typeof value === 'string') || !(units instanceof CoordinateUnits)) {
-    //   throw new Error('Inputs are invalid.')
-    // }
-
     var latlon = value.split(/, ?/)
-    console.log('latlon = ' + latlon)
 
     var lat = parseFloat(latlon[0])
     if (isNaN(lat)) {
@@ -61,8 +53,7 @@ export class Coordinate {
     // console.log('this.lat_rad = ' + this.lat_rad)
 
     var lon = parseFloat(latlon[1])
-    console.log('this.lon_rad = ' + this.lon_rad)
-    if (isNaN(this.lon_rad)) {
+    if (isNaN(lon)) {
       throw new Error('String was not valid')
     }
     if (units === CoordinateUnits.DEGREES) {

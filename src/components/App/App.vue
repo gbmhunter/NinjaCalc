@@ -25,7 +25,7 @@
     right of the tab header, but we disable this in CSS -->
     <el-tabs type="card" v-if="this.$store.state.core.openCalcs.length" v-model="activeTabId" editable @edit="handleTabsEdit">
       <!-- The name property is the unique ID which identifies the tab -->
-      <el-tab-pane v-for="item in this.$store.state.core.openCalcs" :label="item.name" :name="item.uniqueId.toString()">
+      <el-tab-pane v-for="(item, index) in this.$store.state.core.openCalcs" :key="index" :label="item.name" :name="item.uniqueId.toString()">
         <component :is="item.componentName"></component>
       </el-tab-pane>
     </el-tabs>
@@ -60,6 +60,7 @@
   import { buckConverterCalculator } from '../Calculators/Electronics/Smps/BuckConverter/Calc'
 
   import { twoCoordinateGeodesics } from "../Calculators/Geospatial/TwoCoordinateGeodesics/Calc";
+  import { mapPlotter } from "../Calculators/Geospatial/MapPlotter/Calc";
 
   import { crcCalculator } from '../Calculators/Software/Crc/Calc'
 
@@ -200,6 +201,7 @@
       // ================= GEOSPATIAL =============== //
       // ============================================ //
 
+      this.$store.dispatch('registerCalc', mapPlotter)
       this.$store.dispatch('registerCalc', twoCoordinateGeodesics)
 
       // ============================================ //

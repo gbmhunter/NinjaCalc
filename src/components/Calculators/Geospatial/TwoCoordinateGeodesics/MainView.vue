@@ -9,60 +9,37 @@
       <tbody>
       <tr>
         <td>Point 1</td>
-        <td><input v-model="point1String" placeholder="10.0,10.0" /></td>
-        <td>
-          <select v-model="selCoordinateUnit">
-            <option>Degrees</option>
-            <option>Radians</option>
-          </select>
-        </td>
+        <td><calc-input v-model="point1String"/></td>
+        <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Point 2</td>
-        <td><input v-model="point2String" placeholder="10.0,10.0"/></td>
-        <td>
-          <select v-model="selCoordinateUnit">
-            <option>Degrees</option>
-            <option>Radians</option>
-          </select>
-        </td>
+        <td><calc-input v-model="point2String"/></td>
+        <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Distance</td>
-        <td><input v-model="distance" :disabled="true"/></td>
-        <td>
-          <select v-model="distanceUnits">
-            <option>km</option>
-          </select>
-        </td>
+        <td><calc-input v-model="distance" /></td>
+        <td><calc-select v-model="selDistanceUnit" :options="distanceUnits" /></td>
       </tr>
       <tr>
         <td>Initial Bearing</td>
-        <td><input v-model="initialBearing" :disabled="true"/></td>
-        <td>
-          <select v-model="selCoordinateUnit">
-            <option>Degrees</option>
-            <option>Radians</option>
-          </select>
-        </td>
+        <td><calc-input v-model="initialBearing"/></td>
+        <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Final Bearing</td>
-        <td><input v-model="finalBearing" :disabled="true"/></td>
-        <td>
-          <select v-model="selCoordinateUnit">
-            <option>Degrees</option>
-            <option>Radians</option>
-          </select>
-        </td>
+        <td><calc-input v-model="finalBearing"/></td>
+        <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       <tr>
         <td>Intermediate Point Fraction</td>
-        <td><input v-model="intermediatePointFraction"/></td>
+        <td><calc-input v-model="intermediatePointFraction"/></td>
       </tr>
       <tr>
-        <td>Coordinates</td>
-        <td><input v-model="intermediatePointCoordinatesString" :disabled="true"/></td>
+        <td>Intermediate Point Coordinates</td>
+        <td><calc-input v-model="intermediatePointCoordinatesString"/></td>
+        <td><calc-select v-model="selCoordinateUnit" :options="coordinateUnits" /></td>
       </tr>
       </tbody>
     </table>
@@ -81,16 +58,21 @@
   /* eslint-disable */
 
   import * as d3 from 'd3'
-  import * as topojson from 'topojson'
+  import feature from 'topojson-client/src/feature'
   import versor from 'versor';
+
+  // import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
+  import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
+  import CalcSelect from 'src/misc/CalculatorEngineV3/CalcSelect'
+  import Validators from 'src/misc/CalculatorEngineV3/Validators'
 
   import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
   var world110m = require('./world-110m')
   var self = null
 
   export default {
-    name: 'distance-between-two-coordinates', // This will show up in the URL
-    components: {},
+    name: 'two-coordinate-geodesics', // This will show up in the URL
+    components: { CalcInput, CalcSelect },
     data: function () {
       console.log('data() called')
 
@@ -98,15 +80,45 @@
       return {
         geospatial: new Geospatial(),
         coordinateUnits: [
-          {name: 'Degrees'},
-          {name: 'Radians'}
+          'Degrees',
+          'Radians'
         ],
         selCoordinateUnit: 'Degrees',
+        distanceUnits: [
+          'km'
+        ],
+        selDistanceUnit: 'km',
+        //================================================================================================//
+        //=================================== CALCULATOR INPUTS ==========================================//
+        //================================================================================================//
+        point1String: {
+          dir: 'in',
+          value: '-20, -30',
+          tooltip: 'The start (first) coordinate.',
+          validator: {
+            msg: '',
+            state: 'ok'
+          }
+        },
 
-        point1String: '-20, -30',
-        point2String: '40, 20',
-        distanceUnits: 'km',
-        intermediatePointFraction: 0.5,
+        point2String: {
+          dir: 'in',
+          value: '40, 20',
+          tooltip: 'The end (second) coordinate.',
+          validator: {
+            msg: '',
+            state: 'ok'
+          }
+        },
+        intermediatePointFraction: {
+          dir: 'in',
+          value: 0.5,
+          tooltip: 'A fractional amount between 0 and 1 the describes how far the intermediate point is between point 1 and point 2.',
+          validator: {
+            msg: '',
+            state: 'ok'
+          }
+        },
 
         canvas: null,
         water: {type: 'Sphere'},
@@ -119,33 +131,20 @@
         path: null,
         width: 400,
         height: 400,
-        scaleFactor: 0.90
+        scaleFactor: 0.90,
+        validators: new Validators()
       }
     },
     computed: {
-      distance: function() {
-        if(this.point1Coord == null || this.point2Coord == null) {
-          return ''
-        }
-
-        var distance_m = this.geospatial.DistanceBetweenTwoPoints_m(this.point1Coord, this.point2Coord);
-
-        var scaledDistance
-        if(this.distanceUnits == 'km')
-          scaledDistance = distance_m/1000.0
-        else
-          throw Error('Distance unit not recognized.')
-
-        return Math.round(scaledDistance)
-      },
       point1Coord: function() {
         console.log('point1Coord() called.')
+        console.log(this.$refs.point1)
         var pointCoord = new Coordinate()
         try {
           if(this.selCoordinateUnit === 'Degrees') {
-            pointCoord.FromString(this.point1String, CoordinateUnits.DEGREES)
+            pointCoord.FromString(this.point1String.value, CoordinateUnits.DEGREES)
           } else if(this.selCoordinateUnit === 'Radians') {
-            pointCoord.FromString(this.point1String, CoordinateUnits.RADIANS)
+            pointCoord.FromString(this.point1String.value, CoordinateUnits.RADIANS)
           }
         } catch (e) {
           return null
@@ -157,19 +156,63 @@
         var pointCoord = new Coordinate()
         try {
           if(this.selCoordinateUnit === 'Degrees') {
-            pointCoord.FromString(this.point2String, CoordinateUnits.DEGREES)
+            pointCoord.FromString(this.point2String.value, CoordinateUnits.DEGREES)
           } else if(this.selCoordinateUnit === 'Radians') {
-            pointCoord.FromString(this.point2String, CoordinateUnits.RADIANS)
+            pointCoord.FromString(this.point2String.value, CoordinateUnits.RADIANS)
           }
         } catch (e) {
           return null
         }
         return pointCoord
       },
-      initialBearing: function() {
+      distance: function() {
+        console.log('distance() called.')
+
+        var output = {
+          dir: 'out',
+          value: '',
+          tooltip: 'The great-circle (shortest) distance between the two points.',
+          validator: {
+            state: 'ok',
+            msg: ''
+          }
+        }
 
         if(this.point1Coord == null || this.point2Coord == null) {
-          return ''
+          output.validator.state = 'error'
+          output.validator.msg = 'One or more dependent variables is incorrect.'
+          return output
+        }
+
+        var distance_m = this.geospatial.DistanceBetweenTwoPoints_m(this.point1Coord, this.point2Coord);
+
+        var scaledDistance
+        if (this.selDistanceUnit === 'km')
+          scaledDistance = distance_m / 1000.0
+        else
+          throw Error('Distance unit not recognized.')
+
+        var roundedScaledDistance = Math.round(scaledDistance)
+        output.value = roundedScaledDistance
+
+        return output
+      },
+      initialBearing: function() {
+
+        var output = {
+          dir: 'out',
+          value: '',
+          tooltip: 'The bearing (relative to North) that you would be facing when standing at point 1 and travelling to point 2.',
+          validator: {
+            state: 'ok',
+            msg: ''
+          }
+        }
+
+        if(this.point1Coord == null || this.point2Coord == null) {
+          output.validator.state = 'error'
+          output.validator.msg = 'One or more dependent variables is incorrect.'
+          return output
         }
 
         var y = Math.sin(this.point2Coord.GetLon_rad() - this.point1Coord.GetLon_rad()) * Math.cos(this.point2Coord.GetLat_rad());
@@ -186,12 +229,26 @@
           throw Error('Selected unit not recognized.')
         }
 
-        return bearing_units.toPrecision(4)
+        var roundedearing = bearing_units.toPrecision(4)
+        output.value = roundedearing
+        return output
       },
       finalBearing: function() {
 
+        var output = {
+          dir: 'out',
+          value: '',
+          tooltip: 'The bearing (relative to North) that you would be facing when you arrive at point 2, having travelled from point 1.',
+          validator: {
+            state: 'ok',
+            msg: ''
+          }
+        }
+
         if(this.point1Coord == null || this.point2Coord == null) {
-          return ''
+          output.validator.state = 'error'
+          output.validator.msg = 'One or more dependent variables is incorrect.'
+          return output
         }
 
         var y = Math.sin(this.point1Coord.GetLon_rad() - this.point2Coord.GetLon_rad()) * Math.cos(this.point1Coord.GetLat_rad());
@@ -211,18 +268,23 @@
           throw Error('Selected unit not recognized.')
         }
 
-        return bearing_units.toPrecision(4)
+        var roundedBearing = bearing_units.toPrecision(4)
+        output.value = roundedBearing
+        return output
       },
       intermediatePointCoordinates: function() {
-        if(!this.distance)
+        console.log('intermediatePointCoordinates() called.')
+
+        if(!this.distance.value)
           return ''
 
         const p1Lat = this.point1Coord.GetLat_rad()
         const p1Lon = this.point1Coord.GetLon_rad()
         const p2Lat = this.point2Coord.GetLat_rad()
         const p2Lon = this.point2Coord.GetLon_rad()
-        const f = parseFloat(this.intermediatePointFraction)
-        const d = this.distance/this.geospatial.EARTH_RADIUS_M
+        const f = parseFloat(this.intermediatePointFraction.value)
+        console.log('f = ' + f)
+        const d = this.distance.value/this.geospatial.EARTH_RADIUS_M
 
         var A = Math.sin((1-f)*d)/Math.sin(d)
         var B = Math.sin(f*d)/Math.sin(d)
@@ -238,18 +300,34 @@
         return intPointCoord
       },
       intermediatePointCoordinatesString: function() {
-        if(!this.intermediatePointCoordinates)
-          return ''
+
+        var output = {
+          dir: 'out',
+          value: '',
+          tooltip: 'The coordinates of an intermediate point which is between point 1 and 2, determined by the fractional amount above.',
+          validator: {
+            state: 'ok',
+            msg: ''
+          }
+        }
+
+        if(!this.intermediatePointCoordinates) {
+          output.validator.state = 'error'
+          output.validator.msg = 'One or more dependent variables is incorrect.'
+          return output
+        }
+        // console.log('intermediatePointCoordinatesString() called.')
 
         if(this.selCoordinateUnit === 'Degrees') {
-          return this.intermediatePointCoordinates.GetLat_deg().toPrecision(4) + ', ' +
+          output.value = this.intermediatePointCoordinates.GetLat_deg().toPrecision(4) + ', ' +
             this.intermediatePointCoordinates.GetLon_deg().toPrecision(4)
         } else if(this.selCoordinateUnit === 'Radians') {
-          return this.intermediatePointCoordinates.GetLat_rad().toPrecision(4) + ', ' +
+          output.value = this.intermediatePointCoordinates.GetLat_rad().toPrecision(4) + ', ' +
             this.intermediatePointCoordinates.GetLon_rad().toPrecision(4)
         } else {
           throw Error('Selected unit not recognized.')
         }
+        return output
       }
     },
     watch: {
@@ -261,6 +339,9 @@
       },
       intermediatePointCoordinates: function(val) {
         this.render()
+      },
+      intermediatePointFraction () {
+        console.log('AHAHDHFHFHFHFHFHFGFGDFHGDHD')
       }
     },
     methods: {
@@ -374,8 +455,9 @@
       this.graticule = d3.geoGraticule10()
       this.path = d3.geoPath(this.projection).context(this.context)
 
-      this.land = topojson.feature(world110m, world110m.objects.land)
-      this.countries = topojson.feature(world110m, world110m.objects.countries)
+      // feature() is from the topojson-client library (DO NOT ADD topojson AS A DEPENDENCY)
+      this.land = feature(world110m, world110m.objects.land)
+      this.countries = feature(world110m, world110m.objects.countries)
       // this.countryList = cList
       this.scale()
 

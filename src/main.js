@@ -30,6 +30,23 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 Vue.use(ElementUI)
 
+// =========================================== //
+// ========== VUE GOOGLE MAPS PACKAGE ======== //
+// =========================================== //
+import * as VueGoogleMaps from 'vue2-google-maps'
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyBSBFQ3KuKEfQNXSAhQ1uhjVa1gXbHSlwk',
+    libraries: 'places' // This is required if you use the Autocomplete plugin
+    // OR: libraries: 'places,drawing'
+    // OR: libraries: 'places,drawing,visualization'
+    // (as you require)
+  }
+})
+
+// import VJstree from 'vue-jstree'
+// Vue.component('v-jstree', VJstree)
+
 import './style/style.css'
 
 // =========================================== //
@@ -47,6 +64,15 @@ import CalcVarCheckbox from 'src/misc/CalculatorEngineV2/view/CalcVarCheckbox.vu
 Vue.component('calc-var-checkbox', CalcVarCheckbox)
 import VariableRowVerbose from 'src/misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
 Vue.component('variable-row-verbose', VariableRowVerbose)
+
+// =========================================== //
+// ===== TREE VIEW COMPONENT REGISTRATION ==== //
+// =========================================== //
+import TreeView from 'misc/TreeView/TreeView'
+Vue.component('tree-view', TreeView)
+
+import TreeItem from 'misc/TreeView/TreeItem'
+Vue.component('tree-item', TreeItem)
 
 // =========================================== //
 // ============= IMPORT VUEX STORE =========== //

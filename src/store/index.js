@@ -9,8 +9,7 @@ export default new Vuex.Store({
     count: 0,
     showLeftSideBar: false,
     showCalculatorSelectionOverlay: false,
-    activeTabId: '',
-    searchText: ''
+    activeTabId: ''
   },
   mutations: {
     showLeftSideBar (state, payload) {
@@ -57,18 +56,7 @@ export default new Vuex.Store({
       state.activeTabId = state.core.openCalcs[state.core.openCalcs.length - 1].uniqueId
     }
   },
-  actions: {
-    /**
-     * This will set the search text, and also update the filteredAvailableCalcs variable,
-     * depending on the search text.
-     * @param context
-     * @param value
-     */
-    setSearchText (context, value) {
-      context.commit('setSearchText', value)
-      context.commit('updateFilteredAvailableCalcs', context.state.searchText)
-    }
-  },
+  actions: {},
   modules: {
     core
   }

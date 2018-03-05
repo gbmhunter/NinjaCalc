@@ -10,7 +10,7 @@
       <div id="title" style="font-size: 20px; font-weight: bold;">{{ title }}</div>
       <div style="height: 5px;"></div>
       <div id="description"
-           style="font-size: 12px; text-align: justify; padding: 0px 4px 0px 4px;">{{ description }}</div>
+           style="font-size: 12px; text-align: left; padding: 0px 4px 0px 4px;">{{ description }}</div>
     </div>
 
     <div id="open-button">
