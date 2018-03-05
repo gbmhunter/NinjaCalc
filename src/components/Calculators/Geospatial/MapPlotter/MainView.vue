@@ -14,8 +14,14 @@
       <calc-textarea v-model="arcsTextArea" style="width: 100%; height: 200px;"/>
 
       <span style="font-size: 12px;">Draw arcs as:</span>
-      <div style="display: flex;"><input type="radio" id="greatCircles" value="Great Circles" v-model="drawArcsAs"/><label for="greatCircles" style="font-size: 10px;">Great circles</label></div>
-      <div style="display: flex;"><input type="radio" id="rhumbLines" value="Rhumb Lines" v-model="drawArcsAs"/><label for="greatCircles" style="font-size: 10px;">Rhumb lines</label></div>
+      <div style="display: flex;">
+        <input type="radio" id="greatCircles" value="Great Circles" v-model="drawArcsAs"/>
+        <label for="greatCircles" style="font-size: 10px;">Great circles</label>
+      </div>
+      <div style="display: flex;">
+        <input type="radio" id="rhumbLines" value="Rhumb Lines" v-model="drawArcsAs"/>
+        <label for="rhumbLines" style="font-size: 10px;">Rhumb lines</label>
+      </div>
 
       <div class="spacer" style="height: 20px;"></div>
       <button @click="clearAll" style="width: 100px; height: 40px;">Clear All</button>

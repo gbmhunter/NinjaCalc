@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- Fixed the incorrect grid icon for the map plotter calculator.
+- Improved the description for the map plotter calculator.
+- Fixed 'for' attribute related to label/input combo in the map plotter calculator. 
+
 ## [v3.3.0] - 2018-03-04
 
 ### Added
