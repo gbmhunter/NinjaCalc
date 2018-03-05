@@ -101,9 +101,6 @@
         var coordArray = this.pointCoordinatesTextArea.value.split('\n')
         var allPointsValid = true
         coordArray.map((coordString) => {
-          console.log('coordString =')
-          console.log(coordString)
-
           // Ignore empty lines
           if (coordString === '') return
 
@@ -149,8 +146,6 @@
           arc.path = []
 
           const numbers = arcString.split(',')
-          console.log('numbers =')
-          console.log(numbers)
 
           // Make sure there is just not one point (only one coordinate error will
           // be handled by the 'FromString' method call below)
@@ -159,7 +154,6 @@
           for (var i = 0; i < numbers.length/2; i++) {
             var pointCoord = new Coordinate()
             const coordString = numbers[2*i] + ', ' + numbers[2*i + 1]
-            console.log('coordString = ' + coordString)
             try {
               if (this.selCoordinateUnit === 'Degrees') {
                 pointCoord.FromString(coordString, CoordinateUnits.DEGREES)
@@ -167,13 +161,10 @@
                 pointCoord.FromString(coordString, CoordinateUnits.RADIANS)
               }
             } catch (e) {
-              console.log('ERROR')
               allPointsValid = false
               return
             }
             arc.path.push({ lat: pointCoord.GetLat_deg(), lng: pointCoord.GetLon_deg() })
-            console.log('arc =')
-            console.log(arc)
           }
 
           if (this.drawArcsAs === 'Great Circles') {
@@ -196,8 +187,6 @@
           this.arcsTextArea.validator.msg = 'One or more arcs is not in the correct format.'
         }
 
-        console.log('arcs = ')
-        console.log(arcs)
         return arcs
       }
     },
@@ -240,9 +229,7 @@
         })
       }
     },
-    mounted () {
-      // this.markers[0].position.lat = 50.0
-    }
+    mounted () {}
   }
 
 </script>
