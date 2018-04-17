@@ -11,9 +11,15 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 Vue.use(VueMaterial)
 
+// BootstrapVue used for Buttons
+import BootstrapVue from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+// import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 // Setup v-select component
 import vSelect from 'vue-select'
-Vue.component(vSelect)
+Vue.component('v-select', vSelect)
 
 // KeenUI is used for the collapsable "Info"
 // sections on each calculator

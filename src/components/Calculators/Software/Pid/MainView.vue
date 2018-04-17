@@ -1,5 +1,5 @@
 <template>
-  <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
+    <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
     <h1>Jet Engine PID Control</h1>
 
     <div style="width: 800px; height: 400px;">
@@ -8,17 +8,19 @@
 
     <div id="below-chart" style="display: flex;">
 
-      <div id="jet-engine-parameters">
-          Fuel Flow Rate Limits (mL/min):<br>
-          min <input v-model="fuelFlowRateMin_mlPmin" v-on:change="fuelFlowRateLimitsChanged" style="width: 100px;"/> max <input v-model="fuelFlowRateMax_mlPmin" v-on:change="fuelFlowRateLimitsChanged" style="width: 100px;"/>
-      </div>
+    <fieldset id="jet-engine-parameters">
+        <legend>Test</legend>
+        Fuel Flow Rate Limits (mL/min):<br>
+        min <input v-model="fuelFlowRateMin_mlPmin" v-on:change="fuelFlowRateLimitsChanged" style="width: 100px;"/> max <input v-model="fuelFlowRateMax_mlPmin" v-on:change="fuelFlowRateLimitsChanged" style="width: 100px;"/>
+    </fieldset>
 
-      <div id="controls">
+    <fieldset id="controls">
+        <legend>Controls</legend>
         <p>Run Mode</p>
-        <select v-model="selectedRunMode" style="width: 300px; height: 50px;">
-          <option v-for="option in runModes" v-bind:value="option.value"  v-bind:key="option">
+        <select v-model="selectedRunMode" :options="runModes" style="width: 300px; height: 30px; background-color: transparent;">
+            <option v-for="option in runModes" v-bind:value="option.value"  v-bind:key="option">
             {{ option.text }}
-          </option>
+            </option>
         </select>
 
         <p>Fuel Flow Rate (mL/min)</p>
@@ -37,9 +39,11 @@
             <div style="height: 20px;"/>
             <vue-slider ref="slider" v-model="rotVelSetPoint_rpm" :min=0 :max=100000 :interval=1000 style="width:400px;"></vue-slider>
         </div>
-      </div>
+    </fieldset>
 
       <div id="pid-constants">
+          <fieldset style="border:1px solid silver;">
+              <legend>General Information</legend>
         <p>PID Constants</p>
         <table class="sliders"> 
         <tbody>
@@ -98,10 +102,11 @@
             Max: <input v-model="integralLimitingConstantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
         </div>
         </div> <!-- <div id="integral-limiting-container"> -->
-      </div>
+          </fieldset>
+      </div> <!-- pid-constants -->
     </div>
 
-    <button v-on:click="startStopSimulation" style="width: 100px; height: 50px;">{{ !simulationRunning ? 'Start' : 'Stop' }}</button>
+    <b-button :variant="!simulationRunning ? 'success' : 'danger'" v-on:click="startStopSimulation" style="width: 100px; height: 50px;">{{ !simulationRunning ? 'Start' : 'Stop' }}</b-button>
   </div>
 </template>
 
@@ -134,18 +139,9 @@ export default {
 
       // Enumeration of run modes. Used to populate select input.
       runModes: [
-        {
-          text: "Control Fuel Rate (no PID)",
-          value: "RUN_MODE_CONTROL_FUEL_RATE"
-        },
-        {
-          text: "Manual RPM Control (PID)",
-          value: "RUN_MODE_PID_MANUAL_RPM_CONTROL"
-        },
-        {
-          text: "Auto RPM Step Changes (PID)",
-          value: "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES"
-        }
+        { text: "Control Fuel Rate (no PID)", value: "RUN_MODE_CONTROL_FUEL_RATE" },
+        { text: "Manual RPM Control (PID)", value: "RUN_MODE_PID_MANUAL_RPM_CONTROL"},
+        { text: "Auto RPM Step Changes (PID)", value: "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES"}
       ],
       selectedRunMode: "RUN_MODE_PID_MANUAL_RPM_CONTROL", // Selected run mode (selected by user)
 
