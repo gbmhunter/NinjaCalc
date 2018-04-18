@@ -26,6 +26,8 @@ export class Pid {
         this.enableOutputLimiting = false
         this.outputLimMin = 0.0
         this.outputLimMax = 0.0
+
+        this.lastOutput = 0.0
     }
 
     setSetPoint(value) {
@@ -121,8 +123,20 @@ export class Pid {
             }
         }
 
+        // Save the calculated P, I, D and output values, as the user may want to 
+        // inspect these by calling getLastTerms()
+        this.lastTerms = {
+            p: pValue,
+            i: this.iValue,
+            d: dValue,
+            output: output
+        }
         return output
 
+    }
+
+    getLastTerms () {
+        return this.lastTerms
     }
 
     limitIntegralTerm(output) {
