@@ -21,6 +21,15 @@
             <panel title="Simulation Settings">
                 <div style="display: flex; flex-direction: column; align-items: center;">
                     <div style="height: 20px;"/>
+                    Process:
+                    <select v-model="selProcessName" :disabled="simulationRunning" style="width: 250px; height: 30px; background-color: transparent;">
+                        <option v-for="option in processes" v-bind:value="option.name"  v-bind:key="option.name">
+                            {{ option.name }}
+                        </option>
+                    </select>
+
+                    <div style="height: 20px;"/>
+
                     <div>
                         <table>
                             <tr>
@@ -156,6 +165,8 @@
         </div> <!-- <div id="below-chart" style="display: flex;"> -->
 
         <div style="height: 20px;"/>
+
+        <textarea v-model="plantCodeString" style="width: 100%;height: 600px;" />
     </div>
 </template>
 
@@ -164,24 +175,42 @@
 import Chart from "chart.js";
 import vueSlider from "vue-slider-component";
 
-import { JetEngineModel } from "./JetEngineModel.js";
+import JetEngineModelTxt from './JetEngineModel.txt'
+
 import { Pid, IntegralLimitModes } from "./Pid";
 
 const SimulationRunModes = {
-  MANUAL_CONTROL_FUEL_RATE: "Manual Fuel Rate Control (no PID)",
-  MANUAL_CONTROL_RPM: "Manual RPM Control (PID)",
-  AUTO_RPM_STEP_CHANGES: "Automatic RPM Step Changes (PID)"
+    MANUAL_CONTROL_FUEL_RATE: "Manual Fuel Rate Control (no PID)",
+    MANUAL_CONTROL_RPM: "Manual RPM Control (PID)",
+    AUTO_RPM_STEP_CHANGES: "Automatic RPM Step Changes (PID)"
 };
 
 export default {
-  name: "HelloWorld",
-  components: {
-    vueSlider
-  },
+    name: "HelloWorld",
+    components: {
+        vueSlider
+    },
     data() {
         return {
             msg: "Welcome to Your Vue.js App",
-            jetEngineModel: new JetEngineModel(10000.0, -1.0, 10000),
+
+            processes: [
+                {
+                    name: "Mass/Spring/Damper",
+                    file: "ProcessMassSpringDamper.js"
+                },
+                {
+                    name: "R/C Jet Engine",
+                    code: JetEngineModelTxt
+                },
+                {
+                    name: "User Defined",
+                    file: "n/a"
+                },
+            ],
+            selProcessName: "",
+
+            // jetEngineModel: new JetEngineModel(10000.0, -1.0, 10000),
 
             fuelFlow_mlPmin: 0.0,
             fuelFlowRateMin_mlPmin: 0.0,
@@ -334,6 +363,9 @@ export default {
             selIntegralLimitingMode: null,
             integralLimitingConstantMin: -1.0,
             integralLimitingConstantMax: 1.0,
+
+            plantCodeString: '',
+            plantCode: null, // This gets populated by eval() when the Start/Stop simulation button is clicked
         };
     },
     computed: {
@@ -398,6 +430,34 @@ export default {
                 Number(this.fuelFlowRateMax_mlPmin) / 1000.0
             );
         },
+        loadProcess () {
+            console.log('loadProcess() called.')
+
+            let plantCodeString = ''
+
+            // Load the file containing the process code if not user defined process
+            if(this.selProcessName !== 'User Defined') {
+                console.log('Loading predefined process code...')
+                var self = this
+                let selProcess = this.processes.find(function(element) {
+                    return element.name === self.selProcessName
+                })
+                console.log('selProcess = ')
+                console.log(selProcess)
+                plantCodeString = selProcess.code
+
+            }
+            console.log('plantCodeString = ')
+            console.log(plantCodeString)
+
+            console.log('Loading plant code...')
+
+            this.plantCode = eval(plantCodeString)
+            console.log('plantCode = ')
+            console.log(this.plantCode)
+            this.plantCode.init()
+
+        },
         performAutoSetPointChange() {
             if (this.rotVelSetPoint_rpm === 0.0) {
                 this.rotVelSetPoint_rpm = 60000.0;
@@ -406,80 +466,87 @@ export default {
             }
         },
         setIntegralLimitingMode() {
-        console.log("selIntegralLimitingMode changed.");
-        if (this.selIntegralLimitingMode === IntegralLimitModes.NONE) {
-            this.pid.setIntegralLimit({
-            mode: IntegralLimitModes.NONE
-            });
-        } else if (
-            this.selIntegralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED
-        ) {
-            this.pid.setIntegralLimit({
-            mode: IntegralLimitModes.CONSTANT_LIMITED,
-            min: Number(this.integralLimitingConstantMin),
-            max: Number(this.integralLimitingConstantMax)
-            });
-        } else if (
-            this.selIntegralLimitingMode === IntegralLimitModes.OUTPUT_LIMITED
-        ) {
-            this.pid.setIntegralLimit({
-            mode: IntegralLimitModes.OUTPUT_LIMITED
-            });
-        } else {
-            throw new Error("Integral limiting mode unrecognized.");
-        }
+            console.log("selIntegralLimitingMode changed.");
+            if (this.selIntegralLimitingMode === IntegralLimitModes.NONE) {
+                this.pid.setIntegralLimit({
+                mode: IntegralLimitModes.NONE
+                });
+            } else if (
+                this.selIntegralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED
+            ) {
+                this.pid.setIntegralLimit({
+                mode: IntegralLimitModes.CONSTANT_LIMITED,
+                min: Number(this.integralLimitingConstantMin),
+                max: Number(this.integralLimitingConstantMax)
+                });
+            } else if (
+                this.selIntegralLimitingMode === IntegralLimitModes.OUTPUT_LIMITED
+            ) {
+                this.pid.setIntegralLimit({
+                mode: IntegralLimitModes.OUTPUT_LIMITED
+                });
+            } else {
+                throw new Error("Integral limiting mode unrecognized.");
+            }
         },
         startStopSimulation() {
-        if (!this.simulationRunning) {
-            // START
-            console.log("Starting simulation...");
+            if (!this.simulationRunning) {
+                // START
+                console.log("Starting simulation...");                
 
-            this.modelTickTimer = window.setInterval(() => {
-            this.tick();
-            }, this.simulationTickPeriod_s * 1000.0);
+                this.modelTickTimer = window.setInterval(() => {
+                this.tick();
+                }, this.simulationTickPeriod_s * 1000.0);
 
-            this.modelUpdateTimer = window.setInterval(() => {
-            this.update();
-            }, this.plotPeriod_s * 1000.0);
+                this.modelUpdateTimer = window.setInterval(() => {
+                this.update();
+                }, this.plotPeriod_s * 1000.0);
 
-            if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
-            this.autoStepChangeTimer = window.setInterval(() => {
-                this.performAutoSetPointChange();
-            }, 4000.0);
+                if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
+                this.autoStepChangeTimer = window.setInterval(() => {
+                    this.performAutoSetPointChange();
+                }, 4000.0);
+                }
+
+                this.simulationRunning = true;
+            } else {
+                // STOP
+                console.log("Stopping simulation...");
+                clearInterval(this.modelTickTimer);
+                clearInterval(this.modelUpdateTimer);
+                clearInterval(this.autoStepChangeTimer);
+                this.simulationRunning = false;
             }
-
-            this.simulationRunning = true;
-        } else {
-            // STOP
-            console.log("Stopping simulation...");
-            clearInterval(this.modelTickTimer);
-            clearInterval(this.modelUpdateTimer);
-            clearInterval(this.autoStepChangeTimer);
-            this.simulationRunning = false;
-        }
         },
         // This updates the simulation. Should be called more frequently than update().
         tick() {
-        if (this.pidEnabled) {
-            let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
+            if (this.pidEnabled) {
+                // let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
+                let rotVel_radPs = this.plantCode.getRotVel_radPs();
 
-            // console.log("this.rotVelSetPoint_rpm = " + this.rotVelSetPoint_rpm);
-            let rotVelSetPoint_radPs = this.rotVelSetPoint_rpm / 60.0 * 2 * Math.PI;
+                // console.log("this.rotVelSetPoint_rpm = " + this.rotVelSetPoint_rpm);
+                let rotVelSetPoint_radPs = this.rotVelSetPoint_rpm / 60.0 * 2 * Math.PI;
 
-            this.pid.setSetPoint(rotVelSetPoint_radPs);
-            this.fuelFlow_mlPmin = this.pid.run(rotVel_radPs, this.simulationTickPeriod_s) * 1000.0;
-        }
+                this.pid.setSetPoint(rotVelSetPoint_radPs);
+                this.fuelFlow_mlPmin = this.pid.run(rotVel_radPs, this.simulationTickPeriod_s) * 1000.0;
+            }
 
-        this.jetEngineModel.update(
-            this.fuelFlow_mlPmin / 1000.0,
-            this.simulationTickPeriod_s
-        );
+            // this.jetEngineModel.update(
+            //     this.fuelFlow_mlPmin / 1000.0,
+            //     this.simulationTickPeriod_s
+            // );
 
-        this.duration_s += this.simulationTickPeriod_s;
+            this.plantCode.update(
+                this.fuelFlow_mlPmin / 1000.0,
+                this.simulationTickPeriod_s
+            );
+
+            this.duration_s += this.simulationTickPeriod_s;
         },
         // This updates the UI. Called by window.setInterval()
         update() {
-            let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
+            // let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
+            let rotVel_radPs = this.plantCode.getRotVel_radPs();
             let rotVel_rpm = rotVel_radPs / (2 * Math.PI) * 60;
 
             this.chartConfig.data.datasets[0].data.push({
@@ -588,6 +655,10 @@ export default {
         this.pidTermsChartConfig
         );
 
+        // Set default process, and then load it
+        this.selProcessName = this.processes[1].name
+        this.loadProcess()
+
         // Set the run mode to auto by default. This should trigger watch
         this.selectedRunMode = SimulationRunModes.AUTO_RPM_STEP_CHANGES;
 
@@ -616,7 +687,10 @@ export default {
 
         if (this.pidEnabled) this.addSetPointLine();
 
-        console.log('simulationTickPeriod_s = ' + this.simulationTickPeriod_s)
+        console.log('Loading ES6 module...')
+        var res = eval('function test() { console.log(\'testing\') }; test;')
+        console.log('x = ' + res)
+        res()
 
     } // mounted() {
 };

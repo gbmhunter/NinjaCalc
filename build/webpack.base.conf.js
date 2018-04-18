@@ -33,6 +33,10 @@ module.exports = {
   },
   module: {
     rules: [
+        {
+            test: /\.txt$/,
+            use: 'raw-loader'
+        },
       {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',

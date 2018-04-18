@@ -102,7 +102,9 @@
     "webpack-hot-middleware": "^2.16.1",
     "webpack-merge": "^2.6.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "raw-loader": "^0.5.1"
+  },
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
