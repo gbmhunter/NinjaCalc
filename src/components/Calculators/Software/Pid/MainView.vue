@@ -1,34 +1,34 @@
 <template>
-    <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
+    <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">
         <h1>Jet Engine PID Control</h1>
 
         <!-- PROCESS VARIABLE AND PID SET-POINT CHART -->
-        <div style="width: 800px; height: 300px;">
-            <canvas id="myChart" width="800" height="300"></canvas>
+        <div style="width: 800px; height: 400px;">
+            <canvas id="myChart" width="800" height="400"></canvas>
         </div>
 
         <!-- PID TERMS CHART -->
-        <div style="width: 800px; height: 300px;">
-            <canvas id="pidTermsChart" width="800" height="300"></canvas>
+        <div style="width: 800px; height: 400px;">
+            <canvas id="pidTermsChart" width="800" height="400"></canvas>
         </div>
 
         <!-- The style "min-height: min-content" is required so that this flex box's height expands to the maximum width
         of any of it's children -->
         <div id="below-chart" style="display: flex; min-height: min-content;">
-
             <panel title="Simulation Settings">
                 <div style="display: flex; flex-direction: column; align-items: center;">
                     <div style="height: 20px;"/>
                     <div>
                         <span class="panel-subheading">Fuel Flow Rate Limits (mL/min):</span>
                         <br>
-                        min <input v-model="fuelFlowRateMin_mlPmin" v-on:change="fuelFlowRateLimitsChanged" style="width: 100px;"/> max <input v-model="fuelFlowRateMax_mlPmin" v-on:change="fuelFlowRateLimitsChanged" style="width: 100px;"/>
+                        min <input v-model="fuelFlowRateMin_mlPmin" v-on:change="fuelFlowRateLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/> 
+                        max <input v-model="fuelFlowRateMax_mlPmin" v-on:change="fuelFlowRateLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
                     </div>
                     <div style="height: 20px;"/>
 
                     <div>
                         <span class="panel-subheading">Run Mode:</span><br>
-                        <select v-model="selectedRunMode" :options="runModes" style="width: 250px; height: 30px; background-color: transparent;">
+                        <select v-model="selectedRunMode" :options="runModes" :disabled="simulationRunning" style="width: 250px; height: 30px; background-color: transparent;">
                             <option v-for="option in runModes" v-bind:value="option"  v-bind:key="option">
                             {{ option }}
                             </option>
@@ -40,36 +40,36 @@
                         :onClick="startStopSimulation"
                         style="width: 100px; height: 50px;">
                         <div style="font-size: 18px;">{{ !simulationRunning ? 'START' : 'STOP' }}</div>
-                    </mn-button>     
-
-                    <input type="checkbox" v-model="showPidTermsGraph" />
+                    </mn-button>                    
                 </div>       
             </panel>
 
             <div style="width: 20px;" />
 
             <panel title="Controls">
-                <div style="height: 20px;"/>
-                <span class="panel-subheading">Fuel Flow Rate (mL/min)</span>
-                <div>
-                    <div style="height: 40px;"/>
-                    <vue-slider 
-                        ref="slider"
-                        v-model="fuelFlow_mlPmin"
-                        :min="Number(fuelFlowRateMin_mlPmin)" :max="Number(fuelFlowRateMax_mlPmin)" :interval="(Number(fuelFlowRateMax_mlPmin) - Number(fuelFlowRateMin_mlPmin)) / 100.0"
-                        :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_RPM || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
-                        style="width:300px;" />
-                </div>   
-                <div style="height: 20px;"/>
-                <span class="panel-subheading">Velocity Set-Point (rpm)</span>
-                <div>
-                    <div style="height: 40px;"/>
-                    <vue-slider
-                        ref="slider"
-                        v-model="rotVelSetPoint_rpm"
-                        :min=0 :max=100000 :interval=1000
-                        :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
-                        style="width:300px;"/>
+                <div style="display: flex; flex-direction: column;">
+                    <div style="height: 20px;"/>
+                    <span class="panel-subheading">Fuel Flow Rate (mL/min)</span>
+                    <div>
+                        <div style="height: 40px;"/>
+                        <vue-slider 
+                            ref="slider"
+                            v-model="fuelFlow_mlPmin"
+                            :min="Number(fuelFlowRateMin_mlPmin)" :max="Number(fuelFlowRateMax_mlPmin)" :interval="(Number(fuelFlowRateMax_mlPmin) - Number(fuelFlowRateMin_mlPmin)) / 100.0"
+                            :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_RPM || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
+                            style="width:300px;" />
+                    </div>   
+                    <div style="height: 20px;"/>
+                    <span class="panel-subheading">Velocity Set-Point (rpm)</span>
+                    <div>
+                        <div style="height: 40px;"/>
+                        <vue-slider
+                            ref="slider"
+                            v-model="rotVelSetPoint_rpm"
+                            :min=0 :max=100000 :interval=1000
+                            :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
+                            style="width:300px;"/>
+                    </div>
                 </div>
             </panel>
 
@@ -132,8 +132,8 @@
                 </div>
                 <div style="height: 10px;"/>
                     <div>
-                        Min: <input v-model="integralLimitingConstantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>,
-                        Max: <input v-model="integralLimitingConstantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
+                        min <input v-model="integralLimitingConstantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
+                           max <input v-model="integralLimitingConstantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                     </div>
                 </div> <!-- <div id="integral-limiting-container"> -->              
             </panel> <!-- <panel title="PID Settings"> -->        
@@ -229,33 +229,33 @@ export default {
         data: {
           datasets: [
             {
-              label: "P",
-              backgroundColor: "rgba(84, 255, 60, 0.5)",
-              borderColor: "rgba(84, 255, 60, 0.5)",
-              data: [],
-              fill: false
+                label: "Output (P + I + D)",
+                backgroundColor: "rgba(255, 60, 92, 0.5)",
+                borderColor: "rgba(255, 60, 92, 0.5)",
+                data: [],
+                fill: false
             },
             {
-              label: "I",
-              backgroundColor: "rgba(60, 255, 201, 0.5)",
-              borderColor: "rgba(60, 255, 201, 0.5)",
-              data: [],
-              fill: false
+                label: "P",
+                backgroundColor: "rgba(84, 255, 60, 0.5)",
+                borderColor: "rgba(84, 255, 60, 0.5)",
+                data: [],
+                fill: false
             },
             {
-              label: "D",
-              backgroundColor: "rgba(60, 205, 255, 0.5)",
-              borderColor: "rgba(60, 205, 255, 0.5)",
-              data: [],
-              fill: false
+                label: "I",
+                backgroundColor: "rgba(60, 255, 201, 0.5)",
+                borderColor: "rgba(60, 255, 201, 0.5)",
+                data: [],
+                fill: false
             },
             {
-              label: "Output (P + I + D)",
-              backgroundColor: "rgba(255, 60, 92, 0.5)",
-              borderColor: "rgba(255, 60, 92, 0.5)",
-              data: [],
-              fill: false
-            }
+                label: "D",
+                backgroundColor: "rgba(60, 205, 255, 0.5)",
+                borderColor: "rgba(60, 205, 255, 0.5)",
+                data: [],
+                fill: false
+            },            
           ]
         },
         options: {
@@ -287,10 +287,10 @@ export default {
       pidTermsChart: null,
       // Make sure the following indicies stay in sync with the
       // datasets defined in the pidTermsChartConfig variable above!
-      pTermDataIndex: 0,
-      iTermDataIndex: 1,
-      dTermDataIndex: 2,
-      outputDataIndex: 3,
+      outputDataIndex: 0,
+      pTermDataIndex: 1,
+      iTermDataIndex: 2,
+      dTermDataIndex: 3,      
 
       simulationRunning: false,
       modelTickTimer: null,
@@ -320,8 +320,6 @@ export default {
       selIntegralLimitingMode: null,
       integralLimitingConstantMin: -1.0,
       integralLimitingConstantMax: 1.0,
-
-      showPidTermsGraph: false
     };
   },
   computed: {
