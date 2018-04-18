@@ -160,443 +160,445 @@ export default {
   components: {
     vueSlider
   },
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App",
-      jetEngineModel: new JetEngineModel(10000.0, -1.0, 10000),
+    data() {
+        return {
+            msg: "Welcome to Your Vue.js App",
+            jetEngineModel: new JetEngineModel(10000.0, -1.0, 10000),
 
-      fuelFlow_mlPmin: 0.0,
-      fuelFlowRateMin_mlPmin: 0.0,
-      fuelFlowRateMax_mlPmin: 1000.0,
+            fuelFlow_mlPmin: 0.0,
+            fuelFlowRateMin_mlPmin: 0.0,
+            fuelFlowRateMax_mlPmin: 1000.0,
 
-      tickRate_s: 0.05,
-      updateRate_s: 0.1,
-      duration_s: 0.0,
+            tickRate_s: 0.05,
+            updateRate_s: 0.1,
+            duration_s: 0.0,
 
-      // Enumeration of run modes. Used to populate select input.
-      //   runModes: [
-      //     { text: "Control Fuel Rate (no PID)", value: "RUN_MODE_CONTROL_FUEL_RATE" },
-      //     { text: "Manual RPM Control (PID)", value: "RUN_MODE_PID_MANUAL_RPM_CONTROL"},
-      //     { text: "Auto RPM Step Changes (PID)", value: "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES"}
-      //   ],
-      simulationRunModesEnum: SimulationRunModes,
-      runModes: [],
-      selectedRunMode: SimulationRunModes.AUTO_RPM_STEP_CHANGES,
+            // Enumeration of run modes. Used to populate select input.
+            //   runModes: [
+            //     { text: "Control Fuel Rate (no PID)", value: "RUN_MODE_CONTROL_FUEL_RATE" },
+            //     { text: "Manual RPM Control (PID)", value: "RUN_MODE_PID_MANUAL_RPM_CONTROL"},
+            //     { text: "Auto RPM Step Changes (PID)", value: "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES"}
+            //   ],
+            simulationRunModesEnum: SimulationRunModes,
+            runModes: [],
+            selectedRunMode: SimulationRunModes.AUTO_RPM_STEP_CHANGES,
 
-      chartConfig: {
-        type: "line",
-        data: {
-          datasets: [
-            {
-              label: "Rotational Velocity",
-              backgroundColor: "rgba(0, 0, 255, 0.5)",
-              borderColor: "rgba(0, 0, 255, 0.5)",
-              data: [],
-              fill: false
-            }
-          ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Plant Output And PID Set-Point'
-            },
-            scales: {
-                xAxes: [
-                {
-                    type: "linear",
-                    scaleLabel: {
-                    display: true,
-                    labelString: "Time (s)"
+            chartConfig: {
+                type: "line",
+                data: {
+                datasets: [
+                    {
+                    label: "Rotational Velocity",
+                    backgroundColor: "rgba(0, 0, 255, 0.5)",
+                    borderColor: "rgba(0, 0, 255, 0.5)",
+                    data: [],
+                    fill: false
                     }
-                }
-                ],
-                yAxes: [
-                {
-                    scaleLabel: {
-                    display: true,
-                    labelString: "Rotational Velocity (rpm)"
-                    }
-                }
                 ]
-            }
-        }
-      },
-      chart: null,
-
-      pidTermsChartConfig: {
-        type: "line",
-        data: {
-          datasets: [
-            {
-                label: "Output (P + I + D)",
-                backgroundColor: "rgba(255, 60, 92, 0.5)",
-                borderColor: "rgba(255, 60, 92, 0.5)",
-                data: [],
-                fill: false
-            },
-            {
-                label: "P",
-                backgroundColor: "rgba(84, 255, 60, 0.5)",
-                borderColor: "rgba(84, 255, 60, 0.5)",
-                data: [],
-                fill: false
-            },
-            {
-                label: "I",
-                backgroundColor: "rgba(60, 255, 201, 0.5)",
-                borderColor: "rgba(60, 255, 201, 0.5)",
-                data: [],
-                fill: false
-            },
-            {
-                label: "D",
-                backgroundColor: "rgba(60, 205, 255, 0.5)",
-                borderColor: "rgba(60, 205, 255, 0.5)",
-                data: [],
-                fill: false
-            },            
-          ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'PID Controller Output'
-            },
-            scales: {
-                xAxes: [
-                {
-                    type: "linear",
-                    scaleLabel: {
-                    display: true,
-                    labelString: "Time (s)"
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Plant Output And PID Set-Point'
+                    },
+                    scales: {
+                        xAxes: [
+                        {
+                            type: "linear",
+                            scaleLabel: {
+                            display: true,
+                            labelString: "Time (s)"
+                            }
+                        }
+                        ],
+                        yAxes: [
+                        {
+                            scaleLabel: {
+                            display: true,
+                            labelString: "Rotational Velocity (rpm)"
+                            }
+                        }
+                        ]
                     }
                 }
-                ],
-                yAxes: [
-                {
-                    scaleLabel: {
-                    display: true,
-                    labelString: "PID Effort"
+            },
+            chart: null,
+
+            pidTermsChartConfig: {
+                type: "line",
+                data: {
+                    datasets: [
+                        // Draw output first as first dataset has highest Z value (i.e. drawn ontop of other
+                        // UI elements)
+                        {
+                            label: "Output (P + I + D)",
+                            backgroundColor: "rgba(255, 60, 92, 0.5)",
+                            borderColor: "rgba(255, 60, 92, 0.5)",
+                            data: [],
+                            fill: false
+                        },
+                        {
+                            label: "P",
+                            backgroundColor: "rgba(84, 255, 60, 0.5)",
+                            borderColor: "rgba(84, 255, 60, 0.5)",
+                            data: [],
+                            fill: false
+                        },
+                        {
+                            label: "I",
+                            backgroundColor: "rgba(60, 255, 201, 0.5)",
+                            borderColor: "rgba(60, 255, 201, 0.5)",
+                            data: [],
+                            fill: false
+                        },
+                        {
+                            label: "D",
+                            backgroundColor: "rgba(60, 205, 255, 0.5)",
+                            borderColor: "rgba(60, 205, 255, 0.5)",
+                            data: [],
+                            fill: false
+                        },            
+                    ]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'PID Controller Output'
+                    },
+                    scales: {
+                        xAxes: [
+                        {
+                            type: "linear",
+                            scaleLabel: {
+                            display: true,
+                            labelString: "Time (s)"
+                            }
+                        }
+                        ],
+                        yAxes: [
+                        {
+                            scaleLabel: {
+                            display: true,
+                            labelString: "PID Effort"
+                            }
+                        }
+                        ]
                     }
                 }
-                ]
-            }
-        }
-      },
-      pidTermsChart: null,
-      // Make sure the following indicies stay in sync with the
-      // datasets defined in the pidTermsChartConfig variable above!
-      outputDataIndex: 0,
-      pTermDataIndex: 1,
-      iTermDataIndex: 2,
-      dTermDataIndex: 3,      
+            }, // pidTermsChartConfig: {
+            pidTermsChart: null,
+            // Make sure the following indicies stay in sync with the
+            // datasets defined in the pidTermsChartConfig variable above!
+            outputDataIndex: 0,
+            pTermDataIndex: 1,
+            iTermDataIndex: 2,
+            dTermDataIndex: 3,      
 
-      simulationRunning: false,
-      modelTickTimer: null,
-      modelUpdateTimer: null,
+            simulationRunning: false,
+            modelTickTimer: null,
+            modelUpdateTimer: null,
 
-      rotVelSetPoint_rpm: 0.0,
-      maxNumDataPoints: 100,
-      pid: new Pid(0.0006, 0.0006, 0.0), // PID constants get overriden by values set from sliders
-      pidConstants: {
-        p: {
-          min: 0.0,
-          max: 0.001,
-          value: 0.0006
-        },
-        i: {
-          min: 0.0,
-          max: 0.001,
-          value: 0.0006
-        },
-        d: {
-          min: 0.0,
-          max: 0.001,
-          value: 0.0
-        }
-      },
-      integralLimitModes: [],
-      selIntegralLimitingMode: null,
-      integralLimitingConstantMin: -1.0,
-      integralLimitingConstantMax: 1.0,
-    };
-  },
-  computed: {
-    areIntegralLimitingConstantsDisabled() {
-      console.log(
-        "areIntegralLimitingConstantsDisabled() called. this.selIntegralLimitingMode = " +
-          this.selIntegralLimitingMode +
-          ", this.integralLimitModes = "
-      );
-      console.log(this.integralLimitModes);
-      if (
-        this.selIntegralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED
-      ) {
-        return false;
-      } else {
-        return true;
-      }
+            rotVelSetPoint_rpm: 0.0,
+            maxNumDataPoints: 100,
+            pid: new Pid(0.0006, 0.0006, 0.0), // PID constants get overriden by values set from sliders
+            pidConstants: {
+                p: {
+                min: 0.0,
+                max: 0.001,
+                value: 0.0006
+                },
+                i: {
+                min: 0.0,
+                max: 0.001,
+                value: 0.0006
+                },
+                d: {
+                min: 0.0,
+                max: 0.001,
+                value: 0.0
+                }
+            },
+            integralLimitModes: [],
+            selIntegralLimitingMode: null,
+            integralLimitingConstantMin: -1.0,
+            integralLimitingConstantMax: 1.0,
+        };
     },
-    pidEnabled() {
-      console.log("Computing pidEnabled...");
-      if (
-        this.selectedRunMode ===
-          this.simulationRunModesEnum.MANUAL_CONTROL_RPM ||
-        this.selectedRunMode ===
-          this.simulationRunModesEnum.AUTO_RPM_STEP_CHANGES
-      ) {
-        console.log("Returning true.");
-        return true;
-      } else if (
-        this.selectedRunMode ===
-        this.simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE
-      ) {
-        return false;
-      } else {
-        throw new Error("Unexpected simulation run mode ");
-      }
-    }
-  },
-  methods: {
-    addSetPointLine() {
-      console.log("Adding set point line to chart.");
-      // Add set point line to chart
-      this.chartConfig.data.datasets.push({
-        label: "Set Point",
-        backgroundColor: "rgba(255,0,0,.5)",
-        borderColor: "rgba(255,0,0,.5)",
-        data: [],
-        fill: false
-      });
-      this.chart.update();
-    },
-    fuelFlowRateLimitsChanged() {
-      console.log("Fuel flow rate limits changed.");
-      this.pid.setOutputLimits(
-        Number(this.fuelFlowRateMin_mlPmin) / 1000.0,
-        Number(this.fuelFlowRateMax_mlPmin) / 1000.0
-      );
-    },
-    performAutoSetPointChange() {
-      if (this.rotVelSetPoint_rpm === 0.0) {
-        this.rotVelSetPoint_rpm = 60000.0;
-      } else {
-        this.rotVelSetPoint_rpm = 0.0;
-      }
-    },
-    setIntegralLimitingMode() {
-      console.log("selIntegralLimitingMode changed.");
-      if (this.selIntegralLimitingMode === IntegralLimitModes.NONE) {
-        this.pid.setIntegralLimit({
-          mode: IntegralLimitModes.NONE
-        });
-      } else if (
-        this.selIntegralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED
-      ) {
-        this.pid.setIntegralLimit({
-          mode: IntegralLimitModes.CONSTANT_LIMITED,
-          min: Number(this.integralLimitingConstantMin),
-          max: Number(this.integralLimitingConstantMax)
-        });
-      } else if (
-        this.selIntegralLimitingMode === IntegralLimitModes.OUTPUT_LIMITED
-      ) {
-        this.pid.setIntegralLimit({
-          mode: IntegralLimitModes.OUTPUT_LIMITED
-        });
-      } else {
-        throw new Error("Integral limiting mode unrecognized.");
-      }
-    },
-    startStopSimulation() {
-      if (!this.simulationRunning) {
-        // START
-        console.log("Starting simulation...");
-
-        this.modelTickTimer = window.setInterval(() => {
-          this.tick();
-        }, this.tickRate_s * 1000.0);
-
-        this.modelUpdateTimer = window.setInterval(() => {
-          this.update();
-        }, this.updateRate_s * 1000.0);
-
-        if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
-          this.autoStepChangeTimer = window.setInterval(() => {
-            this.performAutoSetPointChange();
-          }, 4000.0);
-        }
-
-        this.simulationRunning = true;
-      } else {
-        // STOP
-        console.log("Stopping simulation...");
-        clearInterval(this.modelTickTimer);
-        clearInterval(this.modelUpdateTimer);
-        clearInterval(this.autoStepChangeTimer);
-        this.simulationRunning = false;
-      }
-    },
-    // This updates the simulation. Should be called more frequently than update().
-    tick() {
-      if (this.pidEnabled) {
-        let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
-
-        console.log("this.rotVelSetPoint_rpm = " + this.rotVelSetPoint_rpm);
-        let rotVelSetPoint_radPs = this.rotVelSetPoint_rpm / 60.0 * 2 * Math.PI;
-
-        this.pid.setSetPoint(rotVelSetPoint_radPs);
-        this.fuelFlow_mlPmin =
-          this.pid.run(rotVel_radPs, this.tickRate_s) * 1000.0;
-      }
-
-      this.jetEngineModel.update(
-        this.fuelFlow_mlPmin / 1000.0,
-        this.tickRate_s
-      );
-
-      this.duration_s += this.tickRate_s;
-    },
-    // This updates the UI. Called by window.setInterval()
-    update() {
-        let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
-        let rotVel_rpm = rotVel_radPs / (2 * Math.PI) * 60;
-
-        this.chartConfig.data.datasets[0].data.push({
-            x: this.duration_s,
-            y: rotVel_rpm
-        });
-
-        // Limit number of data points
+    computed: {
+        areIntegralLimitingConstantsDisabled() {
+        console.log(
+            "areIntegralLimitingConstantsDisabled() called. this.selIntegralLimitingMode = " +
+            this.selIntegralLimitingMode +
+            ", this.integralLimitModes = "
+        );
+        console.log(this.integralLimitModes);
         if (
-            this.chartConfig.data.datasets[0].data.length > this.maxNumDataPoints
+            this.selIntegralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED
         ) {
-            this.chartConfig.data.datasets[0].data.shift();
+            return false;
+        } else {
+            return true;
         }
-
-        // If in run mode where PID is used, update set point also
-        if (this.pidEnabled) {
-            this.chartConfig.data.datasets[1].data.push({
-                x: this.duration_s,
-                y: this.rotVelSetPoint_rpm
+        },
+        pidEnabled() {
+        console.log("Computing pidEnabled...");
+        if (
+            this.selectedRunMode ===
+            this.simulationRunModesEnum.MANUAL_CONTROL_RPM ||
+            this.selectedRunMode ===
+            this.simulationRunModesEnum.AUTO_RPM_STEP_CHANGES
+        ) {
+            console.log("Returning true.");
+            return true;
+        } else if (
+            this.selectedRunMode ===
+            this.simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE
+        ) {
+            return false;
+        } else {
+            throw new Error("Unexpected simulation run mode ");
+        }
+        }
+    },
+    methods: {
+        addSetPointLine() {
+            console.log("Adding set point line to chart.");
+            // Add set point line to chart
+            this.chartConfig.data.datasets.push({
+                label: "Set Point",
+                backgroundColor: "rgba(255,0,0,.5)",
+                borderColor: "rgba(255,0,0,.5)",
+                data: [],
+                fill: false
             });
+            this.chart.update();
+        },
+        fuelFlowRateLimitsChanged() {
+            console.log("Fuel flow rate limits changed.");
+            this.pid.setOutputLimits(
+                Number(this.fuelFlowRateMin_mlPmin) / 1000.0,
+                Number(this.fuelFlowRateMax_mlPmin) / 1000.0
+            );
+        },
+        performAutoSetPointChange() {
+            if (this.rotVelSetPoint_rpm === 0.0) {
+                this.rotVelSetPoint_rpm = 60000.0;
+            } else {
+                this.rotVelSetPoint_rpm = 0.0;
+            }
+        },
+        setIntegralLimitingMode() {
+        console.log("selIntegralLimitingMode changed.");
+        if (this.selIntegralLimitingMode === IntegralLimitModes.NONE) {
+            this.pid.setIntegralLimit({
+            mode: IntegralLimitModes.NONE
+            });
+        } else if (
+            this.selIntegralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED
+        ) {
+            this.pid.setIntegralLimit({
+            mode: IntegralLimitModes.CONSTANT_LIMITED,
+            min: Number(this.integralLimitingConstantMin),
+            max: Number(this.integralLimitingConstantMax)
+            });
+        } else if (
+            this.selIntegralLimitingMode === IntegralLimitModes.OUTPUT_LIMITED
+        ) {
+            this.pid.setIntegralLimit({
+            mode: IntegralLimitModes.OUTPUT_LIMITED
+            });
+        } else {
+            throw new Error("Integral limiting mode unrecognized.");
+        }
+        },
+        startStopSimulation() {
+        if (!this.simulationRunning) {
+            // START
+            console.log("Starting simulation...");
+
+            this.modelTickTimer = window.setInterval(() => {
+            this.tick();
+            }, this.tickRate_s * 1000.0);
+
+            this.modelUpdateTimer = window.setInterval(() => {
+            this.update();
+            }, this.updateRate_s * 1000.0);
+
+            if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
+            this.autoStepChangeTimer = window.setInterval(() => {
+                this.performAutoSetPointChange();
+            }, 4000.0);
+            }
+
+            this.simulationRunning = true;
+        } else {
+            // STOP
+            console.log("Stopping simulation...");
+            clearInterval(this.modelTickTimer);
+            clearInterval(this.modelUpdateTimer);
+            clearInterval(this.autoStepChangeTimer);
+            this.simulationRunning = false;
+        }
+        },
+        // This updates the simulation. Should be called more frequently than update().
+        tick() {
+        if (this.pidEnabled) {
+            let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
+
+            // console.log("this.rotVelSetPoint_rpm = " + this.rotVelSetPoint_rpm);
+            let rotVelSetPoint_radPs = this.rotVelSetPoint_rpm / 60.0 * 2 * Math.PI;
+
+            this.pid.setSetPoint(rotVelSetPoint_radPs);
+            this.fuelFlow_mlPmin =
+            this.pid.run(rotVel_radPs, this.tickRate_s) * 1000.0;
         }
 
-        // Limit number of data points
-        if (this.chartConfig.data.datasets[1].data.length > this.maxNumDataPoints)
-            this.chartConfig.data.datasets[1].data.shift()        
+        this.jetEngineModel.update(
+            this.fuelFlow_mlPmin / 1000.0,
+            this.tickRate_s
+        );
 
-        this.chart.update()
+        this.duration_s += this.tickRate_s;
+        },
+        // This updates the UI. Called by window.setInterval()
+        update() {
+            let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
+            let rotVel_rpm = rotVel_radPs / (2 * Math.PI) * 60;
 
-        //===== PID TERMS CHART =====//
+            this.chartConfig.data.datasets[0].data.push({
+                x: this.duration_s,
+                y: rotVel_rpm
+            });
 
-        const pidTerms = this.pid.getLastTerms()
+            // Limit number of data points
+            if (
+                this.chartConfig.data.datasets[0].data.length > this.maxNumDataPoints
+            ) {
+                this.chartConfig.data.datasets[0].data.shift();
+            }
 
-        // P
-        this.pidTermsChartConfig.data.datasets[this.pTermDataIndex].data.push({
-            x: this.duration_s,
-            y: pidTerms.p
-        });
+            // If in run mode where PID is used, update set point also
+            if (this.pidEnabled) {
+                this.chartConfig.data.datasets[1].data.push({
+                    x: this.duration_s,
+                    y: this.rotVelSetPoint_rpm
+                });
+            }
 
-        // Limit number of data points
-        if (this.pidTermsChartConfig.data.datasets[this.pTermDataIndex].data.length > this.maxNumDataPoints)
-            this.pidTermsChartConfig.data.datasets[this.pTermDataIndex].data.shift()  
+            // Limit number of data points
+            if (this.chartConfig.data.datasets[1].data.length > this.maxNumDataPoints)
+                this.chartConfig.data.datasets[1].data.shift()        
 
-        // I
-        this.pidTermsChartConfig.data.datasets[this.iTermDataIndex].data.push({
-            x: this.duration_s,
-            y: pidTerms.i
-        });
+            this.chart.update()
 
-        // Limit number of data points
-        if (this.pidTermsChartConfig.data.datasets[this.iTermDataIndex].data.length > this.maxNumDataPoints)
-            this.pidTermsChartConfig.data.datasets[this.iTermDataIndex].data.shift()  
+            //===== PID TERMS CHART =====//
 
-        // D
-        this.pidTermsChartConfig.data.datasets[this.dTermDataIndex].data.push({
-            x: this.duration_s,
-            y: pidTerms.d
-        });
+            const pidTerms = this.pid.getLastTerms()
 
-        // Limit number of data points
-        if (this.pidTermsChartConfig.data.datasets[this.dTermDataIndex].data.length > this.maxNumDataPoints)
-            this.pidTermsChartConfig.data.datasets[this.dTermDataIndex].data.shift()  
+            // P
+            this.pidTermsChartConfig.data.datasets[this.pTermDataIndex].data.push({
+                x: this.duration_s,
+                y: pidTerms.p
+            });
 
-        // OUTPUT
-        this.pidTermsChartConfig.data.datasets[this.outputDataIndex].data.push({
-            x: this.duration_s,
-            y: pidTerms.output
-        });
+            // Limit number of data points
+            if (this.pidTermsChartConfig.data.datasets[this.pTermDataIndex].data.length > this.maxNumDataPoints)
+                this.pidTermsChartConfig.data.datasets[this.pTermDataIndex].data.shift()  
 
-        // Limit number of data points
-        if (this.pidTermsChartConfig.data.datasets[this.outputDataIndex].data.length > this.maxNumDataPoints)
-            this.pidTermsChartConfig.data.datasets[this.outputDataIndex].data.shift()    
+            // I
+            this.pidTermsChartConfig.data.datasets[this.iTermDataIndex].data.push({
+                x: this.duration_s,
+                y: pidTerms.i
+            });
 
-        this.pidTermsChart.update()
+            // Limit number of data points
+            if (this.pidTermsChartConfig.data.datasets[this.iTermDataIndex].data.length > this.maxNumDataPoints)
+                this.pidTermsChartConfig.data.datasets[this.iTermDataIndex].data.shift()  
+
+            // D
+            this.pidTermsChartConfig.data.datasets[this.dTermDataIndex].data.push({
+                x: this.duration_s,
+                y: pidTerms.d
+            });
+
+            // Limit number of data points
+            if (this.pidTermsChartConfig.data.datasets[this.dTermDataIndex].data.length > this.maxNumDataPoints)
+                this.pidTermsChartConfig.data.datasets[this.dTermDataIndex].data.shift()  
+
+            // OUTPUT
+            this.pidTermsChartConfig.data.datasets[this.outputDataIndex].data.push({
+                x: this.duration_s,
+                y: pidTerms.output
+            });
+
+            // Limit number of data points
+            if (this.pidTermsChartConfig.data.datasets[this.outputDataIndex].data.length > this.maxNumDataPoints)
+                this.pidTermsChartConfig.data.datasets[this.outputDataIndex].data.shift()    
+
+            this.pidTermsChart.update()
+        },
+
+        updatePidConstants() {
+        this.pid.setConstants(
+            this.pidConstants.p.value,
+            this.pidConstants.i.value,
+            this.pidConstants.d.value
+        );
+        }
     },
+    watch: {
+        pidEnabled(val) {
+        console.log("pidEnabled changed.");
+        if (val) this.addSetPointLine();
+        },
+        pidConstants: {
+        handler(val) {
+            console.log("pidConstants changed.");
+            this.updatePidConstants();
+        },
+        deep: true
+        }
+    }, // watch: {
+    mounted() {
+        // Draw plant output and set-point chart
+        const plantOutputChartContext = document.getElementById("myChart");
+        this.chart = new Chart(plantOutputChartContext, this.chartConfig);
 
-    updatePidConstants() {
-      this.pid.setConstants(
-        this.pidConstants.p.value,
-        this.pidConstants.i.value,
-        this.pidConstants.d.value
-      );
-    }
-  },
-  watch: {
-    pidEnabled(val) {
-      console.log("pidEnabled changed.");
-      if (val) this.addSetPointLine();
-    },
-    pidConstants: {
-      handler(val) {
-        console.log("pidConstants changed.");
+        // Draw PID terms chart
+        const pidTermsChartContext = document.getElementById("pidTermsChart");
+        this.pidTermsChart = new Chart(
+        pidTermsChartContext,
+        this.pidTermsChartConfig
+        );
+
+        // Set the run mode to auto by default. This should trigger watch
+        this.selectedRunMode = SimulationRunModes.AUTO_RPM_STEP_CHANGES;
+
         this.updatePidConstants();
-      },
-      deep: true
-    }
-  },
-  mounted() {
-    // Draw plant output and set-point chart
-    const plantOutputChartContext = document.getElementById("myChart");
-    this.chart = new Chart(plantOutputChartContext, this.chartConfig);
+        this.fuelFlowRateLimitsChanged();
 
-    // Draw PID terms chart
-    const pidTermsChartContext = document.getElementById("pidTermsChart");
-    this.pidTermsChart = new Chart(
-      pidTermsChartContext,
-      this.pidTermsChartConfig
-    );
+        let self = this;
 
-    // Set the run mode to auto by default. This should trigger watch
-    this.selectedRunMode = SimulationRunModes.AUTO_RPM_STEP_CHANGES;
+        // Populate simulation run modes select box
+        Object.keys(SimulationRunModes).forEach(function(key) {
+        let obj = SimulationRunModes[key];
+        self.runModes.push(obj);
+        });
+        console.log("this.runModes = ");
+        console.log(this.runModes);
 
-    this.updatePidConstants();
-    this.fuelFlowRateLimitsChanged();
+        // Populate integral limit modes select box
+        Object.keys(IntegralLimitModes).forEach(function(key) {
+        let obj = IntegralLimitModes[key];
+        self.integralLimitModes.push(obj);
+        });
 
-    let self = this;
+        // Set default integral limiting mode
+        this.selIntegralLimitingMode = IntegralLimitModes.OUTPUT_LIMITED;
+        this.setIntegralLimitingMode()
 
-    // Populate simulation run modes select box
-    Object.keys(SimulationRunModes).forEach(function(key) {
-      let obj = SimulationRunModes[key];
-      self.runModes.push(obj);
-    });
-    console.log("this.runModes = ");
-    console.log(this.runModes);
-
-    // Populate integral limit modes select box
-    Object.keys(IntegralLimitModes).forEach(function(key) {
-      let obj = IntegralLimitModes[key];
-      self.integralLimitModes.push(obj);
-    });
-
-    // Set default integral limiting mode
-    this.selIntegralLimitingMode = IntegralLimitModes.OUTPUT_LIMITED;
-    this.setIntegralLimitingMode()
-
-    if (this.pidEnabled) this.addSetPointLine();
-  }
+        if (this.pidEnabled) this.addSetPointLine();
+    } // mounted() {
 };
 /* eslint-enable */
 </script>
