@@ -15,8 +15,24 @@
         <!-- The style "min-height: min-content" is required so that this flex box's height expands to the maximum width
         of any of it's children -->
         <div id="below-chart" style="display: flex; min-height: min-content;">
+            <!-- =================== -->
+            <!-- SIMULATION SETTINGS -->
+            <!-- =================== -->
             <panel title="Simulation Settings">
                 <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="height: 20px;"/>
+                    <div>
+                        <table>
+                            <tr>
+                                <td>Simulation Tick Period (ms):</td>
+                                <td><input v-model.number="simulationTickPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
+                            </tr>
+                            <tr>
+                                <td>Plot Period (ms):</td>
+                                <td><input v-model.number="plotPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
+                            </tr>
+                        </table>
+                    </div>
                     <div style="height: 20px;"/>
                     <div>
                         <span class="panel-subheading">Fuel Flow Rate Limits (mL/min):</span>
@@ -168,17 +184,11 @@ export default {
             fuelFlow_mlPmin: 0.0,
             fuelFlowRateMin_mlPmin: 0.0,
             fuelFlowRateMax_mlPmin: 1000.0,
-
-            tickRate_s: 0.05,
-            updateRate_s: 0.1,
+            
+            simulationTickPeriod_ms: 50, // Gets converted into seconds by computed property
+            plotPeriod_ms: 100, // Gets converted into seconds by computed property
             duration_s: 0.0,
 
-            // Enumeration of run modes. Used to populate select input.
-            //   runModes: [
-            //     { text: "Control Fuel Rate (no PID)", value: "RUN_MODE_CONTROL_FUEL_RATE" },
-            //     { text: "Manual RPM Control (PID)", value: "RUN_MODE_PID_MANUAL_RPM_CONTROL"},
-            //     { text: "Auto RPM Step Changes (PID)", value: "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES"}
-            //   ],
             simulationRunModesEnum: SimulationRunModes,
             runModes: [],
             selectedRunMode: SimulationRunModes.AUTO_RPM_STEP_CHANGES,
@@ -326,39 +336,45 @@ export default {
     },
     computed: {
         areIntegralLimitingConstantsDisabled() {
-        console.log(
-            "areIntegralLimitingConstantsDisabled() called. this.selIntegralLimitingMode = " +
-            this.selIntegralLimitingMode +
-            ", this.integralLimitModes = "
-        );
-        console.log(this.integralLimitModes);
-        if (
-            this.selIntegralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED
-        ) {
-            return false;
-        } else {
-            return true;
-        }
+            console.log(
+                "areIntegralLimitingConstantsDisabled() called. this.selIntegralLimitingMode = " +
+                this.selIntegralLimitingMode +
+                ", this.integralLimitModes = "
+            );
+            console.log(this.integralLimitModes);
+            if (
+                this.selIntegralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED
+            ) {
+                return false;
+            } else {
+                return true;
+            }
         },
         pidEnabled() {
-        console.log("Computing pidEnabled...");
-        if (
-            this.selectedRunMode ===
-            this.simulationRunModesEnum.MANUAL_CONTROL_RPM ||
-            this.selectedRunMode ===
-            this.simulationRunModesEnum.AUTO_RPM_STEP_CHANGES
-        ) {
-            console.log("Returning true.");
-            return true;
-        } else if (
-            this.selectedRunMode ===
-            this.simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE
-        ) {
-            return false;
-        } else {
-            throw new Error("Unexpected simulation run mode ");
-        }
-        }
+            console.log("Computing pidEnabled...");
+            if (
+                this.selectedRunMode ===
+                this.simulationRunModesEnum.MANUAL_CONTROL_RPM ||
+                this.selectedRunMode ===
+                this.simulationRunModesEnum.AUTO_RPM_STEP_CHANGES
+            ) {
+                console.log("Returning true.");
+                return true;
+            } else if (
+                this.selectedRunMode ===
+                this.simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE
+            ) {
+                return false;
+            } else {
+                throw new Error("Unexpected simulation run mode ");
+            }
+        },
+        plotPeriod_s () {
+            return this.plotPeriod_ms/1000.0
+        },
+        simulationTickPeriod_s () {
+            return this.simulationTickPeriod_ms/1000.0
+        },
     },
     methods: {
         addSetPointLine() {
@@ -418,11 +434,11 @@ export default {
 
             this.modelTickTimer = window.setInterval(() => {
             this.tick();
-            }, this.tickRate_s * 1000.0);
+            }, this.simulationTickPeriod_s * 1000.0);
 
             this.modelUpdateTimer = window.setInterval(() => {
             this.update();
-            }, this.updateRate_s * 1000.0);
+            }, this.plotPeriod_s * 1000.0);
 
             if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
             this.autoStepChangeTimer = window.setInterval(() => {
@@ -449,16 +465,15 @@ export default {
             let rotVelSetPoint_radPs = this.rotVelSetPoint_rpm / 60.0 * 2 * Math.PI;
 
             this.pid.setSetPoint(rotVelSetPoint_radPs);
-            this.fuelFlow_mlPmin =
-            this.pid.run(rotVel_radPs, this.tickRate_s) * 1000.0;
+            this.fuelFlow_mlPmin = this.pid.run(rotVel_radPs, this.simulationTickPeriod_s) * 1000.0;
         }
 
         this.jetEngineModel.update(
             this.fuelFlow_mlPmin / 1000.0,
-            this.tickRate_s
+            this.simulationTickPeriod_s
         );
 
-        this.duration_s += this.tickRate_s;
+        this.duration_s += this.simulationTickPeriod_s;
         },
         // This updates the UI. Called by window.setInterval()
         update() {
@@ -598,6 +613,9 @@ export default {
         this.setIntegralLimitingMode()
 
         if (this.pidEnabled) this.addSetPointLine();
+
+        console.log('simulationTickPeriod_s = ' + this.simulationTickPeriod_s)
+
     } // mounted() {
 };
 /* eslint-enable */
