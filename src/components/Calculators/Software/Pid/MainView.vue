@@ -154,6 +154,8 @@
                 </div> <!-- <div id="integral-limiting-container"> -->              
             </panel> <!-- <panel title="PID Settings"> -->        
         </div> <!-- <div id="below-chart" style="display: flex;"> -->
+
+        <div style="height: 20px;"/>
     </div>
 </template>
 
