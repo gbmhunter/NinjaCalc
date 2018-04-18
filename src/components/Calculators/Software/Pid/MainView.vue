@@ -3,16 +3,18 @@
         <h1>Jet Engine PID Control</h1>
 
         <!-- PROCESS VARIABLE AND PID SET-POINT CHART -->
-        <div style="width: 800px; height: 400px;">
-            <canvas id="myChart" width="800" height="400"></canvas>
+        <div style="width: 800px; height: 300px;">
+            <canvas id="myChart" width="800" height="300"></canvas>
         </div>
 
         <!-- PID TERMS CHART -->
-        <div style="width: 800px; height: 400px;">
-            <canvas id="pidTermsChart" width="800" height="400"></canvas>
+        <div style="width: 800px; height: 300px;">
+            <canvas id="pidTermsChart" width="800" height="300"></canvas>
         </div>
 
-        <div id="below-chart" style="display: flex;">
+        <!-- The style "min-height: min-content" is required so that this flex box's height expands to the maximum width
+        of any of it's children -->
+        <div id="below-chart" style="display: flex; min-height: min-content;">
 
             <panel title="Simulation Settings">
                 <div style="display: flex; flex-direction: column; align-items: center;">
@@ -195,25 +197,29 @@ export default {
           ]
         },
         options: {
-          scales: {
-            xAxes: [
-              {
-                type: "linear",
-                scaleLabel: {
-                  display: true,
-                  labelString: "Time (s)"
+            title: {
+                display: true,
+                text: 'Plant Output And PID Set-Point'
+            },
+            scales: {
+                xAxes: [
+                {
+                    type: "linear",
+                    scaleLabel: {
+                    display: true,
+                    labelString: "Time (s)"
+                    }
                 }
-              }
-            ],
-            yAxes: [
-              {
-                scaleLabel: {
-                  display: true,
-                  labelString: "Rotational Velocity (rpm)"
+                ],
+                yAxes: [
+                {
+                    scaleLabel: {
+                    display: true,
+                    labelString: "Rotational Velocity (rpm)"
+                    }
                 }
-              }
-            ]
-          }
+                ]
+            }
         }
       },
       chart: null,
@@ -244,7 +250,7 @@ export default {
               fill: false
             },
             {
-              label: "Output",
+              label: "Output (P + I + D)",
               backgroundColor: "rgba(255, 60, 92, 0.5)",
               borderColor: "rgba(255, 60, 92, 0.5)",
               data: [],
@@ -253,25 +259,29 @@ export default {
           ]
         },
         options: {
-          scales: {
-            xAxes: [
-              {
-                type: "linear",
-                scaleLabel: {
-                  display: true,
-                  labelString: "Time (s)"
+            title: {
+                display: true,
+                text: 'PID Controller Output'
+            },
+            scales: {
+                xAxes: [
+                {
+                    type: "linear",
+                    scaleLabel: {
+                    display: true,
+                    labelString: "Time (s)"
+                    }
                 }
-              }
-            ],
-            yAxes: [
-              {
-                scaleLabel: {
-                  display: true,
-                  labelString: "PID Effort"
+                ],
+                yAxes: [
+                {
+                    scaleLabel: {
+                    display: true,
+                    labelString: "PID Effort"
+                    }
                 }
-              }
-            ]
-          }
+                ]
+            }
         }
       },
       pidTermsChart: null,
