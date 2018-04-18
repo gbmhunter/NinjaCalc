@@ -1,113 +1,134 @@
 <template>
     <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
-    <h1>Jet Engine PID Control</h1>
+        <h1>Jet Engine PID Control</h1>
 
-    <div style="width: 800px; height: 400px;">
-        <canvas id="myChart" width="800" height="400"></canvas>
+        <div style="width: 800px; height: 400px;">
+            <canvas id="myChart" width="800" height="400"></canvas>
+        </div>
+
+        <div id="below-chart" style="display: flex;">
+
+            <panel title="Simulation Settings">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="height: 20px;"/>
+                    <div>
+                        <span class="panel-subheading">Fuel Flow Rate Limits (mL/min):</span>
+                        <br>
+                        min <input v-model="fuelFlowRateMin_mlPmin" v-on:change="fuelFlowRateLimitsChanged" style="width: 100px;"/> max <input v-model="fuelFlowRateMax_mlPmin" v-on:change="fuelFlowRateLimitsChanged" style="width: 100px;"/>
+                    </div>
+                    <div style="height: 20px;"/>
+
+                    <div>
+                        <span class="panel-subheading">Run Mode:</span><br>
+                        <select v-model="selectedRunMode" :options="runModes" style="width: 250px; height: 30px; background-color: transparent;">
+                            <option v-for="option in runModes" v-bind:value="option"  v-bind:key="option">
+                            {{ option }}
+                            </option>
+                        </select>
+                    </div>
+                    <div style="height: 20px;"/>            
+                    <mn-button 
+                        :variant="!simulationRunning ? 'success' : 'danger'"
+                        :onClick="startStopSimulation"
+                        style="width: 100px; height: 50px;">
+                        <div style="font-size: 18px;">{{ !simulationRunning ? 'START' : 'STOP' }}</div>
+                    </mn-button>     
+                </div>       
+            </panel>
+
+            <div style="width: 20px;" />
+
+            <panel title="Controls">
+                <div style="height: 20px;"/>
+                <span class="panel-subheading">Fuel Flow Rate (mL/min)</span>
+                <div>
+                    <div style="height: 40px;"/>
+                    <vue-slider 
+                        ref="slider"
+                        v-model="fuelFlow_mlPmin"
+                        :min="Number(fuelFlowRateMin_mlPmin)" :max="Number(fuelFlowRateMax_mlPmin)" :interval="(Number(fuelFlowRateMax_mlPmin) - Number(fuelFlowRateMin_mlPmin)) / 100.0"
+                        :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_RPM || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
+                        style="width:300px;" />
+                </div>   
+                <div style="height: 20px;"/>
+                <span class="panel-subheading">Velocity Set-Point (rpm)</span>
+                <div>
+                    <div style="height: 40px;"/>
+                    <vue-slider
+                        ref="slider"
+                        v-model="rotVelSetPoint_rpm"
+                        :min=0 :max=100000 :interval=1000
+                        :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
+                        style="width:300px;"/>
+                </div>
+            </panel>
+
+            <div style="width: 20px;" />
+
+            <panel title="PID Settings">                    
+                <span class="panel-subheading">PID Constants</span>
+                <table class="sliders"> 
+                <tbody>
+                    <tr>
+                        <td>Constant</td>
+                        <td>Min.</td>
+                        <td>Max.</td>
+                        <td>Value</td>
+                    </tr>
+                    <tr>
+                        <td>P</td>
+                        <td><input v-model="pidConstants.p.min" class="pid-limit"/></td>
+                        <td><input v-model="pidConstants.p.max" class="pid-limit"/></td>
+                        <td style="width: 200px;">
+                        <vue-slider ref="slider" v-model="pidConstants.p.value"
+                        :min="Number(pidConstants.p.min)" :max="Number(pidConstants.p.max)"
+                        :interval="(Number(pidConstants.p.max) - Number(pidConstants.p.min)) / 100.0"/></td>
+                    </tr>
+                    <tr>
+                        <td>I</td>
+                        <td><input v-model="pidConstants.i.min" class="pid-limit"/></td>
+                        <td><input v-model="pidConstants.i.max" class="pid-limit"/></td>
+                        <td style="width: 200px;">
+                        <vue-slider ref="slider" v-model="pidConstants.i.value"
+                        :min="Number(pidConstants.i.min)" :max="Number(pidConstants.i.max)"
+                        :interval="(Number(pidConstants.i.max) - Number(pidConstants.i.min)) / 100.0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td><input v-model="pidConstants.d.min" class="pid-limit"/></td>
+                        <td><input v-model="pidConstants.d.max" class="pid-limit"/></td>
+                        <td style="width: 200px;">
+                        <vue-slider ref="slider" v-model="pidConstants.d.value"
+                        :min="Number(pidConstants.d.min)" :max="Number(pidConstants.d.max)"
+                        :interval="(Number(pidConstants.d.max) - Number(pidConstants.d.min)) / 100.0"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div style="height: 20px;"/>
+
+                <!-- INTEGRAL LIMITING SETTINGS -->
+                <div id="integral-limiting-container">
+                <span class="panel-subheading">Integral Limiting (Windup Control)</span>
+                <div style="height: 10px;"/>
+                <div>
+                    Mode: <select v-model="selIntegralLimitingMode" @change="setIntegralLimitingMode" style="width: 300px; height: 30px; background-color: transparent;">
+                        <option v-for="option in integralLimitModes" v-bind:value="option" v-bind:key="String(option)">
+                        {{ String(option) }}
+                    </option>
+                    </select>
+                </div>
+                <div style="height: 10px;"/>
+                    <div>
+                        Min: <input v-model="integralLimitingConstantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>,
+                        Max: <input v-model="integralLimitingConstantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
+                    </div>
+                </div> <!-- <div id="integral-limiting-container"> -->              
+            </panel> <!-- <panel title="PID Settings"> -->        
+        </div> <!-- <div id="below-chart" style="display: flex;"> -->
     </div>
-
-    <div id="below-chart" style="display: flex;">
-
-    <fieldset id="jet-engine-parameters">
-        <legend>Test</legend>
-        Fuel Flow Rate Limits (mL/min):<br>
-        min <input v-model="fuelFlowRateMin_mlPmin" v-on:change="fuelFlowRateLimitsChanged" style="width: 100px;"/> max <input v-model="fuelFlowRateMax_mlPmin" v-on:change="fuelFlowRateLimitsChanged" style="width: 100px;"/>
-    </fieldset>
-
-    <fieldset id="controls">
-        <legend>Controls</legend>
-        <p>Run Mode</p>
-        <select v-model="selectedRunMode" :options="runModes" style="width: 300px; height: 30px; background-color: transparent;">
-            <option v-for="option in runModes" v-bind:value="option.value"  v-bind:key="option">
-            {{ option.text }}
-            </option>
-        </select>
-
-        <p>Fuel Flow Rate (mL/min)</p>
-        <div>
-            <div style="height: 20px;"/>
-            <vue-slider 
-                ref="slider"
-                v-model="fuelFlow_mlPmin"
-                :min="Number(fuelFlowRateMin_mlPmin)" :max="Number(fuelFlowRateMax_mlPmin)" :interval="(Number(fuelFlowRateMax_mlPmin) - Number(fuelFlowRateMin_mlPmin)) / 100.0"
-                :disabled="selectedRunMode === 'RUN_MODE_PID_MANUAL_RPM_CONTROL' || selectedRunMode === 'RUN_MODE_PID_AUTO_RPM_STEP_CHANGES'"
-                style="width:400px;" />
-        </div>   
-
-        <p>Velocity Set-Point (rpm)</p>
-        <div>
-            <div style="height: 20px;"/>
-            <vue-slider ref="slider" v-model="rotVelSetPoint_rpm" :min=0 :max=100000 :interval=1000 style="width:400px;"></vue-slider>
-        </div>
-    </fieldset>
-
-      <div id="pid-constants">
-          <fieldset style="border:1px solid silver;">
-              <legend>General Information</legend>
-        <p>PID Constants</p>
-        <table class="sliders"> 
-        <tbody>
-            <tr>
-              <td>Constant</td>
-              <td>Min. Limit</td>
-              <td>Max. Limit</td>
-              <td>Value</td>
-            </tr>
-            <tr>
-              <td>P</td>
-              <td><input v-model="pidConstants.p.min" class="pid-limit"/></td>
-              <td><input v-model="pidConstants.p.max" class="pid-limit"/></td>
-              <td style="width: 200px;">
-                <vue-slider ref="slider" v-model="pidConstants.p.value"
-                :min="Number(pidConstants.p.min)" :max="Number(pidConstants.p.max)"
-                :interval="(Number(pidConstants.p.max) - Number(pidConstants.p.min)) / 100.0"/></td>
-            </tr>
-            <tr>
-              <td>I</td>
-              <td><input v-model="pidConstants.i.min" class="pid-limit"/></td>
-              <td><input v-model="pidConstants.i.max" class="pid-limit"/></td>
-              <td style="width: 200px;">
-                <vue-slider ref="slider" v-model="pidConstants.i.value"
-                :min="Number(pidConstants.i.min)" :max="Number(pidConstants.i.max)"
-                :interval="(Number(pidConstants.i.max) - Number(pidConstants.i.min)) / 100.0"/>
-              </td>
-            </tr>
-            <tr>
-              <td>D</td>
-              <td><input v-model="pidConstants.d.min" class="pid-limit"/></td>
-              <td><input v-model="pidConstants.d.max" class="pid-limit"/></td>
-              <td style="width: 200px;">
-                <vue-slider ref="slider" v-model="pidConstants.d.value"
-                :min="Number(pidConstants.d.min)" :max="Number(pidConstants.d.max)"
-                :interval="(Number(pidConstants.d.max) - Number(pidConstants.d.min)) / 100.0"/>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- INTEGRAL LIMITING SETTINGS -->
-        <div id="integral-limiting-container">
-        <div>Integral Limiting (Windup Control)</div>
-        <div style="height: 10px;"/>
-        <div>
-            Mode: <select v-model="selIntegralLimitingMode" @change="setIntegralLimitingMode" style="width: 300px; height: 50px;">
-                <option v-for="option in integralLimitModes" v-bind:value="option" v-bind:key="option">
-                {{ String(option) }}
-            </option>
-            </select>
-        </div>
-        <div style="height: 10px;"/>
-        <div>
-            Min: <input v-model="integralLimitingConstantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>,
-            Max: <input v-model="integralLimitingConstantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
-        </div>
-        </div> <!-- <div id="integral-limiting-container"> -->
-          </fieldset>
-      </div> <!-- pid-constants -->
-    </div>
-
-    <b-button :variant="!simulationRunning ? 'success' : 'danger'" v-on:click="startStopSimulation" style="width: 100px; height: 50px;">{{ !simulationRunning ? 'Start' : 'Stop' }}</b-button>
-  </div>
 </template>
 
 <script>
@@ -118,6 +139,13 @@ import vueSlider from "vue-slider-component";
 
 import { JetEngineModel } from "./JetEngineModel.js";
 import { Pid, IntegralLimitModes } from "./Pid";
+
+
+const SimulationRunModes = {
+    MANUAL_CONTROL_FUEL_RATE: 'Manual Fuel Rate Control (no PID)',
+    MANUAL_CONTROL_RPM: 'Manual RPM Control (PID)',
+    AUTO_RPM_STEP_CHANGES: 'Automatic RPM Step Changes (PID)'
+};
 
 export default {
   name: "HelloWorld",
@@ -138,12 +166,14 @@ export default {
       duration_s: 0.0,
 
       // Enumeration of run modes. Used to populate select input.
-      runModes: [
-        { text: "Control Fuel Rate (no PID)", value: "RUN_MODE_CONTROL_FUEL_RATE" },
-        { text: "Manual RPM Control (PID)", value: "RUN_MODE_PID_MANUAL_RPM_CONTROL"},
-        { text: "Auto RPM Step Changes (PID)", value: "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES"}
-      ],
-      selectedRunMode: "RUN_MODE_PID_MANUAL_RPM_CONTROL", // Selected run mode (selected by user)
+    //   runModes: [
+    //     { text: "Control Fuel Rate (no PID)", value: "RUN_MODE_CONTROL_FUEL_RATE" },
+    //     { text: "Manual RPM Control (PID)", value: "RUN_MODE_PID_MANUAL_RPM_CONTROL"},
+    //     { text: "Auto RPM Step Changes (PID)", value: "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES"}
+    //   ],
+    simulationRunModesEnum: SimulationRunModes,
+        runModes: [],
+      selectedRunMode: SimulationRunModes.AUTO_RPM_STEP_CHANGES,
 
       chartConfig: {
         type: "line",
@@ -208,10 +238,10 @@ export default {
       integralLimitModes: [],
       selIntegralLimitingMode: null,
       integralLimitingConstantMin: -1.0,
-      integralLimitingConstantMax: 1.0,
+      integralLimitingConstantMax: 1.0,      
     };
   },
-  computed: {
+    computed: {
         areIntegralLimitingConstantsDisabled () {
             console.log('areIntegralLimitingConstantsDisabled() called. this.selIntegralLimitingMode = ' + this.selIntegralLimitingMode + ', this.integralLimitModes = ')
             console.log(this.integralLimitModes)
@@ -220,8 +250,20 @@ export default {
             } else {
                 return true
             }
+        },
+        pidEnabled () {
+            console.log('Computing pidEnabled...')
+            if (    this.selectedRunMode === this.simulationRunModesEnum.MANUAL_CONTROL_RPM ||
+                    this.selectedRunMode === this.simulationRunModesEnum.AUTO_RPM_STEP_CHANGES) {
+                console.log('Returning true.')
+                return true
+            } else if(this.selectedRunMode === this.simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE) {
+                return false
+            } else {
+                throw new Error('Unexpected simulation run mode ')
+            }
         }
-  },
+    },
   methods: {
     addSetPointLine() {
       console.log("Adding set point line to chart.");
@@ -282,10 +324,10 @@ export default {
           this.update();
         }, this.updateRate_s * 1000.0);
 
-        if (this.selectedRunMode === "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES") {
-          this.autoStepChangeTimer = window.setInterval(() => {
-            this.performAutoSetPointChange();
-          }, 4000.0);
+        if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
+            this.autoStepChangeTimer = window.setInterval(() => {
+                this.performAutoSetPointChange();
+            }, 4000.0);
         }
 
         this.simulationRunning = true;
@@ -298,28 +340,23 @@ export default {
         this.simulationRunning = false;
       }
     },
-    tick() {
-      // console.log('tick() called.')
-      if (
-        this.selectedRunMode === "RUN_MODE_PID_MANUAL_RPM_CONTROL" ||
-        this.selectedRunMode === "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES"
-      ) {
-        let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
+    tick() {    
+        if (this.pidEnabled) {
+            let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
 
-        console.log("this.rotVelSetPoint_rpm = " + this.rotVelSetPoint_rpm);
-        let rotVelSetPoint_radPs = this.rotVelSetPoint_rpm / 60.0 * 2 * Math.PI;
+            console.log("this.rotVelSetPoint_rpm = " + this.rotVelSetPoint_rpm);
+            let rotVelSetPoint_radPs = this.rotVelSetPoint_rpm / 60.0 * 2 * Math.PI;
 
-        this.pid.setSetPoint(rotVelSetPoint_radPs);
-        this.fuelFlow_mlPmin =
-          this.pid.run(rotVel_radPs, this.tickRate_s) * 1000.0;
-      }
+            this.pid.setSetPoint(rotVelSetPoint_radPs);
+            this.fuelFlow_mlPmin = this.pid.run(rotVel_radPs, this.tickRate_s) * 1000.0;
+        }
 
-      this.jetEngineModel.update(
-        this.fuelFlow_mlPmin / 1000.0,
-        this.tickRate_s
-      );
+        this.jetEngineModel.update(
+            this.fuelFlow_mlPmin / 1000.0,
+            this.tickRate_s
+        );
 
-      this.duration_s += this.tickRate_s;
+        this.duration_s += this.tickRate_s;
     },
     // This updates the UI. Called by window.setInterval()
     update() {
@@ -345,11 +382,8 @@ export default {
         this.chartConfig.data.datasets[0].data.shift();
       }
 
-      // If in PID run mode, update set point also
-      if (
-        this.selectedRunMode === "RUN_MODE_PID_MANUAL_RPM_CONTROL" ||
-        this.selectedRunMode === "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES"
-      ) {
+      // If in run mode where PID is used, update set point also
+      if (this.pidEnabled) {
         this.chartConfig.data.datasets[1].data.push({
           x: this.duration_s,
           y: this.rotVelSetPoint_rpm
@@ -374,35 +408,42 @@ export default {
       );
     }
   },
-  watch: {
-    selectedRunMode: function(val) {
-      console.log("selectedRunMode changed.");
-      if (val === "RUN_MODE_PID_MANUAL_RPM_CONTROL") {
-        this.addSetPointLine();
-      } else if (val === "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES") {
-        this.addSetPointLine();
-      }
+    watch: {
+        pidEnabled (val) {
+            console.log('pidEnabled changed.')
+            if(val)
+            this.addSetPointLine();
+            
+        },
+        pidConstants: {
+            handler(val) {
+                console.log("pidConstants changed.");
+                this.updatePidConstants();
+            },
+            deep: true
+        }
     },
-    pidConstants: {
-      handler(val) {
-        console.log("pidConstants changed.");
-        this.updatePidConstants();
-      },
-      deep: true
-    }
-  },
   mounted() {
     var ctx = document.getElementById("myChart");
     this.chart = new Chart(ctx, this.chartConfig);
 
-    // Set the run mode to auto by default. This should trigger watch
-    this.selectedRunMode = "RUN_MODE_PID_AUTO_RPM_STEP_CHANGES";
+    // Set the run mode to auto by default. This should trigger watch    
+    this.selectedRunMode = SimulationRunModes.AUTO_RPM_STEP_CHANGES
 
     this.updatePidConstants();
     this.fuelFlowRateLimitsChanged();
 
-    // Populate integral limit modes select box
     let self = this
+
+    // Populate simulation run modes select box
+    Object.keys(SimulationRunModes).forEach(function (key) {
+        let obj = SimulationRunModes[key];        
+        self.runModes.push(obj)        
+    });
+    console.log('this.runModes = ')
+    console.log(this.runModes)
+
+    // Populate integral limit modes select box    
     Object.keys(IntegralLimitModes).forEach(function (key) {
         let obj = IntegralLimitModes[key];        
         self.integralLimitModes.push(obj)        
@@ -410,6 +451,9 @@ export default {
 
     // Set default integral limiting mode
     this.selIntegralLimitingMode = IntegralLimitModes.OUTPUT_LIMITED
+
+    if(this.pidEnabled)
+        this.addSetPointLine()
 
   }
 };
@@ -450,6 +494,22 @@ a {
 
 .sliders input {
   width: 50px;
+}
+
+fieldset.panel {
+    display: block;
+    margin-inline-start: 2px;
+    margin-inline-end: 2px;
+    border: groove 2px ThreeDFace;
+    padding-block-start: 0.35em;
+    padding-inline-end: 0.625em;
+    padding-block-end: 0.75em;
+    padding-inline-start: 0.625em;
+    min-width: min-content;
+}
+
+legend.panel {
+    padding-inline-start: 2px; padding-inline-end: 2px;
 }
 
 </style>

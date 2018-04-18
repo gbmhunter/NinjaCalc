@@ -71,6 +71,10 @@ Vue.component('calc-var-checkbox', CalcVarCheckbox)
 import VariableRowVerbose from 'src/misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
 Vue.component('variable-row-verbose', VariableRowVerbose)
 
+// ============================================================================================= //
+// ============================= REGISTER OUR CUSTOM VUE COMPONENTS ============================ //
+// ============================================================================================= //
+
 // =========================================== //
 // ===== TREE VIEW COMPONENT REGISTRATION ==== //
 // =========================================== //
@@ -79,6 +83,14 @@ Vue.component('tree-view', TreeView)
 
 import TreeItem from 'misc/TreeView/TreeItem'
 Vue.component('tree-item', TreeItem)
+
+// PANEL COMPONENT
+import Panel from 'misc/Panel/Panel'
+Vue.component('panel', Panel)
+
+// mn-button COMPONENT
+import MnButton from 'misc/MnButton/MnButton'
+Vue.component('mn-button', MnButton)
 
 // =========================================== //
 // ============= IMPORT VUEX STORE =========== //
