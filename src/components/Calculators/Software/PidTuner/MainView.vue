@@ -51,13 +51,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div style="height: 20px;"/>
-                    <div>
-                        <span class="panel-subheading">Fuel Flow Rate Limits (mL/min):</span>
-                        <br>
-                        min <input v-model="fuelFlowRateMin_mlPmin" v-on:change="fuelFlowRateLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/> 
-                        max <input v-model="fuelFlowRateMax_mlPmin" v-on:change="fuelFlowRateLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
-                    </div>
+                    
                     <div style="height: 20px;"/>
 
                     <div>
@@ -169,7 +163,14 @@
                         min <input v-model="integralLimitingConstantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                            max <input v-model="integralLimitingConstantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                     </div>
-                </div> <!-- <div id="integral-limiting-container"> -->              
+                </div> <!-- <div id="integral-limiting-container"> -->    
+                <div style="height: 20px;"/>
+                <div>
+                    <span class="panel-subheading">Control Variable Limits:</span>
+                    <br>
+                    min <input v-model="fuelFlowRateMin_mlPmin" v-on:change="fuelFlowRateLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/> 
+                    max <input v-model="fuelFlowRateMax_mlPmin" v-on:change="fuelFlowRateLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
+                </div>
             </panel> <!-- <panel title="PID Settings"> -->        
         </div> <!-- <div id="controls" style="display: flex;"> -->
 
@@ -205,7 +206,8 @@
 import Chart from "chart.js";
 import vueSlider from "vue-slider-component";
 
-import JetEngineModelTxt from './JetEngineModel.txt'
+import JetEngineModelTxt from './Processes/JetEngineModel.txt'
+import SpringMassDamperProcessTxt from './Processes/SpringMassDamperProcess.txt'
 
 import { Pid, IntegralLimitModes } from "./Pid";
 
@@ -225,7 +227,7 @@ export default {
             processes: [
                 {
                     name: "Mass/Spring/Damper",
-                    file: "ProcessMassSpringDamper.js"
+                    code: SpringMassDamperProcessTxt
                 },
                 {
                     name: "R/C Jet Engine",
@@ -233,7 +235,7 @@ export default {
                 },
                 {
                     name: "User Defined",
-                    file: "n/a"
+                    code: "n/a"
                 },
             ],
             selProcessName: "",
@@ -373,21 +375,21 @@ export default {
             rotVelSetPoint_rpm: 0.0,
             maxNumDataPoints: 100,
             pid: new Pid(0.0006, 0.0006, 0.0), // PID constants get overriden by values set from sliders
-            pidConstants: {
+            pidConstants: { // These get overwritten when a process is loaded (process.getDefaults())
                 p: {
                     min: 0.0,
-                    max: 0.001,
-                    value: 0.0006
+                    max: 1.0,
+                    value: 0.5
                 },
                 i: {
                     min: 0.0,
-                    max: 0.001,
-                    value: 0.0006
+                    max: 1.0,
+                    value: 0.5
                 },
                 d: {
                     min: 0.0,
-                    max: 0.001,
-                    value: 0.0
+                    max: 1.0,
+                    value: 0.5
                 }
             },
             integralLimitModes: [],
@@ -497,6 +499,18 @@ export default {
             this.plantCode = eval(this.plantCodeString)
             console.log('plantCode = ')
             console.log(this.plantCode)
+
+            // Set PID tuner defaults
+            const defaults = this.plantCode.getDefaults()
+            console.log('defaults =')
+            console.log(defaults)
+
+            if(defaults !== null) {
+                console.log('Default values found.')
+                this.pidConstants = defaults.pidConstants
+            } else
+                console.log('Default values NOT found.')
+
             this.plantCode.init()
 
         },

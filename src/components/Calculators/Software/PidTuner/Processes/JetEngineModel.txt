@@ -1,5 +1,27 @@
 var process = {  
 
+    getDefaults: function () {
+        return {
+            pidConstants: {
+                p: {
+                    min: 0.0,
+                    max: 0.001,
+                    value: 0.0006
+                },
+                i: {
+                    min: 0.0,
+                    max: 0.001,
+                    value: 0.0006
+                },
+                d: {
+                    min: 0.0,
+                    max: 0.001,
+                    value: 0.0
+                }
+            },
+        }
+    },
+
     init: function() {  
         console.log('plant.init() called.')           
         this.fuelConstant = 10000.0
