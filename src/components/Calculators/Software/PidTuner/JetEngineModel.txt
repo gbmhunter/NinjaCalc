@@ -1,4 +1,5 @@
-var process = {    
+var process = {  
+
     init: function() {  
         console.log('plant.init() called.')           
         this.fuelConstant = 10000.0
@@ -8,6 +9,9 @@ var process = {
 
         this.lastUpdateTime_s = 0.0
     },
+
+    // This gets called every simulation tick, with a new control variable. This function
+    // needs to update the process, and return the new measured variable.
     update: function (fuelFlow_lPmin, timeStep_s) {
         // console.log('JetEngineModel.update() called with fuelFlow_lPmin = ' + fuelFlow_lPmin + ', timeStep_s = ' + timeStep_s + '.')        
 
@@ -25,6 +29,7 @@ var process = {
 
         this.rotVel_radPs = this.rotVel_radPs + changeInRotVel_radPs        
     },
+
     getRotVel_radPs: function () {
         return this.rotVel_radPs
     }

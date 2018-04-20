@@ -1,20 +1,10 @@
 <template>
     <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">
-        <h1>Jet Engine PID Control</h1>
-
-        <!-- PROCESS VARIABLE AND PID SET-POINT CHART -->
-        <div style="width: 800px; height: 400px;">
-            <canvas id="myChart" width="800" height="400"></canvas>
-        </div>
-
-        <!-- PID TERMS CHART -->
-        <div style="width: 800px; height: 400px;">
-            <canvas id="pidTermsChart" width="800" height="400"></canvas>
-        </div>
+        <h1>PID Tuner</h1>
 
         <!-- The style "min-height: min-content" is required so that this flex box's height expands to the maximum width
         of any of it's children -->
-        <div id="below-chart" style="display: flex; min-height: min-content;">
+        <div id="controls" style="display: flex; min-height: min-content;">
             <!-- =================== -->
             <!-- SIMULATION SETTINGS -->
             <!-- =================== -->
@@ -29,6 +19,7 @@
                                 {{ option.name }}
                             </option>
                         </select>
+                        <div style="width: 10px;"/> <!-- H SPACER -->
                         <mn-button
                             variant="success"
                             :onClick="processLoad"
@@ -36,6 +27,7 @@
                             Load
                         </mn-button>
                     </div>
+                    <div style="height: 10px;"/> <!-- V SPACER -->
                     <div>
                         <mn-button
                             variant="success"
@@ -179,7 +171,19 @@
                     </div>
                 </div> <!-- <div id="integral-limiting-container"> -->              
             </panel> <!-- <panel title="PID Settings"> -->        
-        </div> <!-- <div id="below-chart" style="display: flex;"> -->
+        </div> <!-- <div id="controls" style="display: flex;"> -->
+
+        <!-- PROCESS VARIABLE AND PID SET-POINT CHART -->
+        <div style="width: 800px; height: 400px;">
+            <canvas id="myChart" width="800" height="400"></canvas>
+        </div>
+
+        <!-- PID TERMS CHART -->
+        <div style="width: 800px; height: 400px;">
+            <canvas id="pidTermsChart" width="800" height="400"></canvas>
+        </div>
+
+        
 
         <div style="height: 20px;"/>
 
@@ -189,7 +193,8 @@
         <mn-modal v-if="showProcessEditModal" @close="showProcessEditModal = false">
             <div slot="body" style="display: flex; flex-direction: column; width: 100%; height: 100%;">
                 <textarea v-model="plantCodeString" style="flex-grow: 2;"/>
-                <mn-button :onClick="processHideModalAndLoad" style="width: 120px; height: 30px;">Close</mn-button>
+                <div style="height: 10px;"/>
+                <mn-button variant="success" :onClick="processHideModalAndLoad" style="width: 120px; height: 30px; align-self: flex-end;">Close</mn-button>
             </div>
         </mn-modal>
     </div>
@@ -211,7 +216,7 @@ const SimulationRunModes = {
 };
 
 export default {
-    name: "HelloWorld",
+    name: "pid-tuner",
     components: {
         vueSlider
     },

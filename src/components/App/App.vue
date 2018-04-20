@@ -63,7 +63,7 @@
   import { mapPlotter } from "../Calculators/Geospatial/MapPlotter/Calc";
 
   import { crcCalculator } from '../Calculators/Software/Crc/Calc'
-  import { pidTuner } from '../Calculators/Software/Pid/Calc'
+  import { pidTuner } from '../Calculators/Software/PidTuner/Calc'
 
   export default {
     name: 'app',
