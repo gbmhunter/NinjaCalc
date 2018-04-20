@@ -183,7 +183,9 @@
 
         <div style="height: 20px;"/>
 
-        <!-- NOT IN DOCUMENT FLOW -->
+        <!-- ============================================= -->
+        <!-- =========== PROCESS EDIT MODEAL ============= -->
+        <!-- ========== (not in document flow) =========== -->
         <mn-modal v-if="showProcessEditModal" @close="showProcessEditModal = false">
             <div slot="body" style="display: flex; flex-direction: column; width: 100%; height: 100%;">
                 <textarea v-model="plantCodeString" style="flex-grow: 2;"/>
