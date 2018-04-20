@@ -2,21 +2,23 @@ var process = {
 
     getDefaults: function () {
         return {
-            pidConstants: {
-                p: {
-                    min: 0.0,
-                    max: 1.0,
-                    value: 0.5
-                },
-                i: {
-                    min: 0.0,
-                    max: 1.0,
-                    value: 0.5
-                },
-                d: {
-                    min: 0.0,
-                    max: 1.0,
-                    value: 0.5
+            pidConfig: {
+                constants: {
+                    p: {
+                        min: 0.0,
+                        max: 1.0,
+                        value: 0.5
+                    },
+                    i: {
+                        min: 0.0,
+                        max: 1.0,
+                        value: 0.5
+                    },
+                    d: {
+                        min: 0.0,
+                        max: 1.0,
+                        value: 0.5
+                    }
                 }
             }
         }

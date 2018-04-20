@@ -115,31 +115,31 @@
                     </tr>
                     <tr>
                         <td>P</td>
-                        <td><input v-model="pidConstants.p.min" class="pid-limit"/></td>
-                        <td><input v-model="pidConstants.p.max" class="pid-limit"/></td>
+                        <td><input v-model="pidConfig.constants.p.min" class="pid-limit"/></td>
+                        <td><input v-model="pidConfig.constants.p.max" class="pid-limit"/></td>
                         <td style="width: 200px;">
-                        <vue-slider ref="slider" v-model="pidConstants.p.value"
-                        :min="Number(pidConstants.p.min)" :max="Number(pidConstants.p.max)"
-                        :interval="(Number(pidConstants.p.max) - Number(pidConstants.p.min)) / 100.0"/></td>
+                        <vue-slider ref="slider" v-model="pidConfig.constants.p.value"
+                        :min="Number(pidConfig.constants.p.min)" :max="Number(pidConfig.constants.p.max)"
+                        :interval="(Number(pidConfig.constants.p.max) - Number(pidConfig.constants.p.min)) / 100.0"/></td>
                     </tr>
                     <tr>
                         <td>I</td>
-                        <td><input v-model="pidConstants.i.min" class="pid-limit"/></td>
-                        <td><input v-model="pidConstants.i.max" class="pid-limit"/></td>
+                        <td><input v-model="pidConfig.constants.i.min" class="pid-limit"/></td>
+                        <td><input v-model="pidConfig.constants.i.max" class="pid-limit"/></td>
                         <td style="width: 200px;">
-                        <vue-slider ref="slider" v-model="pidConstants.i.value"
-                        :min="Number(pidConstants.i.min)" :max="Number(pidConstants.i.max)"
-                        :interval="(Number(pidConstants.i.max) - Number(pidConstants.i.min)) / 100.0"/>
+                        <vue-slider ref="slider" v-model="pidConfig.constants.i.value"
+                        :min="Number(pidConfig.constants.i.min)" :max="Number(pidConfig.constants.i.max)"
+                        :interval="(Number(pidConfig.constants.i.max) - Number(pidConfig.constants.i.min)) / 100.0"/>
                         </td>
                     </tr>
                     <tr>
                         <td>D</td>
-                        <td><input v-model="pidConstants.d.min" class="pid-limit"/></td>
-                        <td><input v-model="pidConstants.d.max" class="pid-limit"/></td>
+                        <td><input v-model="pidConfig.constants.d.min" class="pid-limit"/></td>
+                        <td><input v-model="pidConfig.constants.d.max" class="pid-limit"/></td>
                         <td style="width: 200px;">
-                        <vue-slider ref="slider" v-model="pidConstants.d.value"
-                        :min="Number(pidConstants.d.min)" :max="Number(pidConstants.d.max)"
-                        :interval="(Number(pidConstants.d.max) - Number(pidConstants.d.min)) / 100.0"/>
+                        <vue-slider ref="slider" v-model="pidConfig.constants.d.value"
+                        :min="Number(pidConfig.constants.d.min)" :max="Number(pidConfig.constants.d.max)"
+                        :interval="(Number(pidConfig.constants.d.max) - Number(pidConfig.constants.d.min)) / 100.0"/>
                         </td>
                     </tr>
                     </tbody>
@@ -152,16 +152,17 @@
                 <span class="panel-subheading">Integral Limiting (Windup Control)</span>
                 <div style="height: 10px;"/>
                 <div>
-                    Mode: <select v-model="selIntegralLimitingMode" @change="setIntegralLimitingMode" style="width: 300px; height: 30px; background-color: transparent;">
+                    Mode:
+                    <select v-model="pidConfig.integralLimitingMode" @change="setIntegralLimitingMode" style="width: 300px; height: 30px; background-color: transparent;">
                         <option v-for="option in integralLimitModes" v-bind:value="option" v-bind:key="String(option)">
                         {{ String(option) }}
-                    </option>
+                        </option>
                     </select>
                 </div>
                 <div style="height: 10px;"/>
                     <div>
                         min <input v-model="integralLimitingConstantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
-                           max <input v-model="integralLimitingConstantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
+                        max <input v-model="integralLimitingConstantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                     </div>
                 </div> <!-- <div id="integral-limiting-container"> -->    
                 <div style="height: 20px;"/>
@@ -375,46 +376,35 @@ export default {
             rotVelSetPoint_rpm: 0.0,
             maxNumDataPoints: 100,
             pid: new Pid(0.0006, 0.0006, 0.0), // PID constants get overriden by values set from sliders
-            pidConstants: { // These get overwritten when a process is loaded (process.getDefaults())
-                p: {
-                    min: 0.0,
-                    max: 1.0,
-                    value: 0.5
+            pidConfig: {
+                constants: { // These get overwritten when a process is loaded (process.getDefaults())
+                    p: {
+                        min: 0.0,
+                        max: 1.0,
+                        value: 0.5
+                    },
+                    i: {
+                        min: 0.0,
+                        max: 1.0,
+                        value: 0.5
+                    },
+                    d: {
+                        min: 0.0,
+                        max: 1.0,
+                        value: 0.5
+                    }
                 },
-                i: {
-                    min: 0.0,
-                    max: 1.0,
-                    value: 0.5
-                },
-                d: {
-                    min: 0.0,
-                    max: 1.0,
-                    value: 0.5
-                }
-            },
-            integralLimitModes: [],
-            selIntegralLimitingMode: null,
+                integralLimitMode: 'Output Limited',
+            }, // pidConfig
+            
+            areIntegralLimitingConstantsDisabled: false,
+            integralLimitModes: [],            
             integralLimitingConstantMin: -1.0,
             integralLimitingConstantMax: 1.0,
 
         };
     },
     computed: {
-        areIntegralLimitingConstantsDisabled() {
-            console.log(
-                "areIntegralLimitingConstantsDisabled() called. this.selIntegralLimitingMode = " +
-                this.selIntegralLimitingMode +
-                ", this.integralLimitModes = "
-            );
-            console.log(this.integralLimitModes);
-            if (
-                this.selIntegralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED
-            ) {
-                return false;
-            } else {
-                return true;
-            }
-        },
         pidEnabled() {
             console.log("Computing pidEnabled...");
             if (
@@ -507,7 +497,7 @@ export default {
 
             if(defaults !== null) {
                 console.log('Default values found.')
-                this.pidConstants = defaults.pidConstants
+                this.pidConfig = defaults.pidConfig
             } else
                 console.log('Default values NOT found.')
 
@@ -522,27 +512,29 @@ export default {
             }
         },
         setIntegralLimitingMode() {
-            console.log("selIntegralLimitingMode changed.");
-            if (this.selIntegralLimitingMode === IntegralLimitModes.NONE) {
+            console.log('setIntegralLimitingMode() called.');
+            if (this.pidConfig.integralLimitingMode === IntegralLimitModes.NONE) {
                 this.pid.setIntegralLimit({
-                mode: IntegralLimitModes.NONE
+                    mode: IntegralLimitModes.NONE
                 });
-            } else if (
-                this.selIntegralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED
-            ) {
+            } else if (this.pidConfig.integralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED) {
                 this.pid.setIntegralLimit({
-                mode: IntegralLimitModes.CONSTANT_LIMITED,
-                min: Number(this.integralLimitingConstantMin),
-                max: Number(this.integralLimitingConstantMax)
+                    mode: IntegralLimitModes.CONSTANT_LIMITED,
+                    min: Number(this.integralLimitingConstantMin),
+                    max: Number(this.integralLimitingConstantMax)
                 });
-            } else if (
-                this.selIntegralLimitingMode === IntegralLimitModes.OUTPUT_LIMITED
-            ) {
+            } else if (this.pidConfig.integralLimitingMode === IntegralLimitModes.OUTPUT_LIMITED) {
                 this.pid.setIntegralLimit({
-                mode: IntegralLimitModes.OUTPUT_LIMITED
+                    mode: IntegralLimitModes.OUTPUT_LIMITED
                 });
             } else {
                 throw new Error("Integral limiting mode unrecognized.");
+            }
+
+            if (this.pidConfig.integralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED) {
+                this.areIntegralLimitingConstantsDisabled = false
+            } else {
+                this.areIntegralLimitingConstantsDisabled = true
             }
         },
         startStopSimulation() {
@@ -559,9 +551,9 @@ export default {
                 }, this.plotPeriod_s * 1000.0);
 
                 if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
-                this.autoStepChangeTimer = window.setInterval(() => {
-                    this.performAutoSetPointChange();
-                }, 4000.0);
+                    this.autoStepChangeTimer = window.setInterval(() => {
+                        this.performAutoSetPointChange();
+                    }, 4000.0);
                 }
 
                 this.simulationRunning = true;
@@ -679,24 +671,25 @@ export default {
         },
 
         updatePidConstants() {
-        this.pid.setConstants(
-            this.pidConstants.p.value,
-            this.pidConstants.i.value,
-            this.pidConstants.d.value
-        );
+            this.pid.setConstants(
+                this.pidConfig.constants.p.value,
+                this.pidConfig.constants.i.value,
+                this.pidConfig.constants.d.value
+            );
         }
     },
     watch: {
         pidEnabled(val) {
-        console.log("pidEnabled changed.");
-        if (val) this.addSetPointLine();
+            console.log("pidEnabled changed.");
+            if (val)
+                this.addSetPointLine();
         },
-        pidConstants: {
-        handler(val) {
-            console.log("pidConstants changed.");
-            this.updatePidConstants();
-        },
-        deep: true
+        pidConfig: {
+            handler(val) {
+                console.log("pidConstants changed.");
+                this.updatePidConstants();
+            },
+            deep: true
         }
     }, // watch: {
     mounted() {
@@ -738,7 +731,7 @@ export default {
         });
 
         // Set default integral limiting mode
-        this.selIntegralLimitingMode = IntegralLimitModes.OUTPUT_LIMITED;
+        this.pidConfig.integralLimitingMode = IntegralLimitModes.OUTPUT_LIMITED;
         this.setIntegralLimitingMode()
 
         if (this.pidEnabled) this.addSetPointLine();
