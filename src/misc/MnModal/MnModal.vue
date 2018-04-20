@@ -2,11 +2,9 @@
   <transition name="modal">
     <div class="modal-mask">
         <div class="modal-container">
-          <div class="modal-body">
             <slot name="body">
               default body
-            </slot>
-          </div>        
+            </slot>   
         </div>
     </div>
   </transition>
@@ -58,14 +56,6 @@
         font-family: Helvetica, Arial, sans-serif;
     }
 
-
-    .modal-body {
-        margin: 20px 0;
-    }
-
-    .modal-default-button {
-        float: right;
-    }
 
     /*
     * The following styles are auto-applied to elements with

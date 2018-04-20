@@ -183,12 +183,10 @@
 
         <div style="height: 20px;"/>
 
-        <textarea v-model="plantCodeString" style="width: 100%;height: 600px;" />
-
         <!-- NOT IN DOCUMENT FLOW -->
         <mn-modal v-if="showProcessEditModal" @close="showProcessEditModal = false">
             <div slot="body" style="display: flex; flex-direction: column; width: 100%; height: 100%;">
-                <textarea style="flex-grow: 2;"/>
+                <textarea v-model="plantCodeString" style="flex-grow: 2;"/>
                 <mn-button :onClick="processHideModalAndLoad" style="width: 120px; height: 30px;">Close</mn-button>
             </div>
         </mn-modal>
@@ -461,6 +459,13 @@ export default {
         processHideModalAndLoad () { // Called when close() button inside edit process modal is clicked
             console.log('processHideModalAndLoad() called.')
             this.showProcessEditModal = false
+
+            // We want to load any changes user has made to code
+            console.log('Loading user changes to process code...')
+            this.plantCode = eval(this.plantCodeString)
+            console.log('plantCode = ')
+            console.log(this.plantCode)
+            this.plantCode.init()
         },
         processLoad () {
             console.log('processLoad() called.')
