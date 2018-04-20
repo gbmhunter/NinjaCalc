@@ -92,6 +92,10 @@ Vue.component('panel', Panel)
 import MnButton from 'misc/MnButton/MnButton'
 Vue.component('mn-button', MnButton)
 
+// mn-modal COMPONENT
+import MnModal from 'misc/MnModal/MnModal'
+Vue.component('mn-modal', MnModal)
+
 // =========================================== //
 // ============= IMPORT VUEX STORE =========== //
 // =========================================== //

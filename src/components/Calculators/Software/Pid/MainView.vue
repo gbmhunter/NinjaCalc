@@ -21,12 +21,29 @@
             <panel title="Simulation Settings">
                 <div style="display: flex; flex-direction: column; align-items: center;">
                     <div style="height: 20px;"/>
-                    Process:
-                    <select v-model="selProcessName" :disabled="simulationRunning" style="width: 250px; height: 30px; background-color: transparent;">
-                        <option v-for="option in processes" v-bind:value="option.name"  v-bind:key="option.name">
-                            {{ option.name }}
-                        </option>
-                    </select>
+
+                    <div style="display: flex; align-items: center;">
+                        Process:
+                        <select v-model="selProcessName" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
+                            <option v-for="option in processes" v-bind:value="option.name"  v-bind:key="option.name">
+                                {{ option.name }}
+                            </option>
+                        </select>
+                        <mn-button
+                            variant="success"
+                            :onClick="processLoad"
+                            style="width: 60px; height: 30px;">
+                            Load
+                        </mn-button>
+                    </div>
+                    <div>
+                        <mn-button
+                            variant="success"
+                            :onClick="processEdit"
+                            style="width: 140px; height: 30px;">
+                            Edit Process
+                        </mn-button>
+                    </div>
 
                     <div style="height: 20px;"/>
 
@@ -167,6 +184,14 @@
         <div style="height: 20px;"/>
 
         <textarea v-model="plantCodeString" style="width: 100%;height: 600px;" />
+
+        <!-- NOT IN DOCUMENT FLOW -->
+        <mn-modal v-if="showProcessEditModal" @close="showProcessEditModal = false">
+            <div slot="body" style="display: flex; flex-direction: column; width: 100%; height: 100%;">
+                <textarea style="flex-grow: 2;"/>
+                <mn-button :onClick="processHideModalAndLoad" style="width: 120px; height: 30px;">Close</mn-button>
+            </div>
+        </mn-modal>
     </div>
 </template>
 
@@ -192,8 +217,6 @@ export default {
     },
     data() {
         return {
-            msg: "Welcome to Your Vue.js App",
-
             processes: [
                 {
                     name: "Mass/Spring/Damper",
@@ -209,6 +232,9 @@ export default {
                 },
             ],
             selProcessName: "",
+            plantCodeString: '', // This is the non-eval()'d plant code, either provided from file or user-defined
+            plantCode: null, // This gets populated by eval() when the Start/Stop simulation button is clicked
+            showProcessEditModal: false, // Set to true when the "Edit Process" button is clicked
 
             // jetEngineModel: new JetEngineModel(10000.0, -1.0, 10000),
 
@@ -344,19 +370,19 @@ export default {
             pid: new Pid(0.0006, 0.0006, 0.0), // PID constants get overriden by values set from sliders
             pidConstants: {
                 p: {
-                min: 0.0,
-                max: 0.001,
-                value: 0.0006
+                    min: 0.0,
+                    max: 0.001,
+                    value: 0.0006
                 },
                 i: {
-                min: 0.0,
-                max: 0.001,
-                value: 0.0006
+                    min: 0.0,
+                    max: 0.001,
+                    value: 0.0006
                 },
                 d: {
-                min: 0.0,
-                max: 0.001,
-                value: 0.0
+                    min: 0.0,
+                    max: 0.001,
+                    value: 0.0
                 }
             },
             integralLimitModes: [],
@@ -364,8 +390,6 @@ export default {
             integralLimitingConstantMin: -1.0,
             integralLimitingConstantMax: 1.0,
 
-            plantCodeString: '',
-            plantCode: null, // This gets populated by eval() when the Start/Stop simulation button is clicked
         };
     },
     computed: {
@@ -430,10 +454,16 @@ export default {
                 Number(this.fuelFlowRateMax_mlPmin) / 1000.0
             );
         },
-        loadProcess () {
-            console.log('loadProcess() called.')
-
-            let plantCodeString = ''
+        processEdit () {
+            console.log('processEdit() called.')
+            this.showProcessEditModal = true
+        },
+        processHideModalAndLoad () { // Called when close() button inside edit process modal is clicked
+            console.log('processHideModalAndLoad() called.')
+            this.showProcessEditModal = false
+        },
+        processLoad () {
+            console.log('processLoad() called.')
 
             // Load the file containing the process code if not user defined process
             if(this.selProcessName !== 'User Defined') {
@@ -444,15 +474,15 @@ export default {
                 })
                 console.log('selProcess = ')
                 console.log(selProcess)
-                plantCodeString = selProcess.code
+                this.plantCodeString = selProcess.code
 
             }
-            console.log('plantCodeString = ')
-            console.log(plantCodeString)
+            console.log('this.plantCodeString = ')
+            console.log(this.plantCodeString)
 
-            console.log('Loading plant code...')
+            console.log('eval()\'ing plant code...')
 
-            this.plantCode = eval(plantCodeString)
+            this.plantCode = eval(this.plantCodeString)
             console.log('plantCode = ')
             console.log(this.plantCode)
             this.plantCode.init()
@@ -657,7 +687,7 @@ export default {
 
         // Set default process, and then load it
         this.selProcessName = this.processes[1].name
-        this.loadProcess()
+        this.processLoad()
 
         // Set the run mode to auto by default. This should trigger watch
         this.selectedRunMode = SimulationRunModes.AUTO_RPM_STEP_CHANGES;
