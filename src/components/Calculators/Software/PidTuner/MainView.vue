@@ -1,190 +1,198 @@
 <template>
-    <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">
-        <h1>PID Tuner</h1>
+    <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">        
 
-        <!-- The style "min-height: min-content" is required so that this flex box's height expands to the maximum width
-        of any of it's children -->
-        <div id="controls" style="display: flex; min-height: min-content;">
-            <!-- =================== -->
-            <!-- SIMULATION SETTINGS -->
-            <!-- =================== -->
-            <panel title="Simulation Settings">
-                <div style="display: flex; flex-direction: column; align-items: center;">
+        <!-- H FLEX -->
+        <div style="display: flex;">
+            <!-- The style "min-height: min-content" is required so that this flex box's height expands to the maximum width
+            of any of it's children -->
+            <div id="controls" style="display: flex; flex-direction: column; width: 350px;">
+                <!-- =================== -->
+                <!-- SIMULATION SETTINGS -->
+                <!-- =================== -->
+                <panel title="Simulation Settings">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+
+                        <div style="display: flex; align-items: center;">
+                            Process:
+                            <select v-model="selProcessName" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
+                                <option v-for="option in processes" v-bind:value="option.name"  v-bind:key="option.name">
+                                    {{ option.name }}
+                                </option>
+                            </select>
+                            <div style="width: 10px;"/> <!-- H SPACER -->
+                            <mn-button
+                                variant="success"
+                                :onClick="processLoad"
+                                style="width: 60px; height: 30px;">
+                                Load
+                            </mn-button>
+                        </div>
+                        <div style="height: 10px;"/> <!-- V SPACER -->
+                        <div>
+                            <mn-button
+                                variant="success"
+                                :onClick="processEdit"
+                                style="width: 140px; height: 30px;">
+                                Edit Process
+                            </mn-button>
+                        </div>
+
+                        <div style="height: 20px;"/>
+
+                        <div>
+                            <table>
+                                <tr>
+                                    <td>Simulation Tick Period (ms):</td>
+                                    <td><input v-model.number="simulationTickPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Plot Period (ms):</td>
+                                    <td><input v-model.number="plotPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div style="height: 20px;"/>
+
+                        <div>
+                            <span class="panel-subheading">Run Mode:</span><br>
+                            <select v-model="selectedRunMode" :options="runModes" :disabled="simulationRunning" style="width: 240px; height: 30px; background-color: transparent;">
+                                <option v-for="option in runModes" v-bind:value="option"  v-bind:key="option">
+                                {{ option }}
+                                </option>
+                            </select>
+                            <mn-button 
+                                :variant="!simulationRunning ? 'success' : 'danger'"
+                                :onClick="startStopSimulation"
+                                style="width: 80px; height: 50px;">
+                                <div style="font-size: 18px;">{{ !simulationRunning ? 'START' : 'STOP' }}</div>
+                            </mn-button>   
+                        </div>         
+                                         
+                    </div>       
+                </panel>
+
+                <div style="height: 10px;" />
+
+                <!-- =================== -->
+                <!-- ===== CONTROLS ==== -->
+                <!-- =================== -->
+                <panel title="Controls">
+                    <div style="display: flex; flex-direction: column;">
+                        <span class="panel-subheading">Control Variable ({{ this.simulationConfig.controlVaraibleUnits }})</span>
+                        <div>
+                            <div style="height: 40px;"/>
+                            <vue-slider 
+                                ref="slider"
+                                v-model="controlVariable"
+                                :min="Number(pidConfig.controlVariableLimits.min)"
+                                :max="Number(pidConfig.controlVariableLimits.max)"
+                                :interval="(Number(pidConfig.controlVariableLimits.max) - Number(pidConfig.controlVariableLimits.min)) / 100.0"
+                                :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_RPM || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
+                                style="width:300px;" />
+                        </div>   
+                        <span class="panel-subheading">Process Set-Point ({{ this.simulationConfig.processVariableUnits }})</span>
+                        <div>
+                            <div style="height: 40px;"/>
+                            <vue-slider
+                                ref="slider"
+                                v-model="setPoint"
+                                :min=0 :max=100000 :interval=1000
+                                :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
+                                style="width:300px;"/>
+                        </div>
+                    </div>
+                </panel>
+
+                <div style="height: 10px;" />
+
+                <!-- =================== -->
+                <!-- === PID SETTINGS == -->
+                <!-- =================== -->
+                <panel title="PID Settings">                    
+                    <span class="panel-subheading">PID Constants</span>
+                    <table class="sliders"> 
+                    <tbody>
+                        <tr>
+                            <td>Constant</td>
+                            <td>Min.</td>
+                            <td>Max.</td>
+                            <td>Value</td>
+                        </tr>
+                        <tr>
+                            <td>P</td>
+                            <td><input v-model="pidConfig.constants.p.min" class="pid-limit"/></td>
+                            <td><input v-model="pidConfig.constants.p.max" class="pid-limit"/></td>
+                            <td style="width: 200px;">
+                            <vue-slider ref="slider" v-model="pidConfig.constants.p.value"
+                            :min="Number(pidConfig.constants.p.min)" :max="Number(pidConfig.constants.p.max)"
+                            :interval="(Number(pidConfig.constants.p.max) - Number(pidConfig.constants.p.min)) / 100.0"/></td>
+                        </tr>
+                        <tr>
+                            <td>I</td>
+                            <td><input v-model="pidConfig.constants.i.min" class="pid-limit"/></td>
+                            <td><input v-model="pidConfig.constants.i.max" class="pid-limit"/></td>
+                            <td style="width: 200px;">
+                            <vue-slider ref="slider" v-model="pidConfig.constants.i.value"
+                            :min="Number(pidConfig.constants.i.min)" :max="Number(pidConfig.constants.i.max)"
+                            :interval="(Number(pidConfig.constants.i.max) - Number(pidConfig.constants.i.min)) / 100.0"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td><input v-model="pidConfig.constants.d.min" class="pid-limit"/></td>
+                            <td><input v-model="pidConfig.constants.d.max" class="pid-limit"/></td>
+                            <td style="width: 200px;">
+                            <vue-slider ref="slider" v-model="pidConfig.constants.d.value"
+                            :min="Number(pidConfig.constants.d.min)" :max="Number(pidConfig.constants.d.max)"
+                            :interval="(Number(pidConfig.constants.d.max) - Number(pidConfig.constants.d.min)) / 100.0"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
                     <div style="height: 20px;"/>
 
-                    <div style="display: flex; align-items: center;">
-                        Process:
-                        <select v-model="selProcessName" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
-                            <option v-for="option in processes" v-bind:value="option.name"  v-bind:key="option.name">
-                                {{ option.name }}
+                    <!-- INTEGRAL LIMITING SETTINGS -->
+                    <div id="integral-limiting-container">
+                    <span class="panel-subheading">Integral Limiting (Windup Control)</span>
+                    <div style="height: 10px;"/>
+                    <div>
+                        Mode:
+                        <select v-model="pidConfig.integralLimitConfig.mode" @change="setIntegralLimitingMode" style="width: 300px; height: 30px; background-color: transparent;">
+                            <option v-for="option in integralLimitModes" v-bind:value="option" v-bind:key="String(option)">
+                                {{ String(option) }}
                             </option>
                         </select>
-                        <div style="width: 10px;"/> <!-- H SPACER -->
-                        <mn-button
-                            variant="success"
-                            :onClick="processLoad"
-                            style="width: 60px; height: 30px;">
-                            Load
-                        </mn-button>
                     </div>
-                    <div style="height: 10px;"/> <!-- V SPACER -->
-                    <div>
-                        <mn-button
-                            variant="success"
-                            :onClick="processEdit"
-                            style="width: 140px; height: 30px;">
-                            Edit Process
-                        </mn-button>
-                    </div>
-
+                    <div style="height: 10px;"/>
+                        <div>
+                            min <input v-model="pidConfig.integralLimitConfig.constantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
+                            max <input v-model="pidConfig.integralLimitConfig.constantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
+                        </div>
+                    </div> <!-- <div id="integral-limiting-container"> -->    
                     <div style="height: 20px;"/>
-
                     <div>
-                        <table>
-                            <tr>
-                                <td>Simulation Tick Period (ms):</td>
-                                <td><input v-model.number="simulationTickPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
-                            </tr>
-                            <tr>
-                                <td>Plot Period (ms):</td>
-                                <td><input v-model.number="plotPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
-                            </tr>
-                        </table>
+                        <span class="panel-subheading">Control Variable Limits:</span>
+                        <br>
+                        min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/> 
+                        max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
                     </div>
-                    
-                    <div style="height: 20px;"/>
+                </panel> <!-- <panel title="PID Settings"> -->        
+            </div> <!-- <div id="controls" style="display: flex;"> -->
 
-                    <div>
-                        <span class="panel-subheading">Run Mode:</span><br>
-                        <select v-model="selectedRunMode" :options="runModes" :disabled="simulationRunning" style="width: 250px; height: 30px; background-color: transparent;">
-                            <option v-for="option in runModes" v-bind:value="option"  v-bind:key="option">
-                            {{ option }}
-                            </option>
-                        </select>
-                    </div>
-                    <div style="height: 20px;"/>            
-                    <mn-button 
-                        :variant="!simulationRunning ? 'success' : 'danger'"
-                        :onClick="startStopSimulation"
-                        style="width: 100px; height: 50px;">
-                        <div style="font-size: 18px;">{{ !simulationRunning ? 'START' : 'STOP' }}</div>
-                    </mn-button>                    
-                </div>       
-            </panel>
-
-            <div style="width: 20px;" />
-
-            <panel title="Controls">
-                <div style="display: flex; flex-direction: column;">
-                    <div style="height: 20px;"/>
-                    <span class="panel-subheading">Control Variable ({{ this.simulationConfig.controlVaraibleUnits }})</span>
-                    <div>
-                        <div style="height: 40px;"/>
-                        <vue-slider 
-                            ref="slider"
-                            v-model="controlVariable"
-                            :min="Number(pidConfig.controlVariableLimits.min)"
-                            :max="Number(pidConfig.controlVariableLimits.max)"
-                            :interval="(Number(pidConfig.controlVariableLimits.max) - Number(pidConfig.controlVariableLimits.min)) / 100.0"
-                            :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_RPM || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
-                            style="width:300px;" />
-                    </div>   
-                    <div style="height: 20px;"/>
-                    <span class="panel-subheading">Process Set-Point ({{ this.simulationConfig.processVariableUnits }})</span>
-                    <div>
-                        <div style="height: 40px;"/>
-                        <vue-slider
-                            ref="slider"
-                            v-model="setPoint"
-                            :min=0 :max=100000 :interval=1000
-                            :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
-                            style="width:300px;"/>
-                    </div>
+            <!-- PROCESS VARIABLE AND PID SET-POINT CHART -->
+            <div style="display: flex; flex-direction: column;">
+                <div style="width: 800px; height: 400px;">
+                    <canvas id="myChart" width="800" height="400"></canvas>
                 </div>
-            </panel>
 
-            <div style="width: 20px;" />
-
-            <panel title="PID Settings">                    
-                <span class="panel-subheading">PID Constants</span>
-                <table class="sliders"> 
-                <tbody>
-                    <tr>
-                        <td>Constant</td>
-                        <td>Min.</td>
-                        <td>Max.</td>
-                        <td>Value</td>
-                    </tr>
-                    <tr>
-                        <td>P</td>
-                        <td><input v-model="pidConfig.constants.p.min" class="pid-limit"/></td>
-                        <td><input v-model="pidConfig.constants.p.max" class="pid-limit"/></td>
-                        <td style="width: 200px;">
-                        <vue-slider ref="slider" v-model="pidConfig.constants.p.value"
-                        :min="Number(pidConfig.constants.p.min)" :max="Number(pidConfig.constants.p.max)"
-                        :interval="(Number(pidConfig.constants.p.max) - Number(pidConfig.constants.p.min)) / 100.0"/></td>
-                    </tr>
-                    <tr>
-                        <td>I</td>
-                        <td><input v-model="pidConfig.constants.i.min" class="pid-limit"/></td>
-                        <td><input v-model="pidConfig.constants.i.max" class="pid-limit"/></td>
-                        <td style="width: 200px;">
-                        <vue-slider ref="slider" v-model="pidConfig.constants.i.value"
-                        :min="Number(pidConfig.constants.i.min)" :max="Number(pidConfig.constants.i.max)"
-                        :interval="(Number(pidConfig.constants.i.max) - Number(pidConfig.constants.i.min)) / 100.0"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>D</td>
-                        <td><input v-model="pidConfig.constants.d.min" class="pid-limit"/></td>
-                        <td><input v-model="pidConfig.constants.d.max" class="pid-limit"/></td>
-                        <td style="width: 200px;">
-                        <vue-slider ref="slider" v-model="pidConfig.constants.d.value"
-                        :min="Number(pidConfig.constants.d.min)" :max="Number(pidConfig.constants.d.max)"
-                        :interval="(Number(pidConfig.constants.d.max) - Number(pidConfig.constants.d.min)) / 100.0"/>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div style="height: 20px;"/>
-
-                <!-- INTEGRAL LIMITING SETTINGS -->
-                <div id="integral-limiting-container">
-                <span class="panel-subheading">Integral Limiting (Windup Control)</span>
-                <div style="height: 10px;"/>
-                <div>
-                    Mode:
-                    <select v-model="pidConfig.integralLimitConfig.mode" @change="setIntegralLimitingMode" style="width: 300px; height: 30px; background-color: transparent;">
-                        <option v-for="option in integralLimitModes" v-bind:value="option" v-bind:key="String(option)">
-                            {{ String(option) }}
-                        </option>
-                    </select>
+                <!-- PID TERMS CHART -->
+                <div style="width: 800px; height: 400px;">
+                    <canvas id="pidTermsChart" width="800" height="400"></canvas>
                 </div>
-                <div style="height: 10px;"/>
-                    <div>
-                        min <input v-model="pidConfig.integralLimitConfig.constantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
-                        max <input v-model="pidConfig.integralLimitConfig.constantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
-                    </div>
-                </div> <!-- <div id="integral-limiting-container"> -->    
-                <div style="height: 20px;"/>
-                <div>
-                    <span class="panel-subheading">Control Variable Limits:</span>
-                    <br>
-                    min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/> 
-                    max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
-                </div>
-            </panel> <!-- <panel title="PID Settings"> -->        
-        </div> <!-- <div id="controls" style="display: flex;"> -->
+            </div>
 
-        <!-- PROCESS VARIABLE AND PID SET-POINT CHART -->
-        <div style="width: 800px; height: 400px;">
-            <canvas id="myChart" width="800" height="400"></canvas>
-        </div>
-
-        <!-- PID TERMS CHART -->
-        <div style="width: 800px; height: 400px;">
-            <canvas id="pidTermsChart" width="800" height="400"></canvas>
         </div>
 
         
