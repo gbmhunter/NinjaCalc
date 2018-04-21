@@ -2,25 +2,38 @@ var process = {
 
     getDefaults: function () {
         return {
+            simulationConfig: {
+                controlVaraibleUnits: 'L/min',
+                processVariableUnits: 'rpm',
+                controlVariableStepChangeVal: 60000 // This is in rpm
+            },
             pidConfig: {
                 constants: {
                     p: {
                         min: 0.0,
-                        max: 0.001,
-                        value: 0.0006
+                        max: 0.0001,
+                        value: 0.00006
                     },
                     i: {
                         min: 0.0,
-                        max: 0.001,
-                        value: 0.0006
+                        max: 0.0001,
+                        value: 0.00006
                     },
                     d: {
                         min: 0.0,
-                        max: 0.001,
+                        max: 0.0001,
                         value: 0.0
                     }
                 },
-                integralLimitMode: 'Output Limited',
+                integralLimitConfig: {
+                    mode: 'Output Limited',
+                    constantMin: -1,
+                    constantMax: 1,
+                },
+                controlVariableLimits: { // This is fuel in L/min
+                    min: 0.0,
+                    max: 1.0
+                }
             }
         }
     },
@@ -38,11 +51,11 @@ var process = {
     // This gets called every simulation tick, with a new control variable. This function
     // needs to update the process, and return the new measured variable.
     update: function (fuelFlow_lPmin, timeStep_s) {
-        // console.log('JetEngineModel.update() called with fuelFlow_lPmin = ' + fuelFlow_lPmin + ', timeStep_s = ' + timeStep_s + '.')        
+        console.log('Process.update() called with controlVariable (fuel flow, in L/min) = ' + fuelFlow_lPmin + ', timeStep_s = ' + timeStep_s + '.')        
 
         // Ffuel - Fdrag = ma
         let rotAccel_radPss = this.fuelConstant*fuelFlow_lPmin + this.dragConstant*Math.pow(this.rotVel_radPs, 1)
-        // console.log('rotAccel_radPss = ' + rotAccel_radPss)
+        console.log('rotAccel_radPss = ' + rotAccel_radPss)
 
         if(rotAccel_radPss > this.maxAccel_radPss)
             rotAccel_radPss = this.maxAccel_radPss
@@ -50,14 +63,14 @@ var process = {
             rotAccel_radPss = -this.maxAccel_radPss
         
         let changeInRotVel_radPs = rotAccel_radPss * timeStep_s
-        // console.log('changeInRotVel = ' + changeInRotVel)
+        console.log('changeInRotVel = ' + changeInRotVel_radPs)
 
-        this.rotVel_radPs = this.rotVel_radPs + changeInRotVel_radPs        
+        this.rotVel_radPs = this.rotVel_radPs + changeInRotVel_radPs
+        console.log('this.rotVel_radPs = ' + this.rotVel_radPs)
+        
+        // Return the process variable (convert to RPM, as this is more user friendly)
+        return (this.rotVel_radPs*60.0/(2*Math.PI))
     },
-
-    getRotVel_radPs: function () {
-        return this.rotVel_radPs
-    }
  }
 
  // Provide an expression to return the object above to

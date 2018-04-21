@@ -77,23 +77,25 @@
             <panel title="Controls">
                 <div style="display: flex; flex-direction: column;">
                     <div style="height: 20px;"/>
-                    <span class="panel-subheading">Fuel Flow Rate (mL/min)</span>
+                    <span class="panel-subheading">Control Variable ({{ this.simulationConfig.controlVaraibleUnits }})</span>
                     <div>
                         <div style="height: 40px;"/>
                         <vue-slider 
                             ref="slider"
-                            v-model="fuelFlow_mlPmin"
-                            :min="Number(fuelFlowRateMin_mlPmin)" :max="Number(fuelFlowRateMax_mlPmin)" :interval="(Number(fuelFlowRateMax_mlPmin) - Number(fuelFlowRateMin_mlPmin)) / 100.0"
+                            v-model="controlVariable"
+                            :min="Number(pidConfig.controlVariableLimits.min)"
+                            :max="Number(pidConfig.controlVariableLimits.max)"
+                            :interval="(Number(pidConfig.controlVariableLimits.max) - Number(pidConfig.controlVariableLimits.min)) / 100.0"
                             :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_RPM || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
                             style="width:300px;" />
                     </div>   
                     <div style="height: 20px;"/>
-                    <span class="panel-subheading">Velocity Set-Point (rpm)</span>
+                    <span class="panel-subheading">Process Set-Point ({{ this.simulationConfig.processVariableUnits }})</span>
                     <div>
                         <div style="height: 40px;"/>
                         <vue-slider
                             ref="slider"
-                            v-model="rotVelSetPoint_rpm"
+                            v-model="setPoint"
                             :min=0 :max=100000 :interval=1000
                             :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
                             style="width:300px;"/>
@@ -153,24 +155,24 @@
                 <div style="height: 10px;"/>
                 <div>
                     Mode:
-                    <select v-model="pidConfig.integralLimitingMode" @change="setIntegralLimitingMode" style="width: 300px; height: 30px; background-color: transparent;">
+                    <select v-model="pidConfig.integralLimitConfig.mode" @change="setIntegralLimitingMode" style="width: 300px; height: 30px; background-color: transparent;">
                         <option v-for="option in integralLimitModes" v-bind:value="option" v-bind:key="String(option)">
-                        {{ String(option) }}
+                            {{ String(option) }}
                         </option>
                     </select>
                 </div>
                 <div style="height: 10px;"/>
                     <div>
-                        min <input v-model="integralLimitingConstantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
-                        max <input v-model="integralLimitingConstantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
+                        min <input v-model="pidConfig.integralLimitConfig.constantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
+                        max <input v-model="pidConfig.integralLimitConfig.constantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                     </div>
                 </div> <!-- <div id="integral-limiting-container"> -->    
                 <div style="height: 20px;"/>
                 <div>
                     <span class="panel-subheading">Control Variable Limits:</span>
                     <br>
-                    min <input v-model="fuelFlowRateMin_mlPmin" v-on:change="fuelFlowRateLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/> 
-                    max <input v-model="fuelFlowRateMax_mlPmin" v-on:change="fuelFlowRateLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
+                    min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/> 
+                    max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
                 </div>
             </panel> <!-- <panel title="PID Settings"> -->        
         </div> <!-- <div id="controls" style="display: flex;"> -->
@@ -244,11 +246,9 @@ export default {
             plantCode: null, // This gets populated by eval() when the Start/Stop simulation button is clicked
             showProcessEditModal: false, // Set to true when the "Edit Process" button is clicked
 
-            // jetEngineModel: new JetEngineModel(10000.0, -1.0, 10000),
-
-            fuelFlow_mlPmin: 0.0,
-            fuelFlowRateMin_mlPmin: 0.0,
-            fuelFlowRateMax_mlPmin: 1000.0,
+            controlVariable: 0.0,
+            processVariable: 0.0,
+            setPoint: 0.0,
             
             simulationTickPeriod_ms: 50, // Gets converted into seconds by computed property
             plotPeriod_ms: 100, // Gets converted into seconds by computed property
@@ -373,11 +373,15 @@ export default {
             modelTickTimer: null,
             modelUpdateTimer: null,
 
-            rotVelSetPoint_rpm: 0.0,
             maxNumDataPoints: 100,
             pid: new Pid(0.0006, 0.0006, 0.0), // PID constants get overriden by values set from sliders
-            pidConfig: {
-                constants: { // These get overwritten when a process is loaded (process.getDefaults())
+
+            simulationConfig: { // These get overwritten when a process is loaded (process.getDefaults())
+                controlVariableStepChangeVal: 0.0
+            },
+
+            pidConfig: { // These get overwritten when a process is loaded (process.getDefaults())
+                constants: { 
                     p: {
                         min: 0.0,
                         max: 1.0,
@@ -394,14 +398,19 @@ export default {
                         value: 0.5
                     }
                 },
-                integralLimitMode: 'Output Limited',
+                integralLimitConfig: {
+                    mode: 'Output Limited',
+                    constantMin: -1,
+                    constantMax: 1,
+                },
+                controlVariableLimits: {
+                    min: 0.0,
+                    max: 1.0,
+                },
             }, // pidConfig
-            
+
             areIntegralLimitingConstantsDisabled: false,
             integralLimitModes: [],            
-            integralLimitingConstantMin: -1.0,
-            integralLimitingConstantMax: 1.0,
-
         };
     },
     computed: {
@@ -444,11 +453,11 @@ export default {
             });
             this.chart.update();
         },
-        fuelFlowRateLimitsChanged() {
-            console.log("Fuel flow rate limits changed.");
+        controlVariableLimitsChanged() {
+            console.log("Control variable limits changed.");
             this.pid.setOutputLimits(
-                Number(this.fuelFlowRateMin_mlPmin) / 1000.0,
-                Number(this.fuelFlowRateMax_mlPmin) / 1000.0
+                Number(this.pidConfig.controlVariableLimits.min),
+                Number(this.pidConfig.controlVariableLimits.max)
             );
         },
         processEdit () {
@@ -497,6 +506,7 @@ export default {
 
             if(defaults !== null) {
                 console.log('Default values found.')
+                this.simulationConfig = defaults.simulationConfig
                 this.pidConfig = defaults.pidConfig
             } else
                 console.log('Default values NOT found.')
@@ -505,25 +515,25 @@ export default {
 
         },
         performAutoSetPointChange() {
-            if (this.rotVelSetPoint_rpm === 0.0) {
-                this.rotVelSetPoint_rpm = 60000.0;
+            if (this.setPoint === 0.0) {
+                this.setPoint = this.simulationConfig.controlVariableStepChangeVal
             } else {
-                this.rotVelSetPoint_rpm = 0.0;
+                this.setPoint = 0.0;
             }
         },
         setIntegralLimitingMode() {
             console.log('setIntegralLimitingMode() called.');
-            if (this.pidConfig.integralLimitingMode === IntegralLimitModes.NONE) {
+            if (this.pidConfig.integralLimitConfig.mode === IntegralLimitModes.NONE) {
                 this.pid.setIntegralLimit({
                     mode: IntegralLimitModes.NONE
                 });
-            } else if (this.pidConfig.integralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED) {
+            } else if (this.pidConfig.integralLimitConfig.mode === IntegralLimitModes.CONSTANT_LIMITED) {
                 this.pid.setIntegralLimit({
                     mode: IntegralLimitModes.CONSTANT_LIMITED,
-                    min: Number(this.integralLimitingConstantMin),
-                    max: Number(this.integralLimitingConstantMax)
+                    min: Number(this.pidConfig.integralLimitConfig.constantMin),
+                    max: Number(this.pidConfig.integralLimitConfig.constantMax)
                 });
-            } else if (this.pidConfig.integralLimitingMode === IntegralLimitModes.OUTPUT_LIMITED) {
+            } else if (this.pidConfig.integralLimitConfig.mode === IntegralLimitModes.OUTPUT_LIMITED) {
                 this.pid.setIntegralLimit({
                     mode: IntegralLimitModes.OUTPUT_LIMITED
                 });
@@ -531,7 +541,8 @@ export default {
                 throw new Error("Integral limiting mode unrecognized.");
             }
 
-            if (this.pidConfig.integralLimitingMode === IntegralLimitModes.CONSTANT_LIMITED) {
+            // Set the boolean which determines if UI elements are disabled
+            if (this.pidConfig.integralLimitConfig.mode === IntegralLimitModes.CONSTANT_LIMITED) {
                 this.areIntegralLimitingConstantsDisabled = false
             } else {
                 this.areIntegralLimitingConstantsDisabled = true
@@ -569,43 +580,29 @@ export default {
         // This updates the simulation. Should be called more frequently than update().
         tick() {
             if (this.pidEnabled) {
-                // let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
-                let rotVel_radPs = this.plantCode.getRotVel_radPs();
-
-                // console.log("this.rotVelSetPoint_rpm = " + this.rotVelSetPoint_rpm);
-                let rotVelSetPoint_radPs = this.rotVelSetPoint_rpm / 60.0 * 2 * Math.PI;
-
-                this.pid.setSetPoint(rotVelSetPoint_radPs);
-                this.fuelFlow_mlPmin = this.pid.run(rotVel_radPs, this.simulationTickPeriod_s) * 1000.0;
+                this.pid.setSetPoint(this.setPoint);
+                this.controlVariable = this.pid.run(this.processVariable, this.simulationTickPeriod_s);
+                console.log('controlVariable = ' + this.controlVariable)
             }
 
-            // this.jetEngineModel.update(
-            //     this.fuelFlow_mlPmin / 1000.0,
-            //     this.simulationTickPeriod_s
-            // );
-
-            this.plantCode.update(
-                this.fuelFlow_mlPmin / 1000.0,
+            this.processVariable = this.plantCode.update(
+                this.controlVariable,
                 this.simulationTickPeriod_s
-            );
+            )
+            console.log('New processVariable = ' + this.processVariable)
 
             this.duration_s += this.simulationTickPeriod_s;
         },
-        // This updates the UI. Called by window.setInterval()
+        // This updates the UI. Called by window.setInterval(). Should be called no more frequently
+        // than tick()
         update() {
-            // let rotVel_radPs = this.jetEngineModel.getRotVel_radPs();
-            let rotVel_radPs = this.plantCode.getRotVel_radPs();
-            let rotVel_rpm = rotVel_radPs / (2 * Math.PI) * 60;
-
             this.chartConfig.data.datasets[0].data.push({
                 x: this.duration_s,
-                y: rotVel_rpm
+                y: this.processVariable,
             });
 
             // Limit number of data points
-            if (
-                this.chartConfig.data.datasets[0].data.length > this.maxNumDataPoints
-            ) {
+            if (this.chartConfig.data.datasets[0].data.length > this.maxNumDataPoints) {
                 this.chartConfig.data.datasets[0].data.shift();
             }
 
@@ -613,7 +610,7 @@ export default {
             if (this.pidEnabled) {
                 this.chartConfig.data.datasets[1].data.push({
                     x: this.duration_s,
-                    y: this.rotVelSetPoint_rpm
+                    y: this.setPoint,
                 });
             }
 
@@ -712,7 +709,7 @@ export default {
         this.selectedRunMode = SimulationRunModes.AUTO_RPM_STEP_CHANGES;
 
         this.updatePidConstants();
-        this.fuelFlowRateLimitsChanged();
+        this.controlVariableLimitsChanged();
 
         let self = this;
 
