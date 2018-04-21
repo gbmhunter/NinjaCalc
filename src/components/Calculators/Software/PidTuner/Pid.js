@@ -39,13 +39,16 @@ export class Pid {
         console.log('setConstants() called. pConstant = ' + pConstant + ', iConstant = ' + iConstant + ', dConstant = ' + dConstant)
         this.pConstant = pConstant
         this.iConstant = iConstant
+        // We also need to reset the integated value
+        // (latent integral could remain if iConstant is changed from non-zero to zero)
+        this.iValue = 0.0
         this.dConstant = dConstant
     }
 
-    setOutputLimits(min, max) {
+    setOutputLimits(enabled, min, max) {
+        this.enableOutputLimiting = enabled
         this.outputLimMin = min
-        this.outputLimMax = max
-        this.enableOutputLimiting = true
+        this.outputLimMax = max        
     }
 
     setIntegralLimit(options) {

@@ -404,6 +404,7 @@ export default {
                     constantMax: 1,
                 },
                 controlVariableLimits: {
+                    enabled: false,
                     min: 0.0,
                     max: 1.0,
                 },
@@ -425,9 +426,7 @@ export default {
                 console.log("Returning true.");
                 return true;
             } else if (
-                this.selectedRunMode ===
-                this.simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE
-            ) {
+                this.selectedRunMode === this.simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE) {
                 return false;
             } else {
                 throw new Error("Unexpected simulation run mode ");
@@ -456,6 +455,7 @@ export default {
         controlVariableLimitsChanged() {
             console.log("Control variable limits changed.");
             this.pid.setOutputLimits(
+                this.pidConfig.controlVariableLimits.enabled,
                 Number(this.pidConfig.controlVariableLimits.min),
                 Number(this.pidConfig.controlVariableLimits.max)
             );
@@ -471,8 +471,8 @@ export default {
             // We want to load any changes user has made to code
             console.log('Loading user changes to process code...')
             this.plantCode = eval(this.plantCodeString)
-            console.log('plantCode = ')
-            console.log(this.plantCode)
+            // console.log('plantCode = ')
+            // console.log(this.plantCode)
             this.plantCode.init()
         },
         processLoad () {
@@ -485,23 +485,23 @@ export default {
                 let selProcess = this.processes.find(function(element) {
                     return element.name === self.selProcessName
                 })
-                console.log('selProcess = ')
+                // console.log('selProcess = ')
                 console.log(selProcess)
                 this.plantCodeString = selProcess.code
 
             }
-            console.log('this.plantCodeString = ')
-            console.log(this.plantCodeString)
+            // console.log('this.plantCodeString = ')
+            // console.log(this.plantCodeString)
 
             console.log('eval()\'ing plant code...')
 
             this.plantCode = eval(this.plantCodeString)
-            console.log('plantCode = ')
+            // console.log('plantCode = ')
             console.log(this.plantCode)
 
             // Set PID tuner defaults
             const defaults = this.plantCode.getDefaults()
-            console.log('defaults =')
+            // console.log('defaults =')
             console.log(defaults)
 
             if(defaults !== null) {
@@ -510,6 +510,8 @@ export default {
                 this.pidConfig = defaults.pidConfig
             } else
                 console.log('Default values NOT found.')
+
+            this.controlVariableLimitsChanged()
 
             this.plantCode.init()
 
@@ -522,7 +524,7 @@ export default {
             }
         },
         setIntegralLimitingMode() {
-            console.log('setIntegralLimitingMode() called.');
+            // console.log('setIntegralLimitingMode() called.');
             if (this.pidConfig.integralLimitConfig.mode === IntegralLimitModes.NONE) {
                 this.pid.setIntegralLimit({
                     mode: IntegralLimitModes.NONE
