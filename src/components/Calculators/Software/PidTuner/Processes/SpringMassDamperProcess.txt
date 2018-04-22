@@ -5,24 +5,26 @@ var process = {
             simulationConfig: {
                 controlVaraibleUnits: 'N',
                 processVariableUnits: 'm',
-                controlVariableStepChangeVal: 10 // This is in N
+                controlVariableStepChangeVal: 1, // This is in N
+                tickPeriod_ms: 10,
+                plotEveryNTicks: 1,
             },
             pidConfig: {
                 constants: {
                     p: {
                         min: 0.0,
-                        max: 30.0,
-                        value: 0.0
+                        max: 400.0,
+                        value: 350.0
                     },
                     i: {
                         min: 0.0,
-                        max: 30.0,
-                        value: 0.0
+                        max: 400.0,
+                        value: 300.0,
                     },
                     d: {
                         min: 0.0,
-                        max: 30.0,
-                        value: 0.0
+                        max: 400.0,
+                        value: 50.0
                     }
                 },
                 integralLimitConfig: {
@@ -32,8 +34,8 @@ var process = {
                 },
                 controlVariableLimits: { // This is fuel in L/min
                     enabled: true,
-                    min: -200.0,
-                    max: 200.0
+                    min: -1000.0,
+                    max: 1000.0
                 }
             },            
         }
@@ -42,8 +44,8 @@ var process = {
     init: function() {  
         console.log('plant.init() called.')   
         this.mass_kg = 1.0        
-        this.springConstantK_NPm = 5.0
-        this.dampingCoefficientC_NsPm = 3.0
+        this.springConstantK_NPm = 20.0
+        this.dampingCoefficientC_NsPm = 10.0
 
         this.displacement_m = 0.0
         this.velocity_mPs = 0.0
@@ -52,7 +54,7 @@ var process = {
     // This gets called every simulation tick, with a new control variable. This function
     // needs to update the process, and return the new measured variable.
     update: function (controlVariable, timeStep_s) {
-        console.log('update() called with controlVariable (external force) = ' + controlVariable + ', timeStep_s = ' + timeStep_s + '.')        
+        // console.log('update() called with controlVariable (external force) = ' + controlVariable + ', timeStep_s = ' + timeStep_s + '.')        
 
     //     // Equation for mass-spring-damper process
     //     // Fext - kx - c*(d/dx) = m*(d^2/dx^2)
@@ -66,21 +68,21 @@ var process = {
     //     // and then displacement
 
         const forceSpring_N = this.springConstantK_NPm*this.displacement_m
-        console.log('forceSpring = ' + forceSpring_N)
+        // console.log('forceSpring = ' + forceSpring_N)
 
         const forceDamper_N = this.dampingCoefficientC_NsPm*this.velocity_mPs
-        console.log('forceDamper = ' + forceDamper_N)
+        // console.log('forceDamper = ' + forceDamper_N)
         
         // a = (Fext - Fspring - Fdamper)/m
         const acceleration_mPs2 = (forceExternal_N - forceSpring_N - forceDamper_N)/this.mass_kg
 
         // Use a and timestep to find v
         this.velocity_mPs = this.velocity_mPs + acceleration_mPs2*timeStep_s  
-        console.log('velocity_mPs = ' + this.velocity_mPs)
+        // console.log('velocity_mPs = ' + this.velocity_mPs)
         
         // Use v and timestep to find x
         this.displacement_m = this.displacement_m + this.velocity_mPs*timeStep_s
-        console.log('displacement_m = ' + this.displacement_m)
+        // console.log('displacement_m = ' + this.displacement_m)
 
         return this.displacement_m
     }

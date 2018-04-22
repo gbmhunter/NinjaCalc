@@ -1,25 +1,40 @@
 <template>
-    <div class="panel-container" style="">
-        <div class="panel-title">{{ title }}</div>
-        <div class="panel-content">
-            <slot></slot>
-        </div>
+    <div class="panel-container" style="">        
+        <div class="panel-title" v-on:click="titleClicked">{{ title }}</div>
+        <transition
+            name="collapse"
+            @after-enter="onEnter"
+            @after-leave="onLeave">
+            <div v-show="isOpen" class="panel-content">
+                <slot></slot>
+            </div>
+        </transition>
     </div>
 </template>
 
 <script>
-    /* eslint-disable */
+/* eslint-disable */    
+    import Velocity from 'velocity-animate'
+
+    
     export default {
         name: 'panel',
         props: {
             title: {type: String}        
         },
         data () {
-            return {}
+            return {
+                height: 0,
+                isOpen: true
+            }
         },
         components: {},
         computed: {},
-        methods: {},
+        methods: {
+            titleClicked () {
+                this.isOpen = !this.isOpen
+            },
+        },
         watch: {},
         mounted () {
         }
@@ -43,9 +58,15 @@
     }
 
     div.panel-content {
-        width: 100%;
-        /* height: 100%; */
-        padding: 10px;
+        width: 100%;        
+        max-height: 0;
+        transition: max-height 0.15s ease-out;
+        overflow: hidden;
+    }
+
+    div.panel-title:hover {
+        max-height: 500px;
+        transition: max-height 0.25s ease-in;
     }
 
     .panel-content .panel-subheading {

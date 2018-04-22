@@ -5,11 +5,11 @@
         <div style="display: flex;">
             <!-- The style "min-height: min-content" is required so that this flex box's height expands to the maximum width
             of any of it's children -->
-            <div id="controls" style="display: flex; flex-direction: column; width: 350px;">
+            <div id="controls" style="display: flex; flex-direction: column; width: 370px;">
                 <!-- =================== -->
                 <!-- SIMULATION SETTINGS -->
                 <!-- =================== -->
-                <panel title="Simulation Settings">
+                <ui-collapsible title="Simulation Settings" :open='true' class="panel">
                     <div style="display: flex; flex-direction: column; align-items: center;">
 
                         <div style="display: flex; align-items: center;">
@@ -43,11 +43,11 @@
                             <table>
                                 <tr>
                                     <td>Simulation Tick Period (ms):</td>
-                                    <td><input v-model.number="simulationTickPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
+                                    <td><input v-model.number="simulationConfig.tickPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
                                 </tr>
                                 <tr>
-                                    <td>Plot Period (ms):</td>
-                                    <td><input v-model.number="plotPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
+                                    <td>Plot Every N Ticks:</td>
+                                    <td><input v-model.number="simulationConfig.plotEveryNTicks" :disabled="simulationRunning" style="width: 80px;"/></td>
                                 </tr>
                             </table>
                         </div>
@@ -70,14 +70,14 @@
                         </div>         
                                          
                     </div>       
-                </panel>
+                </ui-collapsible>
 
                 <div style="height: 10px;" />
 
                 <!-- =================== -->
                 <!-- ===== CONTROLS ==== -->
-                <!-- =================== -->
-                <panel title="Controls">
+                <!-- =================== -->                
+                <ui-collapsible title="Controls" :open='true' class="panel">
                     <div style="display: flex; flex-direction: column;">
                         <span class="panel-subheading">Control Variable ({{ this.simulationConfig.controlVaraibleUnits }})</span>
                         <div>
@@ -102,14 +102,14 @@
                                 style="width:300px;"/>
                         </div>
                     </div>
-                </panel>
+                </ui-collapsible>
 
                 <div style="height: 10px;" />
 
                 <!-- =================== -->
                 <!-- === PID SETTINGS == -->
                 <!-- =================== -->
-                <panel title="PID Settings">                    
+                <ui-collapsible title="PID Settings" :open='true' class="panel">
                     <span class="panel-subheading">PID Constants</span>
                     <table class="sliders"> 
                     <tbody>
@@ -178,7 +178,7 @@
                         min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/> 
                         max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
                     </div>
-                </panel> <!-- <panel title="PID Settings"> -->        
+                </ui-collapsible> <!-- <panel title="PID Settings"> -->        
             </div> <!-- <div id="controls" style="display: flex;"> -->
 
             <!-- PROCESS VARIABLE AND PID SET-POINT CHART -->
@@ -258,8 +258,8 @@ export default {
             processVariable: 0.0,
             setPoint: 0.0,
             
-            simulationTickPeriod_ms: 50, // Gets converted into seconds by computed property
-            plotPeriod_ms: 100, // Gets converted into seconds by computed property
+            // simulationTickPeriod_ms: 50, // Gets converted into seconds by computed property
+            // plotPeriod_ms: 100, // Gets converted into seconds by computed property
             duration_s: 0.0,
 
             simulationRunModesEnum: SimulationRunModes,
@@ -379,14 +379,20 @@ export default {
 
             simulationRunning: false,
             modelTickTimer: null,
-            modelUpdateTimer: null,
+            // modelUpdateTimer: null,
 
             maxNumDataPoints: 100,
             pid: new Pid(0.0006, 0.0006, 0.0), // PID constants get overriden by values set from sliders
 
             simulationConfig: { // These get overwritten when a process is loaded (process.getDefaults())
-                controlVariableStepChangeVal: 0.0
+                controlVaraibleUnits: 'n/a',
+                processVariableUnits: 'n/a',
+                controlVariableStepChangeVal: 0.0,
+                tickPeriod_ms: 50,
+                plotEveryNTicks: 2,
             },
+
+            tickCount: 0, // Local state to keep track of how many ticks have occured since simulation start
 
             pidConfig: { // These get overwritten when a process is loaded (process.getDefaults())
                 constants: { 
@@ -440,11 +446,8 @@ export default {
                 throw new Error("Unexpected simulation run mode ");
             }
         },
-        plotPeriod_s () {
-            return this.plotPeriod_ms/1000.0
-        },
         simulationTickPeriod_s () {
-            return this.simulationTickPeriod_ms/1000.0
+            return this.simulationConfig.tickPeriod_ms/1000.0
         },
     },
     methods: {
@@ -567,15 +570,9 @@ export default {
                 this.tick();
                 }, this.simulationTickPeriod_s * 1000.0);
 
-                this.modelUpdateTimer = window.setInterval(() => {
-                this.update();
-                }, this.plotPeriod_s * 1000.0);
-
-                if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
-                    this.autoStepChangeTimer = window.setInterval(() => {
-                        this.performAutoSetPointChange();
-                    }, 4000.0);
-                }
+                // this.modelUpdateTimer = window.setInterval(() => {
+                // this.update();
+                // }, this.plotPeriod_s * 1000.0);            
 
                 this.simulationRunning = true;
             } else {
@@ -589,19 +586,34 @@ export default {
         },
         // This updates the simulation. Should be called more frequently than update().
         tick() {
+
+            if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
+                const numTicksBeforeChange = parseInt(4000.0/this.simulationConfig.tickPeriod_ms, 10)
+                if(this.tickCount !== 0 && this.tickCount % numTicksBeforeChange === 0)
+                    this.performAutoSetPointChange();
+            }
+
+
+
             if (this.pidEnabled) {
                 this.pid.setSetPoint(this.setPoint);
                 this.controlVariable = this.pid.run(this.processVariable, this.simulationTickPeriod_s);
-                console.log('controlVariable = ' + this.controlVariable)
+                // console.log('controlVariable = ' + this.controlVariable)
             }
 
             this.processVariable = this.plantCode.update(
                 this.controlVariable,
                 this.simulationTickPeriod_s
             )
-            console.log('New processVariable = ' + this.processVariable)
+            // console.log('New processVariable = ' + this.processVariable)
 
             this.duration_s += this.simulationTickPeriod_s;
+
+            // Work out whether we need to update charts on this tick
+            if(this.tickCount % this.simulationConfig.plotEveryNTicks === 0)
+                this.update()
+
+            this.tickCount++
         },
         // This updates the UI. Called by window.setInterval(). Should be called no more frequently
         // than tick()
@@ -803,5 +815,14 @@ fieldset.panel {
 legend.panel {
   padding-inline-start: 2px;
   padding-inline-end: 2px;
+}
+
+
+</style>
+
+<style>
+.panel div.ui-collapsible__header {
+    color: white;
+    background-color: blueviolet !important;
 }
 </style>

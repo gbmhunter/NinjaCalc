@@ -83,6 +83,7 @@
     "topojson-simplify": "^3.0.2",
     "url-loader": "^0.5.7",
     "v-tooltip": "^1.1.6",
+    "velocity-animate": "^1.5.1",
     "versor": "0.0.3",
     "vue": "^2.1.10",
     "vue-loader": "^11.0.0",

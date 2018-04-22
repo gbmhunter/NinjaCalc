@@ -5,7 +5,9 @@ var process = {
             simulationConfig: {
                 controlVaraibleUnits: 'L/min',
                 processVariableUnits: 'rpm',
-                controlVariableStepChangeVal: 60000 // This is in rpm
+                controlVariableStepChangeVal: 60000, // This is in rpm,
+                tickPeriod_ms: 50,
+                plotEveryNTicks: 2,
             },
             pidConfig: {
                 constants: {

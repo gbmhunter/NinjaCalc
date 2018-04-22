@@ -31,7 +31,7 @@ export class Pid {
     }
 
     setSetPoint(value) {
-        console.log('setSetPoint() called. value = ' + value)
+        // console.log('setSetPoint() called. value = ' + value)
         this.setPoint = value
     }
 
@@ -71,54 +71,54 @@ export class Pid {
 
     run(currentValue, deltaTime_s) {  
         
-        console.log('Pid.run() called. currentValue = ' + currentValue + ', deltaTime_s = ' + deltaTime_s)
+        // console.log('Pid.run() called. currentValue = ' + currentValue + ', deltaTime_s = ' + deltaTime_s)
 
         // Error positive if we need to "go forward"
         let error = this.setPoint - currentValue
-        console.log('error = ' + error)
+        // console.log('error = ' + error)
 
         // Porportional control
         let pValue = error * this.pConstant
-        console.log('pValue = ' + pValue)
+        // console.log('pValue = ' + pValue)
 
         // Integral control
         this.iValue += error*deltaTime_s*this.iConstant
-        console.log('iValue (before limiting) = ' + this.iValue)
+        // console.log('iValue (before limiting) = ' + this.iValue)
 
         // Limit integral control
         // console.log('this.integralLimitSettings =')
         // console.log(this.integralLimitSettings)
         if(this.integralLimitSettings.mode === IntegralLimitModes.CONSTANT_LIMITED) {
-            console.log('Limiting integral term with constant.')
+            // console.log('Limiting integral term with constant.')
             if(this.iValue > this.integralLimitSettings.max)
                 this.iValue = this.integralLimitSettings.max
             else if(this.iValue < this.integralLimitSettings.min)
                 this.iValue = this.integralLimitSettings.min
         }
 
-        console.log('iValue (after limiting) = ' + this.iValue)
+        // console.log('iValue (after limiting) = ' + this.iValue)
 
         // Derivative control
         let deltaError = error - this.previousError
 
         let dValue = deltaError*this.dConstant
-        console.log('dValue = ' + dValue)
+        // console.log('dValue = ' + dValue)
 
         let output = pValue + this.iValue + dValue 
-        console.log('output = ' + output)
+        // console.log('output = ' + output)
 
         this.previousError = error
 
         // Limit output if output limiting is enabled
         if(this.enableOutputLimiting) {
             if(output > this.outputLimMax) {
-                console.log('Desired output is above max. limit.')
+                // console.log('Desired output is above max. limit.')
                 if(this.integralLimitSettings.mode === IntegralLimitModes.OUTPUT_LIMITED) {
                     this.limitIntegralTerm(output)                                        
                 }
                 output = this.outputLimMax
             } else if(output < this.outputLimMin) {
-                console.log('Desired output (' + output + ') is below min. limit (' + this.outputLimMin + '.')
+                // console.log('Desired output (' + output + ') is below min. limit (' + this.outputLimMin + '.')
                 if(this.integralLimitSettings.mode === IntegralLimitModes.OUTPUT_LIMITED) {
                     this.limitIntegralTerm(output)                                        
                 }
@@ -135,8 +135,8 @@ export class Pid {
             output: output
         }
 
-        console.log('output =')
-        console.log(output)
+        // console.log('output =')
+        // console.log(output)
         return output
 
     }
