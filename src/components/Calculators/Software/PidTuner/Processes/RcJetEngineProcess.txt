@@ -44,7 +44,7 @@ var process = {
     },
 
     init: function() {  
-        console.log('plant.init() called.')           
+        // console.log('plant.init() called.')           
         this.fuelConstant = 10000.0
         this.dragConstant = -1.0
         this.maxAccel_radPss = 10000.0
@@ -56,11 +56,11 @@ var process = {
     // This gets called every simulation tick, with a new control variable. This function
     // needs to update the process, and return the new measured variable.
     update: function (fuelFlow_lPmin, timeStep_s) {
-        console.log('Process.update() called with controlVariable (fuel flow, in L/min) = ' + fuelFlow_lPmin + ', timeStep_s = ' + timeStep_s + '.')        
+        // console.log('Process.update() called with controlVariable (fuel flow, in L/min) = ' + fuelFlow_lPmin + ', timeStep_s = ' + timeStep_s + '.')        
 
         // Ffuel - Fdrag = ma
         let rotAccel_radPss = this.fuelConstant*fuelFlow_lPmin + this.dragConstant*Math.pow(this.rotVel_radPs, 1)
-        console.log('rotAccel_radPss = ' + rotAccel_radPss)
+        // console.log('rotAccel_radPss = ' + rotAccel_radPss)
 
         if(rotAccel_radPss > this.maxAccel_radPss)
             rotAccel_radPss = this.maxAccel_radPss
@@ -68,10 +68,10 @@ var process = {
             rotAccel_radPss = -this.maxAccel_radPss
         
         let changeInRotVel_radPs = rotAccel_radPss * timeStep_s
-        console.log('changeInRotVel = ' + changeInRotVel_radPs)
+        // console.log('changeInRotVel = ' + changeInRotVel_radPs)
 
         this.rotVel_radPs = this.rotVel_radPs + changeInRotVel_radPs
-        console.log('this.rotVel_radPs = ' + this.rotVel_radPs)
+        // console.log('this.rotVel_radPs = ' + this.rotVel_radPs)
         
         // Return the process variable (convert to RPM, as this is more user friendly)
         return (this.rotVel_radPs*60.0/(2*Math.PI))

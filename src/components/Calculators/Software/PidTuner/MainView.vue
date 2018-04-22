@@ -182,6 +182,8 @@
                 </ui-collapsible> <!-- <panel title="PID Settings"> -->        
             </div> <!-- <div id="controls" style="display: flex;"> -->
 
+            <div style="width: 30px;"/> <!-- H SPACER -->
+
             <!-- PROCESS VARIABLE AND PID SET-POINT CHART -->
             <div style="display: flex; flex-direction: column;">
                 <div style="width: 800px; height: 400px;">
@@ -218,7 +220,7 @@
 import Chart from "chart.js";
 import vueSlider from "vue-slider-component";
 
-import JetEngineModelTxt from './Processes/JetEngineModel.txt'
+import RcJetEngineProcessTxt from './Processes/RcJetEngineProcess.txt'
 import SpringMassDamperProcessTxt from './Processes/SpringMassDamperProcess.txt'
 
 import { Pid, IntegralLimitModes } from "./Pid";
@@ -243,7 +245,7 @@ export default {
                 },
                 {
                     name: "R/C Jet Engine",
-                    code: JetEngineModelTxt
+                    code: RcJetEngineProcessTxt
                 },
                 {
                     name: "User Defined",
@@ -314,29 +316,29 @@ export default {
                         // UI elements)
                         {
                             label: "Output (P + I + D)",
-                            backgroundColor: "rgba(255, 60, 92, 0.5)",
-                            borderColor: "rgba(255, 60, 92, 0.5)",
+                            backgroundColor: "rgba(255, 60, 92, 0.8)",
+                            borderColor: "rgba(255, 60, 92, 0.8)",
                             data: [],
                             fill: false
                         },
                         {
                             label: "P",
-                            backgroundColor: "rgba(84, 255, 60, 0.5)",
-                            borderColor: "rgba(84, 255, 60, 0.5)",
+                            backgroundColor: "rgba(84, 255, 60, 0.8)",
+                            borderColor: "rgba(84, 255, 60, 0.8)",
                             data: [],
                             fill: false
                         },
                         {
                             label: "I",
-                            backgroundColor: "rgba(60, 255, 201, 0.5)",
-                            borderColor: "rgba(60, 255, 201, 0.5)",
+                            backgroundColor: "rgba(60, 255, 201, 0.8)",
+                            borderColor: "rgba(60, 255, 201, 0.8)",
                             data: [],
                             fill: false
                         },
                         {
                             label: "D",
-                            backgroundColor: "rgba(60, 205, 255, 0.5)",
-                            borderColor: "rgba(60, 205, 255, 0.5)",
+                            backgroundColor: "rgba(60, 205, 255, 0.8)",
+                            borderColor: "rgba(60, 205, 255, 0.8)",
                             data: [],
                             fill: false
                         },            
