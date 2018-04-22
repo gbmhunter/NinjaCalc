@@ -63,6 +63,7 @@
   import { mapPlotter } from "../Calculators/Geospatial/MapPlotter/Calc";
 
   import { crcCalculator } from '../Calculators/Software/Crc/Calc'
+  import { pidTuner } from '../Calculators/Software/PidTuner/Calc'
 
   export default {
     name: 'app',
@@ -209,6 +210,7 @@
       // ============================================ //
 
       this.$store.dispatch('registerCalc', crcCalculator)
+      this.$store.dispatch('registerCalc', pidTuner)
 
       // Show the overlay by default.
       // THIS MUST BE DONE BEFORE handlerRouteChange() IS CALLED

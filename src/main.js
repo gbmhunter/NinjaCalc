@@ -11,9 +11,15 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 Vue.use(VueMaterial)
 
+// BootstrapVue used for Buttons
+import BootstrapVue from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+// import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 // Setup v-select component
 import vSelect from 'vue-select'
-Vue.component(vSelect)
+Vue.component('v-select', vSelect)
 
 // KeenUI is used for the collapsable "Info"
 // sections on each calculator
@@ -65,6 +71,10 @@ Vue.component('calc-var-checkbox', CalcVarCheckbox)
 import VariableRowVerbose from 'src/misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
 Vue.component('variable-row-verbose', VariableRowVerbose)
 
+// ============================================================================================= //
+// ============================= REGISTER OUR CUSTOM VUE COMPONENTS ============================ //
+// ============================================================================================= //
+
 // =========================================== //
 // ===== TREE VIEW COMPONENT REGISTRATION ==== //
 // =========================================== //
@@ -73,6 +83,18 @@ Vue.component('tree-view', TreeView)
 
 import TreeItem from 'misc/TreeView/TreeItem'
 Vue.component('tree-item', TreeItem)
+
+// PANEL COMPONENT
+import Panel from 'misc/Panel/Panel'
+Vue.component('panel', Panel)
+
+// mn-button COMPONENT
+import MnButton from 'misc/MnButton/MnButton'
+Vue.component('mn-button', MnButton)
+
+// mn-modal COMPONENT
+import MnModal from 'misc/MnModal/MnModal'
+Vue.component('mn-modal', MnModal)
 
 // =========================================== //
 // ============= IMPORT VUEX STORE =========== //
