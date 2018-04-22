@@ -13,26 +13,27 @@
                     <div style="display: flex; flex-direction: column; align-items: center;">
 
                         <div style="display: flex; align-items: center;">
-                            Process:
-                            <select v-model="selProcessName" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
+                            Process:&nbsp;
+                            <select v-model="selProcessName" v-on:change="handleSelProcessChanged" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
                                 <option v-for="option in processes" v-bind:value="option.name"  v-bind:key="option.name">
                                     {{ option.name }}
                                 </option>
                             </select>
                             <div style="width: 10px;"/> <!-- H SPACER -->
-                            <mn-button
+                            <!-- <mn-button
                                 variant="success"
                                 :onClick="processLoad"
                                 style="width: 60px; height: 30px;">
                                 Load
-                            </mn-button>
+                            </mn-button> -->
                         </div>
                         <div style="height: 10px;"/> <!-- V SPACER -->
                         <div>
                             <mn-button
-                                variant="success"
-                                :onClick="processEdit"
-                                style="width: 140px; height: 30px;">
+                                    variant="success"
+                                    :onClick="processEdit"
+                                    :disabledB="simulationRunning"
+                                    style="width: 140px; height: 30px;">
                                 Edit Process
                             </mn-button>
                         </div>
@@ -489,6 +490,11 @@ export default {
                 Number(this.pidConfig.controlVariableLimits.min),
                 Number(this.pidConfig.controlVariableLimits.max)
             );
+        },
+        handleSelProcessChanged () {
+            console.log('handleSelProcessChanged() called.')
+
+            this.processLoad()
         },
         processEdit () {
             console.log('processEdit() called.')

@@ -1,5 +1,5 @@
 <template>
-    <button @click="onClick" v-bind:class="buttonClasses"><slot></slot></button>
+    <button @click="onClick" v-bind:class="buttonClasses" :disabled="disabledB"><slot></slot></button>
 </template>
 
 <script>
@@ -7,6 +7,10 @@
     export default {
         name: 'panel',
         props: {
+            disabledB: {
+                type: Boolean,
+                default: false
+            },
             onClick: {
                 type: Function,
                 required: true
@@ -44,6 +48,8 @@
         border-radius: 3px;
     }
 
+    
+
     .mnbutton.primary {
         color: rgb(255, 255, 255);
         background-color: rgb(0, 123, 255);
@@ -62,6 +68,10 @@
         background-color: rgb(33, 136, 56);
     }
 
+    .mnbutton.success:disabled {
+        background-color: gray;        
+    }
+
     .mnbutton.danger {
         color: rgb(255, 255, 255);
         background-color: rgb(220, 53, 69);
@@ -69,5 +79,9 @@
 
     .mnbutton.danger:hover {        
         background-color: rgb(212, 45, 61);
+    }
+
+    .mnbutton.danger:disabled {
+        background-color: gray;        
     }
 </style>
