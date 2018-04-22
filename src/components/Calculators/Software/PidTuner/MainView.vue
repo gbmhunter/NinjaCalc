@@ -270,7 +270,7 @@ export default {
                 data: {
                 datasets: [
                     {
-                        label: "Rotational Velocity",
+                        label: "Measured Value",
                         backgroundColor: "rgba(0, 0, 255, 0.5)",
                         borderColor: "rgba(0, 0, 255, 0.5)",
                         data: [],
@@ -297,7 +297,7 @@ export default {
                         {
                             scaleLabel: {
                                 display: true,
-                                labelString: "Rotational Velocity (rpm)"
+                                labelString: "n/a"
                             }
                         }
                         ]
@@ -384,9 +384,11 @@ export default {
             pid: new Pid(0.0006, 0.0006, 0.0), // PID constants get overriden by values set from sliders
 
             simulationConfig: { // These get overwritten when a process is loaded (process.getDefaults())
-                controlVaraibleUnits: 'n/a',
-                processVariableUnits: 'n/a',
-                controlVariableStepChangeVal: 0.0,
+                processVarName: 'n/a',
+                processVarUnits: 'n/a',
+                processVarStepChangeVal: 0.0, // This is in rpm,                           
+                controlVarName: 'n/a',
+                controlVarUnits: 'n/a',     
                 tickPeriod_ms: 50,
                 plotEveryNTicks: 2,
             },
@@ -552,13 +554,22 @@ export default {
 
             this.controlVariableLimitsChanged()
 
+            // Update chart axes titles
+            this.chartConfig.options.scales.yAxes[0].scaleLabel.labelString = 
+                    this.simulationConfig.processVarName +
+                    ' (' + this.simulationConfig.processVarUnits + ')'
+
+            this.pidTermsChartConfig.options.scales.yAxes[0].scaleLabel.labelString = 
+                    this.simulationConfig.controlVarName +
+                    ' (' + this.simulationConfig.controlVarUnits + ')'
+
             this.plantCode.init()
 
         },
         performAutoSetPointChange() {
-            console.log('performAutoSetPointChange() called.')
+            console.log('performAutoSetPointChange() called. processVarStepChangeVal = ' + this.simulationConfig.processVarStepChangeVal)
             if (this.setPoint === 0.0) {
-                this.setPoint = this.simulationConfig.controlVariableStepChangeVal
+                this.setPoint = this.simulationConfig.processVarStepChangeVal
             } else {
                 this.setPoint = 0.0;
             }

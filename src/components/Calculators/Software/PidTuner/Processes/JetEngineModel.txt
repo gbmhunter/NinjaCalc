@@ -3,9 +3,11 @@ var process = {
     getDefaults: function () {
         return {
             simulationConfig: {
-                controlVaraibleUnits: 'L/min',
-                processVariableUnits: 'rpm',
-                controlVariableStepChangeVal: 60000, // This is in rpm,
+                processVarName: 'Rotational Velocity',
+                processVarUnits: 'rpm',
+                processVarStepChangeVal: 60000, // This is in rpm,                           
+                controlVarName: 'Fuel Flow Rate',
+                controlVarUnits: 'L/min',                
                 tickPeriod_ms: 50,
                 plotEveryNTicks: 2,
             },

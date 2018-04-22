@@ -3,9 +3,11 @@ var process = {
     getDefaults: function () {
         return {
             simulationConfig: {
-                controlVaraibleUnits: 'N',
-                processVariableUnits: 'm',
-                controlVariableStepChangeVal: 1, // This is in N
+                processVarName: 'Displacement',
+                processVarUnits: 'm',
+                processVarStepChangeVal: 1.0, // This is in N
+                controlVarName: 'Force',
+                controlVarUnits: 'N',                     
                 tickPeriod_ms: 10, // Simulation update rate
                 plotEveryNTicks: 5, // Update chart(s) every how many ticks?
             },
