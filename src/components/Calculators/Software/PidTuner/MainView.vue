@@ -258,8 +258,6 @@ export default {
             processVariable: 0.0,
             setPoint: 0.0,
             
-            // simulationTickPeriod_ms: 50, // Gets converted into seconds by computed property
-            // plotPeriod_ms: 100, // Gets converted into seconds by computed property
             duration_s: 0.0,
 
             simulationRunModesEnum: SimulationRunModes,
@@ -271,11 +269,11 @@ export default {
                 data: {
                 datasets: [
                     {
-                    label: "Rotational Velocity",
-                    backgroundColor: "rgba(0, 0, 255, 0.5)",
-                    borderColor: "rgba(0, 0, 255, 0.5)",
-                    data: [],
-                    fill: false
+                        label: "Rotational Velocity",
+                        backgroundColor: "rgba(0, 0, 255, 0.5)",
+                        borderColor: "rgba(0, 0, 255, 0.5)",
+                        data: [],
+                        fill: false
                     }
                 ]
                 },
@@ -289,16 +287,16 @@ export default {
                         {
                             type: "linear",
                             scaleLabel: {
-                            display: true,
-                            labelString: "Time (s)"
+                                display: true,
+                                labelString: "Time (s)"
                             }
                         }
                         ],
                         yAxes: [
                         {
                             scaleLabel: {
-                            display: true,
-                            labelString: "Rotational Velocity (rpm)"
+                                display: true,
+                                labelString: "Rotational Velocity (rpm)"
                             }
                         }
                         ]
@@ -451,7 +449,7 @@ export default {
         },
     },
     methods: {
-        addSetPointLine() {
+        addSetPointLine () {
             console.log("Adding set point line to chart.");
             // Add set point line to chart
             this.chartConfig.data.datasets.push({
@@ -463,7 +461,21 @@ export default {
             });
             this.chart.update();
         },
-        controlVariableLimitsChanged() {
+        // Resets UI. Resets simulation time and tick. Clears data from charts.
+        clearAll () {         
+            this.tickCount = 0   
+            this.duration_s = 0
+            this.chartConfig.data.datasets.forEach(function (element) {
+                element.data = []
+            })
+            this.chart.update()
+
+            this.pidTermsChartConfig.data.datasets.forEach(function (element) {
+                element.data = []
+            })
+            this.pidTermsChart.update()
+        },
+        controlVariableLimitsChanged () {
             console.log("Control variable limits changed.");
             this.pid.setOutputLimits(
                 this.pidConfig.controlVariableLimits.enabled,
@@ -488,6 +500,8 @@ export default {
         },
         processLoad () {
             console.log('processLoad() called.')
+
+            this.clearAll()
 
             // Load the file containing the process code if not user defined process
             if(this.selProcessName !== 'User Defined') {

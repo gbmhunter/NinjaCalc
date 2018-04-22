@@ -7,7 +7,7 @@ var process = {
                 processVariableUnits: 'm',
                 controlVariableStepChangeVal: 1, // This is in N
                 tickPeriod_ms: 10,
-                plotEveryNTicks: 1,
+                plotEveryNTicks: 5,
             },
             pidConfig: {
                 constants: {
