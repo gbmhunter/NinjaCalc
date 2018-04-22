@@ -25,9 +25,7 @@ export class Pid {
         // Output limiting (default to OFF)
         this.enableOutputLimiting = false
         this.outputLimMin = 0.0
-        this.outputLimMax = 0.0
-
-        this.lastOutput = 0.0
+        this.outputLimMax = 0.0        
     }
 
     setSetPoint(value) {
@@ -162,6 +160,18 @@ export class Pid {
                 this.iValue = Math.min(this.iValue - difference, 0)  
         }     
         // console.log('iValue (after limiting) = ' + this.iValue)   
+    }
+
+    reset () {
+        this.pConstant = 0.0    
+        this.iConstant = 0.0                
+        this.iValue = 0.0
+        this.dConstant = 0.0
+
+        this.lastTerms = {}
+        this.previousError = 0.0
+
+        this.enableOutputLimiting = false
     }
 }
 /* eslint-enable */

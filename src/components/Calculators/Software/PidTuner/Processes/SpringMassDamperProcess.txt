@@ -6,8 +6,8 @@ var process = {
                 controlVaraibleUnits: 'N',
                 processVariableUnits: 'm',
                 controlVariableStepChangeVal: 1, // This is in N
-                tickPeriod_ms: 10,
-                plotEveryNTicks: 5,
+                tickPeriod_ms: 10, // Simulation update rate
+                plotEveryNTicks: 5, // Update chart(s) every how many ticks?
             },
             pidConfig: {
                 constants: {
@@ -28,7 +28,7 @@ var process = {
                     }
                 },
                 integralLimitConfig: {
-                    mode: 'Output Limited',
+                    mode: 'None', // OPTIONS: 'None', 'Constant Limited', 'Output Limited'
                     constantMin: -1,
                     constantMax: 1,
                 },

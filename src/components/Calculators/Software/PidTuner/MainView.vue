@@ -461,10 +461,17 @@ export default {
             });
             this.chart.update();
         },
-        // Resets UI. Resets simulation time and tick. Clears data from charts.
+        // Resets UI. Resets simulation time, tick, set point, PID controller. Clears data from charts.
         clearAll () {         
             this.tickCount = 0   
             this.duration_s = 0
+
+            this.controlVariable = 0.0
+            this.processVariable = 0.0
+            this.setPoint = 0.0
+
+            this.pid.reset()
+
             this.chartConfig.data.datasets.forEach(function (element) {
                 element.data = []
             })
@@ -501,6 +508,7 @@ export default {
         processLoad () {
             console.log('processLoad() called.')
 
+            // Clear all existing data/setup
             this.clearAll()
 
             // Load the file containing the process code if not user defined process
@@ -542,6 +550,7 @@ export default {
 
         },
         performAutoSetPointChange() {
+            console.log('performAutoSetPointChange() called.')
             if (this.setPoint === 0.0) {
                 this.setPoint = this.simulationConfig.controlVariableStepChangeVal
             } else {
