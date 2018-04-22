@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v3.4.0] - 2018-04-22
+
+### Added
+- Added a new PID tuner tool. This tool can simulate both predefined and user-defined process/plants/systems. Includes real-time graphs of the simulation as you tune the PID constants.
+
 ## [v3.3.1] - 2018-03-04
 
 ### Fixed
