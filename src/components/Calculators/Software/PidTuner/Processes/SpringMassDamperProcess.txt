@@ -10,6 +10,7 @@ var process = {
                 controlVarUnits: 'N',                     
                 tickPeriod_ms: 10, // Simulation update rate
                 plotEveryNTicks: 5, // Update chart(s) every how many ticks?
+                runMode: 'Manual PV Control (PID)',
             },
             pidConfig: {
                 constants: {

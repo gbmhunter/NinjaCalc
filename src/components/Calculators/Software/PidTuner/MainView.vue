@@ -50,7 +50,7 @@
 
                         <div>
                             <span class="panel-subheading">Run Mode:</span><br>
-                            <select v-model="selectedRunMode" :options="runModes" :disabled="simulationRunning" style="width: 240px; height: 30px; background-color: transparent;">
+                            <select v-model="simulationConfig.runMode" :options="runModes" :disabled="simulationRunning" style="width: 240px; height: 30px; background-color: transparent;">
                                 <option v-for="option in runModes" v-bind:value="option"  v-bind:key="option">
                                 {{ option }}
                                 </option>
@@ -84,7 +84,8 @@
                                 :min="Number(pidConfig.controlVariableLimits.min)"
                                 :max="Number(pidConfig.controlVariableLimits.max)"
                                 :interval="(Number(pidConfig.controlVariableLimits.max) - Number(pidConfig.controlVariableLimits.min)) / 100.0"
-                                :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_PV || selectedRunMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
+                                :disabled="simulationConfig.runMode === simulationRunModesEnum.MANUAL_CONTROL_PV || 
+                                        simulationConfig.runMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
                                 style="width:300px;" />
                         </div>   
                         <span class="panel-subheading">
@@ -96,7 +97,8 @@
                                 ref="slider"
                                 v-model="setPoint"
                                 :min=0 :max=100000 :interval=1000
-                                :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_CV || selectedRunMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
+                                :disabled="simulationConfig.runMode === simulationRunModesEnum.MANUAL_CONTROL_CV || 
+                                        simulationConfig.runMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
                                 style="width:300px;"/>
                         </div>
                     </div>
@@ -192,10 +194,7 @@
                     <canvas id="pidTermsChart" width="800" height="400"></canvas>
                 </div>
             </div>
-
-        </div>
-
-        
+        </div>        
 
         <div style="height: 20px;"/>
 
@@ -262,7 +261,7 @@ export default {
 
             simulationRunModesEnum: SimulationRunModes,
             runModes: [],
-            selectedRunMode: SimulationRunModes.AUTO_PV_STEP_CHANGES,
+            // selectedRunMode: SimulationRunModes.AUTO_PV_STEP_CHANGES,
 
             chartConfig: {
                 type: "line",
@@ -390,6 +389,7 @@ export default {
                 controlVarUnits: 'n/a',     
                 tickPeriod_ms: 50,
                 plotEveryNTicks: 2,
+                runMode: SimulationRunModes.MANUAL_CONTROL_CV
             },
 
             tickCount: 0, // Local state to keep track of how many ticks have occured since simulation start
@@ -431,15 +431,15 @@ export default {
     computed: {
         pidEnabled() {
             console.log("Computing pidEnabled...");
-            if (this.selectedRunMode === this.simulationRunModesEnum.MANUAL_CONTROL_PV ||
-                this.selectedRunMode === this.simulationRunModesEnum.AUTO_PV_STEP_CHANGES) {
+            if (this.simulationConfig.runMode === this.simulationRunModesEnum.MANUAL_CONTROL_PV ||
+                this.simulationConfig.runMode === this.simulationRunModesEnum.AUTO_PV_STEP_CHANGES) {
                 console.log("Returning true.");
                 return true;
             } else if (
-                this.selectedRunMode === this.simulationRunModesEnum.MANUAL_CONTROL_CV) {
+                this.simulationConfig.runMode === this.simulationRunModesEnum.MANUAL_CONTROL_CV) {
                 return false;
             } else {
-                throw new Error("Unexpected simulation run mode ");
+                throw new Error("Unexpected simulation run mode. this.simulationConfig.runMode = " + this.simulationConfig.runMode);
             }
         },
         simulationTickPeriod_s () {
@@ -622,13 +622,11 @@ export default {
         // This updates the simulation. Should be called more frequently than update().
         tick() {
 
-            if (this.selectedRunMode === SimulationRunModes.AUTO_PV_STEP_CHANGES) {
+            if (this.simulationConfig.runMode === SimulationRunModes.AUTO_PV_STEP_CHANGES) {
                 const numTicksBeforeChange = parseInt(4000.0/this.simulationConfig.tickPeriod_ms, 10)
                 if(this.tickCount !== 0 && this.tickCount % numTicksBeforeChange === 0)
                     this.performAutoSetPointChange();
             }
-
-
 
             if (this.pidEnabled) {
                 this.pid.setSetPoint(this.setPoint);
@@ -754,8 +752,8 @@ export default {
         // Draw PID terms chart
         const pidTermsChartContext = document.getElementById("pidTermsChart");
         this.pidTermsChart = new Chart(
-        pidTermsChartContext,
-        this.pidTermsChartConfig
+            pidTermsChartContext,
+            this.pidTermsChartConfig
         );
 
         // Set default process, and then load it
@@ -763,7 +761,7 @@ export default {
         this.processLoad()
 
         // Set the run mode to auto by default. This should trigger watch
-        this.selectedRunMode = SimulationRunModes.AUTO_PV_STEP_CHANGES;
+        // this.selectedRunMode = SimulationRunModes.AUTO_PV_STEP_CHANGES;
 
         this.updatePidConstants();
         this.controlVariableLimitsChanged();
@@ -788,13 +786,8 @@ export default {
         this.pidConfig.integralLimitingMode = IntegralLimitModes.OUTPUT_LIMITED;
         this.setIntegralLimitingMode()
 
-        if (this.pidEnabled) this.addSetPointLine();
-
-        console.log('Loading ES6 module...')
-        var res = eval('function test() { console.log(\'testing\') }; test;')
-        console.log('x = ' + res)
-        res()
-
+        if (this.pidEnabled)
+            this.addSetPointLine();
     } // mounted() {
 };
 /* eslint-enable */

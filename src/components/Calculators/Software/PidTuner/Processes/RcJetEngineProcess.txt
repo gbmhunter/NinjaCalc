@@ -10,6 +10,7 @@ var process = {
                 controlVarUnits: 'L/min',                
                 tickPeriod_ms: 50,
                 plotEveryNTicks: 2,
+                runMode: 'Manual PV Control (PID)',
             },
             pidConfig: {
                 constants: {
