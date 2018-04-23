@@ -96,6 +96,10 @@ Vue.component('mn-button', MnButton)
 import MnModal from 'misc/MnModal/MnModal'
 Vue.component('mn-modal', MnModal)
 
+// mn-msgbox COMPONENT
+import MnMsgBox from 'misc/MnMsgBox/MnMsgBox'
+Vue.component('mn-msgbox', MnMsgBox)
+
 // =========================================== //
 // ============= IMPORT VUEX STORE =========== //
 // =========================================== //

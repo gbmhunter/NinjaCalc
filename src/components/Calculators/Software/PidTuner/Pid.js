@@ -34,7 +34,7 @@ export class Pid {
     }
 
     setConstants(pConstant, iConstant, dConstant) {
-        console.log('setConstants() called. pConstant = ' + pConstant + ', iConstant = ' + iConstant + ', dConstant = ' + dConstant)
+        // console.log('setConstants() called. pConstant = ' + pConstant + ', iConstant = ' + iConstant + ', dConstant = ' + dConstant)
         this.pConstant = pConstant
         this.iConstant = iConstant
         // We also need to reset the integated value
@@ -50,8 +50,8 @@ export class Pid {
     }
 
     setIntegralLimit(options) {
-        console.log('setIntegralLimit() called with settings = ')
-        console.log(options)
+        // console.log('setIntegralLimit() called with settings = ')
+        // console.log(options)
         if(options.mode === IntegralLimitModes.CONSTANT_LIMITED) {
             if(!options.hasOwnProperty('min') || !options.hasOwnProperty('max'))
                 throw new Error('Provided options must have min and max property when mode === CONSTANT_LIMITED.')
@@ -69,11 +69,11 @@ export class Pid {
 
     run(currentValue, deltaTime_s) {  
         
-        console.log('Pid.run() called. currentValue = ' + currentValue + ', deltaTime_s = ' + deltaTime_s)
+        // console.log('Pid.run() called. currentValue = ' + currentValue + ', deltaTime_s = ' + deltaTime_s)
 
         // Error positive if we need to "go forward"
         const error = this.setPoint - currentValue
-        console.log('error = ' + error)
+        // console.log('error = ' + error)
 
         // Porportional control
         const pValue = error * this.pConstant
@@ -98,13 +98,13 @@ export class Pid {
 
         // Derivative control
         const deltaError = error - this.previousError
-        console.log('deltaError = ' + deltaError)
+        // console.log('deltaError = ' + deltaError)
 
         const errorDerivative = deltaError/deltaTime_s
-        console.log('errorDerivative = ' + errorDerivative)
+        // console.log('errorDerivative = ' + errorDerivative)
 
         const dValue = errorDerivative*this.dConstant
-        console.log('dValue = ' + dValue)
+        // console.log('dValue = ' + dValue)
 
         let output = pValue + this.iValue + dValue 
         // console.log('output = ' + output)

@@ -33,10 +33,7 @@
         },
         methods: {},
         watch: {},
-        mounted () {
-            console.log('mn-button mounted. this.buttonClasses = ')
-            console.log(this.buttonClasses)
-        }
+        mounted () {},
     }
 </script>
 

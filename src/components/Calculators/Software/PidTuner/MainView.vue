@@ -14,8 +14,8 @@
 
                         <div style="display: flex; align-items: center;">
                             Process:&nbsp;
-                            <select v-model="selProcessName" v-on:change="handleSelProcessChanged" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
-                                <option v-for="option in processes" v-bind:value="option.name"  v-bind:key="option.name">
+                            <select v-bind:value="selProcessName" v-on:change="handleSelProcessChanged" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
+                                <option v-for="option in processes" v-bind:value="option.name" v-bind:key="option.name">
                                     {{ option.name }}
                                 </option>
                             </select>                            
@@ -209,6 +209,10 @@
                 <mn-button variant="success" :onClick="processHideModalAndLoad" style="width: 120px; height: 30px; align-self: flex-end;">Close</mn-button>
             </div>
         </mn-modal>
+
+        <mn-msgbox v-if="showSelProcessChangeConfirm" type="confirm" @ok="handleSelProcessChangeConfirm" @cancel="handleSelProcessChangeCancel">
+            This will load a new process. All existing changes and chart data will be lost. Continue? 
+        </mn-msgbox>
     </div>
 </template>
 
@@ -236,20 +240,14 @@ export default {
     data() {
         return {
             processes: [
-                {
-                    name: "Mass/Spring/Damper",
-                    code: SpringMassDamperProcessTxt
-                },
-                {
-                    name: "R/C Jet Engine",
-                    code: RcJetEngineProcessTxt
-                },
-                {
-                    name: "User Defined",
-                    code: "n/a"
-                },
+                { name: "Mass/Spring/Damper", code: SpringMassDamperProcessTxt },
+                { name: "R/C Jet Engine", code: RcJetEngineProcessTxt },
+                { name: "User Defined", code: "n/a" },
             ],
+            selProcessNameTemp: "",
             selProcessName: "",
+            showSelProcessChangeConfirm: false,
+
             plantCodeString: '', // This is the non-eval()'d plant code, either provided from file or user-defined
             plantCode: null, // This gets populated by eval() when the Start/Stop simulation button is clicked
             showProcessEditModal: false, // Set to true when the "Edit Process" button is clicked
@@ -433,10 +431,10 @@ export default {
     },
     computed: {
         pidEnabled() {
-            console.log("Computing pidEnabled...");
+            // console.log("Computing pidEnabled...");
             if (this.simulationConfig.runMode === this.simulationRunModesEnum.MANUAL_CONTROL_PV ||
                 this.simulationConfig.runMode === this.simulationRunModesEnum.AUTO_PV_STEP_CHANGES) {
-                console.log("Returning true.");
+                // console.log("Returning true.");
                 return true;
             } else if (
                 this.simulationConfig.runMode === this.simulationRunModesEnum.MANUAL_CONTROL_CV) {
@@ -451,7 +449,7 @@ export default {
     },
     methods: {
         addSetPointLine () {
-            console.log("Adding set point line to chart (if not already added).");
+            // console.log("Adding set point line to chart (if not already added).");
             // Add set point line to chart
             if(this.chartConfig.data.datasets.length == 1) {
                 this.chartConfig.data.datasets.push({
@@ -493,8 +491,27 @@ export default {
                 Number(this.pidConfig.controlVariableLimits.max)
             );
         },
-        handleSelProcessChanged () {
-            console.log('handleSelProcessChanged() called.')
+        handleSelProcessChangeCancel () {
+            console.log('handleSelProcessChangeCancel() called')
+            // Hide confirm box
+            this.showSelProcessChangeConfirm = false            
+        },
+        handleSelProcessChanged (event) {            
+            console.log('handleSelProcessChanged() called. event = ')
+            console.log(event.srcElement.selectedIndex)
+
+            this.selProcessNameTemp = event.srcElement.selectedIndex
+
+            // Show confirm box
+            this.showSelProcessChangeConfirm = true
+        },
+        handleSelProcessChangeConfirm () {
+            console.log('handleSelProcessChangeConfirm() called')
+
+            // Hide confirm box
+            this.showSelProcessChangeConfirm = false
+
+            this.selProcessName = this.processes[this.selProcessNameTemp].name
 
             this.processLoad()
         },
@@ -629,6 +646,7 @@ export default {
 
             if (this.simulationConfig.runMode === SimulationRunModes.AUTO_PV_STEP_CHANGES) {
                 const numTicksBeforeChange = parseInt(4000.0/this.simulationConfig.tickPeriod_ms, 10)
+                console.log('numTicksBeforeChange = ' + numTicksBeforeChange)
                 if(this.tickCount !== 0 && this.tickCount % numTicksBeforeChange === 0)
                     this.performAutoSetPointChange();
             }
@@ -856,6 +874,6 @@ legend.panel {
 <style>
 .panel div.ui-collapsible__header {
     color: white;
-    background-color: blueviolet !important;
+    background-color: rgb(204, 29, 255) !important;
 }
 </style>
