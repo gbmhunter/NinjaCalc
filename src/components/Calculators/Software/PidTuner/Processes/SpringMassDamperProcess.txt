@@ -6,6 +6,8 @@ var process = {
                 processVarName: 'Displacement',
                 processVarUnits: 'm',
                 processVarStepChangeVal: 1.0, // This is in N
+                processVarLimMin: -5.0,
+                processVarLimMax: 5.0,
                 controlVarName: 'Force',
                 controlVarUnits: 'N',                     
                 tickPeriod_ms: 10, // Simulation update rate

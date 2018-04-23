@@ -96,7 +96,8 @@
                             <vue-slider
                                 ref="slider"
                                 v-model="setPoint"
-                                :min=0 :max=100000 :interval=1000
+                                :min="simulationConfig.processVarLimMin" :max="simulationConfig.processVarLimMax"
+                                :interval="(Number(simulationConfig.processVarLimMax) - Number(simulationConfig.processVarLimMin)) / 100.0"
                                 :disabled="simulationConfig.runMode === simulationRunModesEnum.MANUAL_CONTROL_CV || 
                                         simulationConfig.runMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
                                 style="width:300px;"/>
@@ -384,7 +385,9 @@ export default {
             simulationConfig: { // These get overwritten when a process is loaded (process.getDefaults())
                 processVarName: 'n/a',
                 processVarUnits: 'n/a',
-                processVarStepChangeVal: 0.0, // This is in rpm,                           
+                processVarStepChangeVal: 0.0, // This is in rpm,    
+                processVarLimMin: 0.0,
+                processVarLimMax: 100000.0,                       
                 controlVarName: 'n/a',
                 controlVarUnits: 'n/a',     
                 tickPeriod_ms: 50,
