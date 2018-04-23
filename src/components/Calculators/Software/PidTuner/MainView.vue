@@ -18,14 +18,7 @@
                                 <option v-for="option in processes" v-bind:value="option.name"  v-bind:key="option.name">
                                     {{ option.name }}
                                 </option>
-                            </select>
-                            <div style="width: 10px;"/> <!-- H SPACER -->
-                            <!-- <mn-button
-                                variant="success"
-                                :onClick="processLoad"
-                                style="width: 60px; height: 30px;">
-                                Load
-                            </mn-button> -->
+                            </select>                            
                         </div>
                         <div style="height: 10px;"/> <!-- V SPACER -->
                         <div>
@@ -80,7 +73,9 @@
                 <!-- =================== -->                
                 <ui-collapsible title="Controls" :open='true' class="panel">
                     <div style="display: flex; flex-direction: column;">
-                        <span class="panel-subheading">Control Variable ({{ this.simulationConfig.controlVaraibleUnits }})</span>
+                        <span class="panel-subheading">
+                            CV ({{ this.simulationConfig.controlVarName + ', ' + this.simulationConfig.controlVarUnits }})
+                        </span>
                         <div>
                             <div style="height: 40px;"/>
                             <vue-slider 
@@ -89,17 +84,19 @@
                                 :min="Number(pidConfig.controlVariableLimits.min)"
                                 :max="Number(pidConfig.controlVariableLimits.max)"
                                 :interval="(Number(pidConfig.controlVariableLimits.max) - Number(pidConfig.controlVariableLimits.min)) / 100.0"
-                                :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_RPM || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
+                                :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_PV || selectedRunMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
                                 style="width:300px;" />
                         </div>   
-                        <span class="panel-subheading">Process Set-Point ({{ this.simulationConfig.processVariableUnits }})</span>
+                        <span class="panel-subheading">
+                            SP ({{ this.simulationConfig.processVarName + ', ' + this.simulationConfig.processVarUnits }})
+                        </span>
                         <div>
                             <div style="height: 40px;"/>
                             <vue-slider
                                 ref="slider"
                                 v-model="setPoint"
                                 :min=0 :max=100000 :interval=1000
-                                :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
+                                :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_CV || selectedRunMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
                                 style="width:300px;"/>
                         </div>
                     </div>
@@ -226,9 +223,9 @@ import SpringMassDamperProcessTxt from './Processes/SpringMassDamperProcess.txt'
 import { Pid, IntegralLimitModes } from "./Pid";
 
 const SimulationRunModes = {
-    MANUAL_CONTROL_FUEL_RATE: "Manual Fuel Rate Control (no PID)",
-    MANUAL_CONTROL_RPM: "Manual RPM Control (PID)",
-    AUTO_RPM_STEP_CHANGES: "Automatic RPM Step Changes (PID)"
+    MANUAL_CONTROL_CV: "Manual CV Control (no PID)",
+    MANUAL_CONTROL_PV: "Manual PV Control (PID)",
+    AUTO_PV_STEP_CHANGES: "Automatic PV Step Changes (PID)"
 };
 
 export default {
@@ -265,7 +262,7 @@ export default {
 
             simulationRunModesEnum: SimulationRunModes,
             runModes: [],
-            selectedRunMode: SimulationRunModes.AUTO_RPM_STEP_CHANGES,
+            selectedRunMode: SimulationRunModes.AUTO_PV_STEP_CHANGES,
 
             chartConfig: {
                 type: "line",
@@ -434,16 +431,12 @@ export default {
     computed: {
         pidEnabled() {
             console.log("Computing pidEnabled...");
-            if (
-                this.selectedRunMode ===
-                this.simulationRunModesEnum.MANUAL_CONTROL_RPM ||
-                this.selectedRunMode ===
-                this.simulationRunModesEnum.AUTO_RPM_STEP_CHANGES
-            ) {
+            if (this.selectedRunMode === this.simulationRunModesEnum.MANUAL_CONTROL_PV ||
+                this.selectedRunMode === this.simulationRunModesEnum.AUTO_PV_STEP_CHANGES) {
                 console.log("Returning true.");
                 return true;
             } else if (
-                this.selectedRunMode === this.simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE) {
+                this.selectedRunMode === this.simulationRunModesEnum.MANUAL_CONTROL_CV) {
                 return false;
             } else {
                 throw new Error("Unexpected simulation run mode ");
@@ -629,7 +622,7 @@ export default {
         // This updates the simulation. Should be called more frequently than update().
         tick() {
 
-            if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
+            if (this.selectedRunMode === SimulationRunModes.AUTO_PV_STEP_CHANGES) {
                 const numTicksBeforeChange = parseInt(4000.0/this.simulationConfig.tickPeriod_ms, 10)
                 if(this.tickCount !== 0 && this.tickCount % numTicksBeforeChange === 0)
                     this.performAutoSetPointChange();
@@ -770,7 +763,7 @@ export default {
         this.processLoad()
 
         // Set the run mode to auto by default. This should trigger watch
-        this.selectedRunMode = SimulationRunModes.AUTO_RPM_STEP_CHANGES;
+        this.selectedRunMode = SimulationRunModes.AUTO_PV_STEP_CHANGES;
 
         this.updatePidConstants();
         this.controlVariableLimitsChanged();

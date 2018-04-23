@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Fixed bug in the PID tuner tool's PID controller which was not calculating the derivative term correctly (it was not dividing by the time step).
+- Fixed bug where UI controls in PID tuner where not updating to reflect correct PV and CV names for a particular process.
 
 ## [v3.4.0] - 2018-04-22
 
