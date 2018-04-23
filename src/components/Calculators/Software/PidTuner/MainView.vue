@@ -448,16 +448,18 @@ export default {
     },
     methods: {
         addSetPointLine () {
-            console.log("Adding set point line to chart.");
+            console.log("Adding set point line to chart (if not already added).");
             // Add set point line to chart
-            this.chartConfig.data.datasets.push({
-                label: "Set Point",
-                backgroundColor: "rgba(255,0,0,.5)",
-                borderColor: "rgba(255,0,0,.5)",
-                data: [],
-                fill: false
-            });
-            this.chart.update();
+            if(this.chartConfig.data.datasets.length == 1) {
+                this.chartConfig.data.datasets.push({
+                    label: "Set Point",
+                    backgroundColor: "rgba(255,0,0,.5)",
+                    borderColor: "rgba(255,0,0,.5)",
+                    data: [],
+                    fill: false
+                });
+                this.chart.update();
+            }
         },
         // Resets UI. Resets simulation time, tick, set point, PID controller. Clears data from charts.
         clearAll () {         
