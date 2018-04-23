@@ -69,14 +69,14 @@ export class Pid {
 
     run(currentValue, deltaTime_s) {  
         
-        // console.log('Pid.run() called. currentValue = ' + currentValue + ', deltaTime_s = ' + deltaTime_s)
+        console.log('Pid.run() called. currentValue = ' + currentValue + ', deltaTime_s = ' + deltaTime_s)
 
         // Error positive if we need to "go forward"
-        let error = this.setPoint - currentValue
-        // console.log('error = ' + error)
+        const error = this.setPoint - currentValue
+        console.log('error = ' + error)
 
         // Porportional control
-        let pValue = error * this.pConstant
+        const pValue = error * this.pConstant
         // console.log('pValue = ' + pValue)
 
         // Integral control
@@ -97,10 +97,14 @@ export class Pid {
         // console.log('iValue (after limiting) = ' + this.iValue)
 
         // Derivative control
-        let deltaError = error - this.previousError
+        const deltaError = error - this.previousError
+        console.log('deltaError = ' + deltaError)
 
-        let dValue = deltaError*this.dConstant
-        // console.log('dValue = ' + dValue)
+        const errorDerivative = deltaError/deltaTime_s
+        console.log('errorDerivative = ' + errorDerivative)
+
+        const dValue = errorDerivative*this.dConstant
+        console.log('dValue = ' + dValue)
 
         let output = pValue + this.iValue + dValue 
         // console.log('output = ' + output)
