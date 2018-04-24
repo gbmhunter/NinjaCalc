@@ -37,13 +37,13 @@
 <script>
 
   var bigInt = require('big-integer')
-  //  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {CalcVarString, CalcVarStringPresetValidators} from 'src/misc/CalculatorEngineV2/CalcVarString'
-  import {CalcVarCheckbox} from 'src/misc/CalculatorEngineV2/CalcVarCheckbox'
-  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
-  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
+  //  import Calc from '@/misc/CalculatorEngineV2/Calc'
+  import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {CalcVarString, CalcVarStringPresetValidators} from '@/misc/CalculatorEngineV2/CalcVarString'
+  import {CalcVarCheckbox} from '@/misc/CalculatorEngineV2/CalcVarCheckbox'
+  import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
+  import {CustomValidator} from '@/misc/CalculatorEngineV2/CustomValidator'
+  import {CrcGeneric} from '@/misc/Crc/CrcGeneric'
 
   // ============================================ //
   // =================== vue Object ============= //

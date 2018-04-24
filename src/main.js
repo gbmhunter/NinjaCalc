@@ -1,3 +1,21 @@
+// // The Vue build version to load with the `import` command
+// // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+// import Vue from 'vue'
+// import App from './App'
+// import router from './router'
+
+// Vue.config.productionTip = false
+
+// /* eslint-disable no-new */
+// new Vue({
+//   el: '#app',
+//   router,
+//   components: { App },
+//   template: '<App/>'
+// })
+
+// START
+
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
@@ -12,8 +30,8 @@ import 'vue-material/dist/vue-material.css'
 Vue.use(VueMaterial)
 
 // BootstrapVue used for Buttons
-import BootstrapVue from 'bootstrap-vue'
-Vue.use(BootstrapVue)
+// import BootstrapVue from 'bootstrap-vue'
+// Vue.use(BootstrapVue)
 // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -58,17 +76,17 @@ import './style/style.css'
 // =========================================== //
 // ==== CALCULATOR COMPONENT REGISTRATION ==== //
 // =========================================== //
-import CalcValue from 'misc/CalculatorEngineV2/view/CalcValue.vue'
+import CalcValue from './misc/CalculatorEngineV2/view/CalcValue.vue'
 Vue.component('calc-value', CalcValue)
-import CalcValueAndUnit from 'misc/CalculatorEngineV2/view/CalcValueAndUnit.vue'
+import CalcValueAndUnit from './misc/CalculatorEngineV2/view/CalcValueAndUnit.vue'
 Vue.component('calc-value-and-unit', CalcValueAndUnit)
-import CalcUnits from 'misc/CalculatorEngineV2/view/CalcUnits.vue'
+import CalcUnits from './misc/CalculatorEngineV2/view/CalcUnits.vue'
 Vue.component('calc-units', CalcUnits)
-import CalcVarString from 'src/misc/CalculatorEngineV2/view/CalcVarString.vue'
+import CalcVarString from './misc/CalculatorEngineV2/view/CalcVarString.vue'
 Vue.component('calc-var-string', CalcVarString)
-import CalcVarCheckbox from 'src/misc/CalculatorEngineV2/view/CalcVarCheckbox.vue'
+import CalcVarCheckbox from './misc/CalculatorEngineV2/view/CalcVarCheckbox.vue'
 Vue.component('calc-var-checkbox', CalcVarCheckbox)
-import VariableRowVerbose from 'src/misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
+import VariableRowVerbose from './misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
 Vue.component('variable-row-verbose', VariableRowVerbose)
 
 // ============================================================================================= //
@@ -78,26 +96,26 @@ Vue.component('variable-row-verbose', VariableRowVerbose)
 // =========================================== //
 // ===== TREE VIEW COMPONENT REGISTRATION ==== //
 // =========================================== //
-import TreeView from 'misc/TreeView/TreeView'
+import TreeView from './misc/TreeView/TreeView'
 Vue.component('tree-view', TreeView)
 
-import TreeItem from 'misc/TreeView/TreeItem'
+import TreeItem from './misc/TreeView/TreeItem'
 Vue.component('tree-item', TreeItem)
 
 // PANEL COMPONENT
-import Panel from 'misc/Panel/Panel'
+import Panel from './misc/Panel/Panel'
 Vue.component('panel', Panel)
 
 // mn-button COMPONENT
-import MnButton from 'misc/MnButton/MnButton'
+import MnButton from './misc/MnButton/MnButton'
 Vue.component('mn-button', MnButton)
 
 // mn-modal COMPONENT
-import MnModal from 'misc/MnModal/MnModal'
+import MnModal from './misc/MnModal/MnModal'
 Vue.component('mn-modal', MnModal)
 
 // mn-msgbox COMPONENT
-import MnMsgBox from 'misc/MnMsgBox/MnMsgBox'
+import MnMsgBox from './misc/MnMsgBox/MnMsgBox'
 Vue.component('mn-msgbox', MnMsgBox)
 
 // =========================================== //

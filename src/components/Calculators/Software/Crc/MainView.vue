@@ -140,16 +140,16 @@
 
 <script>
 
-  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
-  import {CalcVarComboBox} from 'src/misc/CalculatorEngineV2/CalcVarComboBox'
-  import {CalcVarInvisible} from 'src/misc/CalculatorEngineV2/CalcVarInvisible'
-  import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
+  import Calc from '@/misc/CalculatorEngineV2/Calc'
+  import {CalcVarString} from '@/misc/CalculatorEngineV2/CalcVarString'
+  import {CalcVarComboBox} from '@/misc/CalculatorEngineV2/CalcVarComboBox'
+  import {CalcVarInvisible} from '@/misc/CalculatorEngineV2/CalcVarInvisible'
+  import {CustomValidator} from '@/misc/CalculatorEngineV2/CustomValidator'
 
-  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
-  import {crcCatalogue, crcIds} from 'src/misc/Crc/CrcCatalogue'
+  import {CrcGeneric} from '@/misc/Crc/CrcGeneric'
+  import {crcCatalogue, crcIds} from '@/misc/Crc/CrcCatalogue'
 
-  import {stringManipulation} from 'src/misc/StringManipulation/StringManipulation'
+  import {stringManipulation} from '@/misc/StringManipulation/StringManipulation'
 
   import CommonCrcAlgorithmsRow from './CommonCrcAlgorithmsRow'
   import CustomCrcAlgorithm from './CustomCrcAlgorithm'

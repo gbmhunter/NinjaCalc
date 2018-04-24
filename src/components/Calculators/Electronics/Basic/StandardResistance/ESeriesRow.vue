@@ -14,9 +14,9 @@
 
 <script>
 
-  import { CalcVarNumeric, NumericValidators } from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import { UnitMulti } from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
+  import { CalcVarNumeric, NumericValidators } from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+  import { UnitMulti } from '@/misc/CalculatorEngineV2/UnitMulti'
+  import StandardResistanceFinder from '@/misc/StandardResistanceFinder/StandardResistanceFinder'
   var standardResistanceFinder = new StandardResistanceFinder()
 
   // ============================================ //

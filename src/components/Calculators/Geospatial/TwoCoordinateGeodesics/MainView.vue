@@ -61,12 +61,12 @@
   import feature from 'topojson-client/src/feature'
   import versor from 'versor';
 
-  // import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
-  import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
-  import CalcSelect from 'src/misc/CalculatorEngineV3/CalcSelect'
-  import Validators from 'src/misc/CalculatorEngineV3/Validators'
+  // import CalcInput from '@/misc/CalculatorEngineV3/CalcInput'
+  import CalcInput from '@/misc/CalculatorEngineV3/CalcInput'
+  import CalcSelect from '@/misc/CalculatorEngineV3/CalcSelect'
+  import Validators from '@/misc/CalculatorEngineV3/Validators'
 
-  import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
+  import { Coordinate, CoordinateUnits, Geospatial } from '@/misc/Geospatial/Geospatial'
   var world110m = require('./world-110m')
   var self = null
 

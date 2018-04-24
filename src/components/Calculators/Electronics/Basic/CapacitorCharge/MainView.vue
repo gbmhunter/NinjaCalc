@@ -58,9 +58,9 @@
 
   /* eslint-disable camelcase */
 
-  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
+  import Calc from '@/misc/CalculatorEngineV2/Calc'
+  import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
 
   // ============================================ //
   // =================== vue Object ============= //

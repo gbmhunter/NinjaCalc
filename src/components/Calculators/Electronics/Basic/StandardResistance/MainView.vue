@@ -60,11 +60,11 @@
 
 <script>
 
-  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import { CustomValidator } from 'src/misc/CalculatorEngineV2/CustomValidator'
-  import StandardResistanceFinder from 'src/misc/StandardResistanceFinder/StandardResistanceFinder'
+  import Calc from '@/misc/CalculatorEngineV2/Calc'
+  import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
+  import { CustomValidator } from '@/misc/CalculatorEngineV2/CustomValidator'
+  import StandardResistanceFinder from '@/misc/StandardResistanceFinder/StandardResistanceFinder'
   import ESeriesRow from './ESeriesRow.vue'
 
   var standardResistanceFinder = new StandardResistanceFinder()

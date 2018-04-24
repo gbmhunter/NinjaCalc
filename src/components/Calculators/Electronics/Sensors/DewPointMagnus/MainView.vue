@@ -70,10 +70,10 @@
 
 <script>
 
-  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
+  import Calc from '@/misc/CalculatorEngineV2/Calc'
+  import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+  import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
+  import {UnitFunc} from '@/misc/CalculatorEngineV2/UnitFunc'
 
   /* eslint-disable camelcase */
 

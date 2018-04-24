@@ -62,11 +62,11 @@
   /* eslint-disable */
 
 
-  import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
+  import { Coordinate, CoordinateUnits, Geospatial } from '@/misc/Geospatial/Geospatial'
 
-  import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
-  import CalcSelect from 'src/misc/CalculatorEngineV3/CalcSelect'
-  import CalcTextArea from 'src/misc/CalculatorEngineV3/CalcTextArea'
+  import CalcInput from '@/misc/CalculatorEngineV3/CalcInput'
+  import CalcSelect from '@/misc/CalculatorEngineV3/CalcSelect'
+  import CalcTextArea from '@/misc/CalculatorEngineV3/CalcTextArea'
 
   export default {
     name: 'map-plotter', // This will show up in the URL

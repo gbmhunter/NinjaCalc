@@ -1,4 +1,4 @@
-import {stringManipulation} from 'src/misc/StringManipulation/StringManipulation'
+import {stringManipulation} from '@/misc/StringManipulation/StringManipulation'
 
 import CalcVar from './CalcVar'
 import {CustomValidator} from './CustomValidator'

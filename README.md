@@ -52,3 +52,66 @@ See [changelog.md](../blob/master/changelog.md).
 # Contributors
 
 See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a list of contributors.
+
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
+```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+# Dependencies
+
+# Client
+big-integer: Used in the CRC calculator
+chart.js: Used by the PID tuner.
+d3: Used in the two coordinate geodesic calculator.
+element-ui@1.4.13: NOTE. Tabs are specific to used version. v2 doesn't seem to work.
+keen-ui: Buttons used.
+topojson-client: Used in the two coordinate geodesic calculator.
+v-tooltip: Tooltips.
+versor: Used in the two coordinate geodesic calculator.
+vue2-google-maps: Used in the map plotter tool.
+vue-material@0.7.5: Buttons, tooltips used, sidenav used. NOTE: Sidenav not available in latest version.
+vue-select: General purpose UI select element.
+vue-slider-component: Sliders used in the PID tuner tool.
+vuex: Centralized state management for app.
+
+# Development
+raw-loader: Webpack raw loader for reading text files. Used in the PID tuner tool.
+
+# .editorconfig
+
+indent_size changed from 2 to 4.
+
+# webpack.base.conf.js
+
+Added new rule.
+
+{
+    test: /\.txt$/,
+    use: 'raw-loader'
+},
+

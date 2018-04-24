@@ -10,9 +10,9 @@
 <script>
 
 //  var bigInt = require('big-integer')
-//  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarString} from 'src/misc/CalculatorEngineV2/CalcVarString'
-  import {CrcGeneric} from 'src/misc/Crc/CrcGeneric'
+//  import Calc from '@/misc/CalculatorEngineV2/Calc'
+  import {CalcVarString} from '@/misc/CalculatorEngineV2/CalcVarString'
+  import {CrcGeneric} from '@/misc/Crc/CrcGeneric'
 
   // ============================================ //
   // =================== vue Object ============= //

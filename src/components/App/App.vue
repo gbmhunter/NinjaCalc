@@ -1,9 +1,9 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
 
-  <div id="app">
+  <div id="app" style="display: flex; width: 100%; height: 100%;">
 
     <!-- This is a long, thin menu down the left-hand side of the screen -->
-    <div id="left-bar" style="width: 50px; background-color: #eeeeee;">
+    <div id="left-bar" style="width: 50px; height: 100%; background-color: #eeeeee;">
       <div id="menu-button-wrapper">
         <md-button id="menu-button" class="md-icon-button" @click.native="showLeftSideNav">
           <md-icon>menu</md-icon>
@@ -12,13 +12,11 @@
     </div>
 
     <!--Only show this if no calculators are open-->
-    <div id="no-calc-screen" v-if="!this.$store.state.core.openCalcs.length">
-      <div class="centered">
-        <div class="md-display-1">No calculators are open! Do you wish to create one?</div>
+    <div id="no-calc-screen" v-if="!this.$store.state.core.openCalcs.length" 
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div style="font-size: 30px;">No calculators are open! Do you wish to create one?</div>
         <div style="height: 20px;"></div>
-        <ui-button @click.native="showCalculatorSelectionOverlay" color="primary">New Calculator
-        </ui-button>
-      </div>
+        <ui-button @click.native="showCalculatorSelectionOverlay" color="primary" style="width: 200px;">New Calculator</ui-button>      
     </div>
 
     <!-- The "editable" property allows you to close tabs. Note that by default this also adds a "+" button on the far-
@@ -230,12 +228,7 @@
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
     color: #2c3e50;
-
-    display: flex;
-
-    height: 100%;
   }
 
   #no-calc-screen {
