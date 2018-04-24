@@ -21,4 +21,4 @@ before_script:
   - npm run build
 script:
   # - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use oraclejdk8; fi
-  - npm run test
+  - npm run unit
