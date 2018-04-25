@@ -1,5 +1,5 @@
 <template>
-    <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">        
+    <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">
 
         <!-- H FLEX -->
         <div style="display: flex;">
@@ -14,18 +14,11 @@
 
                         <div style="display: flex; align-items: center;">
                             Process:&nbsp;
-                            <select v-model="selProcessName" v-on:change="handleSelProcessChanged" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
-                                <option v-for="option in processes" v-bind:value="option.name"  v-bind:key="option.name">
+                            <select v-bind:value="selProcessName" v-on:change="handleSelProcessChanged" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
+                                <option v-for="option in processes" v-bind:value="option.name" v-bind:key="option.name">
                                     {{ option.name }}
                                 </option>
                             </select>
-                            <div style="width: 10px;"/> <!-- H SPACER -->
-                            <!-- <mn-button
-                                variant="success"
-                                :onClick="processLoad"
-                                style="width: 60px; height: 30px;">
-                                Load
-                            </mn-button> -->
                         </div>
                         <div style="height: 10px;"/> <!-- V SPACER -->
                         <div>
@@ -52,54 +45,58 @@
                                 </tr>
                             </table>
                         </div>
-                        
                         <div style="height: 20px;"/>
-
                         <div>
                             <span class="panel-subheading">Run Mode:</span><br>
-                            <select v-model="selectedRunMode" :options="runModes" :disabled="simulationRunning" style="width: 240px; height: 30px; background-color: transparent;">
+                            <select v-model="simulationConfig.runMode" :options="runModes" :disabled="simulationRunning" style="width: 240px; height: 30px; background-color: transparent;">
                                 <option v-for="option in runModes" v-bind:value="option"  v-bind:key="option">
                                 {{ option }}
                                 </option>
                             </select>
-                            <mn-button 
+                            <mn-button
                                 :variant="!simulationRunning ? 'success' : 'danger'"
                                 :onClick="startStopSimulation"
                                 style="width: 80px; height: 50px;">
                                 <div style="font-size: 18px;">{{ !simulationRunning ? 'START' : 'STOP' }}</div>
-                            </mn-button>   
-                        </div>         
-                                         
-                    </div>       
+                            </mn-button>
+                        </div>
+                    </div>
                 </ui-collapsible>
 
                 <div style="height: 10px;" />
 
                 <!-- =================== -->
                 <!-- ===== CONTROLS ==== -->
-                <!-- =================== -->                
+                <!-- =================== -->
                 <ui-collapsible title="Controls" :open='true' class="panel">
                     <div style="display: flex; flex-direction: column;">
-                        <span class="panel-subheading">Control Variable ({{ this.simulationConfig.controlVaraibleUnits }})</span>
+                        <span class="panel-subheading">
+                            CV ({{ this.simulationConfig.controlVarName + ', ' + this.simulationConfig.controlVarUnits }})
+                        </span>
                         <div>
                             <div style="height: 40px;"/>
-                            <vue-slider 
+                            <vue-slider
                                 ref="slider"
                                 v-model="controlVariable"
                                 :min="Number(pidConfig.controlVariableLimits.min)"
                                 :max="Number(pidConfig.controlVariableLimits.max)"
                                 :interval="(Number(pidConfig.controlVariableLimits.max) - Number(pidConfig.controlVariableLimits.min)) / 100.0"
-                                :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_RPM || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
+                                :disabled="simulationConfig.runMode === simulationRunModesEnum.MANUAL_CONTROL_PV ||
+                                        simulationConfig.runMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
                                 style="width:300px;" />
-                        </div>   
-                        <span class="panel-subheading">Process Set-Point ({{ this.simulationConfig.processVariableUnits }})</span>
+                        </div>
+                        <span class="panel-subheading">
+                            SP ({{ this.simulationConfig.processVarName + ', ' + this.simulationConfig.processVarUnits }})
+                        </span>
                         <div>
                             <div style="height: 40px;"/>
                             <vue-slider
                                 ref="slider"
                                 v-model="setPoint"
-                                :min=0 :max=100000 :interval=1000
-                                :disabled="selectedRunMode === simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE || selectedRunMode === simulationRunModesEnum.AUTO_RPM_STEP_CHANGES"
+                                :min="simulationConfig.processVarLimMin" :max="simulationConfig.processVarLimMax"
+                                :interval="(Number(simulationConfig.processVarLimMax) - Number(simulationConfig.processVarLimMin)) / 100.0"
+                                :disabled="simulationConfig.runMode === simulationRunModesEnum.MANUAL_CONTROL_CV ||
+                                        simulationConfig.runMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
                                 style="width:300px;"/>
                         </div>
                     </div>
@@ -112,7 +109,7 @@
                 <!-- =================== -->
                 <ui-collapsible title="PID Settings" :open='true' class="panel">
                     <span class="panel-subheading">PID Constants</span>
-                    <table class="sliders"> 
+                    <table class="sliders">
                     <tbody>
                         <tr>
                             <td>Constant</td>
@@ -171,15 +168,15 @@
                             min <input v-model="pidConfig.integralLimitConfig.constantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                             max <input v-model="pidConfig.integralLimitConfig.constantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                         </div>
-                    </div> <!-- <div id="integral-limiting-container"> -->    
+                    </div> <!-- <div id="integral-limiting-container"> -->
                     <div style="height: 20px;"/>
                     <div>
                         <span class="panel-subheading">Control Variable Limits:</span>
                         <br>
-                        min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/> 
+                        min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
                         max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
                     </div>
-                </ui-collapsible> <!-- <panel title="PID Settings"> -->        
+                </ui-collapsible> <!-- <panel title="PID Settings"> -->
             </div> <!-- <div id="controls" style="display: flex;"> -->
 
             <div style="width: 30px;"/> <!-- H SPACER -->
@@ -195,10 +192,7 @@
                     <canvas id="pidTermsChart" width="800" height="400"></canvas>
                 </div>
             </div>
-
         </div>
-
-        
 
         <div style="height: 20px;"/>
 
@@ -212,6 +206,10 @@
                 <mn-button variant="success" :onClick="processHideModalAndLoad" style="width: 120px; height: 30px; align-self: flex-end;">Close</mn-button>
             </div>
         </mn-modal>
+
+        <mn-msgbox v-if="showSelProcessChangeConfirm" type="confirm" @ok="handleSelProcessChangeConfirm" @cancel="handleSelProcessChangeCancel">
+            This will load a new process. All existing changes and chart data will be lost. Continue?
+        </mn-msgbox>
     </div>
 </template>
 
@@ -226,9 +224,9 @@ import SpringMassDamperProcessTxt from './Processes/SpringMassDamperProcess.txt'
 import { Pid, IntegralLimitModes } from "./Pid";
 
 const SimulationRunModes = {
-    MANUAL_CONTROL_FUEL_RATE: "Manual Fuel Rate Control (no PID)",
-    MANUAL_CONTROL_RPM: "Manual RPM Control (PID)",
-    AUTO_RPM_STEP_CHANGES: "Automatic RPM Step Changes (PID)"
+    MANUAL_CONTROL_CV: "Manual CV Control (no PID)",
+    MANUAL_CONTROL_PV: "Manual PV Control (PID)",
+    AUTO_PV_STEP_CHANGES: "Automatic PV Step Changes (PID)"
 };
 
 export default {
@@ -239,20 +237,14 @@ export default {
     data() {
         return {
             processes: [
-                {
-                    name: "Mass/Spring/Damper",
-                    code: SpringMassDamperProcessTxt
-                },
-                {
-                    name: "R/C Jet Engine",
-                    code: RcJetEngineProcessTxt
-                },
-                {
-                    name: "User Defined",
-                    code: "n/a"
-                },
+                { name: "Mass/Spring/Damper", code: SpringMassDamperProcessTxt },
+                { name: "R/C Jet Engine", code: RcJetEngineProcessTxt },
+                { name: "User Defined", code: "n/a" },
             ],
+            selProcessNameTemp: "",
             selProcessName: "",
+            showSelProcessChangeConfirm: false,
+
             plantCodeString: '', // This is the non-eval()'d plant code, either provided from file or user-defined
             plantCode: null, // This gets populated by eval() when the Start/Stop simulation button is clicked
             showProcessEditModal: false, // Set to true when the "Edit Process" button is clicked
@@ -265,7 +257,7 @@ export default {
 
             simulationRunModesEnum: SimulationRunModes,
             runModes: [],
-            selectedRunMode: SimulationRunModes.AUTO_RPM_STEP_CHANGES,
+            // selectedRunMode: SimulationRunModes.AUTO_PV_STEP_CHANGES,
 
             chartConfig: {
                 type: "line",
@@ -388,11 +380,14 @@ export default {
             simulationConfig: { // These get overwritten when a process is loaded (process.getDefaults())
                 processVarName: 'n/a',
                 processVarUnits: 'n/a',
-                processVarStepChangeVal: 0.0, // This is in rpm,                           
+                processVarStepChangeVal: 0.0, // This is in rpm,    
+                processVarLimMin: 0.0,
+                processVarLimMax: 100000.0,                       
                 controlVarName: 'n/a',
                 controlVarUnits: 'n/a',     
                 tickPeriod_ms: 50,
                 plotEveryNTicks: 2,
+                runMode: SimulationRunModes.MANUAL_CONTROL_CV
             },
 
             tickCount: 0, // Local state to keep track of how many ticks have occured since simulation start
@@ -433,20 +428,16 @@ export default {
     },
     computed: {
         pidEnabled() {
-            console.log("Computing pidEnabled...");
-            if (
-                this.selectedRunMode ===
-                this.simulationRunModesEnum.MANUAL_CONTROL_RPM ||
-                this.selectedRunMode ===
-                this.simulationRunModesEnum.AUTO_RPM_STEP_CHANGES
-            ) {
-                console.log("Returning true.");
+            // console.log("Computing pidEnabled...");
+            if (this.simulationConfig.runMode === this.simulationRunModesEnum.MANUAL_CONTROL_PV ||
+                this.simulationConfig.runMode === this.simulationRunModesEnum.AUTO_PV_STEP_CHANGES) {
+                // console.log("Returning true.");
                 return true;
             } else if (
-                this.selectedRunMode === this.simulationRunModesEnum.MANUAL_CONTROL_FUEL_RATE) {
+                this.simulationConfig.runMode === this.simulationRunModesEnum.MANUAL_CONTROL_CV) {
                 return false;
             } else {
-                throw new Error("Unexpected simulation run mode ");
+                throw new Error("Unexpected simulation run mode. this.simulationConfig.runMode = " + this.simulationConfig.runMode);
             }
         },
         simulationTickPeriod_s () {
@@ -455,16 +446,18 @@ export default {
     },
     methods: {
         addSetPointLine () {
-            console.log("Adding set point line to chart.");
+            // console.log("Adding set point line to chart (if not already added).");
             // Add set point line to chart
-            this.chartConfig.data.datasets.push({
-                label: "Set Point",
-                backgroundColor: "rgba(255,0,0,.5)",
-                borderColor: "rgba(255,0,0,.5)",
-                data: [],
-                fill: false
-            });
-            this.chart.update();
+            if(this.chartConfig.data.datasets.length == 1) {
+                this.chartConfig.data.datasets.push({
+                    label: "Set Point",
+                    backgroundColor: "rgba(255,0,0,.5)",
+                    borderColor: "rgba(255,0,0,.5)",
+                    data: [],
+                    fill: false
+                });
+                this.chart.update();
+            }
         },
         // Resets UI. Resets simulation time, tick, set point, PID controller. Clears data from charts.
         clearAll () {         
@@ -495,8 +488,27 @@ export default {
                 Number(this.pidConfig.controlVariableLimits.max)
             );
         },
-        handleSelProcessChanged () {
-            console.log('handleSelProcessChanged() called.')
+        handleSelProcessChangeCancel () {
+            console.log('handleSelProcessChangeCancel() called')
+            // Hide confirm box
+            this.showSelProcessChangeConfirm = false            
+        },
+        handleSelProcessChanged (event) {            
+            console.log('handleSelProcessChanged() called. event = ')
+            console.log(event.srcElement.selectedIndex)
+
+            this.selProcessNameTemp = event.srcElement.selectedIndex
+
+            // Show confirm box
+            this.showSelProcessChangeConfirm = true
+        },
+        handleSelProcessChangeConfirm () {
+            console.log('handleSelProcessChangeConfirm() called')
+
+            // Hide confirm box
+            this.showSelProcessChangeConfirm = false
+
+            this.selProcessName = this.processes[this.selProcessNameTemp].name
 
             this.processLoad()
         },
@@ -629,13 +641,12 @@ export default {
         // This updates the simulation. Should be called more frequently than update().
         tick() {
 
-            if (this.selectedRunMode === SimulationRunModes.AUTO_RPM_STEP_CHANGES) {
+            if (this.simulationConfig.runMode === SimulationRunModes.AUTO_PV_STEP_CHANGES) {
                 const numTicksBeforeChange = parseInt(4000.0/this.simulationConfig.tickPeriod_ms, 10)
+                console.log('numTicksBeforeChange = ' + numTicksBeforeChange)
                 if(this.tickCount !== 0 && this.tickCount % numTicksBeforeChange === 0)
                     this.performAutoSetPointChange();
             }
-
-
 
             if (this.pidEnabled) {
                 this.pid.setSetPoint(this.setPoint);
@@ -761,8 +772,8 @@ export default {
         // Draw PID terms chart
         const pidTermsChartContext = document.getElementById("pidTermsChart");
         this.pidTermsChart = new Chart(
-        pidTermsChartContext,
-        this.pidTermsChartConfig
+            pidTermsChartContext,
+            this.pidTermsChartConfig
         );
 
         // Set default process, and then load it
@@ -770,7 +781,7 @@ export default {
         this.processLoad()
 
         // Set the run mode to auto by default. This should trigger watch
-        this.selectedRunMode = SimulationRunModes.AUTO_RPM_STEP_CHANGES;
+        // this.selectedRunMode = SimulationRunModes.AUTO_PV_STEP_CHANGES;
 
         this.updatePidConstants();
         this.controlVariableLimitsChanged();
@@ -795,13 +806,8 @@ export default {
         this.pidConfig.integralLimitingMode = IntegralLimitModes.OUTPUT_LIMITED;
         this.setIntegralLimitingMode()
 
-        if (this.pidEnabled) this.addSetPointLine();
-
-        console.log('Loading ES6 module...')
-        var res = eval('function test() { console.log(\'testing\') }; test;')
-        console.log('x = ' + res)
-        res()
-
+        if (this.pidEnabled)
+            this.addSetPointLine();
     } // mounted() {
 };
 /* eslint-enable */
@@ -859,12 +865,11 @@ legend.panel {
   padding-inline-end: 2px;
 }
 
-
 </style>
 
 <style>
 .panel div.ui-collapsible__header {
     color: white;
-    background-color: blueviolet !important;
+    background-color: rgb(204, 29, 255) !important;
 }
 </style>

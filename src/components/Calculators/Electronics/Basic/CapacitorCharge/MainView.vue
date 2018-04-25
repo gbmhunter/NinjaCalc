@@ -56,142 +56,142 @@
 
 <script>
 
-  /* eslint-disable camelcase */
+/* eslint-disable camelcase */
 
-  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
+import Calc from '@/misc/CalculatorEngineV2/Calc'
+import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
 
-  // ============================================ //
-  // =================== vue Object ============= //
-  // ============================================ //
-  export default {
-    name: 'capacitor-charge-calculator',
-    components: {},
-    data: function () {
-      var calc = new Calc()
+// ============================================ //
+// =================== vue Object ============= //
+// ============================================ //
+export default {
+  name: 'capacitor-charge-calculator',
+  components: {},
+  data: function () {
+    var calc = new Calc()
 
-      // Create new variable in class for determining what is input and output
-      calc.outputVar = 'charge_C'
+    // Create new variable in class for determining what is input and output
+    calc.outputVar = 'charge_C'
 
-      // ============================================ //
-      // =================== CHARGE ================= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'charge_C',
-        typeEqn: () => {
-          if (calc.outputVar === 'charge_C') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const capacitance_F = calc.getVar('capacitance_F').getRawVal()
-          const voltage_V = calc.getVar('voltage_V').getRawVal()
+    // ============================================ //
+    // =================== CHARGE ================= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'charge_C',
+      typeEqn: () => {
+        if (calc.outputVar === 'charge_C') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const capacitance_F = calc.getVar('capacitance_F').getRawVal()
+        const voltage_V = calc.getVar('voltage_V').getRawVal()
 
-          return (capacitance_F * voltage_V)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'pC', multi: 1e-12}),
-          new UnitMulti({name: 'nC', multi: 1e-9}),
-          new UnitMulti({name: 'uC', multi: 1e-6}),
-          new UnitMulti({name: 'mC', multi: 1e-3})
-        ],
-        defaultUnitName: 'nC',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
-        ],
-        helpText: 'The charge held by the capacitor.'
-      }))
+        return (capacitance_F * voltage_V)
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'pC', multi: 1e-12}),
+        new UnitMulti({name: 'nC', multi: 1e-9}),
+        new UnitMulti({name: 'uC', multi: 1e-6}),
+        new UnitMulti({name: 'mC', multi: 1e-3})
+      ],
+      defaultUnitName: 'nC',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_THAN_ZERO
+      ],
+      helpText: 'The charge held by the capacitor.'
+    }))
 
-      // ============================================ //
-      // ================= CAPACITANCE ============== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'capacitance_F',
-        typeEqn: () => {
-          if (calc.outputVar === 'capacitance_F') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const charge_C = calc.getVar('charge_C').getRawVal()
-          const voltage_V = calc.getVar('voltage_V').getRawVal()
+    // ============================================ //
+    // ================= CAPACITANCE ============== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'capacitance_F',
+      typeEqn: () => {
+        if (calc.outputVar === 'capacitance_F') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const charge_C = calc.getVar('charge_C').getRawVal()
+        const voltage_V = calc.getVar('voltage_V').getRawVal()
 
-          return (charge_C / voltage_V)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'pF', multi: 1e-12}),
-          new UnitMulti({name: 'nF', multi: 1e-9}),
-          new UnitMulti({name: 'uF', multi: 1e-6}),
-          new UnitMulti({name: 'mF', multi: 1e-3})
-        ],
-        defaultUnitName: 'nF',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
-        ],
-        helpText: 'The capacitance of the capacitor.'
-      }))
+        return (charge_C / voltage_V)
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'pF', multi: 1e-12}),
+        new UnitMulti({name: 'nF', multi: 1e-9}),
+        new UnitMulti({name: 'uF', multi: 1e-6}),
+        new UnitMulti({name: 'mF', multi: 1e-3})
+      ],
+      defaultUnitName: 'nF',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_THAN_ZERO
+      ],
+      helpText: 'The capacitance of the capacitor.'
+    }))
 
-      // ============================================ //
-      // ================ VOLTAGE (i/o) ============= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'voltage_V',
-        typeEqn: () => {
-          if (calc.outputVar === 'voltage_V') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const charge_C = calc.getVar('charge_C').getRawVal()
-          const capacitance_F = calc.getVar('capacitance_F').getRawVal()
+    // ============================================ //
+    // ================ VOLTAGE (i/o) ============= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'voltage_V',
+      typeEqn: () => {
+        if (calc.outputVar === 'voltage_V') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const charge_C = calc.getVar('charge_C').getRawVal()
+        const capacitance_F = calc.getVar('capacitance_F').getRawVal()
 
-          return (charge_C / capacitance_F)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mV', multi: 1e-3}),
-          new UnitMulti({name: 'V', multi: 1e0}),
-          new UnitMulti({name: 'kV', multi: 1e3})
-        ],
-        defaultUnitName: 'V',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
-        ],
-        helpText: 'The voltage across the capacitor.'
-      }))
+        return (charge_C / capacitance_F)
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'mV', multi: 1e-3}),
+        new UnitMulti({name: 'V', multi: 1e0}),
+        new UnitMulti({name: 'kV', multi: 1e3})
+      ],
+      defaultUnitName: 'V',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_THAN_ZERO
+      ],
+      helpText: 'The voltage across the capacitor.'
+    }))
 
-      return {
-        calc: calc
-      }
-    },
-    mounted () {
-      // Configure calculator to default state now that
-      // UI has been created
-      this.calc.init()
+    return {
+      calc: calc
+    }
+  },
+  mounted () {
+    // Configure calculator to default state now that
+    // UI has been created
+    this.calc.init()
 
-      if (window.MathJax) {
-        window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
-      }
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
     }
   }
+}
 
 </script>
 

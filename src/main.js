@@ -1,45 +1,60 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './components/App/App'
+import store from './store'
+import { router } from './router'
+import { sync } from 'vuex-router-sync'
 
-/* eslint-disable no-unused-vars */
-
-// vue-material is used for md-tooltips, which display
-// calculator variable info
+import App from './App'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
+import vSelect from 'vue-select'
+import KeenUI from 'keen-ui'
+import 'keen-ui/dist/keen-ui.css'
+import VTooltip from 'v-tooltip'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
+import * as VueGoogleMaps from 'vue2-google-maps'
+import CalcValue from '@/misc/CalculatorEngineV2/view/CalcValue.vue'
+import CalcValueAndUnit from './misc/CalculatorEngineV2/view/CalcValueAndUnit.vue'
+import CalcUnits from './misc/CalculatorEngineV2/view/CalcUnits.vue'
+import CalcVarString from './misc/CalculatorEngineV2/view/CalcVarString.vue'
+import CalcVarCheckbox from './misc/CalculatorEngineV2/view/CalcVarCheckbox.vue'
+import VariableRowVerbose from './misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
+// import router from './router'
+import './style/style.css'
+import TreeView from './misc/TreeView/TreeView'
+import TreeItem from './misc/TreeView/TreeItem'
+import Panel from './misc/Panel/Panel'
+import MnButton from './misc/MnButton/MnButton'
+import MnModal from './misc/MnModal/MnModal'
+import MnMsgBox from './misc/MnMsgBox/MnMsgBox'
+
+Vue.config.productionTip = false
+
 Vue.use(VueMaterial)
 
-// BootstrapVue used for Buttons
-import BootstrapVue from 'bootstrap-vue'
-Vue.use(BootstrapVue)
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
-
 // Setup v-select component
-import vSelect from 'vue-select'
+
 Vue.component('v-select', vSelect)
 
 // KeenUI is used for the collapsable "Info"
 // sections on each calculator
-import KeenUI from 'keen-ui'
+
 Vue.use(KeenUI)
-import 'keen-ui/dist/keen-ui.css'
 
 // v-tooltip is used for calculator variable tooltips
-import VTooltip from 'v-tooltip'
+
 Vue.use(VTooltip)
 
 // element UI component library
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+
 Vue.use(ElementUI)
 
 // =========================================== //
 // ========== VUE GOOGLE MAPS PACKAGE ======== //
 // =========================================== //
-import * as VueGoogleMaps from 'vue2-google-maps'
+
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyBSBFQ3KuKEfQNXSAhQ1uhjVa1gXbHSlwk',
@@ -50,71 +65,38 @@ Vue.use(VueGoogleMaps, {
   }
 })
 
-// import VJstree from 'vue-jstree'
-// Vue.component('v-jstree', VJstree)
-
-import './style/style.css'
-
 // =========================================== //
 // ==== CALCULATOR COMPONENT REGISTRATION ==== //
 // =========================================== //
-import CalcValue from 'misc/CalculatorEngineV2/view/CalcValue.vue'
+
 Vue.component('calc-value', CalcValue)
-import CalcValueAndUnit from 'misc/CalculatorEngineV2/view/CalcValueAndUnit.vue'
 Vue.component('calc-value-and-unit', CalcValueAndUnit)
-import CalcUnits from 'misc/CalculatorEngineV2/view/CalcUnits.vue'
 Vue.component('calc-units', CalcUnits)
-import CalcVarString from 'src/misc/CalculatorEngineV2/view/CalcVarString.vue'
 Vue.component('calc-var-string', CalcVarString)
-import CalcVarCheckbox from 'src/misc/CalculatorEngineV2/view/CalcVarCheckbox.vue'
 Vue.component('calc-var-checkbox', CalcVarCheckbox)
-import VariableRowVerbose from 'src/misc/CalculatorEngineV2/view/VariableRowVerbose.vue'
 Vue.component('variable-row-verbose', VariableRowVerbose)
 
 // ============================================================================================= //
 // ============================= REGISTER OUR CUSTOM VUE COMPONENTS ============================ //
 // ============================================================================================= //
 
-// =========================================== //
-// ===== TREE VIEW COMPONENT REGISTRATION ==== //
-// =========================================== //
-import TreeView from 'misc/TreeView/TreeView'
 Vue.component('tree-view', TreeView)
-
-import TreeItem from 'misc/TreeView/TreeItem'
 Vue.component('tree-item', TreeItem)
-
-// PANEL COMPONENT
-import Panel from 'misc/Panel/Panel'
 Vue.component('panel', Panel)
-
-// mn-button COMPONENT
-import MnButton from 'misc/MnButton/MnButton'
 Vue.component('mn-button', MnButton)
-
-// mn-modal COMPONENT
-import MnModal from 'misc/MnModal/MnModal'
 Vue.component('mn-modal', MnModal)
-
-// =========================================== //
-// ============= IMPORT VUEX STORE =========== //
-// =========================================== //
-import store from './store'
+Vue.component('mn-msgbox', MnMsgBox)
 
 // =========================================== //
 // ====== IMPORT ROUTER, SYNC WITH STORE ===== //
 // =========================================== //
-import { router } from './router'
-import { sync } from 'vuex-router-sync'
 sync(store, router)
 
-// ROOT INSTANCE
 /* eslint-disable no-new */
-var vm = new Vue({
+new Vue({
   el: '#app',
   store,
-  template: '<App/>',
+  router,
   components: { App },
-  router
+  template: '<App/>'
 })
-

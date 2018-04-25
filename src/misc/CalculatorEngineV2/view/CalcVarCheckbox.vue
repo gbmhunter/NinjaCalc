@@ -12,48 +12,48 @@
 
 <script>
 
-  import '../style.css'
+import '../style.css'
 
-  export default {
-    name: 'calc-var-checkbox',
-    props: {
-      calcVar: {
-        type: Object,
-        required: true
-      },
-      width: {
-        type: Number,
-        required: false,
-        default: 20
-      },
-      height: {
-        type: Number,
-        required: false,
-        default: 20
-      }
+export default {
+  name: 'calc-var-checkbox',
+  props: {
+    calcVar: {
+      type: Object,
+      required: true
     },
-    components: {},
-    computed: {
-      readonly () {
-        if (this.calcVar.typeEqn() === 'output') {
-          return true
-        } else {
-          return false
-        }
-      },
-      toolTipMsg () {
-        // This is raw HTML (so we can add line breaks)
-        var toolTipMsg = ''
-        toolTipMsg += this.calcVar.helpText
-        toolTipMsg += '<br><br>'
-        toolTipMsg += this.calcVar.validationMsg
-        return toolTipMsg
-      }
+    width: {
+      type: Number,
+      required: false,
+      default: 20
     },
-    methods: {},
-    mounted () {
+    height: {
+      type: Number,
+      required: false,
+      default: 20
     }
+  },
+  components: {},
+  computed: {
+    readonly () {
+      if (this.calcVar.typeEqn() === 'output') {
+        return true
+      } else {
+        return false
+      }
+    },
+    toolTipMsg () {
+      // This is raw HTML (so we can add line breaks)
+      var toolTipMsg = ''
+      toolTipMsg += this.calcVar.helpText
+      toolTipMsg += '<br><br>'
+      toolTipMsg += this.calcVar.validationMsg
+      return toolTipMsg
+    }
+  },
+  methods: {},
+  mounted () {
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

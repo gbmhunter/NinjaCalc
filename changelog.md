@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v3.4.1] - 2018-04-25
+
+### Added
+- Message box added to PID tuner tool asking if user wants to switch processes.
+
+### Fixed
+- Fixed bug in the PID tuner tool's PID controller which was not calculating the derivative term correctly (it was not dividing by the time step).
+- Fixed bug where UI controls in PID tuner where not updating to reflect correct PV and CV names for a particular process.
+- Default run mode for both mass-spring-damper and R/C jet engine processes in PID tuner is now 'Manual PV Control (PID)'.
+- Fixed bug where 'Set Point' line was added twice to chart in PID tuner tool.
+- Fixed bug where PV limits for each scenario in the PID tuner tool where not being set correctly.
+- Fixed bug where 'New Calculator' button was not centered in side nav.
+- Fixed failing TravisCI build, closes #168.
+- Removed outdated sections from README.md, closes #171.
+
 ## [v3.4.0] - 2018-04-22
 
 ### Added

@@ -63,203 +63,203 @@
 
 <script>
 
-  //  'use strict'
+//  'use strict'
 
-  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
+import Calc from '@/misc/CalculatorEngineV2/Calc'
+import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
+import {CustomValidator} from '@/misc/CalculatorEngineV2/CustomValidator'
 
-  // ============================================ //
-  // =================== vue Object ============= //
-  // ============================================ //
-  export default {
-    name: 'resistor-divider-calculator',
-    data: function () {
-      var calc = new Calc()
+// ============================================ //
+// =================== vue Object ============= //
+// ============================================ //
+export default {
+  name: 'resistor-divider-calculator',
+  data: function () {
+    var calc = new Calc()
 
-      // Create new variable in class for determining what is input and output
-      calc.outputVar = 'vOut'
+    // Create new variable in class for determining what is input and output
+    calc.outputVar = 'vOut'
 
-      // ============================================ //
-      // ===================== vIn ================== //
-      // ============================================ //
-      var vIn = new CalcVarNumeric({
-        name: 'vIn',
-        typeEqn: () => {
-          if (calc.outputVar === 'vIn') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          var vOut = calc.getVar('vOut').getRawVal()
-          var rTop = calc.getVar('rTop').getRawVal()
-          var rBot = calc.getVar('rBot').getRawVal()
+    // ============================================ //
+    // ===================== vIn ================== //
+    // ============================================ //
+    var vIn = new CalcVarNumeric({
+      name: 'vIn',
+      typeEqn: () => {
+        if (calc.outputVar === 'vIn') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        var vOut = calc.getVar('vOut').getRawVal()
+        var rTop = calc.getVar('rTop').getRawVal()
+        var rBot = calc.getVar('rBot').getRawVal()
 
-          return ((vOut * (rTop + rBot)) / rBot)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mV', multi: 1e-3}),
-          new UnitMulti({name: 'V', multi: 1e0})
-        ],
-        defaultUnitName: 'V',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
-          new CustomValidator({
-            func: () => {
-              // Read dependency variables
-              var vIn = calc.getVar('vIn').getRawVal()
-              var vOut = calc.getVar('vOut').getRawVal()
-              return vIn > vOut
-            },
-            text: 'Vin must be greater than Vout. It is impossible for Vin to be less than Vout because a resistor divider can only reduce the input voltage.',
-            level: 'error'
-          })
-        ],
-        helpText: 'The input voltage to the top of the resistor divider (also equal to the voltage across the entire resistor divider).'
-      })
-      calc.addVar(vIn)
+        return ((vOut * (rTop + rBot)) / rBot)
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'mV', multi: 1e-3}),
+        new UnitMulti({name: 'V', multi: 1e0})
+      ],
+      defaultUnitName: 'V',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+        new CustomValidator({
+          func: () => {
+            // Read dependency variables
+            var vIn = calc.getVar('vIn').getRawVal()
+            var vOut = calc.getVar('vOut').getRawVal()
+            return vIn > vOut
+          },
+          text: 'Vin must be greater than Vout. It is impossible for Vin to be less than Vout because a resistor divider can only reduce the input voltage.',
+          level: 'error'
+        })
+      ],
+      helpText: 'The input voltage to the top of the resistor divider (also equal to the voltage across the entire resistor divider).'
+    })
+    calc.addVar(vIn)
 
-      // ============================================ //
-      // ===================== rTop ================= //
-      // ============================================ //
-      var rTop = new CalcVarNumeric({
-        name: 'rTop',
-        typeEqn: () => {
-          if (calc.outputVar === 'rTop') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          var vIn = calc.getVar('vIn').getRawVal()
-          var rBot = calc.getVar('rBot').getRawVal()
-          var vOut = calc.getVar('vOut').getRawVal()
+    // ============================================ //
+    // ===================== rTop ================= //
+    // ============================================ //
+    var rTop = new CalcVarNumeric({
+      name: 'rTop',
+      typeEqn: () => {
+        if (calc.outputVar === 'rTop') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        var vIn = calc.getVar('vIn').getRawVal()
+        var rBot = calc.getVar('rBot').getRawVal()
+        var vOut = calc.getVar('vOut').getRawVal()
 
-          return ((rBot * (vIn - vOut)) / vOut)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mΩ', multi: 1e-3}),
-          new UnitMulti({name: 'Ω', multi: 1e0}),
-          new UnitMulti({name: 'kΩ', multi: 1e3}),
-          new UnitMulti({name: 'MΩ', multi: 1e6}),
-          new UnitMulti({name: 'GΩ', multi: 1e9})
-        ],
-        defaultUnitName: 'kΩ',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The resistance of the top resistor in the resistor divider.'
-      })
-      calc.addVar(rTop)
+        return ((rBot * (vIn - vOut)) / vOut)
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'mΩ', multi: 1e-3}),
+        new UnitMulti({name: 'Ω', multi: 1e0}),
+        new UnitMulti({name: 'kΩ', multi: 1e3}),
+        new UnitMulti({name: 'MΩ', multi: 1e6}),
+        new UnitMulti({name: 'GΩ', multi: 1e9})
+      ],
+      defaultUnitName: 'kΩ',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The resistance of the top resistor in the resistor divider.'
+    })
+    calc.addVar(rTop)
 
-      // ============================================ //
-      // ===================== rBot ================= //
-      // ============================================ //
-      var rBot = new CalcVarNumeric({
-        name: 'rBot',
-        typeEqn: () => {
-          if (calc.outputVar === 'rBot') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          var vIn = calc.getVar('vIn').getRawVal()
-          var rTop = calc.getVar('rTop').getRawVal()
-          var vOut = calc.getVar('vOut').getRawVal()
+    // ============================================ //
+    // ===================== rBot ================= //
+    // ============================================ //
+    var rBot = new CalcVarNumeric({
+      name: 'rBot',
+      typeEqn: () => {
+        if (calc.outputVar === 'rBot') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        var vIn = calc.getVar('vIn').getRawVal()
+        var rTop = calc.getVar('rTop').getRawVal()
+        var vOut = calc.getVar('vOut').getRawVal()
 
-          return ((rTop * vOut) / (vIn - vOut))
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mΩ', multi: 1e-3}),
-          new UnitMulti({name: 'Ω', multi: 1e0}),
-          new UnitMulti({name: 'kΩ', multi: 1e3}),
-          new UnitMulti({name: 'MΩ', multi: 1e6}),
-          new UnitMulti({name: 'GΩ', multi: 1e9})
-        ],
-        defaultUnitName: 'kΩ',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The resistance of the bottom resistor in the resistor divider.'
-      })
-      calc.addVar(rBot)
+        return ((rTop * vOut) / (vIn - vOut))
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'mΩ', multi: 1e-3}),
+        new UnitMulti({name: 'Ω', multi: 1e0}),
+        new UnitMulti({name: 'kΩ', multi: 1e3}),
+        new UnitMulti({name: 'MΩ', multi: 1e6}),
+        new UnitMulti({name: 'GΩ', multi: 1e9})
+      ],
+      defaultUnitName: 'kΩ',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The resistance of the bottom resistor in the resistor divider.'
+    })
+    calc.addVar(rBot)
 
-      // ============================================ //
-      // ===================== vOut ================= //
-      // ============================================ //
-      var vOut = new CalcVarNumeric({
-        name: 'vOut',
-        typeEqn: () => {
-          if (calc.outputVar === 'vOut') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          var vIn = calc.getVar('vIn').getRawVal()
-          var rTop = calc.getVar('rTop').getRawVal()
-          var rBot = calc.getVar('rBot').getRawVal()
+    // ============================================ //
+    // ===================== vOut ================= //
+    // ============================================ //
+    var vOut = new CalcVarNumeric({
+      name: 'vOut',
+      typeEqn: () => {
+        if (calc.outputVar === 'vOut') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        var vIn = calc.getVar('vIn').getRawVal()
+        var rTop = calc.getVar('rTop').getRawVal()
+        var rBot = calc.getVar('rBot').getRawVal()
 
-          return ((vIn * rBot) / (rTop + rBot))
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mV', multi: 1e-3}),
-          new UnitMulti({name: 'V', multi: 1e0})
-        ],
-        defaultUnitName: 'V',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
-          new CustomValidator({
-            func: () => {
-              // Read dependency variables
-              var vIn = calc.getVar('vIn').getRawVal()
-              var vOut = calc.getVar('vOut').getRawVal()
-              return vOut < vIn
-            },
-            text: 'Vout must be less than Vin. It is impossible for Vout to be greater than Vin because a resistor divider can only reduce the input voltage.',
-            level: 'error'
-          })
-        ],
-        helpText: 'The resistor divider output voltage. The is also equal to the voltage across the bottom resistor.' +
-        ' Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.'
-      })
-      calc.addVar(vOut)
+        return ((vIn * rBot) / (rTop + rBot))
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'mV', multi: 1e-3}),
+        new UnitMulti({name: 'V', multi: 1e0})
+      ],
+      defaultUnitName: 'V',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO,
+        new CustomValidator({
+          func: () => {
+            // Read dependency variables
+            var vIn = calc.getVar('vIn').getRawVal()
+            var vOut = calc.getVar('vOut').getRawVal()
+            return vOut < vIn
+          },
+          text: 'Vout must be less than Vin. It is impossible for Vout to be greater than Vin because a resistor divider can only reduce the input voltage.',
+          level: 'error'
+        })
+      ],
+      helpText: 'The resistor divider output voltage. The is also equal to the voltage across the bottom resistor.' +
+      ' Note that this is only accurate as long as the circuit connected to the output voltage has a much higher resistance than the bottom resistor.'
+    })
+    calc.addVar(vOut)
 
-      // Configure calculator to default state now that all
-      // variables have been added.
-      calc.init()
+    // Configure calculator to default state now that all
+    // variables have been added.
+    calc.init()
 
-      return {
-        calc: calc
-      }
-    },
-    mounted () {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+    return {
+      calc: calc
     }
+  },
+  mounted () {
+    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
   }
+}
 
 </script>
 

@@ -1,5 +1,4 @@
 class CanvasShapes {
-
   constructor () {
     this.trackColor = '#d9a654'
     this.fr4Color = '#3d8f00'
@@ -14,7 +13,7 @@ class CanvasShapes {
    * @param toy       Ending Y co-ordinate.
    */
   drawArrow (context, fromx, fromy, tox, toy) {
-    var headlen = 10   // length of head in pixels
+    var headlen = 10 // length of head in pixels
     var angle = Math.atan2(toy - fromy, tox - fromx)
     context.beginPath()
     context.moveTo(fromx, fromy)
@@ -34,4 +33,3 @@ class CanvasShapes {
   }
 }
 export let canvasShapes = new CanvasShapes()
-

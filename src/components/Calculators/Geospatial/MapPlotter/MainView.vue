@@ -57,60 +57,109 @@
 
 <script>
 
-  // 3D globe based of pen found at https://codepen.io/anon/pen/MQrzdp
+// 3D globe based of pen found at https://codepen.io/anon/pen/MQrzdp
 
-  /* eslint-disable */
+/* eslint-disable */
 
 
-  import { Coordinate, CoordinateUnits, Geospatial } from 'src/misc/Geospatial/Geospatial'
+import { Coordinate, CoordinateUnits, Geospatial } from '@/misc/Geospatial/Geospatial'
 
-  import CalcInput from 'src/misc/CalculatorEngineV3/CalcInput'
-  import CalcSelect from 'src/misc/CalculatorEngineV3/CalcSelect'
-  import CalcTextArea from 'src/misc/CalculatorEngineV3/CalcTextArea'
+import CalcInput from '@/misc/CalculatorEngineV3/CalcInput'
+import CalcSelect from '@/misc/CalculatorEngineV3/CalcSelect'
+import CalcTextArea from '@/misc/CalculatorEngineV3/CalcTextArea'
 
-  export default {
-    name: 'map-plotter', // This will show up in the URL
-    components: { 'calc-input': CalcInput, CalcSelect, 'calc-textarea': CalcTextArea },
-    data: function () {
+export default {
+  name: 'map-plotter', // This will show up in the URL
+  components: { 'calc-input': CalcInput, CalcSelect, 'calc-textarea': CalcTextArea },
+  data: function () {
 
-      return {
-        center: {lat: 10.0, lng: 10.0},
-        pointCoordinatesTextArea: {
-          dir: 'in',
-          value: '20, -10\n20, 10',
-          help: 'Enter the coordinates for one point per line.',
-          validator: {
-            state: 'ok',
-            msg: 'Test'
+    return {
+      center: {lat: 10.0, lng: 10.0},
+      pointCoordinatesTextArea: {
+        dir: 'in',
+        value: '20, -10\n20, 10',
+        help: 'Enter the coordinates for one point per line.',
+        validator: {
+          state: 'ok',
+          msg: 'Test'
+        }
+      },
+      arcsTextArea: {
+        dir: 'in',
+        value:
+        '15,-20,5,-10\n' +
+        '5,-10,5,10\n' +
+        '5,10,15,20',
+        help: 'Enter the start and end coordinates for one arc per line.',
+        validator: {
+          state: 'ok',
+          msg: 'Test'
+        }
+      },
+      selCoordinateUnit: 'Degrees',
+      drawArcsAs: 'Great Circles'
+    }
+  },
+  computed: {
+    markers () {
+      var points = []
+
+      var coordArray = this.pointCoordinatesTextArea.value.split('\n')
+      var allPointsValid = true
+      coordArray.map((coordString) => {
+        // Ignore empty lines
+        if (coordString === '') return
+
+        var pointCoord = new Coordinate()
+        try {
+          if (this.selCoordinateUnit === 'Degrees') {
+            pointCoord.FromString(coordString, CoordinateUnits.DEGREES)
+          } else if (this.selCoordinateUnit === 'Radians') {
+            pointCoord.FromString(coordString, CoordinateUnits.RADIANS)
           }
-        },
-        arcsTextArea: {
-          dir: 'in',
-          value:
-          '15,-20,5,-10\n' +
-          '5,-10,5,10\n' +
-          '5,10,15,20',
-          help: 'Enter the start and end coordinates for one arc per line.',
-          validator: {
-            state: 'ok',
-            msg: 'Test'
+        } catch (e) {
+          allPointsValid = false
+          return
+        }
+        points.push({
+          position: {
+            lat: pointCoord.GetLat_deg(),
+            lng: pointCoord.GetLon_deg()
           }
-        },
-        selCoordinateUnit: 'Degrees',
-        drawArcsAs: 'Great Circles'
+        })
+      })
+
+      if (allPointsValid) {
+        this.pointCoordinatesTextArea.validator.state = 'ok'
+        this.pointCoordinatesTextArea.validator.msg = ''
+      } else {
+        this.pointCoordinatesTextArea.validator.state = 'error'
+        this.pointCoordinatesTextArea.validator.msg = 'One or more points is not in the correct format.'
       }
+
+      return points
     },
-    computed: {
-      markers () {
-        var points = []
+    arcs () {
+      var arcs = []
+      var arcsTextAreaArray = this.arcsTextArea.value.split('\n')
+      var allPointsValid = true
+      arcsTextAreaArray.map((arcString) => {
 
-        var coordArray = this.pointCoordinatesTextArea.value.split('\n')
-        var allPointsValid = true
-        coordArray.map((coordString) => {
-          // Ignore empty lines
-          if (coordString === '') return
+        // Ignore a line which is empty
+        if (arcString === '') return
 
+        var arc = {}
+        arc.path = []
+
+        const numbers = arcString.split(',')
+
+        // Make sure there is just not one point (only one coordinate error will
+        // be handled by the 'FromString' method call below)
+        if (numbers.length === 2) allPointsValid = false
+
+        for (var i = 0; i < numbers.length/2; i++) {
           var pointCoord = new Coordinate()
+          const coordString = numbers[2*i] + ', ' + numbers[2*i + 1]
           try {
             if (this.selCoordinateUnit === 'Degrees') {
               pointCoord.FromString(coordString, CoordinateUnits.DEGREES)
@@ -121,122 +170,73 @@
             allPointsValid = false
             return
           }
-          points.push({
-            position: {
-              lat: pointCoord.GetLat_deg(),
-              lng: pointCoord.GetLon_deg()
-            }
-          })
-        })
+          arc.path.push({ lat: pointCoord.GetLat_deg(), lng: pointCoord.GetLon_deg() })
+        }
 
-        if (allPointsValid) {
-          this.pointCoordinatesTextArea.validator.state = 'ok'
-          this.pointCoordinatesTextArea.validator.msg = ''
+        if (this.drawArcsAs === 'Great Circles') {
+          arc.geodesic = true
+        } else if (this.drawArcsAs === 'Rhumb Lines') {
+          arc.geodesic = false
         } else {
-          this.pointCoordinatesTextArea.validator.state = 'error'
-          this.pointCoordinatesTextArea.validator.msg = 'One or more points is not in the correct format.'
+          throw Error('drawArcsAs type not recognized.')
         }
 
-        return points
-      },
-      arcs () {
-        var arcs = []
-        var arcsTextAreaArray = this.arcsTextArea.value.split('\n')
-        var allPointsValid = true
-        arcsTextAreaArray.map((arcString) => {
+        arcs.push(arc)
 
-          // Ignore a line which is empty
-          if (arcString === '') return
+      })
 
-          var arc = {}
-          arc.path = []
-
-          const numbers = arcString.split(',')
-
-          // Make sure there is just not one point (only one coordinate error will
-          // be handled by the 'FromString' method call below)
-          if (numbers.length === 2) allPointsValid = false
-
-          for (var i = 0; i < numbers.length/2; i++) {
-            var pointCoord = new Coordinate()
-            const coordString = numbers[2*i] + ', ' + numbers[2*i + 1]
-            try {
-              if (this.selCoordinateUnit === 'Degrees') {
-                pointCoord.FromString(coordString, CoordinateUnits.DEGREES)
-              } else if (this.selCoordinateUnit === 'Radians') {
-                pointCoord.FromString(coordString, CoordinateUnits.RADIANS)
-              }
-            } catch (e) {
-              allPointsValid = false
-              return
-            }
-            arc.path.push({ lat: pointCoord.GetLat_deg(), lng: pointCoord.GetLon_deg() })
-          }
-
-          if (this.drawArcsAs === 'Great Circles') {
-            arc.geodesic = true
-          } else if (this.drawArcsAs === 'Rhumb Lines') {
-            arc.geodesic = false
-          } else {
-            throw Error('drawArcsAs type not recognized.')
-          }
-
-          arcs.push(arc)
-
-        })
-
-        if (allPointsValid) {
-          this.arcsTextArea.validator.state = 'ok'
-          this.arcsTextArea.validator.msg = ''
-        } else {
-          this.arcsTextArea.validator.state = 'error'
-          this.arcsTextArea.validator.msg = 'One or more arcs is not in the correct format.'
-        }
-
-        return arcs
+      if (allPointsValid) {
+        this.arcsTextArea.validator.state = 'ok'
+        this.arcsTextArea.validator.msg = ''
+      } else {
+        this.arcsTextArea.validator.state = 'error'
+        this.arcsTextArea.validator.msg = 'One or more arcs is not in the correct format.'
       }
+
+      return arcs
+    }
+  },
+  watch: {},
+  methods: {
+    clearAll () {
+      // Clears all points and arcs from map (as well as from text boxes)
+      this.pointCoordinatesTextArea.value = ''
+      this.arcsTextArea.value = ''
     },
-    watch: {},
-    methods: {
-      clearAll () {
-        // Clears all points and arcs from map (as well as from text boxes)
-        this.pointCoordinatesTextArea.value = ''
-        this.arcsTextArea.value = ''
-      },
-      zoomToFit () {
-        // The Google map object is stored with the vue2-google-maps component,
-        // we need to access it directly
-        var map = this.$refs.map.$mapObject
+    zoomToFit () {
+      // The Google map object is stored with the vue2-google-maps component,
+      // we need to access it directly
+      var map = this.$refs.map.$mapObject
 
-        var bounds = new google.maps.LatLngBounds();
+      var bounds = new google.maps.LatLngBounds();
 
-        // Capture all markers
-        for (var i = 0; i < this.markers.length; i++) {
-          bounds.extend({ lat: this.markers[i].position.lat, lng: this.markers[i].position.lng });
-        }
-
-        // Capture all points on arcs
-        for (var i = 0; i < this.arcs.length; i++) {
-          // console.log('this.arc)
-          for (var j = 0; j < this.arcs[i].path.length; j++) {
-            bounds.extend({lat: this.arcs[i].path[j].lat, lng: this.arcs[i].path[j].lng });
-          }
-        }
-
-        map.setCenter(bounds.getCenter())
-        map.fitBounds(bounds);
-
-        // fitBounds() is async so we perform the zoom manipulation from within a callback
-        google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
-          this.setZoom(map.getZoom()-1)
-          if (this.getZoom() > 15) {
-            this.setZoom(15)
-          }
-        })
+      // Capture all markers
+      for (var i = 0; i < this.markers.length; i++) {
+        bounds.extend({ lat: this.markers[i].position.lat, lng: this.markers[i].position.lng });
       }
-    },
-    mounted () {}
-  }
+
+      // Capture all points on arcs
+      for (var i = 0; i < this.arcs.length; i++) {
+        // console.log('this.arc)
+        for (var j = 0; j < this.arcs[i].path.length; j++) {
+          bounds.extend({lat: this.arcs[i].path[j].lat, lng: this.arcs[i].path[j].lng });
+        }
+      }
+
+      map.setCenter(bounds.getCenter())
+      map.fitBounds(bounds);
+
+      // fitBounds() is async so we perform the zoom manipulation from within a callback
+      google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
+        this.setZoom(map.getZoom()-1)
+        if (this.getZoom() > 15) {
+          this.setZoom(15)
+        }
+      })
+    }
+  },
+  mounted () {}
+}
 
 </script>
 

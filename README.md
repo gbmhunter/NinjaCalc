@@ -4,12 +4,10 @@
 
 - Author: gbmhunter <gbmhunter@gmail.com> ([www.mbedded.ninja](http://www.mbedded.ninja))
 - Created: 2015-11-02
-- Last Modified: 2017-03-09
-- Version: v2.3.0
 - Company: mbedded.ninja
 - Project: NinjaTerm
 - Language: Javascript (vue.js)/HTML/CSS
-- IDE: WebStorm
+- IDE: VS Code
 - Documentation Format: JSDoc
 - License: GPLv3
 
@@ -32,7 +30,7 @@ See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a lis
 1. Open the project in WebStorm (`.idea/workspace.xml` file is included in repo), or your favourite text/code editor.
 1. Develop!
 1. Type `npm run dev` to start up the app in development mode (it's hot reloadable).
-1. Type `npm run unit` to run the unit tests.
+1. Type `npm run tests` to run unit and e2e tests. Type `npm run unit` to run just the unit tests, `npm run e2e` to run just the e2e tests.
 
 # Releasing
 
@@ -52,3 +50,35 @@ See [changelog.md](../blob/master/changelog.md).
 # Contributors
 
 See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a list of contributors.
+
+
+# Dependencies
+
+## Runtime
+- big-integer: Used in the CRC calculator
+- chart.js: Used by the PID tuner.
+- d3: Used in the two coordinate geodesic calculator.
+- element-ui@1.4.13: NOTE. Tabs are specific to used version. v2 doesn't seem to work.
+- keen-ui: Buttons used.
+- topojson-client: Used in the two coordinate geodesic calculator.
+- v-tooltip: Tooltips.
+- versor: Used in the two coordinate geodesic calculator.
+- vue2-google-maps: Used in the map plotter tool.
+- vue-material@0.7.5: Buttons, tooltips used, sidenav used. NOTE: Sidenav not available in latest version.
+- vue-select: General purpose UI select element.
+- vue-slider-component: Sliders used in the PID tuner tool.
+- vuex: Centralized state management for app.
+- vuex-router-sync: Used with vuex and the router.
+
+## Development
+raw-loader: Webpack raw loader for reading text files. Used in the PID tuner tool.
+
+# Changes To webpack.base.conf.js
+
+Added new rule to load text files (used in the PID tuner).
+```
+{
+    test: /\.txt$/,
+    use: 'raw-loader'
+},
+

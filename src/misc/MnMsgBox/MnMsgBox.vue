@@ -1,10 +1,16 @@
 <template>
   <transition name="modal">
     <div class="modal-mask">
-        <div class="modal-container">
-            <slot name="body">
+        <div class="modal-container" style="display: flex; flex-direction: column;">
+            <slot>
               default body
             </slot>
+            <div style="height: 30px;"/>
+            <div style="display: flex; justify-content: flex-end;">
+                <mn-button variant="danger" :onClick="handleCancelButtonClick" style="width: 100px; height: 30px;">Cancel</mn-button>
+                <div style="width: 20px;"/>
+                <mn-button variant="success" :onClick="handleOkButtonClick" style="width: 100px; height: 30px;">OK</mn-button>
+            </div>
         </div>
     </div>
   </transition>
@@ -15,13 +21,26 @@
 export default {
     name: 'mn-modal',
     props: {
+        type: {
+            type: String,
+            default: "alert",
+        },
     },
     data () {
         return {}
     },
     components: {},
     computed: {},
-    methods: {},
+    methods: {
+        handleCancelButtonClick () {
+            console.log('handleCancelButtonClick() called.')
+            this.$emit('cancel')
+        },
+        handleOkButtonClick () {
+            console.log('handleOkButtonClick() called.')
+            this.$emit('ok')
+        },
+    },
     watch: {},
     mounted () {}
 }
@@ -46,8 +65,6 @@ export default {
     }
 
     .modal-container {
-        width: 90%;
-        height: 90%;
         padding: 20px 30px;
         background-color: #fff;
         border-radius: 2px;

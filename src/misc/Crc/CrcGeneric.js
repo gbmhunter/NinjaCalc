@@ -131,5 +131,4 @@ export class CrcGeneric {
   reset = () => {
     this.crcValue = bigInt(this.startingValue)
   }
-
 }

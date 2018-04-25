@@ -1,5 +1,5 @@
 <template>
-    <div class="panel-container" style="">        
+    <div class="panel-container" style="">
         <div class="panel-title" v-on:click="titleClicked">{{ title }}</div>
         <transition
             name="collapse"
@@ -14,7 +14,7 @@
 
 <script>
 /* eslint-disable */    
-    import Velocity from 'velocity-animate'
+    // import Velocity from 'velocity-animate'
 
     
     export default {

@@ -19,48 +19,48 @@
 
 <script>
 
-  export default {
-    name: 'tree-item',
-    props: {
-      data: {type: Object, required: true}
-    },
-    data () {
-      return {
-        isHover: false,
-        model: this.data
-      }
-    },
-    components: {},
-    computed: {},
-    methods: {
-      handleOnClick () {
-        console.log('Item clicked. this.data.name = ')
-        console.log(this.model.name)
-
-        var wasSelected = this.model.selected
-        this.$emit('unselectAll')
-        this.model.selected = !wasSelected
-        console.log('this.data =')
-        console.log(this.model)
-        var category = []
-        category.unshift(this.model.name)
-        this.$emit('clicked', { category: category, isSelected: this.model.selected })
-      },
-      handleChildClicked (payload) {
-        console.log('handleChildClicked() called. payload = ')
-        console.log(payload)
-
-        payload.category.unshift(this.model.name)
-        // Bubble event upwards (should stop at TreeView component)
-        this.$emit('clicked', payload)
-      },
-      handleUnselectAll () {
-        this.$emit('unselectAll')
-      }
-    },
-    mounted () {
+export default {
+  name: 'tree-item',
+  props: {
+    data: {type: Object, required: true}
+  },
+  data () {
+    return {
+      isHover: false,
+      model: this.data
     }
+  },
+  components: {},
+  computed: {},
+  methods: {
+    handleOnClick () {
+      console.log('Item clicked. this.data.name = ')
+      console.log(this.model.name)
+
+      var wasSelected = this.model.selected
+      this.$emit('unselectAll')
+      this.model.selected = !wasSelected
+      console.log('this.data =')
+      console.log(this.model)
+      var category = []
+      category.unshift(this.model.name)
+      this.$emit('clicked', { category: category, isSelected: this.model.selected })
+    },
+    handleChildClicked (payload) {
+      console.log('handleChildClicked() called. payload = ')
+      console.log(payload)
+
+      payload.category.unshift(this.model.name)
+      // Bubble event upwards (should stop at TreeView component)
+      this.$emit('clicked', payload)
+    },
+    handleUnselectAll () {
+      this.$emit('unselectAll')
+    }
+  },
+  mounted () {
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

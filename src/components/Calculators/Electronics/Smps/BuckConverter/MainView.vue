@@ -74,318 +74,318 @@
 
 <script>
 
-  /* eslint-disable camelcase */
+/* eslint-disable camelcase */
 
-  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {CustomValidator} from 'src/misc/CalculatorEngineV2/CustomValidator'
-  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
+import Calc from '@/misc/CalculatorEngineV2/Calc'
+import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+import {CustomValidator} from '@/misc/CalculatorEngineV2/CustomValidator'
+import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
 
-  // ============================================ //
-  // =================== vue Object ============= //
-  // ============================================ //
-  export default {
-    name: 'buck-converter-calculator',
-    components: {},
-    data: function () {
-      var calc = new Calc()
+// ============================================ //
+// =================== vue Object ============= //
+// ============================================ //
+export default {
+  name: 'buck-converter-calculator',
+  components: {},
+  data: function () {
+    var calc = new Calc()
 
-      // ============================================ //
-      // =========== INPUT VOLTAGE (input) ========== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'vIn_V',
-        typeEqn: function () {
-          return 'input'
-        },
-        eqn: function () {},
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'V', multi: 1e0})
-        ],
-        defaultUnitName: 'V',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
-        ],
-        helpText: 'The input voltage.'
-      }))
+    // ============================================ //
+    // =========== INPUT VOLTAGE (input) ========== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'vIn_V',
+      typeEqn: function () {
+        return 'input'
+      },
+      eqn: function () {},
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'V', multi: 1e0})
+      ],
+      defaultUnitName: 'V',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_THAN_ZERO
+      ],
+      helpText: 'The input voltage.'
+    }))
 
-      // ============================================ //
-      // =========== OUTPUT VOLTAGE (input) ========= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'vOut_V',
-        typeEqn: function () {
-          return 'input'
-        },
-        eqn: function () {},
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'V', multi: 1e0})
-        ],
-        defaultUnitName: 'V',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO,
-          new CustomValidator({
-            func: function () {
-              // Read dependency variables
-              const vIn_V = calc.getVar('vIn_V').getRawVal()
-              const vOut_V = calc.getVar('vOut_V').getRawVal()
+    // ============================================ //
+    // =========== OUTPUT VOLTAGE (input) ========= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'vOut_V',
+      typeEqn: function () {
+        return 'input'
+      },
+      eqn: function () {},
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'V', multi: 1e0})
+      ],
+      defaultUnitName: 'V',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_THAN_ZERO,
+        new CustomValidator({
+          func: function () {
+            // Read dependency variables
+            const vIn_V = calc.getVar('vIn_V').getRawVal()
+            const vOut_V = calc.getVar('vOut_V').getRawVal()
 
-              return vOut_V <= vIn_V
-            },
-            text: 'Vout must be less than or equal to Vin.',
-            level: 'error'
-          })
-        ],
-        helpText: 'The output voltage.'
-      }))
+            return vOut_V <= vIn_V
+          },
+          text: 'Vout must be less than or equal to Vin.',
+          level: 'error'
+        })
+      ],
+      helpText: 'The output voltage.'
+    }))
 
-      // ============================================ //
-      // ======== DIODE VOLTAGE DROP (input) ======== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'vD_V',
-        typeEqn: function () {
-          return 'input'
-        },
-        eqn: function () {},
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mV', multi: 1e-3}),
-          new UnitMulti({name: 'V', multi: 1e0})
-        ],
-        defaultUnitName: 'V',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO,
-          new CustomValidator({
-            func: function () {
-              // Read dependency variables
-              const vIn_V = calc.getVar('vIn_V').getRawVal()
-              const vD_V = calc.getVar('vD_V').getRawVal()
+    // ============================================ //
+    // ======== DIODE VOLTAGE DROP (input) ======== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'vD_V',
+      typeEqn: function () {
+        return 'input'
+      },
+      eqn: function () {},
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'mV', multi: 1e-3}),
+        new UnitMulti({name: 'V', multi: 1e0})
+      ],
+      defaultUnitName: 'V',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_THAN_ZERO,
+        new CustomValidator({
+          func: function () {
+            // Read dependency variables
+            const vIn_V = calc.getVar('vIn_V').getRawVal()
+            const vD_V = calc.getVar('vD_V').getRawVal()
 
-              return vD_V < vIn_V
-            },
-            text: 'Vd must be less than Vin.',
-            level: 'error'
-          })
-        ],
-        helpText: 'The diode voltage drop.'
-      }))
+            return vD_V < vIn_V
+          },
+          text: 'Vd must be less than Vin.',
+          level: 'error'
+        })
+      ],
+      helpText: 'The diode voltage drop.'
+    }))
 
-      // ============================================ //
-      // == SWITCHING ELEMENT VOLTAGE DROP (input) == //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'vSw_V',
-        typeEqn: function () {
-          return 'input'
-        },
-        eqn: function () {},
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mV', multi: 1e-3}),
-          new UnitMulti({name: 'V', multi: 1e0})
-        ],
-        defaultUnitName: 'V',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO,
-          new CustomValidator({
-            func: function () {
-              // Read dependency variables
-              const vIn_V = calc.getVar('vIn_V').getRawVal()
-              const vSw_V = calc.getVar('vSw_V').getRawVal()
+    // ============================================ //
+    // == SWITCHING ELEMENT VOLTAGE DROP (input) == //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'vSw_V',
+      typeEqn: function () {
+        return 'input'
+      },
+      eqn: function () {},
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'mV', multi: 1e-3}),
+        new UnitMulti({name: 'V', multi: 1e0})
+      ],
+      defaultUnitName: 'V',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_THAN_ZERO,
+        new CustomValidator({
+          func: function () {
+            // Read dependency variables
+            const vIn_V = calc.getVar('vIn_V').getRawVal()
+            const vSw_V = calc.getVar('vSw_V').getRawVal()
 
-              return vSw_V < vIn_V
-            },
-            text: 'Vsw must be less than Vin.',
-            level: 'error'
-          })
-        ],
-        helpText: 'The switching element voltage drop.'
-      }))
+            return vSw_V < vIn_V
+          },
+          text: 'Vsw must be less than Vin.',
+          level: 'error'
+        })
+      ],
+      helpText: 'The switching element voltage drop.'
+    }))
 
-      // ============================================ //
-      // ============ DUTY CYCLE (output) =========== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'dutyCycle_Ratio',
-        typeEqn: function () {
-          return 'output'
-        },
-        eqn: function () {
-          // Read dependency variables
-          const vIn_V = calc.getVar('vIn_V').getRawVal()
-          const vOut_V = calc.getVar('vOut_V').getRawVal()
-          const vD_V = calc.getVar('vD_V').getRawVal()
-          const vSw_V = calc.getVar('vSw_V').getRawVal()
+    // ============================================ //
+    // ============ DUTY CYCLE (output) =========== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'dutyCycle_Ratio',
+      typeEqn: function () {
+        return 'output'
+      },
+      eqn: function () {
+        // Read dependency variables
+        const vIn_V = calc.getVar('vIn_V').getRawVal()
+        const vOut_V = calc.getVar('vOut_V').getRawVal()
+        const vD_V = calc.getVar('vD_V').getRawVal()
+        const vSw_V = calc.getVar('vSw_V').getRawVal()
 
-          return (vOut_V - vD_V) / (vIn_V - vSw_V - vD_V)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: '%', multi: 1e-2}),
-          new UnitMulti({name: 'no unit', multi: 1e0})
-        ],
-        defaultUnitName: '%',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          new CustomValidator({
-            func: function () {
-              // Read dependency variables
-              const dutyCycle_Ratio = calc.getVar('dutyCycle_Ratio').getRawVal()
-              return (dutyCycle_Ratio >= 0.0) && (dutyCycle_Ratio <= 1.0)
-            },
-            text: 'The duty cycle must be between 0 and 1 (or 0 and 100%).',
-            level: 'error'
-          })
-        ],
-        helpText: 'The duty cycle.'
-      }))
+        return (vOut_V - vD_V) / (vIn_V - vSw_V - vD_V)
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: '%', multi: 1e-2}),
+        new UnitMulti({name: 'no unit', multi: 1e0})
+      ],
+      defaultUnitName: '%',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        new CustomValidator({
+          func: function () {
+            // Read dependency variables
+            const dutyCycle_Ratio = calc.getVar('dutyCycle_Ratio').getRawVal()
+            return (dutyCycle_Ratio >= 0.0) && (dutyCycle_Ratio <= 1.0)
+          },
+          text: 'The duty cycle must be between 0 and 1 (or 0 and 100%).',
+          level: 'error'
+        })
+      ],
+      helpText: 'The duty cycle.'
+    }))
 
-      // ============================================ //
-      // ======== SWITCHING FREQUENCY (input) ======= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'fSw_Hz',
-        typeEqn: function () {
-          return 'input'
-        },
-        eqn: function () {},
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'Hz', multi: 1e0}),
-          new UnitMulti({name: 'kHz', multi: 1e3}),
-          new UnitMulti({name: 'MHz', multi: 1e6})
-        ],
-        defaultUnitName: 'kHz',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
-        ],
-        helpText: 'The switching frequency.'
-      }))
+    // ============================================ //
+    // ======== SWITCHING FREQUENCY (input) ======= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'fSw_Hz',
+      typeEqn: function () {
+        return 'input'
+      },
+      eqn: function () {},
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'Hz', multi: 1e0}),
+        new UnitMulti({name: 'kHz', multi: 1e3}),
+        new UnitMulti({name: 'MHz', multi: 1e6})
+      ],
+      defaultUnitName: 'kHz',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_THAN_ZERO
+      ],
+      helpText: 'The switching frequency.'
+    }))
 
-      // ============================================ //
-      // ====== AVERAGE OUTPUT CURRENT (input) ====== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'iOutAvg_A',
-        typeEqn: function () {
-          return 'input'
-        },
-        eqn: function () {},
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mA', multi: 1e-3}),
-          new UnitMulti({name: 'A', multi: 1e0})
-        ],
-        defaultUnitName: 'A',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
-        ],
-        helpText: 'The average output current.'
-      }))
+    // ============================================ //
+    // ====== AVERAGE OUTPUT CURRENT (input) ====== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'iOutAvg_A',
+      typeEqn: function () {
+        return 'input'
+      },
+      eqn: function () {},
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'mA', multi: 1e-3}),
+        new UnitMulti({name: 'A', multi: 1e0})
+      ],
+      defaultUnitName: 'A',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_THAN_ZERO
+      ],
+      helpText: 'The average output current.'
+    }))
 
-      // ============================================ //
-      // = PERCENTAGE OUTPUT CURRENT RIPPLE (input) = //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'iOutRipple_Ratio',
-        typeEqn: function () {
-          return 'input'
-        },
-        eqn: function () {},
-        rawVal: '0.4',    // 40% current ripple is a common design goal
-        units: [
-          new UnitMulti({name: '%', multi: 1e-2}),
-          new UnitMulti({name: 'no unit', multi: 1e0})
-        ],
-        defaultUnitName: '%',
-        roundTo: 3,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          new CustomValidator({
-            func: function () {
-              // Read dependency variables
-              const iOutRipple_Ratio = calc.getVar('iOutRipple_Ratio').getRawVal()
-              return (iOutRipple_Ratio >= 0.0) && (iOutRipple_Ratio <= 1.0)
-            },
-            text: 'The output ripple current ratio must be between 0 and 1 (or 0 and 100%).',
-            level: 'error'
-          }),
-          new CustomValidator({
-            func: function () {
-              // Read dependency variables
-              const iOutRipple_Ratio = calc.getVar('iOutRipple_Ratio').getRawVal()
-              return iOutRipple_Ratio <= 0.5
-            },
-            text: 'You normally want the output current ripple to be below 50%.',
-            level: 'warning'
-          })
-        ],
-        helpText: 'The percentage output current ripple.'
-      }))
+    // ============================================ //
+    // = PERCENTAGE OUTPUT CURRENT RIPPLE (input) = //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'iOutRipple_Ratio',
+      typeEqn: function () {
+        return 'input'
+      },
+      eqn: function () {},
+      rawVal: '0.4', // 40% current ripple is a common design goal
+      units: [
+        new UnitMulti({name: '%', multi: 1e-2}),
+        new UnitMulti({name: 'no unit', multi: 1e0})
+      ],
+      defaultUnitName: '%',
+      roundTo: 3,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        new CustomValidator({
+          func: function () {
+            // Read dependency variables
+            const iOutRipple_Ratio = calc.getVar('iOutRipple_Ratio').getRawVal()
+            return (iOutRipple_Ratio >= 0.0) && (iOutRipple_Ratio <= 1.0)
+          },
+          text: 'The output ripple current ratio must be between 0 and 1 (or 0 and 100%).',
+          level: 'error'
+        }),
+        new CustomValidator({
+          func: function () {
+            // Read dependency variables
+            const iOutRipple_Ratio = calc.getVar('iOutRipple_Ratio').getRawVal()
+            return iOutRipple_Ratio <= 0.5
+          },
+          text: 'You normally want the output current ripple to be below 50%.',
+          level: 'warning'
+        })
+      ],
+      helpText: 'The percentage output current ripple.'
+    }))
 
-      // ============================================ //
-      // ============ INDUCTANCE (output) =========== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'ind_H',
-        typeEqn: function () {
-          return 'output'
-        },
-        eqn: function () {
-          // Read dependency variables
-          const vIn_V = calc.getVar('vIn_V').getRawVal()
-          const vOut_V = calc.getVar('vOut_V').getRawVal()
-          const vSw_V = calc.getVar('vSw_V').getRawVal()
-          const dutyCycle_Ratio = calc.getVar('dutyCycle_Ratio').getRawVal()
-          const fSw_Hz = calc.getVar('fSw_Hz').getRawVal()
-          const iOutAvg_A = calc.getVar('iOutAvg_A').getRawVal()
-          const iOutRipple_Ratio = calc.getVar('iOutRipple_Ratio').getRawVal()
+    // ============================================ //
+    // ============ INDUCTANCE (output) =========== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'ind_H',
+      typeEqn: function () {
+        return 'output'
+      },
+      eqn: function () {
+        // Read dependency variables
+        const vIn_V = calc.getVar('vIn_V').getRawVal()
+        const vOut_V = calc.getVar('vOut_V').getRawVal()
+        const vSw_V = calc.getVar('vSw_V').getRawVal()
+        const dutyCycle_Ratio = calc.getVar('dutyCycle_Ratio').getRawVal()
+        const fSw_Hz = calc.getVar('fSw_Hz').getRawVal()
+        const iOutAvg_A = calc.getVar('iOutAvg_A').getRawVal()
+        const iOutRipple_Ratio = calc.getVar('iOutRipple_Ratio').getRawVal()
 
-          const iRipple_A = iOutAvg_A * iOutRipple_Ratio
+        const iRipple_A = iOutAvg_A * iOutRipple_Ratio
 
-          return ((vIn_V - vSw_V - vOut_V) * dutyCycle_Ratio) / (fSw_Hz * iRipple_A)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'nH', multi: 1e-9}),
-          new UnitMulti({name: 'uH', multi: 1e-6}),
-          new UnitMulti({name: 'mH', multi: 1e-3})
-        ],
-        defaultUnitName: 'uH',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_THAN_ZERO
-        ],
-        helpText: 'The inductance.'
-      }))
+        return ((vIn_V - vSw_V - vOut_V) * dutyCycle_Ratio) / (fSw_Hz * iRipple_A)
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'nH', multi: 1e-9}),
+        new UnitMulti({name: 'uH', multi: 1e-6}),
+        new UnitMulti({name: 'mH', multi: 1e-3})
+      ],
+      defaultUnitName: 'uH',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_THAN_ZERO
+      ],
+      helpText: 'The inductance.'
+    }))
 
-      return {
-        calc: calc
-      }
-    },
-    methods: {},
-    mounted () {
-      this.calc.init()
-      if (window.MathJax) window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+    return {
+      calc: calc
     }
+  },
+  methods: {},
+  mounted () {
+    this.calc.init()
+    if (window.MathJax) window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
   }
+}
 
 </script>
 

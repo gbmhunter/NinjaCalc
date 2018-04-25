@@ -1,4 +1,4 @@
-import {stringManipulation} from 'src/misc/StringManipulation/StringManipulation'
+import {stringManipulation} from '@/misc/StringManipulation/StringManipulation'
 
 import CalcVar from './CalcVar'
 import {CustomValidator} from './CustomValidator'
@@ -71,32 +71,32 @@ export class CalcVarString extends CalcVar {
       } else {
         // Validator must be a preset
         switch (validator) {
-          case CalcVarStringPresetValidators.IS_HEX:
-            if (!stringManipulation.isHex(self.val)) {
-              validationResult = 'error'
-              validationMsg = 'Value must be valid "hex" number. Only the numbers 0-9 and characters A-F are allowed (and no "0x" prefix).'
-            }
-            break
-          default:
-            throw new Error('Validator was not recognised!')
+        case CalcVarStringPresetValidators.IS_HEX:
+          if (!stringManipulation.isHex(self.val)) {
+            validationResult = 'error'
+            validationMsg = 'Value must be valid "hex" number. Only the numbers 0-9 and characters A-F are allowed (and no "0x" prefix).'
+          }
+          break
+        default:
+          throw new Error('Validator was not recognised!')
         }
       }
       // Finally, compare this validation result with the one set in the variable. Only
       // overwrite IF this validation result is worse than what was already present
       switch (self.validationResult) {
-        case 'ok':
+      case 'ok':
+        self.validationResult = validationResult
+        self.validationMsg = validationMsg
+        break
+      case 'warning':
+        if (self.validationResult === 'ok') {
           self.validationResult = validationResult
           self.validationMsg = validationMsg
-          break
-        case 'warning':
-          if (self.validationResult === 'ok') {
-            self.validationResult = validationResult
-            self.validationMsg = validationMsg
-          }
-          break
-        case 'error':
-          // Do nothing
-          break
+        }
+        break
+      case 'error':
+        // Do nothing
+        break
       }
     })
   }

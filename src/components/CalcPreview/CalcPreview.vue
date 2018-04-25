@@ -21,33 +21,31 @@
 
 <script>
 
-  export default {
-    name: 'calc-preview',
-    props: {
-      title: {
-        type: String,
-        required: true
-      },
-      description: {
-        type: String,
-        required: true
-      },
-      componentName: {
-        type: String,
-        required: true
-      },
-      imageUrl: {
-        type: String,
-        required: true
-      }
+export default {
+  name: 'calc-preview',
+  props: {
+    title: {
+      type: String,
+      required: true
     },
-    components: {},
-    computed: {},
-    methods: {},
-    mounted: () => {
-//      console.log('CalcPreview.mounted() called.')
+    description: {
+      type: String,
+      required: true
+    },
+    componentName: {
+      type: String,
+      required: true
+    },
+    imageUrl: {
+      type: String,
+      required: true
     }
-  }
+  },
+  components: {},
+  computed: {},
+  methods: {},
+  mounted: () => {}
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

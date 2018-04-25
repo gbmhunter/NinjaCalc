@@ -16,38 +16,38 @@
 
 <script>
 
-  // ============================================ //
-  // =================== vue Object ============= //
-  // ============================================ //
-  export default {
-    name: 'table-row',
-    components: {},
-    props: {
-      variableName: {
-        type: String,
-        required: true
-      },
-      symbol: {
-        type: String,
-        required: true
-      },
-      calcVar: {
-        type: Object,
-        required: true
-      },
-      notes: {
-        type: String,
-        required: true
-      }
+// ============================================ //
+// =================== vue Object ============= //
+// ============================================ //
+export default {
+  name: 'table-row',
+  components: {},
+  props: {
+    variableName: {
+      type: String,
+      required: true
     },
-    data: function () {
-      return {
-      }
+    symbol: {
+      type: String,
+      required: true
     },
-    mounted () {
-      if (window.MathJax) window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+    calcVar: {
+      type: Object,
+      required: true
+    },
+    notes: {
+      type: String,
+      required: true
     }
+  },
+  data: function () {
+    return {
+    }
+  },
+  mounted () {
+    if (window.MathJax) window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
   }
+}
 
 </script>
 

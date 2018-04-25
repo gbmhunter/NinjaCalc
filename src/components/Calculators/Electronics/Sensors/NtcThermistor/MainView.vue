@@ -101,253 +101,252 @@
 
 <script>
 
-  import Calc from 'src/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from 'src/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {UnitMulti} from 'src/misc/CalculatorEngineV2/UnitMulti'
-  import {UnitFunc} from 'src/misc/CalculatorEngineV2/UnitFunc'
+import Calc from '@/misc/CalculatorEngineV2/Calc'
+import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
+import {UnitFunc} from '@/misc/CalculatorEngineV2/UnitFunc'
 
-  /* eslint-disable camelcase */
+/* eslint-disable camelcase */
 
-  // ============================================ //
-  // =================== vue Object ============= //
-  // ============================================ //
-  export default {
-    name: 'ntc-thermistor-calculator',
-    components: {},
-    data: function () {
-      var calc = new Calc()
+// ============================================ //
+// =================== vue Object ============= //
+// ============================================ //
+export default {
+  name: 'ntc-thermistor-calculator',
+  components: {},
+  data: function () {
+    var calc = new Calc()
 
-      // Create new variable in class for determining what is input and output
-      calc.outputVar = 'thermistorTemperature'
+    // Create new variable in class for determining what is input and output
+    calc.outputVar = 'thermistorTemperature'
 
-      // ============================================ //
-      // ================== BETA (i/o) ============== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'beta',
-        typeEqn: () => {
-          if (calc.outputVar === 'beta') {
-            return 'output'
-          } else {
-            return 'input'
+    // ============================================ //
+    // ================== BETA (i/o) ============== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'beta',
+      typeEqn: () => {
+        if (calc.outputVar === 'beta') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const referenceResistance_Ohms = calc.getVar('referenceResistance').getRawVal()
+        const referenceTemperature_K = calc.getVar('referenceTemperature').getRawVal()
+        const thermistorResistance_Ohms = calc.getVar('thermistorResistance').getRawVal()
+        const thermistorTemperature_K = calc.getVar('thermistorTemperature').getRawVal()
+
+        const beta_NoUnit = Math.log(thermistorResistance_Ohms / referenceResistance_Ohms) / (1 / thermistorTemperature_K - 1 / referenceTemperature_K)
+        return beta_NoUnit
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'no unit', multi: 1e0})
+      ],
+      defaultUnitName: 'no unit',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The coefficient beta. This is usually specified in the thermistors datasheet.'
+    }))
+
+    // ============================================ //
+    // ======== REFERENCE RESISTANCE (i/o) ======== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'referenceResistance',
+      typeEqn: () => {
+        if (calc.outputVar === 'referenceResistance') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const beta_NoUnit = calc.getVar('beta').getRawVal()
+        const referenceTemperature_K = calc.getVar('referenceTemperature').getRawVal()
+        const thermistorResistance_Ohms = calc.getVar('thermistorResistance').getRawVal()
+        const thermistorTemperature_K = calc.getVar('thermistorTemperature').getRawVal()
+
+        const referenceResistance_Ohms = thermistorResistance_Ohms / (Math.exp(beta_NoUnit * (1 / thermistorTemperature_K - 1 / referenceTemperature_K)))
+        return referenceResistance_Ohms
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'mΩ', multi: 1e-3}),
+        new UnitMulti({name: 'Ω', multi: 1e0}),
+        new UnitMulti({name: 'kΩ', multi: 1e3}),
+        new UnitMulti({name: 'MΩ', multi: 1e6})
+      ],
+      defaultUnitName: 'kΩ',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The resistance of the thermistor at the reference point. This is usually when the thermistor is at 25°C.'
+    }))
+
+    // ============================================ //
+    // ======== REFERENCE TEMPERATURE (i/o) ======= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'referenceTemperature',
+      typeEqn: () => {
+        if (calc.outputVar === 'referenceTemperature') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const beta_NoUnit = calc.getVar('beta').getRawVal()
+        const referenceResistance_Ohms = calc.getVar('referenceResistance').getRawVal()
+        const thermistorResistance_Ohms = calc.getVar('thermistorResistance').getRawVal()
+        const thermistorTemperature_K = calc.getVar('thermistorTemperature').getRawVal()
+
+        const referenceTemperature_K = 1.0 / (1.0 / thermistorTemperature_K - (1.0 / beta_NoUnit) * Math.log(thermistorResistance_Ohms / referenceResistance_Ohms))
+        return referenceTemperature_K
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'K', multi: 1e0}),
+        new UnitFunc({
+          name: '°C',
+          toUnit: function (baseValue) {
+            return baseValue - 273.15
+          },
+          fromUnit: function (unitValue) {
+            return unitValue + 273.15
           }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const referenceResistance_Ohms = calc.getVar('referenceResistance').getRawVal()
-          const referenceTemperature_K = calc.getVar('referenceTemperature').getRawVal()
-          const thermistorResistance_Ohms = calc.getVar('thermistorResistance').getRawVal()
-          const thermistorTemperature_K = calc.getVar('thermistorTemperature').getRawVal()
-
-          const beta_NoUnit = Math.log(thermistorResistance_Ohms / referenceResistance_Ohms) / (1 / thermistorTemperature_K - 1 / referenceTemperature_K)
-          return beta_NoUnit
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'no unit', multi: 1e0})
-        ],
-        defaultUnitName: 'no unit',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The coefficient beta. This is usually specified in the thermistors datasheet.'
-      }))
-
-      // ============================================ //
-      // ======== REFERENCE RESISTANCE (i/o) ======== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'referenceResistance',
-        typeEqn: () => {
-          if (calc.outputVar === 'referenceResistance') {
-            return 'output'
-          } else {
-            return 'input'
+        }),
+        new UnitFunc({
+          name: 'F',
+          toUnit: function (baseValue) {
+            return (baseValue - 273.15) * 1.8 + 32
+          },
+          fromUnit: function (unitValue) {
+            return ((unitValue - 32) / 1.8) + 273.15
           }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const beta_NoUnit = calc.getVar('beta').getRawVal()
-          const referenceTemperature_K = calc.getVar('referenceTemperature').getRawVal()
-          const thermistorResistance_Ohms = calc.getVar('thermistorResistance').getRawVal()
-          const thermistorTemperature_K = calc.getVar('thermistorTemperature').getRawVal()
+        })
+      ],
+      defaultUnitName: '°C',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER
+      ],
+      helpText: 'The temperature of the thermistor at the reference point. This is usually 25°C.'
+    }))
 
-          const referenceResistance_Ohms = thermistorResistance_Ohms / (Math.exp(beta_NoUnit * (1 / thermistorTemperature_K - 1 / referenceTemperature_K)))
-          return referenceResistance_Ohms
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mΩ', multi: 1e-3}),
-          new UnitMulti({name: 'Ω', multi: 1e0}),
-          new UnitMulti({name: 'kΩ', multi: 1e3}),
-          new UnitMulti({name: 'MΩ', multi: 1e6})
-        ],
-        defaultUnitName: 'kΩ',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The resistance of the thermistor at the reference point. This is usually when the thermistor is at 25°C.'
-      }))
+    // ============================================ //
+    // ======== THERMISTOR RESISTANCE (i/o) ======= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'thermistorResistance',
+      typeEqn: () => {
+        if (calc.outputVar === 'thermistorResistance') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const beta_NoUnit = calc.getVar('beta').getRawVal()
+        const referenceResistance_Ohms = calc.getVar('referenceResistance').getRawVal()
+        const referenceTemperature_K = calc.getVar('referenceTemperature').getRawVal()
+        const thermistorTemperature_K = calc.getVar('thermistorTemperature').getRawVal()
 
-      // ============================================ //
-      // ======== REFERENCE TEMPERATURE (i/o) ======= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'referenceTemperature',
-        typeEqn: () => {
-          if (calc.outputVar === 'referenceTemperature') {
-            return 'output'
-          } else {
-            return 'input'
+        const thermistorResistance_Ohms = referenceResistance_Ohms * Math.exp(beta_NoUnit * (1.0 / thermistorTemperature_K - 1.0 / referenceTemperature_K))
+        return thermistorResistance_Ohms
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'mΩ', multi: 1e-3}),
+        new UnitMulti({name: 'Ω', multi: 1e0}),
+        new UnitMulti({name: 'kΩ', multi: 1e3}),
+        new UnitMulti({name: 'MΩ', multi: 1e6})
+      ],
+      defaultUnitName: 'kΩ',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The present resistance of the thermistor, at temperature T.'
+    }))
+
+    // ============================================ //
+    // ======= THERMISTOR TEMPERATURE (i/o) ======= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'thermistorTemperature',
+      typeEqn: () => {
+        if (calc.outputVar === 'thermistorTemperature') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const beta_NoUnit = calc.getVar('beta').getRawVal()
+        const referenceResistance_Ohms = calc.getVar('referenceResistance').getRawVal()
+        const referenceTemperature_K = calc.getVar('referenceTemperature').getRawVal()
+        const thermistorResistance_Ohms = calc.getVar('thermistorResistance').getRawVal()
+
+        const thermistorTemperature_K = 1.0 / (1.0 / referenceTemperature_K + (1.0 / beta_NoUnit) * Math.log(thermistorResistance_Ohms / referenceResistance_Ohms))
+        return thermistorTemperature_K
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'K', multi: 1e0}),
+        new UnitFunc({
+          name: '°C',
+          toUnit: function (baseValue) {
+            return baseValue - 273.15
+          },
+          fromUnit: function (unitValue) {
+            return unitValue + 273.15
           }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const beta_NoUnit = calc.getVar('beta').getRawVal()
-          const referenceResistance_Ohms = calc.getVar('referenceResistance').getRawVal()
-          const thermistorResistance_Ohms = calc.getVar('thermistorResistance').getRawVal()
-          const thermistorTemperature_K = calc.getVar('thermistorTemperature').getRawVal()
-
-          const referenceTemperature_K = 1.0 / (1.0 / thermistorTemperature_K - (1.0 / beta_NoUnit) * Math.log(thermistorResistance_Ohms / referenceResistance_Ohms))
-          return referenceTemperature_K
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'K', multi: 1e0}),
-          new UnitFunc({
-            name: '°C',
-            toUnit: function (baseValue) {
-              return baseValue - 273.15
-            },
-            fromUnit: function (unitValue) {
-              return unitValue + 273.15
-            }
-          }),
-          new UnitFunc({
-            name: 'F',
-            toUnit: function (baseValue) {
-              return (baseValue - 273.15) * 1.8 + 32
-            },
-            fromUnit: function (unitValue) {
-              return ((unitValue - 32) / 1.8) + 273.15
-            }
-          })
-        ],
-        defaultUnitName: '°C',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER
-        ],
-        helpText: 'The temperature of the thermistor at the reference point. This is usually 25°C.'
-      }))
-
-      // ============================================ //
-      // ======== THERMISTOR RESISTANCE (i/o) ======= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'thermistorResistance',
-        typeEqn: () => {
-          if (calc.outputVar === 'thermistorResistance') {
-            return 'output'
-          } else {
-            return 'input'
+        }),
+        new UnitFunc({
+          name: 'F',
+          toUnit: function (baseValue) {
+            return (baseValue - 273.15) * 1.8 + 32
+          },
+          fromUnit: function (unitValue) {
+            return ((unitValue - 32) / 1.8) + 273.15
           }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const beta_NoUnit = calc.getVar('beta').getRawVal()
-          const referenceResistance_Ohms = calc.getVar('referenceResistance').getRawVal()
-          const referenceTemperature_K = calc.getVar('referenceTemperature').getRawVal()
-          const thermistorTemperature_K = calc.getVar('thermistorTemperature').getRawVal()
+        })
+      ],
+      defaultUnitName: '°C',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER
+      ],
+      helpText: 'The present temperature of the thermistor, at resistance R.'
+    }))
 
-          const thermistorResistance_Ohms = referenceResistance_Ohms * Math.exp(beta_NoUnit * (1.0 / thermistorTemperature_K - 1.0 / referenceTemperature_K))
-          return thermistorResistance_Ohms
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'mΩ', multi: 1e-3}),
-          new UnitMulti({name: 'Ω', multi: 1e0}),
-          new UnitMulti({name: 'kΩ', multi: 1e3}),
-          new UnitMulti({name: 'MΩ', multi: 1e6})
-        ],
-        defaultUnitName: 'kΩ',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The present resistance of the thermistor, at temperature T.'
-      }))
+    // Configure calculator to default state now that all
+    // variables have been added.
+    calc.init()
 
-      // ============================================ //
-      // ======= THERMISTOR TEMPERATURE (i/o) ======= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'thermistorTemperature',
-        typeEqn: () => {
-          if (calc.outputVar === 'thermistorTemperature') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const beta_NoUnit = calc.getVar('beta').getRawVal()
-          const referenceResistance_Ohms = calc.getVar('referenceResistance').getRawVal()
-          const referenceTemperature_K = calc.getVar('referenceTemperature').getRawVal()
-          const thermistorResistance_Ohms = calc.getVar('thermistorResistance').getRawVal()
-
-          const thermistorTemperature_K = 1.0 / (1.0 / referenceTemperature_K + (1.0 / beta_NoUnit) * Math.log(thermistorResistance_Ohms / referenceResistance_Ohms))
-          return thermistorTemperature_K
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'K', multi: 1e0}),
-          new UnitFunc({
-            name: '°C',
-            toUnit: function (baseValue) {
-              return baseValue - 273.15
-            },
-            fromUnit: function (unitValue) {
-              return unitValue + 273.15
-            }
-          }),
-          new UnitFunc({
-            name: 'F',
-            toUnit: function (baseValue) {
-              return (baseValue - 273.15) * 1.8 + 32
-            },
-            fromUnit: function (unitValue) {
-              return ((unitValue - 32) / 1.8) + 273.15
-            }
-          })
-        ],
-        defaultUnitName: '°C',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER
-        ],
-        helpText: 'The present temperature of the thermistor, at resistance R.'
-      }))
-
-      // Configure calculator to default state now that all
-      // variables have been added.
-      calc.init()
-
-      return {
-        calc: calc
-      }
-    },
-    mounted () {
-//      console.log('Ohm\'s Law calculator mounted.')
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+    return {
+      calc: calc
     }
+  },
+  mounted () {
+    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
   }
+}
 
 </script>
 
