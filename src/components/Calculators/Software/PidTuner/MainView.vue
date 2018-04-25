@@ -219,6 +219,7 @@ import vueSlider from 'vue-slider-component'
 
 import RcJetEngineProcessTxt from './Processes/RcJetEngineProcess.txt'
 import SpringMassDamperProcessTxt from './Processes/SpringMassDamperProcess.txt'
+import UserDefinedProcessTxt from './Processes/UserDefinedProcess.txt'
 
 import { Pid, IntegralLimitModes } from './Pid'
 
@@ -238,7 +239,7 @@ export default {
       processes: [
         { name: 'Mass/Spring/Damper', code: SpringMassDamperProcessTxt },
         { name: 'R/C Jet Engine', code: RcJetEngineProcessTxt },
-        { name: 'User Defined', code: 'n/a' }
+        { name: 'User Defined', code: UserDefinedProcessTxt }
       ],
       selProcessNameTemp: '',
       selProcessName: '',
@@ -547,16 +548,16 @@ export default {
       this.clearAll()
 
       // Load the file containing the process code if not user defined process
-      if (this.selProcessName !== 'User Defined') {
-        console.log('Loading predefined process code...')
-        var self = this
-        let selProcess = this.processes.find(function (element) {
-          return element.name === self.selProcessName
-        })
-        // console.log('selProcess = ')
-        console.log(selProcess)
-        this.plantCodeString = selProcess.code
-      }
+      // if (this.selProcessName !== 'User Defined') {
+      console.log('Loading predefined process code...')
+      var self = this
+      let selProcess = this.processes.find(function (element) {
+        return element.name === self.selProcessName
+      })
+      // console.log('selProcess = ')
+      console.log(selProcess)
+      this.plantCodeString = selProcess.code
+      // }
       // console.log('this.plantCodeString = ')
       // console.log(this.plantCodeString)
 

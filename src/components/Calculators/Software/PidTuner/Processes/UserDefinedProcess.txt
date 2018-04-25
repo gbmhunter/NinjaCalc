@@ -1,0 +1,74 @@
+var process = {
+
+  getDefaults: function () {
+    return {
+      simulationConfig: {
+        processVarName: 'PV Name',
+        processVarUnits: 'PV Units',
+        processVarStepChangeVal: 1.0, // This is in N
+        processVarLimMin: -5.0,
+        processVarLimMax: 5.0,
+        controlVarName: 'CV Name',
+        controlVarUnits: 'CV Unitd',
+        tickPeriod_ms: 10, // Simulation update rate
+        plotEveryNTicks: 5, // Update chart(s) every how many ticks?
+        runMode: 'Manual PV Control (PID)',
+      },
+      pidConfig: {
+        constants: {
+          p: {
+            min: 0.0,
+            max: 100.0,
+            value: 10.0
+          },
+          i: {
+            min: 0.0,
+            max: 100.0,
+            value: 10.0,
+          },
+          d: {
+            min: 0.0,
+            max: 100.0,
+            value: 0.0
+          }
+        },
+        integralLimitConfig: {
+          mode: 'None', // OPTIONS: 'None', 'Constant Limited', 'Output Limited'
+          constantMin: -1,
+          constantMax: 1,
+        },
+        controlVariableLimits: { // This is fuel in L/min
+          enabled: true,
+          min: -1000.0,
+          max: 1000.0
+        }
+      },
+    }
+  },
+
+  init: function () {
+    // Do any initialization you need here.
+    // State can be saved using this.varName
+    // e.g.
+    // this.initTemp = 20.0
+    this.pv = 0.0
+  },
+
+  /**
+   * This gets called every simulation tick, with a new control variable. This function
+   * needs to update the process, and return the new measured variable.
+   * @param controlVariable   The value of the control variable for this simulation tick. This will determined by the PID controller.
+   * @param timeStep_s  The time (in seconds) since last time this function was called. Will be equal to the simulation
+   *                    tick rate.
+   * @returns The value of the process variable.
+   */
+  update: function (controlVariable, timeStep_s) {
+    this.pv = this.pv + controlVariable*timeStep_s
+    return this.pv
+  }
+
+}
+
+// Provide an expression to return the object above to
+// the eval() function (DO NOT CHANGE THIS)
+process
