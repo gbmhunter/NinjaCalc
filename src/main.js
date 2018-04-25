@@ -1,39 +1,14 @@
-// // The Vue build version to load with the `import` command
-// // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-// import Vue from 'vue'
-// import App from './App'
-// import router from './router'
-
-// Vue.config.productionTip = false
-
-// /* eslint-disable no-new */
-// new Vue({
-//   el: '#app',
-//   router,
-//   components: { App },
-//   template: '<App/>'
-// })
-
-// START
-
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './components/App/App'
+import App from './App'
+// import router from './router'
 
-/* eslint-disable no-unused-vars */
+Vue.config.productionTip = false
 
-// vue-material is used for md-tooltips, which display
-// calculator variable info
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 Vue.use(VueMaterial)
-
-// BootstrapVue used for Buttons
-// import BootstrapVue from 'bootstrap-vue'
-// Vue.use(BootstrapVue)
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // Setup v-select component
 import vSelect from 'vue-select'
@@ -68,15 +43,10 @@ Vue.use(VueGoogleMaps, {
   }
 })
 
-// import VJstree from 'vue-jstree'
-// Vue.component('v-jstree', VJstree)
-
-import './style/style.css'
-
 // =========================================== //
 // ==== CALCULATOR COMPONENT REGISTRATION ==== //
 // =========================================== //
-import CalcValue from './misc/CalculatorEngineV2/view/CalcValue.vue'
+import CalcValue from '@/misc/CalculatorEngineV2/view/CalcValue.vue'
 Vue.component('calc-value', CalcValue)
 import CalcValueAndUnit from './misc/CalculatorEngineV2/view/CalcValueAndUnit.vue'
 Vue.component('calc-value-and-unit', CalcValueAndUnit)
@@ -93,9 +63,8 @@ Vue.component('variable-row-verbose', VariableRowVerbose)
 // ============================= REGISTER OUR CUSTOM VUE COMPONENTS ============================ //
 // ============================================================================================= //
 
-// =========================================== //
-// ===== TREE VIEW COMPONENT REGISTRATION ==== //
-// =========================================== //
+import './style/style.css'
+
 import TreeView from './misc/TreeView/TreeView'
 Vue.component('tree-view', TreeView)
 
@@ -130,13 +99,11 @@ import { router } from './router'
 import { sync } from 'vuex-router-sync'
 sync(store, router)
 
-// ROOT INSTANCE
 /* eslint-disable no-new */
-var vm = new Vue({
+new Vue({
   el: '#app',
   store,
-  template: '<App/>',
+  router,
   components: { App },
-  router
+  template: '<App/>'
 })
-

@@ -1,5 +1,5 @@
 {
-  "name": "ninjacalc",
+  "name": "ninjacalc3",
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "Geoffrey Hunter <gbmhunter@gmail.com>",
@@ -27,7 +27,7 @@
     "vue-router": "^3.0.1",
     "vue-select": "^2.4.0",
     "vue-slider-component": "^2.6.2",
-    "vue2-google-maps": "^0.9.5",
+    "vue2-google-maps": "^0.9.6",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"
   },

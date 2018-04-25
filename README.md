@@ -98,6 +98,7 @@ vue-material@0.7.5: Buttons, tooltips used, sidenav used. NOTE: Sidenav not avai
 vue-select: General purpose UI select element.
 vue-slider-component: Sliders used in the PID tuner tool.
 vuex: Centralized state management for app.
+vuex-router-sync: 
 
 # Development
 raw-loader: Webpack raw loader for reading text files. Used in the PID tuner tool.

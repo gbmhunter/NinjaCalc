@@ -1,8 +1,8 @@
-// import Vue from 'vue'
-// import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
+import Vue from 'vue'
+import Router from 'vue-router'
+import HelloWorld from '@/components/HelloWorld'
 
-// Vue.use(Router)
+Vue.use(Router)
 
 // export default new Router({
 //   routes: [
@@ -13,14 +13,6 @@
 //     }
 //   ]
 // })
-
-// IMPORT START
-
-import Vue from 'vue'
-
-// vue-router used to SEO
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
 
 // 1. Define route components.
 // These can be imported from other files
@@ -40,7 +32,7 @@ const routes = [
 // 3. Create the router instance and pass the `routes` option
 // You can pass in additional options here, but let's
 // keep it simple for now.
-export const router = new VueRouter({
+export const router = new Router({
   // Removes the "#" from the URL, making them look "normal". This also requires server configuration to
   // work correctly (e.g. a .htaccess file for an Apache server). Server config is located in <repo dir>/server-config
   mode: 'history',
