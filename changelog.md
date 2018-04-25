@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed bug where PV limits for each scenario in the PID tuner tool where not being set correctly.
 - Fixed bug where 'New Calculator' button was not centered in side nav.
 - Fixed failing TravisCI build, closes #168.
+- Removed outdated sections from README.md, closes #171.
 
 ## [v3.4.0] - 2018-04-22
 
