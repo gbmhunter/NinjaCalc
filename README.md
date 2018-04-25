@@ -32,7 +32,7 @@ See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a lis
 1. Open the project in WebStorm (`.idea/workspace.xml` file is included in repo), or your favourite text/code editor.
 1. Develop!
 1. Type `npm run dev` to start up the app in development mode (it's hot reloadable).
-1. Type `npm run unit` to run the unit tests.
+1. Type `npm run tests` to run unit and e2e tests. Type `npm run unit` to run just the unit tests, `npm run e2e` to run just the e2e tests.
 
 # Releasing
 
@@ -54,37 +54,9 @@ See [changelog.md](../blob/master/changelog.md).
 See the [project home page](http://mbedded-ninja.github.io/NinjaCalc/) for a list of contributors.
 
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-
 # Dependencies
 
-# Client
+# Runtime
 big-integer: Used in the CRC calculator
 chart.js: Used by the PID tuner.
 d3: Used in the two coordinate geodesic calculator.
@@ -103,11 +75,7 @@ vuex-router-sync:
 # Development
 raw-loader: Webpack raw loader for reading text files. Used in the PID tuner tool.
 
-# .editorconfig
-
-indent_size changed from 2 to 4.
-
-# webpack.base.conf.js
+# Changes To webpack.base.conf.js
 
 Added new rule.
 

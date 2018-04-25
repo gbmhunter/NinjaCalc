@@ -15,13 +15,17 @@
             <!-- The flex: 1 below makes the grid/search take up the remaining horizontal space
              once the category filter has been assigned space on the left hand-side -->
           <div style="flex: 1; display: flex; flex-direction: column; height: 100%;">
-            <!---------------------->
+            <!-- ================ -->
             <!-- SEARCH CONTAINER -->
-            <!---------------------->
-            <div id="search-container">
-              <span style="padding-right: 5px;">Search</span>
+            <!-- ================ -->
+            <div id="search-container" style="display: flex;">
+              <div style="width: 5px;"/>
+              <span>Search</span>
+              <div style="width: 5px;"/>
               <input v-model="searchText" style="width: 400px; height: 25px;">
             </div>
+
+            <div style="height: 20px;"/>
             <!---------------------------------->
             <!-- GENERATE CALCULATOR PREVIEWS -->
             <!---------------------------------->
