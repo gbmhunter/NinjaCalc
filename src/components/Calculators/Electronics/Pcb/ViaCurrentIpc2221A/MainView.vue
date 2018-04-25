@@ -114,319 +114,318 @@
 
 <script>
 
-  //  'use strict'
+//  'use strict'
 
-  import Calc from '@/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
-  import {UnitFunc} from '@/misc/CalculatorEngineV2/UnitFunc'
-  import {unitConversionConstants} from '@/misc/UnitConversionConstants/UnitConversionConstants'
+import Calc from '@/misc/CalculatorEngineV2/Calc'
+import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
+import {UnitFunc} from '@/misc/CalculatorEngineV2/UnitFunc'
+import {unitConversionConstants} from '@/misc/UnitConversionConstants/UnitConversionConstants'
 
-  /* eslint-disable camelcase */
+/* eslint-disable camelcase */
 
-  const ipc2221ACoefficientK = 0.048
-  const ipc2221ACoefficientb = 0.44
-  const ipc2221ACoefficientc = 0.725
+const ipc2221ACoefficientK = 0.048
+const ipc2221ACoefficientb = 0.44
+const ipc2221ACoefficientc = 0.725
 
-  // ============================================ //
-  // =================== vue Object ============= //
-  // ============================================ //
-  export default {
-    name: 'via-current-ipc-2221a-calculator',
-    components: {},
-    data: function () {
-      var calc = new Calc()
+// ============================================ //
+// =================== vue Object ============= //
+// ============================================ //
+export default {
+  name: 'via-current-ipc-2221a-calculator',
+  components: {},
+  data: function () {
+    var calc = new Calc()
 
-      // ============================================ //
-      // ====== FINISHED HOLE DIAMETER (input) ====== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'finishedHoleDiameter_M',
-        typeEqn: () => {
-          return 'input'
-        },
-        eqn: () => {
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'um', multi: 1e-6}),
-          new UnitMulti({name: 'mm', multi: 1e-3}),
-          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
-        ],
-        defaultUnitName: 'mm',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The finished hole diameter of the via. This is not the same as the drilled hole diameter, as the via is then plated.'
-      }))
+    // ============================================ //
+    // ====== FINISHED HOLE DIAMETER (input) ====== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'finishedHoleDiameter_M',
+      typeEqn: () => {
+        return 'input'
+      },
+      eqn: () => {
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'um', multi: 1e-6}),
+        new UnitMulti({name: 'mm', multi: 1e-3}),
+        new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
+      ],
+      defaultUnitName: 'mm',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The finished hole diameter of the via. This is not the same as the drilled hole diameter, as the via is then plated.'
+    }))
 
-      // ============================================ //
-      // ========= PLATING THICKNESS (input) ======== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'platingThickness_M',
-        typeEqn: () => {
-          return 'input'
-        },
-        eqn: () => {
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'um', multi: 1e-6}),
-          new UnitMulti({name: 'mm', multi: 1e-3}),
-          new UnitMulti({name: 'oz', multi: unitConversionConstants.COPPER_THICKNESS_M_PER_OZ}),
-          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
-        ],
-        defaultUnitName: 'um',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The plating thickness of the via walls. This is usually the same as the thickness of the start and end copper layers that the via connects to.'
-      }))
+    // ============================================ //
+    // ========= PLATING THICKNESS (input) ======== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'platingThickness_M',
+      typeEqn: () => {
+        return 'input'
+      },
+      eqn: () => {
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'um', multi: 1e-6}),
+        new UnitMulti({name: 'mm', multi: 1e-3}),
+        new UnitMulti({name: 'oz', multi: unitConversionConstants.COPPER_THICKNESS_M_PER_OZ}),
+        new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
+      ],
+      defaultUnitName: 'um',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The plating thickness of the via walls. This is usually the same as the thickness of the start and end copper layers that the via connects to.'
+    }))
 
-      // ============================================ //
-      // ============= VIA LENGTH (input) =========== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'viaLength_M',
-        typeEqn: () => {
-          return 'input'
-        },
-        eqn: () => {
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'um', multi: 1e-6}),
-          new UnitMulti({name: 'mm', multi: 1e-3}),
-          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
-        ],
-        defaultUnitName: 'mm',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The length of the via. This is equal to the distance between the copper planes the via starts and ends on.' +
-        ' For a simple 2-layer 1.6mm thick PCB, the via height is also 1.6mm. This could also be called the height of the via.'
-      }))
+    // ============================================ //
+    // ============= VIA LENGTH (input) =========== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'viaLength_M',
+      typeEqn: () => {
+        return 'input'
+      },
+      eqn: () => {
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'um', multi: 1e-6}),
+        new UnitMulti({name: 'mm', multi: 1e-3}),
+        new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
+      ],
+      defaultUnitName: 'mm',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The length of the via. This is equal to the distance between the copper planes the via starts and ends on.' +
+      ' For a simple 2-layer 1.6mm thick PCB, the via height is also 1.6mm. This could also be called the height of the via.'
+    }))
 
-      // ============================================ //
-      // ========== TEMPERATURE RISE (input) ======== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'temperatureRise_DegC',
-        typeEqn: () => {
-          return 'input'
-        },
-        eqn: () => {
-        },
-        rawVal: '20.0',
-        units: [
-          new UnitMulti({ name: '°C', multi: 1e0 }),
-          new UnitFunc({
-            name: 'F',
-            toUnit: function (baseValue) {
-              return baseValue * 1.8 + 32
-            },
-            fromUnit: function (unitValue) {
-              return (unitValue - 32) / 1.8
-            }
-          })
-        ],
-        defaultUnitName: '°C',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The maximum temperature rise above ambient you are allowing for the via. A rule-of-thumb for this value is between 10-40°C.'
-      }))
+    // ============================================ //
+    // ========== TEMPERATURE RISE (input) ======== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'temperatureRise_DegC',
+      typeEqn: () => {
+        return 'input'
+      },
+      eqn: () => {
+      },
+      rawVal: '20.0',
+      units: [
+        new UnitMulti({ name: '°C', multi: 1e0 }),
+        new UnitFunc({
+          name: 'F',
+          toUnit: function (baseValue) {
+            return baseValue * 1.8 + 32
+          },
+          fromUnit: function (unitValue) {
+            return (unitValue - 32) / 1.8
+          }
+        })
+      ],
+      defaultUnitName: '°C',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The maximum temperature rise above ambient you are allowing for the via. A rule-of-thumb for this value is between 10-40°C.'
+    }))
 
-      // ============================================ //
-      // ===== PLATED COPPER RESISTIVITY (input) ==== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'platedCopperResistivity_OhmM',
-        typeEqn: () => {
-          return 'input'
-        },
-        eqn: () => {
-        },
-        rawVal: '19e-9',
-        units: [
-          new UnitMulti({name: 'Ω⋅m', multi: 1e0})
-        ],
-        defaultUnitName: 'Ω⋅m',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The resistivity of the plated copper which the via is made from.'
-      }))
+    // ============================================ //
+    // ===== PLATED COPPER RESISTIVITY (input) ==== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'platedCopperResistivity_OhmM',
+      typeEqn: () => {
+        return 'input'
+      },
+      eqn: () => {
+      },
+      rawVal: '19e-9',
+      units: [
+        new UnitMulti({name: 'Ω⋅m', multi: 1e0})
+      ],
+      defaultUnitName: 'Ω⋅m',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The resistivity of the plated copper which the via is made from.'
+    }))
 
-      // ============================================ //
-      // == SPECIFIC THERMAL CONDUCTIVITY (input) === //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'specificThermalConductivity_WpKm',
-        typeEqn: () => {
-          return 'input'
-        },
-        eqn: () => {
-        },
-        rawVal: '401.8',
-        units: [
-          new UnitMulti({name: 'W/K⋅m', multi: 1e0})
-        ],
-        defaultUnitName: 'W/K⋅m',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The specific thermal conductivity, k, of the plated copper which the via is made from.'
-      }))
+    // ============================================ //
+    // == SPECIFIC THERMAL CONDUCTIVITY (input) === //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'specificThermalConductivity_WpKm',
+      typeEqn: () => {
+        return 'input'
+      },
+      eqn: () => {
+      },
+      rawVal: '401.8',
+      units: [
+        new UnitMulti({name: 'W/K⋅m', multi: 1e0})
+      ],
+      defaultUnitName: 'W/K⋅m',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The specific thermal conductivity, k, of the plated copper which the via is made from.'
+    }))
 
-      // ============================================ //
-      // ===== VIA CROSS-SECTIONAL AREA (output) ==== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'viaCrossSectionalArea_M2',
-        typeEqn: () => {
-          return 'output'
-        },
-        eqn: () => {
-          // Read dependencies
-          const finishedHoleDiameter_M = calc.getVar('finishedHoleDiameter_M').getRawVal()
-          const platingThickness_M = calc.getVar('platingThickness_M').getRawVal()
+    // ============================================ //
+    // ===== VIA CROSS-SECTIONAL AREA (output) ==== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'viaCrossSectionalArea_M2',
+      typeEqn: () => {
+        return 'output'
+      },
+      eqn: () => {
+        // Read dependencies
+        const finishedHoleDiameter_M = calc.getVar('finishedHoleDiameter_M').getRawVal()
+        const platingThickness_M = calc.getVar('platingThickness_M').getRawVal()
 
-          return Math.PI * (finishedHoleDiameter_M + platingThickness_M) * platingThickness_M
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({ name: 'um²', multi: 1e-12 }),
-          new UnitMulti({ name: 'mils²', multi: unitConversionConstants.M2_PER_MIL2 }),
-          new UnitMulti({ name: 'mm²', multi: 1e-6 })
-        ],
-        defaultUnitName: 'um²',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The cross-sectional area of the via (the area of the via as viewed from the top down).'
-      }))
+        return Math.PI * (finishedHoleDiameter_M + platingThickness_M) * platingThickness_M
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({ name: 'um²', multi: 1e-12 }),
+        new UnitMulti({ name: 'mils²', multi: unitConversionConstants.M2_PER_MIL2 }),
+        new UnitMulti({ name: 'mm²', multi: 1e-6 })
+      ],
+      defaultUnitName: 'um²',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The cross-sectional area of the via (the area of the via as viewed from the top down).'
+    }))
 
-      // ============================================ //
-      // ============ VIA RESISTANCE (output) ======= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'viaResistance_Ohms',
-        typeEqn: () => {
-          return 'output'
-        },
-        eqn: () => {
-          // Read dependencies
-          const platedCopperResistivity_OhmM = calc.getVar('platedCopperResistivity_OhmM').getRawVal()
-          const viaLength_M = calc.getVar('viaLength_M').getRawVal()
-          const viaCrossSectionalArea_M2 = calc.getVar('viaCrossSectionalArea_M2').getRawVal()
+    // ============================================ //
+    // ============ VIA RESISTANCE (output) ======= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'viaResistance_Ohms',
+      typeEqn: () => {
+        return 'output'
+      },
+      eqn: () => {
+        // Read dependencies
+        const platedCopperResistivity_OhmM = calc.getVar('platedCopperResistivity_OhmM').getRawVal()
+        const viaLength_M = calc.getVar('viaLength_M').getRawVal()
+        const viaCrossSectionalArea_M2 = calc.getVar('viaCrossSectionalArea_M2').getRawVal()
 
-          return (platedCopperResistivity_OhmM * viaLength_M) / viaCrossSectionalArea_M2
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({ name: 'mΩ', multi: 1e-3 })
-        ],
-        defaultUnitName: 'mΩ',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The resistance of the via. This is the resistance as measured from the top to the bottom of the via.'
-      }))
+        return (platedCopperResistivity_OhmM * viaLength_M) / viaCrossSectionalArea_M2
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({ name: 'mΩ', multi: 1e-3 })
+      ],
+      defaultUnitName: 'mΩ',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The resistance of the via. This is the resistance as measured from the top to the bottom of the via.'
+    }))
 
-      // ============================================ //
-      // ========== THERMAL RESISTANCE (output) ===== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'thermalResistance_DegCpWatt',
-        typeEqn: () => {
-          return 'output'
-        },
-        eqn: () => {
-          // Read dependencies
-          const viaLength_M = calc.getVar('viaLength_M').getRawVal()
-          const specificThermalConductivity_WpKm = calc.getVar('specificThermalConductivity_WpKm').getRawVal()
-          const viaCrossSectionalArea_M2 = calc.getVar('viaCrossSectionalArea_M2').getRawVal()
+    // ============================================ //
+    // ========== THERMAL RESISTANCE (output) ===== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'thermalResistance_DegCpWatt',
+      typeEqn: () => {
+        return 'output'
+      },
+      eqn: () => {
+        // Read dependencies
+        const viaLength_M = calc.getVar('viaLength_M').getRawVal()
+        const specificThermalConductivity_WpKm = calc.getVar('specificThermalConductivity_WpKm').getRawVal()
+        const viaCrossSectionalArea_M2 = calc.getVar('viaCrossSectionalArea_M2').getRawVal()
 
-          return viaLength_M / (specificThermalConductivity_WpKm * viaCrossSectionalArea_M2)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({ name: '°C/W', multi: 1e0 })
-        ],
-        defaultUnitName: '°C/W',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The thermal resistance of the via.'
-      }))
+        return viaLength_M / (specificThermalConductivity_WpKm * viaCrossSectionalArea_M2)
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({ name: '°C/W', multi: 1e0 })
+      ],
+      defaultUnitName: '°C/W',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The thermal resistance of the via.'
+    }))
 
-      // ============================================ //
-      // ========== CURRENT LIMIT (output) ========== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'currentLimit_A',
-        typeEqn: () => {
-          return 'output'
-        },
-        eqn: () => {
-          // Read dependencies
-          const temperatureRise_DegC = calc.getVar('temperatureRise_DegC').getRawVal()
-          const viaCrossSectionalArea_M2 = calc.getVar('viaCrossSectionalArea_M2').getRawVal()
+    // ============================================ //
+    // ========== CURRENT LIMIT (output) ========== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'currentLimit_A',
+      typeEqn: () => {
+        return 'output'
+      },
+      eqn: () => {
+        // Read dependencies
+        const temperatureRise_DegC = calc.getVar('temperatureRise_DegC').getRawVal()
+        const viaCrossSectionalArea_M2 = calc.getVar('viaCrossSectionalArea_M2').getRawVal()
 
-          // Perform unit conversions for IPC-2221A equation
-          const viaCrossSectionalArea_Mills2 = viaCrossSectionalArea_M2 * Math.pow((1000.0 / 25.4) * 1000.0, 2)
+        // Perform unit conversions for IPC-2221A equation
+        const viaCrossSectionalArea_Mills2 = viaCrossSectionalArea_M2 * Math.pow((1000.0 / 25.4) * 1000.0, 2)
 
-          // Use the IPC-2221A equation
-          return ipc2221ACoefficientK * Math.pow(temperatureRise_DegC, ipc2221ACoefficientb) * Math.pow(viaCrossSectionalArea_Mills2, ipc2221ACoefficientc)
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({name: 'uA', multi: 1e-6}),
-          new UnitMulti({name: 'mA', multi: 1e-3}),
-          new UnitMulti({name: 'A', multi: 1})
-        ],
-        defaultUnitName: 'A',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The maximum current the via can take before it rises to the specified temperature above ambient.'
-      }))
+        // Use the IPC-2221A equation
+        return ipc2221ACoefficientK * Math.pow(temperatureRise_DegC, ipc2221ACoefficientb) * Math.pow(viaCrossSectionalArea_Mills2, ipc2221ACoefficientc)
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({name: 'uA', multi: 1e-6}),
+        new UnitMulti({name: 'mA', multi: 1e-3}),
+        new UnitMulti({name: 'A', multi: 1})
+      ],
+      defaultUnitName: 'A',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The maximum current the via can take before it rises to the specified temperature above ambient.'
+    }))
 
-      // Configure calculator to default state now that all
-      // variables have been added.
-      calc.init()
+    // Configure calculator to default state now that all
+    // variables have been added.
+    calc.init()
 
-      return {
-        calc: calc
-      }
-    },
-    mounted () {
-//      console.log('Ohm\'s Law calculator mounted.')
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+    return {
+      calc: calc
     }
+  },
+  mounted () {
+    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
   }
+}
 
 </script>
 

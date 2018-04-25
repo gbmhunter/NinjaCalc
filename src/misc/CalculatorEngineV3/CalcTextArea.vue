@@ -15,50 +15,50 @@
 
 <script>
 
-  import './style.css'
+import './style.css'
 
-  export default {
-    name: 'calc-textarea',
-    props: {
-      value: {
-        type: [Object],
-        required: true
-      }
+export default {
+  name: 'calc-textarea',
+  props: {
+    value: {
+      type: [Object],
+      required: true
+    }
+  },
+  components: {},
+  data () {
+    return {}
+  },
+  computed: {
+    inputClasses () {
+      return [
+        { 'dirIn': this.value.dir === 'in' },
+        { 'dirOut': this.value.dir === 'out' },
+        { 'error': this.value.validator.state === 'error' },
+        { 'ok': this.value.validator.state === 'ok' }
+      ]
     },
-    components: {},
-    data () {
-      return {}
-    },
-    computed: {
-      inputClasses () {
-        return [
-          { 'dirIn': this.value.dir === 'in' },
-          { 'dirOut': this.value.dir === 'out' },
-          { 'error': this.value.validator.state === 'error' },
-          { 'ok': this.value.validator.state === 'ok' }
-        ]
-      },
-      toolTipMsg () {
-        // This is raw HTML (so we can add line breaks)
-        var toolTipMsg = ''
-        toolTipMsg += this.value.help
-        toolTipMsg += '<br><br>'
-        toolTipMsg += this.value.validator.msg
-        return toolTipMsg
-      }
-    },
-    methods: {
-      updateValue () {
-        // Clone object, update the object with the new text in the textarea,
-        // and then emit cloned object
-        var value = JSON.parse(JSON.stringify(this.value))
-        value.value = this.$refs.varValue.value
-        this.$emit('input', value)
-      }
-    },
-    watch: {},
-    mounted () {}
-  }
+    toolTipMsg () {
+      // This is raw HTML (so we can add line breaks)
+      var toolTipMsg = ''
+      toolTipMsg += this.value.help
+      toolTipMsg += '<br><br>'
+      toolTipMsg += this.value.validator.msg
+      return toolTipMsg
+    }
+  },
+  methods: {
+    updateValue () {
+      // Clone object, update the object with the new text in the textarea,
+      // and then emit cloned object
+      var value = JSON.parse(JSON.stringify(this.value))
+      value.value = this.$refs.varValue.value
+      this.$emit('input', value)
+    }
+  },
+  watch: {},
+  mounted () {}
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

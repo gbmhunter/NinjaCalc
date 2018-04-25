@@ -70,212 +70,211 @@
 
 <script>
 
-  import Calc from '@/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
-  import {UnitFunc} from '@/misc/CalculatorEngineV2/UnitFunc'
+import Calc from '@/misc/CalculatorEngineV2/Calc'
+import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
+import {UnitFunc} from '@/misc/CalculatorEngineV2/UnitFunc'
 
-  /* eslint-disable camelcase */
+/* eslint-disable camelcase */
 
-  // ============================================ //
-  // =================== vue Object ============= //
-  // ============================================ //
-  export default {
-    name: 'dew-point-magnus-calculator',
-    components: {},
-    data: function () {
-      var calc = new Calc()
+// ============================================ //
+// =================== vue Object ============= //
+// ============================================ //
+export default {
+  name: 'dew-point-magnus-calculator',
+  components: {},
+  data: function () {
+    var calc = new Calc()
 
-      // Create new variable in class for determining what is input and output
-      calc.outputVar = 'dewPoint'
+    // Create new variable in class for determining what is input and output
+    calc.outputVar = 'dewPoint'
 
-      // ============================================ //
-      // =========== AIR TEMPERATURE (i/o) ========== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'airTemperature',
-        typeEqn: () => {
-          if (calc.outputVar === 'airTemperature') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const relativeHumidity = calc.getVar('relativeHumidity').getRawVal()
-          const dewPoint = calc.getVar('dewPoint').getRawVal()
-          const bCoefficient = calc.getVar('bCoefficient').getRawVal()
-          const cCoefficient = calc.getVar('cCoefficient').getRawVal()
-
-          return cCoefficient * (((bCoefficient * dewPoint) / (cCoefficient + dewPoint)) - Math.log(relativeHumidity / 100.0)) /
-            (bCoefficient + Math.log(relativeHumidity / 100.0) - ((bCoefficient * dewPoint) / (cCoefficient + dewPoint)))
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({ name: '°C', multi: 1e0 }),
-          new UnitFunc({
-            name: 'F',
-            toUnit: function (baseValue) {
-              return baseValue * 1.8 + 32
-            },
-            fromUnit: function (unitValue) {
-              return (unitValue - 32) / 1.8
-            }
-          })
-        ],
-        defaultUnitName: '°C',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER
-        ],
-        helpText: 'The temperature of the air. This must be the same temperature at which the relative humidity was measured at.'
-      }))
-
-      // ============================================ //
-      // ========== RELATIVE HUMIDITY (i/o) ========= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'relativeHumidity',
-        typeEqn: () => {
-          if (calc.outputVar === 'relativeHumidity') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const airTemperature_DegC = calc.getVar('airTemperature').getRawVal()
-          const dewPoint_DegC = calc.getVar('dewPoint').getRawVal()
-          const bCoefficient = calc.getVar('bCoefficient').getRawVal()
-          const cCoefficient = calc.getVar('cCoefficient').getRawVal()
-
-          return 100.0 * (Math.exp((bCoefficient * dewPoint_DegC) / (cCoefficient + dewPoint_DegC)) /
-            Math.exp((bCoefficient * airTemperature_DegC) / (cCoefficient + airTemperature_DegC)))
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({ name: '%', multi: 1e0 })
-        ],
-        defaultUnitName: '%',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER,
-          NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
-        ],
-        helpText: 'The relative humidity the the air, expressed as a percentage of the total amount of water the air could hold at the current temperature.'
-      }))
-
-      // ============================================ //
-      // =============== DEW POINT (i/o) ============ //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'dewPoint',
-        typeEqn: () => {
-          if (calc.outputVar === 'dewPoint') {
-            return 'output'
-          } else {
-            return 'input'
-          }
-        },
-        eqn: () => {
-          // Read dependency variables
-          const airTemperature_DegC = calc.getVar('airTemperature').getRawVal()
-          const relativeHumidity_Perc = calc.getVar('relativeHumidity').getRawVal()
-          const bCoefficient = calc.getVar('bCoefficient').getRawVal()
-          const cCoefficient = calc.getVar('cCoefficient').getRawVal()
-
-          const dewPointNumerator = cCoefficient * (Math.log(relativeHumidity_Perc / 100.0) + ((bCoefficient * airTemperature_DegC) / (airTemperature_DegC + cCoefficient)))
-          const dewPointDenominator = bCoefficient - Math.log(relativeHumidity_Perc / 100.0) - ((bCoefficient * airTemperature_DegC) / (airTemperature_DegC + cCoefficient))
-          const dewPoint_DegC = dewPointNumerator / dewPointDenominator
-          return dewPoint_DegC
-        },
-        rawVal: '',
-        units: [
-          new UnitMulti({ name: '°C', multi: 1e0 }),
-          new UnitFunc({
-            name: 'F',
-            toUnit: function (baseValue) {
-              return baseValue * 1.8 + 32
-            },
-            fromUnit: function (unitValue) {
-              return (unitValue - 32) / 1.8
-            }
-          })
-        ],
-        defaultUnitName: '°C',
-        roundTo: 4,
-        validators: [
-          NumericValidators.IS_NUMBER
-        ],
-        helpText: 'If the air is cooled to the dew point temperature, then dew (condensation) will start to form. This value is allowed to be below the freezing point of water.'
-      }))
-
-      // ============================================ //
-      // ============ B COEFFICIENT (input) ========= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'bCoefficient',
-        typeEqn: () => {
+    // ============================================ //
+    // =========== AIR TEMPERATURE (i/o) ========== //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'airTemperature',
+      typeEqn: () => {
+        if (calc.outputVar === 'airTemperature') {
+          return 'output'
+        } else {
           return 'input'
-        },
-        eqn: () => {},
-        rawVal: '17.625',
-        units: [
-          new UnitMulti({ name: 'no unit', multi: 1e0 })
-        ],
-        defaultUnitName: 'no unit',
-        roundTo: 5,
-        validators: [
-          NumericValidators.IS_NUMBER
-        ],
-        helpText: 'The b coefficient of the Magnus equation.'
-      }))
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const relativeHumidity = calc.getVar('relativeHumidity').getRawVal()
+        const dewPoint = calc.getVar('dewPoint').getRawVal()
+        const bCoefficient = calc.getVar('bCoefficient').getRawVal()
+        const cCoefficient = calc.getVar('cCoefficient').getRawVal()
 
-      // ============================================ //
-      // ============ C COEFFICIENT (input) ========= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
-        name: 'cCoefficient',
-        typeEqn: () => {
+        return cCoefficient * (((bCoefficient * dewPoint) / (cCoefficient + dewPoint)) - Math.log(relativeHumidity / 100.0)) /
+          (bCoefficient + Math.log(relativeHumidity / 100.0) - ((bCoefficient * dewPoint) / (cCoefficient + dewPoint)))
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({ name: '°C', multi: 1e0 }),
+        new UnitFunc({
+          name: 'F',
+          toUnit: function (baseValue) {
+            return baseValue * 1.8 + 32
+          },
+          fromUnit: function (unitValue) {
+            return (unitValue - 32) / 1.8
+          }
+        })
+      ],
+      defaultUnitName: '°C',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER
+      ],
+      helpText: 'The temperature of the air. This must be the same temperature at which the relative humidity was measured at.'
+    }))
+
+    // ============================================ //
+    // ========== RELATIVE HUMIDITY (i/o) ========= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'relativeHumidity',
+      typeEqn: () => {
+        if (calc.outputVar === 'relativeHumidity') {
+          return 'output'
+        } else {
           return 'input'
-        },
-        eqn: () => {},
-        rawVal: '243.04',
-        units: [
-          new UnitMulti({ name: '°C', multi: 1e0 }),
-          new UnitFunc({
-            name: 'F',
-            toUnit: function (baseValue) {
-              return baseValue * 1.8 + 32
-            },
-            fromUnit: function (unitValue) {
-              return (unitValue - 32) / 1.8
-            }
-          })
-        ],
-        defaultUnitName: '°C',
-        roundTo: 5,
-        validators: [
-          NumericValidators.IS_NUMBER
-        ],
-        helpText: 'The c coefficient of the Magnus equation.'
-      }))
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const airTemperature_DegC = calc.getVar('airTemperature').getRawVal()
+        const dewPoint_DegC = calc.getVar('dewPoint').getRawVal()
+        const bCoefficient = calc.getVar('bCoefficient').getRawVal()
+        const cCoefficient = calc.getVar('cCoefficient').getRawVal()
 
-      // Configure calculator to default state now that all
-      // variables have been added.
-      calc.init()
+        return 100.0 * (Math.exp((bCoefficient * dewPoint_DegC) / (cCoefficient + dewPoint_DegC)) /
+          Math.exp((bCoefficient * airTemperature_DegC) / (cCoefficient + airTemperature_DegC)))
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({ name: '%', multi: 1e0 })
+      ],
+      defaultUnitName: '%',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER,
+        NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
+      ],
+      helpText: 'The relative humidity the the air, expressed as a percentage of the total amount of water the air could hold at the current temperature.'
+    }))
 
-      return {
-        calc: calc
-      }
-    },
-    mounted () {
-//      console.log('Ohm\'s Law calculator mounted.')
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+    // ============================================ //
+    // =============== DEW POINT (i/o) ============ //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'dewPoint',
+      typeEqn: () => {
+        if (calc.outputVar === 'dewPoint') {
+          return 'output'
+        } else {
+          return 'input'
+        }
+      },
+      eqn: () => {
+        // Read dependency variables
+        const airTemperature_DegC = calc.getVar('airTemperature').getRawVal()
+        const relativeHumidity_Perc = calc.getVar('relativeHumidity').getRawVal()
+        const bCoefficient = calc.getVar('bCoefficient').getRawVal()
+        const cCoefficient = calc.getVar('cCoefficient').getRawVal()
+
+        const dewPointNumerator = cCoefficient * (Math.log(relativeHumidity_Perc / 100.0) + ((bCoefficient * airTemperature_DegC) / (airTemperature_DegC + cCoefficient)))
+        const dewPointDenominator = bCoefficient - Math.log(relativeHumidity_Perc / 100.0) - ((bCoefficient * airTemperature_DegC) / (airTemperature_DegC + cCoefficient))
+        const dewPoint_DegC = dewPointNumerator / dewPointDenominator
+        return dewPoint_DegC
+      },
+      rawVal: '',
+      units: [
+        new UnitMulti({ name: '°C', multi: 1e0 }),
+        new UnitFunc({
+          name: 'F',
+          toUnit: function (baseValue) {
+            return baseValue * 1.8 + 32
+          },
+          fromUnit: function (unitValue) {
+            return (unitValue - 32) / 1.8
+          }
+        })
+      ],
+      defaultUnitName: '°C',
+      roundTo: 4,
+      validators: [
+        NumericValidators.IS_NUMBER
+      ],
+      helpText: 'If the air is cooled to the dew point temperature, then dew (condensation) will start to form. This value is allowed to be below the freezing point of water.'
+    }))
+
+    // ============================================ //
+    // ============ B COEFFICIENT (input) ========= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'bCoefficient',
+      typeEqn: () => {
+        return 'input'
+      },
+      eqn: () => {},
+      rawVal: '17.625',
+      units: [
+        new UnitMulti({ name: 'no unit', multi: 1e0 })
+      ],
+      defaultUnitName: 'no unit',
+      roundTo: 5,
+      validators: [
+        NumericValidators.IS_NUMBER
+      ],
+      helpText: 'The b coefficient of the Magnus equation.'
+    }))
+
+    // ============================================ //
+    // ============ C COEFFICIENT (input) ========= //
+    // ============================================ //
+    calc.addVar(new CalcVarNumeric({
+      name: 'cCoefficient',
+      typeEqn: () => {
+        return 'input'
+      },
+      eqn: () => {},
+      rawVal: '243.04',
+      units: [
+        new UnitMulti({ name: '°C', multi: 1e0 }),
+        new UnitFunc({
+          name: 'F',
+          toUnit: function (baseValue) {
+            return baseValue * 1.8 + 32
+          },
+          fromUnit: function (unitValue) {
+            return (unitValue - 32) / 1.8
+          }
+        })
+      ],
+      defaultUnitName: '°C',
+      roundTo: 5,
+      validators: [
+        NumericValidators.IS_NUMBER
+      ],
+      helpText: 'The c coefficient of the Magnus equation.'
+    }))
+
+    // Configure calculator to default state now that all
+    // variables have been added.
+    calc.init()
+
+    return {
+      calc: calc
     }
+  },
+  mounted () {
+    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
   }
+}
 
 </script>
 

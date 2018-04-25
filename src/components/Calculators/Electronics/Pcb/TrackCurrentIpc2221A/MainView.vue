@@ -85,7 +85,7 @@
         <span class="variable-name">Track Layer</span>
         <select v-model="calc.getVar('trackLayer').val" v-on:change="calc.getVar('trackLayer').onValChange()"
                 style="width: 100px; height: 30px; font-size: 20px;">
-          <option v-for="option in calc.getVar('trackLayer').options" v-bind:value="option">
+          <option v-for="option in calc.getVar('trackLayer').options" :key="option" v-bind:value="option">
             {{ option }}
           </option>
         </select>
@@ -105,40 +105,42 @@
 </template>
 
 <script>
+import Calc from '@/misc/CalculatorEngineV2/Calc'
+import {
+  CalcVarNumeric,
+  NumericValidators
+} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+import { CalcVarComboBox } from '@/misc/CalculatorEngineV2/CalcVarComboBox'
+import { UnitMulti } from '@/misc/CalculatorEngineV2/UnitMulti'
+import { UnitFunc } from '@/misc/CalculatorEngineV2/UnitFunc'
+import { CustomValidator } from '@/misc/CalculatorEngineV2/CustomValidator'
+import { unitConversionConstants } from '@/misc/UnitConversionConstants/UnitConversionConstants'
+import { canvasShapes } from '@/misc/CanvasShapes/CanvasShapes'
 
-  import Calc from '@/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {CalcVarComboBox} from '@/misc/CalculatorEngineV2/CalcVarComboBox'
-  import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
-  import {UnitFunc} from '@/misc/CalculatorEngineV2/UnitFunc'
-  import {CustomValidator} from '@/misc/CalculatorEngineV2/CustomValidator'
-  import {unitConversionConstants} from '@/misc/UnitConversionConstants/UnitConversionConstants'
-  import { canvasShapes } from '@/misc/CanvasShapes/CanvasShapes'
+// ============================================ //
+// =================== vue Object ============= //
+// ============================================ //
+export default {
+  name: 'track-current-ipc-2221a-calculator',
+  components: {},
+  data: function () {
+    var calc = new Calc()
 
-  // ============================================ //
-  // =================== vue Object ============= //
-  // ============================================ //
-  export default {
-    name: 'track-current-ipc-2221a-calculator',
-    components: {},
-    data: function () {
-      var calc = new Calc()
-
-      // ============================================ //
-      // ============ TRACK CURRENT (input) ========= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
+    // ============================================ //
+    // ============ TRACK CURRENT (input) ========= //
+    // ============================================ //
+    calc.addVar(
+      new CalcVarNumeric({
         name: 'trackCurrent',
         typeEqn: () => {
           return 'input'
         },
-        eqn: () => {
-        },
+        eqn: () => {},
         rawVal: '',
         units: [
-          new UnitMulti({name: 'uA', multi: 1e-6}),
-          new UnitMulti({name: 'mA', multi: 1e-3}),
-          new UnitMulti({name: 'A', multi: 1e0})
+          new UnitMulti({ name: 'uA', multi: 1e-6 }),
+          new UnitMulti({ name: 'mA', multi: 1e-3 }),
+          new UnitMulti({ name: 'A', multi: 1 })
         ],
         defaultUnitName: 'A',
         roundTo: 4,
@@ -149,28 +151,30 @@
             func: () => {
               // Read dependency variables
               var trackCurrent = calc.getVar('trackCurrent').getRawVal()
-              return (trackCurrent <= 35.0)
+              return trackCurrent <= 35.0
             },
-            text: 'Current is above recommended maximum (35A). Equation will not be as accurate (extrapolation will occur).',
+            text:
+              'Current is above recommended maximum (35A). Equation will not be as accurate (extrapolation will occur).',
             level: 'warning'
           })
         ],
         helpText: 'The current you want the PCB track to be able to handle.'
-      }))
+      })
+    )
 
-      // ============================================ //
-      // ============= TEMP. RISE (input) =========== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
+    // ============================================ //
+    // ============= TEMP. RISE (input) =========== //
+    // ============================================ //
+    calc.addVar(
+      new CalcVarNumeric({
         name: 'tempRise',
         typeEqn: () => {
           return 'input'
         },
-        eqn: () => {
-        },
+        eqn: () => {},
         rawVal: '',
         units: [
-          new UnitMulti({ name: '°C', multi: 1e0 }),
+          new UnitMulti({ name: '°C', multi: 1 }),
           new UnitFunc({
             name: 'F',
             toUnit: function (baseValue) {
@@ -190,40 +194,50 @@
             func: () => {
               // Read dependency variables
               var tempRise = calc.getVar('tempRise').getRawVal()
-              return (tempRise >= 10.0)
+              return tempRise >= 10.0
             },
-            text: 'Temperature rise is below the recommended minimum (10°c). Equation will not be as accurate (extrapolation will occur).',
+            text:
+              'Temperature rise is below the recommended minimum (10°c). Equation will not be as accurate (extrapolation will occur).',
             level: 'warning'
           }),
           new CustomValidator({
             func: () => {
               // Read dependency variables
               var tempRise = calc.getVar('tempRise').getRawVal()
-              return (tempRise <= 100.0)
+              return tempRise <= 100.0
             },
-            text: 'Temperature rise is above the recommended maximum (100°c). Equation will not be as accurate (extrapolation will occur).',
+            text:
+              'Temperature rise is above the recommended maximum (100°c). Equation will not be as accurate (extrapolation will occur).',
             level: 'warning'
           })
         ],
-        helpText: 'The maximum desired temperature rise due to the current flowing through the track. 20-40°C is a common value for this.'
-      }))
+        helpText:
+          'The maximum desired temperature rise due to the current flowing through the track. 20-40°C is a common value for this.'
+      })
+    )
 
-      // ============================================ //
-      // ========== TRACK THICKNESS (input) ========= //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
+    // ============================================ //
+    // ========== TRACK THICKNESS (input) ========= //
+    // ============================================ //
+    calc.addVar(
+      new CalcVarNumeric({
         name: 'trackThickness',
         typeEqn: () => {
           return 'input'
         },
-        eqn: () => {
-        },
+        eqn: () => {},
         rawVal: '',
         units: [
-          new UnitMulti({name: 'um', multi: 1e-6}),
-          new UnitMulti({name: 'mm', multi: 1e-3}),
-          new UnitMulti({name: 'oz', multi: unitConversionConstants.COPPER_THICKNESS_M_PER_OZ}),
-          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
+          new UnitMulti({ name: 'um', multi: 1e-6 }),
+          new UnitMulti({ name: 'mm', multi: 1e-3 }),
+          new UnitMulti({
+            name: 'oz',
+            multi: unitConversionConstants.COPPER_THICKNESS_M_PER_OZ
+          }),
+          new UnitMulti({
+            name: 'mils',
+            multi: unitConversionConstants.METERS_PER_MILS
+          })
         ],
         defaultUnitName: 'um',
         roundTo: 4,
@@ -234,42 +248,47 @@
             func: () => {
               // Read dependency variables
               const trackThickness = calc.getVar('trackThickness').getRawVal()
-              return (trackThickness >= 17.5e-6)
+              return trackThickness >= 17.5e-6
             },
-            text: 'Track thickness is below the recommended minimum (17.5um or 0.5oz). Equation will not be as accurate (extrapolation will occur).',
+            text:
+              'Track thickness is below the recommended minimum (17.5um or 0.5oz). Equation will not be as accurate (extrapolation will occur).',
             level: 'warning'
           }),
           new CustomValidator({
             func: () => {
               // Read dependency variables
               const trackThickness = calc.getVar('trackThickness').getRawVal()
-              return (trackThickness <= 105.0036e-6)
+              return trackThickness <= 105.0036e-6
             },
-            text: 'Track thickness is above the recommended maximum (105um or 3oz). Equation will not be as accurate (extrapolation will occur).',
+            text:
+              'Track thickness is above the recommended maximum (105um or 3oz). Equation will not be as accurate (extrapolation will occur).',
             level: 'warning'
           })
         ],
-        helpText: 'The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz).'
-      }))
+        helpText:
+          'The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz).'
+      })
+    )
 
-      // ============================================================================================= //
-      // ====================================== TRACK LAYER (combobox) =============================== //
-      // ============================================================================================= //
-      calc.addVar(new CalcVarComboBox({
+    // ============================================================================================= //
+    // ====================================== TRACK LAYER (combobox) =============================== //
+    // ============================================================================================= //
+    calc.addVar(
+      new CalcVarComboBox({
         name: 'trackLayer',
-        options: [
-          'Internal',
-          'External'
-        ],
+        options: ['Internal', 'External'],
         defaultVal: 'External',
         validators: [],
-        helpText: 'The type of layer that the current-carrying track is on. If the track is on the top or bottom copper layer of the PCB, set this to "External". If the track is on a buried layer, set this to "Internal".'
-      }))
+        helpText:
+          'The type of layer that the current-carrying track is on. If the track is on the top or bottom copper layer of the PCB, set this to "External". If the track is on a buried layer, set this to "Internal".'
+      })
+    )
 
-      // ============================================================================================= //
-      // ===================================== MIN. TRACK WIDTH (output) ============================= //
-      // ============================================================================================= //
-      calc.addVar(new CalcVarNumeric({
+    // ============================================================================================= //
+    // ===================================== MIN. TRACK WIDTH (output) ============================= //
+    // ============================================================================================= //
+    calc.addVar(
+      new CalcVarNumeric({
         name: 'minTrackWidth',
         typeEqn: () => {
           return 'output'
@@ -282,20 +301,35 @@
           const trackLayer = calc.getVar('trackLayer').getVal()
 
           if (trackLayer === 'External') {
-            const crossSectionalArea = (Math.pow((traceCurrent / (0.048 * Math.pow(tempRise, 0.44))), 1 / 0.725))
-            const width = (crossSectionalArea / (trackThickness * 1000000.0 / 25.4)) * (25.4 / 1000000.0)
+            const crossSectionalArea = Math.pow(
+              traceCurrent / (0.048 * Math.pow(tempRise, 0.44)),
+              1 / 0.725
+            )
+            const width =
+              crossSectionalArea /
+              (trackThickness * 1000000.0 / 25.4) *
+              (25.4 / 1000000.0)
             return width
           } else if (trackLayer === 'Internal') {
-            const crossSectionalArea = (Math.pow((traceCurrent / (0.024 * Math.pow(tempRise, 0.44))), 1 / 0.725))
-            const width = (crossSectionalArea / (trackThickness * 1000000.0 / 25.4)) * (25.4 / 1000000.0)
+            const crossSectionalArea = Math.pow(
+              traceCurrent / (0.024 * Math.pow(tempRise, 0.44)),
+              1 / 0.725
+            )
+            const width =
+              crossSectionalArea /
+              (trackThickness * 1000000.0 / 25.4) *
+              (25.4 / 1000000.0)
             return width
           }
         },
         rawVal: '',
         units: [
-          new UnitMulti({name: 'um', multi: 1e-6}),
-          new UnitMulti({name: 'mm', multi: 1e-3}),
-          new UnitMulti({name: 'mils', multi: unitConversionConstants.METERS_PER_MILS})
+          new UnitMulti({ name: 'um', multi: 1e-6 }),
+          new UnitMulti({ name: 'mm', multi: 1e-3 }),
+          new UnitMulti({
+            name: 'mils',
+            multi: unitConversionConstants.METERS_PER_MILS
+          })
         ],
         defaultUnitName: 'mm',
         roundTo: 4,
@@ -303,147 +337,161 @@
           NumericValidators.IS_NUMBER,
           NumericValidators.IS_GREATER_OR_EQUAL_TO_ZERO
         ],
-        helpText: 'The minimum track width needed to carry the specified current without exceeding the given temperature rise.'
-      }))
+        helpText:
+          'The minimum track width needed to carry the specified current without exceeding the given temperature rise.'
+      })
+    )
 
-      // Configure calculator to default state now that all
-      // variables have been added.
-      calc.init()
+    // Configure calculator to default state now that all
+    // variables have been added.
+    calc.init()
 
-      return {
-        calc: calc
-      }
-    },
-    computed: {
-      trackLayer () {
-        return this.calc.getVar('trackLayer').getVal()
-      }
-    },
-    watch: {
-      trackLayer () {
-        this.drawCanvas({
-          trackLayer: this.trackLayer
-        })
-      }
-    },
-    methods: {
-      drawCanvas: function (inputObj) {
-        console.log('drawCanvas() called with inputObj =')
-        console.log(inputObj)
-        var canvas = this.$refs.canvas
-        var context = canvas.getContext('2d')
-        canvas.width = 600
-        canvas.height = 450
+    return {
+      calc: calc
+    }
+  },
+  computed: {
+    trackLayer () {
+      return this.calc.getVar('trackLayer').getVal()
+    }
+  },
+  watch: {
+    trackLayer () {
+      this.drawCanvas({
+        trackLayer: this.trackLayer
+      })
+    }
+  },
+  methods: {
+    drawCanvas: function (inputObj) {
+      console.log('drawCanvas() called with inputObj =')
+      console.log(inputObj)
+      var canvas = this.$refs.canvas
+      var context = canvas.getContext('2d')
+      canvas.width = 600
+      canvas.height = 450
 
-        const copperThickness = 40
-        const pcbThickness = 80
-        const pcbWidth = 400
+      const copperThickness = 40
+      const pcbThickness = 80
+      const pcbWidth = 400
 
-        const topLeftX = 100
-        const topLeftY = 100
+      const topLeftX = 100
+      const topLeftY = 100
 
-        // ============================================ //
-        // ============ TOP FR4 (conditional) ========= //
-        // ============================================ //
+      // ============================================ //
+      // ============ TOP FR4 (conditional) ========= //
+      // ============================================ //
 
-        if (inputObj.trackLayer === 'Internal') {
-          context.beginPath()
-          context.rect(topLeftX, topLeftY, pcbWidth, pcbThickness)
-          context.fillStyle = '#3d8f00'
-          context.fill()
-          context.lineWidth = 2
-          context.strokeStyle = 'black'
-          context.stroke()
-        } else if (inputObj.trackLayer === 'External') {
-          context.beginPath()
-          context.rect(topLeftX, topLeftY, pcbWidth, pcbThickness)
-          context.fillStyle = '#e4fdce'
-          context.fill()
-          context.lineWidth = 2
-          context.strokeStyle = '#c3c3c3'
-          context.stroke()
-        }
-
-        // ============================================ //
-        // ================ COPPER TRACK ============== //
-        // ============================================ //
-        const trackWidthBot = 120
-        const trackWidthTop = 80
-
-        const trackStartY = topLeftY + pcbThickness
-        const trackStopY = trackStartY + copperThickness
-
+      if (inputObj.trackLayer === 'Internal') {
         context.beginPath()
-        context.moveTo(topLeftX + pcbWidth / 2 - trackWidthTop / 2, trackStartY)
-        context.lineTo(topLeftX + pcbWidth / 2 + trackWidthTop / 2, trackStartY)
-        context.lineTo(topLeftX + pcbWidth / 2 + trackWidthBot / 2, trackStopY)
-        context.lineTo(topLeftX + pcbWidth / 2 - trackWidthBot / 2, trackStopY)
-        context.closePath()
-        context.fillStyle = '#d9a654'
-        context.fill()
-        context.lineWidth = 2
-        context.strokeStyle = 'black'
-        context.stroke()
-
-        // ============================================ //
-        // ================= BOTTOM FR4  ============== //
-        // ============================================ //
-        const bottomFr4StartY = trackStopY
-        const bottomFr4StopY = bottomFr4StartY + pcbThickness
-
-        context.beginPath()
-        context.rect(topLeftX, bottomFr4StartY, pcbWidth, pcbThickness)
+        context.rect(topLeftX, topLeftY, pcbWidth, pcbThickness)
         context.fillStyle = '#3d8f00'
         context.fill()
         context.lineWidth = 2
         context.strokeStyle = 'black'
         context.stroke()
-
-        // ============================================ //
-        // ============= TRACK WIDTH ARROW ============ //
-        // ============================================ //
-        const trackWidthArrowStartX = topLeftX + pcbWidth / 2 - (trackWidthTop / 2)
-        const trackWidthArrowStopX = topLeftX + pcbWidth / 2 + (trackWidthTop / 2)
-        canvasShapes.drawArrow(context, trackWidthArrowStartX, bottomFr4StopY + 20, trackWidthArrowStopX, bottomFr4StopY + 20)
-
-        // ============================================ //
-        // =========== TRACK THICKNESS ARROW ========== //
-        // ============================================ //
-        const trackThicknessAndPlaneProximityArrowX = topLeftX + pcbWidth + 20
-        canvasShapes.drawArrow(context, trackThicknessAndPlaneProximityArrowX, trackStartY, trackThicknessAndPlaneProximityArrowX, trackStopY)
-      },
-      openIpc2152Calc: function () {
-        this.$store.dispatch('openCalc', { componentName: 'track-current-ipc-2152-calculator' })
+      } else if (inputObj.trackLayer === 'External') {
+        context.beginPath()
+        context.rect(topLeftX, topLeftY, pcbWidth, pcbThickness)
+        context.fillStyle = '#e4fdce'
+        context.fill()
+        context.lineWidth = 2
+        context.strokeStyle = '#c3c3c3'
+        context.stroke()
       }
-    },
-    mounted () {
-//      console.log('Ohm\'s Law calculator mounted.')
-      this.drawCanvas({
-        trackLayer: this.trackLayer
-      })
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
-    }
-  }
 
+      // ============================================ //
+      // ================ COPPER TRACK ============== //
+      // ============================================ //
+      const trackWidthBot = 120
+      const trackWidthTop = 80
+
+      const trackStartY = topLeftY + pcbThickness
+      const trackStopY = trackStartY + copperThickness
+
+      context.beginPath()
+      context.moveTo(topLeftX + pcbWidth / 2 - trackWidthTop / 2, trackStartY)
+      context.lineTo(topLeftX + pcbWidth / 2 + trackWidthTop / 2, trackStartY)
+      context.lineTo(topLeftX + pcbWidth / 2 + trackWidthBot / 2, trackStopY)
+      context.lineTo(topLeftX + pcbWidth / 2 - trackWidthBot / 2, trackStopY)
+      context.closePath()
+      context.fillStyle = '#d9a654'
+      context.fill()
+      context.lineWidth = 2
+      context.strokeStyle = 'black'
+      context.stroke()
+
+      // ============================================ //
+      // ================= BOTTOM FR4  ============== //
+      // ============================================ //
+      const bottomFr4StartY = trackStopY
+      const bottomFr4StopY = bottomFr4StartY + pcbThickness
+
+      context.beginPath()
+      context.rect(topLeftX, bottomFr4StartY, pcbWidth, pcbThickness)
+      context.fillStyle = '#3d8f00'
+      context.fill()
+      context.lineWidth = 2
+      context.strokeStyle = 'black'
+      context.stroke()
+
+      // ============================================ //
+      // ============= TRACK WIDTH ARROW ============ //
+      // ============================================ //
+      const trackWidthArrowStartX = topLeftX + pcbWidth / 2 - trackWidthTop / 2
+      const trackWidthArrowStopX = topLeftX + pcbWidth / 2 + trackWidthTop / 2
+      canvasShapes.drawArrow(
+        context,
+        trackWidthArrowStartX,
+        bottomFr4StopY + 20,
+        trackWidthArrowStopX,
+        bottomFr4StopY + 20
+      )
+
+      // ============================================ //
+      // =========== TRACK THICKNESS ARROW ========== //
+      // ============================================ //
+      const trackThicknessAndPlaneProximityArrowX = topLeftX + pcbWidth + 20
+      canvasShapes.drawArrow(
+        context,
+        trackThicknessAndPlaneProximityArrowX,
+        trackStartY,
+        trackThicknessAndPlaneProximityArrowX,
+        trackStopY
+      )
+    },
+    openIpc2152Calc: function () {
+      this.$store.dispatch('openCalc', {
+        componentName: 'track-current-ipc-2152-calculator'
+      })
+    }
+  },
+  mounted () {
+    //      console.log('Ohm\'s Law calculator mounted.')
+    this.drawCanvas({
+      trackLayer: this.trackLayer
+    })
+    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .diagram-container {
-    position: relative;
-  }
+.diagram-container {
+  position: relative;
+}
 
-  .diagram-container > * {
-    position: absolute;
-  }
+.diagram-container > * {
+  position: absolute;
+}
 
-  .variable-container > * {
-    display: flex;
-    flex-direction: column;
-  }
+.variable-container > * {
+  display: flex;
+  flex-direction: column;
+}
 
-  input[type="radio"] {
-    transform: scale(1.5)
-  }
-
+input[type="radio"] {
+  transform: scale(1.5);
+}
 </style>

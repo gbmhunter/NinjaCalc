@@ -36,11 +36,11 @@ export default {
     </div>
 
     <!--Only show this if no calculators are open-->
-    <div id="no-calc-screen" v-if="!this.$store.state.core.openCalcs.length" 
+    <div id="no-calc-screen" v-if="!this.$store.state.core.openCalcs.length"
         style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <div style="font-size: 30px;">No calculators are open! Do you wish to create one?</div>
         <div style="height: 20px;"></div>
-        <ui-button @click.native="showCalculatorSelectionOverlay" color="primary" style="width: 200px;">New Calculator</ui-button>      
+        <ui-button @click.native="showCalculatorSelectionOverlay" color="primary" style="width: 200px;">New Calculator</ui-button>
     </div>
 
     <!-- The "editable" property allows you to close tabs. Note that by default this also adds a "+" button on the far-
@@ -59,192 +59,190 @@ export default {
   </div>
 </template>
 
-
 <script>
+/* eslint-disable */
 
-  /* eslint-disable */
+import Vue from 'vue'
+import LeftSideMenu from '@/components/LeftSideMenu/LeftSideMenu'
+import CalculatorSelectionOverlay from '@/components/CalculatorSelectionOverlay/CalculatorSelectionOverlay'
 
-  import Vue from 'vue'
-  import LeftSideMenu from '@/components/LeftSideMenu/LeftSideMenu'
-  import CalculatorSelectionOverlay from '@/components/CalculatorSelectionOverlay/CalculatorSelectionOverlay'
+import { capacitorChargeCalculator } from '@/components/Calculators/Electronics/Basic/CapacitorCharge/Calc'
+import { ohmsLawCalculator } from '@/components/Calculators/Electronics/Basic/OhmsLaw/Calc'
+import { resistorDividerCalculator } from '@/components/Calculators/Electronics/Basic/ResistorDivider/Calc'
+import { standardResistanceCalculator } from '@/components/Calculators/Electronics/Basic/StandardResistance/Calc'
+import { lowPassRcCalculator } from '@/components/Calculators/Electronics/Filters/LowPassRC/Calc'
+import { microstripImpedanceCalculator } from '@/components/Calculators/Electronics/Pcb/TrackImpedance/MicrostripImpedance/Calc'
+import { trackCurrentIpc2152Calculator } from '@/components/Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
+import { trackCurrentIpc2221ACalculator } from '@/components/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
+import { viaCurrentIpc2221ACalculator } from '@/components/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
+import { dewPointMagnusCalculator } from '@/components/Calculators/Electronics/Sensors/DewPointMagnus/Calc'
+import { ntcThermistorTemperature } from '@/components/Calculators/Electronics/Sensors/NtcThermistor/Calc'
+import { buckConverterCalculator } from '@/components/Calculators/Electronics/Smps/BuckConverter/Calc'
 
-  import { capacitorChargeCalculator } from '@/components/Calculators/Electronics/Basic/CapacitorCharge/Calc'
-  import { ohmsLawCalculator } from '@/components/Calculators/Electronics/Basic/OhmsLaw/Calc'
-  import { resistorDividerCalculator } from '@/components/Calculators/Electronics/Basic/ResistorDivider/Calc'
-  import { standardResistanceCalculator } from '@/components/Calculators/Electronics/Basic/StandardResistance/Calc'
-  import { lowPassRcCalculator } from '@/components/Calculators/Electronics/Filters/LowPassRC/Calc'
-  import { microstripImpedanceCalculator } from '@/components/Calculators/Electronics/Pcb/TrackImpedance/MicrostripImpedance/Calc'
-  import { trackCurrentIpc2152Calculator } from '@/components/Calculators/Electronics/Pcb/TrackCurrentIpc2152/Calc'
-  import { trackCurrentIpc2221ACalculator } from '@/components/Calculators/Electronics/Pcb/TrackCurrentIpc2221A/Calc'
-  import { viaCurrentIpc2221ACalculator } from '@/components/Calculators/Electronics/Pcb/ViaCurrentIpc2221A/Calc'
-  import { dewPointMagnusCalculator } from '@/components/Calculators/Electronics/Sensors/DewPointMagnus/Calc'
-  import { ntcThermistorTemperature } from '@/components/Calculators/Electronics/Sensors/NtcThermistor/Calc'
-  import { buckConverterCalculator } from '@/components/Calculators/Electronics/Smps/BuckConverter/Calc'
+import { twoCoordinateGeodesics } from "@/components/Calculators/Geospatial/TwoCoordinateGeodesics/Calc";
+import { mapPlotter } from "@/components/Calculators/Geospatial/MapPlotter/Calc";
 
-  import { twoCoordinateGeodesics } from "@/components/Calculators/Geospatial/TwoCoordinateGeodesics/Calc";
-  import { mapPlotter } from "@/components/Calculators/Geospatial/MapPlotter/Calc";
+import { crcCalculator } from '@/components/Calculators/Software/Crc/Calc'
+import { pidTuner } from '@/components/Calculators/Software/PidTuner/Calc'
 
-  import { crcCalculator } from '@/components/Calculators/Software/Crc/Calc'
-  import { pidTuner } from '@/components/Calculators/Software/PidTuner/Calc'
-
-  export default {
-    name: 'app',
-    components: {
-      LeftSideMenu,
-      CalculatorSelectionOverlay
+export default {
+  name: 'app',
+  components: {
+    LeftSideMenu,
+    CalculatorSelectionOverlay
+  },
+  data: function () {
+    return {}
+  },
+  computed: {
+    activeTabId () {
+      return this.$store.state.activeTabId.toString()
     },
-    data: function () {
-      return {}
-    },
-    computed: {
-      activeTabId () {
-        return this.$store.state.activeTabId.toString()
-      },
-      route () {
-        return this.$store.state.route
-      }
-    },
-    methods: {
-      showCalculatorSelectionOverlay: function () {
-        this.$store.commit('showCalculatorSelectionOverlay', {
-          trueFalse: true
-        })
-      },
-      showLeftSideNav () {
-        this.$store.commit('showLeftSideBar', {
-          trueFalse: true
-        })
-      },
-      handleTabsEdit (targetName, action) {
-        console.log('App.handleTabEdit() called.')
-        switch (action) {
-          case 'add':
-            // This should never get called, since we hid the "add" button!
-            throw new Error('action.add() is not supported by App.handleTabsEdit().')
-          case 'remove':
-            this.$store.commit('closeCalculator', {
-              // Need to convert string to integer
-              uniqueId: parseInt(targetName)
-            })
-            break
-          default:
-            throw new Error('Provided action to handleTabsEdit() was not supported.')
-        }
-      },
-      // This should be called everytime the $store.state.route object changes
-      // (i.e. whenever the route path changes)
-      // This function performs the state change required due to the route object changing
-      handleRouteChange () {
-        // Check to see if route is in the form "/calc/<calculator-name>"
-        var pattern = /^\/calc\//g
-        var regex = new RegExp(pattern)
-        var exec = regex.exec(this.route.path)
-        console.log('exec = ')
-        console.log(exec)
-        if(!exec) {
-          // "/calc/" at start of path was not found
-          console.error('"/calc/" was not found at start of route path.')
-          return
-        }
-        console.log('regex.lastIndex = ' + regex.lastIndex)
-        var calcName = this.route.path.substring(regex.lastIndex)
-        console.log('calcName = ' + calcName)
-        // Make sure path is valid calculator
-//        const calcName = this.route.path.substring(1, this.route.path.length)
-        var foundCalc = this.$store.state.core.availableCalcs.find((element) => {
-          return element.mainView.name === calcName
-        })
-        if (!foundCalc) {
-          // If no calculator was found, fail silently
-          console.error('Calculator "' + calcName + '" was not found.')
-          return
-        }
-
-        // Hide the overlay
-        this.$store.commit('showCalculatorSelectionOverlay', {
-          trueFalse: false
-        })
-
-        // Calc was found, so open calculator
-        this.$store.dispatch('openCalc', {
-          // Remove the first "/"
-          componentName: calcName
-        })
-      }
-    },
-    watch: {
-      route () {
-        console.log('route() watcher called.')
-        console.log(this.route)
-        this.handleRouteChange()
-      }
-    },
-    mounted () {
-
-      console.log('NinjaCalc app mounted.')
-
-      // ============================================ //
-      // ========== ELECTRONICS -> BASIC ============ //
-      // ============================================ //
-
-      this.$store.dispatch('registerCalc', capacitorChargeCalculator)
-      this.$store.dispatch('registerCalc', ohmsLawCalculator)
-      this.$store.dispatch('registerCalc', resistorDividerCalculator)
-      this.$store.dispatch('registerCalc', standardResistanceCalculator)
-
-      // ============================================ //
-      // ========= ELECTRONICS -> FILTERS =========== //
-      // ============================================ //
-
-      this.$store.dispatch('registerCalc', lowPassRcCalculator)
-
-      // ============================================ //
-      // =========== ELECTRONICS -> SMPS ============ //
-      // ============================================ //
-
-      this.$store.dispatch('registerCalc', buckConverterCalculator)
-
-      // ============================================ //
-      // ========= ELECTRONICS -> SENSORS =========== //
-      // ============================================ //
-
-      this.$store.dispatch('registerCalc', dewPointMagnusCalculator)
-      this.$store.dispatch('registerCalc', ntcThermistorTemperature)
-
-      // ============================================ //
-      // =========== ELECTRONICS -> PCB ============= //
-      // ============================================ //
-
-      this.$store.dispatch('registerCalc', microstripImpedanceCalculator)
-      this.$store.dispatch('registerCalc', trackCurrentIpc2221ACalculator)
-      this.$store.dispatch('registerCalc', trackCurrentIpc2152Calculator)
-      this.$store.dispatch('registerCalc', viaCurrentIpc2221ACalculator)
-
-      // ============================================ //
-      // ================= GEOSPATIAL =============== //
-      // ============================================ //
-
-      this.$store.dispatch('registerCalc', mapPlotter)
-      this.$store.dispatch('registerCalc', twoCoordinateGeodesics)
-
-      // ============================================ //
-      // ================== SOFTWARE ================ //
-      // ============================================ //
-
-      this.$store.dispatch('registerCalc', crcCalculator)
-      this.$store.dispatch('registerCalc', pidTuner)
-
-      // Show the overlay by default.
-      // THIS MUST BE DONE BEFORE handlerRouteChange() IS CALLED
+    route () {
+      return this.$store.state.route
+    }
+  },
+  methods: {
+    showCalculatorSelectionOverlay: function () {
       this.$store.commit('showCalculatorSelectionOverlay', {
         trueFalse: true
       })
+    },
+    showLeftSideNav () {
+      this.$store.commit('showLeftSideBar', {
+        trueFalse: true
+      })
+    },
+    handleTabsEdit (targetName, action) {
+      console.log('App.handleTabEdit() called.')
+      switch (action) {
+        case 'add':
+          // This should never get called, since we hid the "add" button!
+          throw new Error('action.add() is not supported by App.handleTabsEdit().')
+        case 'remove':
+          this.$store.commit('closeCalculator', {
+            // Need to convert string to integer
+            uniqueId: parseInt(targetName)
+          })
+          break
+        default:
+          throw new Error('Provided action to handleTabsEdit() was not supported.')
+      }
+    },
+    // This should be called everytime the $store.state.route object changes
+    // (i.e. whenever the route path changes)
+    // This function performs the state change required due to the route object changing
+    handleRouteChange () {
+      // Check to see if route is in the form "/calc/<calculator-name>"
+      var pattern = /^\/calc\//g
+      var regex = new RegExp(pattern)
+      var exec = regex.exec(this.route.path)
+      console.log('exec = ')
+      console.log(exec)
+      if(!exec) {
+        // "/calc/" at start of path was not found
+        console.error('"/calc/" was not found at start of route path.')
+        return
+      }
+      console.log('regex.lastIndex = ' + regex.lastIndex)
+      var calcName = this.route.path.substring(regex.lastIndex)
+      console.log('calcName = ' + calcName)
+      // Make sure path is valid calculator
+//        const calcName = this.route.path.substring(1, this.route.path.length)
+      var foundCalc = this.$store.state.core.availableCalcs.find((element) => {
+        return element.mainView.name === calcName
+      })
+      if (!foundCalc) {
+        // If no calculator was found, fail silently
+        console.error('Calculator "' + calcName + '" was not found.')
+        return
+      }
 
-      // Call this for the first time, since it may be already set,
-      // and we only start listening for changes from this point onwards.
+      // Hide the overlay
+      this.$store.commit('showCalculatorSelectionOverlay', {
+        trueFalse: false
+      })
+
+      // Calc was found, so open calculator
+      this.$store.dispatch('openCalc', {
+        // Remove the first "/"
+        componentName: calcName
+      })
+    }
+  },
+  watch: {
+    route () {
+      console.log('route() watcher called.')
+      console.log(this.route)
       this.handleRouteChange()
     }
+  },
+  mounted () {
+
+    console.log('NinjaCalc app mounted.')
+
+    // ============================================ //
+    // ========== ELECTRONICS -> BASIC ============ //
+    // ============================================ //
+
+    this.$store.dispatch('registerCalc', capacitorChargeCalculator)
+    this.$store.dispatch('registerCalc', ohmsLawCalculator)
+    this.$store.dispatch('registerCalc', resistorDividerCalculator)
+    this.$store.dispatch('registerCalc', standardResistanceCalculator)
+
+    // ============================================ //
+    // ========= ELECTRONICS -> FILTERS =========== //
+    // ============================================ //
+
+    this.$store.dispatch('registerCalc', lowPassRcCalculator)
+
+    // ============================================ //
+    // =========== ELECTRONICS -> SMPS ============ //
+    // ============================================ //
+
+    this.$store.dispatch('registerCalc', buckConverterCalculator)
+
+    // ============================================ //
+    // ========= ELECTRONICS -> SENSORS =========== //
+    // ============================================ //
+
+    this.$store.dispatch('registerCalc', dewPointMagnusCalculator)
+    this.$store.dispatch('registerCalc', ntcThermistorTemperature)
+
+    // ============================================ //
+    // =========== ELECTRONICS -> PCB ============= //
+    // ============================================ //
+
+    this.$store.dispatch('registerCalc', microstripImpedanceCalculator)
+    this.$store.dispatch('registerCalc', trackCurrentIpc2221ACalculator)
+    this.$store.dispatch('registerCalc', trackCurrentIpc2152Calculator)
+    this.$store.dispatch('registerCalc', viaCurrentIpc2221ACalculator)
+
+    // ============================================ //
+    // ================= GEOSPATIAL =============== //
+    // ============================================ //
+
+    this.$store.dispatch('registerCalc', mapPlotter)
+    this.$store.dispatch('registerCalc', twoCoordinateGeodesics)
+
+    // ============================================ //
+    // ================== SOFTWARE ================ //
+    // ============================================ //
+
+    this.$store.dispatch('registerCalc', crcCalculator)
+    this.$store.dispatch('registerCalc', pidTuner)
+
+    // Show the overlay by default.
+    // THIS MUST BE DONE BEFORE handlerRouteChange() IS CALLED
+    this.$store.commit('showCalculatorSelectionOverlay', {
+      trueFalse: true
+    })
+
+    // Call this for the first time, since it may be already set,
+    // and we only start listening for changes from this point onwards.
+    this.handleRouteChange()
   }
+}
 </script>
 
 <style>

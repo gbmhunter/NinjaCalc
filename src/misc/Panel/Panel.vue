@@ -1,5 +1,5 @@
 <template>
-    <div class="panel-container" style="">        
+    <div class="panel-container" style="">
         <div class="panel-title" v-on:click="titleClicked">{{ title }}</div>
         <transition
             name="collapse"

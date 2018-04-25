@@ -17,33 +17,33 @@
 </template>
 
 <script>
-    /* eslint-disable */
-    export default {
-        name: 'mn-modal',
-        props: {
-            type: {
-                type: String,
-                default: "alert",
-            },
+/* eslint-disable */
+export default {
+    name: 'mn-modal',
+    props: {
+        type: {
+            type: String,
+            default: "alert",
         },
-        data () {
-            return {}
+    },
+    data () {
+        return {}
+    },
+    components: {},
+    computed: {},
+    methods: {
+        handleCancelButtonClick () {
+            console.log('handleCancelButtonClick() called.')
+            this.$emit('cancel')
         },
-        components: {},
-        computed: {},
-        methods: {
-            handleCancelButtonClick () {
-                console.log('handleCancelButtonClick() called.')
-                this.$emit('cancel')
-            },
-            handleOkButtonClick () {
-                console.log('handleOkButtonClick() called.')
-                this.$emit('ok')
-            },
+        handleOkButtonClick () {
+            console.log('handleOkButtonClick() called.')
+            this.$emit('ok')
         },
-        watch: {},
-        mounted () {}
-    }
+    },
+    watch: {},
+    mounted () {}
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

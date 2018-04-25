@@ -70,7 +70,6 @@ export const CoordinateUnits = {
 }
 
 export class Geospatial {
-
   constructor () {
     this.EARTH_RADIUS_M = 6371e3
   }

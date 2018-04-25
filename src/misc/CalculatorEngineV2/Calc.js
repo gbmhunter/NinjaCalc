@@ -5,7 +5,6 @@ import { CalcVarString } from './CalcVarString'
 import { CalcVarInvisible } from './CalcVarInvisible'
 
 export default class Calc {
-
   constructor () {
     this.calcVars = []
   }

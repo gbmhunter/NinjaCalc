@@ -4,27 +4,27 @@
         <div class="modal-container">
             <slot name="body">
               default body
-            </slot>   
+            </slot>
         </div>
     </div>
   </transition>
 </template>
 
 <script>
-    /* eslint-disable */
-    export default {
-        name: 'mn-modal',
-        props: {
-        },
-        data () {
-            return {}
-        },
-        components: {},
-        computed: {},
-        methods: {},
-        watch: {},
-        mounted () {}
-    }
+/* eslint-disable */
+export default {
+    name: 'mn-modal',
+    props: {
+    },
+    data () {
+        return {}
+    },
+    components: {},
+    computed: {},
+    methods: {},
+    watch: {},
+    mounted () {}
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

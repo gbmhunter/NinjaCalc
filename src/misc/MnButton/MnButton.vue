@@ -3,38 +3,38 @@
 </template>
 
 <script>
-    /* eslint-disable */
-    export default {
-        name: 'panel',
-        props: {
-            disabledB: {
-                type: Boolean,
-                default: false
-            },
-            onClick: {
-                type: Function,
-                required: true
-            },
-            variant: {type: String}        
+/* eslint-disable */
+export default {
+    name: 'panel',
+    props: {
+        disabledB: {
+            type: Boolean,
+            default: false
         },
-        data () {
-            return {}
+        onClick: {
+            type: Function,
+            required: true
         },
-        components: {},
-        computed: {
-            buttonClasses () {
-                return {
-                    mnbutton: true,
-                    primary: this.variant === 'primary',
-                    success: this.variant === 'success',
-                    danger: this.variant === 'danger'
-                }
+        variant: {type: String}        
+    },
+    data () {
+        return {}
+    },
+    components: {},
+    computed: {
+        buttonClasses () {
+            return {
+                mnbutton: true,
+                primary: this.variant === 'primary',
+                success: this.variant === 'success',
+                danger: this.variant === 'danger'
             }
-        },
-        methods: {},
-        watch: {},
-        mounted () {},
-    }
+        }
+    },
+    methods: {},
+    watch: {},
+    mounted () {},
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

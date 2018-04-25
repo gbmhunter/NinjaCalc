@@ -1,5 +1,4 @@
 export default class StandardResistanceFinder {
-
   constructor () {
     // ============================================ //
     // ==================== ENUMS ================= //
@@ -86,26 +85,26 @@ export default class StandardResistanceFinder {
 
     // Find out what resistance series was selected
     switch (eSeries.value) {
-      case this.eSeriesOptions.E6.value:
-        selectedRange = this.e6Values
-        break
-      case this.eSeriesOptions.E12.value:
-        selectedRange = this.e12Values
-        break
-      case this.eSeriesOptions.E24.value:
-        selectedRange = this.e24Values
-        break
-      case this.eSeriesOptions.E48.value:
-        selectedRange = this.e48Values
-        break
-      case this.eSeriesOptions.E96.value:
-        selectedRange = this.e96Values
-        break
-      case this.eSeriesOptions.E192.value:
-        selectedRange = this.e192Values
-        break
-      default:
-        throw new Error('Provided eSeriesOption "' + eSeries.name + '" is not supported.')
+    case this.eSeriesOptions.E6.value:
+      selectedRange = this.e6Values
+      break
+    case this.eSeriesOptions.E12.value:
+      selectedRange = this.e12Values
+      break
+    case this.eSeriesOptions.E24.value:
+      selectedRange = this.e24Values
+      break
+    case this.eSeriesOptions.E48.value:
+      selectedRange = this.e48Values
+      break
+    case this.eSeriesOptions.E96.value:
+      selectedRange = this.e96Values
+      break
+    case this.eSeriesOptions.E192.value:
+      selectedRange = this.e192Values
+      break
+    default:
+      throw new Error('Provided eSeriesOption "' + eSeries.name + '" is not supported.')
     }
     // console.log('selectedRange =')
     // console.log(selectedRange)
@@ -148,73 +147,73 @@ export default class StandardResistanceFinder {
     var i = 0
 
     switch (searchMethod) {
-      case this.searchMethods.CLOSEST:
-        // Iterate through array until we hit the first element which is bigger than the value we are
-        // trying to find.
-        // NOTE: Start of 2nd element of array!
-        i = 1
-        while (true) {
-          if (array[i] > val) {
-            break
-          }
-
-          if (i === array.length - 1) {
-            break
-          }
-          i++
+    case this.searchMethods.CLOSEST:
+      // Iterate through array until we hit the first element which is bigger than the value we are
+      // trying to find.
+      // NOTE: Start of 2nd element of array!
+      i = 1
+      while (true) {
+        if (array[i] > val) {
+          break
         }
 
-        // At this point either:
-        // 1) We have stopped somewhere in the middle of the array. val will be higher than array[i-1]
-        //    and lower than array[i]. We need to find which one is closer (based on percentage difference)
-        // 2) We have stopped either on the second or last element of the array. If it is the second, val will
-        //    be closest to array[i-1], if it is the last, val will be closest to array[i].
-        // console.log('Stopped when i = ' + i)
-        // console.log('Closest value 1 = ' + array[i - 1])
-        // console.log('Closest value 2 = ' + array[i])
+        if (i === array.length - 1) {
+          break
+        }
+        i++
+      }
 
-        var lowerPercDiff = ((val - array[i - 1]) / array[i - 1]) * 100.0
-        // console.log('Percentage diff 1 = ' + lowerPercDiff)
-        var higherPercDiff = ((val - array[i]) / array[i]) * 100.0
-        // console.log('Percentage diff 2 = ' + higherPercDiff)
+      // At this point either:
+      // 1) We have stopped somewhere in the middle of the array. val will be higher than array[i-1]
+      //    and lower than array[i]. We need to find which one is closer (based on percentage difference)
+      // 2) We have stopped either on the second or last element of the array. If it is the second, val will
+      //    be closest to array[i-1], if it is the last, val will be closest to array[i].
+      // console.log('Stopped when i = ' + i)
+      // console.log('Closest value 1 = ' + array[i - 1])
+      // console.log('Closest value 2 = ' + array[i])
 
-        if (Math.abs(lowerPercDiff) < Math.abs(higherPercDiff)) {
+      var lowerPercDiff = ((val - array[i - 1]) / array[i - 1]) * 100.0
+      // console.log('Percentage diff 1 = ' + lowerPercDiff)
+      var higherPercDiff = ((val - array[i]) / array[i]) * 100.0
+      // console.log('Percentage diff 2 = ' + higherPercDiff)
+
+      if (Math.abs(lowerPercDiff) < Math.abs(higherPercDiff)) {
+        return array[i - 1]
+      } else {
+        return array[i]
+      }
+    case this.searchMethods.CLOSEST_EQUAL_OR_LOWER:
+      // console.log('Finding closest equal or lower value to "' + val + '" in array =')
+      // console.log(array)
+
+      // First make sure there is a lower value in the array
+      if (array[0] > val) {
+        throw new Error('StandardResistanceFinder.Find() called with searchMethod = CLOSEST_EQUAL_OR_LOWER, but there way no value in the array lower than the provided value of ' + val)
+      }
+
+      i = 1
+      while (i < array.length) {
+        if (array[i] > val) {
+          // We have found the first value in the array which is bigger than the value, so the closest smaller value must of been the value before this
           return array[i - 1]
-        } else {
+        }
+        i++
+      }
+      break
+
+    case this.searchMethods.CLOSEST_EQUAL_OR_HIGHER:
+
+      i = 0
+      while (i < array.length) {
+        if (array[i] >= val) {
+          // We have found the first value in the array which is bigger than the value, so the closest smaller value must of been the value before this
           return array[i]
         }
-      case this.searchMethods.CLOSEST_EQUAL_OR_LOWER:
-        // console.log('Finding closest equal or lower value to "' + val + '" in array =')
-        // console.log(array)
+        i++
+      }
 
-        // First make sure there is a lower value in the array
-        if (array[0] > val) {
-          throw new Error('StandardResistanceFinder.Find() called with searchMethod = CLOSEST_EQUAL_OR_LOWER, but there way no value in the array lower than the provided value of ' + val)
-        }
-
-        i = 1
-        while (i < array.length) {
-          if (array[i] > val) {
-            // We have found the first value in the array which is bigger than the value, so the closest smaller value must of been the value before this
-            return array[i - 1]
-          }
-          i++
-        }
-        break
-
-      case this.searchMethods.CLOSEST_EQUAL_OR_HIGHER:
-
-        i = 0
-        while (i < array.length) {
-          if (array[i] >= val) {
-            // We have found the first value in the array which is bigger than the value, so the closest smaller value must of been the value before this
-            return array[i]
-          }
-          i++
-        }
-
-        // Special case here where the first larger number is the first number of the next series
-        throw new Error('StandardResistanceFinder.Find() called with searchMethod = CLOSEST_EQUAL_OR_HIGHER, but there was no value in the array which was equal of higher than the provided value of ' + val)
+      // Special case here where the first larger number is the first number of the next series
+      throw new Error('StandardResistanceFinder.Find() called with searchMethod = CLOSEST_EQUAL_OR_HIGHER, but there was no value in the array which was equal of higher than the provided value of ' + val)
     }
 
     throw new Error('Code reached invalid place. Case must not of been handled correctly in switch statement.')

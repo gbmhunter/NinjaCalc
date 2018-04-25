@@ -59,45 +59,47 @@
 </template>
 
 <script>
+import Calc from '@/misc/CalculatorEngineV2/Calc'
+import {
+  CalcVarNumeric,
+  NumericValidators
+} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
+import { UnitMulti } from '@/misc/CalculatorEngineV2/UnitMulti'
+import { CustomValidator } from '@/misc/CalculatorEngineV2/CustomValidator'
+import StandardResistanceFinder from '@/misc/StandardResistanceFinder/StandardResistanceFinder'
+import ESeriesRow from './ESeriesRow.vue'
 
-  import Calc from '@/misc/CalculatorEngineV2/Calc'
-  import {CalcVarNumeric, NumericValidators} from '@/misc/CalculatorEngineV2/CalcVarNumeric'
-  import {UnitMulti} from '@/misc/CalculatorEngineV2/UnitMulti'
-  import { CustomValidator } from '@/misc/CalculatorEngineV2/CustomValidator'
-  import StandardResistanceFinder from '@/misc/StandardResistanceFinder/StandardResistanceFinder'
-  import ESeriesRow from './ESeriesRow.vue'
+var standardResistanceFinder = new StandardResistanceFinder()
 
-  var standardResistanceFinder = new StandardResistanceFinder()
+// ============================================ //
+// =================== vue Object ============= //
+// ============================================ //
+export default {
+  name: 'standard-resistance-calculator',
+  components: {
+    ESeriesRow
+  },
+  data: function () {
+    console.log('data called.')
+    var calc = new Calc()
 
-  // ============================================ //
-  // =================== vue Object ============= //
-  // ============================================ //
-  export default {
-    name: 'standard-resistance-calculator',
-    components: {
-      ESeriesRow
-    },
-    data: function () {
-      console.log('data called.')
-      var calc = new Calc()
-
-      // ============================================ //
-      // ======== DESIRED RESISTANCE (input) ======== //
-      // ============================================ //
-      calc.addVar(new CalcVarNumeric({
+    // ============================================ //
+    // ======== DESIRED RESISTANCE (input) ======== //
+    // ============================================ //
+    calc.addVar(
+      new CalcVarNumeric({
         name: 'desiredResistance',
         typeEqn: () => {
           return 'input'
         },
-        eqn: () => {
-        },
+        eqn: () => {},
         rawVal: '',
         units: [
-          new UnitMulti({name: 'mΩ', multi: 1e-3}),
-          new UnitMulti({name: 'Ω', multi: 1e0}),
-          new UnitMulti({name: 'kΩ', multi: 1e3}),
-          new UnitMulti({name: 'MΩ', multi: 1e6}),
-          new UnitMulti({name: 'GΩ', multi: 1e9})
+          new UnitMulti({ name: 'mΩ', multi: 1e-3 }),
+          new UnitMulti({ name: 'Ω', multi: 1 }),
+          new UnitMulti({ name: 'kΩ', multi: 1e3 }),
+          new UnitMulti({ name: 'MΩ', multi: 1e6 }),
+          new UnitMulti({ name: 'GΩ', multi: 1e9 })
         ],
         defaultUnitName: 'Ω',
         roundTo: 4,
@@ -107,46 +109,49 @@
           new CustomValidator({
             func: () => {
               // Read dependency variables
-              var desiredResistance = calc.getVar('desiredResistance').getRawVal()
-              return (desiredResistance >= 1.0 && desiredResistance <= 10.0e6)
+              var desiredResistance = calc
+                .getVar('desiredResistance')
+                .getRawVal()
+              return desiredResistance >= 1.0 && desiredResistance <= 10.0e6
             },
-            text: 'The desired resistance is outside the "normal" purchasable resistance range of 1Ω to 10MΩ. Some or all of the standard E-series may not have a resistor available with the desired resistance.',
+            text:
+              'The desired resistance is outside the "normal" purchasable resistance range of 1Ω to 10MΩ. Some or all of the standard E-series may not have a resistor available with the desired resistance.',
             level: 'warning'
           })
         ],
-        helpText: 'The resistance you actually want. The closest value to this resistance will be found in each resistor series.'
-      }))
+        helpText:
+          'The resistance you actually want. The closest value to this resistance will be found in each resistor series.'
+      })
+    )
 
-      return {
-        calc: calc,
-        standardResistanceFinder: standardResistanceFinder
-      }
-    },
-    mounted () {
-      this.calc.init()
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
+    return {
+      calc: calc,
+      standardResistanceFinder: standardResistanceFinder
     }
+  },
+  mounted () {
+    this.calc.init()
+    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub])
   }
-
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .header-row {
-    font-weight: bold;
-  }
+.header-row {
+  font-weight: bold;
+}
 
-  .calculator-container {
-    display: flex;
-    flex-direction: column;
-    /* Center horizontally */
-    align-items: center;
-    /* Center vertically */
-    justify-content: center;
-  }
+.calculator-container {
+  display: flex;
+  flex-direction: column;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+  justify-content: center;
+}
 
-  #closest-resistance {
-    width: 30px;
-  }
-
+#closest-resistance {
+  width: 30px;
+}
 </style>

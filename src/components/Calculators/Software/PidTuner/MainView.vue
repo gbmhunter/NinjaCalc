@@ -1,5 +1,5 @@
 <template>
-    <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">        
+    <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">
 
         <!-- H FLEX -->
         <div style="display: flex;">
@@ -18,7 +18,7 @@
                                 <option v-for="option in processes" v-bind:value="option.name" v-bind:key="option.name">
                                     {{ option.name }}
                                 </option>
-                            </select>                            
+                            </select>
                         </div>
                         <div style="height: 10px;"/> <!-- V SPACER -->
                         <div>
@@ -45,9 +45,7 @@
                                 </tr>
                             </table>
                         </div>
-                        
                         <div style="height: 20px;"/>
-
                         <div>
                             <span class="panel-subheading">Run Mode:</span><br>
                             <select v-model="simulationConfig.runMode" :options="runModes" :disabled="simulationRunning" style="width: 240px; height: 30px; background-color: transparent;">
@@ -55,22 +53,21 @@
                                 {{ option }}
                                 </option>
                             </select>
-                            <mn-button 
+                            <mn-button
                                 :variant="!simulationRunning ? 'success' : 'danger'"
                                 :onClick="startStopSimulation"
                                 style="width: 80px; height: 50px;">
                                 <div style="font-size: 18px;">{{ !simulationRunning ? 'START' : 'STOP' }}</div>
-                            </mn-button>   
-                        </div>         
-                                         
-                    </div>       
+                            </mn-button>
+                        </div>
+                    </div>
                 </ui-collapsible>
 
                 <div style="height: 10px;" />
 
                 <!-- =================== -->
                 <!-- ===== CONTROLS ==== -->
-                <!-- =================== -->                
+                <!-- =================== -->
                 <ui-collapsible title="Controls" :open='true' class="panel">
                     <div style="display: flex; flex-direction: column;">
                         <span class="panel-subheading">
@@ -78,16 +75,16 @@
                         </span>
                         <div>
                             <div style="height: 40px;"/>
-                            <vue-slider 
+                            <vue-slider
                                 ref="slider"
                                 v-model="controlVariable"
                                 :min="Number(pidConfig.controlVariableLimits.min)"
                                 :max="Number(pidConfig.controlVariableLimits.max)"
                                 :interval="(Number(pidConfig.controlVariableLimits.max) - Number(pidConfig.controlVariableLimits.min)) / 100.0"
-                                :disabled="simulationConfig.runMode === simulationRunModesEnum.MANUAL_CONTROL_PV || 
+                                :disabled="simulationConfig.runMode === simulationRunModesEnum.MANUAL_CONTROL_PV ||
                                         simulationConfig.runMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
                                 style="width:300px;" />
-                        </div>   
+                        </div>
                         <span class="panel-subheading">
                             SP ({{ this.simulationConfig.processVarName + ', ' + this.simulationConfig.processVarUnits }})
                         </span>
@@ -98,7 +95,7 @@
                                 v-model="setPoint"
                                 :min="simulationConfig.processVarLimMin" :max="simulationConfig.processVarLimMax"
                                 :interval="(Number(simulationConfig.processVarLimMax) - Number(simulationConfig.processVarLimMin)) / 100.0"
-                                :disabled="simulationConfig.runMode === simulationRunModesEnum.MANUAL_CONTROL_CV || 
+                                :disabled="simulationConfig.runMode === simulationRunModesEnum.MANUAL_CONTROL_CV ||
                                         simulationConfig.runMode === simulationRunModesEnum.AUTO_PV_STEP_CHANGES"
                                 style="width:300px;"/>
                         </div>
@@ -112,7 +109,7 @@
                 <!-- =================== -->
                 <ui-collapsible title="PID Settings" :open='true' class="panel">
                     <span class="panel-subheading">PID Constants</span>
-                    <table class="sliders"> 
+                    <table class="sliders">
                     <tbody>
                         <tr>
                             <td>Constant</td>
@@ -171,15 +168,15 @@
                             min <input v-model="pidConfig.integralLimitConfig.constantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                             max <input v-model="pidConfig.integralLimitConfig.constantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                         </div>
-                    </div> <!-- <div id="integral-limiting-container"> -->    
+                    </div> <!-- <div id="integral-limiting-container"> -->
                     <div style="height: 20px;"/>
                     <div>
                         <span class="panel-subheading">Control Variable Limits:</span>
                         <br>
-                        min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/> 
+                        min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
                         max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
                     </div>
-                </ui-collapsible> <!-- <panel title="PID Settings"> -->        
+                </ui-collapsible> <!-- <panel title="PID Settings"> -->
             </div> <!-- <div id="controls" style="display: flex;"> -->
 
             <div style="width: 30px;"/> <!-- H SPACER -->
@@ -195,7 +192,7 @@
                     <canvas id="pidTermsChart" width="800" height="400"></canvas>
                 </div>
             </div>
-        </div>        
+        </div>
 
         <div style="height: 20px;"/>
 
@@ -211,7 +208,7 @@
         </mn-modal>
 
         <mn-msgbox v-if="showSelProcessChangeConfirm" type="confirm" @ok="handleSelProcessChangeConfirm" @cancel="handleSelProcessChangeCancel">
-            This will load a new process. All existing changes and chart data will be lost. Continue? 
+            This will load a new process. All existing changes and chart data will be lost. Continue?
         </mn-msgbox>
     </div>
 </template>
@@ -867,7 +864,6 @@ legend.panel {
   padding-inline-start: 2px;
   padding-inline-end: 2px;
 }
-
 
 </style>
 

@@ -2,7 +2,6 @@
  * "Abstract" class that represents a calculator variable.
  */
 export default class CalcVar {
-
   constructor (initObj) {
     // This is an "abstract" class, prevent user from instantiating one directly
     if (this.constructor === CalcVar) {
@@ -84,5 +83,4 @@ export default class CalcVar {
     // console.log('isNumber() called with number = ' + number)
     return !isNaN(number)
   }
-
 }
