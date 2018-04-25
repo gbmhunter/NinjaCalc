@@ -9,7 +9,9 @@
       </md-toolbar>
 
       <div style="height: 50px;"></div>
-      <ui-button @click.native="showCalculatorSelectionOverlay" color="primary">New Calculator</ui-button>
+      <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <ui-button @click.native="showCalculatorSelectionOverlay" color="primary" style="width: 200px;">New Calculator</ui-button>
+      </div>
     </md-sidenav>
     <!--{{ this.$store.state.showLeftSideBar }}-->
   </div>

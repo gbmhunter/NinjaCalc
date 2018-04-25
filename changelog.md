@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Default run mode for both mass-spring-damper and R/C jet engine processes in PID tuner is now 'Manual PV Control (PID)'.
 - Fixed bug where 'Set Point' line was added twice to chart in PID tuner tool.
 - Fixed bug where PV limits for each scenario in the PID tuner tool where not being set correctly.
+- Fixed bug where 'New Calculator' button was not centered in side nav.
 
 ## [v3.4.0] - 2018-04-22
 
