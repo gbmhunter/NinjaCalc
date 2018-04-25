@@ -1,4 +1,4 @@
-<template xmlns:v-on="http://www.w3.org/1999/xhtml">
+<template>
   <transition name="modal">
     <div class="modal-mask" v-on:click="borderClicked">
       <div class="modal-wrapper">
@@ -6,18 +6,18 @@
         overlay only being closed when the modal-mask is clicked directly -->
         <div class="modal-container" v-on:click.stop="overlayClicked">
           <div class="modal-body" style="display: flex; flex-direction: row; height: 100%;">
-            <!------------------------>
-            <!-- CATEGORY TREE VIEW -->
-            <!------------------------>
+            <!-- ========================================= -->
+            <!-- ============ CATEGORY TREE VIEW ========= -->
+            <!-- ========================================= -->
             <div style="width: 200px; text-align: left; border-right: 1px solid #cdcdcd;">
               <tree-view :data="treeData" v-on:clicked="categoryClicked" />
             </div>
             <!-- The flex: 1 below makes the grid/search take up the remaining horizontal space
              once the category filter has been assigned space on the left hand-side -->
           <div style="flex: 1; display: flex; flex-direction: column; height: 100%;">
-            <!-- ================ -->
-            <!-- SEARCH CONTAINER -->
-            <!-- ================ -->
+            <!-- ========================================= -->
+            <!-- ============= SEARCH CONTAINER ========== -->
+            <!-- ========================================= -->
             <div id="search-container" style="display: flex;">
               <div style="width: 5px;"/>
               <span>Search</span>
@@ -26,9 +26,9 @@
             </div>
 
             <div style="height: 20px;"/>
-            <!---------------------------------->
-            <!-- GENERATE CALCULATOR PREVIEWS -->
-            <!---------------------------------->
+            <!-- ========================================= -->
+            <!-- ====== GENERATE CALCULATOR PREVIEWS ===== -->
+            <!-- ========================================= -->
             <transition-group name="list" tag="div" class="preview-grid">
               <CalcPreview v-for="item in $store.state.core.calcsFilteredByCategoryAndSearch"
                            class="list-complete-item"
