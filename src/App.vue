@@ -116,7 +116,7 @@ export default {
       console.log(exec)
       if(!exec) {
         // "/calc/" at start of path was not found
-        console.error('"/calc/" was not found at start of route path.')
+        // console.error('"/calc/" was not found at start of route path.')
         return
       }
       console.log('regex.lastIndex = ' + regex.lastIndex)
@@ -303,16 +303,6 @@ export default {
   div.calculator-container {
     /* margin: auto prevents the top and bottom of overflowing flex content from NOT being accessable within a flex */
     margin: auto;
-  }
-
-  /* Targets the "expandable" calculator info sections at the top of
-  each calculator */
-  .calc-info {
-    padding-top: 20px;
-    padding-bottom: 20px;
-
-    /* Justify the left/right sides of the text within tooltip */
-    text-align: justify;
   }
 
   div.modal-mask {

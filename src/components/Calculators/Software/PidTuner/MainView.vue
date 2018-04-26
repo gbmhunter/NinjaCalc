@@ -1,6 +1,16 @@
 <template>
     <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">
 
+      <InfoCollapsible title="Info" style="max-width: 600px;">
+        <p>This tool can be used to explore how changing the P, I and D terms of a PID controller can effect the response of the system. It can be used to simulate various processes (a.k.a. plants or systems), and then can be used to tune the PID controller appropriately.</p>
+        
+        <p>Two pre-designed processes (a mass/spring/damper and small R/C jet engine) or a custom user-defined process can be used. To setup your own process select 'User Defined' as the process and then click 'Edit Process'. From there, see the code comments for further instructions/guidance.</p>
+
+        <p>The mass/spring/damper and jet engine processes are sensitive to the simulation time step. Both are modelled by assuming specific variables remain constant over a small time step. For this reason, the model may be inaccurate if the time step is too large. A time step between 10-50ms seem to work well in most cases.</p>
+
+        <p>For more information on PID controllers, please see <a href="http://blog.mbedded.ninja/programming/general/pid-control">http://blog.mbedded.ninja/programming/general/pid-control</a>.</p>
+      </InfoCollapsible>
+
         <!-- H FLEX -->
         <div style="display: flex;">
             <!-- The style "min-height: min-content" is required so that this flex box"s height expands to the maximum width
@@ -108,6 +118,7 @@
                 <!-- === PID SETTINGS == -->
                 <!-- =================== -->
                 <ui-collapsible title="PID Settings" :open="true" class="panel">
+                  <div style="display: flex; flex-direction: column;">
                     <span class="panel-subheading">PID Constants</span>
                     <table class="sliders">
                     <tbody>
@@ -152,7 +163,7 @@
                     <div style="height: 20px;"/>
 
                     <!-- INTEGRAL LIMITING SETTINGS -->
-                    <div id="integral-limiting-container">
+                    <div id="integral-limiting-container" style="display: flex; flex-direction: column; justify-content: center;">
                     <span class="panel-subheading">Integral Limiting (Windup Control)</span>
                     <div style="height: 10px;"/>
                     <div>
@@ -164,17 +175,21 @@
                         </select>
                     </div>
                     <div style="height: 10px;"/>
-                        <div>
-                            min <input v-model="pidConfig.integralLimitConfig.constantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
-                            max <input v-model="pidConfig.integralLimitConfig.constantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
-                        </div>
+                    <div style="display: flex; justify-content: center;">
+                        min <input v-model="pidConfig.integralLimitConfig.constantMin" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
+                        &nbsp;&nbsp;&nbsp;
+                        max <input v-model="pidConfig.integralLimitConfig.constantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
+                    </div>
                     </div> <!-- <div id="integral-limiting-container"> -->
                     <div style="height: 20px;"/>
-                    <div>
-                        <span class="panel-subheading">Control Variable Limits:</span>
-                        <br>
-                        min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
-                        max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
+            
+                    <span class="panel-subheading">Control Variable Limits:</span>
+                    <div style="display: flex; justify-content: center;">
+                      min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
+                      &nbsp;&nbsp;&nbsp;
+                      max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
+                    </div>
+                  
                     </div>
                 </ui-collapsible> <!-- <panel title="PID Settings"> -->
             </div> <!-- <div id="controls" style="display: flex;"> -->
@@ -891,21 +906,9 @@ a {
   width: 50px;
 }
 
-fieldset.panel {
-  display: block;
-  margin-inline-start: 2px;
-  margin-inline-end: 2px;
-  border: groove 2px ThreeDFace;
-  padding-block-start: 0.35em;
-  padding-inline-end: 0.625em;
-  padding-block-end: 0.75em;
-  padding-inline-start: 0.625em;
-  min-width: min-content;
-}
-
-legend.panel {
-  padding-inline-start: 2px;
-  padding-inline-end: 2px;
+span.panel-subheading {
+  text-align: center;
+  font-weight: bold;
 }
 </style>
 

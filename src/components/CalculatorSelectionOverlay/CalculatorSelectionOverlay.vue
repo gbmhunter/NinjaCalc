@@ -91,7 +91,7 @@ export default {
   methods: {
     addCategoriesToTree (categories, treeNode) {
       // console.log('addCategoriesToTree() called with categories =')
-      console.log(categories)
+      // console.log(categories)
 
       // Copy array, we are going to modify it, and we don't want to touch
       // the original!
@@ -108,7 +108,7 @@ export default {
 
       // Add first category element if it doesn't already exist
       if (!inTree) {
-        console.log('Category ' + categories[0] + ' not found in tree.')
+        // console.log('Category ' + categories[0] + ' not found in tree.')
         var newTreeNode = {
           'name': categories[0],
           'selected': false,
@@ -134,11 +134,11 @@ export default {
       // (event does not bubble because of .stop modifier in HTML)
     },
     itemClick (node) {
-      console.log(node.model.text + ' clicked !')
+      // console.log(node.model.text + ' clicked !')
     },
     categoryClicked (payload) {
-      console.log('categoryClicked() called. payload =')
-      console.log(payload)
+      // console.log('categoryClicked() called. payload =')
+      // console.log(payload)
 
       if (payload.isSelected) {
         this.$store.dispatch('setSelCategory', payload.category)
