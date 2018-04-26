@@ -820,8 +820,8 @@ export default {
       this.pidTermsChartConfig
     )
 
-    // Set default process, and then load it
-    this.selProcessName = this.processes[1].name
+    // Set default process (mass-spring-damper), and then load it
+    this.selProcessName = this.processes[0].name
     this.processLoad()
 
     // Set the run mode to auto by default. This should trigger watch
