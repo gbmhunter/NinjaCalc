@@ -275,7 +275,7 @@ export default {
         options: {
           title: {
             display: true,
-            text: 'Plant Output And PID Set-Point'
+            text: 'Process Output And PID Set-Point'
           },
           scales: {
             xAxes: [
