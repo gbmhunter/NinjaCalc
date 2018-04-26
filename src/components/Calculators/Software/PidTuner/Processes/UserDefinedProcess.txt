@@ -1,5 +1,11 @@
+/**
+ * This variable contains all the information needed to define a specific process for the PID tuner to use.
+ */
 var process = {
 
+  /**
+   * This function returns an object containing the default configuration settings for the PID tuner.
+   */
   getDefaults: function () {
     return {
       simulationConfig: {
@@ -46,11 +52,14 @@ var process = {
     }
   },
 
+  /**
+   * This is called once by the PID tuner when this process is loaded. 
+   * Do any initialization you need here.
+   * State can be saved using this.varName
+   * e.g.
+   * this.initTemp = 20.0
+   */
   init: function () {
-    // Do any initialization you need here.
-    // State can be saved using this.varName
-    // e.g.
-    // this.initTemp = 20.0
     this.pv = 0.0
   },
 
