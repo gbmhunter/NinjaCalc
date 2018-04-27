@@ -2,7 +2,7 @@
 
   <div id="crc-calculator" class="calculator-container" style="display: flex; flex-direction: column;">
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px; margin: auto;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 600px; margin: auto;">
       <p>This calculator takes in the provided data (as either ASCII/Unicode or hex) and calculates the resulting CRC
         value using a range of popular CRC algorithms.</p>
 
@@ -11,7 +11,7 @@
         (Unicode is a complete superset of ASCII, so all ASCII characters map to the same integer values as Unicode
         characters).</p>
 
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <!-- =========================================================================================== -->
     <!-- ========================================= INPUT DATA ====================================== -->

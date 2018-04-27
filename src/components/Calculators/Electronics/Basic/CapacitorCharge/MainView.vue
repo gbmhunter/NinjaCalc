@@ -2,7 +2,7 @@
 
   <div class="calculator-container">
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 600px;">
       <p>The following calculator works out either charge, capacitance, or voltage given the other two parameters, using the equation:</p>
 
       <p>$$ Q = CV $$</p>
@@ -13,7 +13,7 @@
         \( C \) = capacitance of the capacitor<br>
         \( V \) = voltage across the capacitor<br>
       </p>
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 

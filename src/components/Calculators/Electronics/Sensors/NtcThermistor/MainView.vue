@@ -2,7 +2,7 @@
 
   <div class="calculator-container">
 
-    <ui-collapsible title="Info" class="calc-info" style="width: 600px;">
+    <InfoCollapsible title="Info" class="calc-info" style="width: 600px;">
       <p>This calculator allows the calculation of various thermistor properties by using the <i>Beta equation</i>. The
         Beta equation is commonly used in microcontroller code to work out the thermistor temperature after the micro's
         ADC measures the thermistors resistance.</p>
@@ -41,7 +41,7 @@
       <p>To find \(T\):</p>
 
       <p>$$ T = \frac{1}{\frac{1}{T_0} + \frac{1}{\beta}ln(\frac{R}{R_0})} $$</p>
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <div style="height: 20px;"></div>
 

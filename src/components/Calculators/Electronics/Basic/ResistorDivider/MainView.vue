@@ -1,7 +1,7 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="calculator-container">
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 600px;">
       The following calculator works out either \( V_{in} \), \( R_1 \), \( R_2 \), or \( V_{out}\), given the other three parameters, using the resistive voltage divider equation:
 
       $$ V_{out}=\frac{R_2}{R_1+R_2}V_{in} $$
@@ -18,7 +18,7 @@
       The quiescent current through the divider, \( I_q \), is also calculated, which can be useful to know when designing power-saving circuits. The equation to find \( I_q \) is:
 
       $$ I_q = \frac{V_{in}}{R_1+R_2} $$
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <div id="resistor-divider-calculator" class="diagram-container"
          style="position: relative; width: 600px; height: 600px;">

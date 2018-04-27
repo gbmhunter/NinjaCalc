@@ -3,11 +3,8 @@
 
       <InfoCollapsible title="Info" style="max-width: 600px;">
         <p>This tool can be used to explore how changing the P, I and D terms of a PID controller can effect the response of the system. It can be used to simulate various processes (a.k.a. plants or systems), and then can be used to tune the PID controller appropriately.</p>
-        
         <p>Two pre-designed processes (a mass/spring/damper and small R/C jet engine) or a custom user-defined process can be used. To setup your own process select 'User Defined' as the process and then click 'Edit Process'. From there, see the code comments for further instructions/guidance.</p>
-
         <p>The mass/spring/damper and jet engine processes are sensitive to the simulation time step. Both are modelled by assuming specific variables remain constant over a small time step. For this reason, the model may be inaccurate if the time step is too large. A time step between 10-50ms seem to work well in most cases.</p>
-
         <p>For more information on PID controllers, please see <a href="http://blog.mbedded.ninja/programming/general/pid-control">http://blog.mbedded.ninja/programming/general/pid-control</a>.</p>
       </InfoCollapsible>
 
@@ -182,14 +179,12 @@
                     </div>
                     </div> <!-- <div id="integral-limiting-container"> -->
                     <div style="height: 20px;"/>
-            
                     <span class="panel-subheading">Control Variable Limits:</span>
                     <div style="display: flex; justify-content: center;">
                       min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
                       &nbsp;&nbsp;&nbsp;
                       max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
                     </div>
-                  
                     </div>
                 </ui-collapsible> <!-- <panel title="PID Settings"> -->
             </div> <!-- <div id="controls" style="display: flex;"> -->
