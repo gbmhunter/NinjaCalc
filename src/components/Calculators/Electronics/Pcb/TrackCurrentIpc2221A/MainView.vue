@@ -5,7 +5,7 @@
     <!-- SPACER -->
     <div style="height: 50px;"></div>
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 800px;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 800px;">
       <p>This calculator can find the minimum PCB track width (external or internal layer) given the track current, the
         allowed temperature rise, and copper layer thickness.</p>
 
@@ -42,7 +42,7 @@
 
       <p>The IPC-2152 standard supersedes this standard. It is designed to produce a more accurate track width calculation, but does require more variables.
         <a @click="openIpc2152Calc">Click here to open an IPC-2152 calculator</a>.</p>
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <!-- SPACER -->
     <div style="height: 50px;"></div>

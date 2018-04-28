@@ -2,7 +2,7 @@
 
   <div class="calculator-container">
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 600px;">
       <p>The following calculator works out either voltage, current or resistance, given the other two parameters, using the equation:</p>
 
       <p>$$ V = IR $$</p>
@@ -13,7 +13,7 @@
         \( I \) = current through the resistor<br>
         \( R \) = resistance of the resistor<br>
       </p>
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 

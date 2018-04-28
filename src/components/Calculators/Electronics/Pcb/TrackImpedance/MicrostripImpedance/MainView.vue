@@ -5,7 +5,7 @@
     <!-- SPACER -->
     <div style="height: 20px;"></div>
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 800px;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 800px;">
       <p>This calculator can find the impedance of various microstrip and stripline style PCB tracks.</p>
 
       <p>To calculate the impedance of a microstrip, we need to know the following parameters of the PCB:</p>
@@ -32,7 +32,7 @@
       <p>Equations are from <a href="http://www.rfcafe.com/references/electrical/microstrip-eq.htm" target="_blank">http://www.rfcafe.com/references/electrical/microstrip-eq.htm</a>.</p>
 
       <p>More information on microstrips can be found at <a href="http://blog.mbedded.ninja/pcb-design/impedance-controlled-routing/microstrips" target="_blank">http://blog.mbedded.ninja/pcb-design/impedance-controlled-routing/microstrips</a>.</p>
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <!-- Background image is centered in diagram container -->
     <canvas ref="canvas" style="width: 600px; height: 300px;"></canvas>

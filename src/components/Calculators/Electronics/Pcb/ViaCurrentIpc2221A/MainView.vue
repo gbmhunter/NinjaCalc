@@ -2,7 +2,7 @@
 
   <div class="calculator-container">
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 800px; margin: auto;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 800px; margin: auto;">
       <p>Use this calculator to find the maximum current that a PCB via can handle (a.k.a. as it's <i>ampacity</i>). This calculator uses equations formed from the data presented in the IPC-2221A standard. This equation takes into account the via diameter, via plating thickness and permissible temperature rise.</p>
 
       <p>The equation used to calculate the maximum via current is:</p>
@@ -42,7 +42,7 @@
       <p>
 
       <p>Remember this calculator does not take into account other nearby heat sources.</p>
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <!-- This div can be treated like a HBox -->
     <div style="display: flex;">

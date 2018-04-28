@@ -2,7 +2,7 @@
 
   <div class="calculator-container" style="width: 600px; height: 600px;">
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 600px;">
       <h1>What Is This?</h1>
 
       <p>Enter your desired resistance, and this calculator will find the closest <i>preferred value</i> (purchasable resistance) in each one of the EIA <i>E series</i>, from E6 to E192. The percentage difference between your desired resistance and the preferred value is also shown for each E series.</p>
@@ -14,7 +14,7 @@
       <p>Note that although the E48 series has more values per decade than say, the E24 series, you might find a closer resistance in the E24 series due to the E6, E12 and E24 using a different number sequence to the E48, E96 and E192 series.</p>
 
       <p>If your desired resistance is exactly half-way (in percentage terms) between two preferred values, this calculator will choose the higher resistance.</p>
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <!-- ========================================= -->
     <!-- ====== DESIRED RESISTANCE (input) ======= -->

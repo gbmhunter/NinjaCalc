@@ -2,7 +2,7 @@
 
   <div class="calculator-container">
 
-    <ui-collapsible title="Info" class="calc-info" style="width: 600px;">
+    <InfoCollapsible title="Info" class="calc-info" style="width: 600px;">
       <p>This calculator uses the <i>August-Roche-Magnus equation</i> (also known just as <i>Magnus equation</i>) to allow the calculation of either air temperature, relative humidity, or the dew point (as a temperature, also known as the <i>dew point temperature</i>), when you know the other two values.</p>
 
       <p>The dew point is given as:</p>
@@ -23,7 +23,7 @@
         \( b = 17.625 \)<br>
         \( c = 243.03^{\circ}C \)
       </p>
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <table style="margin: auto; border-spacing: 20px;">
       <tbody>

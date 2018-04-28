@@ -29,6 +29,7 @@ import Panel from './misc/Panel/Panel'
 import MnButton from './misc/MnButton/MnButton'
 import MnModal from './misc/MnModal/MnModal'
 import MnMsgBox from './misc/MnMsgBox/MnMsgBox'
+import InfoCollapsible from '@/components/InfoCollapsible/InfoCollapsible'
 
 Vue.config.productionTip = false
 
@@ -86,6 +87,7 @@ Vue.component('panel', Panel)
 Vue.component('mn-button', MnButton)
 Vue.component('mn-modal', MnModal)
 Vue.component('mn-msgbox', MnMsgBox)
+Vue.component('InfoCollapsible', InfoCollapsible)
 
 // =========================================== //
 // ====== IMPORT ROUTER, SYNC WITH STORE ===== //

@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v3.4.2] - 2018-04-27
+
+### Added
+- Provided useful template code for 'custom process' option in the PID tuner, closes #172.
+- Added info section to the PID tuner.
+
+### Fixed
+- Fixed bug where deployment did not work correctly without first deleting everything under ninja-calc dir on server, closes #160. Fixed by removing '--ignore-existing' flag in call to rsync.
+- Default process for PID tuner is now the spring-mass-damper system.
+- Fixed bug in where changes to process code was not being loaded into the PID tuner.
+
 ## [v3.4.1] - 2018-04-25
 
 ### Added

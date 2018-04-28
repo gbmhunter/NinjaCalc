@@ -2,9 +2,9 @@
 
   <div class="calculator-container" style="display: flex; flex-direction: column;">
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px; margin: auto;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 600px; margin: auto;">
       <p>This calculator can be used to calculate the values of the critical component values for a buck converter.</p>
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <img :src="require('./diagram.png')" style="max-width: 800px; margin: auto;">
 

@@ -7,7 +7,7 @@
     <!-- The combined height of the title and description is fixed, but the description may be bigger
     or smaller in this div depending on how many lines the header takes up -->
     <div id="title-and-description" style="height: 150px; overflow-y: hidden;">
-      <div id="title" style="font-size: 20px; font-weight: bold;">{{ title }}</div>
+      <div id="title" style="font-size: 20px; font-weight: bold; text-align: center;">{{ title }}</div>
       <div style="height: 5px;"></div>
       <div id="description"
            style="font-size: 12px; text-align: left; padding: 0px 4px 0px 4px;">{{ description }}</div>

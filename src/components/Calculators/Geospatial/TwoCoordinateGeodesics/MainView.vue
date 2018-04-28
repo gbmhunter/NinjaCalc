@@ -1,9 +1,9 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="calculator-container">
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 600px;">
       This calculator finds the great-circle (shortest) distance between two points on the earth defined by latitude and longitude.
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <table>
       <tbody>

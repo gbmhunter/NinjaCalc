@@ -1,99 +1,99 @@
-var process = {  
+var process = {
 
-    getDefaults: function () {
-        return {
-            simulationConfig: {
-                processVarName: 'Displacement',
-                processVarUnits: 'm',
-                processVarStepChangeVal: 1.0, // This is in N
-                processVarLimMin: -5.0,
-                processVarLimMax: 5.0,
-                controlVarName: 'Force',
-                controlVarUnits: 'N',                     
-                tickPeriod_ms: 10, // Simulation update rate
-                plotEveryNTicks: 5, // Update chart(s) every how many ticks?
-                runMode: 'Manual PV Control (PID)',
-            },
-            pidConfig: {
-                constants: {
-                    p: {
-                        min: 0.0,
-                        max: 400.0,
-                        value: 350.0
-                    },
-                    i: {
-                        min: 0.0,
-                        max: 400.0,
-                        value: 300.0,
-                    },
-                    d: {
-                        min: 0.0,
-                        max: 400.0,
-                        value: 50.0
-                    }
-                },
-                integralLimitConfig: {
-                    mode: 'None', // OPTIONS: 'None', 'Constant Limited', 'Output Limited'
-                    constantMin: -1,
-                    constantMax: 1,
-                },
-                controlVariableLimits: { // This is fuel in L/min
-                    enabled: true,
-                    min: -1000.0,
-                    max: 1000.0
-                }
-            },            
+  getDefaults: function () {
+    return {
+      simulationConfig: {
+        processVarName: 'Displacement',
+        processVarUnits: 'm',
+        processVarStepChangeVal: 1.0, // This is in N
+        processVarLimMin: -5.0,
+        processVarLimMax: 5.0,
+        controlVarName: 'Force',
+        controlVarUnits: 'N',
+        tickPeriod_ms: 10, // Simulation update rate
+        plotEveryNTicks: 5, // Update chart(s) every how many ticks?
+        runMode: 'Manual PV Control (PID)',
+      },
+      pidConfig: {
+        constants: {
+          p: {
+            min: 0.0,
+            max: 400.0,
+            value: 350.0
+          },
+          i: {
+            min: 0.0,
+            max: 400.0,
+            value: 300.0,
+          },
+          d: {
+            min: 0.0,
+            max: 400.0,
+            value: 50.0
+          }
+        },
+        integralLimitConfig: {
+          mode: 'None', // OPTIONS: 'None', 'Constant Limited', 'Output Limited'
+          constantMin: -1,
+          constantMax: 1,
+        },
+        controlVariableLimits: { // This is fuel in L/min
+          enabled: true,
+          min: -1000.0,
+          max: 1000.0
         }
-    },
+      },
+    }
+  },
 
-    init: function() {  
-        console.log('plant.init() called.')   
-        this.mass_kg = 1.0        
-        this.springConstantK_NPm = 20.0
-        this.dampingCoefficientC_NsPm = 10.0
+  init: function () {
+    console.log('plant.init() called.')
+    this.mass_kg = 1.0
+    this.springConstantK_NPm = 20.0
+    this.dampingCoefficientC_NsPm = 10.0
 
-        this.displacement_m = 0.0
-        this.velocity_mPs = 0.0
-    },
+    this.displacement_m = 0.0
+    this.velocity_mPs = 0.0
+  },
 
-    // This gets called every simulation tick, with a new control variable. This function
-    // needs to update the process, and return the new measured variable.
-    update: function (controlVariable, timeStep_s) {
-        // console.log('update() called with controlVariable (external force) = ' + controlVariable + ', timeStep_s = ' + timeStep_s + '.')        
+  // This gets called every simulation tick, with a new control variable. This function
+  // needs to update the process, and return the new measured variable.
+  update: function (controlVariable, timeStep_s) {
+    // console.log('update() called with controlVariable (external force) = ' + controlVariable + ', timeStep_s = ' + timeStep_s + '.')        
 
     //     // Equation for mass-spring-damper process
     //     // Fext - kx - c*(d/dx) = m*(d^2/dx^2)
 
-        const forceExternal_N = controlVariable
-        
+    const forceExternal_N = controlVariable
+
     //     // We need to output a new displacement, x.
     //     // To do this, we calculate all forces using the previous step's values
     //     // for displacement and velocity. We then calculate a new acceleration, and
     //     // then work backwards knowing the time step to find a new velocity
     //     // and then displacement
 
-        const forceSpring_N = this.springConstantK_NPm*this.displacement_m
-        // console.log('forceSpring = ' + forceSpring_N)
+    const forceSpring_N = this.springConstantK_NPm * this.displacement_m
+    // console.log('forceSpring = ' + forceSpring_N)
 
-        const forceDamper_N = this.dampingCoefficientC_NsPm*this.velocity_mPs
-        // console.log('forceDamper = ' + forceDamper_N)
-        
-        // a = (Fext - Fspring - Fdamper)/m
-        const acceleration_mPs2 = (forceExternal_N - forceSpring_N - forceDamper_N)/this.mass_kg
+    const forceDamper_N = this.dampingCoefficientC_NsPm * this.velocity_mPs
+    // console.log('forceDamper = ' + forceDamper_N)
 
-        // Use a and timestep to find v
-        this.velocity_mPs = this.velocity_mPs + acceleration_mPs2*timeStep_s  
-        // console.log('velocity_mPs = ' + this.velocity_mPs)
-        
-        // Use v and timestep to find x
-        this.displacement_m = this.displacement_m + this.velocity_mPs*timeStep_s
-        // console.log('displacement_m = ' + this.displacement_m)
+    // a = (Fext - Fspring - Fdamper)/m
+    const acceleration_mPs2 = (forceExternal_N - forceSpring_N - forceDamper_N) / this.mass_kg
 
-        return this.displacement_m
-    }
+    // Use a and timestep to find v
+    this.velocity_mPs = this.velocity_mPs + acceleration_mPs2 * timeStep_s
+    // console.log('velocity_mPs = ' + this.velocity_mPs)
 
- }
+    // Use v and timestep to find x
+    this.displacement_m = this.displacement_m + this.velocity_mPs * timeStep_s
+    // console.log('displacement_m = ' + this.displacement_m)
 
- // Provide an expression to return the object above to
- // the eval() function
- process
+    return this.displacement_m
+  }
+
+}
+
+// Provide an expression to return the object above to
+// the eval() function
+process

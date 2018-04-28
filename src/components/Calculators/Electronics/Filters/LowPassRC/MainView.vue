@@ -2,7 +2,7 @@
 
   <div class="calculator-container">
 
-    <ui-collapsible title="Info" class="calc-info" style="max-width: 600px;">
+    <InfoCollapsible title="Info" class="calc-info" style="max-width: 600px;">
       <p>The following calculator helps you works out the component values to design a low-pass, single-stage, passive RC filter. The cut-off frequency, \( f_c \), is given by:</p>
 
       <p>$$ f_c = \frac{1}{2\pi RC} $$</p>
@@ -13,7 +13,7 @@
         \( R \) = resistance of the resistor<br>
         \( C \) = capacitance of the capacitor<br>
       </p>
-    </ui-collapsible>
+    </InfoCollapsible>
 
     <div class="diagram-container" style="position: relative; width: 600px; height: 600px;">
 
