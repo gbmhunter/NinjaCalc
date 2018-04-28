@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Fixed bug where deployment did not work correctly without first deleting everything under ninja-calc dir on server, closes #160. Fixed by removing '--ignore-existing' flag in call to rsync.
 - Default process for PID tuner is now the spring-mass-damper system.
+- Fixed bug in where changes to process code was not being loaded into the PID tuner.
 
 ## [v3.4.1] - 2018-04-25
 

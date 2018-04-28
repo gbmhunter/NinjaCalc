@@ -502,7 +502,7 @@ export default {
       this.pidTermsChart.update()
     },
     controlVariableLimitsChanged () {
-      console.log('Control variable limits changed.')
+      console.log('Control variable limits changed. min = ' + this.pidConfig.controlVariableLimits.min + ', max = ' + this.pidConfig.controlVariableLimits.max)
       this.pid.setOutputLimits(
         this.pidConfig.controlVariableLimits.enabled,
         Number(this.pidConfig.controlVariableLimits.min),
@@ -544,12 +544,7 @@ export default {
 
       // We want to load any changes user has made to code
       console.log('Loading user changes to process code...')
-
-      // eslint-disable-next-line no-eval
-      this.plantCode = eval(this.plantCodeString)
-      // console.log('plantCode = ')
-      // console.log(this.plantCode)
-      this.plantCode.init()
+      this.updateAfterLoadingProcess()
     },
     processLoad () {
       console.log('processLoad() called.')
@@ -570,14 +565,19 @@ export default {
       // }
       // console.log('this.plantCodeString = ')
       // console.log(this.plantCodeString)
-
-      console.log('eval()\'ing plant code...')
-
-      // eslint-disable-next-line no-eval
-      this.plantCode = eval(this.plantCodeString)
+                  
       // console.log('plantCode = ')
       console.log(this.plantCode)
 
+      this.updateAfterLoadingProcess()
+    },
+    updateAfterLoadingProcess () {
+      console.log('updateAfterLoadingProcess() called.')
+
+      console.log('eval()\'ing plant code...')
+      // eslint-disable-next-line no-eval
+      this.plantCode = eval(this.plantCodeString)
+      console.log(this.plantCode)
       // Set PID tuner defaults
       const defaults = this.plantCode.getDefaults()
       // console.log('defaults =')
