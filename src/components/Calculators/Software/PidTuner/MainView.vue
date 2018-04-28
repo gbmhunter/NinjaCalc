@@ -20,53 +20,116 @@
                     <div style="display: flex; flex-direction: column; align-items: center;">
 
                         <div style="display: flex; align-items: center;">
-                            Process:&nbsp;
-                            <select v-bind:value="selProcessName" v-on:change="handleSelProcessChanged" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
-                                <option v-for="option in processes" v-bind:value="option.name" v-bind:key="option.name">
-                                    {{ option.name }}
-                                </option>
-                            </select>
+                          Process:&nbsp;
+                          <select v-bind:value="selProcessName" v-on:change="handleSelProcessChanged" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
+                            <option v-for="option in processes" v-bind:value="option.name" v-bind:key="option.name">
+                              {{ option.name }}
+                            </option>
+                          </select>
                         </div>
                         <div style="height: 10px;"/> <!-- V SPACER -->
                         <div>
-                            <mn-button
-                                    variant="success"
-                                    :onClick="processEdit"
-                                    :disabledB="simulationRunning"
-                                    style="width: 140px; height: 30px;">
-                                Edit Process
-                            </mn-button>
+                          <mn-button
+                                  variant="success"
+                                  :onClick="processEdit"
+                                  :disabledB="simulationRunning"
+                                  style="width: 140px; height: 30px;">
+                              Edit Process
+                          </mn-button>
                         </div>
 
                         <div style="height: 20px;"/>
 
                         <div>
-                            <table>
-                                <tr>
-                                    <td>Simulation Tick Period (ms):</td>
-                                    <td><input v-model.number="simulationConfig.tickPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Plot Every N Ticks:</td>
-                                    <td><input v-model.number="simulationConfig.plotEveryNTicks" :disabled="simulationRunning" style="width: 80px;"/></td>
-                                </tr>
-                            </table>
+                          <table>
+                            <tr>
+                              <td>Simulation Tick Period (ms):</td>
+                              <td><input v-model.number="simulationConfig.tickPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
+                            </tr>
+                            <tr>
+                              <td>Plot Every N Ticks:</td>
+                              <td><input v-model.number="simulationConfig.plotEveryNTicks" :disabled="simulationRunning" style="width: 80px;"/></td>
+                            </tr>
+                          </table>
                         </div>
                         <div style="height: 20px;"/>
-                        <div>
-                            <span class="panel-subheading">Run Mode:</span><br>
+
+                        <div style="display: flex;">
+                          <div>
+                          <span class="panel-subheading">Control Variable</span>
+                          <table>
+                            <tr>
+                              <td>Name: </td>
+                              <td style="font-style: italic; color: grey;">{{ this.simulationConfig.controlVarName }}</td>
+                            </tr>
+                            <tr>
+                              <td>Units: </td>
+                              <td style="font-style: italic; color: grey;">{{ this.simulationConfig.controlVarUnits }}</td>
+                            </tr>
+                            <tr>
+                              <td>min</td>
+                              <td><input v-model="pidConfig.controlVariableLimits.min"
+                                      v-on:change="controlVariableLimitsChanged"
+                                      :disabled="simulationRunning" style="width: 80px;"/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>max</td>
+                              <td><input v-model="pidConfig.controlVariableLimits.max"
+                                      v-on:change="controlVariableLimitsChanged"
+                                      :disabled="simulationRunning" style="width: 80px;"/>
+                              </td>
+                            </tr>
+                          </table>
+                          </div>
+                          <div style="width: 20px;"/>
+                          <div>
+                          <span class="panel-subheading">Process Variable</span>
+                          <table>
+                            <tr>
+                              <td>Name: </td>
+                              <td style="font-style: italic; color: grey;">{{ this.simulationConfig.processVarName }}</td>
+                            </tr>
+                            <tr>
+                              <td>Units: </td>
+                              <td style="font-style: italic; color: grey;">{{ this.simulationConfig.processVarUnits }}</td>
+                            </tr>
+                            <tr>
+                              <td>min</td>
+                              <td><input v-model="simulationConfig.processVarLimMin"
+                                      v-on:change="processVarLimitsChanged"
+                                      :disabled="simulationRunning" style="width: 80px;"/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>max</td>
+                              <td><input v-model="simulationConfig.processVarLimMax"
+                                      v-on:change="processVarLimitsChanged"
+                                      :disabled="simulationRunning" style="width: 80px;"/>
+                              </td>
+                            </tr>
+                          </table>
+                          </div>
+                        </div>
+
+                        <div style="height: 10px;"/>
+
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <div>Run Mode:</div>
+                            &nbsp;
                             <select v-model="simulationConfig.runMode" :options="runModes" :disabled="simulationRunning" style="width: 240px; height: 30px; background-color: transparent;">
                                 <option v-for="option in runModes" v-bind:value="option"  v-bind:key="option">
                                 {{ option }}
                                 </option>
                             </select>
-                            <mn-button
+                        </div>
+                        <div style="height: 10px;"/>
+                        <mn-button
                                 :variant="!simulationRunning ? 'success' : 'danger'"
                                 :onClick="startStopSimulation"
-                                style="width: 80px; height: 50px;">
+                                style="width: 150px; height: 50px;">
                                 <div style="font-size: 18px;">{{ !simulationRunning ? "START" : "STOP" }}</div>
-                            </mn-button>
-                        </div>
+                        </mn-button>
                     </div>
                 </ui-collapsible>
 
@@ -178,13 +241,6 @@
                         max <input v-model="pidConfig.integralLimitConfig.constantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                     </div>
                     </div> <!-- <div id="integral-limiting-container"> -->
-                    <div style="height: 20px;"/>
-                    <span class="panel-subheading">Control Variable Limits:</span>
-                    <div style="display: flex; justify-content: center;">
-                      min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
-                      &nbsp;&nbsp;&nbsp;
-                      max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
-                    </div>
                     </div>
                 </ui-collapsible> <!-- <panel title="PID Settings"> -->
             </div> <!-- <div id="controls" style="display: flex;"> -->
@@ -569,6 +625,9 @@ export default {
       console.log(this.plantCode)
 
       this.updateAfterLoadingProcess()
+    },
+    processVarLimitsChanged () {
+      console.log('processVarLimitsChanged() called.')
     },
     updateAfterLoadingProcess () {
       console.log('updateAfterLoadingProcess() called.')
