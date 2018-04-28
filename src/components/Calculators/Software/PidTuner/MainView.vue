@@ -565,7 +565,6 @@ export default {
       // }
       // console.log('this.plantCodeString = ')
       // console.log(this.plantCodeString)
-                  
       // console.log('plantCode = ')
       console.log(this.plantCode)
 
