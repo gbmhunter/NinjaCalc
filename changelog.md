@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Added info on control and process variables in the PID tuner tool, including ability to change max/min limits for both.
+- Control variable value is rounded to precision before being displayed.
+
 ## [v3.4.2] - 2018-04-27
 
 ### Added

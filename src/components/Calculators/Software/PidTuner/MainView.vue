@@ -147,7 +147,7 @@
                             <div style="height: 40px;"/>
                             <vue-slider
                                 ref="slider"
-                                v-model="controlVariable"
+                                v-model="controlVarRounded"
                                 :min="Number(pidConfig.controlVariableLimits.min)"
                                 :max="Number(pidConfig.controlVariableLimits.max)"
                                 :interval="(Number(pidConfig.controlVariableLimits.max) - Number(pidConfig.controlVariableLimits.min)) / 100.0"
@@ -495,6 +495,16 @@ export default {
     }
   },
   computed: {
+    controlVarRounded: {
+      get: function () {
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! controlVariable = ')
+        console.log(this.controlVariable)
+        return this.controlVariable.toPrecision(4)
+      },
+      set: function (newValue) {
+        this.controlVariable = Number.parseFloat(newValue)
+      }
+    },
     pidEnabled () {
       // console.log('Computing pidEnabled...')
       if (
