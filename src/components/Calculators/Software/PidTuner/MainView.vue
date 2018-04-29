@@ -1,10 +1,19 @@
 <template>
     <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">
 
-      <InfoCollapsible title="Info" style="max-width: 600px;">
+      <InfoCollapsible title="Info" style="max-width: 800px;">
         <p>This tool can be used to explore how changing the P, I and D terms of a PID controller can effect the response of the system. It can be used to simulate various processes (a.k.a. plants or systems), and then can be used to tune the PID controller appropriately.</p>
         <p>Two pre-designed processes (a mass/spring/damper and small R/C jet engine) or a custom user-defined process can be used. To setup your own process select 'User Defined' as the process and then click 'Edit Process'. From there, see the code comments for further instructions/guidance.</p>
         <p>The mass/spring/damper and jet engine processes are sensitive to the simulation time step. Both are modelled by assuming specific variables remain constant over a small time step. For this reason, the model may be inaccurate if the time step is too large. A time step between 10-50ms seem to work well in most cases.</p>
+        <p>CV stands for <span style="font-style: italic;">control variable</span>, this is the variable that we have control over, and is an input to the process. The PID controller controls this variable.</p>
+        <p>PV stands for <span style="font-style: italic;">process variable</span>, this is the variable we don't have direct control over, but we want to get it to a specific set-point. The PID controller seeks to brind the error between the set-point and the PV down to 0.</p>
+        <p style="text-decoration: underline;">Run modes:</p>
+        <ul>
+          <li><span style="font-style: italic;">Manual CV Control (no PID):</span> This run mode does not use the PID controller. You control the CV manually with a slider, and can see how this effects the PV. This is useful to get an idea on how the system reacts to a change in the CV.</li>
+          <li><span style="font-style: italic;">Manual PV Control (PID):</span> This run mode uses the PID controller. You manually set the PV set point with a slider, and the PID controller will try and get the process to this set point.</li>
+          <li><span style="font-style: italic;">Automatic PV Step Changes (PID):</span> This run mode uses the PID controller. The PV set point is toggled automatically between two constant values (i.e. step changes). This is useful for tuning as you can tweak the PID values while watching the response to each step change.</li>
+        </ul>
+
         <p>For more information on PID controllers, please see <a href="http://blog.mbedded.ninja/programming/general/pid-control">http://blog.mbedded.ninja/programming/general/pid-control</a>.</p>
       </InfoCollapsible>
 
@@ -972,6 +981,16 @@ a {
 span.panel-subheading {
   text-align: center;
   font-weight: bold;
+}
+
+/* We need this to make list items display the bullet points! For some reason some other CSS is overriding how lists
+are displayed. */
+ul {
+  list-style: disc outside;
+}
+
+ul li {
+  display: list-item;
 }
 </style>
 
