@@ -1,7 +1,5 @@
-<template xmlns:v-on="http://www.w3.org/1999/xhtml">
-
+<template>
   <router-link tag="div" :to="'/tool/' + componentName" id="calc-preview-container">
-
     <div id="image-wrapper"><img :src="imageUrl" id="image"></div>
     <div style="height: 5px;"></div>
     <!-- The combined height of the title and description is fixed, but the description may be bigger
@@ -16,7 +14,6 @@
     <div id="open-button">
       <ui-button color="primary" size="small">Open</ui-button></div>
   </router-link>
-
 </template>
 
 <script>
