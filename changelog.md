@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v3.4.4] - 2018-05-02
+
+### Changed
+- Default run mode for the mass-spring-damper system in the PID tuner is now 'Automatic PV Step Changes (PID)'. Default step period is dropped from 4000 to 2000ms.
+
 ## [v3.4.3] - 2018-05-02
 
 ### Added
