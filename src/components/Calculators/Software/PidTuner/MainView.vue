@@ -1,10 +1,19 @@
 <template>
     <div class="app" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; overflow: auto; min-height: min-content;">
 
-      <InfoCollapsible title="Info" style="max-width: 600px;">
+      <InfoCollapsible title="Info" style="max-width: 800px;">
         <p>This tool can be used to explore how changing the P, I and D terms of a PID controller can effect the response of the system. It can be used to simulate various processes (a.k.a. plants or systems), and then can be used to tune the PID controller appropriately.</p>
         <p>Two pre-designed processes (a mass/spring/damper and small R/C jet engine) or a custom user-defined process can be used. To setup your own process select 'User Defined' as the process and then click 'Edit Process'. From there, see the code comments for further instructions/guidance.</p>
         <p>The mass/spring/damper and jet engine processes are sensitive to the simulation time step. Both are modelled by assuming specific variables remain constant over a small time step. For this reason, the model may be inaccurate if the time step is too large. A time step between 10-50ms seem to work well in most cases.</p>
+        <p>CV stands for <span style="font-style: italic;">control variable</span>, this is the variable that we have control over, and is an input to the process. The PID controller controls this variable.</p>
+        <p>PV stands for <span style="font-style: italic;">process variable</span>, this is the variable we don't have direct control over, but we want to get it to a specific set-point. The PID controller seeks to brind the error between the set-point and the PV down to 0.</p>
+        <p style="text-decoration: underline;">Run modes:</p>
+        <ul>
+          <li><span style="font-style: italic;">Manual CV Control (no PID):</span> This run mode does not use the PID controller. You control the CV manually with a slider, and can see how this effects the PV. This is useful to get an idea on how the system reacts to a change in the CV.</li>
+          <li><span style="font-style: italic;">Manual PV Control (PID):</span> This run mode uses the PID controller. You manually set the PV set point with a slider, and the PID controller will try and get the process to this set point.</li>
+          <li><span style="font-style: italic;">Automatic PV Step Changes (PID):</span> This run mode uses the PID controller. The PV set point is toggled automatically between two constant values (i.e. step changes). This is useful for tuning as you can tweak the PID values while watching the response to each step change. The two values that the PV is toggled between can be set using Automatic Step Change PV Value 1 and 2 under the Simulation Settings panel.</li>
+        </ul>
+
         <p>For more information on PID controllers, please see <a href="http://blog.mbedded.ninja/programming/general/pid-control">http://blog.mbedded.ninja/programming/general/pid-control</a>.</p>
       </InfoCollapsible>
 
@@ -13,60 +22,149 @@
             <!-- The style "min-height: min-content" is required so that this flex box"s height expands to the maximum width
             of any of it"s children -->
             <div id="controls" style="display: flex; flex-direction: column; width: 370px;">
-                <!-- =================== -->
-                <!-- SIMULATION SETTINGS -->
-                <!-- =================== -->
+                <!-- ========================================= -->
+                <!-- ========== SIMULATION SETTINGS ========== -->
+                <!-- ========================================= -->
                 <ui-collapsible title="Simulation Settings" :open="true" class="panel">
                     <div style="display: flex; flex-direction: column; align-items: center;">
 
                         <div style="display: flex; align-items: center;">
-                            Process:&nbsp;
-                            <select v-bind:value="selProcessName" v-on:change="handleSelProcessChanged" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
-                                <option v-for="option in processes" v-bind:value="option.name" v-bind:key="option.name">
-                                    {{ option.name }}
-                                </option>
-                            </select>
+                          Process:&nbsp;
+                          <select v-bind:value="selProcessName" v-on:change="handleSelProcessChanged" :disabled="simulationRunning" style="width: 150px; height: 30px; background-color: transparent;">
+                            <option v-for="option in processes" v-bind:value="option.name" v-bind:key="option.name">
+                              {{ option.name }}
+                            </option>
+                          </select>
                         </div>
                         <div style="height: 10px;"/> <!-- V SPACER -->
                         <div>
-                            <mn-button
-                                    variant="success"
-                                    :onClick="processEdit"
-                                    :disabledB="simulationRunning"
-                                    style="width: 140px; height: 30px;">
-                                Edit Process
-                            </mn-button>
+                          <mn-button
+                                  variant="success"
+                                  :onClick="processEdit"
+                                  :disabledB="simulationRunning"
+                                  style="width: 140px; height: 30px;">
+                              Edit Process
+                          </mn-button>
                         </div>
 
                         <div style="height: 20px;"/>
 
                         <div>
-                            <table>
-                                <tr>
-                                    <td>Simulation Tick Period (ms):</td>
-                                    <td><input v-model.number="simulationConfig.tickPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Plot Every N Ticks:</td>
-                                    <td><input v-model.number="simulationConfig.plotEveryNTicks" :disabled="simulationRunning" style="width: 80px;"/></td>
-                                </tr>
-                            </table>
+                          <table>
+                            <tr>
+                              <td>Simulation Tick Period (ms):</td>
+                              <td><input v-model.number="simulationConfig.tickPeriod_ms" :disabled="simulationRunning" style="width: 80px;"/></td>
+                            </tr>
+                            <tr>
+                              <td>Plot Every N Ticks:</td>
+                              <td><input v-model.number="simulationConfig.plotEveryNTicks" :disabled="simulationRunning" style="width: 80px;"/></td>
+                            </tr>
+                          </table>
                         </div>
                         <div style="height: 20px;"/>
-                        <div>
-                            <span class="panel-subheading">Run Mode:</span><br>
+
+                        <div style="display: flex;">
+                          <div>
+                          <span class="panel-subheading">Control Variable</span>
+                          <table>
+                            <tr>
+                              <td>Name: </td>
+                              <td style="font-style: italic; color: grey;">{{ this.simulationConfig.controlVarName }}</td>
+                            </tr>
+                            <tr>
+                              <td>Units: </td>
+                              <td style="font-style: italic; color: grey;">{{ this.simulationConfig.controlVarUnits }}</td>
+                            </tr>
+                            <tr>
+                              <td>min</td>
+                              <td><input v-model="pidConfig.controlVariableLimits.min"
+                                      v-on:change="controlVariableLimitsChanged"
+                                      :disabled="simulationRunning" style="width: 80px;"/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>max</td>
+                              <td><input v-model="pidConfig.controlVariableLimits.max"
+                                      v-on:change="controlVariableLimitsChanged"
+                                      :disabled="simulationRunning" style="width: 80px;"/>
+                              </td>
+                            </tr>
+                          </table>
+                          </div>
+                          <div style="width: 20px;"/>
+                          <div>
+                          <span class="panel-subheading">Process Variable</span>
+                          <table>
+                            <tr>
+                              <td>Name: </td>
+                              <td style="font-style: italic; color: grey;">{{ this.simulationConfig.processVarName }}</td>
+                            </tr>
+                            <tr>
+                              <td>Units: </td>
+                              <td style="font-style: italic; color: grey;">{{ this.simulationConfig.processVarUnits }}</td>
+                            </tr>
+                            <tr>
+                              <td>min</td>
+                              <td><input v-model="simulationConfig.processVarLimMin"
+                                      v-on:change="processVarLimitsChanged"
+                                      :disabled="simulationRunning" style="width: 80px;"/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>max</td>
+                              <td><input v-model="simulationConfig.processVarLimMax"
+                                      v-on:change="processVarLimitsChanged"
+                                      :disabled="simulationRunning" style="width: 80px;"/>
+                              </td>
+                            </tr>
+                          </table>
+                          </div>
+                        </div>
+
+                        <div style="height: 10px;"/>
+
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <div>Run Mode:</div>
+                            &nbsp;
                             <select v-model="simulationConfig.runMode" :options="runModes" :disabled="simulationRunning" style="width: 240px; height: 30px; background-color: transparent;">
                                 <option v-for="option in runModes" v-bind:value="option"  v-bind:key="option">
                                 {{ option }}
                                 </option>
                             </select>
-                            <mn-button
+                        </div>
+                        <div style="height: 10px;"/>
+                        <div style="display: flex; flex-direction: column;">
+                          <span class="panel-subheading">Automatic Step Change</span>
+                          <table>
+                            <tr>
+                              <td>Value 1:&nbsp;</td>
+                              <td>
+                                <input v-model="simulationConfig.processVarStepChangeVal1"
+                                    :disabled="simulationConfig.runMode !== simulationRunModesEnum.AUTO_PV_STEP_CHANGES || simulationRunning"
+                                    style="width: 100px;"/>
+                              </td>
+                              <td>Value 2:&nbsp;</td>
+                              <td>
+                                <input v-model="simulationConfig.processVarStepChangeVal2"
+                                    :disabled="simulationConfig.runMode !== simulationRunModesEnum.AUTO_PV_STEP_CHANGES || simulationRunning"
+                                    style="width: 100px;"/>
+                                </td>
+                            </tr>
+                          </table>
+                          <div style="height: 5px;"/>
+                          <div>Step Period(ms):&nbsp;
+                            <input v-model="simulationConfig.stepChangePeriod_ms"
+                                :disabled="simulationConfig.runMode !== simulationRunModesEnum.AUTO_PV_STEP_CHANGES || simulationRunning"
+                                style="width: 100px;"/>
+                          </div>
+                        </div>
+                        <div style="height: 10px;"/>
+                        <mn-button
                                 :variant="!simulationRunning ? 'success' : 'danger'"
                                 :onClick="startStopSimulation"
-                                style="width: 80px; height: 50px;">
+                                style="width: 150px; height: 50px;">
                                 <div style="font-size: 18px;">{{ !simulationRunning ? "START" : "STOP" }}</div>
-                            </mn-button>
-                        </div>
+                        </mn-button>
                     </div>
                 </ui-collapsible>
 
@@ -84,7 +182,7 @@
                             <div style="height: 40px;"/>
                             <vue-slider
                                 ref="slider"
-                                v-model="controlVariable"
+                                v-model="controlVarRounded"
                                 :min="Number(pidConfig.controlVariableLimits.min)"
                                 :max="Number(pidConfig.controlVariableLimits.max)"
                                 :interval="(Number(pidConfig.controlVariableLimits.max) - Number(pidConfig.controlVariableLimits.min)) / 100.0"
@@ -178,13 +276,6 @@
                         max <input v-model="pidConfig.integralLimitConfig.constantMax" @change="setIntegralLimitingMode" :disabled="areIntegralLimitingConstantsDisabled" style="width: 50px;"/>
                     </div>
                     </div> <!-- <div id="integral-limiting-container"> -->
-                    <div style="height: 20px;"/>
-                    <span class="panel-subheading">Control Variable Limits:</span>
-                    <div style="display: flex; justify-content: center;">
-                      min <input v-model="pidConfig.controlVariableLimits.min" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
-                      &nbsp;&nbsp;&nbsp;
-                      max <input v-model="pidConfig.controlVariableLimits.max" v-on:change="controlVariableLimitsChanged" :disabled="simulationRunning" style="width: 80px;"/>
-                    </div>
                     </div>
                 </ui-collapsible> <!-- <panel title="PID Settings"> -->
             </div> <!-- <div id="controls" style="display: flex;"> -->
@@ -391,13 +482,15 @@ export default {
         // These get overwritten when a process is loaded (process.getDefaults())
         processVarName: 'n/a',
         processVarUnits: 'n/a',
-        processVarStepChangeVal: 0.0, // This is in rpm,
+        processVarStepChangeVal1: 0.0,
+        processVarStepChangeVal2: 10.0,
         processVarLimMin: 0.0,
         processVarLimMax: 100000.0,
         controlVarName: 'n/a',
         controlVarUnits: 'n/a',
         tickPeriod_ms: 50,
         plotEveryNTicks: 2,
+        stepChangePeriod_ms: 4000, // Period between PV step changes when in 'Automatic PV Step Changes (PID)' run mode
         runMode: SimulationRunModes.MANUAL_CONTROL_CV
       },
 
@@ -439,6 +532,14 @@ export default {
     }
   },
   computed: {
+    controlVarRounded: {
+      get: function () {
+        return this.controlVariable.toPrecision(4)
+      },
+      set: function (newValue) {
+        this.controlVariable = Number.parseFloat(newValue)
+      }
+    },
     pidEnabled () {
       // console.log('Computing pidEnabled...')
       if (
@@ -570,6 +671,9 @@ export default {
 
       this.updateAfterLoadingProcess()
     },
+    processVarLimitsChanged () {
+      console.log('processVarLimitsChanged() called.')
+    },
     updateAfterLoadingProcess () {
       console.log('updateAfterLoadingProcess() called.')
 
@@ -607,13 +711,12 @@ export default {
     },
     performAutoSetPointChange () {
       console.log(
-        'performAutoSetPointChange() called. processVarStepChangeVal = ' +
-          this.simulationConfig.processVarStepChangeVal
-      )
-      if (this.setPoint === 0.0) {
-        this.setPoint = this.simulationConfig.processVarStepChangeVal
+        'performAutoSetPointChange() called. processVarStepChangeVal2 = ' +
+          this.simulationConfig.processVarStepChangeVal2)
+      if (this.setPoint === this.simulationConfig.processVarStepChangeVal1) {
+        this.setPoint = this.simulationConfig.processVarStepChangeVal2
       } else {
-        this.setPoint = 0.0
+        this.setPoint = this.simulationConfig.processVarStepChangeVal1
       }
     },
     setIntegralLimitingMode () {
@@ -677,15 +780,11 @@ export default {
     },
     // This updates the simulation. Should be called more frequently than update().
     tick () {
-      if (
-        this.simulationConfig.runMode ===
-        SimulationRunModes.AUTO_PV_STEP_CHANGES
-      ) {
+      if (this.simulationConfig.runMode === SimulationRunModes.AUTO_PV_STEP_CHANGES) {
         const numTicksBeforeChange = parseInt(
-          4000.0 / this.simulationConfig.tickPeriod_ms,
-          10
-        )
-        console.log('numTicksBeforeChange = ' + numTicksBeforeChange)
+          this.simulationConfig.stepChangePeriod_ms / this.simulationConfig.tickPeriod_ms,
+          10)
+        // console.log('numTicksBeforeChange = ' + numTicksBeforeChange)
         if (this.tickCount !== 0 && this.tickCount % numTicksBeforeChange === 0) {
           this.performAutoSetPointChange()
         }
@@ -903,6 +1002,16 @@ a {
 span.panel-subheading {
   text-align: center;
   font-weight: bold;
+}
+
+/* We need this to make list items display the bullet points! For some reason some other CSS is overriding how lists
+are displayed. */
+ul {
+  list-style: disc outside;
+}
+
+ul li {
+  display: list-item;
 }
 </style>
 

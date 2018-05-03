@@ -5,13 +5,15 @@ var process = {
       simulationConfig: {
         processVarName: 'Displacement',
         processVarUnits: 'm',
-        processVarStepChangeVal: 1.0, // This is in N
+        processVarStepChangeVal1: 0.0, // This is in N
+        processVarStepChangeVal2: 1.0,
         processVarLimMin: -5.0,
         processVarLimMax: 5.0,
         controlVarName: 'Force',
         controlVarUnits: 'N',
         tickPeriod_ms: 10, // Simulation update rate
         plotEveryNTicks: 5, // Update chart(s) every how many ticks?
+        stepChangePeriod_ms: 4000, // Period between PV step changes when in 'Automatic PV Step Changes (PID)' run mode
         runMode: 'Manual PV Control (PID)',
       },
       pidConfig: {

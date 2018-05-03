@@ -5,13 +5,15 @@ var process = {
             simulationConfig: {
                 processVarName: 'Rotational Velocity',
                 processVarUnits: 'rpm',
-                processVarStepChangeVal: 60000.0,
+                processVarStepChangeVal1: 0.0,
+                processVarStepChangeVal2: 60000.0,
                 processVarLimMin: 0.0,
                 processVarLimMax: 100000.0,
                 controlVarName: 'Fuel Flow Rate',
                 controlVarUnits: 'L/min',
                 tickPeriod_ms: 50,
                 plotEveryNTicks: 2,
+                stepChangePeriod_ms: 4000, // Period between PV step changes when in 'Automatic PV Step Changes (PID)' run mode
                 runMode: 'Manual PV Control (PID)',
             },
             pidConfig: {

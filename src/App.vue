@@ -108,15 +108,15 @@ export default {
     // (i.e. whenever the route path changes)
     // This function performs the state change required due to the route object changing
     handleRouteChange () {
-      // Check to see if route is in the form "/calc/<calculator-name>"
-      var pattern = /^\/calc\//g
+      // Check to see if route is in the form "/tool/<calculator-name>"
+      var pattern = /^\/tool\//g
       var regex = new RegExp(pattern)
       var exec = regex.exec(this.route.path)
       console.log('exec = ')
       console.log(exec)
       if(!exec) {
-        // "/calc/" at start of path was not found
-        // console.error('"/calc/" was not found at start of route path.')
+        // "/tool/" at start of path was not found
+        // console.error('"/tool/" was not found at start of route path.')
         return
       }
       console.log('regex.lastIndex = ' + regex.lastIndex)

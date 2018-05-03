@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v3.4.3] - 2018-05-02
+
+### Added
+- Added info on control and process variables in the PID tuner tool, including ability to change max/min limits for both.
+- Control variable value is rounded to precision before being displayed.
+- Added more information to the info collapsible in the PID tuner tool.
+- Added input UI elements to set the automatic PV mode step values in the PID tuner tool, closes #174.
+
+### Fixed
+- Changed 'calc' in URL paths to calculators/tools to 'tool', closes #173.
+
 ## [v3.4.2] - 2018-04-27
 
 ### Added
