@@ -1,0 +1,18 @@
+{
+  "name": "ninjacalc-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "mathjs": "^6.2.3",
+    "next": "9.1.1",
+    "plotly.js": "^1.50.1",
+    "react": "16.10.2",
+    "react-dom": "16.10.2",
+    "react-plotly.js": "^2.3.0"
+  }
+}
