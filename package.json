@@ -14,5 +14,8 @@
     "react": "16.10.2",
     "react-dom": "16.10.2",
     "react-plotly.js": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-plugin-root-import": "^6.4.1"
   }
 }

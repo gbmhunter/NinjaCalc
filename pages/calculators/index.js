@@ -2,7 +2,9 @@ import Head from 'next/head'
 
 import React, { useEffect, useState } from 'react'
 
-import { add, matrix, multiply } from 'mathjs'
+import { add, divide, matrix, multiply, norm } from 'mathjs'
+
+import Layout from '~/components/layout'
 
 class Calculator extends React.Component {
 
@@ -14,15 +16,13 @@ class Calculator extends React.Component {
       axisX: 0,
       axisY: 0,
       axisZ: 0,
-      quatW: 1,
-      quatX: 0,
-      quatY: 0,
-      quatZ: 0,
-      rotMatrix: [
+      quat: matrix([1, 0, 0, 0]), // wxyz
+      quatDisplay: ['1', '0', '0', '0'],
+      rotMatrix: matrix([
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0],
-      ]
+      ]),
     }
   }
 
@@ -130,7 +130,7 @@ class Calculator extends React.Component {
       [2 * x * y + 2 * z * w, 1 - 2 * x * x - 2 * z * z, 2 * y * z - 2 * x * w],
       [2 * x * z - 2 * y * w, 2 * y * z + 2 * x * w, 1 - 2 * x * x - 2 * y * y],
     ]
-    return math.matrix(matrixArray)
+    return matrix(matrixArray)
   }
 
   rotToQuatMatrix(rotMatrix) {
@@ -187,20 +187,39 @@ class Calculator extends React.Component {
     updateGraph(rotMatrix)
   }
 
-  quatChanged() {
-    console.log('quatChanged() called.')
-    const quatW = quatWEl.val()
-    const quatX = quatXEl.val()
-    const quatY = quatYEl.val()
-    const quatZ = quatZEl.val()
-    var quaternion = math.matrix([quatW, quatX, quatY, quatZ]) // wxyz
-    console.log('quat=' + quaternion)
-    quaternion = math.divide(quaternion, math.norm(quaternion))
-    const rotMatrix = quatToRotMatrix(quaternion)
+  quatChanged = (e) => {
+    console.log('quatChanged() called. e.target.name=' + e.target.name + ', e.target.value=' + e.target.value)
 
-    updateAngleAxisEl(rotMatrix)
-    updateRotMatrixEl(rotMatrix)
-    updateGraph(rotMatrix)
+    let quat = this.state.quat
+    let valueAsFloat = parseFloat(e.target.value)
+    let quatDisplay = this.state.quatDisplay.slice()
+    if(e.target.name == 'quatW') {
+        quatDisplay[0] = e.target.value
+        quat.set([0], valueAsFloat)
+    } else if(e.target.name == 'quatX') {
+        quatDisplay[1] = e.target.value
+        quat.set([1], valueAsFloat)
+    } else if(e.target.name == 'quatY') {
+        quatDisplay[2] = e.target.value
+        quat.set([2], valueAsFloat)
+    } else if(e.target.name == 'quatZ') {
+        quatDisplay[3] = e.target.value
+        quat.set([3], valueAsFloat)
+    }
+
+    console.log('quat=' + quat)
+    let quat_norm = divide(quat, norm(quat))
+    const rotMatrix = this.quatToRotMatrix(quat_norm)
+
+    this.setState({
+        'quat': quat,
+        'quatDisplay': quatDisplay,
+        'rotMatrix': rotMatrix,
+    })
+
+    // updateAngleAxisEl(rotMatrix)
+    // updateRotMatrixEl(rotMatrix)
+    this.updateGraph(rotMatrix)
   }
 
   rotMatrixChanged() {
@@ -261,7 +280,7 @@ class Calculator extends React.Component {
     rot22El.val(rotMatrix.get([2, 2]).toPrecision(PRECISION))
   }
 
-  drawGraph(rotMatrix) {
+  drawGraph = (rotMatrix) => {
     console.log('drawGraph() called. rotMatrix=' + rotMatrix)
 
     // let calc = $('#')
@@ -314,7 +333,6 @@ class Calculator extends React.Component {
 
   updateGraph(rotMatrix) {
     console.log('updateGraph() called. rotMatrix=' + rotMatrix)
-    let calc = $('#calc-3d-rotation-graph')
 
     // let calc = $('#')
     var x1 = [0, 1];
@@ -324,24 +342,25 @@ class Calculator extends React.Component {
     var y2 = [0, 1];
     var z2 = [0, 0];
 
-    graphContainerEl = document.getElementById('graph-container');
+    // graphContainerEl = document.getElementById('graph-container');
+    const graphContainerEl = this.refs.graphContainer
     var data = []
     // add_axis(data, math.matrix([0,0,0]), math.matrix([1,0,0]), 'blue')
     // add_axis(data, math.matrix([0,0,0]), math.matrix([0,1,0]), 'blue')
     // add_axis(data, math.matrix([0,0,0]), math.matrix([0,0,1]), 'blue')
 
-    const translation = math.matrix([0, 0, 0])
+    const translation = matrix([0, 0, 0])
 
-    var vector = math.matrix([1, 0, 0])
-    var result = math.multiply(rotMatrix, vector)
+    var vector = matrix([1, 0, 0])
+    var result = multiply(rotMatrix, vector)
 
-    add_axis(data, translation, math.add(translation, result), 'orange')
-    vector = math.matrix([0, 1, 0])
-    result = math.multiply(rotMatrix, vector)
-    add_axis(data, translation, math.add(translation, result), 'orange')
-    vector = math.matrix([0, 0, 1])
-    result = math.multiply(rotMatrix, vector)
-    add_axis(data, translation, math.add(translation, result), 'orange')
+    this.add_axis(data, translation, add(translation, result), 'orange')
+    vector = matrix([0, 1, 0])
+    result = multiply(rotMatrix, vector)
+    this.add_axis(data, translation, add(translation, result), 'orange')
+    vector = matrix([0, 0, 1])
+    result = multiply(rotMatrix, vector)
+    this.add_axis(data, translation, add(translation, result), 'orange')
 
     // react() updates existing plot
     // Data array has to be wrapped in another array
@@ -365,7 +384,7 @@ class Calculator extends React.Component {
 
   render() {
     return (
-      <div>
+      <Layout>
     <Head>
       <title>Home</title>
       <link rel='icon' href='/favicon.ico' />
@@ -410,19 +429,19 @@ class Calculator extends React.Component {
               <tbody>
                 <tr>
                   <td>w</td>
-                  <td><input name="quatW" value={this.state.quatW} onChange={this.quatChanged}></input></td>
+                  <td><input name="quatW" value={this.state.quatDisplay[0]} onChange={this.quatChanged}></input></td>
                 </tr>
                 <tr>
                   <td>x</td>
-                  <td><input name="quatX" value={this.state.quatX} onChange={this.quatChanged}></input></td>
+                  <td><input name="quatX" value={this.state.quatDisplay[1]} onChange={this.quatChanged}></input></td>
                 </tr>
                 <tr>
                   <td>y</td>
-                  <td><input name="quatY" value={this.state.quatY} onChange={this.quatChanged}></input></td>
+                  <td><input name="quatY" value={this.state.quatDisplay[2]} onChange={this.quatChanged}></input></td>
                 </tr>
                 <tr>
                   <td>z</td>
-                  <td><input name="quatZ" value={this.state.quatZ} onChange={this.quatChanged}></input></td>
+                  <td><input name="quatZ" value={this.state.quatDisplay[3]} onChange={this.quatChanged}></input></td>
                 </tr>
               </tbody>
             </table>
@@ -436,19 +455,19 @@ class Calculator extends React.Component {
             <table className="rotMatrix">
               <tbody>
                 <tr>
-                  <td><input name="rot00" value={this.state.rotMatrix[0][0]} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot01" value={this.state.rotMatrix[0][1]} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot02" value={this.state.rotMatrix[0][2]} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot00" value={this.state.rotMatrix.get([0,0])} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot01" value={this.state.rotMatrix.get([0,1])} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot02" value={this.state.rotMatrix.get([0,2])} onChange={this.rotMatrixChanged} /></td>
                 </tr>
                 <tr>
-                  <td><input name="rot10" value={this.state.rotMatrix[1][0]} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot11" value={this.state.rotMatrix[1][1]} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot12" value={this.state.rotMatrix[1][2]} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot10" value={this.state.rotMatrix.get([1,0])} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot11" value={this.state.rotMatrix.get([1,1])} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot12" value={this.state.rotMatrix.get([1,2])} onChange={this.rotMatrixChanged} /></td>
                 </tr>
                 <tr>
-                  <td><input name="rot20" value={this.state.rotMatrix[2][0]} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot21" value={this.state.rotMatrix[2][1]} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot22" value={this.state.rotMatrix[2][2]} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot20" value={this.state.rotMatrix.get([2,0])} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot21" value={this.state.rotMatrix.get([2,1])} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot22" value={this.state.rotMatrix.get([2,2])} onChange={this.rotMatrixChanged} /></td>
                 </tr>
               </tbody>
             </table>
@@ -456,7 +475,7 @@ class Calculator extends React.Component {
         </div>
 
       </div>
-      </div>
+      </Layout>
     )
   }
 }
