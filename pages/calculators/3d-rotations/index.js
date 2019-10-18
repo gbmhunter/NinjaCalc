@@ -12,10 +12,18 @@ class Calculator extends React.Component {
     super(props)
     this.state = {
       selInputType: 'quat',
-      angle: 0,
-      axisX: 0,
-      axisY: 0,
-      axisZ: 0,
+      angleAxis: {
+        angle: 0,
+        x: 0,
+        y: 0,
+        z: 0,
+      },
+      angleAxisDisplay: {
+        angle: '0',
+        x: '0',
+        y: '0',
+        z: '0',
+      },
       quat: matrix([1, 0, 0, 0]), // wxyz
       quatDisplay: ['1', '0', '0', '0'],
       rotMatrix: matrix([
@@ -23,6 +31,7 @@ class Calculator extends React.Component {
         [0, 0, 0],
         [0, 0, 0],
       ]),
+      precision: 4,
     }
   }
 
@@ -217,7 +226,7 @@ class Calculator extends React.Component {
         'rotMatrix': rotMatrix,
     })
 
-    // updateAngleAxisEl(rotMatrix)
+    this.updateAngleAxis(rotMatrix)
     // updateRotMatrixEl(rotMatrix)
     this.updateGraph(rotMatrix)
   }
@@ -239,24 +248,33 @@ class Calculator extends React.Component {
     updateGraph(rotMatrix)
   }
 
-  updateAngleAxisEl(rotMatrix) {
-    m00 = rotMatrix.get([0, 0])
-    m01 = rotMatrix.get([0, 1])
-    m02 = rotMatrix.get([0, 2])
-    m10 = rotMatrix.get([1, 0])
-    m11 = rotMatrix.get([1, 1])
-    m12 = rotMatrix.get([1, 2])
-    m20 = rotMatrix.get([2, 0])
-    m21 = rotMatrix.get([2, 1])
-    m22 = rotMatrix.get([2, 2])
-    angle = Math.acos((m00 + m11 + m22 - 1) / 2)
-    x = (m21 - m12) / Math.sqrt((m21 - m12) * 2 + (m02 - m20) * 2 + (m10 - m01) * 2)
-    y = (m02 - m20) / Math.sqrt((m21 - m12) * 2 + (m02 - m20) * 2 + (m10 - m01) * 2)
-    z = (m10 - m01) / Math.sqrt((m21 - m12) * 2 + (m02 - m20) * 2 + (m10 - m01) * 2)
-    angleEl.val(angle.toPrecision(PRECISION))
-    axisXEl.val(x.toPrecision(PRECISION))
-    axisYEl.val(y.toPrecision(PRECISION))
-    axisZEl.val(z.toPrecision(PRECISION))
+  updateAngleAxis = (rotMatrix) => {
+    let m00 = rotMatrix.get([0, 0])
+    let m01 = rotMatrix.get([0, 1])
+    let m02 = rotMatrix.get([0, 2])
+    let m10 = rotMatrix.get([1, 0])
+    let m11 = rotMatrix.get([1, 1])
+    let m12 = rotMatrix.get([1, 2])
+    let m20 = rotMatrix.get([2, 0])
+    let m21 = rotMatrix.get([2, 1])
+    let m22 = rotMatrix.get([2, 2])
+    let angle = Math.acos((m00 + m11 + m22 - 1) / 2)
+    let x = (m21 - m12) / Math.sqrt((m21 - m12) * 2 + (m02 - m20) * 2 + (m10 - m01) * 2)
+    let y = (m02 - m20) / Math.sqrt((m21 - m12) * 2 + (m02 - m20) * 2 + (m10 - m01) * 2)
+    let z = (m10 - m01) / Math.sqrt((m21 - m12) * 2 + (m02 - m20) * 2 + (m10 - m01) * 2)
+    this.setState({
+      angleAxis: {
+        x: x,
+        y: y,
+        z: z,
+      },
+      angleAxisDisplay: {
+        angle: angle.toPrecision(this.state.precision),
+        x: x.toPrecision(this.state.precision),
+        y: y.toPrecision(this.state.precision),
+        z: z.toPrecision(this.state.precision),
+      }
+    })
   }
 
   updateQuatEl(rotMatrix) {
@@ -331,16 +349,8 @@ class Calculator extends React.Component {
     Plotly.plot(graphContainerEl, data, layout);
   }
 
-  updateGraph(rotMatrix) {
+  updateGraph = (rotMatrix) => {
     console.log('updateGraph() called. rotMatrix=' + rotMatrix)
-
-    // let calc = $('#')
-    var x1 = [0, 1];
-    var y1 = [0, 0];
-    var z1 = [0, 0];
-    var x2 = [0, 0];
-    var y2 = [0, 1];
-    var z2 = [0, 0];
 
     // graphContainerEl = document.getElementById('graph-container');
     const graphContainerEl = this.refs.graphContainer
@@ -401,22 +411,43 @@ class Calculator extends React.Component {
               <tbody>
                 <tr>
                   <td style={{ maxWidth: '20px' }}>theta</td>
-                  <td><input name="angle" value={this.state.angle} onChange={this.axisAngleChanged}></input></td>
+                  <td>
+                    <input name="angle" value={this.state.angleAxisDisplay.angle} onChange={this.axisAngleChanged}
+                        disabled={this.state.selInputType != 'axisAngle'}
+                        />
+                  </td>
                   <td style={{ paddingLeft: '0px' }}>rad</td>
                 </tr>
                 <tr>
                   <td>x</td>
-                  <td><input name="axisX" value={this.state.axisX} onChange={this.axisAngleChanged} /></td>
+                  <td>
+                    <input name="axisX" value={this.state.angleAxisDisplay.x} onChange={this.axisAngleChanged}
+                        disabled={this.state.selInputType != 'axisAngle'}
+                    />
+                  </td>
                 </tr>
                 <tr>
                   <td>y</td>
-                  <td><input name="axisY" value={this.state.axisY} onChange={this.axisAngleChanged} /></td>
+                  <td>
+                    <input name="axisY" value={this.state.angleAxisDisplay.y} onChange={this.axisAngleChanged}
+                        disabled={this.state.selInputType != 'axisAngle'}
+                    />
+                  </td>
                 </tr>
                 <tr>
                   <td>z</td>
-                  <td><input name="axisZ" value={this.state.axisZ} onChange={this.axisAngleChanged} /></td>
+                  <td>
+                    <input name="axisZ" value={this.state.angleAxisDisplay.z} onChange={this.axisAngleChanged}
+                        disabled={this.state.selInputType != 'axisAngle'}
+                        />
+                    </td>
                 </tr>
               </tbody>
+              <style jsx>{`
+                td input {
+                  width: 80px;
+                }
+              `}</style>
             </table>
           </div>
 
@@ -429,21 +460,42 @@ class Calculator extends React.Component {
               <tbody>
                 <tr>
                   <td>w</td>
-                  <td><input name="quatW" value={this.state.quatDisplay[0]} onChange={this.quatChanged}></input></td>
+                  <td>
+                    <input name="quatW" value={this.state.quatDisplay[0]} onChange={this.quatChanged}
+                        disabled={this.state.selInputType != 'quat'}
+                        />
+                  </td>
                 </tr>
                 <tr>
                   <td>x</td>
-                  <td><input name="quatX" value={this.state.quatDisplay[1]} onChange={this.quatChanged}></input></td>
+                  <td>
+                    <input name="quatX" value={this.state.quatDisplay[1]} onChange={this.quatChanged}
+                        disabled={this.state.selInputType != 'quat'}
+                        />
+                  </td>
                 </tr>
                 <tr>
                   <td>y</td>
-                  <td><input name="quatY" value={this.state.quatDisplay[2]} onChange={this.quatChanged}></input></td>
+                  <td>
+                    <input name="quatY" value={this.state.quatDisplay[2]} onChange={this.quatChanged}
+                        disabled={this.state.selInputType != 'quat'}
+                        />
+                  </td>
                 </tr>
                 <tr>
                   <td>z</td>
-                  <td><input name="quatZ" value={this.state.quatDisplay[3]} onChange={this.quatChanged}></input></td>
+                  <td>
+                    <input name="quatZ" value={this.state.quatDisplay[3]} onChange={this.quatChanged}
+                        disabled={this.state.selInputType != 'quat'}
+                        />
+                  </td>
                 </tr>
               </tbody>
+              <style jsx>{`
+                td input {
+                  width: 80px;
+                }
+              `}</style>
             </table>
           </div>
 
@@ -455,21 +507,26 @@ class Calculator extends React.Component {
             <table className="rotMatrix">
               <tbody>
                 <tr>
-                  <td><input name="rot00" value={this.state.rotMatrix.get([0,0])} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot01" value={this.state.rotMatrix.get([0,1])} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot02" value={this.state.rotMatrix.get([0,2])} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot00" value={this.state.rotMatrix.get([0,0])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
+                  <td><input name="rot01" value={this.state.rotMatrix.get([0,1])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
+                  <td><input name="rot02" value={this.state.rotMatrix.get([0,2])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
                 </tr>
                 <tr>
-                  <td><input name="rot10" value={this.state.rotMatrix.get([1,0])} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot11" value={this.state.rotMatrix.get([1,1])} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot12" value={this.state.rotMatrix.get([1,2])} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot10" value={this.state.rotMatrix.get([1,0])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
+                  <td><input name="rot11" value={this.state.rotMatrix.get([1,1])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
+                  <td><input name="rot12" value={this.state.rotMatrix.get([1,2])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
                 </tr>
                 <tr>
-                  <td><input name="rot20" value={this.state.rotMatrix.get([2,0])} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot21" value={this.state.rotMatrix.get([2,1])} onChange={this.rotMatrixChanged} /></td>
-                  <td><input name="rot22" value={this.state.rotMatrix.get([2,2])} onChange={this.rotMatrixChanged} /></td>
+                  <td><input name="rot20" value={this.state.rotMatrix.get([2,0])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
+                  <td><input name="rot21" value={this.state.rotMatrix.get([2,1])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
+                  <td><input name="rot22" value={this.state.rotMatrix.get([2,2])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
                 </tr>
               </tbody>
+              <style jsx>{`
+                td input {
+                  width: 40px;
+                }
+              `}</style>
             </table>
           </div>
         </div>
