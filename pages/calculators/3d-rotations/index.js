@@ -409,10 +409,11 @@ class Calculator extends React.Component {
     return (
       <Layout>
     <Head>
-      <title>Home</title>
+      <title>3D Rotations</title>
       <link rel='icon' href='/favicon.ico' />
+        {/* <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> */}
+      {/* <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> */}
     </Head>
-      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
       <div id="calc-3d-rotation-graph" className="vbox">
         <div ref="graphContainer" style={{width: '500px', height: '500px'}}></div>
 
@@ -423,7 +424,7 @@ class Calculator extends React.Component {
             <table>
               <tbody>
                 <tr>
-                  <td style={{ maxWidth: '20px' }}>theta</td>
+                  <td style={{ maxWidth: '20px' }}>\(\theta\)</td>
                   <td>
                     <input name="angle" value={this.state.angleAxisDisplay.angle} onChange={this.axisAngleChanged}
                         disabled={this.state.selInputType != 'axisAngle'}
@@ -432,7 +433,7 @@ class Calculator extends React.Component {
                   <td style={{ paddingLeft: '0px' }}>rad</td>
                 </tr>
                 <tr>
-                  <td>x</td>
+                  <td>\(x\)</td>
                   <td>
                     <input name="axisX" value={this.state.angleAxisDisplay.x} onChange={this.axisAngleChanged}
                         disabled={this.state.selInputType != 'axisAngle'}
@@ -440,7 +441,7 @@ class Calculator extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>y</td>
+                  <td>\(y\)</td>
                   <td>
                     <input name="axisY" value={this.state.angleAxisDisplay.y} onChange={this.axisAngleChanged}
                         disabled={this.state.selInputType != 'axisAngle'}
@@ -448,7 +449,7 @@ class Calculator extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>z</td>
+                  <td>\(z\)</td>
                   <td>
                     <input name="axisZ" value={this.state.angleAxisDisplay.z} onChange={this.axisAngleChanged}
                         disabled={this.state.selInputType != 'axisAngle'}
