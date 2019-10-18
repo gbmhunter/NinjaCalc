@@ -24,13 +24,18 @@ class Calculator extends React.Component {
         y: '0',
         z: '0',
       },
-      quat: matrix([1, 0, 0, 0]), // wxyz
-      quatDisplay: ['1', '0', '0', '0'],
+      quat: matrix([1, 0.4, 0.2, 0]), // wxyz. The initial rotation is driven from this
+      quatDisplay: ['1', '0.4', '0.2', '0'],
       rotMatrix: matrix([
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0],
       ]),
+      rotMatrixDisplay: [
+        ['0', '0', '0'],
+        ['0', '0', '0'],
+        ['0', '0', '0'],
+      ],
       precision: 4,
     }
   }
@@ -43,7 +48,10 @@ class Calculator extends React.Component {
     // Set the quaternion to the default value and then draw the graph from that
     console.log('Checking quat radio button...')
 
-    this.drawGraph(matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]))
+    const rotMatrix = this.quatToRotMatrix(this.state.quat)
+    this.updateAngleAxis(rotMatrix)
+    this.updateRotMatrix(rotMatrix)
+    this.drawGraph(rotMatrix)
     // quatChanged()
 
   } // componentDidMount()
@@ -286,16 +294,21 @@ class Calculator extends React.Component {
     quatZEl.val(quat.get([3]).toPrecision(PRECISION))
   }
 
-  updateRotMatrixEl(rotMatrix) {
-    rot00El.val(rotMatrix.get([0, 0]).toPrecision(PRECISION))
-    rot01El.val(rotMatrix.get([0, 1]).toPrecision(PRECISION))
-    rot02El.val(rotMatrix.get([0, 2]).toPrecision(PRECISION))
-    rot10El.val(rotMatrix.get([1, 0]).toPrecision(PRECISION))
-    rot11El.val(rotMatrix.get([1, 1]).toPrecision(PRECISION))
-    rot12El.val(rotMatrix.get([1, 2]).toPrecision(PRECISION))
-    rot20El.val(rotMatrix.get([2, 0]).toPrecision(PRECISION))
-    rot21El.val(rotMatrix.get([2, 1]).toPrecision(PRECISION))
-    rot22El.val(rotMatrix.get([2, 2]).toPrecision(PRECISION))
+  updateRotMatrix(rotMatrix) {
+    let rotMatrixDisplay = []
+    let i = 0
+    rotMatrix.forEach(function(value, index, matrix){
+      if(i % 3 == 0) {
+        rotMatrixDisplay.push([])
+      }
+      rotMatrixDisplay[index[0]].push(value)
+      i += 1
+    })
+
+    this.setState({
+      rotMatrix: rotMatrix,
+      rotMatrixDisplay: rotMatrixDisplay
+    })
   }
 
   drawGraph = (rotMatrix) => {
@@ -401,7 +414,7 @@ class Calculator extends React.Component {
     </Head>
       <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
       <div id="calc-3d-rotation-graph" className="vbox">
-        <div ref="graphContainer" style={{width: '600px', height: '600px'}}></div>
+        <div ref="graphContainer" style={{width: '500px', height: '500px'}}></div>
 
         <div className="hbox">
           <div className="vbox">
