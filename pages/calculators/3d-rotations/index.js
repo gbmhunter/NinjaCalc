@@ -24,8 +24,8 @@ class Calculator extends React.Component {
         y: '0',
         z: '0',
       },
-      quat: matrix([1, 0.4, 0.2, 0]), // wxyz. The initial rotation is driven from this
-      quatDisplay: ['1', '0.4', '0.2', '0'],
+      quat: matrix([-0.2234, 0.0, 0.8944, -0.4472]), // wxyz. The initial rotation is driven from this
+      quatDisplay: ['-0.2234', '0.0', '0.8944', '-0.4472'],
       rotMatrix: matrix([
         [0, 0, 0],
         [0, 0, 0],
@@ -69,45 +69,23 @@ class Calculator extends React.Component {
   }
 
   inputTypeChanged = (e) => {
-    console.log('inputTypeChanged() ' + e.currentTarget.value)
+    let value = e.currentTarget.value
     this.setState({
       selInputType: e.currentTarget.value
     })
 
-    // console.log('radiobutton change handler called.')
-    // if (this.value == 'axisAngle') {
-    //   for(const el of axisAngleElGroup) {
-    //     el.prop('disabled', false)
-    //   }
-    //   for(const el of quatElGroup) {
-    //     el.prop('disabled', true)
-    //   }
-    //   for(const el of rotMatrixElGroup) {
-    //     el.prop('disabled', true)
-    //   }
-    // } else if (this.value == 'quaternion') {
-    //   for(const el of axisAngleElGroup) {
-    //     el.prop('disabled', true)
-    //   }
-    //   for(const el of quatElGroup) {
-    //     el.prop('disabled', false)
-    //   }
-    //   for(const el of rotMatrixElGroup) {
-    //     el.prop('disabled', true)
-    //   }
-    // } else if (this.value == 'rotMatrix') {
-    //   for(const el of axisAngleElGroup) {
-    //     el.prop('disabled', true)
-    //   }
-    //   for(const el of quatElGroup) {
-    //     el.prop('disabled', true)
-    //   }
-    //   for(const el of rotMatrixElGroup) {
-    //     el.prop('disabled', false)
-    //   }
-    // } else {
-    //   throw Error('Unrecognized radio button value.')
-    // }
+    if (value == 'axisAngle') {
+      this.updateQuat(this.state.rotMatrix)
+      this.updateRotMatrix(this.state.rotMatrix)
+    } else if (value == 'quat') {
+      this.updateAngleAxis(this.state.rotMatrix)
+      this.updateRotMatrix(this.state.rotMatrix)
+    } else if (value == 'rotMatrix') {
+      this.updateAngleAxis(this.state.rotMatrix)
+      this.updateQuat(this.state.rotMatrix)
+    } else {
+      throw Error('Unrecognized radio button value.' + value)
+    }
   }
 
 
@@ -129,14 +107,13 @@ class Calculator extends React.Component {
         line: {
           width: 2,
           color: colorIn,
-          // colorscale: 'Viridis'
         },
         showlegend: false,
       }
     )
   }
 
-  quatToRotMatrix(quat) {
+  quatToRotMatrix = (quat) => {
     console.log('quat=' + quat)
     const w = quat.get([0])
     const x = quat.get([1])
@@ -150,41 +127,43 @@ class Calculator extends React.Component {
     return matrix(matrixArray)
   }
 
-  rotToQuatMatrix(rotMatrix) {
-    m00 = rotMatrix.get([0, 0])
-    m01 = rotMatrix.get([0, 1])
-    m02 = rotMatrix.get([0, 2])
-    m10 = rotMatrix.get([1, 0])
-    m11 = rotMatrix.get([1, 1])
-    m12 = rotMatrix.get([1, 2])
-    m20 = rotMatrix.get([2, 0])
-    m21 = rotMatrix.get([2, 1])
-    m22 = rotMatrix.get([2, 2])
+  rotToQuatMatrix = (rotMatrix) => {
+    let m00 = rotMatrix.get([0, 0])
+    let m01 = rotMatrix.get([0, 1])
+    let m02 = rotMatrix.get([0, 2])
+    let m10 = rotMatrix.get([1, 0])
+    let m11 = rotMatrix.get([1, 1])
+    let m12 = rotMatrix.get([1, 2])
+    let m20 = rotMatrix.get([2, 0])
+    let m21 = rotMatrix.get([2, 1])
+    let m22 = rotMatrix.get([2, 2])
+    let q = null
+    let t = null
     if (m22 < 0) {
       if (m00 > m11) {
         t = 1 + m00 - m11 - m22;
-        q = math.matrix([m01 + m10, m20 + m02, m12 - m21, t])
+        q = matrix([m01 + m10, m20 + m02, m12 - m21, t])
       }
       else {
         t = 1 - m00 + m11 - m22;
-        q = math.matrix([t, m12 + m21, m20 - m02, m01 + m10])
+        q = matrix([t, m12 + m21, m20 - m02, m01 + m10])
       }
     }
     else {
       if (m00 < -m11) {
         t = 1 - m00 - m11 + m22;
-        q = math.matrix([m12 + m21, t, m01 - m10, m20 + m02])
+        q = matrix([m12 + m21, t, m01 - m10, m20 + m02])
       }
       else {
         t = 1 + m00 + m11 + m22;
-        q = math.matrix([m20 - m02, m01 - m10, t, m12 - m21])
+        q = matrix([m20 - m02, m01 - m10, t, m12 - m21])
       }
     }
-    q = math.multiply(q, 0.5 / Math.sqrt(t))
+    q = multiply(q, 0.5 / Math.sqrt(t))
     return q
   }
 
-  angleAxisChanged() {
+  angleAxisChanged = () => {
     console.log('angleAxisChanged() called.')
     const angle = angleEl.val()
     const axisX = axisXEl.val()
@@ -210,18 +189,18 @@ class Calculator extends React.Component {
     let quat = this.state.quat
     let valueAsFloat = parseFloat(e.target.value)
     let quatDisplay = this.state.quatDisplay.slice()
-    if(e.target.name == 'quatW') {
-        quatDisplay[0] = e.target.value
-        quat.set([0], valueAsFloat)
-    } else if(e.target.name == 'quatX') {
-        quatDisplay[1] = e.target.value
-        quat.set([1], valueAsFloat)
-    } else if(e.target.name == 'quatY') {
-        quatDisplay[2] = e.target.value
-        quat.set([2], valueAsFloat)
-    } else if(e.target.name == 'quatZ') {
-        quatDisplay[3] = e.target.value
-        quat.set([3], valueAsFloat)
+    if (e.target.name == 'quatW') {
+      quatDisplay[0] = e.target.value
+      quat.set([0], valueAsFloat)
+    } else if (e.target.name == 'quatX') {
+      quatDisplay[1] = e.target.value
+      quat.set([1], valueAsFloat)
+    } else if (e.target.name == 'quatY') {
+      quatDisplay[2] = e.target.value
+      quat.set([2], valueAsFloat)
+    } else if (e.target.name == 'quatZ') {
+      quatDisplay[3] = e.target.value
+      quat.set([3], valueAsFloat)
     }
 
     console.log('quat=' + quat)
@@ -229,31 +208,47 @@ class Calculator extends React.Component {
     const rotMatrix = this.quatToRotMatrix(quat_norm)
 
     this.setState({
-        'quat': quat,
-        'quatDisplay': quatDisplay,
-        'rotMatrix': rotMatrix,
+      'quat': quat,
+      'quatDisplay': quatDisplay,
+      'rotMatrix': rotMatrix,
     })
 
     this.updateAngleAxis(rotMatrix)
-    // updateRotMatrixEl(rotMatrix)
+    this.updateRotMatrix(rotMatrix)
     this.updateGraph(rotMatrix)
   }
 
-  rotMatrixChanged() {
-    m00 = parseFloat(rot00El.val())
-    m01 = parseFloat(rot01El.val())
-    m02 = parseFloat(rot02El.val())
-    m10 = parseFloat(rot10El.val())
-    m11 = parseFloat(rot11El.val())
-    m12 = parseFloat(rot12El.val())
-    m20 = parseFloat(rot20El.val())
-    m21 = parseFloat(rot21El.val())
-    m22 = parseFloat(rot22El.val())
-    rotArray = [[m00, m01, m02], [m10, m11, m12], [m20, m21, m22]]
-    rotMatrix = math.matrix(rotArray)
-    updateAngleAxisEl(rotMatrix)
-    updateQuatEl(rotMatrix)
-    updateGraph(rotMatrix)
+  rotMatrixChanged = (e) => {
+    let rotMatrixDisplay = this.state.rotMatrixDisplay.slice()
+    const inputName = e.target.name
+    // Should be something like "00", "21", e.t.c
+    let arrayIndexes = inputName.substr(inputName.length - 2)
+
+    console.log('rotMatrixDisplay(before)=')
+    console.log(rotMatrixDisplay)
+    rotMatrixDisplay[arrayIndexes[0]][arrayIndexes[1]] = e.target.value
+    console.log('rotMatrixDisplay=')
+    console.log(rotMatrixDisplay)
+
+    let m00 = parseFloat(rotMatrixDisplay[0][0])
+    let m01 = parseFloat(rotMatrixDisplay[0][1])
+    let m02 = parseFloat(rotMatrixDisplay[0][2])
+    let m10 = parseFloat(rotMatrixDisplay[1][0])
+    let m11 = parseFloat(rotMatrixDisplay[1][1])
+    let m12 = parseFloat(rotMatrixDisplay[1][2])
+    let m20 = parseFloat(rotMatrixDisplay[2][0])
+    let m21 = parseFloat(rotMatrixDisplay[2][1])
+    let m22 = parseFloat(rotMatrixDisplay[2][2])
+    let rotArray = [[m00, m01, m02], [m10, m11, m12], [m20, m21, m22]]
+    let rotMatrix = matrix(rotArray)
+
+    this.updateAngleAxis(rotMatrix)
+    this.updateQuat(rotMatrix)
+    this.updateGraph(rotMatrix)
+    this.setState({
+      rotMatrixDisplay: rotMatrixDisplay,
+      rotMatrix: rotMatrix,
+    })
   }
 
   updateAngleAxis = (rotMatrix) => {
@@ -285,23 +280,30 @@ class Calculator extends React.Component {
     })
   }
 
-  updateQuatEl(rotMatrix) {
+  updateQuat = (rotMatrix) => {
     console.log('updateQuatEl() called')
-    const quat = rotToQuatMatrix(rotMatrix)
-    quatWEl.val(quat.get([0]).toPrecision(PRECISION))
-    quatXEl.val(quat.get([1]).toPrecision(PRECISION))
-    quatYEl.val(quat.get([2]).toPrecision(PRECISION))
-    quatZEl.val(quat.get([3]).toPrecision(PRECISION))
+    const quat = this.rotToQuatMatrix(rotMatrix)
+    const quatDisplay = [
+      quat.get([0]).toPrecision(this.state.precision),
+      quat.get([1]).toPrecision(this.state.precision),
+      quat.get([2]).toPrecision(this.state.precision),
+      quat.get([3]).toPrecision(this.state.precision),
+    ]
+    this.setState({
+      quat: quat,
+      quatDisplay: quatDisplay,
+    })
   }
 
-  updateRotMatrix(rotMatrix) {
+  updateRotMatrix = (rotMatrix) => {
     let rotMatrixDisplay = []
     let i = 0
-    rotMatrix.forEach(function(value, index, matrix){
-      if(i % 3 == 0) {
+
+    rotMatrix.forEach((value, index, matrix) => {
+      if (i % 3 == 0) {
         rotMatrixDisplay.push([])
       }
-      rotMatrixDisplay[index[0]].push(value)
+      rotMatrixDisplay[index[0]].push(value.toPrecision(this.state.precision))
       i += 1
     })
 
@@ -313,14 +315,6 @@ class Calculator extends React.Component {
 
   drawGraph = (rotMatrix) => {
     console.log('drawGraph() called. rotMatrix=' + rotMatrix)
-
-    // let calc = $('#')
-    var x1 = [0, 1];
-    var y1 = [0, 0];
-    var z1 = [0, 0];
-    var x2 = [0, 0];
-    var y2 = [0, 1];
-    var z2 = [0, 0];
 
     const graphContainerEl = this.refs.graphContainer
     var data = []
@@ -408,144 +402,142 @@ class Calculator extends React.Component {
   render() {
     return (
       <Layout>
-    <Head>
-      <title>3D Rotations</title>
-      <link rel='icon' href='/favicon.ico' />
-        {/* <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> */}
-      {/* <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> */}
-    </Head>
-      <div id="calc-3d-rotation-graph" className="vbox">
-        <div ref="graphContainer" style={{width: '500px', height: '500px'}}></div>
+        <Head>
+          <title>3D Rotations</title>
+          <link rel='icon' href='/favicon.ico' />
+        </Head>
+        <div id="calc-3d-rotation-graph" className="vbox">
+          <div ref="graphContainer" style={{ width: '500px', height: '500px' }}></div>
 
-        <div className="hbox">
-          <div className="vbox">
-            <b>Axis-Angle</b>
-            <input type="radio" name="inputType" value="axisAngle" checked={this.state.selInputType == 'axisAngle'} onChange={this.inputTypeChanged} />
-            <table>
-              <tbody>
-                <tr>
-                  <td style={{ maxWidth: '20px' }}>\(\theta\)</td>
-                  <td>
-                    <input name="angle" value={this.state.angleAxisDisplay.angle} onChange={this.axisAngleChanged}
+          <div className="hbox">
+            <div className="vbox">
+              <b>Axis-Angle</b>
+              <input type="radio" name="inputType" value="axisAngle" checked={this.state.selInputType == 'axisAngle'} onChange={this.inputTypeChanged} />
+              <table>
+                <tbody>
+                  <tr>
+                    <td style={{ maxWidth: '20px' }}>\(\theta\)</td>
+                    <td>
+                      <input name="angle" value={this.state.angleAxisDisplay.angle} onChange={this.axisAngleChanged}
                         disabled={this.state.selInputType != 'axisAngle'}
-                        />
-                  </td>
-                  <td style={{ paddingLeft: '0px' }}>rad</td>
-                </tr>
-                <tr>
-                  <td>\(x\)</td>
-                  <td>
-                    <input name="axisX" value={this.state.angleAxisDisplay.x} onChange={this.axisAngleChanged}
-                        disabled={this.state.selInputType != 'axisAngle'}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>\(y\)</td>
-                  <td>
-                    <input name="axisY" value={this.state.angleAxisDisplay.y} onChange={this.axisAngleChanged}
-                        disabled={this.state.selInputType != 'axisAngle'}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>\(z\)</td>
-                  <td>
-                    <input name="axisZ" value={this.state.angleAxisDisplay.z} onChange={this.axisAngleChanged}
-                        disabled={this.state.selInputType != 'axisAngle'}
-                        />
+                      />
                     </td>
-                </tr>
-              </tbody>
-              <style jsx>{`
+                    <td style={{ paddingLeft: '0px' }}>rad</td>
+                  </tr>
+                  <tr>
+                    <td>\(x\)</td>
+                    <td>
+                      <input name="axisX" value={this.state.angleAxisDisplay.x} onChange={this.axisAngleChanged}
+                        disabled={this.state.selInputType != 'axisAngle'}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>\(y\)</td>
+                    <td>
+                      <input name="axisY" value={this.state.angleAxisDisplay.y} onChange={this.axisAngleChanged}
+                        disabled={this.state.selInputType != 'axisAngle'}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>\(z\)</td>
+                    <td>
+                      <input name="axisZ" value={this.state.angleAxisDisplay.z} onChange={this.axisAngleChanged}
+                        disabled={this.state.selInputType != 'axisAngle'}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+                <style jsx>{`
                 td input {
                   width: 80px;
                 }
               `}</style>
-            </table>
-          </div>
+              </table>
+            </div>
 
-          <div style={{ width: '2em' }}></div>
+            <div style={{ width: '2em' }}></div>
 
-          <div className="vbox">
-            <b>Quaternion</b>
-            <input type="radio" name="inputType" value="quat" checked={this.state.selInputType == 'quat'} onChange={this.inputTypeChanged} />
-            <table>
-              <tbody>
-                <tr>
-                  <td>w</td>
-                  <td>
-                    <input name="quatW" value={this.state.quatDisplay[0]} onChange={this.quatChanged}
+            <div className="vbox">
+              <b>Quaternion</b>
+              <input type="radio" name="inputType" value="quat" checked={this.state.selInputType == 'quat'} onChange={this.inputTypeChanged} />
+              <table>
+                <tbody>
+                  <tr>
+                    <td>\(w\)</td>
+                    <td>
+                      <input name="quatW" value={this.state.quatDisplay[0]} onChange={this.quatChanged}
                         disabled={this.state.selInputType != 'quat'}
-                        />
-                  </td>
-                </tr>
-                <tr>
-                  <td>x</td>
-                  <td>
-                    <input name="quatX" value={this.state.quatDisplay[1]} onChange={this.quatChanged}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>\(x\)</td>
+                    <td>
+                      <input name="quatX" value={this.state.quatDisplay[1]} onChange={this.quatChanged}
                         disabled={this.state.selInputType != 'quat'}
-                        />
-                  </td>
-                </tr>
-                <tr>
-                  <td>y</td>
-                  <td>
-                    <input name="quatY" value={this.state.quatDisplay[2]} onChange={this.quatChanged}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>\(y\)</td>
+                    <td>
+                      <input name="quatY" value={this.state.quatDisplay[2]} onChange={this.quatChanged}
                         disabled={this.state.selInputType != 'quat'}
-                        />
-                  </td>
-                </tr>
-                <tr>
-                  <td>z</td>
-                  <td>
-                    <input name="quatZ" value={this.state.quatDisplay[3]} onChange={this.quatChanged}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>\(z\)</td>
+                    <td>
+                      <input name="quatZ" value={this.state.quatDisplay[3]} onChange={this.quatChanged}
                         disabled={this.state.selInputType != 'quat'}
-                        />
-                  </td>
-                </tr>
-              </tbody>
-              <style jsx>{`
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+                <style jsx>{`
                 td input {
                   width: 80px;
                 }
               `}</style>
-            </table>
-          </div>
+              </table>
+            </div>
 
-          <div className="vbox spacer" style={{ width: '20px' }}></div>
+            <div className="vbox spacer" style={{ width: '20px' }}></div>
 
-          <div className="vbox">
-            <b>Rotation Matrix</b>
-            <input type="radio" name="inputType" value="rotMatrix" checked={this.state.selInputType == 'rotMatrix'} onChange={this.inputTypeChanged} />
-            <table className="rotMatrix">
-              <tbody>
-                <tr>
-                  <td><input name="rot00" value={this.state.rotMatrix.get([0,0])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
-                  <td><input name="rot01" value={this.state.rotMatrix.get([0,1])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
-                  <td><input name="rot02" value={this.state.rotMatrix.get([0,2])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
-                </tr>
-                <tr>
-                  <td><input name="rot10" value={this.state.rotMatrix.get([1,0])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
-                  <td><input name="rot11" value={this.state.rotMatrix.get([1,1])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
-                  <td><input name="rot12" value={this.state.rotMatrix.get([1,2])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
-                </tr>
-                <tr>
-                  <td><input name="rot20" value={this.state.rotMatrix.get([2,0])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
-                  <td><input name="rot21" value={this.state.rotMatrix.get([2,1])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
-                  <td><input name="rot22" value={this.state.rotMatrix.get([2,2])} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'}/></td>
-                </tr>
-              </tbody>
-              <style jsx>{`
+            <div className="vbox">
+              <b>Rotation Matrix</b>
+              <input type="radio" name="inputType" value="rotMatrix" checked={this.state.selInputType == 'rotMatrix'} onChange={this.inputTypeChanged} />
+              <table className="rotMatrix">
+                <tbody>
+                  <tr>
+                    <td><input name="rot00" value={this.state.rotMatrixDisplay[0][0]} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'} /></td>
+                    <td><input name="rot01" value={this.state.rotMatrixDisplay[0][1]} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'} /></td>
+                    <td><input name="rot02" value={this.state.rotMatrixDisplay[0][2]} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'} /></td>
+                  </tr>
+                  <tr>
+                    <td><input name="rot10" value={this.state.rotMatrixDisplay[1][0]} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'} /></td>
+                    <td><input name="rot11" value={this.state.rotMatrixDisplay[1][1]} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'} /></td>
+                    <td><input name="rot12" value={this.state.rotMatrixDisplay[1][2]} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'} /></td>
+                  </tr>
+                  <tr>
+                    <td><input name="rot20" value={this.state.rotMatrixDisplay[2][0]} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'} /></td>
+                    <td><input name="rot21" value={this.state.rotMatrixDisplay[2][1]} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'} /></td>
+                    <td><input name="rot22" value={this.state.rotMatrixDisplay[2][2]} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'} /></td>
+                  </tr>
+                </tbody>
+                <style jsx>{`
                 td input {
-                  width: 40px;
+                  width: 50px;
                 }
               `}</style>
-            </table>
+              </table>
+            </div>
           </div>
+
         </div>
-
-      </div>
       </Layout>
     )
   }
