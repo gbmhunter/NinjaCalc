@@ -1,10 +1,9 @@
 import Head from 'next/head'
-
-import React, { useEffect, useState } from 'react'
-
+import React from 'react'
 import { add, divide, matrix, multiply, norm } from 'mathjs'
 
 import Layout from '~/components/layout'
+import Rotations from '~/utils/rotations'
 
 class Calculator extends React.Component {
 
@@ -24,6 +23,7 @@ class Calculator extends React.Component {
         y: '0',
         z: '0',
       },
+      angleAxisMsg: '',
       quat: matrix([-0.2234, 0.0, 0.8944, -0.4472]), // wxyz. The initial rotation is driven from this
       quatDisplay: ['-0.2234', '0.0', '0.8944', '-0.4472'],
       rotMatrix: matrix([
@@ -38,35 +38,25 @@ class Calculator extends React.Component {
       ],
       precision: 4,
     }
+
+    this.layout = {}
+    this.frame1Color = 'blue'
+    this.frame2Color = 'green'
   }
 
   componentDidMount() {
-    console.log('test calculator')
 
     // Run once to initialise
     // angleAxisToQuat()
     // Set the quaternion to the default value and then draw the graph from that
     console.log('Checking quat radio button...')
 
-    const rotMatrix = this.quatToRotMatrix(this.state.quat)
+    const rotMatrix = Rotations.quatToRotMatrix(this.state.quat)
     this.updateAngleAxis(rotMatrix)
     this.updateRotMatrix(rotMatrix)
     this.drawGraph(rotMatrix)
-    // quatChanged()
 
   } // componentDidMount()
-
-  axisAngleChanged() {
-    console.log('axisAngleChanged() called.')
-  }
-
-  quatChanged() {
-    console.log('quatChanged() called.')
-  }
-
-  rotMatrixChanged() {
-    console.log('rotMatrixChanged() called.')
-  }
 
   inputTypeChanged = (e) => {
     let value = e.currentTarget.value
@@ -90,14 +80,10 @@ class Calculator extends React.Component {
 
 
   add_axis(data, start_point, end_point, colorIn) {
-    console.log('start_point=' + start_point)
-    console.log('end_point=' + end_point)
-    console.log('colorIn=' + colorIn)
     const x = [start_point.get([0]), end_point.get([0])]
     const y = [start_point.get([1]), end_point.get([1])]
     const z = [start_point.get([2]), end_point.get([2])]
-    data.push(
-      {
+    data.push({
         type: 'scatter3d',
         mode: 'lines',
         x: x,
@@ -109,22 +95,7 @@ class Calculator extends React.Component {
           color: colorIn,
         },
         showlegend: false,
-      }
-    )
-  }
-
-  quatToRotMatrix = (quat) => {
-    console.log('quat=' + quat)
-    const w = quat.get([0])
-    const x = quat.get([1])
-    const y = quat.get([2])
-    const z = quat.get([3])
-    var matrixArray = [
-      [1 - 2 * y * y - 2 * z * z, 2 * x * y - 2 * z * w, 2 * x * z + 2 * y * w],
-      [2 * x * y + 2 * z * w, 1 - 2 * x * x - 2 * z * z, 2 * y * z - 2 * x * w],
-      [2 * x * z - 2 * y * w, 2 * y * z + 2 * x * w, 1 - 2 * x * x - 2 * y * y],
-    ]
-    return matrix(matrixArray)
+    })
   }
 
   rotToQuatMatrix = (rotMatrix) => {
@@ -177,7 +148,7 @@ class Calculator extends React.Component {
 
     var quaternion = math.matrix([quatW, quatX, quatY, quatZ]) // wxyz
     quaternion = math.divide(quaternion, math.norm(quaternion))
-    const rotMatrix = quatToRotMatrix(quaternion)
+    const rotMatrix = Rotations.quatToRotMatrix(quaternion)
     updateQuatEl(rotMatrix)
     updateRotMatrixEl(rotMatrix)
     updateGraph(rotMatrix)
@@ -205,12 +176,11 @@ class Calculator extends React.Component {
 
     console.log('quat=' + quat)
     let quat_norm = divide(quat, norm(quat))
-    const rotMatrix = this.quatToRotMatrix(quat_norm)
+    const rotMatrix = Rotations.quatToRotMatrix(quat_norm)
 
     this.setState({
       'quat': quat,
       'quatDisplay': quatDisplay,
-      'rotMatrix': rotMatrix,
     })
 
     this.updateAngleAxis(rotMatrix)
@@ -252,32 +222,29 @@ class Calculator extends React.Component {
   }
 
   updateAngleAxis = (rotMatrix) => {
-    let m00 = rotMatrix.get([0, 0])
-    let m01 = rotMatrix.get([0, 1])
-    let m02 = rotMatrix.get([0, 2])
-    let m10 = rotMatrix.get([1, 0])
-    let m11 = rotMatrix.get([1, 1])
-    let m12 = rotMatrix.get([1, 2])
-    let m20 = rotMatrix.get([2, 0])
-    let m21 = rotMatrix.get([2, 1])
-    let m22 = rotMatrix.get([2, 2])
-    let angle = Math.acos((m00 + m11 + m22 - 1) / 2)
-    let x = (m21 - m12) / Math.sqrt((m21 - m12) * 2 + (m02 - m20) * 2 + (m10 - m01) * 2)
-    let y = (m02 - m20) / Math.sqrt((m21 - m12) * 2 + (m02 - m20) * 2 + (m10 - m01) * 2)
-    let z = (m10 - m01) / Math.sqrt((m21 - m12) * 2 + (m02 - m20) * 2 + (m10 - m01) * 2)
+    console.log('updateAngleAxis() called.')
+
+    let output = Rotations.rotMatrixToAngleAxis(rotMatrix)
+    let angleAxisMatrix = output.matrix
+    let msg = output.msg
+    console.log('angleAxisMatrix='+angleAxisMatrix)
+    console.log('msg='+msg)
     this.setState({
       angleAxis: {
-        x: x,
-        y: y,
-        z: z,
+        angle: angleAxisMatrix.get([0]),
+        x: angleAxisMatrix.get([1]),
+        y: angleAxisMatrix.get([2]),
+        z: angleAxisMatrix.get([3]),
       },
       angleAxisDisplay: {
-        angle: angle.toPrecision(this.state.precision),
-        x: x.toPrecision(this.state.precision),
-        y: y.toPrecision(this.state.precision),
-        z: z.toPrecision(this.state.precision),
-      }
+        angle: angleAxisMatrix.get([0]).toPrecision(this.state.precision),
+        x: angleAxisMatrix.get([1]).toPrecision(this.state.precision),
+        y: angleAxisMatrix.get([2]).toPrecision(this.state.precision),
+        z: angleAxisMatrix.get([3]).toPrecision(this.state.precision),
+      },
+      angleAxisMsg: msg,
     })
+
   }
 
   updateQuat = (rotMatrix) => {
@@ -313,6 +280,123 @@ class Calculator extends React.Component {
     })
   }
 
+  convertQuatToQuatDisplay = (quat) => {
+    return [
+      quat.get([0]).toPrecision(this.state.precision),
+      quat.get([1]).toPrecision(this.state.precision),
+      quat.get([2]).toPrecision(this.state.precision),
+      quat.get([3]).toPrecision(this.state.precision),
+    ]
+  }
+
+  normalizeQuat = () => {
+    const normalizedQuat = divide(this.state.quat, norm(this.state.quat))
+    this.setState({
+      quat: normalizedQuat,
+      quatDisplay: this.convertQuatToQuatDisplay(normalizedQuat),
+    })
+  }
+
+  addAxisLabels = (layout) => {
+    let annotations = []
+
+
+    annotations.push(
+      {
+        showarrow: false,
+        x: 1,
+        y: 0,
+        z: 0,
+        text: "x",
+        font: {
+          color: this.frame1Color,
+          size: 12
+        },
+        xanchor: "left",
+        xshift: 0,
+        opacity: 0.7
+      },
+      {
+        showarrow: false,
+        x: 0,
+        y: 1,
+        z: 0,
+        text: "y",
+        font: {
+          color: this.frame1Color,
+          size: 12
+        },
+        xanchor: "left",
+        xshift: 0,
+        opacity: 0.7
+      },
+      {
+        showarrow: false,
+        x: 0,
+        y: 0,
+        z: 1,
+        text: "z",
+        font: {
+          color: this.frame1Color,
+          size: 12
+        },
+        xanchor: "left",
+        xshift: 0,
+        opacity: 0.7
+      },
+      {
+        showarrow: false,
+        x: 1,
+        y: 0,
+        z: 0,
+        text: "x",
+        font: {
+          color: this.frame2Color,
+          size: 12
+        },
+        xanchor: "left",
+        xshift: 10,
+        opacity: 0.7
+      },
+      {
+        showarrow: false,
+        x: 0,
+        y: 1,
+        z: 0,
+        text: "y",
+        font: {
+          color: this.frame2Color,
+          size: 12
+        },
+        xanchor: "left",
+        xshift: 10,
+        opacity: 0.7
+      },
+      {
+        showarrow: false,
+        x: 0,
+        y: 0,
+        z: 1,
+        text: "z",
+        font: {
+          color: this.frame2Color,
+          size: 12
+        },
+        xanchor: "left",
+        xshift: 10,
+        opacity: 0.7
+      },
+    )
+
+    layout.scene.annotations = annotations
+  }
+
+  updateFrame2AxisLabels = (index, endPoint) => {
+    this.layout.scene.annotations[index].x = endPoint.get([0])
+    this.layout.scene.annotations[index].y = endPoint.get([1])
+    this.layout.scene.annotations[index].z = endPoint.get([2])
+  }
+
   drawGraph = (rotMatrix) => {
     console.log('drawGraph() called. rotMatrix=' + rotMatrix)
 
@@ -324,17 +408,7 @@ class Calculator extends React.Component {
 
     const translation = matrix([0, 0, 0])
 
-    var vector = matrix([1, 0, 0])
-    var result = multiply(rotMatrix, vector)
-    this.add_axis(data, translation, add(translation, result), 'orange')
-    vector = matrix([0, 1, 0])
-    result = multiply(rotMatrix, vector)
-    this.add_axis(data, translation, add(translation, result), 'orange')
-    vector = matrix([0, 0, 1])
-    result = multiply(rotMatrix, vector)
-    this.add_axis(data, translation, add(translation, result), 'orange')
-
-    var layout = {
+    this.layout = {
       scene: {
         aspectmode: "manual",
         aspectratio: {
@@ -348,12 +422,30 @@ class Calculator extends React.Component {
         },
         zaxis: {
           range: [-1.5, 1.5],
-        }
+        },
       },
     };
+    this.addAxisLabels(this.layout)
+
+    var vector = matrix([1, 0, 0])
+    var result = multiply(rotMatrix, vector)
+    this.add_axis(data, translation, add(translation, result), this.frame2Color)
+    this.updateFrame2AxisLabels(3, add(translation, result))
+    vector = matrix([0, 1, 0])
+    result = multiply(rotMatrix, vector)
+    this.add_axis(data, translation, add(translation, result), this.frame2Color)
+    this.updateFrame2AxisLabels(4, add(translation, result))
+    vector = matrix([0, 1, 0])
+    vector = matrix([0, 0, 1])
+    result = multiply(rotMatrix, vector)
+    this.add_axis(data, translation, add(translation, result), this.frame2Color)
+    this.updateFrame2AxisLabels(5, add(translation, result))
+
+
+
 
     // react() updates existing plot
-    Plotly.plot(graphContainerEl, data, layout);
+    Plotly.plot(graphContainerEl, data, this.layout);
   }
 
   updateGraph = (rotMatrix) => {
@@ -362,9 +454,6 @@ class Calculator extends React.Component {
     // graphContainerEl = document.getElementById('graph-container');
     const graphContainerEl = this.refs.graphContainer
     var data = []
-    // add_axis(data, math.matrix([0,0,0]), math.matrix([1,0,0]), 'blue')
-    // add_axis(data, math.matrix([0,0,0]), math.matrix([0,1,0]), 'blue')
-    // add_axis(data, math.matrix([0,0,0]), math.matrix([0,0,1]), 'blue')
 
     const translation = matrix([0, 0, 0])
 
@@ -372,12 +461,17 @@ class Calculator extends React.Component {
     var result = multiply(rotMatrix, vector)
 
     this.add_axis(data, translation, add(translation, result), 'orange')
+    this.updateFrame2AxisLabels(3, add(translation, result))
     vector = matrix([0, 1, 0])
     result = multiply(rotMatrix, vector)
     this.add_axis(data, translation, add(translation, result), 'orange')
+    this.updateFrame2AxisLabels(4, add(translation, result))
     vector = matrix([0, 0, 1])
     result = multiply(rotMatrix, vector)
     this.add_axis(data, translation, add(translation, result), 'orange')
+    this.updateFrame2AxisLabels(5, add(translation, result))
+
+    // Update annotations 3-5 in layout
 
     // react() updates existing plot
     // Data array has to be wrapped in another array
@@ -395,7 +489,8 @@ class Calculator extends React.Component {
           // colorscale: 'Viridis'
         },
         showlegend: false,
-      }, [3, 4, 5]);
+      }, [3, 4, 5]
+    )
 
   }
 
@@ -407,6 +502,7 @@ class Calculator extends React.Component {
           <link rel='icon' href='/favicon.ico' />
         </Head>
         <div id="calc-3d-rotation-graph" className="vbox">
+          
           <div ref="graphContainer" style={{ width: '500px', height: '500px' }}></div>
 
           <div className="hbox">
@@ -455,6 +551,9 @@ class Calculator extends React.Component {
                 }
               `}</style>
               </table>
+              <div className="hbox">
+                <p>Axis-angle status:<br/>{this.state.angleAxisMsg}</p>
+              </div>
             </div>
 
             <div style={{ width: '2em' }}></div>
@@ -503,6 +602,8 @@ class Calculator extends React.Component {
                 }
               `}</style>
               </table>
+              <div style={{ height: '10px' }} />
+              <button onClick={this.normalizeQuat} disabled={this.state.selInputType != 'quat'}>Normalize Quaternion</button>
             </div>
 
             <div className="vbox spacer" style={{ width: '20px' }}></div>
