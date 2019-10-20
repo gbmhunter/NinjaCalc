@@ -571,8 +571,9 @@ class Calculator extends React.Component {
                 }
               `}</style>
                 </table>
-                <div className="hbox">
-                  <p>Axis-angle status:<br />{this.state.angleAxisMsg}</p>
+                <div className="vbox">
+                  <div>Axis-angle status:</div>
+                  <div><i>{this.state.angleAxisMsg}</i></div>
                 </div>
               </div>
 
