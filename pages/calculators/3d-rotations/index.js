@@ -37,6 +37,7 @@ class Calculator extends React.Component {
         ['0', '0', '0'],
       ],
       precision: 4,
+      selRotationUnit: 'radians'
     }
 
     this.layout = {}
@@ -106,44 +107,8 @@ class Calculator extends React.Component {
     })
   }
 
-  rotToQuatMatrix = (rotMatrix) => {
-    let m00 = rotMatrix.get([0, 0])
-    let m01 = rotMatrix.get([0, 1])
-    let m02 = rotMatrix.get([0, 2])
-    let m10 = rotMatrix.get([1, 0])
-    let m11 = rotMatrix.get([1, 1])
-    let m12 = rotMatrix.get([1, 2])
-    let m20 = rotMatrix.get([2, 0])
-    let m21 = rotMatrix.get([2, 1])
-    let m22 = rotMatrix.get([2, 2])
-    let q = null
-    let t = null
-    if (m22 < 0) {
-      if (m00 > m11) {
-        t = 1 + m00 - m11 - m22;
-        q = matrix([m01 + m10, m20 + m02, m12 - m21, t])
-      }
-      else {
-        t = 1 - m00 + m11 - m22;
-        q = matrix([t, m12 + m21, m20 - m02, m01 + m10])
-      }
-    }
-    else {
-      if (m00 < -m11) {
-        t = 1 - m00 - m11 + m22;
-        q = matrix([m12 + m21, t, m01 - m10, m20 + m02])
-      }
-      else {
-        t = 1 + m00 + m11 + m22;
-        q = matrix([m20 - m02, m01 - m10, t, m12 - m21])
-      }
-    }
-    q = multiply(q, 0.5 / Math.sqrt(t))
-    return q
-  }
-
-  angleAxisChanged = () => {
-    console.log('angleAxisChanged() called.')
+  angleAxisChanged = (e) => {
+    console.log('angleAxisChanged() called. e.target.value=' + e.target.value)
     const angle = angleEl.val()
     const axisX = axisXEl.val()
     const axisY = axisYEl.val()
@@ -257,7 +222,7 @@ class Calculator extends React.Component {
 
   updateQuat = (rotMatrix) => {
     console.log('updateQuatEl() called')
-    const quat = this.rotToQuatMatrix(rotMatrix)
+    const quat = Rotations.rotMatrixToQuatMatrix(rotMatrix)
     const quatDisplay = [
       quat.get([0]).toPrecision(this.state.precision),
       quat.get([1]).toPrecision(this.state.precision),
@@ -307,8 +272,6 @@ class Calculator extends React.Component {
 
   addAxisLabels = (layout) => {
     let annotations = []
-
-
     annotations.push(
       {
         showarrow: false,
@@ -417,8 +380,8 @@ class Calculator extends React.Component {
     const translation = matrix([0, 0, 0])
 
     this.layout = {
-      width: 500,
-      height: 500,
+      // width: 500,
+      // height: 500,
       margin: {
         l: 5,
         r: 5,
@@ -428,9 +391,9 @@ class Calculator extends React.Component {
       },
       scene: {
         // aspectmode: "manual",
-        // aspectratio: {
-        //   x: 1, y: 1, z: 1,
-        // },
+        aspectratio: {
+          x: 1, y: 1, z: 1,
+        },
         xaxis: {
           range: [-1.2, 1.2],
         },
@@ -519,11 +482,19 @@ class Calculator extends React.Component {
           <link rel='icon' href='/favicon.ico' />
         </Head>
         <div className="vbox outer-wrapper" >
-          <div id="calc-3d-rotation-graph" className="vbox" style={{ width: '600px' }}>
+          <div id="calc-3d-rotation-graph" className="vbox" style={{ maxWidth: '500px' }}>
 
             <p>This calculator allows you to convert between rotations in 3D space described in axis-angle format, quaternions and rotation matrices. It also shows you how the rotation would rotate reference frame one to reference frame two in the below graph.</p>
 
-            <div ref="graphContainer" style={{ width: '500px', height: '500px' }}></div>
+            <div ref="graphContainer" style={{ maxWidth: '500px', maxHeight: '500px' }}></div>
+
+            <div className="hbox">
+              <div>Rotation Units: </div>
+              <select>
+                <option>radians</option>
+                <option>degrees</option>
+              </select>
+            </div>
 
             <div className="hbox" style={{ alignItems: 'start'}}>
               <div className="vbox">
@@ -534,7 +505,7 @@ class Calculator extends React.Component {
                     <tr>
                       <td style={{ maxWidth: '20px' }}>\(\theta\)</td>
                       <td>
-                        <input name="angle" value={this.state.angleAxisDisplay.angle} onChange={this.axisAngleChanged}
+                        <input name="angle" value={this.state.angleAxisDisplay.angle} onChange={this.angleAxisChanged}
                           disabled={this.state.selInputType != 'axisAngle'}
                         />
                       </td>
@@ -543,7 +514,7 @@ class Calculator extends React.Component {
                     <tr>
                       <td>\(x\)</td>
                       <td>
-                        <input name="axisX" value={this.state.angleAxisDisplay.x} onChange={this.axisAngleChanged}
+                        <input name="axisX" value={this.state.angleAxisDisplay.x} onChange={this.angleAxisChanged}
                           disabled={this.state.selInputType != 'axisAngle'}
                         />
                       </td>
@@ -551,7 +522,7 @@ class Calculator extends React.Component {
                     <tr>
                       <td>\(y\)</td>
                       <td>
-                        <input name="axisY" value={this.state.angleAxisDisplay.y} onChange={this.axisAngleChanged}
+                        <input name="axisY" value={this.state.angleAxisDisplay.y} onChange={this.angleAxisChanged}
                           disabled={this.state.selInputType != 'axisAngle'}
                         />
                       </td>
@@ -559,7 +530,7 @@ class Calculator extends React.Component {
                     <tr>
                       <td>\(z\)</td>
                       <td>
-                        <input name="axisZ" value={this.state.angleAxisDisplay.z} onChange={this.axisAngleChanged}
+                        <input name="axisZ" value={this.state.angleAxisDisplay.z} onChange={this.angleAxisChanged}
                           disabled={this.state.selInputType != 'axisAngle'}
                         />
                       </td>

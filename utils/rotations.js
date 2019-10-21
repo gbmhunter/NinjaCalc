@@ -110,6 +110,42 @@ class Rotations {
     ]
     return matrix(matrixArray)
   }
+
+  static rotMatrixToQuatMatrix = (rotMatrix) => {
+    let m00 = rotMatrix.get([0, 0])
+    let m01 = rotMatrix.get([0, 1])
+    let m02 = rotMatrix.get([0, 2])
+    let m10 = rotMatrix.get([1, 0])
+    let m11 = rotMatrix.get([1, 1])
+    let m12 = rotMatrix.get([1, 2])
+    let m20 = rotMatrix.get([2, 0])
+    let m21 = rotMatrix.get([2, 1])
+    let m22 = rotMatrix.get([2, 2])
+    let q = null
+    let t = null
+    if (m22 < 0) {
+      if (m00 > m11) {
+        t = 1 + m00 - m11 - m22;
+        q = matrix([m01 + m10, m20 + m02, m12 - m21, t])
+      }
+      else {
+        t = 1 - m00 + m11 - m22;
+        q = matrix([t, m12 + m21, m20 - m02, m01 + m10])
+      }
+    }
+    else {
+      if (m00 < -m11) {
+        t = 1 - m00 - m11 + m22;
+        q = matrix([m12 + m21, t, m01 - m10, m20 + m02])
+      }
+      else {
+        t = 1 + m00 + m11 + m22;
+        q = matrix([m20 - m02, m01 - m10, t, m12 - m21])
+      }
+    }
+    q = multiply(q, 0.5 / Math.sqrt(t))
+    return q
+  }
 }
 
 export default Rotations
