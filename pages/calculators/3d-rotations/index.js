@@ -474,6 +474,49 @@ class Calculator extends React.Component {
 
   }
 
+  calcQuatFromQuatDisp = (quatDisp, units) => {
+    let quat = []
+    for(let i = 0; i < quatDisp.length; i++) {
+      if(units == 'radians') {
+        quat.push(parseFloat(quatDisp[i]))
+      } else if(units == 'degrees') {
+        quat.push((parseFloat(quatDisp[i])*Math.PI)/180.0)
+      } else {
+        throw Error('units provided to calcQuatFromQuatDisp() not recognized.')
+      }
+    }
+    return matrix(quat)
+  }
+
+  recalculate = (newState) => {
+    if (newState.selInputType == 'quat') {
+      let quatDisplay = newState.quatDisplay
+      newState.quat = this.calcQuatFromQuatDisp(quatDisplay, newState.selRotationUnit)
+
+      const rotMatrix = Rotations.quatToRotMatrix(newState.quat)
+      let rotMatrixDisplay = []
+      let i = 0
+
+      rotMatrix.forEach((value, index, matrix) => {
+        if (i % 3 == 0) {
+          rotMatrixDisplay.push([])
+        }
+        rotMatrixDisplay[index[0]].push(value.toPrecision(this.state.precision))
+        i += 1
+      })
+      newState.rotMatrix = rotMatrix
+      newState.rotMatrixDisplay = rotMatrixDisplay
+    }
+  }
+
+  onRotationUnitsChange = (e) => {
+    console.log('onRotationUnitsChange() called. e.target.value='+e.target.value)
+      let newState = this.state
+      newState.selRotationUnit = e.target.value
+      this.recalculate(newState)
+      this.setState(newState)
+  }
+
   render() {
     return (
       <Layout>
@@ -490,9 +533,9 @@ class Calculator extends React.Component {
 
             <div className="hbox">
               <div>Rotation Units: </div>
-              <select>
-                <option>radians</option>
-                <option>degrees</option>
+              <select value={this.state.selRotationUnit} onChange={this.onRotationUnitsChange}>
+                <option value="radians">radians</option>
+                <option value="degrees">degrees</option>
               </select>
             </div>
 
