@@ -71,7 +71,10 @@ class Rotations {
         }
       }
       // input.type.value="singularity at angle = 180";
-      return matrix([angle, x, y, z]);
+      return {
+        matrix: matrix([angle, x, y, z]),
+        msg: "Singularity at angle = 180.",
+      }
     }
     var s = Math.sqrt((m21 - m12) * (m21 - m12) + (m02 - m20) * (m02 - m20) + (m10 - m01) * (m10 - m01)); // used to normalise
     if (Math.abs(s) < 0.001) {

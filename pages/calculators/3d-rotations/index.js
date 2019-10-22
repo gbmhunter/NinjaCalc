@@ -52,10 +52,13 @@ class Calculator extends React.Component {
     // Set the quaternion to the default value and then draw the graph from that
     console.log('Checking quat radio button...')
 
-    const rotMatrix = Rotations.quatToRotMatrix(this.state.quat)
-    this.updateAngleAxis(rotMatrix)
-    this.updateRotMatrix(rotMatrix)
-    this.drawGraph(rotMatrix)
+    // const rotMatrix = Rotations.quatToRotMatrix(this.state.quat)
+    // this.updateAngleAxis(rotMatrix)
+    // this.updateRotMatrix(rotMatrix)
+    let newState = this.state
+    this.recalculate(newState)
+    this.drawGraph(newState.rotMatrix)
+    this.setState(newState)
 
   } // componentDidMount()
 
@@ -89,7 +92,6 @@ class Calculator extends React.Component {
     if(legendText) {
       showLegend = true
     }
-
 
     data.push({
       type: 'scatter3d',
@@ -128,40 +130,24 @@ class Calculator extends React.Component {
   }
 
   quatChanged = (e) => {
+    let newState = this.state
     console.log('quatChanged() called. e.target.name=' + e.target.name + ', e.target.value=' + e.target.value)
-
-    let quat = this.state.quat
-    let valueAsFloat = parseFloat(e.target.value)
-    let quatDisplay = this.state.quatDisplay.slice()
     if (e.target.name == 'quatW') {
-      quatDisplay[0] = e.target.value
-      quat.set([0], valueAsFloat)
+      newState.quatDisplay[0] = e.target.value
     } else if (e.target.name == 'quatX') {
-      quatDisplay[1] = e.target.value
-      quat.set([1], valueAsFloat)
+      newState.quatDisplay[1] = e.target.value
     } else if (e.target.name == 'quatY') {
-      quatDisplay[2] = e.target.value
-      quat.set([2], valueAsFloat)
+      newState.quatDisplay[2] = e.target.value
     } else if (e.target.name == 'quatZ') {
-      quatDisplay[3] = e.target.value
-      quat.set([3], valueAsFloat)
+      newState.quatDisplay[3] = e.target.value
     }
-
-    console.log('quat=' + quat)
-    let quat_norm = divide(quat, norm(quat))
-    const rotMatrix = Rotations.quatToRotMatrix(quat_norm)
-
-    this.setState({
-      'quat': quat,
-      'quatDisplay': quatDisplay,
-    })
-
-    this.updateAngleAxis(rotMatrix)
-    this.updateRotMatrix(rotMatrix)
-    this.updateGraph(rotMatrix)
+    this.recalculate(newState)
+    this.setState(newState)
+    this.updateGraph(newState.rotMatrix)
   }
 
   rotMatrixChanged = (e) => {
+    newState = this.state
     let rotMatrixDisplay = this.state.rotMatrixDisplay.slice()
     const inputName = e.target.name
     // Should be something like "00", "21", e.t.c
@@ -169,88 +155,13 @@ class Calculator extends React.Component {
 
     console.log('rotMatrixDisplay(before)=')
     console.log(rotMatrixDisplay)
-    rotMatrixDisplay[arrayIndexes[0]][arrayIndexes[1]] = e.target.value
+    newState.rotMatrixDisplay[arrayIndexes[0]][arrayIndexes[1]] = e.target.value
     console.log('rotMatrixDisplay=')
     console.log(rotMatrixDisplay)
 
-    let m00 = parseFloat(rotMatrixDisplay[0][0])
-    let m01 = parseFloat(rotMatrixDisplay[0][1])
-    let m02 = parseFloat(rotMatrixDisplay[0][2])
-    let m10 = parseFloat(rotMatrixDisplay[1][0])
-    let m11 = parseFloat(rotMatrixDisplay[1][1])
-    let m12 = parseFloat(rotMatrixDisplay[1][2])
-    let m20 = parseFloat(rotMatrixDisplay[2][0])
-    let m21 = parseFloat(rotMatrixDisplay[2][1])
-    let m22 = parseFloat(rotMatrixDisplay[2][2])
-    let rotArray = [[m00, m01, m02], [m10, m11, m12], [m20, m21, m22]]
-    let rotMatrix = matrix(rotArray)
-
-    this.updateAngleAxis(rotMatrix)
-    this.updateQuat(rotMatrix)
-    this.updateGraph(rotMatrix)
-    this.setState({
-      rotMatrixDisplay: rotMatrixDisplay,
-      rotMatrix: rotMatrix,
-    })
-  }
-
-  updateAngleAxis = (rotMatrix) => {
-    console.log('updateAngleAxis() called.')
-
-    let output = Rotations.rotMatrixToAngleAxis(rotMatrix)
-    let angleAxisMatrix = output.matrix
-    let msg = output.msg
-    console.log('angleAxisMatrix=' + angleAxisMatrix)
-    console.log('msg=' + msg)
-    this.setState({
-      angleAxis: {
-        angle: angleAxisMatrix.get([0]),
-        x: angleAxisMatrix.get([1]),
-        y: angleAxisMatrix.get([2]),
-        z: angleAxisMatrix.get([3]),
-      },
-      angleAxisDisplay: {
-        angle: angleAxisMatrix.get([0]).toPrecision(this.state.precision),
-        x: angleAxisMatrix.get([1]).toPrecision(this.state.precision),
-        y: angleAxisMatrix.get([2]).toPrecision(this.state.precision),
-        z: angleAxisMatrix.get([3]).toPrecision(this.state.precision),
-      },
-      angleAxisMsg: msg,
-    })
-
-  }
-
-  updateQuat = (rotMatrix) => {
-    console.log('updateQuatEl() called')
-    const quat = Rotations.rotMatrixToQuatMatrix(rotMatrix)
-    const quatDisplay = [
-      quat.get([0]).toPrecision(this.state.precision),
-      quat.get([1]).toPrecision(this.state.precision),
-      quat.get([2]).toPrecision(this.state.precision),
-      quat.get([3]).toPrecision(this.state.precision),
-    ]
-    this.setState({
-      quat: quat,
-      quatDisplay: quatDisplay,
-    })
-  }
-
-  updateRotMatrix = (rotMatrix) => {
-    let rotMatrixDisplay = []
-    let i = 0
-
-    rotMatrix.forEach((value, index, matrix) => {
-      if (i % 3 == 0) {
-        rotMatrixDisplay.push([])
-      }
-      rotMatrixDisplay[index[0]].push(value.toPrecision(this.state.precision))
-      i += 1
-    })
-
-    this.setState({
-      rotMatrix: rotMatrix,
-      rotMatrixDisplay: rotMatrixDisplay
-    })
+    this.recalculate(newState)
+    this.updateGraph(newState.rotMatrix)
+    this.setState(newState)
   }
 
   convertQuatToQuatDisplay = (quat) => {
@@ -263,11 +174,12 @@ class Calculator extends React.Component {
   }
 
   normalizeQuat = () => {
+    let newState = this.state
     const normalizedQuat = divide(this.state.quat, norm(this.state.quat))
-    this.setState({
-      quat: normalizedQuat,
-      quatDisplay: this.convertQuatToQuatDisplay(normalizedQuat),
-    })
+    newState.quatDisplay = this.convertQuatToQuatDisplay(normalizedQuat)
+    this.recalculate(newState)
+    this.setState(newState)
+    this.updateGraph(newState.rotMatrix)
   }
 
   addAxisLabels = (layout) => {
@@ -488,23 +400,85 @@ class Calculator extends React.Component {
     return matrix(quat)
   }
 
+  calcRotMatrixFromRotDisp = (rotMatrixDisplay, units) => {
+    let multiplier = null
+    if(units == 'radians') {
+      multiplier = 1.0
+    } else if (units == 'degrees') {
+      multiplier = Math.PI/180.0
+    }
+    let m00 = parseFloat(rotMatrixDisplay[0][0])
+    let m01 = parseFloat(rotMatrixDisplay[0][1])
+    let m02 = parseFloat(rotMatrixDisplay[0][2])
+    let m10 = parseFloat(rotMatrixDisplay[1][0])
+    let m11 = parseFloat(rotMatrixDisplay[1][1])
+    let m12 = parseFloat(rotMatrixDisplay[1][2])
+    let m20 = parseFloat(rotMatrixDisplay[2][0])
+    let m21 = parseFloat(rotMatrixDisplay[2][1])
+    let m22 = parseFloat(rotMatrixDisplay[2][2])
+    let rotArray = [[m00, m01, m02], [m10, m11, m12], [m20, m21, m22]]
+    return matrix(rotArray)
+  }
+
   recalculate = (newState) => {
-    if (newState.selInputType == 'quat') {
+    if (newState.selInputType == 'angleAxis') {
+      
+    } else if (newState.selInputType == 'quat') {
       let quatDisplay = newState.quatDisplay
       newState.quat = this.calcQuatFromQuatDisp(quatDisplay, newState.selRotationUnit)
+      newState.rotMatrix = Rotations.quatToRotMatrix(newState.quat)
+      let angleAxisOut = Rotations.rotMatrixToAngleAxis(newState.rotMatrix)
+      newState.angleAxis = angleAxisOut.matrix
+      newState.angleAxisMsg = angleAxisOut.msg
+    } else if (newState.selInputType == 'rotMatrix') {
+      newState.rotMatrix = this.calcRotMatrixFromRotDisp(newState.rotMatrixDisplay)
+      newState.quat = Rotations.rotMatrixToQuatMatrix(newState.rotMatrix)
+      let angleAxisOut = Rotations.rotMatrixToAngleAxis(newState.rotMatrix)
+      newState.angleAxis = angleAxisOut.matrix
+      newState.angleAxisMsg = angleAxisOut.msg
+    } else {
+      throw Error('selInputType not recognized.')
+    }
 
-      const rotMatrix = Rotations.quatToRotMatrix(newState.quat)
+    // UPDATE DISPLAY
+    console.log('newState=')
+    console.log(newState)
+    let multiplier = null
+    if(newState.selRotationUnit == 'radians') {
+      multiplier = 1.0
+    } else if (newState.selRotationUnit == 'degrees') {
+      multiplier = 180.0/Math.PI
+    }
+
+    if (newState.selInputType != 'angleAxis') {
+      newState.angleAxisDisplay = {
+        angle: (newState.angleAxis.get([0])*multiplier).toPrecision(this.state.precision),
+        x: (newState.angleAxis.get([1])).toPrecision(this.state.precision),
+        y: (newState.angleAxis.get([2])).toPrecision(this.state.precision),
+        z: (newState.angleAxis.get([3])).toPrecision(this.state.precision),
+      }
+    }
+
+    if (newState.selInputType != 'quat') {
+      newState.quatDisplay = [
+        (quat.get([0])*multiplier).toPrecision(this.state.precision),
+        (quat.get([1])).toPrecision(this.state.precision),
+        (quat.get([2])).toPrecision(this.state.precision),
+        (quat.get([3])).toPrecision(this.state.precision),
+      ]
+    }
+
+    if (newState.selInputType != 'rotMatrix') {
       let rotMatrixDisplay = []
       let i = 0
 
-      rotMatrix.forEach((value, index, matrix) => {
+      newState.rotMatrix.forEach((value, index, matrix) => {
         if (i % 3 == 0) {
           rotMatrixDisplay.push([])
         }
-        rotMatrixDisplay[index[0]].push(value.toPrecision(this.state.precision))
+        rotMatrixDisplay[index[0]].push((value).toPrecision(this.state.precision))
         i += 1
       })
-      newState.rotMatrix = rotMatrix
       newState.rotMatrixDisplay = rotMatrixDisplay
     }
   }
