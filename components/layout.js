@@ -3,6 +3,9 @@
 import Nav from '~/components/nav'
 import Head from 'next/head'
 
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 export default ({ children, title = 'This is the default title' }) => (
   <div>

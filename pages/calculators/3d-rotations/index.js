@@ -1,6 +1,9 @@
 import Head from 'next/head'
 import React from 'react'
 import { add, divide, matrix, multiply, norm } from 'mathjs'
+import Button from 'react-bootstrap/Button'
+import FormControl from 'react-bootstrap/FormControl'
+import Form from 'react-bootstrap/Form'
 
 import Layout from '~/components/layout'
 import Rotations from '~/utils/rotations'
@@ -491,11 +494,11 @@ class Calculator extends React.Component {
             <div ref="graphContainer" style={{ maxWidth: '500px', maxHeight: '500px' }}></div>
 
             <div className="hbox">
-              <div>Rotation Units: </div>
-              <select value={this.state.selRotationUnit} onChange={this.onRotationUnitsChange}>
+              <div>Rotation Units:&nbsp;</div>
+              <Form.Control as="select" size="sm" value={this.state.selRotationUnit} onChange={this.onRotationUnitsChange} style={{ width: '100px' }}>
                 <option value="radians">radians</option>
                 <option value="degrees">degrees</option>
-              </select>
+              </Form.Control>
             </div>
 
             <div id="inputs-wrapper" className="hbox" style={{ alignItems: 'start', fontSize: '0.8em' }}>
@@ -597,7 +600,7 @@ class Calculator extends React.Component {
               `}</style>
                 </table>
                 <div style={{ height: '10px' }} />
-                <button onClick={this.normalizeQuat} disabled={this.state.selInputType != 'quat'}>Normalize Quaternion</button>
+                <Button size="sm" onClick={this.normalizeQuat} disabled={this.state.selInputType != 'quat'}>Normalize<br></br>Quaternion</Button>
               </div>
 
               <div className="vbox spacer" style={{ width: '20px' }}></div>
