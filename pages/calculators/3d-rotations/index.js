@@ -60,26 +60,14 @@ class Calculator extends React.Component {
     this.drawGraph(newState.rotMatrix)
     this.setState(newState)
 
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub])
   } // componentDidMount()
 
   inputTypeChanged = (e) => {
-    let value = e.currentTarget.value
-    this.setState({
-      selInputType: e.currentTarget.value
-    })
-
-    if (value == 'axisAngle') {
-      this.updateQuat(this.state.rotMatrix)
-      this.updateRotMatrix(this.state.rotMatrix)
-    } else if (value == 'quat') {
-      this.updateAngleAxis(this.state.rotMatrix)
-      this.updateRotMatrix(this.state.rotMatrix)
-    } else if (value == 'rotMatrix') {
-      this.updateAngleAxis(this.state.rotMatrix)
-      this.updateQuat(this.state.rotMatrix)
-    } else {
-      throw Error('Unrecognized radio button value.' + value)
-    }
+    let newState = this.state
+    newState.selInputType = e.currentTarget.value
+    this.recalculate(newState)
+    this.setState(newState)
   }
 
 
@@ -110,23 +98,12 @@ class Calculator extends React.Component {
   }
 
   angleAxisChanged = (e) => {
-    console.log('angleAxisChanged() called. e.target.value=' + e.target.value)
-    const angle = angleEl.val()
-    const axisX = axisXEl.val()
-    const axisY = axisYEl.val()
-    const axisZ = axisZEl.val()
-
-    const quatW = Math.cos(angle / 2)
-    const quatX = axisX * Math.sin(angle / 2)
-    const quatY = axisY * Math.sin(angle / 2)
-    const quatZ = axisZ * Math.sin(angle / 2)
-
-    var quaternion = math.matrix([quatW, quatX, quatY, quatZ]) // wxyz
-    quaternion = math.divide(quaternion, math.norm(quaternion))
-    const rotMatrix = Rotations.quatToRotMatrix(quaternion)
-    updateQuatEl(rotMatrix)
-    updateRotMatrixEl(rotMatrix)
-    updateGraph(rotMatrix)
+    console.log('angleAxisChanged() called. e.target.value=' + e.target.value + ', name=' + e.target.name)
+    let newState = this.state
+    newState.angleAxisDisplay[e.target.name] = e.target.value
+    this.recalculate(newState)
+    this.setState(newState)
+    this.updateGraph(newState.rotMatrix)
   }
 
   quatChanged = (e) => {
@@ -147,18 +124,11 @@ class Calculator extends React.Component {
   }
 
   rotMatrixChanged = (e) => {
-    newState = this.state
-    let rotMatrixDisplay = this.state.rotMatrixDisplay.slice()
+    let newState = this.state
     const inputName = e.target.name
     // Should be something like "00", "21", e.t.c
     let arrayIndexes = inputName.substr(inputName.length - 2)
-
-    console.log('rotMatrixDisplay(before)=')
-    console.log(rotMatrixDisplay)
     newState.rotMatrixDisplay[arrayIndexes[0]][arrayIndexes[1]] = e.target.value
-    console.log('rotMatrixDisplay=')
-    console.log(rotMatrixDisplay)
-
     this.recalculate(newState)
     this.updateGraph(newState.rotMatrix)
     this.setState(newState)
@@ -343,7 +313,6 @@ class Calculator extends React.Component {
   updateGraph = (rotMatrix) => {
     console.log('updateGraph() called. rotMatrix=' + rotMatrix)
 
-    // graphContainerEl = document.getElementById('graph-container');
     const graphContainerEl = this.refs.graphContainer
     var data = []
 
@@ -351,7 +320,6 @@ class Calculator extends React.Component {
 
     var vector = matrix([1, 0, 0])
     var result = multiply(rotMatrix, vector)
-
     this.add_axis(data, translation, add(translation, result), 'orange')
     this.updateFrame2AxisLabels(3, add(translation, result))
     vector = matrix([0, 1, 0])
@@ -365,7 +333,6 @@ class Calculator extends React.Component {
 
     // Update annotations 3-5 in layout
 
-    // react() updates existing plot
     // Data array has to be wrapped in another array
     Plotly.restyle(graphContainerEl,
       {
@@ -384,6 +351,24 @@ class Calculator extends React.Component {
       }, [3, 4, 5]
     )
 
+  }
+
+  calcAngleAxisFromAngleAxisDisp = (angleAxisDisp, units) => {
+    let multiplier = null
+    if(units == 'radians') {
+      multiplier = 1.0
+    } else if (units == 'degrees') {
+      multiplier = Math.PI/180.0
+    } else {
+        throw Error('units "' + units + '" provided to calcQuatFromQuatDisp() not recognized.')
+    }
+    let angleAxis = {
+      'angle': parseFloat(angleAxisDisp.angle)*multiplier,
+      'x': parseFloat(angleAxisDisp.x),
+      'y': parseFloat(angleAxisDisp.y),
+      'z': parseFloat(angleAxisDisp.z),
+    }
+    return angleAxis
   }
 
   calcQuatFromQuatDisp = (quatDisp, units) => {
@@ -422,7 +407,9 @@ class Calculator extends React.Component {
 
   recalculate = (newState) => {
     if (newState.selInputType == 'angleAxis') {
-      
+      newState.angleAxis = this.calcAngleAxisFromAngleAxisDisp(newState.angleAxisDisplay, newState.selRotationUnit)
+      newState.quat = Rotations.angleAxisToQuat(newState.angleAxis) // Returned quat should be normalized
+      newState.rotMatrix = Rotations.quatToRotMatrix(newState.quat)
     } else if (newState.selInputType == 'quat') {
       let quatDisplay = newState.quatDisplay
       newState.quat = this.calcQuatFromQuatDisp(quatDisplay, newState.selRotationUnit)
@@ -437,12 +424,10 @@ class Calculator extends React.Component {
       newState.angleAxis = angleAxisOut.matrix
       newState.angleAxisMsg = angleAxisOut.msg
     } else {
-      throw Error('selInputType not recognized.')
+      throw Error('selInputType ' + newState.selInputType + ' not recognized.')
     }
 
     // UPDATE DISPLAY
-    console.log('newState=')
-    console.log(newState)
     let multiplier = null
     if(newState.selRotationUnit == 'radians') {
       multiplier = 1.0
@@ -461,10 +446,10 @@ class Calculator extends React.Component {
 
     if (newState.selInputType != 'quat') {
       newState.quatDisplay = [
-        (quat.get([0])*multiplier).toPrecision(this.state.precision),
-        (quat.get([1])).toPrecision(this.state.precision),
-        (quat.get([2])).toPrecision(this.state.precision),
-        (quat.get([3])).toPrecision(this.state.precision),
+        (newState.quat.get([0])*multiplier).toPrecision(this.state.precision),
+        (newState.quat.get([1])).toPrecision(this.state.precision),
+        (newState.quat.get([2])).toPrecision(this.state.precision),
+        (newState.quat.get([3])).toPrecision(this.state.precision),
       ]
     }
 
@@ -513,17 +498,17 @@ class Calculator extends React.Component {
               </select>
             </div>
 
-            <div className="hbox" style={{ alignItems: 'start'}}>
+            <div id="inputs-wrapper" className="hbox" style={{ alignItems: 'start', fontSize: '0.8em' }}>
               <div className="vbox">
-                <b>Axis-Angle</b>
-                <input type="radio" name="inputType" value="axisAngle" checked={this.state.selInputType == 'axisAngle'} onChange={this.inputTypeChanged} />
+                <b>Angle-Axis</b>
+                <input type="radio" name="inputType" value="angleAxis" checked={this.state.selInputType == 'angleAxis'} onChange={this.inputTypeChanged} />
                 <table>
                   <tbody>
                     <tr>
                       <td style={{ maxWidth: '20px' }}>\(\theta\)</td>
                       <td>
                         <input name="angle" value={this.state.angleAxisDisplay.angle} onChange={this.angleAxisChanged}
-                          disabled={this.state.selInputType != 'axisAngle'}
+                          disabled={this.state.selInputType != 'angleAxis'}
                         />
                       </td>
                       <td style={{ paddingLeft: '0px' }}>rad</td>
@@ -531,24 +516,24 @@ class Calculator extends React.Component {
                     <tr>
                       <td>\(x\)</td>
                       <td>
-                        <input name="axisX" value={this.state.angleAxisDisplay.x} onChange={this.angleAxisChanged}
-                          disabled={this.state.selInputType != 'axisAngle'}
+                        <input name="x" value={this.state.angleAxisDisplay.x} onChange={this.angleAxisChanged}
+                          disabled={this.state.selInputType != 'angleAxis'}
                         />
                       </td>
                     </tr>
                     <tr>
                       <td>\(y\)</td>
                       <td>
-                        <input name="axisY" value={this.state.angleAxisDisplay.y} onChange={this.angleAxisChanged}
-                          disabled={this.state.selInputType != 'axisAngle'}
+                        <input name="y" value={this.state.angleAxisDisplay.y} onChange={this.angleAxisChanged}
+                          disabled={this.state.selInputType != 'angleAxis'}
                         />
                       </td>
                     </tr>
                     <tr>
                       <td>\(z\)</td>
                       <td>
-                        <input name="axisZ" value={this.state.angleAxisDisplay.z} onChange={this.angleAxisChanged}
-                          disabled={this.state.selInputType != 'axisAngle'}
+                        <input name="z" value={this.state.angleAxisDisplay.z} onChange={this.angleAxisChanged}
+                          disabled={this.state.selInputType != 'angleAxis'}
                         />
                       </td>
                     </tr>
@@ -560,7 +545,7 @@ class Calculator extends React.Component {
               `}</style>
                 </table>
                 <div className="vbox">
-                  <div>Axis-angle status:</div>
+                  <div >Angle-Axis status:</div>
                   <div><i>{this.state.angleAxisMsg}</i></div>
                 </div>
               </div>

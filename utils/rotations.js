@@ -80,14 +80,14 @@ class Rotations {
     if (Math.abs(s) < 0.001) {
       return {
         matrix: matrix([NaN, NaN, NaN, NaN]),
-        msg: "Matrix not orthogonal.",
+        msg: "Input not orthogonal.",
       }
     }
     if (Math.abs((m00 + m11 + m22 - 1) / 2) > 1) {
       // input.type.value="matrix not normalised";
       return {
         matrix: matrix([NaN, NaN, NaN, NaN]),
-        msg: "Matrix not normalized.",
+        msg: "Input not normalized.",
       }
     }
     angle = Math.acos((m00 + m11 + m22 - 1) / 2);
@@ -96,7 +96,7 @@ class Rotations {
     z = (m10 - m01) / s;
     return {
       matrix: matrix([angle, x, y, z]),
-      msg: "Matrix o.k.",
+      msg: "Input o.k.",
     }
   }
 
@@ -106,11 +106,17 @@ class Rotations {
     const x = quat.get([1])
     const y = quat.get([2])
     const z = quat.get([3])
-    var matrixArray = [
-      [1 - 2 * y * y - 2 * z * z, 2 * x * y - 2 * z * w, 2 * x * z + 2 * y * w],
-      [2 * x * y + 2 * z * w, 1 - 2 * x * x - 2 * z * z, 2 * y * z - 2 * x * w],
-      [2 * x * z - 2 * y * w, 2 * y * z + 2 * x * w, 1 - 2 * x * x - 2 * y * y],
-    ]
+    let matrixArray = null
+    // Validate inputs
+    if(isNaN(w) | isNaN(x) | isNaN(y) | isNaN(z)) {
+      matrixArray = [ [NaN, NaN, NaN], [NaN, NaN, NaN], [NaN, NaN, NaN] ] 
+    } else {
+      matrixArray = [
+        [1 - 2 * y * y - 2 * z * z, 2 * x * y - 2 * z * w, 2 * x * z + 2 * y * w],
+        [2 * x * y + 2 * z * w, 1 - 2 * x * x - 2 * z * z, 2 * y * z - 2 * x * w],
+        [2 * x * z - 2 * y * w, 2 * y * z + 2 * x * w, 1 - 2 * x * x - 2 * y * y],
+      ]
+    }
     return matrix(matrixArray)
   }
 
@@ -148,6 +154,17 @@ class Rotations {
     }
     q = multiply(q, 0.5 / Math.sqrt(t))
     return q
+  }
+
+  static angleAxisToQuat = (angleAxis) => {
+    const quatW = Math.cos(angleAxis.angle / 2)
+    const quatX = angleAxis.x * Math.sin(angleAxis.angle / 2)
+    const quatY = angleAxis.y * Math.sin(angleAxis.angle / 2)
+    const quatZ = angleAxis.z * Math.sin(angleAxis.angle / 2)
+
+    var quaternion = matrix([quatW, quatX, quatY, quatZ]) // wxyz
+    quaternion = divide(quaternion, norm(quaternion))
+    return quaternion
   }
 }
 
