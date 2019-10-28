@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
@@ -19,6 +20,7 @@
     "react-plotly.js": "^2.3.0"
   },
   "devDependencies": {
-    "babel-plugin-root-import": "^6.4.1"
+    "babel-plugin-root-import": "^6.4.1",
+    "jest": "^24.9.0"
   }
 }

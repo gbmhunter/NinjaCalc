@@ -627,10 +627,42 @@ class Calculator extends React.Component {
                     </tr>
                   </tbody>
                   <style jsx>{`
-                td input {
-                  width: 50px;
-                }
-              `}</style>
+                    td input {
+                      width: 50px;
+                    }
+                  `}</style>
+                </table>
+              </div>
+
+              <div className="vbox spacer" style={{ width: '20px' }}></div>
+
+              <div className="vbox">
+                <b>Euler Angles (RPY)</b>
+                <input type="radio" name="inputType" value="eulerAngles"
+                    checked={this.state.selInputType == 'eulerAngles'} onChange={this.inputTypeChanged} />
+                <table>
+                    <tbody>
+                        <tr>
+                          <th></th>
+                        </tr>
+                        <tr>
+                          <td>R</td>
+                          <td><input></input></td>
+                        </tr>
+                        <tr>
+                          <td>P</td>
+                          <td><input></input></td>
+                        </tr>
+                        <tr>
+                          <td>Y</td>
+                          <td><input></input></td>
+                        </tr>
+                    </tbody>
+                  <style jsx>{`
+                    td input {
+                      width: 80px;
+                    }
+                  `}</style>
                 </table>
               </div>
             </div>
