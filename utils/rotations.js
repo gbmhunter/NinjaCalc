@@ -108,8 +108,8 @@ class Rotations {
     const z = quat.get([3])
     let matrixArray = null
     // Validate inputs
-    if(isNaN(w) | isNaN(x) | isNaN(y) | isNaN(z)) {
-      matrixArray = [ [NaN, NaN, NaN], [NaN, NaN, NaN], [NaN, NaN, NaN] ] 
+    if (isNaN(w) | isNaN(x) | isNaN(y) | isNaN(z)) {
+      matrixArray = [[NaN, NaN, NaN], [NaN, NaN, NaN], [NaN, NaN, NaN]]
     } else {
       matrixArray = [
         [1 - 2 * y * y - 2 * z * z, 2 * x * y - 2 * z * w, 2 * x * z + 2 * y * w],
@@ -155,6 +155,76 @@ class Rotations {
     q = multiply(q, 0.5 / Math.sqrt(t))
     return q
   }
+
+  static rotMatrixToQuat = (rotMatrix) => {
+    let m00 = rotMatrix.get([0, 0])
+    let m01 = rotMatrix.get([0, 1])
+    let m02 = rotMatrix.get([0, 2])
+    let m10 = rotMatrix.get([1, 0])
+    let m11 = rotMatrix.get([1, 1])
+    let m12 = rotMatrix.get([1, 2])
+    let m20 = rotMatrix.get([2, 0])
+    let m21 = rotMatrix.get([2, 1])
+    let m22 = rotMatrix.get([2, 2])
+    let qw = 0
+    let qx = 1
+    let qy = 0
+    let qz = 0
+    let S = 0
+    if (m00 + m11 + m22 > 2.9999) { // check for identity matrix
+      qw = 1
+      qx = 0
+      qy = 0
+      qz = 0
+    } else if ((m00 + m11 + m22 + 1) > 0.0001) {
+      S = Math.sqrt(m00 + m11 + m22 + 1) * 2
+      qw = 0.25 * S
+      qx = (m21 - m12) / S
+      qy = (m02 - m20) / S
+      qz = (m10 - m01) / S
+    } else if ((m00 > m11) & (m00 > m22)) {
+      if ((1.0 + m00 - m11 - m22) <= 0) {
+        return {
+          msg:"sqrt(" + (1.0 + m00 - m11 - m22) + ")",
+          quat: matrix([ NaN, NaN, NaN, NaN ]) 
+        } 
+      }
+      S = Math.sqrt(1.0 + m00 - m11 - m22) * 2; // S=4*qx 
+      qw = (m21 - m12) / S
+      qx = 0.25 * S
+      qy = (m01 + m10) / S
+      qz = (m02 + m20) / S
+    } else if (m11 > m22) {
+      if ((1.0 + m11 - m00 - m22) <= 0) {
+        return {
+          msg:"sqrt(" + (1.0 + m11 - m00 - m22) + ")",
+          quat: matrix([ NaN, NaN, NaN, NaN ]) 
+        } 
+      }
+      S = Math.sqrt(1.0 + m11 - m00 - m22) * 2 // S=4*qy
+      qw = (m02 - m20) / S
+      qx = (m01 + m10) / S
+      qy = 0.25 * S
+      qz = (m12 + m21) / S
+    } else {
+      if ((1.0 + m22 - m00 - m11) <= 0) {
+        return {
+          msg: "sqrt(" + (1.0 + m22 - m00 - m11) + ")",
+          quat: matrix([ NaN, NaN, NaN, NaN ]) 
+        } 
+      }
+      S = Math.sqrt(1.0 + m22 - m00 - m11) * 2 // S=4*qz
+      qw = (m10 - m01) / S
+      qx = (m02 + m20) / S
+      qy = (m12 + m21) / S
+      qz = 0.25 * S
+    }
+    return {
+      msg: 'ok',
+      quat: matrix([qw, qx, qy, qz]),
+    }
+  }
+
 
   static angleAxisToQuat = (angleAxis) => {
     const quatW = Math.cos(angleAxis.angle / 2)

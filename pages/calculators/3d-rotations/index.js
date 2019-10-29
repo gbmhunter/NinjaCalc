@@ -422,7 +422,7 @@ class Calculator extends React.Component {
       newState.angleAxisMsg = angleAxisOut.msg
     } else if (newState.selInputType == 'rotMatrix') {
       newState.rotMatrix = this.calcRotMatrixFromRotDisp(newState.rotMatrixDisplay)
-      newState.quat = Rotations.rotMatrixToQuatMatrix(newState.rotMatrix)
+      newState.quat = Rotations.rotMatrixToQuat(newState.rotMatrix).quat
       let angleAxisOut = Rotations.rotMatrixToAngleAxis(newState.rotMatrix)
       newState.angleAxis = angleAxisOut.matrix
       newState.angleAxisMsg = angleAxisOut.msg
