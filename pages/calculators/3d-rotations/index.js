@@ -39,6 +39,14 @@ class Calculator extends React.Component {
         ['0', '0', '0'],
         ['0', '0', '0'],
       ],
+      eulerAngles: {
+        rotations: [0, 0, 0],
+        order: 'xyz',
+      },
+      eulerAnglesDisplay: {
+        rotations: ['0', '0', '0'],
+        order: 'xyz',
+      },
       precision: 4,
       selRotationUnit: 'radians'
     }
@@ -426,6 +434,8 @@ class Calculator extends React.Component {
       let angleAxisOut = Rotations.rotMatrixToAngleAxis(newState.rotMatrix)
       newState.angleAxis = angleAxisOut.matrix
       newState.angleAxisMsg = angleAxisOut.msg
+    } else if (newState.selInputType == 'eulerAngles') {
+      newState.rotMatrix = Rotations.eulerAnglesToRotMatrix(newState.eulerAngles.rotations, newState.eulerAngles.order)
     } else {
       throw Error('selInputType ' + newState.selInputType + ' not recognized.')
     }

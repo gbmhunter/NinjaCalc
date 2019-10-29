@@ -227,7 +227,12 @@ class Rotations {
     }
   }
 
-
+  /**
+   * Converts a rotation specifies by an angle and a axis to a quaternion.
+   * 
+   * @param angleAxis An object where .x,.y,.z specifies the axis, and .angle specifies the angle.
+   * @returns A quaternion in the form wxyz, as a mathjs.matrix object.
+   */
   static angleAxisToQuat = (angleAxis) => {
     const quatW = Math.cos(angleAxis.angle / 2)
     const quatX = angleAxis.x * Math.sin(angleAxis.angle / 2)
@@ -240,9 +245,11 @@ class Rotations {
   }
 
   /**
-   * Converts Euler angles into a rotation matrix.
+   * Converts Euler angles into a rotation matrix. This applys intrinisic rotations.
    * 
-   * @returns The rotation matrix, as a mathjs matrix object.
+   * @param angles A list of rotation angles [angle1, angle2, angle3] which are paired with order.
+   * @param order A sequence of axes (as a single string) to apply the rotations in angles to, e.g. 'xyz', or 'xzx'. 
+   * @returns The resulting 3x3 rotation matrix, as a mathjs.matrix object.
    */
   static eulerAnglesToRotMatrix = (angles, order) => {
     let Rx = (angle) => {
@@ -273,6 +280,8 @@ class Rotations {
       z: Rz,
     }
 
+    // Start with identity rotation, and then apply successive rotations
+    // on the left
     var rotMatrix = mathjs.matrix([[1,0,0],[0,1,0],[0,0,1]])
     for(var i = 0; i < 3; i++) {
       console.log(angles[i])

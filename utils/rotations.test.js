@@ -18,3 +18,20 @@ test('euler angles', () => {
   let rotMatrix = Rotations.eulerAnglesToRotMatrix([0, 0, 0], 'xyz')
   expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,1,0],[0,0,1]]))).toBe(true)
 })
+
+test('euler angles rotate around x', () => {
+  // Rotating around x by Pi (180deg) should invert both the y and z axis 
+  let rotMatrix = Rotations.eulerAnglesToRotMatrix([Math.PI, 0, 0], 'xyz')
+  expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,-1,0],[0,0,-1]]))).toBe(true)
+})
+
+test('euler angles rotate around y', () => {
+  // Rotating around y by Pi (180deg) should invert both the x and z axis 
+  let rotMatrix = Rotations.eulerAnglesToRotMatrix([0, Math.PI, 0], 'xyz')
+  expect(deepEqual(rotMatrix, matrix([[-1,0,0],[0,1,0],[0,0,-1]]))).toBe(true)
+})
+
+test('euler angles rotate around x twice', () => {
+  let rotMatrix = Rotations.eulerAnglesToRotMatrix([Math.PI/2, 0, Math.PI/2], 'xyx')
+  expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,-1,0],[0,0,-1]]))).toBe(true)
+})
