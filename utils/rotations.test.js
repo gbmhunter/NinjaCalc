@@ -13,3 +13,8 @@ test('noop quat gives noop rot matrix', () => {
   let rotMatrix = Rotations.quatToRotMatrix(matrix([1,0,0,0]))
   expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,1,0],[0,0,1]]))).toBe(true)
 })
+
+test('euler angles', () => {
+  let rotMatrix = Rotations.eulerAnglesToRotMatrix([0, 0, 0], 'xyz')
+  expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,1,0],[0,0,1]]))).toBe(true)
+})

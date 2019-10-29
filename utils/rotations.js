@@ -1,5 +1,7 @@
 
 import { add, divide, matrix, multiply, norm } from 'mathjs'
+import * as mathjs from 'mathjs'
+import * as THREE from 'three'
 
 class Rotations {
   static rotMatrixToAngleAxis(rotMatrix) {
@@ -236,6 +238,54 @@ class Rotations {
     quaternion = divide(quaternion, norm(quaternion))
     return quaternion
   }
+
+  /**
+   * Converts Euler angles into a rotation matrix.
+   * 
+   * @returns The rotation matrix, as a mathjs matrix object.
+   */
+  static eulerAnglesToRotMatrix = (angles, order) => {
+    let Rx = (angle) => {
+      return mathjs.matrix([
+        [1,0,0],
+        [0,Math.cos(angle),Math.sin(angle)],
+        [0,-Math.sin(angle),Math.cos(angle)],
+      ])
+    }
+    let Ry = (angle) => {
+      return mathjs.matrix([
+        [Math.cos(angle),0,Math.sin(angle)],
+        [0,1,0],
+        [-Math.sin(angle),0,Math.cos(angle)],
+      ])
+    }
+    let Rz = (angle) => {
+      return mathjs.matrix([
+        [Math.cos(angle),-Math.sin(angle),0],
+        [Math.sin(angle),Math.cos(angle),0],
+        [0,0,1],
+      ])
+    }
+
+    let lookup = {
+      x: Rx,
+      y: Ry,
+      z: Rz,
+    }
+
+    var rotMatrix = mathjs.matrix([[1,0,0],[0,1,0],[0,0,1]])
+    for(var i = 0; i < 3; i++) {
+      console.log(angles[i])
+      console.log(order[i])
+      let rotMatrixPartial = lookup[order[i]](angles[i])
+      console.log(rotMatrixPartial)
+      // Multiply on the left
+      rotMatrix = mathjs.multiply(rotMatrixPartial, rotMatrix)
+    }
+    return rotMatrix
+
+  }
+
 }
 
 export default Rotations

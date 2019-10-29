@@ -646,15 +646,15 @@ class Calculator extends React.Component {
                           <th></th>
                         </tr>
                         <tr>
-                          <td>R</td>
-                          <td><input></input></td>
-                        </tr>
-                        <tr>
-                          <td>P</td>
+                          <td>X</td>
                           <td><input></input></td>
                         </tr>
                         <tr>
                           <td>Y</td>
+                          <td><input></input></td>
+                        </tr>
+                        <tr>
+                          <td>Z</td>
                           <td><input></input></td>
                         </tr>
                     </tbody>
