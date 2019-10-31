@@ -430,12 +430,19 @@ class Calculator extends React.Component {
       newState.angleAxisMsg = angleAxisOut.msg
     } else if (newState.selInputType == 'rotMatrix') {
       newState.rotMatrix = this.calcRotMatrixFromRotDisp(newState.rotMatrixDisplay)
+      // Make this the same for each input
       newState.quat = Rotations.rotMatrixToQuat(newState.rotMatrix).quat
       let angleAxisOut = Rotations.rotMatrixToAngleAxis(newState.rotMatrix)
       newState.angleAxis = angleAxisOut.matrix
       newState.angleAxisMsg = angleAxisOut.msg
     } else if (newState.selInputType == 'eulerAngles') {
       newState.rotMatrix = Rotations.eulerAnglesToRotMatrix(newState.eulerAngles.rotations, newState.eulerAngles.order)
+
+      // Make this the same for each input
+      newState.quat = Rotations.rotMatrixToQuat(newState.rotMatrix).quat
+      let angleAxisOut = Rotations.rotMatrixToAngleAxis(newState.rotMatrix)
+      newState.angleAxis = angleAxisOut.matrix
+      newState.angleAxisMsg = angleAxisOut.msg
     } else {
       throw Error('selInputType ' + newState.selInputType + ' not recognized.')
     }
@@ -656,15 +663,15 @@ class Calculator extends React.Component {
                           <th></th>
                         </tr>
                         <tr>
-                          <td>X</td>
+                          <td>{this.state.eulerAnglesDisplay.order[0]}</td>
+                          <td><input name="eulerAngle1" onChange={this.eulerAnglesChanged} disabled={this.state.selInputType != 'eulerAngles'}/></td>
+                        </tr>
+                        <tr>
+                          <td>{this.state.eulerAnglesDisplay.order[1]}</td>
                           <td><input></input></td>
                         </tr>
                         <tr>
-                          <td>Y</td>
-                          <td><input></input></td>
-                        </tr>
-                        <tr>
-                          <td>Z</td>
+                          <td>{this.state.eulerAnglesDisplay.order[2]}</td>
                           <td><input></input></td>
                         </tr>
                     </tbody>
