@@ -284,15 +284,32 @@ class Rotations {
     // on the left
     var rotMatrix = mathjs.matrix([[1,0,0],[0,1,0],[0,0,1]])
     for(var i = 0; i < 3; i++) {
-      console.log(angles[i])
-      console.log(order[i])
+      // console.log(angles[i])
+      // console.log(order[i])
       let rotMatrixPartial = lookup[order[i]](angles[i])
-      console.log(rotMatrixPartial)
+      // console.log(rotMatrixPartial)
       // Multiply on the left
       rotMatrix = mathjs.multiply(rotMatrixPartial, rotMatrix)
     }
     return rotMatrix
+  }
 
+  static rotMatrixToEulerAngles = (rotMatrix, order) => {
+
+    // Convert to THREE matrix
+    var rotMatrix3 = new THREE.Matrix4()
+    rotMatrix3.set(
+      rotMatrix.get([0,0]),rotMatrix.get([0,1]),rotMatrix.get([0,2]), 0,
+      rotMatrix.get([1,0]),rotMatrix.get([1,1]),rotMatrix.get([1,2]), 0,
+      rotMatrix.get([2,0]),rotMatrix.get([2,1]),rotMatrix.get([2,2]), 0,
+      0,0,0,1)
+
+    var eulerAngles = new THREE.Euler()
+    // THREE's Euler method here takes the order as an upper-case string (e.g. 'XYZ')
+    eulerAngles.setFromRotationMatrix(rotMatrix3, order.toUpperCase())
+    console.log(eulerAngles)
+
+    return [ eulerAngles.x, eulerAngles.y, eulerAngles.z ]
   }
 
 }

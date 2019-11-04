@@ -14,7 +14,7 @@ test('noop quat gives noop rot matrix', () => {
   expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,1,0],[0,0,1]]))).toBe(true)
 })
 
-test('euler angles', () => {
+test('euler angles to rot matrix', () => {
   let rotMatrix = Rotations.eulerAnglesToRotMatrix([0, 0, 0], 'xyz')
   expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,1,0],[0,0,1]]))).toBe(true)
 })
@@ -34,4 +34,14 @@ test('euler angles rotate around y', () => {
 test('euler angles rotate around x twice', () => {
   let rotMatrix = Rotations.eulerAnglesToRotMatrix([Math.PI/2, 0, Math.PI/2], 'xyx')
   expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,-1,0],[0,0,-1]]))).toBe(true)
+})
+
+test('rot matrix to euler angles identity', () => {
+  let rotMatrix = Rotations.rotMatrixToEulerAngles(matrix([[1,0,0],[0,1,0],[0,0,1]]), 'xyz')
+  expect(deepEqual(rotMatrix, [0, 0, 0])).toBe(true)
+})
+
+test('rot matrix to euler angles rotate around x', () => {
+  let rotMatrix = Rotations.rotMatrixToEulerAngles(matrix([[1,0,0],[0,-1,0],[0,0,-1]]), 'xyz')
+  expect(deepEqual(rotMatrix, [-Math.PI, 0, 0])).toBe(true)
 })
