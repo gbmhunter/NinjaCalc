@@ -295,20 +295,20 @@ class Rotations {
   }
 
   static rotMatrixToEulerAngles = (rotMatrix, order) => {
-
     // Convert to THREE matrix
     var rotMatrix3 = new THREE.Matrix4()
+    // Convert from row-major order to column-major order, and from 3x3
+    // to 4x4 matrix (with 4th elements being identity to make it a pure
+    // rotation)
     rotMatrix3.set(
-      rotMatrix.get([0,0]),rotMatrix.get([0,1]),rotMatrix.get([0,2]), 0,
-      rotMatrix.get([1,0]),rotMatrix.get([1,1]),rotMatrix.get([1,2]), 0,
-      rotMatrix.get([2,0]),rotMatrix.get([2,1]),rotMatrix.get([2,2]), 0,
+      rotMatrix.get([0,0]),rotMatrix.get([1,0]),rotMatrix.get([2,0]), 0,
+      rotMatrix.get([0,1]),rotMatrix.get([1,1]),rotMatrix.get([2,1]), 0,
+      rotMatrix.get([0,2]),rotMatrix.get([1,2]),rotMatrix.get([2,2]), 0,
       0,0,0,1)
 
     var eulerAngles = new THREE.Euler()
     // THREE's Euler method here takes the order as an upper-case string (e.g. 'XYZ')
     eulerAngles.setFromRotationMatrix(rotMatrix3, order.toUpperCase())
-    console.log(eulerAngles)
-
     return [ eulerAngles.x, eulerAngles.y, eulerAngles.z ]
   }
 
