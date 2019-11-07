@@ -41,11 +41,11 @@ class Calculator extends React.Component {
       ],
       eulerAngles: {
         rotations: [0, 0, 0],
-        order: 'xyz',
+        order: 'XYZ',
       },
       eulerAnglesDisplay: {
         rotations: ['0', '0', '0'],
-        order: 'xyz',
+        order: 'XYZ',
       },
       precision: 4,
       selRotationUnit: 'radians'
@@ -417,37 +417,30 @@ class Calculator extends React.Component {
   }
 
   recalculate = (newState) => {
+    // Firstly, convert the rotation, from whatever input form it was specified in,
+    // to a rotation matrix. This rotation matrix is then used to calculate all the
+    // output form rotations
     if (newState.selInputType == 'angleAxis') {
       newState.angleAxis = this.calcAngleAxisFromAngleAxisDisp(newState.angleAxisDisplay, newState.selRotationUnit)
-      newState.quat = Rotations.angleAxisToQuat(newState.angleAxis) // Returned quat should be normalized
-      newState.rotMatrix = Rotations.quatToRotMatrix(newState.quat)
+      // TODO: Combine the next two lines into one step
+      var quat = Rotations.angleAxisToQuat(newState.angleAxis) // Returned quat should be normalized
+      newState.rotMatrix = Rotations.quatToRotMatrix(quat)
     } else if (newState.selInputType == 'quat') {
       let quatDisplay = newState.quatDisplay
       newState.quat = this.calcQuatFromQuatDisp(quatDisplay, newState.selRotationUnit)
       newState.rotMatrix = Rotations.quatToRotMatrix(newState.quat)
-      let angleAxisOut = Rotations.rotMatrixToAngleAxis(newState.rotMatrix)
-      newState.angleAxis = angleAxisOut.matrix
-      newState.angleAxisMsg = angleAxisOut.msg
     } else if (newState.selInputType == 'rotMatrix') {
       newState.rotMatrix = this.calcRotMatrixFromRotDisp(newState.rotMatrixDisplay)
       // Make this the same for each input
-      newState.quat = Rotations.rotMatrixToQuat(newState.rotMatrix).quat
-      let angleAxisOut = Rotations.rotMatrixToAngleAxis(newState.rotMatrix)
-      newState.angleAxis = angleAxisOut.matrix
-      newState.angleAxisMsg = angleAxisOut.msg
     } else if (newState.selInputType == 'eulerAngles') {
       newState.rotMatrix = Rotations.eulerAnglesToRotMatrix(newState.eulerAngles.rotations, newState.eulerAngles.order)
-
-      // Make this the same for each input
-      newState.quat = Rotations.rotMatrixToQuat(newState.rotMatrix).quat
-      let angleAxisOut = Rotations.rotMatrixToAngleAxis(newState.rotMatrix)
-      newState.angleAxis = angleAxisOut.matrix
-      newState.angleAxisMsg = angleAxisOut.msg
     } else {
       throw Error('selInputType ' + newState.selInputType + ' not recognized.')
     }
 
-    // UPDATE DISPLAY
+
+    // newState.rotMatrix is now guaranteed to be updated and correct
+    // Now calculate all output rotation forms and display variables
     let multiplier = null
     if(newState.selRotationUnit == 'radians') {
       multiplier = 1.0
@@ -456,6 +449,9 @@ class Calculator extends React.Component {
     }
 
     if (newState.selInputType != 'angleAxis') {
+      let angleAxisOut = Rotations.rotMatrixToAngleAxis(newState.rotMatrix)
+      newState.angleAxis = angleAxisOut.matrix
+      newState.angleAxisMsg = angleAxisOut.msg
       newState.angleAxisDisplay = {
         angle: (newState.angleAxis.get([0])*multiplier).toPrecision(this.state.precision),
         x: (newState.angleAxis.get([1])).toPrecision(this.state.precision),
@@ -465,6 +461,7 @@ class Calculator extends React.Component {
     }
 
     if (newState.selInputType != 'quat') {
+      newState.quat = Rotations.rotMatrixToQuat(newState.rotMatrix).quat
       newState.quatDisplay = [
         (newState.quat.get([0])*multiplier).toPrecision(this.state.precision),
         (newState.quat.get([1])).toPrecision(this.state.precision),
@@ -476,7 +473,6 @@ class Calculator extends React.Component {
     if (newState.selInputType != 'rotMatrix') {
       let rotMatrixDisplay = []
       let i = 0
-
       newState.rotMatrix.forEach((value, index, matrix) => {
         if (i % 3 == 0) {
           rotMatrixDisplay.push([])
@@ -486,12 +482,31 @@ class Calculator extends React.Component {
       })
       newState.rotMatrixDisplay = rotMatrixDisplay
     }
+
+    if (newState.selInputType != 'eulerAngles') {
+      newState.eulerAngles.rotations = Rotations.rotMatrixToEulerAngles(
+        newState.rotMatrix, newState.eulerAngles.order)
+      newState.eulerAnglesDisplay.rotations = [
+        newState.eulerAngles.rotations[0].toPrecision(this.state.precision),
+        newState.eulerAngles.rotations[1].toPrecision(this.state.precision),
+        newState.eulerAngles.rotations[2].toPrecision(this.state.precision),
+      ]
+      newState.eulerAnglesDisplay.order = newState.eulerAngles.order.slice()
+    }
   }
 
   onRotationUnitsChange = (e) => {
     console.log('onRotationUnitsChange() called. e.target.value='+e.target.value)
       let newState = this.state
       newState.selRotationUnit = e.target.value
+      this.recalculate(newState)
+      this.setState(newState)
+  }
+
+  onEulerAnglesOrderChange = (e) => {
+    console.log('onEulerAnglesOrderChange() called. e.target.value='+e.target.value)
+      let newState = this.state
+      newState.eulerAngles.order = e.target.value
       this.recalculate(newState)
       this.setState(newState)
   }
@@ -520,10 +535,10 @@ class Calculator extends React.Component {
 
             <div id="inputs-wrapper" className="hbox" style={{ alignItems: 'start', fontSize: '0.8em' }}>
               <div className="vbox">
-                <b>Angle-Axis</b>
+                <div className="rotation-form-title">Angle-Axis</div>
                 <input type="radio" name="inputType" value="angleAxis" checked={this.state.selInputType == 'angleAxis'} onChange={this.inputTypeChanged} />
                 <table>
-                  <tbody>
+                  <tbody className="angle-axis-table">
                     <tr>
                       <td style={{ maxWidth: '20px' }}>\(\theta\)</td>
                       <td>
@@ -558,11 +573,6 @@ class Calculator extends React.Component {
                       </td>
                     </tr>
                   </tbody>
-                  <style jsx>{`
-                td input {
-                  width: 80px;
-                }
-              `}</style>
                 </table>
                 <div className="vbox">
                   <div >Angle-Axis status:</div>
@@ -573,9 +583,9 @@ class Calculator extends React.Component {
               <div style={{ width: '2em' }}></div>
 
               <div className="vbox">
-                <b>Quaternion</b>
+                <div className="rotation-form-title">Quaternion</div>
                 <input type="radio" name="inputType" value="quat" checked={this.state.selInputType == 'quat'} onChange={this.inputTypeChanged} />
-                <table>
+                <table className="quat-table">
                   <tbody>
                     <tr>
                       <td>\(w\)</td>
@@ -610,11 +620,6 @@ class Calculator extends React.Component {
                       </td>
                     </tr>
                   </tbody>
-                  <style jsx>{`
-                td input {
-                  width: 80px;
-                }
-              `}</style>
                 </table>
                 <div style={{ height: '10px' }} />
                 <Button size="sm" onClick={this.normalizeQuat} disabled={this.state.selInputType != 'quat'}>Normalize<br></br>Quaternion</Button>
@@ -623,7 +628,7 @@ class Calculator extends React.Component {
               <div className="vbox spacer" style={{ width: '20px' }}></div>
 
               <div className="vbox">
-                <b>Rotation Matrix</b>
+                <div className="rotation-form-title">Rotation Matrix</div>
                 <input type="radio" name="inputType" value="rotMatrix" checked={this.state.selInputType == 'rotMatrix'} onChange={this.inputTypeChanged} />
                 <table className="rotMatrix">
                   <tbody>
@@ -643,49 +648,67 @@ class Calculator extends React.Component {
                       <td><input name="rot22" value={this.state.rotMatrixDisplay[2][2]} onChange={this.rotMatrixChanged} disabled={this.state.selInputType != 'rotMatrix'} /></td>
                     </tr>
                   </tbody>
-                  <style jsx>{`
-                    td input {
-                      width: 50px;
-                    }
-                  `}</style>
                 </table>
               </div>
 
               <div className="vbox spacer" style={{ width: '20px' }}></div>
 
               <div className="vbox">
-                <b>Euler Angles (RPY)</b>
+                <div className="rotation-form-title">Euler Angles (RPY)</div>
                 <input type="radio" name="inputType" value="eulerAngles"
                     checked={this.state.selInputType == 'eulerAngles'} onChange={this.inputTypeChanged} />
-                <table>
+                <div style={{ height: '5px' }}></div>
+                <Form.Control as="select" size="sm" value={this.state.eulerAnglesDisplay.order}
+                    onChange={this.onEulerAnglesOrderChange} style={{ width: '80px' }}>
+                  <option value="XYZ">XYZ</option>
+                  <option value="ZYX">ZYX</option>
+                </Form.Control>
+                <table className="euler-angle-table">
                     <tbody>
                         <tr>
                           <th></th>
                         </tr>
                         <tr>
                           <td>{this.state.eulerAnglesDisplay.order[0]}</td>
-                          <td><input name="eulerAngle1" onChange={this.eulerAnglesChanged} disabled={this.state.selInputType != 'eulerAngles'}/></td>
+                          <td><input name="eulerAngle1" value={this.state.eulerAnglesDisplay.rotations[0]}
+                              onChange={this.eulerAnglesChanged} disabled={this.state.selInputType != 'eulerAngles'}/></td>
                         </tr>
                         <tr>
                           <td>{this.state.eulerAnglesDisplay.order[1]}</td>
-                          <td><input></input></td>
+                          <td><input name="eulerAngle1" value={this.state.eulerAnglesDisplay.rotations[1]}
+                              onChange={this.eulerAnglesChanged} disabled={this.state.selInputType != 'eulerAngles'}/></td>
                         </tr>
                         <tr>
                           <td>{this.state.eulerAnglesDisplay.order[2]}</td>
-                          <td><input></input></td>
+                          <td><input name="eulerAngle1" value={this.state.eulerAnglesDisplay.rotations[2]}
+                              onChange={this.eulerAnglesChanged} disabled={this.state.selInputType != 'eulerAngles'}/></td>
                         </tr>
                     </tbody>
-                  <style jsx>{`
-                    td input {
-                      width: 80px;
-                    }
-                  `}</style>
                 </table>
               </div>
             </div>
 
           </div>
         </div>
+        <style jsx>{`
+          
+          .angle-axis-table td input {
+            width: 80px;
+          }
+          .rotMatrix td input {
+            width: 50px;
+          }
+
+          .euler-angle-table td input {
+            width: 80px;
+          }
+          .quat-table td input {
+            width: 80px;
+          }
+          .rotation-form-title {
+            font-weight: bold;
+          }
+        `}</style>
       </Layout>
     )
   }
