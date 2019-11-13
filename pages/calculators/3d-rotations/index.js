@@ -40,7 +40,7 @@ class Calculator extends React.Component {
         ['0', '0', '0'],
       ],
       eulerAngles: {
-        rotations: [0, 0, 0],
+        rotations: matrix([0, 0, 0]),
         order: 'XYZ',
       },
       eulerAnglesDisplay: {
@@ -415,13 +415,7 @@ class Calculator extends React.Component {
     return matrix(quat)
   }
 
-  calcRotMatrixFromRotDisp = (rotMatrixDisplay, units) => {
-    let multiplier = null
-    if(units == 'radians') {
-      multiplier = 1.0
-    } else if (units == 'degrees') {
-      multiplier = Math.PI/180.0
-    }
+  calcRotMatrixFromRotDisp = (rotMatrixDisplay) => {
     let m00 = parseFloat(rotMatrixDisplay[0][0])
     let m01 = parseFloat(rotMatrixDisplay[0][1])
     let m02 = parseFloat(rotMatrixDisplay[0][2])
@@ -435,10 +429,32 @@ class Calculator extends React.Component {
     return matrix(rotArray)
   }
 
+  calcEulerAnglesFromEulerAnglesDisp = (eulerAnglesDisp, units) => {
+    let multiplier = null
+    if(units == 'radians') {
+      multiplier = 1.0
+    } else if (units == 'degrees') {
+      multiplier = Math.PI/180.0
+    } else {
+        throw Error('units "' + units + '" provided to calcQuatFromQuatDisp() not recognized.')
+    }
+    let eulerAngles = {}
+    let rotations = []
+    for(let i=0; i<eulerAnglesDisp.rotations.length; i++) {
+      rotations.push(parseFloat(eulerAnglesDisp.rotations[i])*multiplier)
+    }
+    eulerAngles.rotations = rotations
+    eulerAngles.order = eulerAnglesDisp.order
+    return eulerAngles
+  }
+
   recalculate = (newState) => {
     // Firstly, convert the rotation, from whatever input form it was specified in,
     // to a rotation matrix. This rotation matrix is then used to calculate all the
     // output form rotations
+
+    newState.eulerAngles.order = newState.eulerAnglesDisplay.order.slice()
+
     if (newState.selInputType == 'angleAxis') {
       newState.angleAxis = this.calcAngleAxisFromAngleAxisDisp(newState.angleAxisDisplay, newState.selRotationUnit)
       // TODO: Combine the next two lines into one step
@@ -452,6 +468,7 @@ class Calculator extends React.Component {
       newState.rotMatrix = this.calcRotMatrixFromRotDisp(newState.rotMatrixDisplay)
       // Make this the same for each input
     } else if (newState.selInputType == 'eulerAngles') {
+      newState.eulerAngles = this.calcEulerAnglesFromEulerAnglesDisp(newState.eulerAnglesDisplay, newState.selRotationUnit)
       newState.rotMatrix = Rotations.eulerAnglesToRotMatrix(newState.eulerAngles.rotations, newState.eulerAngles.order)
     } else {
       throw Error('selInputType ' + newState.selInputType + ' not recognized.')
@@ -506,11 +523,11 @@ class Calculator extends React.Component {
       newState.eulerAngles.rotations = Rotations.rotMatrixToEulerAngles(
         newState.rotMatrix, newState.eulerAngles.order)
       newState.eulerAnglesDisplay.rotations = [
-        newState.eulerAngles.rotations[0].toPrecision(this.state.precision),
-        newState.eulerAngles.rotations[1].toPrecision(this.state.precision),
-        newState.eulerAngles.rotations[2].toPrecision(this.state.precision),
+        (newState.eulerAngles.rotations.get([0])*multiplier).toPrecision(this.state.precision),
+        (newState.eulerAngles.rotations.get([1])*multiplier).toPrecision(this.state.precision),
+        (newState.eulerAngles.rotations.get([2])*multiplier).toPrecision(this.state.precision),
       ]
-      newState.eulerAnglesDisplay.order = newState.eulerAngles.order.slice()
+      // newState.eulerAnglesDisplay.order = newState.eulerAngles.order.slice()
     }
   }
 
@@ -520,14 +537,16 @@ class Calculator extends React.Component {
       newState.selRotationUnit = e.target.value
       this.recalculate(newState)
       this.setState(newState)
+      this.updateGraph(newState.rotMatrix)
   }
 
   onEulerAnglesOrderChange = (e) => {
     console.log('onEulerAnglesOrderChange() called. e.target.value='+e.target.value)
       let newState = this.state
-      newState.eulerAngles.order = e.target.value
+      newState.eulerAnglesDisplay.order = e.target.value
       this.recalculate(newState)
       this.setState(newState)
+      this.updateGraph(newState.rotMatrix)
   }
 
   render() {
@@ -540,7 +559,9 @@ class Calculator extends React.Component {
         <div className="vbox outer-wrapper" >
           <div id="calc-3d-rotation-graph" className="vbox" style={{ maxWidth: '500px' }}>
 
-            <p>This calculator allows you to convert between rotations in 3D space described in axis-angle format, quaternions and rotation matrices. It also shows you how the rotation would rotate reference frame one to reference frame two in the below graph.</p>
+            <p>This calculator allows you to convert between rotations in 3D space described in axis-angle format, quaternions, rotation matrices and Euler angles (with an abitrary axis order). It also shows you how the rotation would rotate reference frame one to reference frame two in the below graph.</p>
+
+            <p>The radio button determines what rotation form is user input, the others are calculated from this (outputs).</p>
 
             <div ref="graphContainer" style={{ maxWidth: '500px', maxHeight: '500px' }}></div>
 
@@ -565,7 +586,6 @@ class Calculator extends React.Component {
                           disabled={this.state.selInputType != 'angleAxis'}
                         />
                       </td>
-                      <td style={{ paddingLeft: '0px' }}>rad</td>
                     </tr>
                     <tr>
                       <td>\(x\)</td>
@@ -680,6 +700,10 @@ class Calculator extends React.Component {
                 <Form.Control as="select" size="sm" value={this.state.eulerAnglesDisplay.order}
                     onChange={this.onEulerAnglesOrderChange} style={{ width: '80px' }}>
                   <option value="XYZ">XYZ</option>
+                  <option value="XZY">XZY</option>
+                  <option value="YXZ">YXZ</option>
+                  <option value="YZX">YZX</option>
+                  <option value="ZXY">ZXY</option>
                   <option value="ZYX">ZYX</option>
                 </Form.Control>
                 <table className="euler-angle-table">
@@ -694,20 +718,20 @@ class Calculator extends React.Component {
                         </tr>
                         <tr>
                           <td>{this.state.eulerAnglesDisplay.order[1]}</td>
-                          <td><input name="eulerAngle1" value={this.state.eulerAnglesDisplay.rotations[1]}
+                          <td><input name="eulerAngle2" value={this.state.eulerAnglesDisplay.rotations[1]}
                               onChange={this.eulerAnglesChanged} disabled={this.state.selInputType != 'eulerAngles'}/></td>
                         </tr>
                         <tr>
                           <td>{this.state.eulerAnglesDisplay.order[2]}</td>
-                          <td><input name="eulerAngle1" value={this.state.eulerAnglesDisplay.rotations[2]}
+                          <td><input name="eulerAngle3" value={this.state.eulerAnglesDisplay.rotations[2]}
                               onChange={this.eulerAnglesChanged} disabled={this.state.selInputType != 'eulerAngles'}/></td>
                         </tr>
                     </tbody>
                 </table>
               </div>
-            </div>
-
-          </div>
+            </div> {/* inputs-wrapper */}
+            <p>Currently this calculator only supports intrinisic Euler angles.</p>
+          </div> {/* calc-3d-rotation-graph */}
         </div>
         <style jsx>{`
           

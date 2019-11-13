@@ -253,27 +253,21 @@ class Rotations {
    * @returns The resulting 3x3 rotation matrix, as a mathjs.matrix object.
    */
   static eulerAnglesToRotMatrix = (angles, order) => {
-    console.log('eulerAnglesToRotMatrix() caled with')
-    console.log('angles=')
-    console.log(angles)
-    console.log('order=')
-    console.log(order)
-    debugger
-    let Rx = (angle) => {
+    const Rx = (angle) => {
       return mathjs.matrix([
         [1,0,0],
         [0,Math.cos(angle),Math.sin(angle)],
         [0,-Math.sin(angle),Math.cos(angle)],
       ])
     }
-    let Ry = (angle) => {
+    const Ry = (angle) => {
       return mathjs.matrix([
         [Math.cos(angle),0,Math.sin(angle)],
         [0,1,0],
         [-Math.sin(angle),0,Math.cos(angle)],
       ])
     }
-    let Rz = (angle) => {
+    const Rz = (angle) => {
       return mathjs.matrix([
         [Math.cos(angle),-Math.sin(angle),0],
         [Math.sin(angle),Math.cos(angle),0],
@@ -282,7 +276,7 @@ class Rotations {
     }
 
     // Maps the axis to the function which creates a rotation matrix around this axis
-    let lookup = {
+    const lookup = {
       X: Rx,
       Y: Ry,
       Z: Rz,
@@ -290,11 +284,11 @@ class Rotations {
 
     // Start with identity rotation, and then apply successive rotations
     // on the left
-    var rotMatrix = mathjs.matrix([[1,0,0],[0,1,0],[0,0,1]])
-    for(var i = 0; i < 3; i++) {
+    let rotMatrix = mathjs.matrix([[1,0,0],[0,1,0],[0,0,1]])
+    for(let i = 0; i < 3; i++) {
       // console.log(angles[i])
       // console.log(order[i])
-      let rotMatrixPartial = lookup[order[i]](angles[i])
+      const rotMatrixPartial = lookup[order[i]](angles[i])
       // console.log(rotMatrixPartial)
       // Multiply on the left
       rotMatrix = mathjs.multiply(rotMatrixPartial, rotMatrix)
@@ -303,24 +297,41 @@ class Rotations {
   }
 
   /**
-   * order
+   * Converts a rotation matrix into three Euler angles, where each angle corresponds to a rotation around the axes specified
+   * by order.
+   * 
+   * @param order A sequence of axes (as a single string) that determines the axis of each Euler angle, e.g. 'XYZ', or 'XZX'.
+   *    Must be in capital letters.
+   * @returns The three rotations around each axis specified in order, as a THREE.js matrix.
    */
   static rotMatrixToEulerAngles = (rotMatrix, order) => {
     // Convert to THREE matrix
-    // debugger
-    var rotMatrix3 = new THREE.Matrix4()
-    // Convert from row-major order to column-major order, and from 3x3
-    // to 4x4 matrix (with 4th elements being identity to make it a pure
+    console.log('rotMatrixToEulerAngles() called. order=')
+    console.log(order)
+    let rotMatrix3 = new THREE.Matrix4()
+    // Convert from 3x3 to 4x4 matrix (with 4th elements being identity to make it a pure
     // rotation)
+    // .set() takes elements in row-major order, even though Euler.js uses column-major
+    // order internally
     rotMatrix3.set(
       rotMatrix.get([0,0]),rotMatrix.get([0,1]),rotMatrix.get([0,2]), 0,
       rotMatrix.get([1,0]),rotMatrix.get([1,1]),rotMatrix.get([1,2]), 0,
       rotMatrix.get([2,0]),rotMatrix.get([2,1]),rotMatrix.get([2,2]), 0,
       0,0,0,1)
 
-    var eulerAngles = new THREE.Euler()
+    let eulerAngles = new THREE.Euler()
     eulerAngles.setFromRotationMatrix(rotMatrix3, order)
-    return [ eulerAngles.x, eulerAngles.y, eulerAngles.z ]
+    // Re-order the THREE.js euler angles which are always attached
+    // to the object as .x, .y and .z into the same order as the axes
+    // in the order variable
+    let outputArray = []
+    for(let axis of order) {
+      console.log(axis)
+      outputArray.push(eulerAngles[axis.toLowerCase()])
+    }
+    console.log('outputArray=')
+    console.log(outputArray)
+    return matrix(outputArray)
   }
 
 }
