@@ -248,13 +248,17 @@ class Rotations {
    * Converts Euler angles into a rotation matrix. This applys intrinisic rotations.
    * 
    * @param angles A list of rotation angles [angle1, angle2, angle3] which are paired with order.
-   * @param order A sequence of axes (as a single string) to apply the rotations in angles to, e.g. 'xyz', or 'xzx'. 
+   * @param order A sequence of axes (as a single string) to apply the rotations in angles to, e.g. 'XYZ', or 'XZX'.
+   *    Must be in capital letters. 
    * @returns The resulting 3x3 rotation matrix, as a mathjs.matrix object.
    */
   static eulerAnglesToRotMatrix = (angles, order) => {
+    console.log('eulerAnglesToRotMatrix() caled with')
     console.log('angles=')
     console.log(angles)
+    console.log('order=')
     console.log(order)
+    debugger
     let Rx = (angle) => {
       return mathjs.matrix([
         [1,0,0],
@@ -298,21 +302,24 @@ class Rotations {
     return rotMatrix
   }
 
+  /**
+   * order
+   */
   static rotMatrixToEulerAngles = (rotMatrix, order) => {
     // Convert to THREE matrix
+    // debugger
     var rotMatrix3 = new THREE.Matrix4()
     // Convert from row-major order to column-major order, and from 3x3
     // to 4x4 matrix (with 4th elements being identity to make it a pure
     // rotation)
     rotMatrix3.set(
-      rotMatrix.get([0,0]),rotMatrix.get([1,0]),rotMatrix.get([2,0]), 0,
-      rotMatrix.get([0,1]),rotMatrix.get([1,1]),rotMatrix.get([2,1]), 0,
-      rotMatrix.get([0,2]),rotMatrix.get([1,2]),rotMatrix.get([2,2]), 0,
+      rotMatrix.get([0,0]),rotMatrix.get([0,1]),rotMatrix.get([0,2]), 0,
+      rotMatrix.get([1,0]),rotMatrix.get([1,1]),rotMatrix.get([1,2]), 0,
+      rotMatrix.get([2,0]),rotMatrix.get([2,1]),rotMatrix.get([2,2]), 0,
       0,0,0,1)
 
     var eulerAngles = new THREE.Euler()
-    // THREE's Euler method here takes the order as an upper-case string (e.g. 'XYZ')
-    eulerAngles.setFromRotationMatrix(rotMatrix3, order.toUpperCase())
+    eulerAngles.setFromRotationMatrix(rotMatrix3, order)
     return [ eulerAngles.x, eulerAngles.y, eulerAngles.z ]
   }
 
