@@ -252,6 +252,9 @@ class Rotations {
    * @returns The resulting 3x3 rotation matrix, as a mathjs.matrix object.
    */
   static eulerAnglesToRotMatrix = (angles, order) => {
+    console.log('angles=')
+    console.log(angles)
+    console.log(order)
     let Rx = (angle) => {
       return mathjs.matrix([
         [1,0,0],
@@ -274,10 +277,11 @@ class Rotations {
       ])
     }
 
+    // Maps the axis to the function which creates a rotation matrix around this axis
     let lookup = {
-      x: Rx,
-      y: Ry,
-      z: Rz,
+      X: Rx,
+      Y: Ry,
+      Z: Rz,
     }
 
     // Start with identity rotation, and then apply successive rotations

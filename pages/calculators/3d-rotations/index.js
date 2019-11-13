@@ -128,6 +128,8 @@ class Calculator extends React.Component {
       newState.quatDisplay[2] = e.target.value
     } else if (e.target.name == 'quatZ') {
       newState.quatDisplay[3] = e.target.value
+    } else {
+      throw Error('e.target.name not recognized!')
     }
     this.recalculate(newState)
     this.setState(newState)
@@ -140,6 +142,23 @@ class Calculator extends React.Component {
     // Should be something like "00", "21", e.t.c
     let arrayIndexes = inputName.substr(inputName.length - 2)
     newState.rotMatrixDisplay[arrayIndexes[0]][arrayIndexes[1]] = e.target.value
+    this.recalculate(newState)
+    this.updateGraph(newState.rotMatrix)
+    this.setState(newState)
+  }
+
+  eulerAnglesChanged = (e) => {
+    console.log('eulerAnglesChanged() called.')
+    let newState = this.state
+    if (e.target.name == 'eulerAngle1') {
+      newState.eulerAnglesDisplay.rotations[0] = e.target.value
+    } else if (e.target.name == 'eulerAngle2') {
+      newState.eulerAnglesDisplay.rotations[1] = e.target.value
+    } else if (e.target.name == 'eulerAngle3') {
+      newState.eulerAnglesDisplay.rotations[2] = e.target.value
+    } else {
+      throw Error('e.target.name not recognized!')
+    }
     this.recalculate(newState)
     this.updateGraph(newState.rotMatrix)
     this.setState(newState)

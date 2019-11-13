@@ -15,39 +15,39 @@ test('noop quat gives noop rot matrix', () => {
 })
 
 test('euler angles to rot matrix', () => {
-  let rotMatrix = Rotations.eulerAnglesToRotMatrix([0, 0, 0], 'xyz')
+  let rotMatrix = Rotations.eulerAnglesToRotMatrix([0, 0, 0], 'XYZ')
   expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,1,0],[0,0,1]]))).toBe(true)
 })
 
 test('euler angles rotate around x', () => {
   // Rotating around x by Pi (180deg) should invert both the y and z axis 
-  let rotMatrix = Rotations.eulerAnglesToRotMatrix([Math.PI, 0, 0], 'xyz')
+  let rotMatrix = Rotations.eulerAnglesToRotMatrix([Math.PI, 0, 0], 'XYZ')
   expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,-1,0],[0,0,-1]]))).toBe(true)
 })
 
 test('euler angles rotate around y', () => {
   // Rotating around y by Pi (180deg) should invert both the x and z axis 
-  let rotMatrix = Rotations.eulerAnglesToRotMatrix([0, Math.PI, 0], 'xyz')
+  let rotMatrix = Rotations.eulerAnglesToRotMatrix([0, Math.PI, 0], 'XYZ')
   expect(deepEqual(rotMatrix, matrix([[-1,0,0],[0,1,0],[0,0,-1]]))).toBe(true)
 })
 
 test('euler angles rotate around x twice', () => {
-  let rotMatrix = Rotations.eulerAnglesToRotMatrix([Math.PI/2, 0, Math.PI/2], 'xyx')
+  let rotMatrix = Rotations.eulerAnglesToRotMatrix([Math.PI/2, 0, Math.PI/2], 'XYZ')
   expect(deepEqual(rotMatrix, matrix([[1,0,0],[0,-1,0],[0,0,-1]]))).toBe(true)
 })
 
 test('rot matrix to euler angles identity', () => {
-  let rotMatrix = Rotations.rotMatrixToEulerAngles(matrix([[1,0,0],[0,1,0],[0,0,1]]), 'xyz')
+  let rotMatrix = Rotations.rotMatrixToEulerAngles(matrix([[1,0,0],[0,1,0],[0,0,1]]), 'XYZ')
   expect(deepEqual(rotMatrix, [0, 0, 0])).toBe(true)
 })
 
 test('rot matrix to euler angles rotate 180 around x', () => {
-  let eulerAngles = Rotations.rotMatrixToEulerAngles(matrix([[1,0,0],[0,-1,0],[0,0,-1]]), 'xyz')
+  let eulerAngles = Rotations.rotMatrixToEulerAngles(matrix([[1,0,0],[0,-1,0],[0,0,-1]]), 'XYZ')
   expect(deepEqual(eulerAngles, [-Math.PI, 0, 0])).toBe(true)
 })
 
 test('rot matrix to euler angles rotate 90 around x', () => {
-  let eulerAngles = Rotations.rotMatrixToEulerAngles(matrix([[1,0,0],[0,0,1],[0,-1,0]]), 'xyz')
+  let eulerAngles = Rotations.rotMatrixToEulerAngles(matrix([[1,0,0],[0,0,1],[0,-1,0]]), 'XYZ')
   console.log(eulerAngles)
   expect(deepEqual(eulerAngles, [Math.PI/2, 0, 0])).toBe(true)
 })
