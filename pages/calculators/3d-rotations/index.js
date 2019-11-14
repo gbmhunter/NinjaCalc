@@ -404,13 +404,7 @@ class Calculator extends React.Component {
   calcQuatFromQuatDisp = (quatDisp, units) => {
     let quat = []
     for(let i = 0; i < quatDisp.length; i++) {
-      if(units == 'radians') {
-        quat.push(parseFloat(quatDisp[i]))
-      } else if(units == 'degrees') {
-        quat.push((parseFloat(quatDisp[i])*Math.PI)/180.0)
-      } else {
-        throw Error('units provided to calcQuatFromQuatDisp() not recognized.')
-      }
+      quat.push(parseFloat(quatDisp[i]))
     }
     return matrix(quat)
   }
@@ -497,9 +491,10 @@ class Calculator extends React.Component {
     }
 
     if (newState.selInputType != 'quat') {
+      // Quaternion is not effected by the rotation units
       newState.quat = Rotations.rotMatrixToQuat(newState.rotMatrix).quat
       newState.quatDisplay = [
-        (newState.quat.get([0])*multiplier).toPrecision(this.state.precision),
+        (newState.quat.get([0])).toPrecision(this.state.precision),
         (newState.quat.get([1])).toPrecision(this.state.precision),
         (newState.quat.get([2])).toPrecision(this.state.precision),
         (newState.quat.get([3])).toPrecision(this.state.precision),
@@ -730,7 +725,9 @@ class Calculator extends React.Component {
                 </table>
               </div>
             </div> {/* inputs-wrapper */}
-            <p>Currently this calculator only supports intrinisic Euler angles.</p>
+            <div style={{ height: '10px' }} />
+            <p>Currently this calculator only supports intrinsic Euler angles (extrinsic Euler angles are not supported). The choice of rotation unit (radians or degrees) effects the interpretation of the theta in angle-axis form and all three Euler angles.</p>
+            <p>Care must be taken when inputting either quaternions or rotation matrices, as not all quaternions or rotation matrices produce valid rotations. The norm of the quaternion must equal 1. The rotation matrix must be an orthogonal matrix.</p>
           </div> {/* calc-3d-rotation-graph */}
         </div>
         <style jsx>{`
