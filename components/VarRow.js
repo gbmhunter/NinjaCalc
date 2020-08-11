@@ -12,7 +12,7 @@ class VarRow extends React.Component {
     console.log(calcVar)
 
     const unitOptions = calcVar.units.map((unit, idx) => {
-      return (<option key={idx} value={unit}>{unit}</option>)
+      return (<option key={idx} value={unit[0]}>{unit[0]}</option>)
     })
     // const unitOptions = 'test'
 

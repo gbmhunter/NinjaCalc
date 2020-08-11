@@ -22,7 +22,10 @@ class UI extends React.Component {
       vars: {
         viaDiameterMm: {
           value: 0.3,
-          units: [ 'mm', 'mils' ],
+          units: [ 
+            [ 'mm', 1e-3 ],
+            [ 'mils', MILS_TO_M ],
+          ],
           selUnit: 'mm',
           validationState: 'ok',
           validationMsg: '',
@@ -58,17 +61,22 @@ class UI extends React.Component {
   }
 
   viaDiameterMmValueChanged = (e) => {
+    console.log('viaDiameterMmValueChanged() called with e.target.value=')
+    console.log(e.target.value)
+    let vars = this.state.vars
     const value = e.target.valueAsNumber || e.target.value
     let validationMsg = ''
     let validationState = 'ok'
-    if (value <= 0) {
+    const viaDiameter_m = this.scaleByUnits(value, vars.viaDiameterMm.units, vars.viaDiameterMm.selUnit)
+    console.log('viaDiameter_m=' + viaDiameter_m)
+    if (viaDiameter_m <= 0) {
       validationState = 'error'
       validationMsg = 'Via diameter must be positive and greater than 0.'
-    } if (value > 10.0) {
+    } if (viaDiameter_m > 10.0e-3) {
       validationState = 'warning'
       validationMsg = 'Via diameter is typically <10.0mm.'
     }
-    let vars = this.state.vars
+
     vars.viaDiameterMm.value = value
     vars.viaDiameterMm.validationState = validationState
     vars.viaDiameterMm.validationMsg = validationMsg
@@ -77,7 +85,17 @@ class UI extends React.Component {
     })
   }
 
+  scaleByUnits(value, units, selUnit) {
+    const unit = units.filter(unit => {
+      return unit[0] == selUnit
+    })[0]
+    const scaledValue = value*unit[1]
+    return scaledValue
+  }
+
   viaDiameterMmUnitsChanged = (e) => {
+    console.log('viaDiameterMmUnitsChanged() called with e.target.value=')
+    console.log(e.target.value)
     let vars = this.state.vars
     vars.viaDiameterMm.selUnit = e.target.value
     this.setState({
@@ -91,6 +109,7 @@ class UI extends React.Component {
     const vars = this.state.vars
 
     let viaDiameter_m = null
+    viaDiameter_m = vars.viaDiameterMm.value*vars.viaDiameterMm.selUnit[1]
     if (vars.viaDiameterMm.selUnit == 'mm') {
       viaDiameter_m = vars.viaDiameterMm.value / 1e3
     } else if (vars.viaDiameterMm.selUnit = 'mils') {
