@@ -15,7 +15,9 @@ class MyDocument extends Document {
       <Html>
         <Head>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        {/* Providing "async" to the MathJax script loading can cause problems with the global object MathJax not being available in time for when specific pages want
+        to render their equations. */}
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
         dangerouslySetInnerHTML={{
             __html: String.raw`
             MathJax.Hub.Config({
