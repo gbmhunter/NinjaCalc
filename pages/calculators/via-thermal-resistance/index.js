@@ -3,7 +3,14 @@ import React from 'react'
 
 import Layout from '~/components/layout'
 
-class CalculatorViaThermalResistance extends React.Component {
+export var metadata = {
+  id: 'via-thermal-resistance',
+  name: 'Via Thermal Resistance',
+  categories: [ 'Electronics', 'PCB Design' ],
+  tags: [ 'vias', 'electronics', 'thermal', 'resistance' ]
+}
+
+class UI extends React.Component {
 
   constructor(props) {
     super(props)
@@ -99,4 +106,4 @@ class CalculatorViaThermalResistance extends React.Component {
   }
 }
 
-export default CalculatorViaThermalResistance
+export default UI

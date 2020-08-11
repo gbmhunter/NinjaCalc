@@ -8,6 +8,13 @@ import Form from 'react-bootstrap/Form'
 import Layout from '~/components/layout'
 import Rotations from '~/utils/rotations'
 
+export var metadata = {
+  id: '3d-rotations',
+  name: '3D Rotations',
+  categories: [ 'Mathematics', 'Geometry' ],
+  tags: [ '3D', 'mathematics', 'rotations', 'geometry' ]
+}
+
 class Calculator extends React.Component {
 
   constructor(props) {
