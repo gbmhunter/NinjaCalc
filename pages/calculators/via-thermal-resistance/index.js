@@ -3,6 +3,7 @@ import React from 'react'
 
 import Layout from '~/components/layout'
 import VarRow from '~/components/VarRow'
+import VarRowOutput from '~/components/VarRowOutput'
 
 export var metadata = {
   id: 'via-thermal-resistance',
@@ -54,7 +55,16 @@ class UI extends React.Component {
           units: [ 
             [ 'W•m-1•K-1', 1e0 ],
           ],
-          selUnit: 'mm',
+          selUnit: 'W•m-1•K-1',
+          validationState: 'ok',
+          validationMsg: '',
+        },
+        viaThermalResistance: {
+          type: 'output',
+          units: [ 
+            [ '°C•W-1', 1e0 ],
+          ],
+          selUnit: '°C•W-1',
           validationState: 'ok',
           validationMsg: '',
         }
@@ -167,11 +177,7 @@ class UI extends React.Component {
               <VarRow id="platingThickness" name="Plating Thickness" calcVar={vars.platingThickness} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged}/>
               <VarRow id="viaHeight" name="Via Height" calcVar={vars.viaHeight} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged}/>
               <VarRow id="copperThermalConductivity" name="Copper Thermal Conductivity" calcVar={vars.copperThermalConductivity} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged}/>
-              <tr>
-                <td className="var-name">Via Thermal Resistance</td>
-                <td className="value"><input value={viaThermalResistance.toFixed(1)} readOnly></input></td>
-                <td className="units">°C•W-1</td>
-              </tr>
+              <VarRowOutput id="viaThermalResistance" name="Via Thermal Resistance" calcVar={vars.viaThermalResistance} value={viaThermalResistance} unitsChanged={this.unitsChanged}/>
             </tbody>
           </table>
 
