@@ -6,8 +6,8 @@ import Layout from '~/components/layout'
 export var metadata = {
   id: 'via-thermal-resistance',
   name: 'Via Thermal Resistance',
-  categories: [ 'Electronics', 'PCB Design' ],
-  tags: [ 'vias', 'electronics', 'thermal', 'resistance' ]
+  categories: ['Electronics', 'PCB Design'],
+  tags: ['vias', 'electronics', 'thermal', 'resistance']
 }
 
 class UI extends React.Component {
@@ -15,29 +15,82 @@ class UI extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      viaDiameterMm: 0.3,
-      platingThicknessUm: 35.0,
-      viaHeightMm: 1.6,
-      copperThermalConductivityWmK: 401,
+      vars: {
+        viaDiameterMm: {
+          value: 0.3,
+          validationState: 'ok',
+          validationMsg: '',
+        },
+        platingThicknessUm: {
+          value: 35.0,
+          validationState: 'ok',
+          validationMsg: '',
+        },
+        viaHeightMm:{
+          value: 1.6,
+          validationState: 'ok',
+          validationMsg: ''
+        },
+        copperThermalConductivityWmK: {
+          value: 401,
+          validationState: 'ok',
+          validationMsg: '',
+        }
+      }
     }
   }
 
   componentDidMount() {
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub])
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub])
     console.log('CalculatorViaThermalResistance mounted.')
   } // componentDidMount()
 
   inputChanged = (e) => {
     this.setState({
       [e.target.name]: e.target.valueAsNumber || e.target.value
-  });
+    });
+  }
+
+  viaDiameterMmChanged = (e) => {
+    const value = e.target.valueAsNumber || e.target.value
+    let validationMsg = ''
+    let validationState = 'ok'
+    if (value <= 0) {
+      validationState = 'error'
+      validationMsg = 'Via diameter must be positive and greater than 0.'
+    } if (value > 10.0) {
+      validationState = 'warning'
+      validationMsg = 'Via diameter is typically <10.0mm.'
+    }
+    let vars = this.state.vars
+    vars.viaDiameterMm = {
+      value: value,
+      validationState: validationState,
+      validationMsg: validationMsg,
+    }
+    this.setState({
+      vars: vars
+    })
   }
 
   render() {
 
     // Area of ring = pi * inner diameter * thickness
-    const viaCrossSectionalArea_m2 = Math.PI*(this.state.platingThicknessUm/1e6)*( (this.state.viaDiameterMm/1e3)-(this.state.platingThicknessUm/1e6) )
-    const viaThermalResistance = (1/this.state.copperThermalConductivityWmK)*(this.state.viaHeightMm/1e3)/viaCrossSectionalArea_m2
+    const vars = this.state.vars
+    const viaCrossSectionalArea_m2 = Math.PI * (vars.platingThicknessUm.value / 1e6) *
+      ((vars.viaDiameterMm.value / 1e3) - (vars.platingThicknessUm.value / 1e6))
+    const viaThermalResistance = (1 / vars.copperThermalConductivityWmK.value)
+      * (vars.viaHeightMm.value / 1e3) / viaCrossSectionalArea_m2
+
+    const validationMsgs = Object.keys(vars).map((key, idx) => {
+      const validationMsg = vars[key].validationMsg
+      console.log(validationMsg)
+      if (validationMsg != '') {
+        return <li key={idx}>{vars[key].validationMsg}</li>
+      } else {
+        return
+      }
+    })
 
     return (
       <Layout>
@@ -50,22 +103,27 @@ class UI extends React.Component {
             <tbody>
               <tr>
                 <td className="var-name">Via Diameter</td>
-                <td className="value"><input name="viaDiameterMm" value={this.state.viaDiameterMm} onChange={this.inputChanged}></input></td>
+                <td className="value"><input name="viaDiameterMm"
+                  className={vars.viaDiameterMm.validationState}
+                  value={vars.viaDiameterMm.value} onChange={this.viaDiameterMmChanged}></input></td>
                 <td className="units">\(mm\)</td>
               </tr>
               <tr>
                 <td className="var-name">Plating Thickness</td>
-                <td className="value"><input name="platingThicknessUm" value={this.state.platingThicknessUm} onChange={this.inputChanged}></input></td>
+                <td className="value"><input name="platingThicknessUm"
+                  value={vars.platingThicknessUm.value} onChange={this.inputChanged}></input></td>
                 <td className="units">\(um\)</td>
               </tr>
               <tr>
                 <td className="var-name">Via Height</td>
-                <td className="value"><input name="viaHeightMm" value={this.state.viaHeightMm} onChange={this.inputChanged}></input></td>
+                <td className="value"><input name="viaHeightMm"
+                  value={vars.viaHeightMm.value} onChange={this.inputChanged}></input></td>
                 <td className="units">\(mm\)</td>
               </tr>
               <tr>
                 <td className="var-name">Copper Thermal Conductivity</td>
-                <td className="value"><input name="copperThermalConductivityWmK" value={this.state.copperThermalConductivityWmK} onChange={this.inputChanged}></input></td>
+                <td className="value"><input name="copperThermalConductivityWmK"
+                  value={vars.copperThermalConductivityWmK.value} onChange={this.inputChanged}></input></td>
                 <td className="units">\( W \cdot m^{'{'}-1{'}'} \cdot K^{'{'}-1{'}'} \)</td>
               </tr>
               <tr>
@@ -76,10 +134,12 @@ class UI extends React.Component {
             </tbody>
           </table>
 
+          {validationMsgs}
+
           <div style={{ height: 20 }}></div>
 
           <p className="calc-notes"><i>Via Diameter</i> is the diameter of the drilled hole which is then plated to form the via (i.e. the via's outer diameter). For a via going from the top layer to the bottom layer on a standard 1.6mm thick FR-4 PCB, the <i>Via Height</i> would be 1.6mm.</p>
-          
+
         </div>
         <style jsx>{`
 
@@ -89,6 +149,14 @@ class UI extends React.Component {
 
           .value input {
             width: 150px;
+          }
+
+          .value input.warning {
+            border: 2px solid orange;
+          }
+
+          .value input.error {
+            border: 2px solid red;
           }
           
           .units {

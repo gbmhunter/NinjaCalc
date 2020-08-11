@@ -1,31 +1,57 @@
 import React from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import Link from 'next/link'
 
 import * as CalcViaThermalResistance from './calculators/via-thermal-resistance'
 import * as Calc3DRotations from './calculators/3d-rotations'
 
-const Home = () => (
-  <div>
-    <Head>
+class Home extends React.Component {
+  
+  constructor(props) {
+    super(props)
+    
+    this.state = {
+      calculators: []
+    }
+    
+  }
+  
+  componentDidMount = () => {
+    this.addCalc(CalcViaThermalResistance)
+    this.addCalc(Calc3DRotations)
+  }
+  
+  addCalc = (calcModule) => {
+    console.log('addCalc() called.')
+    let calculators = this.state.calculators
+    calculators.push(calcModule)
+    this.setState({
+      calculators: calculators,
+    })
+  }
+  
+  render() {
+    
+    const calcList = this.state.calculators.map((calculator, idx) => {
+      return <li key={idx}><Link href={'/calculators/' + calculator.metadata.id}><a>{calculator.metadata.name}</a></Link></li>
+    })
+    
+    return (
+      <div>
+      <Head>
       <title>Home</title>
       <link rel='icon' href='/favicon.ico' />
       <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    </Head>
-
-    <Nav />
-
-    <div className='hero'>
-      <h1 className='title'>Welcome to Next.js!</h1>
-      <p className='description'>
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
-
-      <p><a href={'/calculators/' + CalcViaThermalResistance.metadata.id}>{CalcViaThermalResistance.metadata.name}</a></p>
-
-    </div>
-
-    <style jsx>{`
+      </Head>
+      
+      <Nav />
+      
+      
+      <ul>{calcList}</ul>
+      
+      
+      <style jsx>{`
       .hero {
         width: 100%;
         color: #333;
@@ -70,8 +96,10 @@ const Home = () => (
         font-size: 13px;
         color: #333;
       }
-    `}</style>
-  </div>
-)
-
-export default Home
+      `}</style>
+      </div>
+      )}
+    }
+    
+    export default Home
+    
