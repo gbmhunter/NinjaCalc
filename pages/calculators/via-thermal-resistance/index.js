@@ -2,6 +2,7 @@ import Head from 'next/head'
 import React from 'react'
 
 import Layout from '~/components/layout'
+import VarRow from '~/components/VarRow'
 
 export var metadata = {
   id: 'via-thermal-resistance',
@@ -10,14 +11,19 @@ export var metadata = {
   tags: ['vias', 'electronics', 'thermal', 'resistance']
 }
 
+const MILS_TO_M = 25.4/1e6
+
 class UI extends React.Component {
 
   constructor(props) {
     super(props)
+    console.log('dfff')
     this.state = {
       vars: {
         viaDiameterMm: {
           value: 0.3,
+          units: [ 'mm', 'mils' ],
+          selUnit: 'mm',
           validationState: 'ok',
           validationMsg: '',
         },
@@ -51,7 +57,7 @@ class UI extends React.Component {
     });
   }
 
-  viaDiameterMmChanged = (e) => {
+  viaDiameterMmValueChanged = (e) => {
     const value = e.target.valueAsNumber || e.target.value
     let validationMsg = ''
     let validationState = 'ok'
@@ -63,22 +69,36 @@ class UI extends React.Component {
       validationMsg = 'Via diameter is typically <10.0mm.'
     }
     let vars = this.state.vars
-    vars.viaDiameterMm = {
-      value: value,
-      validationState: validationState,
-      validationMsg: validationMsg,
-    }
+    vars.viaDiameterMm.value = value
+    vars.viaDiameterMm.validationState = validationState
+    vars.viaDiameterMm.validationMsg = validationMsg
     this.setState({
       vars: vars
     })
   }
 
-  render() {
+  viaDiameterMmUnitsChanged = (e) => {
+    let vars = this.state.vars
+    vars.viaDiameterMm.selUnit = e.target.value
+    this.setState({
+      vars: vars
+    })
+  }
+
+  render = () => {
 
     // Area of ring = pi * inner diameter * thickness
     const vars = this.state.vars
+
+    let viaDiameter_m = null
+    if (vars.viaDiameterMm.selUnit == 'mm') {
+      viaDiameter_m = vars.viaDiameterMm.value / 1e3
+    } else if (vars.viaDiameterMm.selUnit = 'mils') {
+      viaDiameter_m = vars.viaDiameterMm.value * MILS_TO_M  
+    }
+
     const viaCrossSectionalArea_m2 = Math.PI * (vars.platingThicknessUm.value / 1e6) *
-      ((vars.viaDiameterMm.value / 1e3) - (vars.platingThicknessUm.value / 1e6))
+      (viaDiameter_m - (vars.platingThicknessUm.value / 1e6))
     const viaThermalResistance = (1 / vars.copperThermalConductivityWmK.value)
       * (vars.viaHeightMm.value / 1e3) / viaCrossSectionalArea_m2
 
@@ -101,13 +121,9 @@ class UI extends React.Component {
         <div className="vbox outer-wrapper">
           <table>
             <tbody>
-              <tr>
-                <td className="var-name">Via Diameter</td>
-                <td className="value"><input name="viaDiameterMm"
-                  className={vars.viaDiameterMm.validationState}
-                  value={vars.viaDiameterMm.value} onChange={this.viaDiameterMmChanged}></input></td>
-                <td className="units">\(mm\)</td>
-              </tr>
+              
+              <VarRow calcVar={vars.viaDiameterMm} valueChanged={this.viaDiameterMmValueChanged} unitsChanged={this.viaDiameterMmUnitsChanged}/>
+              
               <tr>
                 <td className="var-name">Plating Thickness</td>
                 <td className="value"><input name="platingThicknessUm"
