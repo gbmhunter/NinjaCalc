@@ -34,7 +34,8 @@ class UI extends React.Component {
         platingThickness: {
           value: 35.0,
           units: [
-            ['um', 1e-6]
+            ['um', 1e-6],
+            ['mils', MILS_TO_M],
           ],
           selUnit: 'um',
           validationState: 'ok',
@@ -83,28 +84,28 @@ class UI extends React.Component {
     });
   }
 
-  viaDiameterValueChanged = (e) => {
-    let vars = this.state.vars
-    const value = e.target.valueAsNumber || e.target.value
-    let validationMsg = ''
-    let validationState = 'ok'
-    const viaDiameter_m = this.scaleByUnits(value, vars.viaDiameter.units, vars.viaDiameter.selUnit)
-    console.log('viaDiameter_m=' + viaDiameter_m)
-    if (viaDiameter_m <= 0) {
-      validationState = 'error'
-      validationMsg = 'Via diameter must be positive and greater than 0.'
-    } if (viaDiameter_m > 10.0e-3) {
-      validationState = 'warning'
-      validationMsg = 'Via diameter is typically <10.0mm.'
-    }
+  // viaDiameterValueChanged = (e) => {
+  //   let vars = this.state.vars
+  //   const value = e.target.valueAsNumber || e.target.value
+  //   let validationMsg = ''
+  //   let validationState = 'ok'
+  //   const viaDiameter_m = this.scaleByUnits(value, vars.viaDiameter.units, vars.viaDiameter.selUnit)
+  //   console.log('viaDiameter_m=' + viaDiameter_m)
+  //   if (viaDiameter_m <= 0) {
+  //     validationState = 'error'
+  //     validationMsg = 'Via diameter must be positive and greater than 0.'
+  //   } if (viaDiameter_m > 10.0e-3) {
+  //     validationState = 'warning'
+  //     validationMsg = 'Via diameter is typically <10.0mm.'
+  //   }
 
-    vars.viaDiameter.value = value
-    vars.viaDiameter.validationState = validationState
-    vars.viaDiameter.validationMsg = validationMsg
-    this.setState({
-      vars: vars
-    })
-  }
+  //   vars.viaDiameter.value = value
+  //   vars.viaDiameter.validationState = validationState
+  //   vars.viaDiameter.validationMsg = validationMsg
+  //   this.setState({
+  //     vars: vars
+  //   })
+  // }
 
   valueChanged = (e) => {
     let vars = this.state.vars
@@ -127,16 +128,14 @@ class UI extends React.Component {
    * Scales a raw value by the selected unit for this value, typically
    * resulting in a value in SI units. 
    * 
-   * @param {*} value The raw value to scale.
-   * @param {*} units Array of all units for this calculator variable. Each element should consist of [ <name>, <multiplier> ].
-   * @param {*} selUnit The selected unit name.
+   * @param calcVar The calculator variable to get units of.
    * @returns The scaled value.
    */
-  scaleByUnits(value, units, selUnit) {
-    const unit = units.filter(unit => {
-      return unit[0] == selUnit
+  scaleByUnits(calcVar) {
+    const unit = calcVar.units.filter(unit => {
+      return unit[0] == calcVar.selUnit
     })[0]
-    const scaledValue = value * unit[1]
+    const scaledValue = calcVar.value * unit[1]
     return scaledValue
   }
 
@@ -145,13 +144,14 @@ class UI extends React.Component {
     // Area of ring = pi * inner diameter * thickness
     const vars = this.state.vars
 
-    const viaDiameter_m = this.scaleByUnits(vars.viaDiameter.value, vars.viaDiameter.units, vars.viaDiameter.selUnit)
+    const viaDiameter_m = this.scaleByUnits(vars.viaDiameter)
+    const platingThickness_m = this.scaleByUnits(vars.platingThickness)
+    const copperThermalConductivity_WmK = this.scaleByUnits(vars.copperThermalConductivity)
+    const viaHeight_m = this.scaleByUnits(vars.viaHeight)
     console.log('viaDiameter_m=' + viaDiameter_m)
 
-    const viaCrossSectionalArea_m2 = Math.PI * (vars.platingThickness.value / 1e6) *
-      (viaDiameter_m - (vars.platingThickness.value / 1e6))
-    const viaThermalResistance = (1 / vars.copperThermalConductivity.value)
-      * (vars.viaHeight.value / 1e3) / viaCrossSectionalArea_m2
+    const viaCrossSectionalArea_m2 = Math.PI * platingThickness_m * (viaDiameter_m - platingThickness_m)
+    const viaThermalResistance = (1 / copperThermalConductivity_WmK) * viaHeight_m / viaCrossSectionalArea_m2
 
     const validationMsgs = Object.keys(vars).map((key, idx) => {
       const validationMsg = vars[key].validationMsg
@@ -188,28 +188,30 @@ class UI extends React.Component {
           <div style={{ height: 20 }}></div>
 
           <div className="calc-notes">
-          <p><i>Via Diameter</i> is the diameter of the drilled hole which is then plated to form the via (i.e. the via's outer diameter). Standard <i>Via Plating Thickness</i> is approximately 25um. For a via going from the top layer to the bottom layer on a standard 1.6mm thick FR-4 PCB, the <i>Via Height</i> would be 1.6mm. A copper thermal conductivity of {'\\(401Wm^{-1}K^{-1}\\)'} is a good general estimate for copper plated into the via by electrolysis.</p>
 
-          <p>
-            The cross-sectional area {String.raw`\( A_{via} \)`} in units {String.raw`\( m^2 \)`} is calculated with:
+            <p><i>Via Diameter</i> is the diameter of the drilled hole which is then plated to form the via (i.e. the via's outer diameter). Standard <i>Via Plating Thickness</i> is approximately 25um (18um copper is the defined minimum in the IPC 600J-Class 2 standard). For a via going from the top layer to the bottom layer on a standard 1.6mm thick FR-4 PCB, the <i>Via Height</i> would be 1.6mm. A copper thermal conductivity of {'\\(401Wm^{-1}K^{-1}\\)'} is a good general estimate for copper plated into the via by electrolysis.</p>
+
+            <p>
+              The cross-sectional area {String.raw`\( A_{via} \)`} in units {String.raw`\( m^2 \)`} is calculated with:
             {String.raw`$$ A_{via} = \pi \cdot t_{plating} \cdot ( d_{via} - t_{plating} )  $$`}
-            <span className="centered">
-              where:<br />
-              {String.raw`\( t_{plating} \)`} is the plating thinkness in {String.raw`\( m \)`}<br />
-              {String.raw`\( d_{via} \)`} is the outer diameter of the via in {String.raw`\( m \)`}<br />
-              {String.raw`\( d_{via} \)`} is the outer diameter of the via in {String.raw`\( m \)`}<br />
-            </span>
-          </p>
+              <span className="centered">
+                where:<br />
+                {String.raw`\( t_{plating} \)`} is the plating thinkness in {String.raw`\( m \)`}<br />
+                {String.raw`\( d_{via} \)`} is the outer diameter of the via in {String.raw`\( m \)`}<br />
+              </span>
+            </p>
 
 
-          <p>The thermal resistance {String.raw`\( \theta_{via} \)`} (with units {String.raw`\( °C \cdot W^{-1} \)`}) is then calculated with:
+            <p>The thermal resistance {String.raw`\( \theta_{via} \)`} (with units {String.raw`\( °C \cdot W^{-1} \)`}) is then calculated with:
             {String.raw`$$ \theta_{via} = \frac{h_{via}}{\lambda_{copper} \cdot A_{via}} $$`}
-            <span className="centered">
-              where:<br />
-              {String.raw`\( h_{via} \)`} is the height of the via in {String.raw`\( m \)`}<br />
-              {String.raw`\( \lambda_{copper} \)`} is the thermal conductivity of the copper in {String.raw`\( W \cdot m^{-1} \cdot K^{-1} \)`}<br />
-            </span>
-          </p>
+              <span className="centered">
+                where:<br />
+                {String.raw`\( h_{via} \)`} is the height of the via in {String.raw`\( m \)`}<br />
+                {String.raw`\( \lambda_{copper} \)`} is the thermal conductivity of copper in {String.raw`\( W \cdot m^{-1} \cdot K^{-1} \)`}<br />
+              </span>
+            </p>
+
+            <p>Degrees Kelvin is interchangable with degrees Celcius in this calculator as we are always dealing with temperature differences.</p>
           </div>
 
 
