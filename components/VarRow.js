@@ -18,7 +18,7 @@ class VarRow extends React.Component {
         <td className="var-name">{this.props.name}</td>
         <td className="value"><input name={this.props.id}
           className={calcVar.validationState}
-          value={calcVar.value} onChange={this.props.valueChanged}></input></td>
+          value={calcVar.value} onChange={this.props.valueChanged} style={{ width: this.props.width }}></input></td>
         <td className="units">
           <select name={this.props.id} value={calcVar.selUnit} onChange={this.props.unitsChanged}>
             {unitOptions}
@@ -28,10 +28,15 @@ class VarRow extends React.Component {
   }
 }
 
+VarRow.defaultProps = {
+  width: 150,
+}
+
 VarRow.propTypes = {
   calcVar: PropTypes.object.isRequired,
   valueChanged: PropTypes.func.isRequired,
   unitsChanged: PropTypes.func.isRequired,
+  width: PropTypes.number,
 };
 
 export default VarRow

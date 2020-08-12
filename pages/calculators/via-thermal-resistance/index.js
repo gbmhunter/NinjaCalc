@@ -163,6 +163,8 @@ class UI extends React.Component {
       }
     })
 
+    const varWidth = 150
+
     return (
       <Layout>
         <Head>
@@ -173,11 +175,11 @@ class UI extends React.Component {
           <table>
             <tbody>
               
-              <VarRow id="viaDiameter" name="Via Diameter" calcVar={vars.viaDiameter} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged}/>
-              <VarRow id="platingThickness" name="Plating Thickness" calcVar={vars.platingThickness} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged}/>
-              <VarRow id="viaHeight" name="Via Height" calcVar={vars.viaHeight} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged}/>
-              <VarRow id="copperThermalConductivity" name="Copper Thermal Conductivity" calcVar={vars.copperThermalConductivity} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged}/>
-              <VarRowOutput id="viaThermalResistance" name="Via Thermal Resistance" calcVar={vars.viaThermalResistance} value={viaThermalResistance} unitsChanged={this.unitsChanged}/>
+              <VarRow id="viaDiameter" name="Via Diameter" calcVar={vars.viaDiameter} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth}/>
+              <VarRow id="platingThickness" name="Plating Thickness" calcVar={vars.platingThickness} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth}/>
+              <VarRow id="viaHeight" name="Via Height" calcVar={vars.viaHeight} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth}/>
+              <VarRow id="copperThermalConductivity" name="Copper Thermal Conductivity" calcVar={vars.copperThermalConductivity} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth}/>
+              <VarRowOutput id="viaThermalResistance" name="Via Thermal Resistance" calcVar={vars.viaThermalResistance} value={viaThermalResistance} unitsChanged={this.unitsChanged} width={varWidth}/>
             </tbody>
           </table>
 
@@ -195,7 +197,7 @@ class UI extends React.Component {
           }
 
           .value input {
-            width: 150px;
+            width: 180px;
           }
 
           .value input.warning {
