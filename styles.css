@@ -1,0 +1,11 @@
+/* Global styles go in this file */
+
+span.centered {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+div.calc-notes {
+    max-width: 700px;
+}

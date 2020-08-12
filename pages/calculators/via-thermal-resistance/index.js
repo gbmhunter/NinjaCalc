@@ -12,7 +12,7 @@ export var metadata = {
   tags: ['vias', 'electronics', 'thermal', 'resistance']
 }
 
-const MILS_TO_M = 25.4/1e6
+const MILS_TO_M = 25.4 / 1e6
 
 class UI extends React.Component {
 
@@ -23,9 +23,9 @@ class UI extends React.Component {
       vars: {
         viaDiameter: {
           value: 0.3,
-          units: [ 
-            [ 'mm', 1e-3 ],
-            [ 'mils', MILS_TO_M ],
+          units: [
+            ['mm', 1e-3],
+            ['mils', MILS_TO_M],
           ],
           selUnit: 'mm',
           validationState: 'ok',
@@ -34,17 +34,17 @@ class UI extends React.Component {
         platingThickness: {
           value: 35.0,
           units: [
-            [ 'um', 1e-6 ]
+            ['um', 1e-6]
           ],
           selUnit: 'um',
           validationState: 'ok',
           validationMsg: '',
         },
-        viaHeight:{
+        viaHeight: {
           value: 1.6,
-          units: [ 
-            [ 'mm', 1e-3 ],
-            [ 'mils', MILS_TO_M ],
+          units: [
+            ['mm', 1e-3],
+            ['mils', MILS_TO_M],
           ],
           selUnit: 'mm',
           validationState: 'ok',
@@ -52,8 +52,8 @@ class UI extends React.Component {
         },
         copperThermalConductivity: {
           value: 401,
-          units: [ 
-            [ 'W•m-1•K-1', 1e0 ],
+          units: [
+            ['W•m-1•K-1', 1e0],
           ],
           selUnit: 'W•m-1•K-1',
           validationState: 'ok',
@@ -61,8 +61,8 @@ class UI extends React.Component {
         },
         viaThermalResistance: {
           type: 'output',
-          units: [ 
-            [ '°C•W-1', 1e0 ],
+          units: [
+            ['°C•W-1', 1e0],
           ],
           selUnit: '°C•W-1',
           validationState: 'ok',
@@ -83,7 +83,7 @@ class UI extends React.Component {
     });
   }
 
-  viaDiameterValueChanged = (e) => {        
+  viaDiameterValueChanged = (e) => {
     let vars = this.state.vars
     const value = e.target.valueAsNumber || e.target.value
     let validationMsg = ''
@@ -109,7 +109,7 @@ class UI extends React.Component {
   valueChanged = (e) => {
     let vars = this.state.vars
     const value = e.target.valueAsNumber || e.target.value
-    vars[e.target.name].value = value  
+    vars[e.target.name].value = value
     this.setState({
       vars: vars
     })
@@ -135,8 +135,8 @@ class UI extends React.Component {
   scaleByUnits(value, units, selUnit) {
     const unit = units.filter(unit => {
       return unit[0] == selUnit
-    })[0]    
-    const scaledValue = value*unit[1]
+    })[0]
+    const scaledValue = value * unit[1]
     return scaledValue
   }
 
@@ -174,12 +174,12 @@ class UI extends React.Component {
         <div className="vbox outer-wrapper">
           <table>
             <tbody>
-              
-              <VarRow id="viaDiameter" name="Via Diameter" calcVar={vars.viaDiameter} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth}/>
-              <VarRow id="platingThickness" name="Plating Thickness" calcVar={vars.platingThickness} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth}/>
-              <VarRow id="viaHeight" name="Via Height" calcVar={vars.viaHeight} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth}/>
-              <VarRow id="copperThermalConductivity" name="Copper Thermal Conductivity" calcVar={vars.copperThermalConductivity} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth}/>
-              <VarRowOutput id="viaThermalResistance" name="Via Thermal Resistance" calcVar={vars.viaThermalResistance} value={viaThermalResistance} unitsChanged={this.unitsChanged} width={varWidth}/>
+
+              <VarRow id="viaDiameter" name="Via Diameter" calcVar={vars.viaDiameter} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="platingThickness" name="Plating Thickness" calcVar={vars.platingThickness} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="viaHeight" name="Via Height" calcVar={vars.viaHeight} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="copperThermalConductivity" name="Copper Thermal Conductivity" calcVar={vars.copperThermalConductivity} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRowOutput id="viaThermalResistance" name="Via Thermal Resistance" calcVar={vars.viaThermalResistance} value={viaThermalResistance} unitsChanged={this.unitsChanged} width={varWidth} />
             </tbody>
           </table>
 
@@ -187,7 +187,31 @@ class UI extends React.Component {
 
           <div style={{ height: 20 }}></div>
 
-          <p className="calc-notes"><i>Via Diameter</i> is the diameter of the drilled hole which is then plated to form the via (i.e. the via's outer diameter). For a via going from the top layer to the bottom layer on a standard 1.6mm thick FR-4 PCB, the <i>Via Height</i> would be 1.6mm.</p>
+          <div className="calc-notes">
+          <p><i>Via Diameter</i> is the diameter of the drilled hole which is then plated to form the via (i.e. the via's outer diameter). Standard <i>Via Plating Thickness</i> is approximately 25um. For a via going from the top layer to the bottom layer on a standard 1.6mm thick FR-4 PCB, the <i>Via Height</i> would be 1.6mm. A copper thermal conductivity of {'\\(401Wm^{-1}K^{-1}\\)'} is a good general estimate for copper plated into the via by electrolysis.</p>
+
+          <p>
+            The cross-sectional area {String.raw`\( A_{via} \)`} in units {String.raw`\( m^2 \)`} is calculated with:
+            {String.raw`$$ A_{via} = \pi \cdot t_{plating} \cdot ( d_{via} - t_{plating} )  $$`}
+            <span className="centered">
+              where:<br />
+              {String.raw`\( t_{plating} \)`} is the plating thinkness in {String.raw`\( m \)`}<br />
+              {String.raw`\( d_{via} \)`} is the outer diameter of the via in {String.raw`\( m \)`}<br />
+              {String.raw`\( d_{via} \)`} is the outer diameter of the via in {String.raw`\( m \)`}<br />
+            </span>
+          </p>
+
+
+          <p>The thermal resistance {String.raw`\( \theta_{via} \)`} (with units {String.raw`\( °C \cdot W^{-1} \)`}) is then calculated with:
+            {String.raw`$$ \theta_{via} = \frac{h_{via}}{\lambda_{copper} \cdot A_{via}} $$`}
+            <span className="centered">
+              where:<br />
+              {String.raw`\( h_{via} \)`} is the height of the via in {String.raw`\( m \)`}<br />
+              {String.raw`\( \lambda_{copper} \)`} is the thermal conductivity of the copper in {String.raw`\( W \cdot m^{-1} \cdot K^{-1} \)`}<br />
+            </span>
+          </p>
+          </div>
+
 
         </div>
         <style jsx>{`
