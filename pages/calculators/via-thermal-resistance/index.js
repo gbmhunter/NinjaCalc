@@ -18,7 +18,6 @@ class UI extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log('dfff')
     this.state = {
       vars: {
         viaDiameter: {
@@ -148,7 +147,6 @@ class UI extends React.Component {
     const platingThickness_m = this.scaleByUnits(vars.platingThickness)
     const copperThermalConductivity_WmK = this.scaleByUnits(vars.copperThermalConductivity)
     const viaHeight_m = this.scaleByUnits(vars.viaHeight)
-    console.log('viaDiameter_m=' + viaDiameter_m)
 
     const viaCrossSectionalArea_m2 = Math.PI * platingThickness_m * (viaDiameter_m - platingThickness_m)
     const viaThermalResistance = (1 / copperThermalConductivity_WmK) * viaHeight_m / viaCrossSectionalArea_m2
