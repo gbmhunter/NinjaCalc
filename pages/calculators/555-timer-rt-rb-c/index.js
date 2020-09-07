@@ -55,6 +55,25 @@ class UI extends React.Component {
             msg: '',
           },
         }, // dutyCycle
+        capacitance: {
+          type: 'input',
+          dispVal: '10',
+          rawVal: null,
+          units: [
+            ['uF', 1e-6],              
+          ],
+          selUnit: 'uF',
+          validation: {
+            fn: (value) => {
+              if (value <= 0) return ['error', 'Capacitance must be greater than zero.']
+              if (value < 1e-12) return ['warning', 'This is an extremely small capacitance.']
+              if (value > 1e-3) return ['warning', 'This is an extremely large capacitance.']
+              return ['ok', '']
+            },
+            state: 'ok',
+            msg: '',
+          },
+        }, // dutyCycle
       } // vars
     }
   }
@@ -151,6 +170,7 @@ class UI extends React.Component {
 
               <VarRow id="freq" name="Frequency" calcVar={vars.freq} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
               <VarRow id="dutyCycle" name="Duty Cycle" calcVar={vars.dutyCycle} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="capacitance" name="Capacitance" calcVar={vars.capacitance} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
             </tbody>
           </table>
 
