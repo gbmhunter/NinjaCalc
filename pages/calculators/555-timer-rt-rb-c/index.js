@@ -5,6 +5,8 @@ import Layout from '~/components/layout'
 import VarRow from '~/components/VarRow'
 import VarRowOutput from '~/components/VarRowOutput'
 
+import CalcHelper from '~/utils/calc-helper'
+
 export var metadata = {
   id: '555-timer-rt-rb-c',
   name: '555 Timer (Freq/Duty Cycle In, Rt/Rb/C Out)',
@@ -60,7 +62,7 @@ class UI extends React.Component {
         capacitance: {
           name: 'Capacitance',
           type: 'input',
-          dispVal: '10',
+          dispVal: '1',
           rawVal: null,
           units: [
             ['uF', 1e-6],              
@@ -80,34 +82,64 @@ class UI extends React.Component {
         period: {
           name: 'Period',
           type: 'output',
-          dispVal: null,
+          dispVal: '0',
           rawVal: null,
           units: [
+            ['ms', 1e-3],   
             ['s', 1e0],              
           ],
-          selUnit: 's'
+          selUnit: 'ms',
+          sigFig: 3,
         }, // period
         timeHigh: {
           name: 'Time High',
           type: 'output',
-          dispVal: null,
+          dispVal: '0',
           rawVal: null,
           units: [
+            ['ms', 1e-3],   
             ['s', 1e0],              
           ],
-          selUnit: 's',
-        }, // period
+          selUnit: 'ms',
+          sigFig: 3,
+        }, // timeHigh
+        timeLow: {
+          name: 'Time Low',
+          type: 'output',
+          dispVal: '0',
+          rawVal: null,
+          units: [
+            ['ms', 1e-3],
+            ['s', 1e0],              
+          ],
+          selUnit: 'ms',
+          sigFig: 3,
+        }, // timeLow
+        r1: {
+          name: 'R1',
+          type: 'output',
+          dispVal: '0',
+          rawVal: null,
+          units: [
+            ['Ω', 1e0],
+            ['kΩ', 1e3],
+          ],
+          selUnit: 'kΩ',
+          sigFig: 3,
+        }, // r1
+        r2: {
+          name: 'R2',
+          type: 'output',
+          dispVal: '0',
+          rawVal: null,
+          units: [
+            ['Ω', 1e0],
+            ['kΩ', 1e3],
+          ],
+          selUnit: 'kΩ',
+          sigFig: 3,
+        }, // r2
       }, // vars
-      eqFn: (calcVars) => {
-        console.log('eqFn() called with calcVars=')
-        console.log(calcVars)
-        const period_s = 1/calcVars.freq.rawVal
-        calcVars.period.rawVal = period_s
-
-        const timeHigh_s = calcVars.dutyCycle.rawVal * period_s
-        console.log('timeHigh_s=' + timeHigh_s)
-        calcVars.timeHigh.rawVal = timeHigh_s
-      }
     } // this.state
   }
 
@@ -122,43 +154,56 @@ class UI extends React.Component {
     console.log('Calculator555TimerRtRbC mounted.')
   } // componentDidMount()
 
+  eqFn = (calcVars) => {
+    console.log('eqFn() called with calcVars=')
+    console.log(calcVars)
+    const period_s = 1/calcVars.freq.rawVal
+    calcVars.period.rawVal = period_s
+
+    const timeHigh_s = calcVars.dutyCycle.rawVal * period_s
+    calcVars.timeHigh.rawVal = timeHigh_s
+
+    const timeLow_s = period_s - timeHigh_s
+    calcVars.timeLow.rawVal = timeLow_s
+
+    const r1_Ohms = timeLow_s / (0.693*calcVars.capacitance.rawVal)
+    calcVars.r1.rawVal = r1_Ohms
+
+    const r2_Ohms = timeHigh_s/(0.693*calcVars.capacitance.rawVal) - r1_Ohms
+    calcVars.r2.rawVal = r2_Ohms
+  }
+
   initCalcVars = (calcVars) => {
     // Sync all input disp vals to raw vals
     for (let calcVarName in calcVars) {
       let calcVar = calcVars[calcVarName]
       if (calcVar.type === 'input') {
-        this.setRawValFromDispVal(calcVar)
-        this.runValidation(calcVar)
+        CalcHelper.setRawValFromDispVal(calcVar)
+        CalcHelper.runValidation(calcVar)
       }
     }
 
-    this.calcOutputsAndUpdateDispVals(calcVars)
+    this.eqFn(calcVars)
+    CalcHelper.updateDispVals(calcVars)
+    this.setState({
+      vars: calcVars
+    })
   }
 
-  calcOutputsAndUpdateDispVals = (calcVars) => {
-    // Calculate outputs
-    this.state.eqFn(calcVars)
 
-    // Sync all output raw vals to disp vals
-    for (let calcVarName in calcVars) {
-      let calcVar = calcVars[calcVarName]
-      if (calcVar.type === 'output') {        
-        this.setDispValFromRawVal(calcVar)
-      }
-    }
-  }
 
   valueChanged = (e) => {
-    let vars = this.state.vars
+    let calcVars = this.state.vars
     const value = e.target.valueAsNumber || e.target.value
-    let calcVar = vars[e.target.name]
+    let calcVar = calcVars[e.target.name]
     calcVar.dispVal = value
     // Recalculate raw value from displayed value
-    this.setRawValFromDispVal(calcVar)
-    this.runValidation(calcVar)
-    this.calcOutputsAndUpdateDispVals(calcVars)
+    CalcHelper.setRawValFromDispVal(calcVar)
+    CalcHelper.runValidation(calcVar)
+    this.eqFn(calcVars)
+    CalcHelper.updateDispVals(calcVars)
     this.setState({
-      vars: vars
+      vars: calcVars
     })
   }
 
@@ -166,52 +211,14 @@ class UI extends React.Component {
     let calcVars = this.state.vars
     let calcVar = calcVars[e.target.name]
     calcVar.selUnit = e.target.value
-    this.setRawValFromDispVal(calcVar)
-    this.runValidation(calcVar)
-    this.calcOutputsAndUpdateDispVals(calcVars)
+    if (calcVar.type === 'input')
+      CalcHelper.setRawValFromDispVal(calcVar)
+    CalcHelper.runValidation(calcVar)
+    this.eqFn(calcVars)
+    CalcHelper.updateDispVals(calcVars)
     this.setState({
       vars: calcVars
     })
-  }
-
-  /**
-   * Scales a raw value by the selected unit for this value, typically
-   * resulting in a value in SI units. 
-   * 
-   * @param calcVar The calculator variable to get units of.
-   * @returns The scaled value.
-   */
-  setRawValFromDispVal(calcVar) {
-    console.log('setRawValFromDispVal() called with calcVar=')
-    console.log(calcVar)
-    const unit = calcVar.units.filter(unit => {
-      return unit[0] == calcVar.selUnit
-    })[0]
-    const rawVal = calcVar.dispVal * unit[1]
-    console.log('rawVal=' + rawVal)
-    calcVar.rawVal = rawVal
-  }
-
-  setDispValFromRawVal(calcVar) {
-    console.log('setDispValFromRawVal() called with calcVar=')
-    console.log(calcVar)
-    const unit = calcVar.units.filter(unit => {
-      return unit[0] == calcVar.selUnit
-    })[0]
-    const dispVal = calcVar.rawVal / unit[1]
-    console.log('dispVal=' + dispVal)
-    calcVar.dispVal = dispVal
-  }
-
-  runValidation(calcVar) {
-    console.log('runValidation() called with calcVar=')
-    console.log(calcVar)
-    const validationResult = calcVar.validation.fn(calcVar.rawVal)
-    const validationState = validationResult[0]
-    const validationMsg = validationResult[1]
-    calcVar.validation.state = validationState
-    calcVar.validation.msg = validationMsg
-    console.log('Set validationState=' + validationState + ', validationMsg=' + validationMsg)
   }
 
   render = () => {
@@ -222,10 +229,6 @@ class UI extends React.Component {
 
     // Calculate outputs from inputs
     const period_s = 1/vars.freq.rawVal
-
-
-    console.log('render() called with vars=')
-    console.log(vars)
 
     return (
       <Layout>
@@ -242,6 +245,9 @@ class UI extends React.Component {
               <VarRow id="capacitance" calcVar={vars.capacitance} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
               <VarRow id="period" calcVar={vars.period} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
               <VarRow id="timeHigh" calcVar={vars.timeHigh} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="timeLow" calcVar={vars.timeLow} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="r1" calcVar={vars.r1} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="r2" calcVar={vars.r2} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
             </tbody>
           </table>
 
