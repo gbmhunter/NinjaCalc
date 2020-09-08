@@ -12,9 +12,12 @@ class VarRow extends React.Component {
     // If the variable is an output, make the input
     // text box readonly so the user cannot change it
     const type = calcVar.type
-    let readonly = ''
-    if (type == 'output')
-      readonly='readonly'
+    let readonly = false
+    let disabled = false
+    if (type == 'output') {
+      readonly = true
+      disabled = true
+    }
 
     const unitOptions = calcVar.units.map((unit, idx) => {
       return (<option key={idx} value={unit[0]}>{unit[0]}</option>)
@@ -30,7 +33,7 @@ class VarRow extends React.Component {
         <td className="var-name">{calcVar.name}</td>
         <td className="value"><input name={this.props.id}
           className={validationState}
-          value={calcVar.dispVal} onChange={this.props.valueChanged} style={{ width: this.props.width }} readOnly={readonly}></input></td>
+          value={calcVar.dispVal} onChange={this.props.valueChanged} style={{ width: this.props.width }} readOnly={readonly} disabled={disabled}></input></td>
         <td className="units">
           <select name={this.props.id} value={calcVar.selUnit} onChange={this.props.unitsChanged}>
             {unitOptions}

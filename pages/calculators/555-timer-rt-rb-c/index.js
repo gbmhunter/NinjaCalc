@@ -9,7 +9,7 @@ import CalcHelper from '~/utils/calc-helper'
 
 export var metadata = {
   id: '555-timer-rt-rb-c',
-  name: '555 Timer (Freq/Duty Cycle In, Rt/Rb/C Out)',
+  name: '555 Timer, Astable (Freq/Duty Cycle In, Rt/Rb/C Out)',
   categories: ['Electronics', 'PCB Design'],
   tags: ['555', 'timer']
 }
@@ -233,10 +233,11 @@ class UI extends React.Component {
     return (
       <Layout>
         <Head>
-          <title>555 Timer Calculator</title>
+          <title>{metadata.name}</title>
           <link rel='icon' href='/favicon.ico' />
         </Head>
         <div className="vbox outer-wrapper">
+          <p style={{ maxWidth: '500px' }}>This calculator calculates the resistances and capacitances needed to operate a 555 timer in astable mode. The duty cycle cannot be set lower than 50%, if you want to do this you will have to attach an inverter to the output.</p>
           <table>
             <tbody>
 

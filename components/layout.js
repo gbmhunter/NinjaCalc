@@ -8,12 +8,12 @@ import Head from 'next/head'
 
 
 export default ({ children, title = 'This is the default title' }) => (
-  <div>
+  <div style={{ height: '100%' }}>
     <header>
       {/* <Nav /> */}
     </header>
 
-    <main>
+    <main className='vbox' style={{ height: '100%' }}>
       { children }
     </main>
 
@@ -22,13 +22,13 @@ export default ({ children, title = 'This is the default title' }) => (
         .hbox {
           display: flex;
           flex-direction: row;
-          jusity-content: center;
+          justify-content: center;
           align-items: center;
         }
         .vbox {
           display: flex;
           flex-direction: column;
-          jusity-content: center;
+          justify-content: center;
           align-items: center;
         }
         p, h1, h2, h3, ul, li, a, div, td, th, input {    
