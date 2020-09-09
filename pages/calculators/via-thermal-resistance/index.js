@@ -64,6 +64,7 @@ class UI extends React.Component {
           viaThermalResistance: {
             name: 'Via Thermal Resistance',
             direction: 'output',
+            dispVal: '0',
             units: [
               ['°C•W-1', 1e0],
             ],
