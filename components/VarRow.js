@@ -11,10 +11,10 @@ class VarRow extends React.Component {
 
     // If the variable is an output, make the input
     // text box readonly so the user cannot change it
-    const type = calcVar.type
+    const direction = calcVar.direction
     let readonly = false
     let disabled = false
-    if (type == 'output') {
+    if (direction == 'output') {
       readonly = true
       disabled = true
     }

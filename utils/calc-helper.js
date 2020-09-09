@@ -1,6 +1,19 @@
 
 class CalcHelper {
 
+  static initCalc(calc) {
+    for (let calcVarName in calc.calcVars) {
+      let calcVar = calc.calcVars[calcVarName]
+      if (calcVar.direction === 'input') {
+        CalcHelper.setRawValFromDispVal(calcVar)
+        CalcHelper.runValidation(calcVar)
+      }
+    }
+
+    calc.eqFn(calc.calcVars)
+    CalcHelper.updateDispVals(calc.calcVars)
+  }
+
   /**
    * Scales a raw value by the selected unit for this value, typically
    * resulting in a value in SI units. 
@@ -42,10 +55,31 @@ class CalcHelper {
     // Sync all output raw vals to disp vals
     for (let calcVarName in calcVars) {
       let calcVar = calcVars[calcVarName]
-      if (calcVar.type === 'output') {        
+      if (calcVar.direction === 'output') {        
         CalcHelper.setDispValFromRawVal(calcVar)
       }
     }
+  }
+
+  static handleValueChanged(calc, event) {
+    const value = event.target.valueAsNumber || event.target.value
+    let calcVar = calc.calcVars[event.target.name]
+    calcVar.dispVal = value
+    // Recalculate raw value from displayed value
+    CalcHelper.setRawValFromDispVal(calcVar)
+    CalcHelper.runValidation(calcVar)
+    calc.eqFn(calc.calcVars)
+    CalcHelper.updateDispVals(calc.calcVars)
+  }
+
+  static handleUnitsChanged(calc, event) {
+    let calcVar = calc.calcVars[event.target.name]
+    calcVar.selUnit = event.target.value
+    if (calcVar.direction === 'input')
+      CalcHelper.setRawValFromDispVal(calcVar)
+    CalcHelper.runValidation(calcVar)
+    calc.eqFn(calc.calcVars)
+    CalcHelper.updateDispVals(calc.calcVars)
   }
 
 }
