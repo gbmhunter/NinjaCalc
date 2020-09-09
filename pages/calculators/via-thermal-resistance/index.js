@@ -3,7 +3,8 @@ import React from 'react'
 
 import Layout from '~/components/layout'
 import VarRow from '~/components/VarRow'
-import VarRowOutput from '~/components/VarRowOutput'
+
+import CalcHelper from '~/utils/calc-helper'
 
 export var metadata = {
   id: 'via-thermal-resistance',
@@ -19,147 +20,111 @@ class UI extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      vars: {
-        viaDiameter: {
-          value: 0.3,
-          units: [
-            ['mm', 1e-3],
-            ['mils', MILS_TO_M],
-          ],
-          selUnit: 'mm',
-          validationState: 'ok',
-          validationMsg: '',
-        },
-        platingThickness: {
-          value: 35.0,
-          units: [
-            ['um', 1e-6],
-            ['mils', MILS_TO_M],
-          ],
-          selUnit: 'um',
-          validationState: 'ok',
-          validationMsg: '',
-        },
-        viaHeight: {
-          value: 1.6,
-          units: [
-            ['mm', 1e-3],
-            ['mils', MILS_TO_M],
-          ],
-          selUnit: 'mm',
-          validationState: 'ok',
-          validationMsg: ''
-        },
-        copperThermalConductivity: {
-          value: 401,
-          units: [
-            ['W•m-1•K-1', 1e0],
-          ],
-          selUnit: 'W•m-1•K-1',
-          validationState: 'ok',
-          validationMsg: '',
-        },
-        viaThermalResistance: {
-          type: 'output',
-          units: [
-            ['°C•W-1', 1e0],
-          ],
-          selUnit: '°C•W-1',
-          validationState: 'ok',
-          validationMsg: '',
+      calc: {
+        calcVars: {
+          viaDiameter: {
+            name: 'Via Diameter',
+            direction: 'input',
+            dispVal: '0.3',
+            units: [
+              ['mm', 1e-3],
+              ['mils', MILS_TO_M],
+            ],
+            selUnit: 'mm',
+          },
+          platingThickness: {
+            name: 'Plating Thickness',
+            direction: 'input',
+            dispVal: '35.0',
+            units: [
+              ['um', 1e-6],
+              ['mils', MILS_TO_M],
+            ],
+            selUnit: 'um',
+          },
+          viaHeight: {
+            name: 'Via Height',
+            direction: 'input',
+            dispVal: '1.6',
+            units: [
+              ['mm', 1e-3],
+              ['mils', MILS_TO_M],
+            ],
+            selUnit: 'mm',
+          },
+          copperThermalConductivity: {
+            name: 'Copper Thermal Conductivity',
+            direction: 'input',
+            dispVal: '401',
+            units: [
+              ['W•m-1•K-1', 1e0],
+            ],
+            selUnit: 'W•m-1•K-1',            
+          },
+          viaThermalResistance: {
+            name: 'Via Thermal Resistance',
+            direction: 'output',
+            units: [
+              ['°C•W-1', 1e0],
+            ],
+            selUnit: '°C•W-1',
+            sigFig: 3,
+          },
+        }, // calcVars
+        eqFn: (calcVars) => {      
+          const viaCrossSectionalArea_m2 = Math.PI * calcVars.platingThickness.rawVal 
+            * (calcVars.viaDiameter.rawVal - calcVars.platingThickness.rawVal)
+          
+          const viaThermalResistance = (1 / calcVars.copperThermalConductivity.rawVal) 
+            * calcVars.viaHeight.rawVal / viaCrossSectionalArea_m2
+          calcVars.viaThermalResistance.rawVal = viaThermalResistance
         }
-      }
+      } // calc
     }
   }
 
   componentDidMount() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub])
+
+    CalcHelper.initCalc(this.state.calc)
+    this.setState({
+      calc: this.state.calc
+    })
+
     console.log('CalculatorViaThermalResistance mounted.')
   } // componentDidMount()
 
-  inputChanged = (e) => {
-    this.setState({
-      [e.target.name]: e.target.valueAsNumber || e.target.value
-    });
-  }
-
-  // viaDiameterValueChanged = (e) => {
-  //   let vars = this.state.vars
-  //   const value = e.target.valueAsNumber || e.target.value
-  //   let validationMsg = ''
-  //   let validationState = 'ok'
-  //   const viaDiameter_m = this.scaleByUnits(value, vars.viaDiameter.units, vars.viaDiameter.selUnit)
-  //   console.log('viaDiameter_m=' + viaDiameter_m)
-  //   if (viaDiameter_m <= 0) {
-  //     validationState = 'error'
-  //     validationMsg = 'Via diameter must be positive and greater than 0.'
-  //   } if (viaDiameter_m > 10.0e-3) {
-  //     validationState = 'warning'
-  //     validationMsg = 'Via diameter is typically <10.0mm.'
-  //   }
-
-  //   vars.viaDiameter.value = value
-  //   vars.viaDiameter.validationState = validationState
-  //   vars.viaDiameter.validationMsg = validationMsg
-  //   this.setState({
-  //     vars: vars
-  //   })
-  // }
-
   valueChanged = (e) => {
-    let vars = this.state.vars
-    const value = e.target.valueAsNumber || e.target.value
-    vars[e.target.name].value = value
+    let calc = this.state.calc
+    CalcHelper.handleValueChanged(calc, e)
     this.setState({
-      vars: vars
+      calc: calc
     })
   }
 
   unitsChanged = (e) => {
-    let vars = this.state.vars
-    vars[e.target.name].selUnit = e.target.value
+    let calc = this.state.calc
+    CalcHelper.handleUnitsChanged(calc, e)
     this.setState({
-      vars: vars
+      calc: calc
     })
-  }
-
-  /**
-   * Scales a raw value by the selected unit for this value, typically
-   * resulting in a value in SI units. 
-   * 
-   * @param calcVar The calculator variable to get units of.
-   * @returns The scaled value.
-   */
-  scaleByUnits(calcVar) {
-    const unit = calcVar.units.filter(unit => {
-      return unit[0] == calcVar.selUnit
-    })[0]
-    const scaledValue = calcVar.value * unit[1]
-    return scaledValue
   }
 
   render = () => {
 
     // Area of ring = pi * inner diameter * thickness
-    const vars = this.state.vars
+    const calcVars = this.state.calc.calcVars
 
-    const viaDiameter_m = this.scaleByUnits(vars.viaDiameter)
-    const platingThickness_m = this.scaleByUnits(vars.platingThickness)
-    const copperThermalConductivity_WmK = this.scaleByUnits(vars.copperThermalConductivity)
-    const viaHeight_m = this.scaleByUnits(vars.viaHeight)
-
-    const viaCrossSectionalArea_m2 = Math.PI * platingThickness_m * (viaDiameter_m - platingThickness_m)
-    const viaThermalResistance = (1 / copperThermalConductivity_WmK) * viaHeight_m / viaCrossSectionalArea_m2
-
-    const validationMsgs = Object.keys(vars).map((key, idx) => {
-      const validationMsg = vars[key].validationMsg
-      console.log(validationMsg)
-      if (validationMsg != '') {
-        return <li key={idx}>{vars[key].validationMsg}</li>
-      } else {
-        return
-      }
-    })
+    // const validationMsgs = Object.keys(vars).map((key, idx) => {
+    //   const validationMsg = vars[key].validationMsg
+    //   console.log(validationMsg)
+    //   if (validationMsg != '') {
+    //     return <li key={idx}>{vars[key].validationMsg}</li>
+    //   } else {
+    //     return
+    //   }
+    // })
+    const validationMsgs = ''
 
     const varWidth = 150
 
@@ -173,11 +138,11 @@ class UI extends React.Component {
           <table>
             <tbody>
 
-              <VarRow id="viaDiameter" name="Via Diameter" calcVar={vars.viaDiameter} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="platingThickness" name="Plating Thickness" calcVar={vars.platingThickness} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="viaHeight" name="Via Height" calcVar={vars.viaHeight} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="copperThermalConductivity" name="Copper Thermal Conductivity" calcVar={vars.copperThermalConductivity} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowOutput id="viaThermalResistance" name="Via Thermal Resistance" calcVar={vars.viaThermalResistance} value={viaThermalResistance} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="viaDiameter" calcVar={calcVars.viaDiameter} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="platingThickness" calcVar={calcVars.platingThickness} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="viaHeight" calcVar={calcVars.viaHeight} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="copperThermalConductivity" calcVar={calcVars.copperThermalConductivity} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="viaThermalResistance" calcVar={calcVars.viaThermalResistance} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
             </tbody>
           </table>
 

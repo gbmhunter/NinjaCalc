@@ -36,8 +36,6 @@ class UI extends React.Component {
                 if (value <= 0) { return ['error', 'Frequency must be greater than 0,'] }
                 return ['ok', '']
               },
-              state: 'ok',
-              msg: '',
             },
           }, // freq
           dutyCycle: {
@@ -55,8 +53,6 @@ class UI extends React.Component {
                 if (value > 100e-2) return ['error', 'Duty cycle must be less or equal to 100%.']
                 return ['ok', '']
               },
-              state: 'ok',
-              msg: '',
             },
           }, // dutyCycle
           capacitance: {
@@ -75,8 +71,6 @@ class UI extends React.Component {
                 if (value > 1e-3) return ['warning', 'This is an extremely large capacitance.']
                 return ['ok', '']
               },
-              state: 'ok',
-              msg: '',
             },
           }, // capacitance
           period: {

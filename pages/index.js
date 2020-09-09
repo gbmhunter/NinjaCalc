@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 import * as CalcViaThermalResistance from './calculators/via-thermal-resistance'
 import * as Calc3DRotations from './calculators/3d-rotations'
-import * as Calc555TimerRtRbC from './calculators/555-timer-rt-rb-c'
+import * as Calc555TimerRtRbC from './calculators/555-timer-astable-rt-rb-c'
 
 class Home extends React.Component {
   
