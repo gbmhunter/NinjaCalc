@@ -7,13 +7,15 @@ import Form from 'react-bootstrap/Form'
 
 import Layout from '~/components/layout'
 import Rotations from '~/utils/rotations'
+import TileImage from './tile-image.png'
 
 export var metadata = {
   id: '3d-rotations',
   name: '3D Rotations',
-  description: 'Rotate objects in 3D.',
+  description: 'Rotate objects in 3D using angle-axis, rotation matrices, euler angles or quaternions.',
   categories: [ 'Mathematics', 'Geometry' ],
-  tags: [ '3D', 'mathematics', 'rotations', 'geometry' ]
+  tags: [ '3D', 'mathematics', 'rotations', 'geometry' ],
+  image: TileImage,
 }
 
 class Calculator extends React.Component {

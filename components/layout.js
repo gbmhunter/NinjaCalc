@@ -10,7 +10,7 @@ import Head from 'next/head'
 export default ({ children, title = 'This is the default title' }) => (
   <div style={{ height: '100%' }}>
     <header>
-      {/* <Nav /> */}
+      <Nav />
     </header>
 
     <main className='vbox' style={{ height: '100%' }}>

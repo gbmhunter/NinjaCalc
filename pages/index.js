@@ -3,6 +3,8 @@ import Head from "next/head";
 import Nav from "../components/nav";
 import Link from "next/link";
 
+import Layout from '~/components/layout'
+
 import * as CalcViaThermalResistance from "./calculators/via-thermal-resistance";
 import * as Calc3DRotations from "./calculators/3d-rotations";
 import * as Calc555TimerRtRbC from "./calculators/555-timer-astable-rt-rb-c";
@@ -34,7 +36,7 @@ class Home extends React.Component {
   render() {
     const calcList = this.state.calculators.map((calculator, idx) => {
       return (
-        <Link href={"/calculators/" + calculator.metadata.id}>
+        <Link key={calculator.metadata.id} href={"/calculators/" + calculator.metadata.id}>
         <div key={idx} className="calculator-tile">
           <div className="tile-image"><img src={calculator.metadata.image}></img></div>
           <div className="tile-title">
@@ -92,14 +94,12 @@ class Home extends React.Component {
     });
 
     return (
-      <div>
+      <Layout>
         <Head>
           <title>Home</title>
           <link rel="icon" href="/favicon.ico" />
           <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         </Head>
-
-        <Nav />
 
         <div id="calculator-selection-grid">{calcList}</div>
 
@@ -109,7 +109,7 @@ class Home extends React.Component {
             flex-direction: row;
           }
         `}</style>
-      </div>
+      </Layout>
     );
   }
 }
