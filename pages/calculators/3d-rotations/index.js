@@ -11,6 +11,7 @@ import Rotations from '~/utils/rotations'
 export var metadata = {
   id: '3d-rotations',
   name: '3D Rotations',
+  description: 'Rotate objects in 3D.',
   categories: [ 'Mathematics', 'Geometry' ],
   tags: [ '3D', 'mathematics', 'rotations', 'geometry' ]
 }

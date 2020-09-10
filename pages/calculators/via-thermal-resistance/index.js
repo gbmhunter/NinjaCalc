@@ -6,11 +6,15 @@ import VarRow from '~/components/VarRow'
 
 import CalcHelper from '~/utils/calc-helper'
 
+import TileImage from './tile-image.png'
+
 export var metadata = {
   id: 'via-thermal-resistance',
   name: 'Via Thermal Resistance',
+  description: 'Calculator the thermal resistance of a via.',
   categories: ['Electronics', 'PCB Design'],
-  tags: ['vias', 'electronics', 'thermal', 'resistance']
+  tags: ['vias', 'electronics', 'thermal', 'resistance'],
+  image: TileImage,
 }
 
 const MILS_TO_M = 25.4 / 1e6

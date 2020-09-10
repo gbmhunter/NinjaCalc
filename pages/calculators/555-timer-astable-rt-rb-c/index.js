@@ -9,6 +9,7 @@ import CalcHelper from '~/utils/calc-helper'
 export var metadata = {
   id: '555-timer-astable-rt-rb-c', // Make sure this has the same name as the directory this file is in
   name: '555 Timer, Astable (Freq/Duty Cycle In, Rt/Rb/C Out)',
+  description: 'Calculate the resistor and capacitors values for a 555 timer in astable configuration.',
   categories: ['Electronics', 'PCB Design'],
   tags: ['555', 'timer']
 }
