@@ -5,9 +5,10 @@ import Link from "next/link";
 
 import Layout from '~/components/layout'
 
-import * as CalcViaThermalResistance from "./calculators/via-thermal-resistance";
-import * as Calc3DRotations from "./calculators/3d-rotations";
-import * as Calc555TimerRtRbC from "./calculators/555-timer-astable-rt-rb-c";
+import * as Calc3DRotations from "./calculators/3d-rotations"
+import * as Calc555TimerRtRbC from "./calculators/555-timer-astable-rt-rb-c"
+import * as CalcOhmsLaw from "./calculators/ohms-law"
+import * as CalcViaThermalResistance from "./calculators/via-thermal-resistance"
 
 class Home extends React.Component {
   constructor(props) {
@@ -19,9 +20,10 @@ class Home extends React.Component {
   }
 
   componentDidMount = () => {
-    this.addCalc(CalcViaThermalResistance);
-    this.addCalc(Calc3DRotations);
-    this.addCalc(Calc555TimerRtRbC);
+    this.addCalc(Calc3DRotations)
+    this.addCalc(Calc555TimerRtRbC)
+    this.addCalc(CalcOhmsLaw)
+    this.addCalc(CalcViaThermalResistance)
   };
 
   addCalc = (calcModule) => {

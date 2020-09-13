@@ -7,10 +7,12 @@ class VarRow extends React.Component {
   }
 
   render() {
-    const calcVar = this.props.calcVar
-    if (!calcVar) {
-      throw Error('calcVar not provided.')
+    const calcVars = this.props.calcVars
+    if (!calcVars) {
+      throw Error('calcVars not provided.')
     }
+
+    const calcVar = calcVars[this.props.id]
 
     // If the variable is an output, make the input
     // text box readonly so the user cannot change it
@@ -31,6 +33,11 @@ class VarRow extends React.Component {
       validationState = calcVar.validation.state
     }
 
+    let rbHtml = null
+    if(this.props.rbGroup) {
+      rbHtml = (<td><input type="radio" value={this.props.id} name={this.props.rbGroup} onChange={this.props.rbChanged} checked={calcVar.direction == 'output'}></input></td>)
+    }
+
     return (
       <tr>
         <td className="var-name">{calcVar.name}</td>
@@ -42,6 +49,7 @@ class VarRow extends React.Component {
             {unitOptions}
           </select>
         </td>
+        {rbHtml}
         <style jsx>{`
 
           .var-name {
@@ -82,7 +90,7 @@ VarRow.defaultProps = {
 }
 
 VarRow.propTypes = {
-  calcVar: PropTypes.object.isRequired,
+  calcVars: PropTypes.object.isRequired,
   valueChanged: PropTypes.func.isRequired,
   unitsChanged: PropTypes.func.isRequired,
   width: PropTypes.number,
