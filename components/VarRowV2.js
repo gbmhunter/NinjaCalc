@@ -14,6 +14,10 @@ class VarRow extends React.Component {
 
     const calcVar = calcVars[this.props.id]
 
+    if(!calcVar) {
+      throw Error('Calculator variable "' + this.props.id + '" not found.')
+    }
+
     // If the variable is an output, make the input
     // text box readonly so the user cannot change it
     const direction = calcVar.direction

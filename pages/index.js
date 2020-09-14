@@ -9,6 +9,7 @@ import * as Calc3DRotations from "./calculators/3d-rotations"
 import * as Calc555TimerRtRbC from "./calculators/555-timer-astable-rt-rb-c"
 import * as CalcCapacitorCharge from "./calculators/capacitor-charge"
 import * as CalcOhmsLaw from "./calculators/ohms-law"
+import * as CalcResistorDivider from "./calculators/resistor-divider"
 import * as CalcViaThermalResistance from "./calculators/via-thermal-resistance"
 
 class Home extends React.Component {
@@ -25,6 +26,7 @@ class Home extends React.Component {
     this.addCalc(Calc555TimerRtRbC)
     this.addCalc(CalcCapacitorCharge)
     this.addCalc(CalcOhmsLaw)
+    this.addCalc(CalcResistorDivider)
     this.addCalc(CalcViaThermalResistance)
   };
 
