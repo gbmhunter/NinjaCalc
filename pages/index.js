@@ -1,7 +1,6 @@
-import React from "react";
-import Head from "next/head";
-import Nav from "../components/nav";
-import Link from "next/link";
+import React from "react"
+import Head from "next/head"
+import Link from "next/link"
 
 import Layout from '~/components/layout'
 
@@ -10,6 +9,7 @@ import * as Calc555TimerRtRbC from "./calculators/555-timer-astable-rt-rb-c"
 import * as CalcCapacitorCharge from "./calculators/capacitor-charge"
 import * as CalcOhmsLaw from "./calculators/ohms-law"
 import * as CalcResistorDivider from "./calculators/resistor-divider"
+import * as CalcStandardResistanceFinder from "./calculators/standard-resistance-finder"
 import * as CalcViaThermalResistance from "./calculators/via-thermal-resistance"
 
 class Home extends React.Component {
@@ -27,17 +27,17 @@ class Home extends React.Component {
     this.addCalc(CalcCapacitorCharge)
     this.addCalc(CalcOhmsLaw)
     this.addCalc(CalcResistorDivider)
+    this.addCalc(CalcStandardResistanceFinder)
     this.addCalc(CalcViaThermalResistance)
-  };
+  }
 
   addCalc = (calcModule) => {
-    console.log("addCalc() called.");
-    let calculators = this.state.calculators;
-    calculators.push(calcModule);
+    let calculators = this.state.calculators
+    calculators.push(calcModule)
     this.setState({
       calculators: calculators,
-    });
-  };
+    })
+  }
 
   render() {
     const calcList = this.state.calculators.map((calculator, idx) => {
@@ -96,8 +96,8 @@ class Home extends React.Component {
           `}</style>
         </div>
         </Link>
-      );
-    });
+      )
+    })
 
     return (
       <Layout>
@@ -117,8 +117,8 @@ class Home extends React.Component {
           }
         `}</style>
       </Layout>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home
