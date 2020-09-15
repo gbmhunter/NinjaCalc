@@ -12,6 +12,10 @@ class VarRow extends React.Component {
       throw Error('calcVars not provided.')
     }
 
+    if(!this.props.id) {
+      throw Error('id not provided to VarRowV2.')
+    }
+
     const calcVar = calcVars[this.props.id]
 
     if(!calcVar) {
