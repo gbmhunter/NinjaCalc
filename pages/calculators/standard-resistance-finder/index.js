@@ -7,7 +7,7 @@ import VarRowV2 from "~/components/VarRowV2";
 import CalcHelper from "~/utils/calc-helper";
 import { StandardResistanceFinder } from "~/utils/standard-resistance-finder";
 import TileImage from "./tile-image.png";
-import { ESeriesRow } from "./e-series-row";
+import { ESeriesRow } from "~/components/e-series-row";
 
 export var metadata = {
   id: "standard-resistance-finder", // Make sure this has the same name as the directory this file is in
