@@ -7,12 +7,21 @@ import CalcHelper from "~/utils/calc-helper";
 import TileImage from "./tile-image.png";
 
 export var metadata = {
-  id: "ohms-law", // Make sure this has the same name as the directory this file is in
-  name: "Ohm's Law",
+  id: "filter-low-pass-rc", // Make sure this has the same name as the directory this file is in
+  name: "Low-Pass RC Filter",
   description:
-    "The hammer in any electrical engineers toolbox. calculate voltage, resistance and current using Ohm's law.",
-  categories: ["Electronics", "Basic"],
-  tags: ["electronics", "ohms", "law", "resistor"],
+    "The low-pass RC filter is probably the simplist and most used electronic filter. Great for input signal filtering.",
+  categories: ["Electronics", "Filters"],
+  tags: [
+    "rc",
+    "filters",
+    "filtering",
+    "low-pass",
+    "adc",
+    "signal",
+    "conditioning",
+    "processing",
+  ],
   image: TileImage,
 };
 
@@ -22,45 +31,10 @@ class UI extends React.Component {
     this.state = {
       calc: {
         calcVars: {
-          voltage: {
-            name: "Voltage",
-            direction: "input",
-            dispVal: "12",
-            rawVal: null,
-            units: [
-              ["uV", 1e-6],
-              ["mV", 1e-3],
-              ["V", 1],
-              ["kV", 1e3],
-            ],
-            selUnit: "V",
-            validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
-            },
-          }, // voltage
-          current: {
-            name: "Current",
-            direction: "output",
-            dispVal: "1",
-            rawVal: null,
-            units: [
-              ["uA", 1e-6],
-              ["mA", 1e-3],
-              ["A", 1],
-            ],
-            selUnit: "mA",
-            validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
-            },
-          }, // current
           resistance: {
             name: "Resistance",
             direction: "input",
-            dispVal: "100",
+            dispVal: "10",
             rawVal: null,
             units: [
               ["mΩ", 1e-3],
@@ -69,43 +43,75 @@ class UI extends React.Component {
               ["MΩ", 1e6],
             ],
             selUnit: "kΩ",
+            sigFig: 3,
             validation: {
               fn: (value) => {
-                if (isNaN(value)) {
-                  return ["error", "Resistance must be a number."];
-                }
-                if (value <= 0) {
-                  return ["error", "Resistance must be greater than 0."];
-                }
                 return ["ok", ""];
               },
             },
           }, // resistance
+          capacitance: {
+            name: "Capacitance",
+            direction: "input",
+            dispVal: "2.2",
+            rawVal: null,
+            units: [
+              ["pF", 1e-12],
+              ["nF", 1e-9],
+              ["uF", 1e-6],
+              ["mF", 1e-3],
+            ],
+            selUnit: "nF",
+            sigFig: 3,
+            validation: {
+              fn: (value) => {
+                return ["ok", ""];
+              },
+            },
+          }, // capacitance
+          fcutoff: {
+            name: "Cutoff Frequency",
+            direction: "output",
+            dispVal: null,
+            rawVal: null,
+            units: [
+              ["Hz", 1],
+              ["kHz", 1e3],
+              ["MHz", 1e6],
+            ],
+            selUnit: "kHz",
+            sigFig: 3,
+            validation: {
+              fn: (value) => {
+                return ["ok", ""];
+              },
+            },
+          }, // fcutoff
         }, // calcVars
         eqFn: (calcVars) => {
-          if (calcVars.voltage.direction == "output") {
-            calcVars.voltage.rawVal =
-              calcVars.current.rawVal * calcVars.resistance.rawVal;
-          } else if (calcVars.current.direction == "output") {
-            calcVars.current.rawVal =
-              calcVars.voltage.rawVal / calcVars.resistance.rawVal;
-          } else if (calcVars.resistance.direction == "output") {
+          const resistance = calcVars.resistance.rawVal;
+          const capacitance = calcVars.capacitance.rawVal;
+          const fcutoff = calcVars.fcutoff.rawVal;
+          if (calcVars.resistance.direction == "output") {
             calcVars.resistance.rawVal =
-              calcVars.voltage.rawVal / calcVars.current.rawVal;
+              1 / (2 * Math.PI * fcutoff * capacitance);
+          } else if (calcVars.capacitance.direction == "output") {
+            calcVars.capacitance.rawVal =
+              1 / (2 * Math.PI * fcutoff * resistance);
+          } else if (calcVars.fcutoff.direction == "output") {
+            calcVars.fcutoff.rawVal =
+              1 / (2 * Math.PI * resistance * capacitance);
           } else {
             throw Error("No variable was an output.");
           }
         },
       }, // calc
     }; // this.state
+    CalcHelper.initCalc(this.state.calc);
   }
 
   componentDidMount() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    CalcHelper.initCalc(this.state.calc);
-    this.setState({
-      calc: this.state.calc,
-    });
   } // componentDidMount()
 
   valueChanged = (e) => {
@@ -158,45 +164,47 @@ class UI extends React.Component {
         <div className="vbox outer-wrapper">
           <div className="calc-notes">
             <p>
-              The following calculator works out either voltage, current or
-              resistance, given the other two parameters, using the equation:
+              The following calculator helps you works out the component values
+              to design a low-pass, single-stage, passive RC filter. The cut-off
+              frequency, \( f_c \), is given by:
             </p>
 
-            <p>$$ V = IR $$</p>
+            <p>{String.raw`$$ f_c = \frac{1}{2\pi RC} $$`}</p>
 
-            <p>
+            <p style={{ textAlign: "center" }}>
               where:
               <br />
-              \( V \) = voltage across the resistor
-              <br />
-              \( I \) = current through the resistor
+              \( f_c \) = the cutoff frequency of the low-pass RC filter (a.k.a
+              knee frequency, -3dB point)
               <br />
               \( R \) = resistance of the resistor
+              <br />
+              \( C \) = capacitance of the capacitor
               <br />
             </p>
           </div>
           <table>
             <tbody>
               <VarRowV2
-                id="voltage"
-                calcVars={calcVars}
-                valueChanged={this.valueChanged}
-                unitsChanged={this.unitsChanged}
-                rbGroup="calc-what"
-                rbChanged={this.rbChanged}
-                width={varWidth}
-              />
-              <VarRowV2
-                id="current"
-                calcVars={calcVars}
-                valueChanged={this.valueChanged}
-                unitsChanged={this.unitsChanged}
-                rbGroup="calc-what"
-                rbChanged={this.rbChanged}
-                width={varWidth}
-              />
-              <VarRowV2
                 id="resistance"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                rbGroup="calc-what"
+                rbChanged={this.rbChanged}
+                width={varWidth}
+              />
+              <VarRowV2
+                id="capacitance"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                rbGroup="calc-what"
+                rbChanged={this.rbChanged}
+                width={varWidth}
+              />
+              <VarRowV2
+                id="fcutoff"
                 calcVars={calcVars}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
