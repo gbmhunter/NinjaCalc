@@ -11,6 +11,7 @@ import * as CalcFilterLowPassRC from "./calculators/filter-low-pass-rc"
 import * as CalcOhmsLaw from "./calculators/ohms-law"
 import * as CalcResistorDivider from "./calculators/resistor-divider"
 import * as CalcStandardResistanceFinder from "./calculators/standard-resistance-finder"
+import * as CalcTrackCurrentIpc2152 from "./calculators/track-current-ipc2152"
 import * as CalcViaThermalResistance from "./calculators/via-thermal-resistance"
 
 class Home extends React.Component {
@@ -30,6 +31,7 @@ class Home extends React.Component {
     this.addCalc(CalcOhmsLaw)
     this.addCalc(CalcResistorDivider)
     this.addCalc(CalcStandardResistanceFinder)
+    this.addCalc(CalcTrackCurrentIpc2152)
     this.addCalc(CalcViaThermalResistance)
   }
 
