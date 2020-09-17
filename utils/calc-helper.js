@@ -33,6 +33,7 @@ class CalcHelper {
     const unit = calcVar.units.filter(unit => {
       return unit[0] == calcVar.selUnit
     })[0]
+    if(!unit) throw Error('"' + calcVar.selUnit + '" units not found for calcVar="' + calcVar.name + '". Available units=' + calcVar.units)
     const dispValNumeric = calcVar.rawVal / unit[1]
     // Convert to string, rounding using sigFig
     if (!('sigFig' in calcVar)) {
