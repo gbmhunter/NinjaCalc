@@ -56,18 +56,32 @@ class CalcHelper {
     // Sync all output raw vals to disp vals
     for (let calcVarName in calcVars) {
       let calcVar = calcVars[calcVarName]
-      if (calcVar.direction === 'output') {        
+      if (!calcVar.type) {
+        console.log('WARNING: calcVar "' + calcVarName + '" did not provide a type, assuming numeric.')
+        calcVar.type = 'numeric'
+      }
+      if (calcVar.direction === 'output' && calcVar.type == 'numeric') {        
         CalcHelper.setDispValFromRawVal(calcVar)
       }
     }
   }
 
   static handleValueChanged(calc, event) {
-    const value = event.target.valueAsNumber || event.target.value
+    
     let calcVar = calc.calcVars[event.target.name]
-    calcVar.dispVal = value
-    // Recalculate raw value from displayed value
-    CalcHelper.setRawValFromDispVal(calcVar)
+    if (!calcVar.type) {
+      console.log('WARNING: calcVar "' + event.target.name + '" did not provide a type, assuming numeric.')
+      calcVar.type = 'numeric'
+    }
+    if (calcVar.type == 'numeric') {
+      const value = event.target.valueAsNumber || event.target.value
+      calcVar.dispVal = value
+      // Recalculate raw value from displayed value
+      CalcHelper.setRawValFromDispVal(calcVar)
+    } else if (calcVar.type == 'select') {
+      // Select has no notion of raw and disp values, just "selOption"
+      calcVar.selOption = event.target.value
+    }
     CalcHelper.runValidation(calcVar)
     calc.eqFn(calc.calcVars)
     CalcHelper.updateDispVals(calc.calcVars)

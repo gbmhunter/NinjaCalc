@@ -3,6 +3,7 @@ import React from 'react'
 
 import Layout from '~/components/layout'
 import VarRowV2 from '~/components/VarRowV2'
+import VarRowV2Select from '~/components/VarRowV2Select'
 import CalcHelper from '~/utils/calc-helper'
 import { unitConversionConstants } from '~/utils/unit-conversion-constants'
 import TileImage from './tile-image.png'
@@ -20,56 +21,6 @@ export var metadata = {
 // ============================================ CONSTANTS ====================================== //
 // ============================================================================================= //
 const NUM_MILS_PER_MM = 1000 / 25.4
-// UNIVERSAL CHART CONSTANTS
-// The trendlines to calculate the co-efficients for a fixed temp takes the form y = Ax^B
-// where y is the co-efficient, x is the temperature.
-// e.g. (co-efficient A) = AA * temp ^ AB
-//      (co-efficient B) = BA * temp ^ BB
-const UNIVERSAL_CHART_TREND_LINE_COEF_AA = 8.9710902134e-2
-const UNIVERSAL_CHART_TREND_LINE_COEF_AB = 3.9379253898e-1
-const UNIVERSAL_CHART_TREND_LINE_COEF_BA = 5.0382053698e-1
-const UNIVERSAL_CHART_TREND_LINE_COEF_BB = 3.8495772461e-2
-// TRACK THICKNESS MODIFIER CONSTANTS
-// The data from the track thickness modifier graph in IPS-2152 is modelled using
-// a 5th degree polynomial
-// y = C0 + C1*x^1 + C2*x^2 + C3*x^3 + C4*x^4 + C5*x^5
-const TRACK_THICKNESS_TREND_LINE_COEF_COEF_A = [
-  [
-    9.8453567795e-1, // C0C0
-    -2.2281787548e-1, // C0C1
-    2.0061423196e-1, // C0C2
-    -4.1541116264e-2 // C0C3
-  ],
-  [
-    -1.657194921e-2, // C1C0
-    1.7520059279e-4, // C1C1
-    -5.0615234096e-3, // C1C2
-    2.281483634e-3 // C1C3
-  ],
-  [
-    8.8711317661e-4, // C2C0
-    1.3631745743e-3, // C2C1
-    -2.237330971e-4, // C2C2
-    -1.0974218613e-4 // C2C3
-  ],
-  [
-    -6.6729255031e-6, // e.t.c...
-    -1.4976736827e-4,
-    5.8082340133e-5,
-    -2.4728159584e-6
-  ],
-  [-7.9576264561e-7, 5.5788354958e-6, -2.4912026388e-6, 2.4000295954e-7],
-  [1.6619678738e-8, -7.1122635445e-8, 3.3800191741e-8, -3.9797591878e-9]
-]
-// BOARD THICKNESS CONSTANTS
-const BOARD_THICKNESS_TREND_LINE_COEF_A = 2.4929779905e1
-const BOARD_THICKNESS_TREND_LINE_COEF_B = -7.5501997929e-1
-// PLANE PROXIMITY CONSTANTS
-const PLANE_PROXIMITY_TREND_LINE_COEF_M = 3.1298662911e-3
-const PLANE_PROXIMITY_TREND_LINE_COEF_C = 4.0450883823e-1
-// THERMAL CONDUCTIVITY CONSTANTS
-const THERMAL_CONDUCTIVITY_TREND_LINE_COEF_M = -1.4210148167
-const THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C = 1.1958174134
 
 class UI extends React.Component {
 
@@ -83,6 +34,7 @@ class UI extends React.Component {
           // ============================================================================================= //
           trackCurrent: {
             name: 'Track Current',
+            type: 'numeric',
             direction: 'input',
             dispVal: '1',
             units: [
@@ -105,6 +57,7 @@ class UI extends React.Component {
           // ============================================================================================= //
           tempRise: {
             name: 'Temperature Rise',
+            type: 'numeric',
             direction: 'input',
             dispVal: '40',            
             units: [
@@ -126,6 +79,7 @@ class UI extends React.Component {
           // ============================================================================================= //
           trackThickness: {
             name: 'Track Thickness',
+            type: 'numeric',
             direction: 'input',
             dispVal: '35',
             units: [
@@ -146,13 +100,23 @@ class UI extends React.Component {
           // ============================================================================================= //
           // ======================================= TRACK LAYER (combobox) ============================== //
           // ============================================================================================= //
-
+          trackLayer: {
+            name: 'Track Layer',
+            type: 'select',
+            options: [
+              'External',
+              'Internal',
+            ],
+            selOption: 'External',
+            helpText: 'The type of layer that the current-carrying track is on. If the track is on the top or bottom copper layer of the PCB, set this to "External". If the track is on a buried layer, set this to "Internal".'
+          }, // trackLayer
 
           // ============================================================================================= //
           // ===================================== MIN. TRACK WIDTH (output) ============================= //
           // ============================================================================================= //
           minTrackWidth: {
             name: 'Minimum Track Width',
+            type: 'numeric',
             direction: 'output',
             units: [
               ['um', 1e-6],
@@ -169,10 +133,31 @@ class UI extends React.Component {
           const trackCurrent_A = calcVars.trackCurrent.rawVal
           const tempRise_degC = calcVars.tempRise.rawVal
           const trackThickness_m = calcVars.trackThickness.rawVal
-          const boardThickness_m = calcVars.boardThickness.rawVal
-          const thermalConductivity_WpmK = calcVars.thermalConductivity.rawVal
+          const trackLayer = calcVars.trackLayer.selOption
 
-
+          let width_m = null
+          if (trackLayer === 'External') {
+            const crossSectionalArea = Math.pow(
+              trackCurrent_A / (0.048 * Math.pow(tempRise_degC, 0.44)),
+              1 / 0.725
+            )
+            width_m =
+              crossSectionalArea /
+              (trackThickness_m * 1000000.0 / 25.4) *
+              (25.4 / 1000000.0)
+            
+          } else if (trackLayer === 'Internal') {
+            const crossSectionalArea = Math.pow(
+              trackCurrent_A / (0.024 * Math.pow(tempRise_degC, 0.44)),
+              1 / 0.725
+            )
+            width_m =
+              crossSectionalArea /
+              (trackThickness_m * 1000000.0 / 25.4) *
+              (25.4 / 1000000.0)
+            
+          }
+          calcVars.minTrackWidth.rawVal = width_m
         }, // eqFn
       }, // calc
     } // this.state
@@ -212,7 +197,7 @@ class UI extends React.Component {
           <link rel='icon' href='/favicon.ico' />
         </Head>
         <div className="vbox outer-wrapper">
-          <p style={{ maxWidth: '800px' }}>
+          <div style={{ maxWidth: '800px' }}>
             <p>This calculator can find the minimum PCB track width (external or internal layer) given the track current, the
         allowed temperature rise, and copper layer thickness.</p>
 
@@ -249,38 +234,18 @@ class UI extends React.Component {
 
             <p>The IPC-2152 standard supersedes this standard. It is designed to produce a more accurate track width calculation, but does require more variables.
         <a>Click here to open an IPC-2152 calculator</a>.</p>
-          </p>
+          </div>
           <table>
             <tbody>
               <VarRowV2 id="trackCurrent" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
               <VarRowV2 id="tempRise" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
               <VarRowV2 id="trackThickness" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2 id="boardThickness" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2 id="planeProximity" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2 id="thermalConductivity" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRowV2Select id="trackLayer" calcVars={calcVars} valueChanged={this.valueChanged} width={varWidth}/>
               <VarRowV2 id="minTrackWidth" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
             </tbody>
           </table>
 
           <div style={{ height: 20 }}></div>
-          <p>Intermediate Variables</p>
-          <table>
-            <tbody>
-              <VarRowV2 id="unadjustedTrackCrossSectionalArea" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2 id="trackThicknessModifier" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2 id="boardThicknessModifier" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2 id="planeProximityModifier" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2 id="thermalConductivityModifier" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2 id="adjustedTrackCrossSectionalArea" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-            </tbody>
-          </table>
-
-
-
-          <div className="calc-notes">
-          </div>
-
-
         </div>
         <style jsx>{`
           .calc-notes {
