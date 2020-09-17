@@ -276,6 +276,7 @@ class UI extends React.Component {
               .
             </p>
           </div>
+          <img src={require('./diagram.png')} style={{ width: '600px' }}/>
           <table style={{ maxWidth: '900px' }}>
             <tbody>
               <VarRowV2
