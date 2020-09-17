@@ -64,6 +64,11 @@ class VarRow extends React.Component {
       );
     }
 
+    let helpTextHtml = null
+    if (this.props.showHelpText) {
+      helpTextHtml = (<td>{calcVar.helpText}</td>)
+    }
+
     return (
       <tr>
         <td className="var-name">{calcVar.name}</td>
@@ -89,6 +94,7 @@ class VarRow extends React.Component {
           </select>
         </td>
         {rbHtml}
+        {helpTextHtml}
         <style jsx>{`
           .var-name {
             padding-right: 10px;
@@ -127,6 +133,7 @@ class VarRow extends React.Component {
 VarRow.defaultProps = {
   width: 150,
   disabled: false,
+  showHelpText: false,
 };
 
 VarRow.propTypes = {
@@ -134,6 +141,7 @@ VarRow.propTypes = {
   valueChanged: PropTypes.func.isRequired,
   unitsChanged: PropTypes.func.isRequired,
   width: PropTypes.number,
+  showHelpText: PropTypes.bool,
   disabled: PropTypes.bool,
 };
 
