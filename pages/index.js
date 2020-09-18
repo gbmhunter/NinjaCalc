@@ -20,6 +20,9 @@ import * as CalcViaCurrentIpc2221a from "./calculators/electronics/pcb-design/vi
 import * as CalcViaThermalResistance from "./calculators/electronics/pcb-design/via-thermal-resistance"
 
 import * as CalcDewPointMagnus from "./calculators/electronics/sensors/dew-point-magnus"
+import * as CalcNtcThermistor from "./calculators/electronics/sensors/ntc-thermistor"
+
+import * as CalcBuckConverter from "./calculators/electronics/smps/buck-converter"
 
 import * as Calc3DRotations from "./calculators/mathematics/3d-rotations"
 
@@ -50,6 +53,9 @@ class Home extends React.Component {
     this.addCalc(CalcViaThermalResistance)
     // electronics/sensor
     this.addCalc(CalcDewPointMagnus)
+    this.addCalc(CalcNtcThermistor)
+    // electronics/smps
+    this.addCalc(CalcBuckConverter)
     // mathematics
     this.addCalc(Calc3DRotations)
   }

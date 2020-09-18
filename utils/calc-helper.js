@@ -6,7 +6,7 @@ class CalcHelper {
       let calcVar = calc.calcVars[calcVarName]
       if (calcVar.direction === 'input') {
         CalcHelper.setRawValFromDispVal(calcVar)
-        CalcHelper.runValidation(calcVar)
+        CalcHelper.runValidation(calcVar, calc)
       }
     }
 
@@ -43,9 +43,11 @@ class CalcHelper {
     calcVar.dispVal = dispVal
   }
 
-  static runValidation(calcVar) {
+  static runValidation(calcVar, calc) {
     if (!('validation' in calcVar)) return
-    const validationResult = calcVar.validation.fn(calcVar.rawVal)
+    // The entire calc object is provided because the validation might depend
+    // on the state of other calc variables
+    const validationResult = calcVar.validation.fn(calcVar.rawVal, calc)
     const validationState = validationResult[0]
     const validationMsg = validationResult[1]
     calcVar.validation.state = validationState
@@ -82,7 +84,7 @@ class CalcHelper {
       // Select has no notion of raw and disp values, just "selOption"
       calcVar.selOption = event.target.value
     }
-    CalcHelper.runValidation(calcVar)
+    CalcHelper.runValidation(calcVar, calc)
     calc.eqFn(calc.calcVars)
     CalcHelper.updateDispVals(calc.calcVars)
   }
@@ -92,7 +94,7 @@ class CalcHelper {
     calcVar.selUnit = event.target.value
     if (calcVar.direction === 'input')
       CalcHelper.setRawValFromDispVal(calcVar)
-    CalcHelper.runValidation(calcVar)
+    CalcHelper.runValidation(calcVar, calc)
     calc.eqFn(calc.calcVars)
     CalcHelper.updateDispVals(calc.calcVars)
   }
