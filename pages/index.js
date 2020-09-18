@@ -19,6 +19,8 @@ import * as CalcTrackCurrentIpc2221a from "./calculators/electronics/pcb-design/
 import * as CalcViaCurrentIpc2221a from "./calculators/electronics/pcb-design/via-current-ipc2221a"
 import * as CalcViaThermalResistance from "./calculators/electronics/pcb-design/via-thermal-resistance"
 
+import * as CalcDewPointMagnus from "./calculators/electronics/sensors/dew-point-magnus"
+
 import * as Calc3DRotations from "./calculators/mathematics/3d-rotations"
 
 class Home extends React.Component {
@@ -46,6 +48,8 @@ class Home extends React.Component {
     this.addCalc(CalcTrackCurrentIpc2221a)
     this.addCalc(CalcViaCurrentIpc2221a)
     this.addCalc(CalcViaThermalResistance)
+    // electronics/sensor
+    this.addCalc(CalcDewPointMagnus)
     // mathematics
     this.addCalc(Calc3DRotations)
   }
