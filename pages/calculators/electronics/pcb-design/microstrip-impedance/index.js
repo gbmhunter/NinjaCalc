@@ -11,6 +11,7 @@ import TileImage from "./tile-image.png";
 export var metadata = {
   id: "microstrip-impedance", // Make sure this has the same name as the directory this file is in
   name: "Microstrip Impedance",
+  path: 'calculators/electronics/pcb-design/microstrip-impedance',
   description:
     "A calculator for working out the impedance of a standard microstrip style track.",
   categories: ["Electronics", "PCB Design"],

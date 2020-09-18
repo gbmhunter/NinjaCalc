@@ -11,6 +11,7 @@ import TileImage from './tile-image.png'
 export var metadata = {
   id: 'via-thermal-resistance',
   name: 'Via Thermal Resistance',
+  path: 'calculators/electronics/pcb-design/via-thermal-resistance',
   description: 'Calculator the thermal resistance of a via.',
   categories: ['Electronics', 'PCB Design'],
   tags: ['vias', 'electronics', 'thermal', 'resistance'],

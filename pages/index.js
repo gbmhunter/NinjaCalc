@@ -4,17 +4,22 @@ import Link from "next/link"
 
 import Layout from '~/components/layout'
 
-import * as Calc3DRotations from "./calculators/3d-rotations"
-import * as Calc555TimerRtRbC from "./calculators/555-timer-astable-rt-rb-c"
-import * as CalcCapacitorCharge from "./calculators/capacitor-charge"
-import * as CalcFilterLowPassRC from "./calculators/filter-low-pass-rc"
-import * as CalcMicrostripImpedance from "./calculators/microstrip-impedance"
-import * as CalcOhmsLaw from "./calculators/ohms-law"
-import * as CalcResistorDivider from "./calculators/resistor-divider"
-import * as CalcStandardResistanceFinder from "./calculators/standard-resistance-finder"
-import * as CalcTrackCurrentIpc2152 from "./calculators/track-current-ipc2152"
-import * as CalcTrackCurrentIpc2221a from "./calculators/track-current-ipc2221a"
-import * as CalcViaThermalResistance from "./calculators/via-thermal-resistance"
+import * as CalcCapacitorCharge from "./calculators/electronics/basics/capacitor-charge"
+import * as CalcOhmsLaw from "./calculators/electronics/basics/ohms-law"
+import * as CalcResistorDivider from "./calculators/electronics/basics/resistor-divider"
+import * as CalcStandardResistanceFinder from "./calculators/electronics/basics/standard-resistance-finder"
+
+import * as CalcFilterLowPassRC from "./calculators/electronics/filters/filter-low-pass-rc"
+
+import * as Calc555TimerRtRbC from "./calculators/electronics/ics/555-timer-astable-rt-rb-c"
+
+import * as CalcMicrostripImpedance from "./calculators/electronics/pcb-design/microstrip-impedance"
+import * as CalcTrackCurrentIpc2152 from "./calculators/electronics/pcb-design/track-current-ipc2152"
+import * as CalcTrackCurrentIpc2221a from "./calculators/electronics/pcb-design/track-current-ipc2221a"
+import * as CalcViaCurrentIpc2221a from "./calculators/electronics/pcb-design/via-current-ipc2221a"
+import * as CalcViaThermalResistance from "./calculators/electronics/pcb-design/via-thermal-resistance"
+
+import * as Calc3DRotations from "./calculators/mathematics/3d-rotations"
 
 class Home extends React.Component {
   constructor(props) {
@@ -26,17 +31,23 @@ class Home extends React.Component {
   }
 
   componentDidMount = () => {
-    this.addCalc(Calc3DRotations)
-    this.addCalc(Calc555TimerRtRbC)
+    // electronics/basics
     this.addCalc(CalcCapacitorCharge)
-    this.addCalc(CalcFilterLowPassRC)
-    this.addCalc(CalcMicrostripImpedance)
     this.addCalc(CalcOhmsLaw)
     this.addCalc(CalcResistorDivider)
     this.addCalc(CalcStandardResistanceFinder)
+    // electronics/filters
+    this.addCalc(CalcFilterLowPassRC)
+    // electronics/ics
+    this.addCalc(Calc555TimerRtRbC)
+    // electronics/pcb-design
+    this.addCalc(CalcMicrostripImpedance)
     this.addCalc(CalcTrackCurrentIpc2152)
     this.addCalc(CalcTrackCurrentIpc2221a)
+    this.addCalc(CalcViaCurrentIpc2221a)
     this.addCalc(CalcViaThermalResistance)
+    // mathematics
+    this.addCalc(Calc3DRotations)
   }
 
   addCalc = (calcModule) => {
@@ -50,7 +61,7 @@ class Home extends React.Component {
   render() {
     const calcList = this.state.calculators.map((calculator, idx) => {
       return (
-        <Link key={calculator.metadata.id} href={"/calculators/" + calculator.metadata.id}>
+        <Link key={calculator.metadata.id} href={calculator.metadata.path}>
         <div key={idx} className="calculator-tile">
           <div className="tile-image"><img src={calculator.metadata.image}></img></div>
           <div className="tile-title">

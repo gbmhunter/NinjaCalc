@@ -9,6 +9,7 @@ import TileImage from "./tile-image.png";
 export var metadata = {
   id: "ohms-law", // Make sure this has the same name as the directory this file is in
   name: "Ohm's Law",
+  path: 'calculators/elecronics/basics/ohms-law',
   description:
     "The hammer in any electrical engineers toolbox. calculate voltage, resistance and current using Ohm's law.",
   categories: ["Electronics", "Basic"],

@@ -12,6 +12,7 @@ import TileImage from './tile-image.png'
 export var metadata = {
   id: '3d-rotations',
   name: '3D Rotations',
+  path: 'calculators/mathematics/3d-rotations',
   description: 'Rotate objects in 3D using angle-axis, rotation matrices, euler angles or quaternions.',
   categories: [ 'Mathematics', 'Geometry' ],
   tags: [ '3D', 'mathematics', 'rotations', 'geometry' ],

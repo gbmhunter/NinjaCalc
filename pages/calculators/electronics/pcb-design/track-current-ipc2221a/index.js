@@ -11,6 +11,7 @@ import TileImage from './tile-image.png'
 export var metadata = {
   id: 'track-current-ipc2221a', // Make sure this has the same name as the directory this file is in
   name: 'Track Current (IPC-2221a)',
+  path: 'calculators/electronics/pcb-design/track-current-ipc2221a',
   description: 'PCB track current carrying capability calculator, using the IPC-2221a standard.',
   categories: ['Electronics', 'PCB Design'],
   tags: ['pcb', 'track', 'net', 'current', 'trace', 'width', 'carry', 'heat', 'hot', 'temperature', 'ipc', 'ipc2221a', 'ipc-2221a'],

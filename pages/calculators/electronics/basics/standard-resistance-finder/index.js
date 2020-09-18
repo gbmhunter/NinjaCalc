@@ -12,6 +12,7 @@ import { ESeriesRow } from "~/components/e-series-row";
 export var metadata = {
   id: "standard-resistance-finder", // Make sure this has the same name as the directory this file is in
   name: "Standard Resistance Finder",
+  path: 'calculators/electronics/basics/standard-resistance-finder',
   description:
     "Find the closest E-series (e.g. E12, E96) resistor (preferred value) to your desired resistance.",
   categories: ["Electronics", "Basic"],
