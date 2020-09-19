@@ -3,6 +3,7 @@ import Head from "next/head"
 import Link from "next/link"
 
 import Layout from '~/components/layout'
+import TreeView from '~/components/tree-view'
 
 import * as CalcCapacitorCharge from "./calculators/electronics/basics/capacitor-charge"
 import * as CalcOhmsLaw from "./calculators/electronics/basics/ohms-law"
@@ -33,9 +34,7 @@ class Home extends React.Component {
     this.state = {
       calculators: [],
     };
-  }
 
-  componentDidMount = () => {
     // electronics/basics
     this.addCalc(CalcCapacitorCharge)
     this.addCalc(CalcOhmsLaw)
@@ -60,12 +59,16 @@ class Home extends React.Component {
     this.addCalc(Calc3DRotations)
   }
 
+  componentDidMount = () => {
+
+  }
+
   addCalc = (calcModule) => {
     let calculators = this.state.calculators
     calculators.push(calcModule)
-    this.setState({
-      calculators: calculators,
-    })
+    // this.setState({
+    //   calculators: calculators,
+    // })
   }
 
   render() {
@@ -109,6 +112,7 @@ class Home extends React.Component {
 
             .tile-image img {
               max-height: 140px;
+              max-width: 200px;
             }
 
             .tile-title {
@@ -136,6 +140,8 @@ class Home extends React.Component {
           <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         </Head>
 
+        <div id="content-wrapper" style={{ display: 'flex' }}>
+        <div id="left-column" style={{ minWidth: '200px' }}><TreeView calculators={this.state.calculators} /></div>
         <div id="calculator-selection-grid">{calcList}</div>
 
         <style jsx>{`
@@ -145,6 +151,7 @@ class Home extends React.Component {
             flex-wrap: wrap;
           }
         `}</style>
+        </div>
       </Layout>
     )
   }
