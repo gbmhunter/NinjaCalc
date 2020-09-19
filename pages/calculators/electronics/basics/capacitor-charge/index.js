@@ -12,7 +12,7 @@ export var metadata = {
   name: "Capacitor Charge (Q=CV)",
   path: 'calculators/electronics/basics/capacitor-charge',
   description: "Calculate either the charge, capacitance or voltage across a capacitor using Q = CV..",
-  categories: [ 'Electronics', 'Basic' ],
+  categories: [ 'Electronics', 'Basics' ],
   tags: [ 'capacitor', 'capacitance', 'charge', 'voltage', 'farad', 'coulomb', 'electron' ],
   image: TileImage,
 };

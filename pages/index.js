@@ -3,7 +3,7 @@ import Head from "next/head"
 import Link from "next/link"
 
 import Layout from '~/components/layout'
-import TreeView from '~/components/tree-view'
+import TreeView from '~/components/tree-view/tree-view'
 
 import * as CalcCapacitorCharge from "./calculators/electronics/basics/capacitor-charge"
 import * as CalcOhmsLaw from "./calculators/electronics/basics/ohms-law"
@@ -33,6 +33,7 @@ class Home extends React.Component {
 
     this.state = {
       calculators: [],
+      filterByCategories: 'All',
     };
 
     // electronics/basics
@@ -71,8 +72,39 @@ class Home extends React.Component {
     // })
   }
 
+  categoryTreeNodeClicked = (categories) => {
+    console.log(categories)
+    this.setState({
+      filterByCategories: categories
+    })
+  }
+
   render() {
-    const calcList = this.state.calculators.map((calculator, idx) => {
+    let filteredCalculators = null
+    if (this.state.filterByCategories == 'All') {
+      filteredCalculators = this.state.calculators
+    } else {
+      filteredCalculators = this.state.calculators.filter((calculator) => {
+        console.log('Calculator categories:')
+        console.log(calculator.metadata.categories)
+        console.log('filterByCategories=')
+        console.log(this.state.filterByCategories)
+        // Remove the 'All'
+        let filterNoAll = this.state.filterByCategories.slice()
+        filterNoAll.shift()
+        console.log(filterNoAll)
+        for(let i in filterNoAll) {
+          if(filterNoAll[i] != calculator.metadata.categories[i]) {
+            console.log('Removing ' + calculator.metadata.name)
+            return false
+          }
+        }
+        return true
+      })
+    }
+
+
+    const calcList = filteredCalculators.map((calculator, idx) => {
       return (
         <Link key={calculator.metadata.id} href={calculator.metadata.path}>
         <div key={idx} className="calculator-tile">
@@ -140,8 +172,9 @@ class Home extends React.Component {
           <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         </Head>
 
-        <div id="content-wrapper" style={{ display: 'flex' }}>
-        <div id="left-column" style={{ minWidth: '200px' }}><TreeView calculators={this.state.calculators} /></div>
+        <div id="content-wrapper" style={{ display: 'flex', width: '100%' }}>
+        <div id="left-column" style={{ minWidth: '200px', flexGrow: 0, marginLeft: '20px' }}>
+          <TreeView calculators={this.state.calculators} nodeClicked={this.categoryTreeNodeClicked}/></div>
         <div id="calculator-selection-grid">{calcList}</div>
 
         <style jsx>{`

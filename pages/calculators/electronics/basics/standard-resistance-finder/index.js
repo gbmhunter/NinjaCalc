@@ -15,7 +15,7 @@ export var metadata = {
   path: 'calculators/electronics/basics/standard-resistance-finder',
   description:
     "Find the closest E-series (e.g. E12, E96) resistor (preferred value) to your desired resistance.",
-  categories: ["Electronics", "Basic"],
+  categories: ["Electronics", "Basics"],
   tags: [
     "ohm",
     "resistor",

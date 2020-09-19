@@ -12,7 +12,7 @@ export var metadata = {
   path: 'calculators/elecronics/basics/ohms-law',
   description:
     "The hammer in any electrical engineers toolbox. calculate voltage, resistance and current using Ohm's law.",
-  categories: ["Electronics", "Basic"],
+  categories: ["Electronics", "Basics"],
   tags: ["electronics", "ohms", "law", "resistor"],
   image: TileImage,
 };

@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {Treebeard} from 'react-treebeard'
+
+import TreeNode from './tree-node'
 
 
 class TreeView extends React.Component {
@@ -9,7 +10,7 @@ class TreeView extends React.Component {
 
     // Create category tree data
     var output = {
-      'name': 'root',
+      'name': 'All',
       'toggled': true,
       'children': []
     }
@@ -20,7 +21,6 @@ class TreeView extends React.Component {
 
     this.state = {}
     this.state.treeData = output;
-    this.onToggle = this.onToggle.bind(this);
   }
 
   addCategoriesToTree (categories, treeNode) {
@@ -28,7 +28,6 @@ class TreeView extends React.Component {
     // console.log(categories)
     // Copy array, we are going to modify it, and we don't want to touch
     // the original!
-    console.log(categories)
     categories = categories.slice()
     // console.log(', treeNode =')
     // console.log(treeNode)
@@ -55,26 +54,17 @@ class TreeView extends React.Component {
     }
   }
 
-  onToggle(node, toggled){
-    console.log('onToggle() called for node=')
-    console.log(node)
-    const {cursor, data} = this.state;
-    if (cursor) {
-        this.setState(() => ({cursor, active: false}));
-    }
-    node.active = true;
-    if (node.children) { 
-        node.toggled = toggled; 
-    }
-    this.setState(() => ({cursor: node, data: Object.assign({}, data)}));
+  handleClick = (node) => {
+    this.props.nodeClicked(node)
   }
 
   render() {
     return (
     <div>
-      <Treebeard
+      <TreeNode
                 data={this.state.treeData}
-                onToggle={this.onToggle}
+                parentCategories={[ ]}
+                handleClick={this.handleClick}
             />
 
     </div>
