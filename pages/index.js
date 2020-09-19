@@ -1,6 +1,11 @@
 import React from "react"
 import Head from "next/head"
 import Link from "next/link"
+import { SpringGrid, makeResponsive, measureItems } from 'react-stonecutter'
+const Grid = makeResponsive(measureItems(SpringGrid), {
+  maxWidth: 1920,
+  minPadding: 100
+});
 
 import Layout from '~/components/layout'
 import TreeView from '~/components/tree-view/tree-view'
@@ -105,7 +110,7 @@ class Home extends React.Component {
 
 
     const calcList = filteredCalculators.map((calculator, idx) => {
-      return (
+      return (<li key={calculator.metadata.id}>
         <Link key={calculator.metadata.id} href={calculator.metadata.path}>
         <div key={idx} className="calculator-tile">
           <div className="tile-image"><img src={calculator.metadata.image}></img></div>
@@ -161,6 +166,7 @@ class Home extends React.Component {
           `}</style>
         </div>
         </Link>
+        </li>
       )
     })
 
@@ -175,7 +181,19 @@ class Home extends React.Component {
         <div id="content-wrapper" style={{ display: 'flex', width: '100%' }}>
         <div id="left-column" style={{ minWidth: '200px', flexGrow: 0, marginLeft: '20px' }}>
           <TreeView calculators={this.state.calculators} nodeClicked={this.categoryTreeNodeClicked}/></div>
-        <div id="calculator-selection-grid">{calcList}</div>
+        <div id="calculator-selection-grid">
+        <Grid
+          component="ul"
+          // columns={5}
+          columnWidth={220}
+          gutterWidth={15}
+          gutterHeight={15}
+          itemHeight={350}
+          springConfig={{ stiffness: 170, damping: 26 }}
+        >
+          {calcList}
+        </Grid>
+        </div>
 
         <style jsx>{`
           #calculator-selection-grid {
@@ -183,6 +201,8 @@ class Home extends React.Component {
             flex-direction: row;
             flex-wrap: wrap;
           }
+
+          
         `}</style>
         </div>
       </Layout>

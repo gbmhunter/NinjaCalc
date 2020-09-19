@@ -22,7 +22,9 @@
     "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "16.10.2",
     "react-plotly.js": "^2.3.0",
+    "react-stonecutter": "^0.3.10",
     "react-treebeard": "^3.2.4",
+    "stonecutter": "^0.3.10-rc",
     "three": "^0.109.0"
   },
   "devDependencies": {

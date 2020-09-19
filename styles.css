@@ -9,3 +9,7 @@ span.centered {
 div.calc-notes {
     max-width: 700px;
 }
+
+#calculator-selection-grid ul li {
+  list-style-type: none;
+}
