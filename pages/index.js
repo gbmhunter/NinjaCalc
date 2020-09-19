@@ -39,6 +39,7 @@ class Home extends React.Component {
     this.state = {
       calculators: [],
       filterByCategories: 'All',
+      searchText: '',
     };
 
     // electronics/basics
@@ -84,27 +85,45 @@ class Home extends React.Component {
     })
   }
 
+  onSearchTextChange = (event) => {
+    this.setState({
+      searchText: event.target.value,
+    })
+  }
+
   render() {
     let filteredCalculators = null
+
+    // Filter calculators by selected category
     if (this.state.filterByCategories == 'All') {
       filteredCalculators = this.state.calculators
     } else {
-      filteredCalculators = this.state.calculators.filter((calculator) => {
-        console.log('Calculator categories:')
-        console.log(calculator.metadata.categories)
-        console.log('filterByCategories=')
+      filteredCalculators = this.state.calculators.filter((calculator) => {        
+        console.log(calculator.metadata.categories)        
         console.log(this.state.filterByCategories)
         // Remove the 'All'
         let filterNoAll = this.state.filterByCategories.slice()
-        filterNoAll.shift()
-        console.log(filterNoAll)
+        filterNoAll.shift()        
         for(let i in filterNoAll) {
-          if(filterNoAll[i] != calculator.metadata.categories[i]) {
-            console.log('Removing ' + calculator.metadata.name)
+          if(filterNoAll[i] != calculator.metadata.categories[i]) {            
             return false
           }
         }
         return true
+      })
+    }
+
+    // Filter calculators by search text
+    if(this.state.searchText != ''){      
+      const searchTextLower = this.state.searchText.toLowerCase()
+      filteredCalculators = filteredCalculators.filter((calculator) => {
+        for (const tag of calculator.metadata.tags) {          
+          if(tag.toLowerCase().includes(searchTextLower)) {
+            return true
+          }
+        }
+        // If we reach here, there was no match
+        return false
       })
     }
 
@@ -179,8 +198,14 @@ class Home extends React.Component {
         </Head>
 
         <div id="content-wrapper" style={{ display: 'flex', width: '100%' }}>
-        <div id="left-column" style={{ minWidth: '200px', flexGrow: 0, marginLeft: '20px' }}>
-          <TreeView calculators={this.state.calculators} nodeClicked={this.categoryTreeNodeClicked}/></div>
+        <div id="left-column" style={{ minWidth: '200px', maxWidth: '200px', flexGrow: 0, marginLeft: '20px' }}>
+          <TreeView calculators={this.state.calculators} nodeClicked={this.categoryTreeNodeClicked}/>
+          </div>
+        <div id="right-column">
+          <div id="search-box" style={{ paddingLeft: '20px' }}>
+            Search:&nbsp;&nbsp;
+            <input value={this.state.searchText} onChange={this.onSearchTextChange} style={{ width: '400px' }}/>
+          </div>
         <div id="calculator-selection-grid">
         <Grid
           component="ul"
@@ -193,6 +218,7 @@ class Home extends React.Component {
         >
           {calcList}
         </Grid>
+        </div>
         </div>
 
         <style jsx>{`
