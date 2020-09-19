@@ -1,5 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
+import {Treebeard} from 'react-treebeard'
+
 
 class TreeView extends React.Component {
   constructor(props) {
@@ -8,7 +10,7 @@ class TreeView extends React.Component {
     // Create category tree data
     var output = {
       'name': 'root',
-      'selected': false,
+      'toggled': true,
       'children': []
     }
     this.props.calculators.map((calculator) => {
@@ -16,6 +18,9 @@ class TreeView extends React.Component {
     })
     console.log(output)
 
+    this.state = {}
+    this.state.treeData = output;
+    this.onToggle = this.onToggle.bind(this);
   }
 
   addCategoriesToTree (categories, treeNode) {
@@ -50,8 +55,30 @@ class TreeView extends React.Component {
     }
   }
 
+  onToggle(node, toggled){
+    console.log('onToggle() called for node=')
+    console.log(node)
+    const {cursor, data} = this.state;
+    if (cursor) {
+        this.setState(() => ({cursor, active: false}));
+    }
+    node.active = true;
+    if (node.children) { 
+        node.toggled = toggled; 
+    }
+    this.setState(() => ({cursor: node, data: Object.assign({}, data)}));
+  }
+
   render() {
-    return (<div>Test</div>)
+    return (
+    <div>
+      <Treebeard
+                data={this.state.treeData}
+                onToggle={this.onToggle}
+            />
+
+    </div>
+      )
   }
 }
 
