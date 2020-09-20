@@ -14,10 +14,10 @@ div.calc-notes {
   list-style-type: none;
 }
 
-table.calc-vars, table.calc-vars td {
-  /* border: 1px solid #dddddd; */
+table.calc-vars tr:nth-child(odd) {
+  background-color: #dddddd;
 }
 
-table.calc-vars tr:nth-child(odd) {
-  background-color: #eeeeee;
+div.MathJax_Display {
+  text-align: center !important; /* Have to do this because for some weird reason style is being set on this element with text-align: left */
 }

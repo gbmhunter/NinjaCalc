@@ -1,7 +1,8 @@
 import Head from "next/head";
 import React from "react";
 
-import Layout from "~/components/layout";
+import Layout from "~/components/layout"
+import LayoutCalc from "~/components/layout-calc"
 import VarRowV2 from "~/components/VarRowV2";
 import {CalcHelper, Validators} from "~/utils/calc-helper";
 import TileImage from "./tile-image.png";
@@ -141,7 +142,7 @@ class UI extends React.Component {
     const varWidth = 100;
 
     return (
-      <Layout>
+      <LayoutCalc title={metadata.name + ' Calculator'}>
         <Head>
           <title>{metadata.name}</title>
           <link rel="icon" href="/favicon.ico" />
@@ -153,7 +154,7 @@ class UI extends React.Component {
               resistance, given the other two parameters, using the equation:
             </p>
 
-            <p>$$ V = IR $$</p>
+            <p style={{ textAlign: 'center'}}>$$ V = IR $$</p>
 
             <p style={{ textAlign: 'center' }}>
               where:
@@ -205,7 +206,7 @@ class UI extends React.Component {
             max-width: 700px;
           }
         `}</style>
-      </Layout>
+      </LayoutCalc>
     );
   };
 }
