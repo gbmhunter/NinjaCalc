@@ -26,8 +26,7 @@ class UI extends React.Component {
           voltage: {
             name: "Voltage",
             direction: "input",
-            dispVal: "12",
-            rawVal: null,
+            dispVal: "12",            
             units: [
               ["uV", 1e-6],
               ["mV", 1e-3],
@@ -43,9 +42,8 @@ class UI extends React.Component {
           }, // voltage
           current: {
             name: "Current",
-            direction: "output",
-            dispVal: "1",
-            rawVal: null,
+            direction: "input",
+            dispVal: "1",            
             units: [
               ["uA", 1e-6],
               ["mA", 1e-3],
@@ -60,9 +58,7 @@ class UI extends React.Component {
           }, // current
           resistance: {
             name: "Resistance",
-            direction: "input",
-            dispVal: "100",
-            rawVal: null,
+            direction: "output",                        
             units: [
               ["mΩ", 1e-3],
               ["Ω", 1],
