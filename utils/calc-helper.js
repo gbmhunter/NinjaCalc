@@ -1,5 +1,9 @@
 
 export class Validators {
+  /**
+   * Makes sure that the input string is a number.
+   * @param {string} value The input string to check.
+   */
   static isNumber(value) {
     if(isNaN(value)) {
       return [ 'error', 'Value must be a number.']
@@ -67,13 +71,50 @@ export class CalcHelper {
       calcVar.validation.msg = validationMsg
     } else if (calcVar.validation.fns) {
       console.log('Detected multiple validation functions!')
+      let validationResults = []
       for(const fn of calcVar.validation.fns) {
         const validationResult = fn(calcVar.rawVal, calc)
+        validationResults.push(validationResult)
+      }
+      console.log('Sorting...')
+      // The following function sorts all the validation results so that the errors will be first,
+      // warnings second, then 'oks'.
+      validationResults.sort(function(x, y) {
+        if (x[0] == 'error') {
+          if (y[0] == 'error') {
+            return 0
+          } else {
+            return -1
+          }
+        } else if (x[0] == 'warning') {
+          if (y[0] == 'error') {
+            return 1
+          } else if (y[0] == 'warning') {
+            return 0
+          } else {
+            return -1
+          }
+        } else if (x[0] == 'ok') {
+          if (y[0] == 'ok') {
+            return 0
+          } else {
+            return 1
+          }
+        }
+      })
+      console.log('Sorted validationResults (most serious to least serious)=')
+      console.log(validationResults)
+      if (validationResults.length >= 1){
+        const validationResult = validationResults[0]
         const validationState = validationResult[0]
         const validationMsg = validationResult[1]
         calcVar.validation.state = validationState
         calcVar.validation.msg = validationMsg
+      } else {
+        calcVar.validation.state = 'ok'
+        calcVar.validation.msg = ''
       }
+
     }
   }
 
