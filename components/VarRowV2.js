@@ -66,7 +66,7 @@ class VarRow extends React.Component {
 
     let helpTextHtml = null
     if (this.props.showHelpText) {
-      helpTextHtml = (<td>{calcVar.helpText}</td>)
+      helpTextHtml = (<td style={{ fontSize: '0.8em' }}>{calcVar.helpText}</td>)
     }
 
     return (
@@ -121,7 +121,7 @@ class VarRow extends React.Component {
           }
 
           .units {
-            width: 150px;
+            width: 80px;
             font-size: 0.8em !important;
           }
         `}</style>

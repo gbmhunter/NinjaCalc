@@ -554,7 +554,7 @@ class UI extends React.Component {
         </Head>
         <div className="vbox outer-wrapper">
           
-          <table>
+          <table className="calc-vars" style={{ maxWidth: '900px' }}>
             <tbody>
               <VarRowV2
                 id="trackCurrent"
@@ -562,6 +562,7 @@ class UI extends React.Component {
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
+                showHelpText={true}
               />
               <VarRowV2
                 id="tempRise"
@@ -569,6 +570,7 @@ class UI extends React.Component {
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
+                showHelpText={true}
               />
               <VarRowV2
                 id="trackThickness"
@@ -576,6 +578,7 @@ class UI extends React.Component {
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
+                showHelpText={true}
               />
               <VarRowV2
                 id="boardThickness"
@@ -583,12 +586,14 @@ class UI extends React.Component {
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
+                showHelpText={true}
               />
               <VarRowV2Select
                 id="isPlanePresent"
                 calcVars={calcVars}
                 valueChanged={this.valueChanged}
                 width={varWidth}
+                showHelpText={true}
               />
               <VarRowV2
                 id="planeProximity"
@@ -597,6 +602,7 @@ class UI extends React.Component {
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
                 disabled={ calcVars.isPlanePresent.selOption === 'Yes' ? false : true }
+                showHelpText={true}
               />
               <VarRowV2
                 id="thermalConductivity"
@@ -604,6 +610,7 @@ class UI extends React.Component {
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
+                showHelpText={true}
               />
               <VarRowV2
                 id="minTrackWidth"
@@ -611,13 +618,14 @@ class UI extends React.Component {
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
+                showHelpText={true}
               />
             </tbody>
           </table>
 
           <div style={{ height: 20 }}></div>
-          <p>Intermediate Variables</p>
-          <table>
+          <p><b>Intermediate Variables</b></p>
+          <table className="calc-vars">
             <tbody>
               <VarRowV2
                 id="unadjustedTrackCrossSectionalArea"

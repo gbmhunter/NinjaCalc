@@ -36,6 +36,11 @@ class VarRowV2Select extends React.Component {
       );
     });
 
+    let helpTextHtml = null
+    if (this.props.showHelpText) {
+      helpTextHtml = (<td style={{ fontSize: '0.8em' }}>{calcVar.helpText}</td>)
+    }
+
     return (
       <tr>
         <td className="var-name">{calcVar.name}</td>
@@ -51,6 +56,7 @@ class VarRowV2Select extends React.Component {
           </select>
         </td>
         <td className="units"></td>
+        {helpTextHtml}
         <style jsx>{`
           .var-name {
             padding-right: 10px;

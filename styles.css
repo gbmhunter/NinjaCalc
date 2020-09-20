@@ -13,3 +13,11 @@ div.calc-notes {
 #calculator-selection-grid ul li {
   list-style-type: none;
 }
+
+table.calc-vars, table.calc-vars td {
+  /* border: 1px solid #dddddd; */
+}
+
+table.calc-vars tr:nth-child(odd) {
+  background-color: #eeeeee;
+}
