@@ -152,6 +152,8 @@ class Home extends React.Component {
               border-style: solid;
               box-shadow: 0 2px 4px rgba(0,0,0,0.20);
               transition: box-shadow 0.3s ease-in-out;
+
+              cursor: pointer;
             }
 
             .calculator-tile:hover {
