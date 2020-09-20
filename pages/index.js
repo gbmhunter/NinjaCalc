@@ -78,8 +78,7 @@ class Home extends React.Component {
     // })
   }
 
-  categoryTreeNodeClicked = (categories) => {
-    console.log(categories)
+  categoryTreeNodeClicked = (categories) => {    
     this.setState({
       filterByCategories: categories
     })
@@ -98,9 +97,7 @@ class Home extends React.Component {
     if (this.state.filterByCategories == 'All') {
       filteredCalculators = this.state.calculators
     } else {
-      filteredCalculators = this.state.calculators.filter((calculator) => {        
-        console.log(calculator.metadata.categories)        
-        console.log(this.state.filterByCategories)
+      filteredCalculators = this.state.calculators.filter((calculator) => {                      
         // Remove the 'All'
         let filterNoAll = this.state.filterByCategories.slice()
         filterNoAll.shift()        

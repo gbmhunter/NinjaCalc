@@ -23,14 +23,17 @@ class TreeNode extends React.Component {
       return (<TreeNode key={idx} data={childNode} parentCategories={this.state.categories} handleClick={this.props.handleClick}/>)
     })
 
-
-
     return (
       <div>
-        <li onClick={this.onClick}>{this.props.data.name}</li>
+        <li onClick={this.onClick} className={this.props.data.selected ? 'selected' : ''}>{this.props.data.name}</li>
         <ul>
           {childrenHtml}
         </ul>
+        <style jsx>{`
+          li.selected {
+            background-color: #aaffaa;
+          }
+        `}</style>
       </div>
     )
   }

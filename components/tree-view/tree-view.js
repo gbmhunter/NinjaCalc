@@ -11,7 +11,7 @@ class TreeView extends React.Component {
     // Create category tree data
     var output = {
       'name': 'All',
-      'toggled': true,
+      'selected': true,
       'children': []
     }
     this.props.calculators.map((calculator) => {
@@ -54,8 +54,33 @@ class TreeView extends React.Component {
     }
   }
 
-  handleClick = (node) => {
-    this.props.nodeClicked(node)
+  handleClick = (category) => {
+    this.props.nodeClicked(category)
+
+    // Set all node selected properties to false except the one that was clicked
+    this.setAllSelectedToFalse(this.state.treeData)
+
+    let categoryCopy = category.slice()
+    // Start with the 'All' node
+    let currNode = this.state.treeData
+    // Remove 'All' from the category
+    categoryCopy.shift()
+    for (const category of categoryCopy) {    
+      currNode = currNode.children.find((childNode) => {
+        return childNode.name == category
+      })
+    }
+    currNode.selected = true
+    this.setState({
+      treeData: this.state.treeData
+    })
+  }
+
+  setAllSelectedToFalse(node) {
+    node.selected = false
+    for (let childNode of node.children) {
+      this.setAllSelectedToFalse(childNode)
+    }
   }
 
   render() {
