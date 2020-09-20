@@ -1,3 +1,5 @@
+# NinjaCalc
+
 ## Dev Usage
 
 ```bash
