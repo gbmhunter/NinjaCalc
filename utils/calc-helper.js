@@ -1,5 +1,17 @@
 
-class CalcHelper {
+export class Validators {
+  static isNumber(value) {
+    if(isNaN(value)) {
+      return [ 'error', 'Value must be a number.']
+    } else {
+      return [ 'ok', '']
+    }
+  }
+}
+
+export class CalcHelper {
+
+  validators = Validators()
 
   static initCalc(calc) {
     for (let calcVarName in calc.calcVars) {
@@ -47,11 +59,22 @@ class CalcHelper {
     if (!('validation' in calcVar)) return
     // The entire calc object is provided because the validation might depend
     // on the state of other calc variables
-    const validationResult = calcVar.validation.fn(calcVar.rawVal, calc)
-    const validationState = validationResult[0]
-    const validationMsg = validationResult[1]
-    calcVar.validation.state = validationState
-    calcVar.validation.msg = validationMsg
+    if (calcVar.validation.fn) {
+      const validationResult = calcVar.validation.fn(calcVar.rawVal, calc)
+      const validationState = validationResult[0]
+      const validationMsg = validationResult[1]
+      calcVar.validation.state = validationState
+      calcVar.validation.msg = validationMsg
+    } else if (calcVar.validation.fns) {
+      console.log('Detected multiple validation functions!')
+      for(const fn of calcVar.validation.fns) {
+        const validationResult = fn(calcVar.rawVal, calc)
+        const validationState = validationResult[0]
+        const validationMsg = validationResult[1]
+        calcVar.validation.state = validationState
+        calcVar.validation.msg = validationMsg
+      }
+    }
   }
 
   static updateDispVals(calcVars) {

@@ -3,7 +3,7 @@ import React from "react";
 
 import Layout from "~/components/layout";
 import VarRowV2 from "~/components/VarRowV2";
-import CalcHelper from "~/utils/calc-helper";
+import {CalcHelper, Validators} from "~/utils/calc-helper";
 import TileImage from "./tile-image.png";
 
 export var metadata = {
@@ -35,9 +35,9 @@ class UI extends React.Component {
             ],
             selUnit: "V",
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
           }, // voltage
           current: {
@@ -51,9 +51,9 @@ class UI extends React.Component {
             ],
             selUnit: "mA",
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
           }, // current
           resistance: {
@@ -67,15 +67,9 @@ class UI extends React.Component {
             ],
             selUnit: "kΩ",
             validation: {
-              fn: (value) => {
-                if (isNaN(value)) {
-                  return ["error", "Resistance must be a number."];
-                }
-                if (value <= 0) {
-                  return ["error", "Resistance must be greater than 0."];
-                }
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
           }, // resistance
         }, // calcVars
