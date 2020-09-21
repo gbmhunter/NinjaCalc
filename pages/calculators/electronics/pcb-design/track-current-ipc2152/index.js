@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
 
-import Layout from "~/components/layout";
+import Layout from "~/components/layout-calc"
 import VarRowV2 from "~/components/VarRowV2";
 import VarRowV2Select from "~/components/VarRowV2Select";
 import CalcHelper from "~/utils/calc-helper";
@@ -11,7 +11,7 @@ import TileImage from "./tile-image.png";
 export var metadata = {
   id: "track-current-ipc2152", // Make sure this has the same name as the directory this file is in
   name: "Track Current (IPC-2152)",
-  path: 'calculators/electronics/pcb-design/track-current-ipc2152',
+  path: "calculators/electronics/pcb-design/track-current-ipc2152",
   description:
     "PCB track current carrying capability calculator, using the IPC-2152 standard.",
   categories: ["Electronics", "PCB Design"],
@@ -31,7 +31,7 @@ export var metadata = {
     "ipc-2221a",
   ],
   image: TileImage,
-};
+}
 
 // ============================================================================================= //
 // ============================================ CONSTANTS ====================================== //
@@ -547,14 +547,21 @@ class UI extends React.Component {
     const varWidth = 100;
 
     return (
-      <Layout>
+      <Layout title={metadata.name + ' Calculator'}>
         <Head>
           <title>{metadata.name}</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="vbox outer-wrapper">
-          
-          <table className="calc-vars" style={{ maxWidth: '900px' }}>
+          <table className="calc-vars" style={{ maxWidth: "900px" }}>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Units</th>
+                <th>Variable</th>
+              </tr>
+            </thead>
             <tbody>
               <VarRowV2
                 id="trackCurrent"
@@ -601,7 +608,9 @@ class UI extends React.Component {
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
-                disabled={ calcVars.isPlanePresent.selOption === 'Yes' ? false : true }
+                disabled={
+                  calcVars.isPlanePresent.selOption === "Yes" ? false : true
+                }
                 showHelpText={true}
               />
               <VarRowV2
@@ -624,7 +633,9 @@ class UI extends React.Component {
           </table>
 
           <div style={{ height: 20 }}></div>
-          <p><b>Intermediate Variables</b></p>
+          <p>
+            <b>Intermediate Variables</b>
+          </p>
           <table className="calc-vars">
             <tbody>
               <VarRowV2
@@ -672,7 +683,7 @@ class UI extends React.Component {
             </tbody>
           </table>
 
-          <div style={{ width: '100%', height: '20px' }}></div>
+          <div style={{ width: "100%", height: "20px" }}></div>
 
           <div style={{ maxWidth: "800px" }}>
             <p>
