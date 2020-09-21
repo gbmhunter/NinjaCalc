@@ -14,7 +14,11 @@ div.calc-notes {
   list-style-type: none;
 }
 
-table.calc-vars tr:nth-child(odd) {
+table.calc-vars thead tr {
+  background-color: #ccffcc;  
+}
+
+table.calc-vars tbody tr:nth-child(odd) {
   background-color: #dddddd;
 }
 

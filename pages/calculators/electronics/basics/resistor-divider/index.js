@@ -2,7 +2,7 @@ import Head from "next/head"
 import React from "react"
 
 import Nav from "~/components/nav"
-import Layout from "~/components/layout"
+import Layout from "~/components/layout-calc"
 import VarRowV2 from "~/components/VarRowV2"
 import CalcHelper from "~/utils/calc-helper"
 import TileImage from "./tile-image.png"
@@ -161,33 +161,21 @@ class UI extends React.Component {
     const varWidth = 100;
 
     return (
-      <Layout>
+      <Layout title={metadata.name + ' Calculator'}>
         <Head>
           <title>{metadata.name}</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div className="vbox outer-wrapper">
-          <div className="calc-notes">
-            
-            The following calculator works out either \( V_{'{'}in{'}'} \), \( R_1 \), \( R_2 \), or \( V_{'{'}out{'}'}\), given the other three parameters, using the resistive voltage divider equation:
-
-            $$ V_{'{'}out{'}'}=\frac{'{'}R_2{'}'}{'{'}R_1+R_2{'}'}V_{'{'}in{'}'} $$
-
-            <p>
-              where:<br/>
-              \( V_{'{'}in{'}'} \) = input voltage<br/>
-              \( R_1 \) = resistance of resistor 1 (see diagram)<br/>
-              \( R_2 \) = resistance of resistor 2 (see diagram)<br/>
-              \( V_{'{'}out{'}'} \) = output voltage
-            </p>
-
-            {String.raw`It is assumed that the output impedance on \( V_{out} \) is significantly higher than \( R_2 \) so that it doesn't matter (for example, \( V_{out} \) is connected to an op-amp input, analogue microcontroller input or similar).
-            The quiescent current through the divider, \( I_q \), is also calculated, which can be useful to know when designing power-saving circuits. The equation to find \( I_q \) is:
-
-            $$ I_q = \frac{V_{in}}{R_1+R_2} $$`}
-            
-          </div>
-          <table>
+        <div className="vbox outer-wrapper">          
+          <table className="calc-vars">
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Value</th>
+                <th>Units</th>
+                <th>Output</th>
+              </tr>
+            </thead>
             <tbody>
               <VarRowV2
                 id="vin"
@@ -228,7 +216,28 @@ class UI extends React.Component {
             </tbody>
           </table>
 
-          <div style={{ height: 20 }}></div>
+          <div style={{ minHeight: '40px' }}></div>
+
+          <div className="calc-notes">
+            
+            The following calculator works out either \( V_{'{'}in{'}'} \), \( R_1 \), \( R_2 \), or \( V_{'{'}out{'}'}\), given the other three parameters, using the resistive voltage divider equation:
+
+            $$ V_{'{'}out{'}'}=\frac{'{'}R_2{'}'}{'{'}R_1+R_2{'}'}V_{'{'}in{'}'} $$
+
+            <p>
+              where:<br/>
+              \( V_{'{'}in{'}'} \) = input voltage<br/>
+              \( R_1 \) = resistance of resistor 1 (see diagram)<br/>
+              \( R_2 \) = resistance of resistor 2 (see diagram)<br/>
+              \( V_{'{'}out{'}'} \) = output voltage
+            </p>
+
+            {String.raw`It is assumed that the output impedance on \( V_{out} \) is significantly higher than \( R_2 \) so that it doesn't matter (for example, \( V_{out} \) is connected to an op-amp input, analogue microcontroller input or similar).
+            The quiescent current through the divider, \( I_q \), is also calculated, which can be useful to know when designing power-saving circuits. The equation to find \( I_q \) is:
+
+            $$ I_q = \frac{V_{in}}{R_1+R_2} $$`}
+            
+          </div>
         </div>
         <style jsx>{`
           .calc-notes {
