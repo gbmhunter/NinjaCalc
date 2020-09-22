@@ -1,8 +1,14 @@
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
+import ReactTooltip from 'react-tooltip'
+import {findDOMNode} from 'react-dom'
 
 class VarRow extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidUpdate() {
+    ReactTooltip.rebuild()    
   }
 
   render() {
@@ -68,12 +74,18 @@ class VarRow extends React.Component {
     if (this.props.showHelpText) {
       helpTextHtml = (<td style={{ fontSize: '0.8em' }}>{calcVar.helpText}</td>)
     }
+    
+    let tooltipMsg = ''
+    if (calcVar.validation) {
+      tooltipMsg = calcVar.validation.msg
+    }
 
     return (
       <tr>
         <td className="var-name">{calcVar.name}</td>
         <td className="value">
-          <input
+          <ReactTooltip html={true} className="tooltip"/>
+          <input                 
             name={this.props.id}
             className={validationState}
             value={calcVar.dispVal}
@@ -81,7 +93,8 @@ class VarRow extends React.Component {
             style={{ width: this.props.width }}
             readOnly={readonly}
             disabled={disabled}
-          ></input>
+            data-tip={tooltipMsg}
+          ></input>          
         </td>
         <td className="units">
           <select
@@ -105,7 +118,7 @@ class VarRow extends React.Component {
           }
 
           .value input.warning {
-            border: 1px solid orange;
+            border: 2px solid orange;
           }
 
           .value input.warning:focus {
@@ -113,7 +126,7 @@ class VarRow extends React.Component {
           }
 
           .value input.error {
-            border: 1px solid red;
+            border: 2px solid red;
           }
 
           .value input.error:focus {
