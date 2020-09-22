@@ -45,14 +45,13 @@ class UI extends React.Component {
           desiredResistance: {
             name: "Desired Resistance",
             direction: "input",
-            dispVal: "10",
+            dispVal: "10.3k",
             rawVal: null,
             units: [
-              ["Ω", 1],
-              ["kΩ", 1e3],
-              ["MΩ", 1e6],
+              ["Ω", 1e0],
             ],
-            selUnit: "kΩ",
+            selUnit: "Ω",
+            metricPrefixes: true,
             validation: {
               fn: (value) => {
                 return ["ok", ""];
@@ -140,12 +139,12 @@ class UI extends React.Component {
             <thead>
               <tr>
                 <th>Series</th>
-                <th>Closest Resistance</th>
-                <th>Percentage Error</th>
-                <th>Closest Equal Or Lower Resistance</th>
-                <th>Percentage Error</th>
-                <th>Closest Equal Or Higher Resistance</th>
-                <th>Percentage Error</th>
+                <th>Closest Resistance (Ω)</th>
+                <th>Percentage Error (%)</th>
+                <th>Closest Equal Or Lower Resistance (Ω)</th>
+                <th>Percentage Error (%)</th>
+                <th>Closest Equal Or Higher Resistance (Ω)</th>
+                <th>Percentage Error (%)</th>
               </tr>
             </thead>
             <tbody>

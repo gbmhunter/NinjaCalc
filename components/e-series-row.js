@@ -1,6 +1,7 @@
 import React from "react"
 
 import { CalcVarNumeric } from "~/components/calc-var-numeric"
+import { MetricPrefixes } from "~/utils/metric-prefixes"
 import { StandardResistanceFinder } from "~/utils/standard-resistance-finder"
 
 var standardResistanceFinder = new StandardResistanceFinder()
@@ -27,12 +28,18 @@ export class ESeriesRow extends React.Component {
     if (desiredResistance) {
       closestResistance = standardResistanceFinder.find(desiredResistance, this.props.eSeries, standardResistanceFinder.searchMethods.CLOSEST)
       closestResistancePercDiff = (Math.abs(closestResistance - desiredResistance) / desiredResistance) * 100.0
+      closestResistance = MetricPrefixes.numToString(closestResistance, 4)
+      closestResistancePercDiff = closestResistancePercDiff.toPrecision(4)
 
       closestEqualOrLowerResistance = standardResistanceFinder.find(desiredResistance, this.props.eSeries, standardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_LOWER)
       closestEqualOrLowerResistancePercDiff = (Math.abs(closestEqualOrLowerResistance - desiredResistance) / desiredResistance) * 100.0
+      closestEqualOrLowerResistance = MetricPrefixes.numToString(closestEqualOrLowerResistance, 4)
+      closestEqualOrLowerResistancePercDiff = closestEqualOrLowerResistancePercDiff.toPrecision(4)
 
       closestEqualOrHigherResistance = standardResistanceFinder.find(desiredResistance, this.props.eSeries, standardResistanceFinder.searchMethods.CLOSEST_EQUAL_OR_HIGHER)
       closestEqualOrHigherResistancePercDiff = (Math.abs(closestEqualOrHigherResistance - desiredResistance) / desiredResistance) * 100.0
+      closestEqualOrHigherResistance = MetricPrefixes.numToString(closestEqualOrHigherResistance, 4)
+      closestEqualOrHigherResistancePercDiff = closestEqualOrHigherResistancePercDiff.toPrecision(4)
       
     }
     console.log('closestResistance=' + closestResistance)    

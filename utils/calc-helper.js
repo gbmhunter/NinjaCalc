@@ -42,6 +42,7 @@ export class CalcHelper {
     const unit = calcVar.units.filter(unit => {
       return unit[0] == calcVar.selUnit
     })[0]
+    if(!unit) throw Error('"' + calcVar.selUnit + '" units not found for calcVar="' + calcVar.name + '". Available units=' + calcVar.units)
 
     let num = null
     // Support metric prefixes if allowed
