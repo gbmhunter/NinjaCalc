@@ -34,6 +34,9 @@ export default ({ children, title = 'This is the default title' }) => (
         p, h1, h2, h3, ul, li, a, div, td, th, input {    
           font-family: 'avenir next' ,'avenir', sans-serif;
         }
+        .green-background {
+          background-color: #ccffcc;
+        }
     `}</style>
   </div>
 )

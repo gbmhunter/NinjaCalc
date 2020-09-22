@@ -2,7 +2,7 @@ import Head from 'next/head'
 import React from 'react'
 
 import Nav from '~/components/nav'
-import Layout from '~/components/layout'
+import Layout from '~/components/layout-calc'
 import VarRow from '~/components/VarRow'
 import CalcHelper from '~/utils/calc-helper'
 import TileImage from './tile-image.png'
@@ -27,13 +27,13 @@ class UI extends React.Component {
           freq: {
             name: 'Frequency',
             direction: 'input',
-            dispVal: '100',
-            rawVal: null,
+            dispVal: '10k',            
             units: [
               ['Hz', 1e0],
               ['kHz', 1e3],
             ],
             selUnit: 'Hz',
+            metricPrefixes: true,
             validation: {
               fn: (value) => {
                 console.log('validator() called with value=' + value)
@@ -62,12 +62,12 @@ class UI extends React.Component {
           capacitance: {
             name: 'Capacitance',
             direction: 'input',
-            dispVal: '1',
-            rawVal: null,
+            dispVal: '10n',            
             units: [
-              ['uF', 1e-6],              
+              ['F', 1e0],              
             ],
-            selUnit: 'uF',
+            selUnit: 'F',
+            metricPrefixes: true,
             validation: {
               fn: (value) => {
                 if (value <= 0) return ['error', 'Capacitance must be greater than zero.']
@@ -192,7 +192,7 @@ class UI extends React.Component {
     const varWidth = 100
 
     return (
-      <Layout>
+      <Layout title={metadata.name}>
         <Head>
           <title>{metadata.name}</title>
           <link rel='icon' href='/favicon.ico' />
@@ -201,7 +201,6 @@ class UI extends React.Component {
           <p style={{ maxWidth: '500px' }}>This calculator calculates the resistances and capacitances needed to operate a 555 timer in astable mode. The duty cycle cannot be set lower than 50%, if you want to do this you will have to attach an inverter to the output.</p>
           <table>
             <tbody>
-
               <VarRow id="freq" calcVar={calcVars.freq} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
               <VarRow id="dutyCycle" calcVar={calcVars.dutyCycle} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
               <VarRow id="capacitance" calcVar={calcVars.capacitance} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />

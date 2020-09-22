@@ -1,14 +1,17 @@
 import React from 'react'
 import Link from 'next/link'
 
+import { Colors } from '~/utils/colors'
+
 const Nav = () => (
-  <nav>
+  <nav className="green-background">
     <ul>
       <li>
         <Link href='/'>
-          <a>Home</a>
+          <a>NinjaCalc</a>
         </Link>
       </li>
+      
     </ul>
 
     <style jsx>{`
@@ -19,6 +22,7 @@ const Nav = () => (
       }
       nav {
         text-align: center;
+
       }
       ul {
         display: flex;
@@ -34,7 +38,7 @@ const Nav = () => (
       a {
         color: #067df7;
         text-decoration: none;
-        font-size: 13px;
+        font-size: 1.2em;
       }
     `}</style>
   </nav>

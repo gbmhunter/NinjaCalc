@@ -100,11 +100,10 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "1",
             units: [
-              ["uA", 1e-6],
-              ["mA", 1e-3],
               ["A", 1],
             ],
             selUnit: "A",
+            metricPrefixes: true,
             validation: {
               fn: (value) => {
                 if (value > 26.0) {
@@ -125,8 +124,11 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "40",
             rawVal: null,
-            units: [["°C", 1]],
+            units: [
+              ["°C", 1]
+            ],
             selUnit: "°C",
+            metricPrefixes: true,
             validation: {
               fn: (value) => {
                 if (value < 1.0)
@@ -173,8 +175,7 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "35",
             units: [
-              ["um", 1e-6],
-              ["mm", 1e-3],
+              ["um", 1e-6],              
             ],
             selUnit: "um",
             validation: {
@@ -199,7 +200,9 @@ class UI extends React.Component {
             name: "Track Thickness Modifier",
             type: "numeric",
             direction: "output",
-            units: [["no unit", 1]],
+            units: [
+              ["no unit", 1]
+            ],
             selUnit: "no unit",
             sigFig: 3,
             helpText:
@@ -210,7 +213,9 @@ class UI extends React.Component {
             type: "numeric",
             direction: "input",
             dispVal: "1.6",
-            units: [["mm", 1e-3]],
+            units: [
+              ["mm", 1e-3]
+            ],
             selUnit: "mm",
             validation: {
               fn: (value) => {
@@ -239,7 +244,9 @@ class UI extends React.Component {
             name: "Board Thickness Modifier",
             type: "numeric",
             direction: "output",
-            units: [["no unit", 1]],
+            units: [
+              ["no unit", 1]
+            ],
             selUnit: "no unit",
             sigFig: 3,
             helpText:
@@ -266,8 +273,7 @@ class UI extends React.Component {
             type: "numeric",
             direction: "input",
             dispVal: "1.6",
-            units: [
-              ["um", 1e-6],
+            units: [              
               ["mm", 1e-3],
             ],
             selUnit: "mm",
@@ -298,7 +304,9 @@ class UI extends React.Component {
             name: "Plane Proximity Modifier",
             type: "numeric",
             direction: "output",
-            units: [["no unit", 1]],
+            units: [
+              ["no unit", 1]
+            ],
             selUnit: "no unit",
             sigFig: 3,
             helpText:
@@ -376,8 +384,7 @@ class UI extends React.Component {
             name: "Minimum Track Width",
             type: "numeric",
             direction: "output",
-            units: [
-              ["um", 1e-6],
+            units: [              
               ["mm", 1e-3],
             ],
             selUnit: "mm",
