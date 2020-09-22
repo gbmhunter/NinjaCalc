@@ -1,8 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 
-import { Colors } from '~/utils/colors'
-
 const Nav = () => (
   <nav className="green-background">
     <ul>
