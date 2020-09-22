@@ -27,14 +27,13 @@ class UI extends React.Component {
           voltage: {
             name: "Voltage",
             direction: "input",
-            dispVal: "12",            
+            dispVal: "12",    
             units: [
-              ["uV", 1e-6],
-              ["mV", 1e-3],
               ["V", 1],
-              ["kV", 1e3],
             ],
             selUnit: "V",
+            metricPrefixes: true,
+            sigFig: 4,
             validation: {
               fns: [
                 Validators.isNumber
@@ -46,11 +45,11 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "1",            
             units: [
-              ["uA", 1e-6],
-              ["mA", 1e-3],
               ["A", 1],
             ],
-            selUnit: "mA",
+            selUnit: "A",
+            metricPrefixes: true,
+            sigFig: 4,
             validation: {
               fns: [
                 Validators.isNumber
@@ -61,12 +60,11 @@ class UI extends React.Component {
             name: "Resistance",
             direction: "output",                        
             units: [
-              ["mΩ", 1e-3],
               ["Ω", 1],
-              ["kΩ", 1e3],
-              ["MΩ", 1e6],
             ],
-            selUnit: "kΩ",
+            selUnit: "Ω",
+            metricPrefixes: true,
+            sigFig: 4,
             validation: {
               fns: [
                 Validators.isNumber

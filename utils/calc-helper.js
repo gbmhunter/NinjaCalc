@@ -1,3 +1,4 @@
+import { MetricPrefixes } from '~/utils/metric-prefixes'
 
 export class Validators {
   /**
@@ -41,7 +42,17 @@ export class CalcHelper {
     const unit = calcVar.units.filter(unit => {
       return unit[0] == calcVar.selUnit
     })[0]
-    const rawVal = calcVar.dispVal * unit[1]
+
+    let num = null
+    // Support metric prefixes if allowed
+    if (calcVar.metricPrefixes) {
+      num = MetricPrefixes.stringToNum(calcVar.dispVal)
+    } else {
+      num = parseFloat(calcVar.dispVal)
+    }
+
+    // Now convert to "base" units
+    const rawVal = num * unit[1]
     calcVar.rawVal = rawVal
   }
 
@@ -50,13 +61,23 @@ export class CalcHelper {
       return unit[0] == calcVar.selUnit
     })[0]
     if(!unit) throw Error('"' + calcVar.selUnit + '" units not found for calcVar="' + calcVar.name + '". Available units=' + calcVar.units)
-    const dispValNumeric = calcVar.rawVal / unit[1]
+
+  
+    let num = calcVar.rawVal / unit[1]
     // Convert to string, rounding using sigFig
     if (!('sigFig' in calcVar)) {
       console.log('WARNING: calcVar "' + calcVar.name + '" does not have sigFig set.')
     }
-    const dispVal = dispValNumeric.toPrecision(calcVar.sigFig)
-    calcVar.dispVal = dispVal
+
+    // Support metric prefixes if allowed
+    let numStr = null
+    if (calcVar.metricPrefixes) {
+      numStr = MetricPrefixes.numToString(num, calcVar.sigFig)
+    } else {
+      numStr = num.toPrecision(calcVar.sigFig)
+    }
+
+    calcVar.dispVal = numStr
   }
 
   static runValidation(calcVar, calc) {
