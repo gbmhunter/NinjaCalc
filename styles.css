@@ -25,3 +25,8 @@ table.calc-vars tbody tr:nth-child(odd) {
 div.MathJax_Display {
   text-align: center !important; /* Have to do this because for some weird reason style is being set on this element with text-align: left */
 }
+
+
+.tooltip {
+  max-width: 300px;
+}

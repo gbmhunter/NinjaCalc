@@ -23,6 +23,7 @@
     "react-dom": "16.10.2",
     "react-plotly.js": "^2.3.0",
     "react-stonecutter": "^0.3.10",
+    "react-tooltip": "^4.2.10",
     "react-treebeard": "^3.2.4",
     "stonecutter": "^0.3.10-rc",
     "three": "^0.109.0"
