@@ -104,14 +104,12 @@ export class CalcHelper {
       const validationMsg = validationResult[1]
       calcVar.validation.state = validationState
       calcVar.validation.msg = validationMsg
-    } else if (calcVar.validation.fns) {
-      console.log('Detected multiple validation functions!')
+    } else if (calcVar.validation.fns) {      
       let validationResults = []
       for(const fn of calcVar.validation.fns) {
         const validationResult = fn(calcVar.rawVal, calc)
         validationResults.push(validationResult)
-      }
-      console.log('Sorting...')
+      }      
       // The following function sorts all the validation results so that the errors will be first,
       // warnings second, then 'oks'.
       validationResults.sort(function(x, y) {
@@ -136,9 +134,7 @@ export class CalcHelper {
             return 1
           }
         }
-      })
-      console.log('Sorted validationResults (most serious to least serious)=')
-      console.log(validationResults)
+      })            
       if (validationResults.length >= 1){
         const validationResult = validationResults[0]
         const validationState = validationResult[0]

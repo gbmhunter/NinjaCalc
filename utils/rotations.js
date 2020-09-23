@@ -103,7 +103,6 @@ class Rotations {
   }
 
   static quatToRotMatrix = (quat) => {
-    console.log('quat=' + quat)
     const w = quat.get([0])
     const x = quat.get([1])
     const y = quat.get([2])
@@ -306,8 +305,6 @@ class Rotations {
    */
   static rotMatrixToEulerAngles = (rotMatrix, order) => {
     // Convert to THREE matrix
-    console.log('rotMatrixToEulerAngles() called. order=')
-    console.log(order)
     let rotMatrix3 = new THREE.Matrix4()
     // Convert from 3x3 to 4x4 matrix (with 4th elements being identity to make it a pure
     // rotation)
@@ -325,12 +322,9 @@ class Rotations {
     // to the object as .x, .y and .z into the same order as the axes
     // in the order variable
     let outputArray = []
-    for(let axis of order) {
-      console.log(axis)
+    for(let axis of order) {      
       outputArray.push(eulerAngles[axis.toLowerCase()])
-    }
-    console.log('outputArray=')
-    console.log(outputArray)
+    }        
     return matrix(outputArray)
   }
 

@@ -96,7 +96,9 @@ class UI extends React.Component {
   }
 
   componentDidMount() {
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub])
+    // MathJax not defined during tests
+    if(typeof MathJax !== 'undefined')
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub])
   } // componentDidMount()
 
   valueChanged = (e) => {

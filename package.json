@@ -9,7 +9,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "babel-jest": "^26.3.0",
     "bootstrap": "^4.3.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.4",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-optipng": "^8.0.0",
     "jquery": "^3.5.0",

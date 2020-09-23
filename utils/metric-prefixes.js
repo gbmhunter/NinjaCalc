@@ -47,8 +47,7 @@ export class MetricPrefixes {
       if (prefix[1] == lastChar) {
         foundPrefix = prefix
       }
-    }
-    console.log(foundPrefix)
+    }    
     if (!foundPrefix) {
       // No metric prefix found, treat entire string as a number
       if (!isNumeric(string))
