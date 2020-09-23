@@ -6,17 +6,27 @@ export class Validators {
    * @param {string} value The input string to check.
    */
   static isNumber(value) {
-    if(isNaN(value)) {
-      return [ 'error', 'Value must be a number.']
+    if(!isNaN(value)) {
+      return [ 'ok', '']      
     } else {
-      return [ 'ok', '']
+      return [ 'error', 'Value must be a number.']
     }
   }
 }
 
+/**
+ * Makes sure the input string is a number, with no additional alphabetical
+ * characters after a valid number (which isNaN() won't pick up on!).
+ * 
+ * @param {string} s String to test if numeric.
+ */
+function isNumeric(s) {
+  return !isNaN(s - parseFloat(s));
+}
+
 export class CalcHelper {
 
-  validators = Validators()
+  // validators = Validators()
 
   static initCalc(calc) {
     for (let calcVarName in calc.calcVars) {
@@ -49,7 +59,10 @@ export class CalcHelper {
     if (calcVar.metricPrefixes) {
       num = MetricPrefixes.stringToNum(calcVar.dispVal)
     } else {
-      num = parseFloat(calcVar.dispVal)
+      if (isNumeric(calcVar.dispVal))
+        num = parseFloat(calcVar.dispVal)
+      else
+        num = NaN
     }
 
     // Now convert to "base" units

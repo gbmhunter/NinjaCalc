@@ -27,6 +27,7 @@ class UI extends React.Component {
         calcVars: {
           voltage: new CalcVar({
             name: "Voltage",
+            type: 'numeric',
             direction: "input",
             dispVal: "12",    
             units: [
@@ -41,8 +42,9 @@ class UI extends React.Component {
               ],
             },
           }), // voltage
-          current: {
+          current: new CalcVar({
             name: "Current",
+            type: 'numeric',
             direction: "input",
             dispVal: "1",            
             units: [
@@ -56,9 +58,10 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-          }, // current
-          resistance: {
+          }), // current
+          resistance: new CalcVar({
             name: "Resistance",
+            type: 'numeric',
             direction: "output",                        
             units: [
               ["Ω", 1],
@@ -71,7 +74,7 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-          }, // resistance
+          }), // resistance
         }, // calcVars
         eqFn: (calcVars) => {
           if (calcVars.voltage.direction == "output") {
@@ -89,14 +92,11 @@ class UI extends React.Component {
         },
       }, // calc
     }; // this.state
+    CalcHelper.initCalc(this.state.calc)
   }
 
   componentDidMount() {
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    CalcHelper.initCalc(this.state.calc);
-    this.setState({
-      calc: this.state.calc,
-    });
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub])
   } // componentDidMount()
 
   valueChanged = (e) => {

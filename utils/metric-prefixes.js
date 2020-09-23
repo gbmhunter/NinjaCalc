@@ -13,6 +13,16 @@ const prefixMap = new Map([
   [5, 'P'],
 ])
 
+/**
+ * Makes sure the input string is a number, with no additional alphabetical
+ * characters after a valid number (which isNaN() won't pick up on!).
+ * 
+ * @param {string} s String to test if numeric.
+ */
+function isNumeric(s) {
+  return !isNaN(s - parseFloat(s));
+}
+
 export class MetricPrefixes {
   static numToString(num, precision) {    
     const origNum = num // Save for later
@@ -41,9 +51,14 @@ export class MetricPrefixes {
     console.log(foundPrefix)
     if (!foundPrefix) {
       // No metric prefix found, treat entire string as a number
+      if (!isNumeric(string))
+        return NaN  
+      
       return parseFloat(string)
     }
     const numberStr = string.slice(0, string.length - 1)
+    if (!isNumeric(numberStr))
+        return NaN 
     const numberUnscaled = parseFloat(numberStr)
     const numberScaled = numberUnscaled * Math.pow(1000, foundPrefix[0])
     return numberScaled
