@@ -24,14 +24,23 @@ function isNumeric(s) {
 }
 
 export class MetricPrefixes {
-  static numToString(num, precision) {    
+  static numToString(num, precision) {  
+    // console.log('numToString() called with num=' + num)  
     const origNum = num // Save for later
-    let log1000 = Math.floor(Math.log10(num)/3)    
+    // Need to deal with positive numbers only, we'll add the
+    // negative back in later
+    num = Math.abs(num)
+    let log1000 = Math.floor(Math.log10(num)/3)
+    // console.log(log1000)
     num = num/(Math.pow(1000, log1000))
     const prefix = prefixMap.get(log1000)
+    // console.log('prefix=' + prefix)
     let output = null
     if (prefix) {
       output = num.toPrecision(precision) + prefix
+      // console.log('output=' + output)
+      if(origNum < 0)
+        output = '-' + output
     } else {
       // No metric prefix found in input, just do a standard number
       // to string conversion

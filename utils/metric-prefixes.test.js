@@ -30,12 +30,20 @@ test('56', () => {
   expect(MetricPrefixes.numToString(56, 2)).toBe('56')
 })
 
+test('-56to-56', () => {
+  expect(MetricPrefixes.numToString(-56, 2)).toBe('-56')
+})
+
 test('999', () => {
   expect(MetricPrefixes.numToString(999, 3)).toBe('999')
 })
 
-test('2k', () => {
+test('2000to2k', () => {
   expect(MetricPrefixes.numToString(2000, 1)).toBe('2k')
+})
+
+test('-2000to-2k', () => {
+  expect(MetricPrefixes.numToString(-2000, 1)).toBe('-2k')
 })
 
 test('2.00000k', () => {
