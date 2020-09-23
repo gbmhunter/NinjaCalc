@@ -6,6 +6,7 @@ import LayoutCalc from "~/components/layout-calc"
 import VarRowV2 from "~/components/VarRowV2";
 import {CalcHelper, Validators} from "~/utils/calc-helper";
 import TileImage from "./tile-image.png";
+import { CalcVar } from "~/utils/calc-var"
 
 export var metadata = {
   id: "ohms-law", // Make sure this has the same name as the directory this file is in
@@ -24,7 +25,7 @@ class UI extends React.Component {
     this.state = {
       calc: {
         calcVars: {
-          voltage: {
+          voltage: new CalcVar({
             name: "Voltage",
             direction: "input",
             dispVal: "12",    
@@ -39,7 +40,7 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-          }, // voltage
+          }), // voltage
           current: {
             name: "Current",
             direction: "input",
