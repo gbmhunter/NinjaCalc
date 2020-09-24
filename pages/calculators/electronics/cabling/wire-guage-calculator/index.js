@@ -10,12 +10,12 @@ import { CalcVar } from '~/utils/calc-var'
 import { UnitsMultiplicative } from '~/utils/calc-units'
 
 export var metadata = {
-  id: "ohms-law", // Make sure this has the same name as the directory this file is in
-  name: "Ohm's Law (V=IR)",
+  id: "wire-guage-calculator", // Make sure this has the same name as the directory this file is in
+  name: "Wire Guage Calculator",
   description:
-    "The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm's law.",
-  categories: ["Electronics", "Basics"], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
-  tags: ["electronics", "ohms", "law", "resistor", 'voltage', 'resistance', 'current'],
+    'Find the right size wire guage for a particular current and voltage drop.',
+  categories: ["Electronics", "Cabling"], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
+  tags: [ "electronics", 'wire', 'cable', 'guage', 'AWG', 'current' ],
   image: TileImage,
 }
 
@@ -25,15 +25,15 @@ class UI extends React.Component {
     this.state = {
       calc: new Calc({
         calcVars: {
-          voltage_V: new CalcVar({
-            name: "Voltage",
+          voltageDrop_perc: new CalcVar({
+            name: "Voltage Drop",
             type: 'numeric',
             direction: "input",
             dispVal: "12",
             units: [
-              new UnitsMultiplicative("V", 1),
+              new UnitsMultiplicative("%", 1e0),
             ],
-            selUnit: "V",
+            selUnit: "%",
             metricPrefixes: true,
             sigFig: 4,
             validation: {
@@ -41,16 +41,33 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-          }), // voltage_V
+          }), // voltageDrop_perc
+          cableLength_m: new CalcVar({
+            name: "Cable Length",
+            type: 'numeric',
+            direction: "input",
+            dispVal: "5",
+            units: [
+              new UnitsMultiplicative("m", 1),
+            ],
+            selUnit: 'm',
+            metricPrefixes: true,
+            sigFig: 4,
+            validation: {
+              fns: [
+                Validators.isNumber
+              ],
+            },
+          }), // cableLength_m
           current_A: new CalcVar({
             name: "Current",
             type: 'numeric',
             direction: "input",
-            dispVal: "1",
-            units: [
-              new UnitsMultiplicative("A", 1),
+            dispVal: '10',
+            units: [              
+              new UnitsMultiplicative('m', 1),
             ],
-            selUnit: "A",
+            selUnit: 'm',
             metricPrefixes: true,
             sigFig: 4,
             validation: {
@@ -59,14 +76,15 @@ class UI extends React.Component {
               ],
             },
           }), // current_A
-          resistance_Ohms: new CalcVar({
-            name: "Resistance",
+          cableResistance_Ohmpm: new CalcVar({
+            name: "Cable Resistance",
             type: 'numeric',
-            direction: "output",
+            direction: "input",
+            dispVal: '3.5',
             units: [              
-              new UnitsMultiplicative("Ω", 1),
+              new UnitsMultiplicative("Ohm/km", 1e3),
             ],
-            selUnit: "Ω",
+            selUnit: "Ohm/km",
             metricPrefixes: true,
             sigFig: 4,
             validation: {
@@ -74,21 +92,10 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-          }), // resistance_Ohms
+          }), // cableResistance_Ohmpm
         }, // calcVars
         eqFn: (calcVars) => {
-          if (calcVars.voltage_V.direction == "output") {
-            calcVars.voltage_V.rawVal =
-              calcVars.current_A.rawVal * calcVars.resistance_Ohms.rawVal
-          } else if (calcVars.current_A.direction == "output") {
-            calcVars.current_A.rawVal =
-              calcVars.voltage_V.rawVal / calcVars.resistance_Ohms.rawVal
-          } else if (calcVars.resistance_Ohms.direction == "output") {
-            calcVars.resistance_Ohms.rawVal =
-              calcVars.voltage_V.rawVal / calcVars.current_A.rawVal
-          } else {
-            throw Error("No variable was an output.")
-          }
+          
         },
       }), // calc
     } // this.state
@@ -169,30 +176,10 @@ class UI extends React.Component {
           <table>
             <tbody>
               <VarRowV2
-                id="voltage_V"
+                id="voltageDrop_perc"
                 calcVars={calcVars}
                 valueChanged={this.valueChanged}
-                unitsChanged={this.unitsChanged}
-                rbGroup="calc-what"
-                rbChanged={this.rbChanged}
-                width={varWidth}
-              />
-              <VarRowV2
-                id="current_A"
-                calcVars={calcVars}
-                valueChanged={this.valueChanged}
-                unitsChanged={this.unitsChanged}
-                rbGroup="calc-what"
-                rbChanged={this.rbChanged}
-                width={varWidth}
-              />
-              <VarRowV2
-                id="resistance_Ohms"
-                calcVars={calcVars}
-                valueChanged={this.valueChanged}
-                unitsChanged={this.unitsChanged}
-                rbGroup="calc-what"
-                rbChanged={this.rbChanged}
+                unitsChanged={this.unitsChanged}                            
                 width={varWidth}
               />
             </tbody>
