@@ -8,8 +8,7 @@ import TileImage from "./tile-image.png";
 
 export var metadata = {
   id: "filter-low-pass-rc", // Make sure this has the same name as the directory this file is in
-  name: "Low-Pass RC Filter",
-  path: 'calculators/electronics/filters/filter-low-pass-rc',
+  name: "Low-Pass RC Filter",  
   description:
     "The low-pass RC filter is probably the simplist and most used electronic filter. Great for input signal filtering.",
   categories: ["Electronics", "Filters"],

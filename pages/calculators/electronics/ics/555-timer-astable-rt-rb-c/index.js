@@ -3,14 +3,15 @@ import React from 'react'
 
 import Nav from '~/components/nav'
 import Layout from '~/components/layout-calc'
-import VarRow from '~/components/VarRow'
+import VarRow from '~/components/VarRowV2'
+import { Calc } from '~/utils/calc'
+import { CalcVar } from '~/utils/calc-var'
 import CalcHelper from '~/utils/calc-helper'
 import TileImage from './tile-image.png'
 
 export var metadata = {
   id: '555-timer-astable-rt-rb-c', // Make sure this has the same name as the directory this file is in
-  name: '555 Timer, Astable (Freq/Duty Cycle In, Rt/Rb/C Out)',
-  path: 'calculators/electronics/ics/555-timer-astable-rt-rb-c',
+  name: '555 Timer, Astable (Freq/Duty Cycle In, Rt/Rb/C Out)',  
   description: 'Calculate the resistor and capacitors values for a 555 timer in astable configuration.',
   categories: ['Electronics', 'PCB Design'],
   tags: ['555', 'timer'],
@@ -22,18 +23,18 @@ class UI extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      calc: {
+      calc: new Calc({
         calcVars: {
-          freq: {
+          freq: new CalcVar({
             name: 'Frequency',
+            type: 'numeric',
             direction: 'input',
-            dispVal: '10k',            
+            dispVal: '10k',
+            metricPrefixes: true,          
             units: [
               ['Hz', 1e0],
-              ['kHz', 1e3],
             ],
-            selUnit: 'Hz',
-            metricPrefixes: true,
+            selUnit: 'Hz',            
             validation: {
               fn: (value) => {
                 console.log('validator() called with value=' + value)
@@ -41,12 +42,13 @@ class UI extends React.Component {
                 return ['ok', '']
               },
             },
-          }, // freq
-          dutyCycle: {
+          }), // freq
+          dutyCycle: new CalcVar({
             name: 'Duty Cycle',
+            type: 'numeric',
             direction: 'input',
             dispVal: '60',
-            rawVal: null,
+            metricPrefixes: false,
             units: [
               ['%', 1e-2],              
             ],
@@ -58,16 +60,17 @@ class UI extends React.Component {
                 return ['ok', '']
               },
             },
-          }, // dutyCycle
-          capacitance: {
+          }), // dutyCycle
+          capacitance: new CalcVar({
             name: 'Capacitance',
+            type: 'numeric',
             direction: 'input',
-            dispVal: '10n',            
+            dispVal: '10n',
+            metricPrefixes: true,        
             units: [
               ['F', 1e0],              
             ],
             selUnit: 'F',
-            metricPrefixes: true,
             validation: {
               fn: (value) => {
                 if (value <= 0) return ['error', 'Capacitance must be greater than zero.']
@@ -76,67 +79,62 @@ class UI extends React.Component {
                 return ['ok', '']
               },
             },
-          }, // capacitance
-          period: {
+          }), // capacitance
+          period: new CalcVar({
             name: 'Period',
+            type: 'numeric',
             direction: 'output',
-            dispVal: '0',
-            rawVal: null,
+            metricPrefixes: true,
             units: [
-              ['ms', 1e-3],   
               ['s', 1e0],              
             ],
-            selUnit: 'ms',
+            selUnit: 's',
             sigFig: 3,
-          }, // period
-          timeHigh: {
+          }), // period
+          timeHigh: new CalcVar({
             name: 'Time High',
+            type: 'numeric',
             direction: 'output',
-            dispVal: '0',
-            rawVal: null,
+            metricPrefixes: true,
             units: [
-              ['ms', 1e-3],   
               ['s', 1e0],              
             ],
-            selUnit: 'ms',
+            selUnit: 's',
             sigFig: 3,
-          }, // timeHigh
-          timeLow: {
+          }), // timeHigh
+          timeLow: new CalcVar({
             name: 'Time Low',
+            type: 'numeric',
             direction: 'output',
-            dispVal: '0',
-            rawVal: null,
+            metricPrefixes: true,
             units: [
-              ['ms', 1e-3],
               ['s', 1e0],              
             ],
-            selUnit: 'ms',
+            selUnit: 's',
             sigFig: 3,
-          }, // timeLow
-          r1: {
+          }), // timeLow
+          r1: new CalcVar({
             name: 'R1',
+            type: 'numeric',
             direction: 'output',
-            dispVal: '0',
-            rawVal: null,
+            metricPrefixes: true,
             units: [
               ['Ω', 1e0],
-              ['kΩ', 1e3],
             ],
-            selUnit: 'kΩ',
+            selUnit: 'Ω',
             sigFig: 3,
-          }, // r1
-          r2: {
+          }), // r1
+          r2: new CalcVar({
             name: 'R2',
+            type: 'numeric',
             direction: 'output',
-            dispVal: '0',
-            rawVal: null,
+            metricPrefixes: true,            
             units: [
               ['Ω', 1e0],
-              ['kΩ', 1e3],
             ],
-            selUnit: 'kΩ',
+            selUnit: 'Ω',
             sigFig: 3,
-          }, // r2
+          }), // r2
         }, // calcVars
         eqFn: (calcVars) => {
           const period_s = 1/calcVars.freq.rawVal
@@ -154,7 +152,7 @@ class UI extends React.Component {
           const r2_Ohms = timeHigh_s/(0.693*calcVars.capacitance.rawVal) - r1_Ohms
           calcVars.r2.rawVal = r2_Ohms
         },
-      }, // calc
+      }), // calc
     } // this.state
   }
 

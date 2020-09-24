@@ -2,16 +2,17 @@ import Head from 'next/head'
 import React from 'react'
 
 import Layout from '~/components/layout'
-import VarRow from '~/components/VarRow'
+import VarRow from '~/components/VarRowV2'
 
+import { Calc } from '~/utils/calc'
+import { CalcVar } from '~/utils/calc-var'
 import CalcHelper from '~/utils/calc-helper'
 
 import TileImage from './tile-image.png'
 
 export var metadata = {
   id: 'via-thermal-resistance',
-  name: 'Via Thermal Resistance',
-  path: 'calculators/electronics/pcb-design/via-thermal-resistance',
+  name: 'Via Thermal Resistance',  
   description: 'Calculator the thermal resistance of a via.',
   categories: ['Electronics', 'PCB Design'],
   tags: ['vias', 'electronics', 'thermal', 'resistance'],
@@ -25,9 +26,9 @@ class UI extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      calc: {
+      calc: new Calc({
         calcVars: {
-          viaDiameter: {
+          viaDiameter: new CalcVar({
             name: 'Via Diameter',
             direction: 'input',
             dispVal: '0.3',
@@ -36,8 +37,8 @@ class UI extends React.Component {
               ['mils', MILS_TO_M],
             ],
             selUnit: 'mm',
-          },
-          platingThickness: {
+          }),
+          platingThickness: new CalcVar({
             name: 'Plating Thickness',
             direction: 'input',
             dispVal: '35.0',
@@ -46,8 +47,8 @@ class UI extends React.Component {
               ['mils', MILS_TO_M],
             ],
             selUnit: 'um',
-          },
-          viaHeight: {
+          }),
+          viaHeight: new CalcVar({
             name: 'Via Height',
             direction: 'input',
             dispVal: '1.6',
@@ -56,8 +57,8 @@ class UI extends React.Component {
               ['mils', MILS_TO_M],
             ],
             selUnit: 'mm',
-          },
-          copperThermalConductivity: {
+          }),
+          copperThermalConductivity: new CalcVar({
             name: 'Copper Thermal Conductivity',
             direction: 'input',
             dispVal: '401',
@@ -65,8 +66,8 @@ class UI extends React.Component {
               ['W•m-1•K-1', 1e0],
             ],
             selUnit: 'W•m-1•K-1',            
-          },
-          viaThermalResistance: {
+          }),
+          viaThermalResistance: new CalcVar({
             name: 'Via Thermal Resistance',
             direction: 'output',
             dispVal: '0',
@@ -75,7 +76,7 @@ class UI extends React.Component {
             ],
             selUnit: '°C•W-1',
             sigFig: 3,
-          },
+          }),
         }, // calcVars
         eqFn: (calcVars) => {      
           const viaCrossSectionalArea_m2 = Math.PI * calcVars.platingThickness.rawVal 
@@ -85,19 +86,13 @@ class UI extends React.Component {
             * calcVars.viaHeight.rawVal / viaCrossSectionalArea_m2
           calcVars.viaThermalResistance.rawVal = viaThermalResistance
         }
-      } // calc
-    }
+      }), // calc
+    } // this.state
+    CalcHelper.initCalc(this.state.calc)
   }
 
   componentDidMount() {
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub])
-
-    CalcHelper.initCalc(this.state.calc)
-    this.setState({
-      calc: this.state.calc
-    })
-
-    console.log('CalculatorViaThermalResistance mounted.')
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub])    
   } // componentDidMount()
 
   valueChanged = (e) => {
@@ -120,18 +115,7 @@ class UI extends React.Component {
 
     // Area of ring = pi * inner diameter * thickness
     const calcVars = this.state.calc.calcVars
-
-    // const validationMsgs = Object.keys(vars).map((key, idx) => {
-    //   const validationMsg = vars[key].validationMsg
-    //   console.log(validationMsg)
-    //   if (validationMsg != '') {
-    //     return <li key={idx}>{vars[key].validationMsg}</li>
-    //   } else {
-    //     return
-    //   }
-    // })
-    const validationMsgs = ''
-
+    
     const varWidth = 150
 
     return (
@@ -151,8 +135,6 @@ class UI extends React.Component {
               <VarRow id="viaThermalResistance" calcVar={calcVars.viaThermalResistance} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
             </tbody>
           </table>
-
-          {validationMsgs}
 
           <div style={{ height: 20 }}></div>
 

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
 
-import Layout from "~/components/layout";
+import Layout from "~/components/layout-calc"
 import VarRowV2 from "~/components/VarRowV2";
 import VarRowV2Select from "~/components/VarRowV2Select";
 import CalcHelper from "~/utils/calc-helper";
@@ -10,8 +10,7 @@ import TileImage from "./tile-image.png";
 
 export var metadata = {
   id: "microstrip-impedance", // Make sure this has the same name as the directory this file is in
-  name: "Microstrip Impedance",
-  path: 'calculators/electronics/pcb-design/microstrip-impedance',
+  name: "Microstrip Impedance",  
   description:
     "A calculator for working out the impedance of a standard microstrip style track.",
   categories: ["Electronics", "PCB Design"],
@@ -213,12 +212,60 @@ class UI extends React.Component {
     const varWidth = 100;
 
     return (
-      <Layout>
+      <Layout title={metadata.name + ' Calculator'}>
         <Head>
           <title>{metadata.name}</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="vbox outer-wrapper">
+          <img src={require('./diagram.png')} style={{ width: '600px' }}/>
+          <table style={{ maxWidth: '900px' }}>
+            <tbody>
+              <VarRowV2
+                id="trackWidth"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                showHelpText={true}
+                width={varWidth}
+              />
+              <VarRowV2
+                id="trackThickness"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                showHelpText={true}
+                width={varWidth}
+              />
+              <VarRowV2
+                id="substrateThickness"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                showHelpText={true}
+                width={varWidth}
+              />              
+              <VarRowV2
+                id="substrateDielectric"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                showHelpText={true}
+                width={varWidth}
+              />
+              <VarRowV2
+                id="trackImpedance"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                showHelpText={true}
+                width={varWidth}
+              />
+            </tbody>
+          </table>
+
+          <div style={{ height: '50px' }}></div>
+
           <div style={{ maxWidth: "800px" }}>
             <p>
               This calculator can find the impedance of various microstrip and
@@ -277,53 +324,6 @@ class UI extends React.Component {
               .
             </p>
           </div>
-          <img src={require('./diagram.png')} style={{ width: '600px' }}/>
-          <table style={{ maxWidth: '900px' }}>
-            <tbody>
-              <VarRowV2
-                id="trackWidth"
-                calcVars={calcVars}
-                valueChanged={this.valueChanged}
-                unitsChanged={this.unitsChanged}
-                showHelpText={true}
-                width={varWidth}
-              />
-              <VarRowV2
-                id="trackThickness"
-                calcVars={calcVars}
-                valueChanged={this.valueChanged}
-                unitsChanged={this.unitsChanged}
-                showHelpText={true}
-                width={varWidth}
-              />
-              <VarRowV2
-                id="substrateThickness"
-                calcVars={calcVars}
-                valueChanged={this.valueChanged}
-                unitsChanged={this.unitsChanged}
-                showHelpText={true}
-                width={varWidth}
-              />              
-              <VarRowV2
-                id="substrateDielectric"
-                calcVars={calcVars}
-                valueChanged={this.valueChanged}
-                unitsChanged={this.unitsChanged}
-                showHelpText={true}
-                width={varWidth}
-              />
-              <VarRowV2
-                id="trackImpedance"
-                calcVars={calcVars}
-                valueChanged={this.valueChanged}
-                unitsChanged={this.unitsChanged}
-                showHelpText={true}
-                width={varWidth}
-              />
-            </tbody>
-          </table>
-
-          <div style={{ height: 20 }}></div>
         </div>
         <style jsx>{`
           .calc-notes {

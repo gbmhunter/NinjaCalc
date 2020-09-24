@@ -10,8 +10,7 @@ import TileImage from "./tile-image.png";
 
 export var metadata = {
   id: "track-current-ipc2152", // Make sure this has the same name as the directory this file is in
-  name: "Track Current (IPC-2152)",
-  path: "calculators/electronics/pcb-design/track-current-ipc2152",
+  name: "Track Current (IPC-2152)",  
   description:
     "PCB track current carrying capability calculator, using the IPC-2152 standard.",
   categories: ["Electronics", "PCB Design"],

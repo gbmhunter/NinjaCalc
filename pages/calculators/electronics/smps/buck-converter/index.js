@@ -8,8 +8,7 @@ import TileImage from "./tile-image.png";
 
 export var metadata = {
   id: "buck-converter", // Make sure this has the same name as the directory this file is in
-  name: "Buck Converter",
-  path: "calculators/electronics/smps/buck-converter",
+  name: "Buck Converter",  
   description:
     "This calculator can be used to calculate the values of the critical component values for a buck converter.",
   categories: ["Electronics", "SMPS"],

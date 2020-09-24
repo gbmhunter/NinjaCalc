@@ -8,8 +8,7 @@ import TileImage from "./tile-image.jpg";
 
 export var metadata = {
   id: "ntc-thermistor", // Make sure this has the same name as the directory this file is in
-  name: "NTC Thermistor",
-  path: "calculators/electronics/sensors/ntc-thermistor",
+  name: "NTC Thermistor",  
   description:
     "Calculate the temperature, resistance (reference or actual), or beta-coefficient of NTC thermistors.",
   categories: ["Electronics", "Sensors"],

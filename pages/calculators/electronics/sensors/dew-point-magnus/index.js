@@ -8,8 +8,7 @@ import TileImage from "./tile-image.png";
 
 export var metadata = {
   id: "dew-point-magnus", // Make sure this has the same name as the directory this file is in
-  name: "Dew Point (Magnus Equation)",
-  path: "calculators/electronics/sensors/dew-point-magnus",
+  name: "Dew Point (Magnus Equation)",  
   description: "Calculate the dew point using the Magnus equation.",
   categories: ["Electronics", "Sensors"],
   tags: [

@@ -5,13 +5,11 @@ import Layout from "~/components/layout";
 import VarRowV2 from "~/components/VarRowV2";
 import VarRowV2Select from "~/components/VarRowV2Select";
 import CalcHelper from "~/utils/calc-helper";
-import { unitConversionConstants } from "~/utils/unit-conversion-constants";
 import TileImage from "./tile-image.png";
 
 export var metadata = {
   id: "via-current-ipc2221a", // Make sure this has the same name as the directory this file is in
-  name: "Via Current (IPC-2221a)",
-  path: 'calculators/electronics/pcb-design/via-current-ipc2221a',
+  name: "Via Current (IPC-2221a)",  
   description:
     "PCB via current carrying capability calculator, using the IPC-2221A standard.",
   categories: ["Electronics", "PCB Design"],
