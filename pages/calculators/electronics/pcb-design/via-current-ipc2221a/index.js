@@ -2,7 +2,7 @@ import Head from "next/head";
 import React from "react";
 
 import Layout from "~/components/layout";
-import VarRowV2 from "~/components/VarRowV2";
+import VarRowV2 from '~/components/calc-var-row';
 import VarRowV2Select from "~/components/VarRowV2Select";
 import CalcHelper from "~/utils/calc-helper";
 import TileImage from "./tile-image.png";

@@ -2,7 +2,7 @@ import Head from "next/head"
 import React from "react"
 
 import LayoutCalc from "~/components/layout-calc"
-import VarRowV2 from "~/components/VarRowV2"
+import VarRowV2 from '~/components/calc-var-row'
 import { CalcHelper, Validators } from "~/utils/calc-helper"
 import TileImage from "./tile-image.png"
 import { Calc } from '~/utils/calc'
@@ -24,7 +24,7 @@ class UI extends React.Component {
     this.state = {
       calc: new Calc({
         calcVars: {
-          voltage: new CalcVar({
+          voltage_V: new CalcVar({
             name: "Voltage",
             type: 'numeric',
             direction: "input",
@@ -40,8 +40,8 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-          }), // voltage
-          current: new CalcVar({
+          }), // voltage_V
+          current_A: new CalcVar({
             name: "Current",
             type: 'numeric',
             direction: "input",
@@ -57,8 +57,8 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-          }), // current
-          resistance: new CalcVar({
+          }), // current_A
+          resistance_Ohms: new CalcVar({
             name: "Resistance",
             type: 'numeric',
             direction: "output",
@@ -73,18 +73,18 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-          }), // resistance
+          }), // resistance_Ohms
         }, // calcVars
         eqFn: (calcVars) => {
-          if (calcVars.voltage.direction == "output") {
-            calcVars.voltage.rawVal =
-              calcVars.current.rawVal * calcVars.resistance.rawVal
-          } else if (calcVars.current.direction == "output") {
-            calcVars.current.rawVal =
-              calcVars.voltage.rawVal / calcVars.resistance.rawVal
-          } else if (calcVars.resistance.direction == "output") {
-            calcVars.resistance.rawVal =
-              calcVars.voltage.rawVal / calcVars.current.rawVal
+          if (calcVars.voltage_V.direction == "output") {
+            calcVars.voltage_V.rawVal =
+              calcVars.current_A.rawVal * calcVars.resistance_Ohms.rawVal
+          } else if (calcVars.current_A.direction == "output") {
+            calcVars.current_A.rawVal =
+              calcVars.voltage_V.rawVal / calcVars.resistance_Ohms.rawVal
+          } else if (calcVars.resistance_Ohms.direction == "output") {
+            calcVars.resistance_Ohms.rawVal =
+              calcVars.voltage_V.rawVal / calcVars.current_A.rawVal
           } else {
             throw Error("No variable was an output.")
           }
@@ -168,7 +168,7 @@ class UI extends React.Component {
           <table>
             <tbody>
               <VarRowV2
-                id="voltage"
+                id="voltage_V"
                 calcVars={calcVars}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
@@ -177,7 +177,7 @@ class UI extends React.Component {
                 width={varWidth}
               />
               <VarRowV2
-                id="current"
+                id="current_A"
                 calcVars={calcVars}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
@@ -186,7 +186,7 @@ class UI extends React.Component {
                 width={varWidth}
               />
               <VarRowV2
-                id="resistance"
+                id="resistance_Ohms"
                 calcVars={calcVars}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}

@@ -3,7 +3,7 @@ import React from 'react'
 
 import Nav from '~/components/nav'
 import Layout from '~/components/layout-calc'
-import VarRow from '~/components/VarRowV2'
+import VarRow from '~/components/calc-var-row'
 import { Calc } from '~/utils/calc'
 import { CalcVar } from '~/utils/calc-var'
 import CalcHelper from '~/utils/calc-helper'

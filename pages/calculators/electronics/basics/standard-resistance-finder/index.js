@@ -2,7 +2,7 @@ import Head from "next/head";
 import React from "react";
 
 import Layout from "~/components/layout-calc"
-import VarRowV2 from "~/components/VarRowV2";
+import VarRowV2 from '~/components/calc-var-row';
 import { Calc } from '~/utils/calc'
 import { CalcVar } from '~/utils/calc-var'
 import CalcHelper from "~/utils/calc-helper";
