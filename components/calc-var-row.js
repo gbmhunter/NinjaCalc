@@ -2,6 +2,8 @@ import PropTypes from "prop-types"
 import ReactTooltip from 'react-tooltip'
 import {findDOMNode} from 'react-dom'
 
+import * as CalcUnits from '~/utils/calc-units'
+
 class VarRow extends React.Component {
   constructor(props) {
     super(props);
@@ -43,9 +45,17 @@ class VarRow extends React.Component {
     }
 
     const unitOptions = calcVar.units.map((unit, idx) => {
+      let unitName = null
+      if (Array.isArray(unit)) {
+        unitName = unit[0]
+      } else if (unit instanceof CalcUnits.Units) {
+        unitName = unit.name
+      } else {
+        throw Error('Unit type not supported.')
+      }
       return (
-        <option key={idx} value={unit[0]}>
-          {unit[0]}
+        <option key={idx} value={unitName}>
+          {unitName}
         </option>
       );
     });

@@ -7,6 +7,7 @@ import { CalcHelper, Validators } from "~/utils/calc-helper"
 import TileImage from "./tile-image.png"
 import { Calc } from '~/utils/calc'
 import { CalcVar } from '~/utils/calc-var'
+import { UnitsMultiplicative } from '~/utils/calc-units'
 
 export var metadata = {
   id: "ohms-law", // Make sure this has the same name as the directory this file is in
@@ -30,7 +31,7 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "12",
             units: [
-              ["V", 1],
+              new UnitsMultiplicative("V", 1),
             ],
             selUnit: "V",
             metricPrefixes: true,
@@ -47,7 +48,7 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "1",
             units: [
-              ["A", 1],
+              new UnitsMultiplicative("A", 1),
             ],
             selUnit: "A",
             metricPrefixes: true,
@@ -62,8 +63,8 @@ class UI extends React.Component {
             name: "Resistance",
             type: 'numeric',
             direction: "output",
-            units: [
-              ["Ω", 1],
+            units: [              
+              new UnitsMultiplicative("Ω", 1),
             ],
             selUnit: "Ω",
             metricPrefixes: true,

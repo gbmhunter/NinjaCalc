@@ -1,4 +1,5 @@
 import { MetricPrefixes } from '~/utils/metric-prefixes'
+import { Units, UnitsMultiplicative } from '~/utils/calc-units'
 
 export class Validators {
   /**
@@ -50,7 +51,14 @@ export class CalcHelper {
    */
   static setRawValFromDispVal(calcVar) {    
     const unit = calcVar.units.filter(unit => {
-      return unit[0] == calcVar.selUnit
+      if (Array.isArray(unit)) {
+        console.log('WARNING: Using deprecated array-style units "' + unit + '".')
+        return unit[0] == calcVar.selUnit
+      } else if(unit instanceof Units) {
+        return unit.name == calcVar.selUnit
+      } else {
+        throw Error('Unit type not supported.')
+      }
     })[0]
     if(!unit) throw Error('"' + calcVar.selUnit + '" units not found for calcVar="' + calcVar.name + '". Available units=' + calcVar.units)
 
@@ -65,19 +73,41 @@ export class CalcHelper {
         num = NaN
     }
 
-    // Now convert to "base" units
-    const rawVal = num * unit[1]
+    // Convert to base units
+    let rawVal = null
+    if(Array.isArray(unit)) {
+      rawVal = num * unit[1]
+    } else if(unit instanceof UnitsMultiplicative) { 
+      rawVal = num * unit.multiplier
+    } else {
+      throw Error('Type of unit ' + unit + ' not supported.')
+    }    
+
     calcVar.rawVal = rawVal
   }
 
   static setDispValFromRawVal(calcVar) {    
     const unit = calcVar.units.filter(unit => {
-      return unit[0] == calcVar.selUnit
+      if (Array.isArray(unit)) {
+        return unit[0] == calcVar.selUnit
+      } else if(unit instanceof Units) {
+        return unit.name == calcVar.selUnit
+      } else {
+        throw Error('Unit type not supported.')
+      }
     })[0]
     if(!unit) throw Error('"' + calcVar.selUnit + '" units not found for calcVar="' + calcVar.name + '". Available units=' + calcVar.units)
 
+    // Convert from base units
+    let num = null
+    if(Array.isArray(unit)) {
+      num = calcVar.rawVal / unit[1]
+    } else if(unit instanceof UnitsMultiplicative) { 
+      num = calcVar.rawVal / unit.multiplier
+    } else {
+      throw Error('Type of unit ' + unit + ' not supported.')
+    }    
   
-    let num = calcVar.rawVal / unit[1]
     // Convert to string, rounding using sigFig
     if (!('sigFig' in calcVar)) {
       console.log('WARNING: calcVar "' + calcVar.name + '" does not have sigFig set.')
