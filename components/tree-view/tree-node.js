@@ -9,8 +9,6 @@ class TreeNode extends React.Component {
     this.state = {
       categories: categories
     }
-    console.log('categories=')
-    console.log(this.state.categories)
   }
 
   onClick = () => {

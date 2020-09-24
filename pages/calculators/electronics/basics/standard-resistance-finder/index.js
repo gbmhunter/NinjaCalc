@@ -1,18 +1,18 @@
 import Head from "next/head";
 import React from "react";
 
-import Nav from "~/components/nav";
 import Layout from "~/components/layout-calc"
 import VarRowV2 from "~/components/VarRowV2";
+import { Calc } from '~/utils/calc'
+import { CalcVar } from '~/utils/calc-var'
 import CalcHelper from "~/utils/calc-helper";
 import { StandardResistanceFinder } from "~/utils/standard-resistance-finder";
 import TileImage from "./tile-image.png";
-import { ESeriesRow } from "~/components/e-series-row";
+import { ESeriesRow } from "~/components/e-series-row"
 
 export var metadata = {
   id: "standard-resistance-finder", // Make sure this has the same name as the directory this file is in
-  name: "Standard Resistance Finder",
-  path: 'calculators/electronics/basics/standard-resistance-finder',
+  name: "Standard Resistance Finder",  
   description:
     "Find the closest E-series (e.g. E12, E96) resistor (preferred value) to your desired resistance.",
   categories: ["Electronics", "Basics"],
@@ -33,20 +33,19 @@ export var metadata = {
     "e128",
   ],
   image: TileImage,
-};
+}
 
 class UI extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       standardResistanceFinder: new StandardResistanceFinder(),
-      calc: {
+      calc: new Calc({
         calcVars: {
-          desiredResistance: {
+          desiredResistance: new CalcVar({
             name: "Desired Resistance",
             direction: "input",
-            dispVal: "10.3k",
-            rawVal: null,
+            dispVal: "10.3k",            
             units: [
               ["Ω", 1e0],
             ],
@@ -57,22 +56,18 @@ class UI extends React.Component {
                 return ["ok", ""];
               },
             },
-          }, // desiredResistance
+          }), // desiredResistance
         }, // calcVars
         eqFn: (calcVars) => {
           // coming soon...
         },
-      }, // calc
-    }; // this.state
+      }), // calc
+    } // this.state
     CalcHelper.initCalc(this.state.calc);
   }
 
   componentDidMount() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    // CalcHelper.initCalc(this.state.calc)
-    // this.setState({
-    // calc: this.state.calc,
-    // });
   } // componentDidMount()
 
   valueChanged = (e) => {

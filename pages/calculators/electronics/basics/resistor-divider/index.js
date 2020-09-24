@@ -1,16 +1,16 @@
 import Head from "next/head"
 import React from "react"
 
-import Nav from "~/components/nav"
 import Layout from "~/components/layout-calc"
 import VarRowV2 from "~/components/VarRowV2"
+import { Calc } from '~/utils/calc'
+import { CalcVar } from '~/utils/calc-var'
 import CalcHelper from "~/utils/calc-helper"
 import TileImage from "./tile-image.png"
 
 export var metadata = {
   id: "resistor-divider", // Make sure this has the same name as the directory this file is in
-  name: "Resistor Divider",
-  path: 'calculators/electronics/basics/resistor-divider',
+  name: "Resistor Divider",  
   description: "Resistor dividers are a simple, widely-used circuit primitive for reducing a voltage based on a fixed ratio.",
   categories: [ 'Electronics', 'Basics' ],
   tags: [ 'resistor', 'resistance', 'voltage', 'divider', 'reduce', 'adc', 'translate', 'level', 'shift' ],
@@ -21,15 +21,15 @@ class UI extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      calc: {
+      calc: new Calc({
         calcVars: {
-          vin: {
+          vin: new CalcVar({
             name: "Input Voltage",
+            type: 'numeric',
             direction: "input",
             dispVal: "5",
-            rawVal: null,
+            metricPrefixes: true,
             units: [
-              ["mV", 1e-3],
               ["V", 1e0],
             ],
             selUnit: "V",
@@ -38,48 +38,45 @@ class UI extends React.Component {
                 return ["ok", ""];
               },
             },
-          }, // vin
-          rtop: {
+          }), // vin
+          rtop: new CalcVar({
             name: "Top Resistance",
+            type: 'numeric',
             direction: "input",
-            dispVal: "10",
-            rawVal: null,
+            dispVal: "10k",
+            metricPrefixes: true,
             units: [
               ["Ω", 1e0],
-              ["kΩ", 1e3],
-              ["MΩ", 1e6],
             ],
-            selUnit: "kΩ",
+            selUnit: "Ω",
             validation: {
               fn: (value) => {
                 return ["ok", ""];
               },
             },
-          }, // rtop
-          rbot: {
+          }), // rtop
+          rbot: new CalcVar({
             name: "Bottom Resistance",
+            type: 'numeric',
             direction: "input",
-            dispVal: "10",
-            rawVal: null,
+            dispVal: "10k",
+            metricPrefixes: true,
             units: [
               ["Ω", 1e0],
-              ["kΩ", 1e3],
-              ["MΩ", 1e6],
             ],
-            selUnit: "kΩ",
+            selUnit: "Ω",
             validation: {
               fn: (value) => {
                 return ["ok", ""];
               },
             },
-          }, // rbottom
-          vout: {
+          }), // rbot
+          vout: new CalcVar({
             name: "Output Voltage",
-            direction: "output",
-            dispVal: "1",
-            rawVal: null,
+            type: 'numeric',
+            direction: "output",            
+            metricPrefixes: true,
             units: [
-              ["mV", 1e-3],
               ["V", 1e0],
             ],
             selUnit: "V",
@@ -88,7 +85,7 @@ class UI extends React.Component {
                 return ["ok", ""];
               },
             },
-          }, // vout
+          }), // vout
         }, // calcVars
         eqFn: (calcVars) => {
           let vin = calcVars.vin.rawVal
@@ -107,16 +104,13 @@ class UI extends React.Component {
             throw Error("No variable was an output.")
           }
         },
-      }, // calc
-    }; // this.state
+      }), // calc
+    } // this.state
+    CalcHelper.initCalc(this.state.calc)
   }
 
   componentDidMount() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub])
-    CalcHelper.initCalc(this.state.calc)
-    this.setState({
-      calc: this.state.calc,
-    });
   } // componentDidMount()
 
   valueChanged = (e) => {
@@ -224,7 +218,7 @@ class UI extends React.Component {
 
             $$ V_{'{'}out{'}'}=\frac{'{'}R_2{'}'}{'{'}R_1+R_2{'}'}V_{'{'}in{'}'} $$
 
-            <p>
+            <p style={{ textAlign: 'center' }}>
               where:<br/>
               \( V_{'{'}in{'}'} \) = input voltage<br/>
               \( R_1 \) = resistance of resistor 1 (see diagram)<br/>

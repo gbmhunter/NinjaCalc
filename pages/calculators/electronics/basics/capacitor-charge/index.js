@@ -3,15 +3,17 @@ import React from "react";
 
 import Nav from "~/components/nav";
 import Layout from "~/components/layout";
-import VarRowV2 from "~/components/VarRowV2";
-import CalcHelper from "~/utils/calc-helper";
-import TileImage from "./tile-image.png";
+import VarRowV2 from "~/components/VarRowV2"
+import { Calc } from '~/utils/calc'
+import { CalcVar } from '~/utils/calc-var'
+import CalcHelper from "~/utils/calc-helper"
+import TileImage from "./tile-image.png"
 
 export var metadata = {
   id: "capacitor-charge", // Make sure this has the same name as the directory this file is in
   name: "Capacitor Charge (Q=CV)",
   path: 'calculators/electronics/basics/capacitor-charge',
-  description: "Calculate either the charge, capacitance or voltage across a capacitor using Q = CV..",
+  description: "Calculate either the charge, capacitance or voltage across a capacitor using Q=CV.",
   categories: [ 'Electronics', 'Basics' ],
   tags: [ 'capacitor', 'capacitance', 'charge', 'voltage', 'farad', 'coulomb', 'electron' ],
   image: TileImage,
@@ -21,52 +23,47 @@ class UI extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      calc: {
+      calc: new Calc({
         calcVars: {
-          charge: {
+          charge: new CalcVar({
             name: "Charge",
+            type: 'numeric',
             direction: "input",
-            dispVal: "1",
-            rawVal: null,
-            units: [
-              ["nC", 1e-9],
-              ["uC", 1e-6],
-              ["mC", 1e-3],
+            dispVal: "5u",
+            metricPrefixes: true,
+            units: [            
               ["C", 1e0],
             ],
-            selUnit: "nC",
+            selUnit: "C",
             validation: {
               fn: (value) => {
                 return ["ok", ""];
               },
             },
-          }, // charge
-          capacitance: {
+          }), // charge
+          capacitance: new CalcVar({
             name: "Capacitance",
+            type: 'numeric',
             direction: "input",
-            dispVal: "1",
-            rawVal: null,
+            dispVal: "4u",
+            metricPrefixes: true,      
             units: [
-              ["pF", 1e-12],
-              ["nF", 1e-9],
-              ["uF", 1e-6],
-              ["mF", 1e-3],
               ["F", 1],
             ],
-            selUnit: "nF",
+            selUnit: "F",
             validation: {
               fn: (value) => {
                 return ["ok", ""];
               },
             },
-          }, // capacitance
-          voltage: {
+          }), // capacitance
+          voltage: new CalcVar({
             name: "Voltage",
+            type: 'numeric',
             direction: "output",
             dispVal: "100",
-            rawVal: null,
-            units: [
-              ["mV", 1e-3],
+            metricPrefixes: true,
+            units: [              
               ["V", 1],
             ],
             selUnit: "V",
@@ -75,7 +72,7 @@ class UI extends React.Component {
                 return ["ok", ""];
               },
             },
-          }, // resistance
+          }), // voltage
         }, // calcVars
         eqFn: (calcVars) => {
           if (calcVars.charge.direction == "output") {
@@ -91,8 +88,8 @@ class UI extends React.Component {
             throw Error("No variable was an output.")
           }
         },
-      }, // calc
-    }; // this.state
+      }), // calc
+    } // this.state
   }
 
   componentDidMount() {
@@ -159,7 +156,7 @@ class UI extends React.Component {
 
             <p>$$ Q = CV $$</p>
 
-            <p>
+            <p style={{ textAlign: 'center' }}>
               where:
               <br />
               \( Q \) = charge in the capacitor

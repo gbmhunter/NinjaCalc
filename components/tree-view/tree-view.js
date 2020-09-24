@@ -16,8 +16,7 @@ class TreeView extends React.Component {
     }
     this.props.calculators.map((calculator) => {
       this.addCategoriesToTree(calculator.metadata.categories, output)
-    })
-    console.log(output)
+    })    
 
     this.state = {}
     this.state.treeData = output;
@@ -91,7 +90,6 @@ class TreeView extends React.Component {
                 parentCategories={[ ]}
                 handleClick={this.handleClick}
             />
-
     </div>
       )
   }

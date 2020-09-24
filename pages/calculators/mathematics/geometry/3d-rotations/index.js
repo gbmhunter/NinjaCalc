@@ -2,8 +2,6 @@ import Head from 'next/head'
 import React from 'react'
 import { add, divide, matrix, multiply, norm } from 'mathjs'
 import Button from 'react-bootstrap/Button'
-import FormControl from 'react-bootstrap/FormControl'
-import Form from 'react-bootstrap/Form'
 
 import Layout from '~/components/layout'
 import Rotations from '~/utils/rotations'
@@ -12,10 +10,9 @@ import TileImage from './tile-image.png'
 export var metadata = {
   id: '3d-rotations',
   name: '3D Rotations',
-  path: 'calculators/mathematics/3d-rotations',
   description: 'Rotate objects in 3D using angle-axis, rotation matrices, euler angles or quaternions.',
   categories: [ 'Mathematics', 'Geometry' ],
-  tags: [ '3D', 'mathematics', 'rotations', 'geometry' ],
+  tags: [ '3D', 'mathematics', 'rotations', 'geometry', 'angle-axis', 'quaternions', 'euler angles', 'matrices', 'rotation matrices', 'rotate' ],
   image: TileImage,
 }
 

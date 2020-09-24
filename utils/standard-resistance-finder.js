@@ -67,12 +67,6 @@ export class StandardResistanceFinder {
   }
 
   find = (desiredResistance, eSeries, searchMethod) => {
-    console.log('find() called with desiredResistance = ' + desiredResistance)
-    // console.log('eSeries =')
-    // console.log(eSeries)
-    // console.log('and searchMethod = ')
-    // console.log(searchMethod.name)
-
     if (!eSeries) throw new Error('eSeries variable provided to StandardResistanceFinder.find() must be a valid object.')
 
     // Check for special case where desired resistance is 0. Strictly speaking, this does not belong

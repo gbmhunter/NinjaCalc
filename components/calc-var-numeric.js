@@ -60,6 +60,6 @@ CalcVarNumeric.defaultProps = {
 };
 
 CalcVarNumeric.propTypes = {
-  value: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
   width: PropTypes.number,
 };

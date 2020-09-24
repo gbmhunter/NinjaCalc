@@ -30,7 +30,7 @@ import * as CalcNtcThermistor from "./calculators/electronics/sensors/ntc-thermi
 
 import * as CalcBuckConverter from "./calculators/electronics/smps/buck-converter"
 
-import * as Calc3DRotations from "./calculators/mathematics/3d-rotations"
+import * as Calc3DRotations from "./calculators/mathematics/geometry/3d-rotations"
 
 class Home extends React.Component {
   constructor(props) {
@@ -66,9 +66,7 @@ class Home extends React.Component {
     this.addCalc(Calc3DRotations)
   }
 
-  componentDidMount = () => {
-
-  }
+  componentDidMount = () => {}
 
   addCalc = (calcModule) => {
     let calculators = this.state.calculators
@@ -88,6 +86,26 @@ class Home extends React.Component {
     this.setState({
       searchText: event.target.value,
     })
+  }
+
+  /**
+   * Returns the URL to get to a specific calculator.
+   * 
+   * @param {object} calcMetadata Metadata object of calculator you want the URL for.
+   * @returns Absolute path (URL) to calculator (excl. domain). 
+   */
+  getPath = (calcMetadata) => {
+    let path = ''
+    path += 'calculators/'
+    for (const category of calcMetadata.categories) {
+      // Make the category path suitable
+      // "PCB Design" -> "pcb-design"
+      // "Electronics" -> "electronics"
+      path += category.toLowerCase().replace(' ', '-') + '/'
+    }
+    // No tailing forward slash!
+    path += calcMetadata.id
+    return path
   }
 
   render() {
@@ -124,10 +142,9 @@ class Home extends React.Component {
       })
     }
 
-
     const calcList = filteredCalculators.map((calculator, idx) => {
       return (<li key={calculator.metadata.id}>
-        <Link key={calculator.metadata.id} href={calculator.metadata.path}>
+        <Link key={calculator.metadata.id} href={this.getPath(calculator.metadata)}>
         <div key={idx} className="calculator-tile">
           <div className="tile-image"><img src={calculator.metadata.image}></img></div>
           <div className="tile-title">

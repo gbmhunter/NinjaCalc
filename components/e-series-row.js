@@ -8,14 +8,12 @@ var standardResistanceFinder = new StandardResistanceFinder()
 
 export class ESeriesRow extends React.Component {
   constructor(props) {
-    super(props)
-    console.log('ESeriesRow constructor() called.')
+    super(props)    
   }
 
   render() {
 
-    var desiredResistance = this.props.calc.calcVars.desiredResistance.rawVal
-    console.log('desiredResistance=' + desiredResistance)
+    var desiredResistance = this.props.calc.calcVars.desiredResistance.rawVal    
     let closestResistance = null
     let closestResistancePercDiff = null
     let closestEqualOrLowerResistance = null
@@ -41,10 +39,7 @@ export class ESeriesRow extends React.Component {
       closestEqualOrHigherResistance = MetricPrefixes.numToString(closestEqualOrHigherResistance, 4)
       closestEqualOrHigherResistancePercDiff = closestEqualOrHigherResistancePercDiff.toPrecision(4)
       
-    }
-    console.log('closestResistance=' + closestResistance)    
-
-    
+    }       
 
     return (
       <tr>

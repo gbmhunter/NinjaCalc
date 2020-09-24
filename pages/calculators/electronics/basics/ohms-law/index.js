@@ -1,35 +1,34 @@
-import Head from "next/head";
-import React from "react";
+import Head from "next/head"
+import React from "react"
 
-import Layout from "~/components/layout"
 import LayoutCalc from "~/components/layout-calc"
-import VarRowV2 from "~/components/VarRowV2";
-import {CalcHelper, Validators} from "~/utils/calc-helper";
-import TileImage from "./tile-image.png";
-import { CalcVar } from "~/utils/calc-var"
+import VarRowV2 from "~/components/VarRowV2"
+import { CalcHelper, Validators } from "~/utils/calc-helper"
+import TileImage from "./tile-image.png"
+import { Calc } from '~/utils/calc'
+import { CalcVar } from '~/utils/calc-var'
 
 export var metadata = {
   id: "ohms-law", // Make sure this has the same name as the directory this file is in
-  name: "Ohm's Law",
-  path: 'calculators/electronics/basics/ohms-law',
+  name: "Ohm's Law (V=IR)",
   description:
-    "The hammer in any electrical engineers toolbox. calculate voltage, resistance and current using Ohm's law.",
+    "The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm's law.",
   categories: ["Electronics", "Basics"],
-  tags: ["electronics", "ohms", "law", "resistor"],
+  tags: ["electronics", "ohms", "law", "resistor", 'voltage', 'resistance', 'current'],
   image: TileImage,
-};
+}
 
 class UI extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      calc: {
+      calc: new Calc({
         calcVars: {
           voltage: new CalcVar({
             name: "Voltage",
             type: 'numeric',
             direction: "input",
-            dispVal: "12",    
+            dispVal: "12",
             units: [
               ["V", 1],
             ],
@@ -46,7 +45,7 @@ class UI extends React.Component {
             name: "Current",
             type: 'numeric',
             direction: "input",
-            dispVal: "1",            
+            dispVal: "1",
             units: [
               ["A", 1],
             ],
@@ -62,7 +61,7 @@ class UI extends React.Component {
           resistance: new CalcVar({
             name: "Resistance",
             type: 'numeric',
-            direction: "output",                        
+            direction: "output",
             units: [
               ["Ω", 1],
             ],
@@ -79,68 +78,66 @@ class UI extends React.Component {
         eqFn: (calcVars) => {
           if (calcVars.voltage.direction == "output") {
             calcVars.voltage.rawVal =
-              calcVars.current.rawVal * calcVars.resistance.rawVal;
+              calcVars.current.rawVal * calcVars.resistance.rawVal
           } else if (calcVars.current.direction == "output") {
             calcVars.current.rawVal =
-              calcVars.voltage.rawVal / calcVars.resistance.rawVal;
+              calcVars.voltage.rawVal / calcVars.resistance.rawVal
           } else if (calcVars.resistance.direction == "output") {
             calcVars.resistance.rawVal =
-              calcVars.voltage.rawVal / calcVars.current.rawVal;
+              calcVars.voltage.rawVal / calcVars.current.rawVal
           } else {
-            throw Error("No variable was an output.");
+            throw Error("No variable was an output.")
           }
         },
-      }, // calc
-    }; // this.state
+      }), // calc
+    } // this.state
     CalcHelper.initCalc(this.state.calc)
   }
 
   componentDidMount() {
     // MathJax not defined during tests
-    if(typeof MathJax !== 'undefined')
+    if (typeof MathJax !== 'undefined')
       MathJax.Hub.Queue(["Typeset", MathJax.Hub])
   } // componentDidMount()
 
   valueChanged = (e) => {
-    let calc = this.state.calc;
-    CalcHelper.handleValueChanged(calc, e);
+    let calc = this.state.calc
+    CalcHelper.handleValueChanged(calc, e)
     this.setState({
       calc: calc,
-    });
-  };
+    })
+  }
 
   unitsChanged = (e) => {
-    let calc = this.state.calc;
-    CalcHelper.handleUnitsChanged(calc, e);
+    let calc = this.state.calc
+    CalcHelper.handleUnitsChanged(calc, e)
     this.setState({
       calc: calc,
-    });
-  };
+    })
+  }
 
-  rbChanged = (e) => {
-    console.log("rbChanged() called. e.target=");
-    console.log(e.target);
-    let calc = this.state.calc;
-    let varName = e.target.value;
+  rbChanged = (e) => {      
+    let calc = this.state.calc
+    let varName = e.target.value
     for (let calcVarId in calc.calcVars) {
-      console.log(calcVarId);
+      console.log(calcVarId)
       if (calcVarId == e.target.value) {
-        console.log("Setting " + calcVarId + " as output.");
-        calc.calcVars[calcVarId].direction = "output";
+        console.log("Setting " + calcVarId + " as output.")
+        calc.calcVars[calcVarId].direction = "output"
       } else {
-        console.log("Setting " + calcVarId + " as input.");
-        calc.calcVars[calcVarId].direction = "input";
+        console.log("Setting " + calcVarId + " as input.")
+        calc.calcVars[calcVarId].direction = "input"
       }
     }
     this.setState({
       calc: calc,
-    });
+    })
   };
 
   render = () => {
     // Area of ring = pi * inner diameter * thickness
-    const calcVars = this.state.calc.calcVars;
-    const varWidth = 100;
+    const calcVars = this.state.calc.calcVars
+    const varWidth = 100
 
     return (
       <LayoutCalc title={metadata.name + ' Calculator'}>
@@ -155,7 +152,7 @@ class UI extends React.Component {
               resistance, given the other two parameters, using the equation:
             </p>
 
-            <p style={{ textAlign: 'center'}}>$$ V = IR $$</p>
+            <p style={{ textAlign: 'center' }}>$$ V = IR $$</p>
 
             <p style={{ textAlign: 'center' }}>
               where:
@@ -208,8 +205,8 @@ class UI extends React.Component {
           }
         `}</style>
       </LayoutCalc>
-    );
+    )
   };
 }
 
-export default UI;
+export default UI
