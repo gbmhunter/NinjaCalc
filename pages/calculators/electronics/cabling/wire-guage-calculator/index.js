@@ -4,7 +4,7 @@ import React from "react"
 import LayoutCalc from "~/components/layout-calc"
 import VarRowV2 from '~/components/calc-var-row'
 import { CalcHelper, Validators } from "~/utils/calc-helper"
-import TileImage from "./tile-image.png"
+import TileImage from "./tile-image.jpg"
 import { Calc } from '~/utils/calc'
 import { CalcVar } from '~/utils/calc-var'
 import { UnitsMultiplicative } from '~/utils/calc-units'
@@ -25,11 +25,28 @@ class UI extends React.Component {
     this.state = {
       calc: new Calc({
         calcVars: {
+          voltageDc_V: new CalcVar({
+            name: "Voltage (DC)",
+            type: 'numeric',
+            direction: "input",
+            dispVal: "12",
+            units: [
+              new UnitsMultiplicative("V", 1e0),
+            ],
+            selUnit: "V",
+            metricPrefixes: true,
+            sigFig: 4,
+            validation: {
+              fns: [
+                Validators.isNumber
+              ],
+            },
+          }), // voltageDc_V
           voltageDrop_perc: new CalcVar({
             name: "Voltage Drop",
             type: 'numeric',
             direction: "input",
-            dispVal: "12",
+            dispVal: "2",
             units: [
               new UnitsMultiplicative("%", 1e0),
             ],
@@ -65,9 +82,9 @@ class UI extends React.Component {
             direction: "input",
             dispVal: '10',
             units: [              
-              new UnitsMultiplicative('m', 1),
+              new UnitsMultiplicative('A', 1),
             ],
-            selUnit: 'm',
+            selUnit: 'A',
             metricPrefixes: true,
             sigFig: 4,
             validation: {
@@ -76,15 +93,15 @@ class UI extends React.Component {
               ],
             },
           }), // current_A
-          cableResistance_Ohmpm: new CalcVar({
-            name: "Cable Resistance",
+          resistivity_Ohmm: new CalcVar({
+            name: "Conductor Resistivity",
             type: 'numeric',
             direction: "input",
-            dispVal: '3.5',
+            dispVal: '1.68e-8',
             units: [              
-              new UnitsMultiplicative("Ohm/km", 1e3),
+              new UnitsMultiplicative("Ohm x m", 1e0),
             ],
-            selUnit: "Ohm/km",
+            selUnit: "Ohm x m",
             metricPrefixes: true,
             sigFig: 4,
             validation: {
@@ -92,10 +109,38 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-          }), // cableResistance_Ohmpm
+          }), // resistivity_Ohmm
+          crossSectionalArea_m2: new CalcVar({
+            name: "Cross-sectional Area",
+            type: 'numeric',
+            direction: 'output',            
+            units: [              
+              new UnitsMultiplicative("mm^2", 1e-6),
+            ],
+            selUnit: "mm^2",
+            metricPrefixes: true,
+            sigFig: 4,
+            validation: {
+              fns: [
+                Validators.isNumber
+              ],
+            },
+          }), // 
         }, // calcVars
         eqFn: (calcVars) => {
-          
+          // Input variables
+          const voltageDc_V = calcVars.voltageDc_V.rawVal
+          const voltageDrop_perc = calcVars.voltageDrop_perc.rawVal
+          const cableLength_m = calcVars.cableLength_m.rawVal
+          const current_A = calcVars.current_A.rawVal
+          const resistivity_Ohmm = calcVars.resistivity_Ohmm.rawVal
+
+          const voltageDrop_V = voltageDc_V*(voltageDrop_perc/100.0)
+          const cableResistance_Ohms = voltageDrop_V/current_A
+          const cableResistance_Ohmspm = cableResistance_Ohms/cableLength_m
+
+          const crossSectionalArea_m2 = resistivity_Ohmm / cableResistance_Ohmspm
+          calcVars.crossSectionalArea_m2.rawVal = crossSectionalArea_m2
         },
       }), // calc
     } // this.state
@@ -124,24 +169,6 @@ class UI extends React.Component {
     })
   }
 
-  rbChanged = (e) => {      
-    let calc = this.state.calc
-    let varName = e.target.value
-    for (let calcVarId in calc.calcVars) {
-      console.log(calcVarId)
-      if (calcVarId == e.target.value) {
-        console.log("Setting " + calcVarId + " as output.")
-        calc.calcVars[calcVarId].direction = "output"
-      } else {
-        console.log("Setting " + calcVarId + " as input.")
-        calc.calcVars[calcVarId].direction = "input"
-      }
-    }
-    this.setState({
-      calc: calc,
-    })
-  };
-
   render = () => {
     // Area of ring = pi * inner diameter * thickness
     const calcVars = this.state.calc.calcVars
@@ -155,28 +182,47 @@ class UI extends React.Component {
         </Head>
         <div className="vbox outer-wrapper">
           <div className="calc-notes">
-            <p>
-              The following calculator works out either voltage, current or
-              resistance, given the other two parameters, using the equation:
-            </p>
-
-            <p style={{ textAlign: 'center' }}>$$ V = IR $$</p>
-
-            <p style={{ textAlign: 'center' }}>
-              where:
-              <br />
-              \( V \) = voltage across the resistor
-              <br />
-              \( I \) = current through the resistor
-              <br />
-              \( R \) = resistance of the resistor
-              <br />
-            </p>
+            Coming soon...
           </div>
           <table>
             <tbody>
               <VarRowV2
+                id="voltageDc_V"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}                            
+                width={varWidth}
+              />
+              <VarRowV2
                 id="voltageDrop_perc"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}                            
+                width={varWidth}
+              />
+              <VarRowV2
+                id="cableLength_m"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}                            
+                width={varWidth}
+              />
+              <VarRowV2
+                id="current_A"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}                            
+                width={varWidth}
+              />
+              <VarRowV2
+                id="resistivity_Ohmm"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}                            
+                width={varWidth}
+              />
+              <VarRowV2
+                id="crossSectionalArea_m2"
                 calcVars={calcVars}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            

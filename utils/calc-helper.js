@@ -224,6 +224,23 @@ export class CalcHelper {
     CalcHelper.updateDispVals(calc.calcVars)
   }
 
+  /**
+   * Call this when a input/output radio button is changed. Updates the calculator state
+   * based on the new variable directions.
+   * 
+   * @param {*} calc 
+   * @param {*} event 
+   */
+  static handleRbChanged(calc, event) {
+    for (let calcVarId in calc.calcVars) {      
+      if (calcVarId == e.target.value) {        
+        calc.calcVars[calcVarId].direction = "output"
+      } else {        
+        calc.calcVars[calcVarId].direction = "input"
+      }
+    }
+  }
+
 }
 
 export default CalcHelper
