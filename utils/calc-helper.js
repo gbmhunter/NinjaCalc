@@ -13,6 +13,11 @@ export class Validators {
       return [ 'error', 'Value must be a number.']
     }
   }
+
+  static isPositive(value) {
+    if(value >= 0) return [ 'ok', '' ]
+    else return [ 'error', 'Value must be positive.' ]
+  }
 }
 
 /**

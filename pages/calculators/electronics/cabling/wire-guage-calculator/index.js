@@ -1,13 +1,13 @@
 import Head from "next/head"
 import React from "react"
 
-import LayoutCalc from "~/components/layout-calc"
-import VarRowV2 from '~/components/calc-var-row'
-import { CalcHelper, Validators } from "~/utils/calc-helper"
+import LayoutCalc from "components/layout-calc"
+import VarRowV2 from 'components/calc-var-row'
+import { CalcHelper, Validators } from "utils/calc-helper"
 import TileImage from "./tile-image.jpg"
-import { Calc } from '~/utils/calc'
-import { CalcVar } from '~/utils/calc-var'
-import { UnitsMultiplicative } from '~/utils/calc-units'
+import { Calc } from 'utils/calc'
+import { CalcVar } from 'utils/calc-var'
+import { UnitsMultiplicative } from 'utils/calc-units'
 
 export var metadata = {
   id: "wire-guage-calculator", // Make sure this has the same name as the directory this file is in
@@ -38,7 +38,8 @@ class UI extends React.Component {
             sigFig: 4,
             validation: {
               fns: [
-                Validators.isNumber
+                Validators.isNumber,
+                Validators.isPositive,
               ],
             },
             helpText: 'The source voltage provided to the cable.',
@@ -56,7 +57,8 @@ class UI extends React.Component {
             sigFig: 4,
             validation: {
               fns: [
-                Validators.isNumber
+                Validators.isNumber,
+                Validators.isPositive,
               ],
             },
             helpText: 'The acceptable voltage drop across the length of the cable, as a percentage.',
@@ -74,7 +76,8 @@ class UI extends React.Component {
             sigFig: 4,
             validation: {
               fns: [
-                Validators.isNumber
+                Validators.isNumber,
+                Validators.isPositive,
               ],
             },
             helpText: 'The length of the cable.',
@@ -92,7 +95,8 @@ class UI extends React.Component {
             sigFig: 4,
             validation: {
               fns: [
-                Validators.isNumber
+                Validators.isNumber,
+                Validators.isPositive,
               ],
             },
             helpText: 'The current you want the wire to take.'
@@ -110,7 +114,8 @@ class UI extends React.Component {
             sigFig: 4,
             validation: {
               fns: [
-                Validators.isNumber
+                Validators.isNumber,
+                Validators.isPositive,
               ],
             },
             helpText: 'The resistivity of the conductor. Copper has a resistivity of 1.68e-8Ωm.',

@@ -36,4 +36,6 @@ module.exports = {
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
   },
+  // Adding the rootDir to the module directory allows jest to not freak out over absolute imports
+  moduleDirectories: ['node_modules', '<rootDir>'],
 };

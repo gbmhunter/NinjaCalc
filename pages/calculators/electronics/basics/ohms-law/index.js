@@ -1,13 +1,13 @@
 import Head from "next/head"
 import React from "react"
 
-import LayoutCalc from "~/components/layout-calc"
-import VarRowV2 from '~/components/calc-var-row'
-import { CalcHelper, Validators } from "~/utils/calc-helper"
+import LayoutCalc from 'components/layout-calc'
+import VarRowV2 from 'components/calc-var-row'
+import { CalcHelper, Validators } from 'utils/calc-helper'
 import TileImage from "./tile-image.png"
-import { Calc } from '~/utils/calc'
-import { CalcVar } from '~/utils/calc-var'
-import { UnitsMultiplicative } from '~/utils/calc-units'
+import { Calc } from 'utils/calc'
+import { CalcVar } from 'utils/calc-var'
+import { UnitsMultiplicative } from 'utils/calc-units'
 
 export var metadata = {
   id: "ohms-law", // Make sure this has the same name as the directory this file is in

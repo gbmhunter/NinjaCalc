@@ -146,10 +146,13 @@ class Home extends React.Component {
       })
     }
 
+    const TILE_WIDTH = 200
+    const TILE_HEIGHT = 300
+
     const calcList = filteredCalculators.map((calculator, idx) => {
       return (<li key={calculator.metadata.id}>
         <Link key={calculator.metadata.id} href={this.getPath(calculator.metadata)}>
-        <div key={idx} className="calculator-tile">
+        <div key={idx} className="calculator-tile" style={{ width: TILE_WIDTH, height: TILE_HEIGHT }}>
           <div className="tile-image"><img src={calculator.metadata.image}></img></div>
           <div className="tile-title">
             
@@ -159,9 +162,7 @@ class Home extends React.Component {
           <div className="tile-description">{calculator.metadata.description}</div>
           
           <style jsx>{`
-            .calculator-tile {
-              width: 220px;
-              height: 350px;
+            .calculator-tile {                            
               margin: 10px;
               padding: 5px;
               display: flex;
@@ -188,7 +189,7 @@ class Home extends React.Component {
 
             .tile-image img {
               max-height: 140px;
-              max-width: 200px;
+              max-width: 190px;
             }
 
             .tile-title {
@@ -230,10 +231,10 @@ class Home extends React.Component {
         <Grid
           component="ul"
           // columns={5}
-          columnWidth={220}
+          columnWidth={TILE_WIDTH}
           gutterWidth={15}
           gutterHeight={15}
-          itemHeight={350}
+          itemHeight={TILE_HEIGHT}
           springConfig={{ stiffness: 170, damping: 26 }}
         >
           {calcList}
