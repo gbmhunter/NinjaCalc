@@ -16,7 +16,8 @@ test('constructor', () => {
       fns: [
         () => {}
       ]
-    }
+    },
+    helpText: 'Test help text.',
   })
   expect(myCalcVar.name).toBe('test')
   expect(myCalcVar.type).toBe('numeric')
@@ -26,4 +27,5 @@ test('constructor', () => {
   expect(myCalcVar.metricPrefixes).toBe(true)
   expect(myCalcVar.sigFig).toBe(4)
   expect(myCalcVar.validation).toHaveProperty('fns')
+  expect(myCalcVar.helpText).toBe('Test help text.')
 })

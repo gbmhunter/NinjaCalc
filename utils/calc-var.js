@@ -9,5 +9,6 @@ export class CalcVar {
     this.metricPrefixes = config.metricPrefixes
     this.sigFig = config.sigFig
     this.validation = config.validation
+    this.helpText = config.helpText
   }
 }
