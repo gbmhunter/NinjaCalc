@@ -144,9 +144,10 @@ class UI extends React.Component {
             units: [              
               new UnitsMultiplicative("no unit", 1e0),
             ],
-            selUnit: "no unit",
-            metricPrefixes: true,
-            sigFig: 4,
+            selUnit: "no unit",                   
+            format: (rawVal) => {              
+              return Math.floor(rawVal)
+            },
             validation: {
               fns: [
                 Validators.isNumber

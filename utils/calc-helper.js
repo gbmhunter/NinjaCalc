@@ -114,16 +114,18 @@ export class CalcHelper {
     }    
   
     // Convert to string, rounding using sigFig
-    if (!('sigFig' in calcVar)) {
-      console.log('WARNING: calcVar "' + calcVar.name + '" does not have sigFig set.')
-    }
-
     // Support metric prefixes if allowed
     let numStr = null
     if (calcVar.metricPrefixes) {
       numStr = MetricPrefixes.numToString(num, calcVar.sigFig)
     } else {
-      numStr = num.toPrecision(calcVar.sigFig)
+      if (calcVar.sigFig) {        
+        numStr = num.toPrecision(calcVar.sigFig)
+      } else if (calcVar.format) {        
+        numStr = calcVar.format(calcVar.rawVal)
+      } else {
+        throw Error('sigFig nor format set for calcVar "' + calcVar.name + "'.")
+      }
     }
 
     calcVar.dispVal = numStr
