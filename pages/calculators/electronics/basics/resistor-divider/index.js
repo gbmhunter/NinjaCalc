@@ -1,11 +1,12 @@
 import Head from "next/head"
 import React from "react"
 
-import Layout from "~/components/layout-calc"
-import VarRowV2 from '~/components/calc-var-row'
-import { Calc } from '~/utils/calc'
-import { CalcVar } from '~/utils/calc-var'
-import CalcHelper from "~/utils/calc-helper"
+import Layout from "components/layout-calc"
+import VarRowV2 from 'components/calc-var-row'
+import { Calc } from 'utils/calc'
+import { CalcVar } from 'utils/calc-var'
+import { UnitsMultiplicative } from 'utils/calc-units'
+import CalcHelper from "utils/calc-helper"
 import TileImage from "./tile-image.png"
 
 export var metadata = {
@@ -30,7 +31,7 @@ class UI extends React.Component {
             dispVal: "5",
             metricPrefixes: true,
             units: [
-              ["V", 1e0],
+              new UnitsMultiplicative("V", 1e0),
             ],
             selUnit: "V",
             validation: {
@@ -46,7 +47,7 @@ class UI extends React.Component {
             dispVal: "10k",
             metricPrefixes: true,
             units: [
-              ["Ω", 1e0],
+              new UnitsMultiplicative("Ω", 1e0),
             ],
             selUnit: "Ω",
             validation: {
@@ -62,7 +63,7 @@ class UI extends React.Component {
             dispVal: "10k",
             metricPrefixes: true,
             units: [
-              ["Ω", 1e0],
+              new UnitsMultiplicative("Ω", 1e0),
             ],
             selUnit: "Ω",
             validation: {
@@ -77,7 +78,7 @@ class UI extends React.Component {
             direction: "output",            
             metricPrefixes: true,
             units: [
-              ["V", 1e0],
+              new UnitsMultiplicative('V', 1e0),
             ],
             selUnit: "V",
             validation: {

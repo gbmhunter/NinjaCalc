@@ -1,12 +1,12 @@
-import Head from "next/head";
-import React from "react";
+import Head from "next/head"
+import React from "react"
 
-import Nav from "~/components/nav";
-import Layout from "~/components/layout";
-import VarRowV2 from '~/components/calc-var-row'
-import { Calc } from '~/utils/calc'
-import { CalcVar } from '~/utils/calc-var'
-import CalcHelper from "~/utils/calc-helper"
+import Layout from "components/layout"
+import VarRowV2 from 'components/calc-var-row'
+import { Calc } from 'utils/calc'
+import { CalcVar } from 'utils/calc-var'
+import { UnitsMultiplicative } from 'utils/calc-units'
+import CalcHelper from "utils/calc-helper"
 import TileImage from "./tile-image.png"
 
 export var metadata = {
@@ -32,7 +32,7 @@ class UI extends React.Component {
             dispVal: "5u",
             metricPrefixes: true,
             units: [            
-              ["C", 1e0],
+              new UnitsMultiplicative("C", 1e0),
             ],
             selUnit: "C",
             validation: {
@@ -48,7 +48,7 @@ class UI extends React.Component {
             dispVal: "4u",
             metricPrefixes: true,      
             units: [
-              ["F", 1],
+              new UnitsMultiplicative("F", 1),
             ],
             selUnit: "F",
             validation: {
@@ -64,7 +64,7 @@ class UI extends React.Component {
             dispVal: "100",
             metricPrefixes: true,
             units: [              
-              ["V", 1],
+              new UnitsMultiplicative("V", 1),
             ],
             selUnit: "V",
             validation: {
