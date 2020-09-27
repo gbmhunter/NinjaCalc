@@ -174,7 +174,7 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-            helpText: 'The calculated AWG value is rounded down to the nearest integer.'
+            helpText: 'The calculated AWG guage value is rounded down to the nearest integer.'
           }), // guage_awg
         }, // calcVars
         eqFn: (calcVars) => {

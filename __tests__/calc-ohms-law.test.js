@@ -1,4 +1,6 @@
-import { mount } from 'enzyme';
+import { mount } from 'enzyme'
+
+import { getValue, setValue } from 'utils/testing-utils'
 
 import CalcOhmsLaw from 'pages/calculators/electronics/basics/ohms-law'
 
@@ -9,12 +11,11 @@ describe('calc-ohms-law-tests', () => {
     let currentInput = wrapper.find('input[name="current_A"]')
     let resistanceInput = wrapper.find('input[name="resistance_Ohms"]')
 
-    expect(voltageInput.props().value).toBe("12")
-    expect(currentInput.props().value).toBe("1")
-    expect(resistanceInput.props().value).toBe("12.00")
+    expect(getValue(wrapper, 'voltage_V')).toBe("12")
+    expect(getValue(wrapper, 'current_A')).toBe("1")
+    expect(getValue(wrapper, 'resistance_Ohms')).toBe("12.00")
 
-    voltageInput.at(0).instance().value = '6'
-    voltageInput.simulate('change')    
-    expect(wrapper.find('input[name="resistance_Ohms"]').props().value).toBe("6.000")
+    setValue(wrapper, 'voltage_V', '6')
+    expect(getValue(wrapper, 'resistance_Ohms')).toBe("6.000")             
   });
 });
