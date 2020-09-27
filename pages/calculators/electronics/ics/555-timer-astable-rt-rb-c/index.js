@@ -13,7 +13,7 @@ export var metadata = {
   id: '555-timer-astable-rt-rb-c', // Make sure this has the same name as the directory this file is in
   name: '555 Timer, Astable (Freq/Duty Cycle In, Rt/Rb/C Out)',  
   description: 'Calculate the resistor and capacitors values for a 555 timer in astable configuration.',
-  categories: ['Electronics', 'PCB Design'],
+  categories: ['Electronics', 'ICs'],
   tags: ['555', 'timer'],
   image: TileImage,
 }
@@ -199,14 +199,14 @@ class UI extends React.Component {
           <p style={{ maxWidth: '500px' }}>This calculator calculates the resistances and capacitances needed to operate a 555 timer in astable mode. The duty cycle cannot be set lower than 50%, if you want to do this you will have to attach an inverter to the output.</p>
           <table>
             <tbody>
-              <VarRow id="freq" calcVar={calcVars.freq} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="dutyCycle" calcVar={calcVars.dutyCycle} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="capacitance" calcVar={calcVars.capacitance} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="period" calcVar={calcVars.period} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="timeHigh" calcVar={calcVars.timeHigh} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="timeLow" calcVar={calcVars.timeLow} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="r1" calcVar={calcVars.r1} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="r2" calcVar={calcVars.r2} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="freq" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="dutyCycle" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="capacitance" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="period" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="timeHigh" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="timeLow" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="r1" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="r2" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
             </tbody>
           </table>
 

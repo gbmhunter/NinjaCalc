@@ -570,10 +570,10 @@ class Calculator extends React.Component {
 
             <div className="hbox">
               <div>Rotation Units:&nbsp;</div>
-              <Form.Control as="select" size="sm" value={this.state.selRotationUnit} onChange={this.onRotationUnitsChange} style={{ width: '100px' }}>
+              <select value={this.state.selRotationUnit} onChange={this.onRotationUnitsChange} style={{ width: '100px' }}>
                 <option value="radians">radians</option>
                 <option value="degrees">degrees</option>
-              </Form.Control>
+              </select>
             </div>
 
             <div id="inputs-wrapper" className="hbox" style={{ alignItems: 'start', fontSize: '0.8em' }}>
@@ -700,7 +700,7 @@ class Calculator extends React.Component {
                 <input type="radio" name="inputType" value="eulerAngles"
                     checked={this.state.selInputType == 'eulerAngles'} onChange={this.inputTypeChanged} />
                 <div style={{ height: '5px' }}></div>
-                <Form.Control as="select" size="sm" value={this.state.eulerAnglesDisplay.order}
+                <select value={this.state.eulerAnglesDisplay.order}
                     onChange={this.onEulerAnglesOrderChange} style={{ width: '80px' }}>
                   <option value="XYZ">XYZ</option>
                   <option value="XZY">XZY</option>
@@ -708,7 +708,7 @@ class Calculator extends React.Component {
                   <option value="YZX">YZX</option>
                   <option value="ZXY">ZXY</option>
                   <option value="ZYX">ZYX</option>
-                </Form.Control>
+                </select>
                 <table className="euler-angle-table">
                     <tbody>
                         <tr>

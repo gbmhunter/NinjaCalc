@@ -68,6 +68,10 @@ class UI extends React.Component {
 
   componentDidMount() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    CalcHelper.initCalc(this.state.calc);
+    this.setState({
+      calc: this.state.calc
+    })
   } // componentDidMount()
 
   valueChanged = (e) => {

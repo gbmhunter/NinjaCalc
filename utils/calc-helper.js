@@ -131,6 +131,15 @@ export class CalcHelper {
     calcVar.dispVal = numStr
   }
 
+  /**
+   * Performs validation of the provided calculator variable. Runs the validation
+   * functions and sets calcVar.validation.state and calcVar.validation.msg.
+   * 
+   * @param {*} calcVar The calculator variable to you want to run validation on.
+   * @param {*} calc The entire calculator (in case the variables validation depends
+   *    on other variable states).
+   * @returns Nothing.
+   */
   static runValidation(calcVar, calc) {
     if (typeof calcVar.validation === 'undefined')
       return

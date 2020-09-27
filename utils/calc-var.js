@@ -4,6 +4,11 @@ export class CalcVar {
     this.type = config.type
     this.direction = config.direction
 
+    if (typeof config.type === 'undefined') {
+      console.log('WARNING: Variable type for "' + config.name + '" not specified. Defaulting to numeric.')
+      config.type = 'numeric'
+    }
+
     if (config.type == 'numeric') {
       this.dispVal = config.dispVal
 
