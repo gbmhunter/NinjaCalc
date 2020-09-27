@@ -9,6 +9,10 @@ import { Calc } from 'utils/calc'
 import { CalcVar } from 'utils/calc-var'
 import { UnitsMultiplicative } from 'utils/calc-units'
 
+const MATERIAL_CONDUCTIVITES_OHMM = {
+  Copper: 1.68e-8
+}
+
 export var metadata = {
   id: "wire-guage-calculator", // Make sure this has the same name as the directory this file is in
   name: "Wire Guage Calculator",
@@ -101,10 +105,27 @@ class UI extends React.Component {
             },
             helpText: 'The current you want the wire to take.'
           }), // current_A
-          resistivity_Ohmm: new CalcVar({
+          conductorMaterial: new CalcVar({
+            name: "Conductor Material",
+            type: 'select',
+            direction: "input",
+            options: [
+              'Copper',
+              'Custom',
+            ],
+            selOption: 'Copper',
+            validation: {
+              fns: [
+                Validators.isNumber,
+                Validators.isPositive,
+              ],
+            },
+            helpText: 'The material of the conductor.',
+          }), // conductorMaterial
+          conductorResistivity_Ohmm: new CalcVar({
             name: "Conductor Resistivity",
             type: 'numeric',
-            direction: "input",
+            direction: "output", // Output by default, but changes to input if conductor material set to "Custom"
             dispVal: '1.68e-8',
             units: [              
               new UnitsMultiplicative("Ωm", 1e0),
@@ -125,9 +146,9 @@ class UI extends React.Component {
             type: 'numeric',
             direction: 'output',            
             units: [              
-              new UnitsMultiplicative("mm^2", 1e-6),
+              new UnitsMultiplicative("mm²", 1e-6),
             ],
-            selUnit: "mm^2",
+            selUnit: "mm²",
             metricPrefixes: true,
             sigFig: 4,
             validation: {
@@ -138,13 +159,13 @@ class UI extends React.Component {
             helpText: 'The required cross-sectional area of the conductor in the cable.',
           }), // crossSectionalArea_m2
           guage_awg: new CalcVar({
-            name: "Guage (AWG)",
+            name: "Guage",
             type: 'numeric',
             direction: 'output',            
             units: [              
-              new UnitsMultiplicative("no unit", 1e0),
+              new UnitsMultiplicative("AWG", 1e0),
             ],
-            selUnit: "no unit",                   
+            selUnit: "AWG",                   
             format: (rawVal) => {              
               return Math.floor(rawVal)
             },
@@ -162,13 +183,21 @@ class UI extends React.Component {
           const voltageDrop_perc = calcVars.voltageDrop_perc.rawVal
           const cableLength_m = calcVars.cableLength_m.rawVal
           const current_A = calcVars.current_A.rawVal
-          const resistivity_Ohmm = calcVars.resistivity_Ohmm.rawVal
 
+          let conductorResistivity_Ohmm = null
+          if (calcVars.conductorMaterial.selOption !== 'Custom') {                        
+            // Look-up from table, and set the conductor resistivity variable as this is an output
+            conductorResistivity_Ohmm = MATERIAL_CONDUCTIVITES_OHMM[calcVars.conductorMaterial.selOption]
+            calcVars.conductorResistivity_Ohmm.rawVal = conductorResistivity_Ohmm
+          } else {
+            conductorResistivity_Ohmm = calcVars.conductorResistivity_Ohmm.rawVal
+          }
+            
           const voltageDrop_V = voltageDc_V*(voltageDrop_perc/100.0)
           const cableResistance_Ohms = voltageDrop_V/current_A
           const cableResistance_Ohmspm = cableResistance_Ohms/cableLength_m
 
-          const crossSectionalArea_m2 = resistivity_Ohmm / cableResistance_Ohmspm
+          const crossSectionalArea_m2 = conductorResistivity_Ohmm / cableResistance_Ohmspm
           calcVars.crossSectionalArea_m2.rawVal = crossSectionalArea_m2
 
           // Find diameter of wire from cross-sectional area
@@ -195,7 +224,18 @@ class UI extends React.Component {
   } // componentDidMount()
 
   valueChanged = (e) => {
+    
     let calc = this.state.calc
+
+    // Change conductor resistivity to input if conductor is set to 'Custom'
+    if(e.target.name === 'conductorMaterial') {
+      if (e.target.value === 'Custom') {
+        calc.calcVars.conductorResistivity_Ohmm.direction = 'input'
+      } else {
+        calc.calcVars.conductorResistivity_Ohmm.direction = 'output'
+      }
+    }
+
     CalcHelper.handleValueChanged(calc, e)
     this.setState({
       calc: calc,
@@ -258,7 +298,15 @@ class UI extends React.Component {
                 showHelpText={true}
               />
               <VarRowV2
-                id="resistivity_Ohmm"
+                id="conductorMaterial"
+                calcVars={calcVars}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}                            
+                width={varWidth}
+                showHelpText={true}
+              />
+              <VarRowV2
+                id="conductorResistivity_Ohmm"
                 calcVars={calcVars}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            

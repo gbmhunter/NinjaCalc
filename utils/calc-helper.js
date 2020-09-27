@@ -37,10 +37,10 @@ export class CalcHelper {
   static initCalc(calc) {
     for (let calcVarName in calc.calcVars) {
       let calcVar = calc.calcVars[calcVarName]
-      if (calcVar.direction === 'input') {
-        CalcHelper.setRawValFromDispVal(calcVar)
-        CalcHelper.runValidation(calcVar, calc)
+      if (calcVar.direction === 'input' && calcVar.type === 'numeric') {
+        CalcHelper.setRawValFromDispVal(calcVar)      
       }
+      CalcHelper.runValidation(calcVar, calc)
     }
 
     calc.eqFn(calc.calcVars)

@@ -44,25 +44,79 @@ class VarRow extends React.Component {
       disabled = true;
     }
 
-    const unitOptions = calcVar.units.map((unit, idx) => {
-      let unitName = null
-      if (Array.isArray(unit)) {
-        unitName = unit[0]
-      } else if (unit instanceof CalcUnits.Units) {
-        unitName = unit.name
-      } else {
-        throw Error('Unit type not supported.')
-      }
-      return (
-        <option key={idx} value={unitName}>
-          {unitName}
-        </option>
-      );
-    });
-
-    let validationState = "ok";
+    let validationState = "ok"
+    let tooltipMsg = ''
     if (calcVar.validation) {
-      validationState = calcVar.validation.state;
+      validationState = calcVar.validation.state
+      tooltipMsg = calcVar.validation.msg
+    }
+
+    let valueHtml = null
+    if (calcVar.type === 'numeric') {
+      valueHtml = (<input                 
+            name={this.props.id}
+            className={validationState}
+            value={calcVar.dispVal}
+            onChange={this.props.valueChanged}
+            style={{ width: this.props.width }}
+            readOnly={readonly}
+            disabled={disabled}
+            data-tip={tooltipMsg}
+          ></input>)  
+    } else if (calcVar.type === 'select') {
+      const options = calcVar.options.map((option, idx) => {
+        return (
+          <option key={idx} value={option}>
+            {option}
+          </option>
+        )
+      })
+      valueHtml = (
+        <select
+            name={this.props.id}
+            className={validationState}
+            value={calcVar.selOption}
+            onChange={this.props.valueChanged}
+            style={{ width: this.props.width }}>
+          {options}
+        </select>
+      )
+    }
+
+    let unitOptions = null
+    if (calcVar.type === 'numeric'){
+      unitOptions = calcVar.units.map((unit, idx) => {
+        let unitName = null
+        if (Array.isArray(unit)) {
+          unitName = unit[0]
+        } else if (unit instanceof CalcUnits.Units) {
+          unitName = unit.name
+        } else {
+          throw Error('Unit type not supported.')
+        }
+        return (
+          <option key={idx} value={unitName}>
+            {unitName}
+          </option>
+        )
+      })
+    }
+
+    let unitsHtml = null
+    if (calcVar.type === 'numeric') {
+      unitsHtml = (<td className="units">
+          <select
+            name={this.props.id}
+            value={calcVar.selUnit}
+            onChange={this.props.unitsChanged}
+            disabled={unitsDisabled}
+          >
+            {unitOptions}
+          </select>
+        </td>)
+    } else {
+      // All over types don't have units, so just insert a blank cell
+      unitsHtml = (<td></td>)
     }
 
     let rbHtml = null;
@@ -84,38 +138,15 @@ class VarRow extends React.Component {
     if (this.props.showHelpText) {      
       helpTextHtml = (<td style={{ fontSize: '0.8em' }}>{calcVar.helpText}</td>)
     }
-    
-    let tooltipMsg = ''
-    if (calcVar.validation) {
-      tooltipMsg = calcVar.validation.msg
-    }
 
     return (
       <tr>
         <td className="var-name">{calcVar.name}</td>
         <td className="value">
           <ReactTooltip html={true} className="tooltip"/>
-          <input                 
-            name={this.props.id}
-            className={validationState}
-            value={calcVar.dispVal}
-            onChange={this.props.valueChanged}
-            style={{ width: this.props.width }}
-            readOnly={readonly}
-            disabled={disabled}
-            data-tip={tooltipMsg}
-          ></input>          
+          {valueHtml}
         </td>
-        <td className="units">
-          <select
-            name={this.props.id}
-            value={calcVar.selUnit}
-            onChange={this.props.unitsChanged}
-            disabled={unitsDisabled}
-          >
-            {unitOptions}
-          </select>
-        </td>
+        {unitsHtml}
         {rbHtml}
         {helpTextHtml}
         <style jsx>{`
