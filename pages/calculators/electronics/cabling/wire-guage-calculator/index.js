@@ -335,7 +335,27 @@ class UI extends React.Component {
           <div style={{ height: '50px' }}></div>
           <div className="calc-notes">
 
-            <p>To convert from an AWG guage to a cable diameter we can use the equation:</p>
+            <p>Given the source voltage and percentage voltage drop we can calculate the absolute voltage drop across the entire wire:</p>
+
+            <p>{String.raw`$$ V_{cable} = V_{source} \cdot \frac{V_{cable, perc}}{100} $$`}</p>
+
+            <p>From this we can find the total resistance of the cable using Ohm's law:</p>
+
+            <p>{String.raw`$$ R_{cable} = \frac{V_{cable}}{I_{cable}} $$`}</p>
+
+            <p>We can divide this by the length to get the resistance per meter of cable:</p>
+
+            <p>{String.raw`$$ R_{\Omega / m} = \frac{R_{cable}}{L} $$`}</p>
+
+            <p>We can then calculate the cross-sectional area of the cable using the resistance per meter and the resistivity of the conductor (the resistivity is a property of the material the conductor is made from):</p>
+
+            <p>{String.raw`$$ A = \frac{\rho}{R_{\Omega / m}}$$`}</p>
+
+            <p>We can then find the diameter of the cable from this cross-sectional area:</p>
+
+            <p>{String.raw`$$ d = \sqrt{\frac{4A}{\pi}} $$`}</p>
+
+            <p>Now we just need to convert this cable diameter into an AWG guage. To convert from an AWG guage to a cable diameter we can use the equation:</p>
 
             <p>{String.raw`$$ d = 0.127 \cdot 92^{\frac{36-n}{39}} $$`}</p>
 
@@ -344,7 +364,13 @@ class UI extends React.Component {
               \(d\) is the diameter of the cable, in mm.<br/>
               \(n\) is the AWG wire guage<br/>
               \(0.127mm\) is the diameter of wire guage #36.
-            </p>            
+            </p>
+
+            <p>However, we need to solve this for \(n\), so re-arranging the equation gives:</p>
+
+            <p>{String.raw`$$ n = 36 - 39\frac{log(\frac{d}{0.127})}{log{92}} $$`}</p>
+
+            <p>All done! Remember that the above equation will likely give you a number with decimal places. AWG guages are typically supplied in integer jumps, so it's best to round down to the nearest integer (a lower guage is a larger diameter wire, giving you some safety factor).</p>
           </div>
         </div>
         <style jsx>{`
