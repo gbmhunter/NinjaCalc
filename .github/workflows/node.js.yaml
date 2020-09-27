@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn install
+    - run: yarn install --frozen-lockfile # Install exact versions specified in yarn.lock
     - run: yarn build
     - run: yarn test
       env:
