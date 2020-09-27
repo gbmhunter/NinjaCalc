@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 
-import CalcOhmsLaw from './index'
+import CalcOhmsLaw from 'pages/calculators/electronics/basics/ohms-law'
 
 describe('calc-ohms-law-tests', () => {
   it('changing values works', () => {

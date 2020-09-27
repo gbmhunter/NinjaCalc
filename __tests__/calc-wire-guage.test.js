@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 
-import CalcWireGuage from './index'
+import CalcWireGuage from 'pages/calculators/electronics/cabling/wire-guage-calculator'
 
 describe('calc-ohms-law-tests', () => {
   it('changing values works', () => {
