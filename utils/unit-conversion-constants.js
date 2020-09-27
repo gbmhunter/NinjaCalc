@@ -1,3 +1,9 @@
+export class MaterialResistivitiesOhmm {
+  static ALUMINIUM = 2.65e-8
+  static COPPER = 1.68e-8
+  static SILVER = 1.59e-8
+}
+
 
 class UnitConversionConstants {
   constructor () {

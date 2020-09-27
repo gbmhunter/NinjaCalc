@@ -1,12 +1,13 @@
 import Head from 'next/head'
 import React from 'react'
 
-import Layout from '~/components/layout'
-import VarRowV2 from '~/components/calc-var-row'
-import VarRowV2Select from '~/components/VarRowV2Select'
-import CalcHelper from '~/utils/calc-helper'
-import { unitConversionConstants } from '~/utils/unit-conversion-constants'
+import Layout from 'components/layout-calc'
+import CalcVarRow from 'components/calc-var-row'
+import MetricPrefixNote from 'components/metric-prefix-note'
+import CalcHelper from 'utils/calc-helper'
 import TileImage from './tile-image.png'
+import { CalcVar } from 'utils/calc-var'
+import { UnitsMultiplicative } from 'utils/calc-units'
 
 export var metadata = {
   id: 'track-current-ipc2221a', // Make sure this has the same name as the directory this file is in
@@ -32,15 +33,14 @@ class UI extends React.Component {
           // ============================================================================================= //
           // ======================================= TRACK CURRENT (input) =============================== //
           // ============================================================================================= //
-          trackCurrent: {
+          trackCurrent: new CalcVar({
             name: 'Track Current',
             type: 'numeric',
             direction: 'input',
             dispVal: '1',
+            metricPrefixes: true,
             units: [
-              ['uA', 1e-6],
-              ['mA', 1e-3],
-              ['A', 1e0],
+              new UnitsMultiplicative('A', 1e0),
             ],
             selUnit: 'A',
             validation: {
@@ -50,18 +50,19 @@ class UI extends React.Component {
               },
             },
             helpText: 'The current you want the PCB track to be able to handle.',
-          }, // trackCurrent
+          }), // trackCurrent
 
           // ============================================================================================= //
           // ========================================= TEMP RISE (input) ================================= //
           // ============================================================================================= //
-          tempRise: {
+          tempRise: new CalcVar({
             name: 'Temperature Rise',
             type: 'numeric',
             direction: 'input',
-            dispVal: '40',            
+            dispVal: '40',
+            metricPrefixes: true,
             units: [
-              ['°C', 1e0],
+              new UnitsMultiplicative('°C', 1e0),
             ],
             selUnit: '°C',
             validation: {
@@ -72,21 +73,21 @@ class UI extends React.Component {
               },
             },
             helpText: 'The maximum desired temperature rise due to the current flowing through the track. 20-40°C is a common value for this.',
-          }, // tempRise
+          }), // tempRise
 
           // ============================================================================================= //
           // ===================================== TRACK THICKNESS (input) =============================== //
           // ============================================================================================= //
-          trackThickness: {
+          trackThickness: new CalcVar({
             name: 'Track Thickness',
             type: 'numeric',
             direction: 'input',
-            dispVal: '35',
+            dispVal: '35u',
+            metricPrefixes: true,
             units: [
-              ['um', 1e-6],
-              ['mm', 1e-3],
+              new UnitsMultiplicative('m', 1e0),
             ],
-            selUnit: 'um',
+            selUnit: 'm',
             validation: {
               fn: (value) => {
                 if (value < 17.5e-6) return ['warning', 'Track thickness is below the recommended minimum (17.5um or 0.5oz). Equation will not be as accurate (extrapolation will occur).']
@@ -95,12 +96,12 @@ class UI extends React.Component {
               },
             },
             helpText: 'The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz).'
-          }, // trackThickness
+          }), // trackThickness
 
           // ============================================================================================= //
           // ======================================= TRACK LAYER (combobox) ============================== //
           // ============================================================================================= //
-          trackLayer: {
+          trackLayer: new CalcVar({
             name: 'Track Layer',
             type: 'select',
             options: [
@@ -109,23 +110,23 @@ class UI extends React.Component {
             ],
             selOption: 'External',
             helpText: 'The type of layer that the current-carrying track is on. If the track is on the top or bottom copper layer of the PCB, set this to "External". If the track is on a buried layer, set this to "Internal".'
-          }, // trackLayer
+          }), // trackLayer
 
           // ============================================================================================= //
           // ===================================== MIN. TRACK WIDTH (output) ============================= //
           // ============================================================================================= //
-          minTrackWidth: {
+          minTrackWidth: new CalcVar({
             name: 'Minimum Track Width',
             type: 'numeric',
             direction: 'output',
-            units: [
-              ['um', 1e-6],
-              ['mm', 1e-3],
+            metricPrefixes: true,
+            units: [              
+              new UnitsMultiplicative('m', 1e0),
             ],
-            selUnit: 'mm',
+            selUnit: 'm',
             sigFig: 3,
             helpText: 'The minimum track width needed to carry the specified current without exceeding the given temperature rise.',
-          }, // minTrackWidth
+          }), // minTrackWidth
         }, // calcVars
 
         eqFn: (calcVars) => {
@@ -191,7 +192,7 @@ class UI extends React.Component {
     const varWidth = 100
 
     return (
-      <Layout>
+      <Layout title={metadata.name + ' Calculator'}>
         <Head>
           <title>{metadata.name}</title>
           <link rel='icon' href='/favicon.ico' />
@@ -201,7 +202,23 @@ class UI extends React.Component {
             <p>This calculator can find the minimum PCB track width (external or internal layer) given the track current, the
         allowed temperature rise, and copper layer thickness.</p>
 
-            <p>Calculated in accordance with the equations in IPC-2221A Section 6.2 (formerly IPC-D-275, the equation has not
+            <MetricPrefixNote />
+          </div>
+          <table>
+            <tbody>
+              <CalcVarRow id="trackCurrent" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <CalcVarRow id="tempRise" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <CalcVarRow id="trackThickness" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <CalcVarRow id="trackLayer" calcVars={calcVars} valueChanged={this.valueChanged} width={varWidth}/>
+              <CalcVarRow id="minTrackWidth" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+            </tbody>
+          </table>
+
+          <div style={{ height: '50px' }}></div>
+
+          <div style={{ maxWidth: '800px' }}>
+
+            <p>Track current is calculated in accordance with the equations in IPC-2221A Section 6.2 (formerly IPC-D-275, the equation has not
             changed between these two standards amd you can get similar values by curve-fitting to the graphs provided in
         IPC-D-275, drawn in 1954, woah!</p>
 
@@ -235,17 +252,6 @@ class UI extends React.Component {
             <p>The IPC-2152 standard supersedes this standard. It is designed to produce a more accurate track width calculation, but does require more variables.
         <a>Click here to open an IPC-2152 calculator</a>.</p>
           </div>
-          <table>
-            <tbody>
-              <VarRowV2 id="trackCurrent" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2 id="tempRise" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2 id="trackThickness" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRowV2Select id="trackLayer" calcVars={calcVars} valueChanged={this.valueChanged} width={varWidth}/>
-              <VarRowV2 id="minTrackWidth" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-            </tbody>
-          </table>
-
-          <div style={{ height: 20 }}></div>
         </div>
         <style jsx>{`
           .calc-notes {

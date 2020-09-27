@@ -132,7 +132,8 @@ export class CalcHelper {
   }
 
   static runValidation(calcVar, calc) {
-    if (!('validation' in calcVar)) return
+    if (typeof calcVar.validation === 'undefined')
+      return
     // The entire calc object is provided because the validation might depend
     // on the state of other calc variables
     if (calcVar.validation.fn) {

@@ -3,15 +3,13 @@ import React from "react"
 
 import LayoutCalc from "components/layout-calc"
 import VarRowV2 from 'components/calc-var-row'
+import MetricPrefixNote from 'components/metric-prefix-note'
 import { CalcHelper, Validators } from "utils/calc-helper"
 import TileImage from "./tile-image.jpg"
 import { Calc } from 'utils/calc'
 import { CalcVar } from 'utils/calc-var'
 import { UnitsMultiplicative } from 'utils/calc-units'
-
-const MATERIAL_CONDUCTIVITES_OHMM = {
-  Copper: 1.68e-8
-}
+import { MaterialResistivitiesOhmm } from 'utils/unit-conversion-constants'
 
 export var metadata = {
   id: "wire-guage-calculator", // Make sure this has the same name as the directory this file is in
@@ -110,7 +108,9 @@ class UI extends React.Component {
             type: 'select',
             direction: "input",
             options: [
+              'Aluminium',
               'Copper',
+              'Silver',
               'Custom',
             ],
             selOption: 'Copper',
@@ -187,7 +187,8 @@ class UI extends React.Component {
           let conductorResistivity_Ohmm = null
           if (calcVars.conductorMaterial.selOption !== 'Custom') {                        
             // Look-up from table, and set the conductor resistivity variable as this is an output
-            conductorResistivity_Ohmm = MATERIAL_CONDUCTIVITES_OHMM[calcVars.conductorMaterial.selOption]
+            conductorResistivity_Ohmm = MaterialResistivitiesOhmm[calcVars.conductorMaterial.selOption.toUpperCase()]
+            if(!conductorResistivity_Ohmm) throw Error('Resistivity not found for material "' + calcVars.conductorMaterial.selOption.toUpperCase() + '".')
             calcVars.conductorResistivity_Ohmm.rawVal = conductorResistivity_Ohmm
           } else {
             conductorResistivity_Ohmm = calcVars.conductorResistivity_Ohmm.rawVal
@@ -250,8 +251,7 @@ class UI extends React.Component {
     })
   }
 
-  render = () => {
-    // Area of ring = pi * inner diameter * thickness
+  render = () => {    
     const calcVars = this.state.calc.calcVars
     const varWidth = 100
 
@@ -263,6 +263,9 @@ class UI extends React.Component {
         </Head>
         <div className="vbox outer-wrapper">
           <p className="calc-notes">Use this calculator to work out what AWG guage wire you need to carry a certain a specified current with a maximum allowable voltage drop across the length of the wire.</p>
+
+          <MetricPrefixNote />
+          
           <table>
             <tbody>
               <VarRowV2
@@ -371,6 +374,8 @@ class UI extends React.Component {
             <p>{String.raw`$$ n = 36 - 39\frac{log(\frac{d}{0.127})}{log{92}} $$`}</p>
 
             <p>All done! Remember that the above equation will likely give you a number with decimal places. AWG guages are typically supplied in integer jumps, so it's best to round down to the nearest integer (a lower guage is a larger diameter wire, giving you some safety factor).</p>
+
+            <p>These equations do not consider the thermal effects of the power dissipation in the cable due to the cables resistance. They are also only suitable for DC currents, as they do not take into account the skin effects.</p>
           </div>
         </div>
         <style jsx>{`

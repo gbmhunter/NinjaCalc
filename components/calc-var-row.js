@@ -193,7 +193,7 @@ VarRow.defaultProps = {
 VarRow.propTypes = {
   calcVars: PropTypes.object.isRequired,
   valueChanged: PropTypes.func.isRequired,
-  unitsChanged: PropTypes.func.isRequired,
+  unitsChanged: PropTypes.func,
   width: PropTypes.number,
   showHelpText: PropTypes.bool,
   disabled: PropTypes.bool,
