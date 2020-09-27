@@ -12,12 +12,12 @@ import { UnitsMultiplicative } from 'utils/calc-units'
 import { MaterialResistivitiesOhmm } from 'utils/unit-conversion-constants'
 
 export var metadata = {
-  id: "wire-guage-calculator", // Make sure this has the same name as the directory this file is in
-  name: "Wire Guage Calculator",
+  id: "wire-gauge-calculator", // Make sure this has the same name as the directory this file is in
+  name: "Wire Gauge Calculator",
   description:
-    'Find the right size wire guage for a particular current and voltage drop.',
+    'Find the right size wire gauge for a particular current and voltage drop.',
   categories: ["Electronics", "Cabling"], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
-  tags: [ "electronics", 'wire', 'cable', 'guage', 'AWG', 'current' ],
+  tags: [ "electronics", 'wire', 'cable', 'gauge', 'AWG', 'current' ],
   image: TileImage,
 }
 
@@ -139,7 +139,7 @@ class UI extends React.Component {
                 Validators.isPositive,
               ],
             },
-            helpText: 'The resistivity of the conductor. Copper has a resistivity of 1.68e-8Ωm.',
+            helpText: 'The resistivity of the conductor. If you want to enter your own value in here, set the "Conductor Material" to custom.',
           }), // resistivity_Ohmm
           crossSectionalArea_m2: new CalcVar({
             name: "Cross-sectional Area",
@@ -158,8 +158,8 @@ class UI extends React.Component {
             },
             helpText: 'The required cross-sectional area of the conductor in the cable.',
           }), // crossSectionalArea_m2
-          guage_awg: new CalcVar({
-            name: "Guage",
+          gauge_awg: new CalcVar({
+            name: "Gauge",
             type: 'numeric',
             direction: 'output',            
             units: [              
@@ -174,8 +174,8 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
-            helpText: 'The calculated AWG guage value is rounded down to the nearest integer.'
-          }), // guage_awg
+            helpText: 'The calculated maximum AWG gauge of the cable. The calculated value is rounded down to the nearest integer.'
+          }), // gauge_awg
         }, // calcVars
         eqFn: (calcVars) => {
           // Input variables
@@ -207,11 +207,11 @@ class UI extends React.Component {
           // d = sqrt(4A/pi)
           const diameter_m = Math.pow(4*crossSectionalArea_m2/Math.PI, 0.5)
 
-          // Find guage from diameter
+          // Find gauge from diameter
           // d_mm = 0.127mm * 92^((36-n)/39
           // n = 36 - 39*(log(d_mm/0.127) / log(92))
-          const guage_awg = 36 - 39*(Math.log((1000*diameter_m)/0.127) / Math.log(92))
-          calcVars.guage_awg.rawVal = guage_awg
+          const gauge_awg = 36 - 39*(Math.log((1000*diameter_m)/0.127) / Math.log(92))
+          calcVars.gauge_awg.rawVal = gauge_awg
         },
       }), // calc
     } // this.state
@@ -262,7 +262,7 @@ class UI extends React.Component {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="vbox outer-wrapper">
-          <p className="calc-notes">Use this calculator to work out what AWG guage wire you need to carry a certain a specified current with a maximum allowable voltage drop across the length of the wire.</p>
+          <p className="calc-notes">Use this calculator to work out what AWG gauge wire you need to carry a certain a specified current with a maximum allowable voltage drop across the length of the wire.</p>
 
           <MetricPrefixNote />
           
@@ -325,7 +325,7 @@ class UI extends React.Component {
                 showHelpText={true}
               />
               <VarRowV2
-                id="guage_awg"
+                id="gauge_awg"
                 calcVars={calcVars}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            
@@ -358,22 +358,22 @@ class UI extends React.Component {
 
             <p>{String.raw`$$ d = \sqrt{\frac{4A}{\pi}} $$`}</p>
 
-            <p>Now we just need to convert this cable diameter into an AWG guage. To convert from an AWG guage to a cable diameter we can use the equation:</p>
+            <p>Now we just need to convert this cable diameter into an AWG gauge. To convert from an AWG gauge to a cable diameter we can use the equation:</p>
 
             <p>{String.raw`$$ d = 0.127 \cdot 92^{\frac{36-n}{39}} $$`}</p>
 
             <p style={{ textAlign: 'center' }}>
               where:<br/>
               \(d\) is the diameter of the cable, in mm.<br/>
-              \(n\) is the AWG wire guage<br/>
-              \(0.127mm\) is the diameter of wire guage #36.
+              \(n\) is the AWG wire gauge<br/>
+              \(0.127mm\) is the diameter of wire gauge #36.
             </p>
 
             <p>However, we need to solve this for \(n\), so re-arranging the equation gives:</p>
 
             <p>{String.raw`$$ n = 36 - 39\frac{log(\frac{d}{0.127})}{log{92}} $$`}</p>
 
-            <p>All done! Remember that the above equation will likely give you a number with decimal places. AWG guages are typically supplied in integer jumps, so it's best to round down to the nearest integer (a lower guage is a larger diameter wire, giving you some safety factor).</p>
+            <p>All done! Remember that the above equation will likely give you a number with decimal places. AWG gauges are typically supplied in integer jumps, so it's best to round down to the nearest integer (a lower gauge is a larger diameter wire, giving you some safety factor).</p>
 
             <p>These equations do not consider the thermal effects of the power dissipation in the cable due to the cables resistance. They are also only suitable for DC currents, as they do not take into account the skin effects.</p>
           </div>

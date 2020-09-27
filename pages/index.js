@@ -15,7 +15,7 @@ import * as CalcOhmsLaw from "./calculators/electronics/basics/ohms-law"
 import * as CalcResistorDivider from "./calculators/electronics/basics/resistor-divider"
 import * as CalcStandardResistanceFinder from "./calculators/electronics/basics/standard-resistance-finder"
 
-import * as CalcWireGuage from "./calculators/electronics/cabling/wire-guage-calculator"
+import * as CalcWireGauge from "./calculators/electronics/cabling/wire-gauge-calculator"
 
 import * as CalcFilterLowPassRC from "./calculators/electronics/filters/filter-low-pass-rc"
 
@@ -50,7 +50,7 @@ class Home extends React.Component {
     this.addCalc(CalcResistorDivider)
     this.addCalc(CalcStandardResistanceFinder)
     // electronics/cabling
-    this.addCalc(CalcWireGuage)
+    this.addCalc(CalcWireGauge)
     // electronics/filters
     this.addCalc(CalcFilterLowPassRC)
     // electronics/ics
