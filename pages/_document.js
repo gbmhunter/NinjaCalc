@@ -14,12 +14,14 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        {/* Providing "async" to the MathJax script loading can cause problems with the global object MathJax not being available in time for when specific pages want
+          <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+          {/* Providing "async" to the MathJax script loading can cause problems with the global object MathJax not being available in time for when specific pages want
         to render their equations. */}
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-        dangerouslySetInnerHTML={{
-            __html: String.raw`
+          <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+            dangerouslySetInnerHTML={{
+              __html: String.raw`
             MathJax.Hub.Config({
                 extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
                 TeX: {
@@ -49,14 +51,31 @@ class MyDocument extends Document {
                 "HTML-CSS": { linebreaks: { automatic: true } },
                 SVG: { linebreaks: { automatic: true } }
               });
-                `
-          }}></script>
+                `,
+            }}
+          ></script>
           <link
-  rel="stylesheet"
-  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-  crossOrigin="anonymous"
-/>
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossOrigin="anonymous"
+          />
+
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-92834105-1"
+          />
+
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-92834105-1');
+            `,
+            }}
+          />
         </Head>
         <body>
           <Main />
