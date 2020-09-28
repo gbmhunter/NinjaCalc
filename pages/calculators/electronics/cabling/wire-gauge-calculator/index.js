@@ -256,7 +256,7 @@ class UI extends React.Component {
     const varWidth = 100
 
     return (
-      <LayoutCalc title={metadata.name + ' Calculator'}>
+      <LayoutCalc title={metadata.name}>
         <Head>
           <title>{metadata.name}</title>
           <link rel="icon" href="/favicon.ico" />
