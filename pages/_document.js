@@ -63,7 +63,9 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
           />
 
-          {/* Global Site Tag (gtag.js) - Google Analytics */}
+          {/* Global Site Tag (gtag.js) - Google Analytics
+          See https://github.com/vercel/next.js/tree/canary/examples/with-google-analytics for where
+          this code came from */}
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
