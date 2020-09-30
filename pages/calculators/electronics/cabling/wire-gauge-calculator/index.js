@@ -342,36 +342,66 @@ class UI extends React.Component {
 
             <p>{String.raw`$$ V_{cable} = V_{source} \cdot \frac{V_{cable, perc}}{100} $$`}</p>
 
+            <p style={{ textAlign: 'center' }}>
+              where:<br/>
+              {String.raw`\( V_{cable} \)`} is the voltage drop across the total length of cable, in \(V\)<br/>
+              {String.raw`\( V_{source} \)`} is the voltage at the input to the cable, in \(V\)<br/>
+              {String.raw`\( V_{cable, perc} \)`} is the desired maximum percentage voltage drop across the total length of the cable, as a percentage
+            </p>
+
             <p>From this we can find the total resistance of the cable using Ohm's law:</p>
 
             <p>{String.raw`$$ R_{cable} = \frac{V_{cable}}{I_{cable}} $$`}</p>
+
+            <p style={{ textAlign: 'center' }}>
+              where:<br/>
+              {String.raw`\( R_{cable} \)`} is the total resistance of the cable, in \(\Omega\)<br/>              
+              {String.raw`\(I_{cable}\)`} is the current through the cable, in \(A\)
+            </p>
 
             <p>We can divide this by the length to get the resistance per meter of cable:</p>
 
             <p>{String.raw`$$ R_{\Omega / m} = \frac{R_{cable}}{L} $$`}</p>
 
+            <p style={{ textAlign: 'center' }}>
+              where:<br/>
+              {String.raw`\( R_{\Omega / m} \)`} is the resistance per meter of cable, in {String.raw`\( \Omega \cdot m^{-1} \)`}<br/>              
+              {String.raw`\(L\)`} is the length of the cable, in {String.raw`\(m\)`}
+            </p>
+
             <p>We can then calculate the cross-sectional area of the cable using the resistance per meter and the resistivity of the conductor (the resistivity is a property of the material the conductor is made from):</p>
 
             <p>{String.raw`$$ A = \frac{\rho}{R_{\Omega / m}}$$`}</p>
+
+            <p style={{ textAlign: 'center' }}>
+              where:<br/>
+              {String.raw`\(A\)`} is the cross-sectional area, in \(m^2\)<br/>              
+              {String.raw`\(\rho\)`} is the resistivity of the conductor (e.g. copper), in {String.raw`\(\Omega \cdot m\)`}
+            </p>
 
             <p>We can then find the diameter of the cable from this cross-sectional area:</p>
 
             <p>{String.raw`$$ d = \sqrt{\frac{4A}{\pi}} $$`}</p>
 
+            <p style={{ textAlign: 'center' }}>
+              where:<br/>
+              {String.raw`\(d\)`} is the diameter of the cable, in \(m\)<br/>
+            </p>
+
             <p>Now we just need to convert this cable diameter into an AWG gauge. To convert from an AWG gauge to a cable diameter we can use the equation:</p>
 
-            <p>{String.raw`$$ d = 0.127 \cdot 92^{\frac{36-n}{39}} $$`}</p>
+            <p>{String.raw`$$ d = 0.127e^{-3} \cdot 92^{\frac{36-n}{39}} $$`}</p>
 
             <p style={{ textAlign: 'center' }}>
               where:<br/>
-              \(d\) is the diameter of the cable, in mm.<br/>
+              \(d\) is the diameter of the cable, in \(m\).<br/>
               \(n\) is the AWG wire gauge<br/>
-              \(0.127mm\) is the diameter of wire gauge #36.
+              note: \(0.127mm\) is the diameter of wire gauge #36.
             </p>
 
             <p>However, we need to solve this for \(n\), so re-arranging the equation gives:</p>
 
-            <p>{String.raw`$$ n = 36 - 39\frac{log(\frac{d}{0.127})}{log{92}} $$`}</p>
+            <p>{String.raw`$$ n = 36 - 39\frac{log(\frac{d}{0.127e^{-3}})}{log{92}} $$`}</p>
 
             <p>All done! Remember that the above equation will likely give you a number with decimal places. AWG gauges are typically supplied in integer jumps, so it's best to round down to the nearest integer (a lower gauge is a larger diameter wire, giving you some safety factor).</p>
 
