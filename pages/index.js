@@ -2,9 +2,14 @@ import React from "react"
 import Head from "next/head"
 import Link from "next/link"
 import { SpringGrid, makeResponsive, measureItems } from 'react-stonecutter'
+// Using CSSGrid here does not seem to work, only SprintGrid produces
+// animations when tiles appear/dissappear
 const Grid = makeResponsive(measureItems(SpringGrid), {
   maxWidth: 1920,
-  minPadding: 100
+  // minPadding is important to fix the problem if the grid items start going of the right-hand side of the screen.
+  // make sure this value is set to the same width as the left-hand column (essentially the number of pixels that
+  // the grid layout doesn't get)
+  minPadding: 220, 
 });
 
 import Layout from '~/components/layout'
@@ -150,7 +155,7 @@ class Home extends React.Component {
     const TILE_HEIGHT = 300
 
     const calcList = filteredCalculators.map((calculator, idx) => {
-      return (<li key={calculator.metadata.id}>
+      return (<div key={calculator.metadata.id}>
         <Link key={calculator.metadata.id} href={this.getPath(calculator.metadata)}>
         <div key={idx} className="calculator-tile" style={{ width: TILE_WIDTH, height: TILE_HEIGHT }}>
           <div className="tile-image"><img src={calculator.metadata.image}></img></div>
@@ -206,7 +211,7 @@ class Home extends React.Component {
           `}</style>
         </div>
         </Link>
-        </li>
+        </div>
       )
     })
 
@@ -229,7 +234,7 @@ class Home extends React.Component {
           </div>
         <div id="calculator-selection-grid">
         <Grid
-          component="ul"
+          component="div"
           // columns={5}
           columnWidth={TILE_WIDTH}
           gutterWidth={15}
