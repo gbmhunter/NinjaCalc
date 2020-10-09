@@ -10,6 +10,9 @@ import { CalcVar } from 'utils/calc-var'
 import { UnitsMultiplicative } from 'utils/calc-units'
 import { CrcGeneric } from 'utils/crc/crc-generic'
 import { crcCatalogue, crcIds } from 'utils/crc/crc-catalogue'
+import { stringManipulation } from 'utils/string-manipulation/string-manipulation'
+
+import CommonCrcAlgorithmsRow from 'components/common-crc-algorithms-row'
 
 export var metadata = {
   id: "crc-calculator", // Make sure this has the same name as the directory this file is in
@@ -30,6 +33,12 @@ class UI extends React.Component {
       usersAlgorithmChoiceOptions.push(crcIds[prop])
     }
     this.state = {
+      selectedCrcAlgorithmInfo: {
+        name: '',
+        crcWidthBits: '',
+        crcPolynomial: '',
+      },
+      crcData: [],
       calc: new Calc({
         calcVars: {
           crcData: new CalcVar({
@@ -72,6 +81,9 @@ class UI extends React.Component {
           const crcDataType = calcVars.crcDataType.selOption
           // Convert input data
           const crcData = this.convertCrcInputData(inputCrcData, crcDataType)
+          this.setState({
+            crcData: crcData,
+          })
 
           const usersAlgorithmChoice = calcVars.usersAlgorithmChoice.selOption
           console.log('usersAlgorithmChoice = ')
@@ -80,29 +92,33 @@ class UI extends React.Component {
           var crcAlgorithmInfo = crcCatalogue.get(usersAlgorithmChoice)
 
           // UPDATE THE SELECTED CRC INFO THAT IS BOUND TO UI
-          // this.selectedCrcAlgorithmInfo.name = crcAlgorithmInfo.name
-          // this.selectedCrcAlgorithmInfo.crcWidthBits =
-          //   crcAlgorithmInfo.crcWidthBits
-          // this.selectedCrcAlgorithmInfo.crcPolynomial = stringManipulation.formatHex(
-          //   crcAlgorithmInfo.crcPolynomial.toString(16),
-          //   crcAlgorithmInfo.crcWidthBits
-          // )
-          // this.selectedCrcAlgorithmInfo.startingValue = stringManipulation.formatHex(
-          //   crcAlgorithmInfo.startingValue.toString(16),
-          //   crcAlgorithmInfo.crcWidthBits
-          // )
-          // this.selectedCrcAlgorithmInfo.reflectData =
-          //   crcAlgorithmInfo.reflectData
-          // this.selectedCrcAlgorithmInfo.reflectRemainder =
-          //   crcAlgorithmInfo.reflectRemainder
-          // this.selectedCrcAlgorithmInfo.finalXorValue = stringManipulation.formatHex(
-          //   crcAlgorithmInfo.finalXorValue.toString(16),
-          //   crcAlgorithmInfo.crcWidthBits
-          // )
-          // this.selectedCrcAlgorithmInfo.checkValue = stringManipulation.formatHex(
-          //   crcAlgorithmInfo.checkValue.toString(16),
-          //   crcAlgorithmInfo.crcWidthBits
-          // )
+          let selectedCrcAlgorithmInfo = {}
+          selectedCrcAlgorithmInfo.name = crcAlgorithmInfo.name
+          selectedCrcAlgorithmInfo.crcWidthBits =
+            crcAlgorithmInfo.crcWidthBits
+          selectedCrcAlgorithmInfo.crcPolynomial = stringManipulation.formatHex(
+            crcAlgorithmInfo.crcPolynomial.toString(16),
+            crcAlgorithmInfo.crcWidthBits
+          )
+          selectedCrcAlgorithmInfo.startingValue = stringManipulation.formatHex(
+            crcAlgorithmInfo.startingValue.toString(16),
+            crcAlgorithmInfo.crcWidthBits
+          )
+          selectedCrcAlgorithmInfo.reflectData =
+            crcAlgorithmInfo.reflectData
+          selectedCrcAlgorithmInfo.reflectRemainder =
+            crcAlgorithmInfo.reflectRemainder
+          selectedCrcAlgorithmInfo.finalXorValue = stringManipulation.formatHex(
+            crcAlgorithmInfo.finalXorValue.toString(16),
+            crcAlgorithmInfo.crcWidthBits
+          )
+          selectedCrcAlgorithmInfo.checkValue = stringManipulation.formatHex(
+            crcAlgorithmInfo.checkValue.toString(16),
+            crcAlgorithmInfo.crcWidthBits
+          )
+          this.setState({
+            selectedCrcAlgorithmInfo: selectedCrcAlgorithmInfo,
+          })
 
           // Calculate CRC value
           var crcEngine = new CrcGeneric({
@@ -225,6 +241,12 @@ class UI extends React.Component {
       return (<option>{option}</option>)
     })
 
+    let usersAlgorithmChoiceOptions = calcVars.usersAlgorithmChoice.options.map((option) => {
+      return (<option>{option}</option>)
+    })
+
+    const selectedCrcAlgorithmInfo = this.state.selectedCrcAlgorithmInfo
+
     return (
       <LayoutCalc title={metadata.name + ' Calculator'}>
         <Head>
@@ -267,6 +289,111 @@ class UI extends React.Component {
           </div>
 
           <div style={{ height: 20 }}></div>
+
+          <div id="common-and-user-selectable-hdiv" style={{ display: 'flex' }}>
+          {/*
+          ===========================================================================================
+          =================================== COMMON CRC ALGORITHMS =================================
+          ===========================================================================================
+          */}
+          <div id="common-crc-algorithms" class="section-container">
+            <span class="section-title">Common CRC Algorithms</span>
+            <table>
+              <tbody>
+                <tr class="header-row">
+                  <td>CRC Name</td>
+                  <td>CRC Value</td>
+                </tr>
+                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
+                                          crcEnum={crcIds.CRC_8_MAXIM}></CommonCrcAlgorithmsRow>
+                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
+                                          crcEnum={crcIds.CRC_8_SMBUS}></CommonCrcAlgorithmsRow>
+                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
+                                          crcEnum={crcIds.CRC_16_CCITT_FALSE}></CommonCrcAlgorithmsRow>
+                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
+                                          crcEnum={crcIds.CRC_16_KERMIT_CCITT_TRUE}></CommonCrcAlgorithmsRow>
+                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
+                                          crcEnum={crcIds.CRC_16_MAXIM}></CommonCrcAlgorithmsRow>
+                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
+                                          crcEnum={crcIds.CRC_16_MODBUS}></CommonCrcAlgorithmsRow>
+                </tbody>
+            </table>
+          </div>
+
+          {/*
+          =========================================================================================== -->
+          ================================= USER SELECTABLE ALGORITHM =============================== -->
+          =========================================================================================== -->
+          */}
+          <div id="user-selectable-algorithm" class="section-container" style={{ display: 'flex', flexDirection: 'column'}}>
+            <span class="section-title">User Selectable Algorithm</span>
+
+            <table>
+              <tbody>
+                <tr>
+                  <td>Algorithm</td>
+                  <td>CRC Value</td>
+                </tr>
+                <tr>
+                  <td><select v-model="calc.getVar('usersAlgorithmChoice').val"
+                              v-onchange="calc.getVar('usersAlgorithmChoice').onValChange()"
+                              style={{ width: '200px', height: '30px', fontSize: '14px' }}>
+                    { usersAlgorithmChoiceOptions }
+                  </select></td>
+                  <td>
+                    <calc-var-string calcVar="calc.getVar('userSelectableCrcValue')" width="200"></calc-var-string>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div style= {{ height: '10px' }}></div>
+
+            {/* ADDITIONAL INFORMATION TABLE */}
+            <table id="additional-information-table">
+              <tbody>
+                <tr>
+                  <td>Name:</td>
+                  <td>{selectedCrcAlgorithmInfo.name}</td>
+                </tr>
+                <tr>
+                  <td>CRC Width (bits):</td>
+                  <td>{selectedCrcAlgorithmInfo.crcWidthBits}</td>
+                </tr>
+                <tr>
+                  <td>Generator Polynomial:</td>
+                  <td>{'0x' + selectedCrcAlgorithmInfo.crcPolynomial}</td>
+                </tr>
+                <tr>
+                  <td>Generator Polynomial:</td>
+                  <td>{'0x' +selectedCrcAlgorithmInfo.crcPolynomial}</td>
+                </tr>
+                <tr>
+                  <td>Starting Value:</td>
+                  <td>{'0x' + selectedCrcAlgorithmInfo.startingValue}</td>
+                </tr>
+                <tr>
+                  <td>Reflect Data:</td>
+                  <td>{selectedCrcAlgorithmInfo.reflectData}</td>
+                </tr>
+                <tr>
+                  <td>Reflect CRC Out:</td>
+                  <td>{selectedCrcAlgorithmInfo.reflectRemainder}</td>
+                </tr>
+                <tr>
+                  <td>XOR Out:</td>
+                  <td>{'0x' + selectedCrcAlgorithmInfo.finalXorValue}</td>
+                </tr>
+                <tr>
+                  <td>Check:</td>
+                  <td>{'0x' + selectedCrcAlgorithmInfo.checkValue}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
         </div>
         <style jsx>{`
           .calc-notes {
