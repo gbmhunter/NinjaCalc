@@ -37,7 +37,9 @@ import * as CalcNtcThermistor from "./calculators/electronics/sensors/ntc-thermi
 
 import * as CalcBuckConverter from "./calculators/electronics/smps/buck-converter"
 
-import * as Calc3DRotations from "./calculators/mathematics/geometry/3d-rotations"
+import * as Calc3DRotations from './calculators/mathematics/geometry/3d-rotations'
+
+import * as CalcCrcCalculator from './calculators/software/crc-calculator'
 
 class Home extends React.Component {
   constructor(props) {
@@ -73,6 +75,8 @@ class Home extends React.Component {
     this.addCalc(CalcBuckConverter)
     // mathematics
     this.addCalc(Calc3DRotations)
+    // software
+    this.addCalc(CalcCrcCalculator)
   }
 
   componentDidMount = () => {}

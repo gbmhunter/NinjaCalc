@@ -211,8 +211,10 @@ export class CalcHelper {
   }
 
   static handleValueChanged(calc, event) {
-    
+    if (!calc) throw Error('Calc must be provided')
+    if (!event) throw Error('Event must be provided')
     let calcVar = calc.calcVars[event.target.name]
+    if (!calcVar) throw Error('Calculator variable with name "' + event.target.name + '" was not found.')
     if (!calcVar.type) {
       console.log('WARNING: calcVar "' + event.target.name + '" did not provide a type, assuming numeric.')
       calcVar.type = 'numeric'
@@ -225,6 +227,11 @@ export class CalcHelper {
     } else if (calcVar.type == 'select') {
       // Select has no notion of raw and disp values, just "selOption"
       calcVar.selOption = event.target.value
+    } else if (calcVar.type == 'string') {
+      // Strings are easy, just set the value
+      calcVar.value = event.target.value
+    } else {
+      throw Error('Variable type "' + calcVar.type + '" for variable "' + event.target.name + '" not supported.')
     }
     CalcHelper.runValidation(calcVar, calc)
     calc.eqFn(calc.calcVars)

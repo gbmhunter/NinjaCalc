@@ -26,14 +26,14 @@ class UI extends React.Component {
       calc: new Calc({
         calcVars: {
           voltage_V: new CalcVar({
-            name: "Voltage",
+            name: 'Voltage',
             type: 'numeric',
-            direction: "input",
-            dispVal: "12",
+            direction: 'input',
+            dispVal: '12',
             units: [
-              new UnitsMultiplicative("V", 1),
+              new UnitsMultiplicative('V', 1),
             ],
-            selUnit: "V",
+            selUnit: 'V',
             metricPrefixes: true,
             sigFig: 4,
             validation: {
@@ -41,6 +41,7 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
+            helpText: 'The voltage across the resistor.',
           }), // voltage_V
           current_A: new CalcVar({
             name: "Current",
@@ -58,6 +59,7 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
+            helpText: 'The current through the resistor.',
           }), // current_A
           resistance_Ohms: new CalcVar({
             name: "Resistance",
@@ -74,6 +76,7 @@ class UI extends React.Component {
                 Validators.isNumber
               ],
             },
+            helpText: 'The resistance of the resistor.',
           }), // resistance_Ohms
         }, // calcVars
         eqFn: (calcVars) => {

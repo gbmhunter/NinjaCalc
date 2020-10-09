@@ -30,6 +30,8 @@ export class CalcVar {
       this.options = config.options
       if (!config.selOption) throw Error('No default selection option provided for calc var "' + this.name + '".')
       this.selOption = config.selOption
+    } else if(config.type == 'string') {
+      this.value = config.value
     } else {
       throw Error('Type "' + config.type + '" not recognized for calc var "' + this.name + '".')
     }
