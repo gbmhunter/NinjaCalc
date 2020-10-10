@@ -37,6 +37,7 @@ class UI extends React.Component {
         name: '',
         crcWidthBits: '',
         crcPolynomial: '',
+        startingValue: '',
       },
       crcData: [],
       calc: new Calc({
@@ -56,7 +57,6 @@ class UI extends React.Component {
             selOption: 'ASCII/Unicode',            
             helpText: 'The type of data in the "CRC Data" textbox.',
           }),
-
 
           usersAlgorithmChoice: new CalcVar({
             name: 'usersAlgorithmChoice',
@@ -137,8 +137,6 @@ class UI extends React.Component {
           // for us
           calcVars.userSelectableCrcValue.value = '0x' + crcEngine.getHex()
 
-
-
         },
       }), // calc
     } // this.state
@@ -149,6 +147,9 @@ class UI extends React.Component {
     // MathJax not defined during tests
     if (typeof MathJax !== 'undefined')
       MathJax.Hub.Queue(["Typeset", MathJax.Hub])
+
+    // Hacky, this is already called in the constructor!
+    CalcHelper.initCalc(this.state.calc)
   } // componentDidMount()
 
   convertCrcInputData(crcDataString, inputDataType) {
@@ -209,6 +210,7 @@ class UI extends React.Component {
   }
 
   valueChanged = (e) => {
+    console.log('valueChanged() called.')
     let calc = this.state.calc
     CalcHelper.handleValueChanged(calc, e)
     this.setState({
@@ -296,11 +298,11 @@ class UI extends React.Component {
           =================================== COMMON CRC ALGORITHMS =================================
           ===========================================================================================
           */}
-          <div id="common-crc-algorithms" class="section-container">
-            <span class="section-title">Common CRC Algorithms</span>
+          <div id="common-crc-algorithms" className="section-container">
+            <span className="section-title">Common CRC Algorithms</span>
             <table>
               <tbody>
-                <tr class="header-row">
+                <tr className="header-row">
                   <td>CRC Name</td>
                   <td>CRC Value</td>
                 </tr>
@@ -325,8 +327,8 @@ class UI extends React.Component {
           ================================= USER SELECTABLE ALGORITHM =============================== -->
           =========================================================================================== -->
           */}
-          <div id="user-selectable-algorithm" class="section-container" style={{ display: 'flex', flexDirection: 'column'}}>
-            <span class="section-title">User Selectable Algorithm</span>
+          <div id="user-selectable-algorithm" className="section-container" style={{ display: 'flex', flexDirection: 'column'}}>
+            <span className="section-title">User Selectable Algorithm</span>
 
             <table>
               <tbody>
@@ -335,13 +337,14 @@ class UI extends React.Component {
                   <td>CRC Value</td>
                 </tr>
                 <tr>
-                  <td><select v-model="calc.getVar('usersAlgorithmChoice').val"
-                              v-onchange="calc.getVar('usersAlgorithmChoice').onValChange()"
-                              style={{ width: '200px', height: '30px', fontSize: '14px' }}>
-                    { usersAlgorithmChoiceOptions }
-                  </select></td>
                   <td>
-                    <calc-var-string calcVar="calc.getVar('userSelectableCrcValue')" width="200"></calc-var-string>
+                    <select name="usersAlgorithmChoice" value={calcVars.usersAlgorithmChoice.selOption} onChange={this.valueChanged}
+                              style={{ width: '200px', height: '30px', fontSize: '14px' }}>
+                      { usersAlgorithmChoiceOptions }
+                    </select>
+                  </td>
+                  <td>
+                    <input value={calcVars.userSelectableCrcValue.value} style={{ width: "200" }}/>
                   </td>
                 </tr>
               </tbody>
@@ -374,11 +377,11 @@ class UI extends React.Component {
                 </tr>
                 <tr>
                   <td>Reflect Data:</td>
-                  <td>{selectedCrcAlgorithmInfo.reflectData}</td>
+                  <td>{selectedCrcAlgorithmInfo.reflectData ? 'True' : 'False'}</td>
                 </tr>
                 <tr>
                   <td>Reflect CRC Out:</td>
-                  <td>{selectedCrcAlgorithmInfo.reflectRemainder}</td>
+                  <td>{selectedCrcAlgorithmInfo.reflectRemainder ? 'True' : 'False'}</td>
                 </tr>
                 <tr>
                   <td>XOR Out:</td>
@@ -398,6 +401,38 @@ class UI extends React.Component {
         <style jsx>{`
           .calc-notes {
             max-width: 700px;
+          }
+
+          #crc-calculator .section-title {
+            font-weight: bold;
+          }
+
+          # {
+            font-size: 0.9rem;
+          }
+
+          div.section-container {
+            margin: 10px;
+            padding: 10px;
+          
+            border-style: solid;
+            border-color: #b9b9b9;
+            border-width: 2px;
+            border-radius: 5px;
+          }
+          
+          .header-row {
+            font-style: italic;
+          }
+          
+          table td {
+            text-align: left;
+          }
+          
+          /* This targets the second column of the additional information table */
+          #additional-information-table td:first-child + td {
+            color: #989898;
+            text-align: left;
           }
         `}</style>
       </LayoutCalc>
