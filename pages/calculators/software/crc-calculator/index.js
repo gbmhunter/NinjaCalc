@@ -1,10 +1,10 @@
-import Head from "next/head"
-import React from "react"
+import Head from 'next/head'
+import React from 'react'
 
 import LayoutCalc from 'components/layout-calc'
 import VarRowV2 from 'components/calc-var-row'
 import { CalcHelper, Validators } from 'utils/calc-helper'
-import TileImage from "./tile-image.png"
+import TileImage from './tile-image.png'
 import { Calc } from 'utils/calc'
 import { CalcVar } from 'utils/calc-var'
 import { UnitsMultiplicative } from 'utils/calc-units'
@@ -15,12 +15,12 @@ import { stringManipulation } from 'utils/string-manipulation/string-manipulatio
 import CommonCrcAlgorithmsRow from 'components/common-crc-algorithms-row'
 
 export var metadata = {
-  id: "crc-calculator", // Make sure this has the same name as the directory this file is in
-  name: "CRC Calculator",
+  id: 'crc-calculator', // Make sure this has the same name as the directory this file is in
+  name: 'CRC Calculator',
   description:
     'Calculate CRC values from either a large number of popular CRC algorithms or define one yourself.',
-  categories: [ 'Software' ], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
-  tags: [ 'software', 'CRC', 'algorithm', 'polynomial' ],
+  categories: ['Software'], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
+  tags: ['software', 'CRC', 'algorithm', 'polynomial'],
   image: TileImage,
 }
 
@@ -54,7 +54,7 @@ class UI extends React.Component {
             name: 'crcDataType',
             type: 'select',
             options: ['ASCII/Unicode', 'Hex'],
-            selOption: 'ASCII/Unicode',            
+            selOption: 'ASCII/Unicode',
             helpText: 'The type of data in the "CRC Data" textbox.',
           }),
 
@@ -62,21 +62,18 @@ class UI extends React.Component {
             name: 'usersAlgorithmChoice',
             type: 'select',
             options: usersAlgorithmChoiceOptions,
-            selOption: 'CRC_32_POSIX_CKSUM',            
+            selOption: 'CRC_32_POSIX_CKSUM',
             helpText: 'The CRC algorithm you wish to use.',
           }),
 
           userSelectableCrcValue: new CalcVar({
             name: 'userSelectableCrcValue',
-            type: 'string',                      
+            type: 'string',
             helpText:
               'The output value of the choosen CRC algorithm, using the input data given above.',
           }),
-
-          
         }, // calcVars
         eqFn: (calcVars) => {
-          
           const inputCrcData = calcVars.crcData.value
           const crcDataType = calcVars.crcDataType.selOption
           // Convert input data
@@ -94,8 +91,7 @@ class UI extends React.Component {
           // UPDATE THE SELECTED CRC INFO THAT IS BOUND TO UI
           let selectedCrcAlgorithmInfo = {}
           selectedCrcAlgorithmInfo.name = crcAlgorithmInfo.name
-          selectedCrcAlgorithmInfo.crcWidthBits =
-            crcAlgorithmInfo.crcWidthBits
+          selectedCrcAlgorithmInfo.crcWidthBits = crcAlgorithmInfo.crcWidthBits
           selectedCrcAlgorithmInfo.crcPolynomial = stringManipulation.formatHex(
             crcAlgorithmInfo.crcPolynomial.toString(16),
             crcAlgorithmInfo.crcWidthBits
@@ -104,8 +100,7 @@ class UI extends React.Component {
             crcAlgorithmInfo.startingValue.toString(16),
             crcAlgorithmInfo.crcWidthBits
           )
-          selectedCrcAlgorithmInfo.reflectData =
-            crcAlgorithmInfo.reflectData
+          selectedCrcAlgorithmInfo.reflectData = crcAlgorithmInfo.reflectData
           selectedCrcAlgorithmInfo.reflectRemainder =
             crcAlgorithmInfo.reflectRemainder
           selectedCrcAlgorithmInfo.finalXorValue = stringManipulation.formatHex(
@@ -128,7 +123,7 @@ class UI extends React.Component {
             startingValue: crcAlgorithmInfo.startingValue,
             reflectData: crcAlgorithmInfo.reflectData,
             reflectRemainder: crcAlgorithmInfo.reflectRemainder,
-            finalXorValue: crcAlgorithmInfo.finalXorValue
+            finalXorValue: crcAlgorithmInfo.finalXorValue,
           })
           for (var i = 0; i < crcData.length; i++) {
             crcEngine.update(crcData[i])
@@ -136,7 +131,6 @@ class UI extends React.Component {
           // Prepend '0x' at the front, as getHex() does not do this
           // for us
           calcVars.userSelectableCrcValue.value = '0x' + crcEngine.getHex()
-
         },
       }), // calc
     } // this.state
@@ -146,14 +140,13 @@ class UI extends React.Component {
   componentDidMount() {
     // MathJax not defined during tests
     if (typeof MathJax !== 'undefined')
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub])
+      MathJax.Hub.Queue(['Typeset', MathJax.Hub])
 
     // Hacky, this is already called in the constructor!
     CalcHelper.initCalc(this.state.calc)
   } // componentDidMount()
 
   convertCrcInputData(crcDataString, inputDataType) {
-
     // Convert this string into a list of integers
     var buffer = []
     var i
@@ -226,13 +219,13 @@ class UI extends React.Component {
     })
   }
 
-  rbChanged = (e) => {      
+  rbChanged = (e) => {
     let calc = this.state.calc
     CalcHelper.handleRbChanged(calc, e)
     this.setState({
       calc: calc,
     })
-  };
+  }
 
   render = () => {
     // Area of ring = pi * inner diameter * thickness
@@ -240,12 +233,14 @@ class UI extends React.Component {
     const varWidth = 100
 
     let crcDataTypeOptions = calcVars.crcDataType.options.map((option) => {
-      return (<option>{option}</option>)
+      return <option>{option}</option>
     })
 
-    let usersAlgorithmChoiceOptions = calcVars.usersAlgorithmChoice.options.map((option) => {
-      return (<option>{option}</option>)
-    })
+    let usersAlgorithmChoiceOptions = calcVars.usersAlgorithmChoice.options.map(
+      (option) => {
+        return <option>{option}</option>
+      }
+    )
 
     const selectedCrcAlgorithmInfo = this.state.selectedCrcAlgorithmInfo
 
@@ -257,146 +252,271 @@ class UI extends React.Component {
         </Head>
         <div className="vbox outer-wrapper">
           <div className="calc-notes">
-            <p>This calculator takes in the provided data (as either ASCII/Unicode or hex) and calculates the resulting CRC
-        value using a range of popular CRC algorithms.</p>
+            <p>
+              This calculator takes in the provided data (as either
+              ASCII/Unicode or hex) and calculates the resulting CRC value using
+              a range of popular CRC algorithms.
+            </p>
 
-            <p>When the ASCII/Unicode radiobutton is selected, values entered into the CRC data textbox will be treated as
-              ASCII/Unicode characters. These characters will then be converted to their corresponding Unicode integer values.
-              (Unicode is a complete superset of ASCII, so all ASCII characters map to the same integer values as Unicode
-              characters).</p>
-          </div> {/* calc-notes */}
-
+            <p>
+              When the ASCII/Unicode radiobutton is selected, values entered
+              into the CRC data textbox will be treated as ASCII/Unicode
+              characters. These characters will then be converted to their
+              corresponding Unicode integer values. (Unicode is a complete
+              superset of ASCII, so all ASCII characters map to the same integer
+              values as Unicode characters).
+            </p>
+          </div>{' '}
+          {/* calc-notes */}
           {/*
           ===========================================================================================
           ========================================= INPUT DATA ======================================
           ===========================================================================================
-          */} 
-
-          <div id="input-data" style={{display: 'flex', flexDirection: 'column', alignContent: 'center'}}>
-            <div style={{display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
-              <div style={{alignSelf: 'center'}}>CRC Data</div>
-              <div style={{width: '10px'}}></div>
-              <input name="crcData" value={calcVars.crcData.value} onChange={this.valueChanged} style={{ width: '400px' }}/>
+          */}
+          <div
+            id="input-data"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignContent: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignContent: 'center',
+              }}
+            >
+              <div style={{ alignSelf: 'center' }}>CRC Data</div>
+              <div style={{ width: '10px' }}></div>
+              <input
+                name="crcData"
+                value={calcVars.crcData.value}
+                onChange={this.valueChanged}
+                style={{ width: '400px' }}
+              />
             </div>
-      
-            <div style={{ height: '10px'}}></div>
-            <div style={{display: 'flex', margin: 'auto'}}>
-              <div style={{alignSelf: 'center'}}>Data Format</div>
-              <div style={{width: '10px'}}></div>
-              <select temp="crcDataType" temp2="calc.getVar('crcDataType').onValChange()"
-                style={{width: '150px', height: '30px', fontSize: '14px'}}>
-                { crcDataTypeOptions }
+
+            <div style={{ height: '10px' }}></div>
+            <div style={{ display: 'flex', margin: 'auto' }}>
+              <div style={{ alignSelf: 'center' }}>Data Format</div>
+              <div style={{ width: '10px' }}></div>
+              <select
+                temp="crcDataType"
+                temp2="calc.getVar('crcDataType').onValChange()"
+                style={{ width: '150px', height: '30px', fontSize: '14px' }}
+              >
+                {crcDataTypeOptions}
               </select>
             </div>
           </div>
-
           <div style={{ height: 20 }}></div>
-
           <div id="common-and-user-selectable-hdiv" style={{ display: 'flex' }}>
-          {/*
-          ===========================================================================================
-          =================================== COMMON CRC ALGORITHMS =================================
-          ===========================================================================================
-          */}
-          <div id="common-crc-algorithms" className="section-container">
-            <span className="section-title">Common CRC Algorithms</span>
-            <table>
-              <tbody>
-                <tr className="header-row">
-                  <td>CRC Name</td>
-                  <td>CRC Value</td>
-                </tr>
-                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
-                                          crcEnum={crcIds.CRC_8_MAXIM}></CommonCrcAlgorithmsRow>
-                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
-                                          crcEnum={crcIds.CRC_8_SMBUS}></CommonCrcAlgorithmsRow>
-                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
-                                          crcEnum={crcIds.CRC_16_CCITT_FALSE}></CommonCrcAlgorithmsRow>
-                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
-                                          crcEnum={crcIds.CRC_16_KERMIT_CCITT_TRUE}></CommonCrcAlgorithmsRow>
-                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
-                                          crcEnum={crcIds.CRC_16_MAXIM}></CommonCrcAlgorithmsRow>
-                <CommonCrcAlgorithmsRow crcCatalogue={crcCatalogue} crcData={this.state.crcData}
-                                          crcEnum={crcIds.CRC_16_MODBUS}></CommonCrcAlgorithmsRow>
+            {/*
+            ===========================================================================================
+            =================================== COMMON CRC ALGORITHMS =================================
+            ===========================================================================================
+            */}
+            <div id="common-crc-algorithms" className="section-container">
+              <span className="section-title">Common CRC Algorithms</span>
+              <table>
+                <tbody>
+                  <tr className="header-row">
+                    <td>CRC Name</td>
+                    <td>CRC Value</td>
+                  </tr>
+                  <CommonCrcAlgorithmsRow
+                    crcCatalogue={crcCatalogue}
+                    crcData={this.state.crcData}
+                    crcEnum={crcIds.CRC_8_MAXIM}
+                  ></CommonCrcAlgorithmsRow>
+                  <CommonCrcAlgorithmsRow
+                    crcCatalogue={crcCatalogue}
+                    crcData={this.state.crcData}
+                    crcEnum={crcIds.CRC_8_SMBUS}
+                  ></CommonCrcAlgorithmsRow>
+                  <CommonCrcAlgorithmsRow
+                    crcCatalogue={crcCatalogue}
+                    crcData={this.state.crcData}
+                    crcEnum={crcIds.CRC_16_CCITT_FALSE}
+                  ></CommonCrcAlgorithmsRow>
+                  <CommonCrcAlgorithmsRow
+                    crcCatalogue={crcCatalogue}
+                    crcData={this.state.crcData}
+                    crcEnum={crcIds.CRC_16_KERMIT_CCITT_TRUE}
+                  ></CommonCrcAlgorithmsRow>
+                  <CommonCrcAlgorithmsRow
+                    crcCatalogue={crcCatalogue}
+                    crcData={this.state.crcData}
+                    crcEnum={crcIds.CRC_16_MAXIM}
+                  ></CommonCrcAlgorithmsRow>
+                  <CommonCrcAlgorithmsRow
+                    crcCatalogue={crcCatalogue}
+                    crcData={this.state.crcData}
+                    crcEnum={crcIds.CRC_16_MODBUS}
+                  ></CommonCrcAlgorithmsRow>
                 </tbody>
-            </table>
-          </div>
-
-          {/*
+              </table>
+            </div>
+            {/*
           =========================================================================================== -->
           ================================= USER SELECTABLE ALGORITHM =============================== -->
           =========================================================================================== -->
           */}
-          <div id="user-selectable-algorithm" className="section-container" style={{ display: 'flex', flexDirection: 'column'}}>
-            <span className="section-title">User Selectable Algorithm</span>
+            <div
+              id="user-selectable-algorithm"
+              className="section-container"
+              style={{ display: 'flex', flexDirection: 'column' }}
+            >
+              <span className="section-title">User Selectable Algorithm</span>
 
-            <table>
-              <tbody>
-                <tr>
-                  <td>Algorithm</td>
-                  <td>CRC Value</td>
-                </tr>
-                <tr>
-                  <td>
-                    <select name="usersAlgorithmChoice" value={calcVars.usersAlgorithmChoice.selOption} onChange={this.valueChanged}
-                              style={{ width: '200px', height: '30px', fontSize: '14px' }}>
-                      { usersAlgorithmChoiceOptions }
-                    </select>
-                  </td>
-                  <td>
-                    <input value={calcVars.userSelectableCrcValue.value} style={{ width: "200" }}/>
-                  </td>
-                </tr>
-              </tbody>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Algorithm</td>
+                    <td>CRC Value</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <select
+                        name="usersAlgorithmChoice"
+                        value={calcVars.usersAlgorithmChoice.selOption}
+                        onChange={this.valueChanged}
+                        style={{
+                          width: '200px',
+                          height: '30px',
+                          fontSize: '14px',
+                        }}
+                      >
+                        {usersAlgorithmChoiceOptions}
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        value={calcVars.userSelectableCrcValue.value}
+                        style={{ width: '200' }}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div style={{ height: '10px' }}></div>
+
+              {/* ADDITIONAL INFORMATION TABLE */}
+              <table id="additional-information-table">
+                <tbody>
+                  <tr>
+                    <td>Name:</td>
+                    <td>{selectedCrcAlgorithmInfo.name}</td>
+                  </tr>
+                  <tr>
+                    <td>CRC Width (bits):</td>
+                    <td>{selectedCrcAlgorithmInfo.crcWidthBits}</td>
+                  </tr>
+                  <tr>
+                    <td>Generator Polynomial:</td>
+                    <td>{'0x' + selectedCrcAlgorithmInfo.crcPolynomial}</td>
+                  </tr>
+                  <tr>
+                    <td>Generator Polynomial:</td>
+                    <td>{'0x' + selectedCrcAlgorithmInfo.crcPolynomial}</td>
+                  </tr>
+                  <tr>
+                    <td>Starting Value:</td>
+                    <td>{'0x' + selectedCrcAlgorithmInfo.startingValue}</td>
+                  </tr>
+                  <tr>
+                    <td>Reflect Data:</td>
+                    <td>
+                      {selectedCrcAlgorithmInfo.reflectData ? 'True' : 'False'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Reflect CRC Out:</td>
+                    <td>
+                      {selectedCrcAlgorithmInfo.reflectRemainder
+                        ? 'True'
+                        : 'False'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>XOR Out:</td>
+                    <td>{'0x' + selectedCrcAlgorithmInfo.finalXorValue}</td>
+                  </tr>
+                  <tr>
+                    <td>Check:</td>
+                    <td>{'0x' + selectedCrcAlgorithmInfo.checkValue}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>{' '}
+            {/* user-selectable-algorithm */}
+          </div>{' '}
+          {/* common-and-user-selectable-hdiv */}
+          {/*
+          ============================= CUSTOM CRC ALGORITHM ==========================
+          */}
+          <div
+            id="custom-crc-algorithm"
+            className="section-container"
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
+            <span className="section-title">Custom Algorithm</span>
+            <table style={{ margin: 'auto' }}>
+              <tr>
+                <td>CRC Width (bits):</td>
+                <td>
+                  <calc-value calcVar="calc.getVar('customCrcWidthBits')"></calc-value>
+                </td>
+                <td>Generator Polynomial:</td>
+                <td>0x</td>
+                <td>
+                  <calc-var-string
+                    calcVar="calc.getVar('customCrcPolynomial')"
+                    width="200"
+                  ></calc-var-string>
+                </td>
+              </tr>
+              <tr>
+                <td>Reflect Data:</td>
+                <td>
+                  <calc-var-checkbox calcVar="calc.getVar('customCrcReflectData')"></calc-var-checkbox>
+                </td>
+                <td>Init Value:</td>
+                <td>0x</td>
+                <td>
+                  <calc-var-string
+                    calcVar="calc.getVar('customCrcInitialValue')"
+                    width="200"
+                  ></calc-var-string>
+                </td>
+              </tr>
+              <tr>
+                <td>Reflect CRC Out:</td>
+                <td>
+                  <calc-var-checkbox calcVar="calc.getVar('customCrcReflectCrcOut')"></calc-var-checkbox>
+                </td>
+                <td>XOR Out:</td>
+                <td>0x</td>
+                <td>
+                  <calc-var-string
+                    calcVar="calc.getVar('customCrcXorOut')"
+                    width="200"
+                  ></calc-var-string>
+                </td>
+              </tr>
             </table>
-
-            <div style= {{ height: '10px' }}></div>
-
-            {/* ADDITIONAL INFORMATION TABLE */}
-            <table id="additional-information-table">
-              <tbody>
-                <tr>
-                  <td>Name:</td>
-                  <td>{selectedCrcAlgorithmInfo.name}</td>
-                </tr>
-                <tr>
-                  <td>CRC Width (bits):</td>
-                  <td>{selectedCrcAlgorithmInfo.crcWidthBits}</td>
-                </tr>
-                <tr>
-                  <td>Generator Polynomial:</td>
-                  <td>{'0x' + selectedCrcAlgorithmInfo.crcPolynomial}</td>
-                </tr>
-                <tr>
-                  <td>Generator Polynomial:</td>
-                  <td>{'0x' +selectedCrcAlgorithmInfo.crcPolynomial}</td>
-                </tr>
-                <tr>
-                  <td>Starting Value:</td>
-                  <td>{'0x' + selectedCrcAlgorithmInfo.startingValue}</td>
-                </tr>
-                <tr>
-                  <td>Reflect Data:</td>
-                  <td>{selectedCrcAlgorithmInfo.reflectData ? 'True' : 'False'}</td>
-                </tr>
-                <tr>
-                  <td>Reflect CRC Out:</td>
-                  <td>{selectedCrcAlgorithmInfo.reflectRemainder ? 'True' : 'False'}</td>
-                </tr>
-                <tr>
-                  <td>XOR Out:</td>
-                  <td>{'0x' + selectedCrcAlgorithmInfo.finalXorValue}</td>
-                </tr>
-                <tr>
-                  <td>Check:</td>
-                  <td>{'0x' + selectedCrcAlgorithmInfo.checkValue}</td>
-                </tr>
-              </tbody>
-            </table>
-
+            <div style={{ height: '15px' }}></div>
+            <div style={{ display: 'flex', margin: 'auto' }}>
+              <span style={{ alignSelf: 'center' }}>CRC Value: 0x </span>
+              <calc-var-string
+                calcVar="calc.getVar('customCrcValue')"
+                width="300"
+              ></calc-var-string>
+            </div>
           </div>
-        </div>
-
         </div>
         <style jsx>{`
           .calc-notes {
@@ -414,21 +534,21 @@ class UI extends React.Component {
           div.section-container {
             margin: 10px;
             padding: 10px;
-          
+
             border-style: solid;
             border-color: #b9b9b9;
             border-width: 2px;
             border-radius: 5px;
           }
-          
+
           .header-row {
             font-style: italic;
           }
-          
+
           table td {
             text-align: left;
           }
-          
+
           /* This targets the second column of the additional information table */
           #additional-information-table td:first-child + td {
             color: #989898;
@@ -437,7 +557,7 @@ class UI extends React.Component {
         `}</style>
       </LayoutCalc>
     )
-  };
+  }
 }
 
 export default UI
