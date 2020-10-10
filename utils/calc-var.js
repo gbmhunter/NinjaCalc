@@ -32,11 +32,12 @@ export class CalcVar {
       this.selOption = config.selOption
     } else if(config.type == 'string') {
       this.value = config.value
+    } else if(config.type == 'checkbox') {
+      // Value should be true (checked) or false (unchecked)
+      this.value = config.value
     } else {
       throw Error('Type "' + config.type + '" not recognized for calc var "' + this.name + '".')
     }
-
-
 
     this.validation = config.validation
     this.helpText = config.helpText

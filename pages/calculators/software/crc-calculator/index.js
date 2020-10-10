@@ -72,6 +72,49 @@ class UI extends React.Component {
             helpText:
               'The output value of the choosen CRC algorithm, using the input data given above.',
           }),
+
+          customCrcWidthBits: new CalcVar({
+            name: 'customCrcWidthBits',         
+            type: 'string',
+            helpText: '',
+          }),
+
+          customCrcPolynomial: new CalcVar({            
+            name: 'customCrcPolynomial',
+            type: 'string',
+            helpText: '',
+          }),
+
+          customCrcReflectData: new CalcVar({
+            name: 'customCrcReflectData',
+            type: 'checkbox',
+            helpText: '',
+          }),
+
+          customCrcReflectCrcOut: new CalcVar({
+            name: 'customCrcReflectCrcOut',         
+            type: 'checkbox',
+            helpText: '',
+          }),
+
+          customCrcInitialValue: new CalcVar({            
+            name: 'customCrcInitialValue',
+            type: 'string',
+            helpText: '',
+          }),
+
+          customCrcXorOut: new CalcVar({            
+            name: 'customCrcXorOut',
+            type: 'string',
+            helpText: '',
+          }),
+
+          customCrcValue: new CalcVar({            
+            name: 'customCrcValue',
+            type: 'string',
+            helpText: '',
+          }),
+
         }, // calcVars
         eqFn: (calcVars) => {
           const inputCrcData = calcVars.crcData.value
@@ -232,13 +275,13 @@ class UI extends React.Component {
     const calcVars = this.state.calc.calcVars
     const varWidth = 100
 
-    let crcDataTypeOptions = calcVars.crcDataType.options.map((option) => {
-      return <option>{option}</option>
+    let crcDataTypeOptions = calcVars.crcDataType.options.map((option, idx) => {
+      return <option key={idx}>{option}</option>
     })
 
     let usersAlgorithmChoiceOptions = calcVars.usersAlgorithmChoice.options.map(
-      (option) => {
-        return <option>{option}</option>
+      (option, idx) => {
+        return <option key={idx}>{option}</option>
       }
     )
 
@@ -456,65 +499,64 @@ class UI extends React.Component {
           </div>{' '}
           {/* common-and-user-selectable-hdiv */}
           {/*
+          =============================================================================
           ============================= CUSTOM CRC ALGORITHM ==========================
+          =============================================================================
           */}
           <div
             id="custom-crc-algorithm"
             className="section-container"
-            style={{ display: 'flex', flexDirection: 'column' }}
-          >
+            style={{ display: 'flex', flexDirection: 'column' }}>
             <span className="section-title">Custom Algorithm</span>
             <table style={{ margin: 'auto' }}>
-              <tr>
-                <td>CRC Width (bits):</td>
-                <td>
-                  <calc-value calcVar="calc.getVar('customCrcWidthBits')"></calc-value>
-                </td>
-                <td>Generator Polynomial:</td>
-                <td>0x</td>
-                <td>
-                  <calc-var-string
-                    calcVar="calc.getVar('customCrcPolynomial')"
-                    width="200"
-                  ></calc-var-string>
-                </td>
-              </tr>
-              <tr>
-                <td>Reflect Data:</td>
-                <td>
-                  <calc-var-checkbox calcVar="calc.getVar('customCrcReflectData')"></calc-var-checkbox>
-                </td>
-                <td>Init Value:</td>
-                <td>0x</td>
-                <td>
-                  <calc-var-string
-                    calcVar="calc.getVar('customCrcInitialValue')"
-                    width="200"
-                  ></calc-var-string>
-                </td>
-              </tr>
-              <tr>
-                <td>Reflect CRC Out:</td>
-                <td>
-                  <calc-var-checkbox calcVar="calc.getVar('customCrcReflectCrcOut')"></calc-var-checkbox>
-                </td>
-                <td>XOR Out:</td>
-                <td>0x</td>
-                <td>
-                  <calc-var-string
-                    calcVar="calc.getVar('customCrcXorOut')"
-                    width="200"
-                  ></calc-var-string>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>CRC Width (bits):</td>
+                  <td><input name="customCrcWidthBits" value={calcVars.customCrcWidthBits.value}/></td>
+                  <td>Generator Polynomial:</td>
+                  <td>0x</td>
+                  <td>
+                    <input
+                      name="customCrcPolynomial" value={calcVars.customCrcPolynomial.value}
+                      style={{ width: "200" }} />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Reflect Data:</td>
+                  <td>
+                    <input name="customCrcReflectData" type="checkbox" value={calcVars.customCrcReflectData.value} />
+                  </td>
+                  <td>Init Value:</td>
+                  <td>0x</td>
+                  <td>
+                    <input
+                      name="customCrcInitialValue"
+                      value={calcVars.customCrcInitialValue.value}
+                      style={{ width: "200" }}/>                  
+                  </td>
+                </tr>
+                <tr>
+                  <td>Reflect CRC Out:</td>
+                  <td>
+                    <input name="customCrcReflectCrcOut" value={calcVars.customCrcReflectCrcOut.value}/>
+                  </td>
+                  <td>XOR Out:</td>
+                  <td>0x</td>
+                  <td>
+                    <input
+                      name="customCrcXorOut"
+                      value={calcVars.customCrcXorOut.value}
+                      style={{ width: "200" }}/>
+                  </td>
+                </tr>
+              </tbody>
             </table>
             <div style={{ height: '15px' }}></div>
             <div style={{ display: 'flex', margin: 'auto' }}>
               <span style={{ alignSelf: 'center' }}>CRC Value: 0x </span>
-              <calc-var-string
-                calcVar="calc.getVar('customCrcValue')"
-                width="300"
-              ></calc-var-string>
+              <input
+                name="customCrcValue"
+                style={{ width: "300" }}/>
             </div>
           </div>
         </div>
