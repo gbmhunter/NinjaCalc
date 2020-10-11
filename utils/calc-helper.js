@@ -219,7 +219,10 @@ export class CalcHelper {
       console.log('WARNING: calcVar "' + event.target.name + '" did not provide a type, assuming numeric.')
       calcVar.type = 'numeric'
     }
-    if (calcVar.type == 'numeric') {
+
+    if (calcVar.type == 'checkbox') {
+      calcVar.value = event.target.checked
+    } else if (calcVar.type == 'numeric') {
       const value = event.target.valueAsNumber || event.target.value
       calcVar.dispVal = value
       // Recalculate raw value from displayed value
@@ -233,6 +236,7 @@ export class CalcHelper {
     } else {
       throw Error('Variable type "' + calcVar.type + '" for variable "' + event.target.name + '" not supported.')
     }
+
     CalcHelper.runValidation(calcVar, calc)
     calc.eqFn(calc.calcVars)
     CalcHelper.updateDispVals(calc.calcVars)

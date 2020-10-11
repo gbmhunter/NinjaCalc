@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import React from 'react'
+import bigInt from 'big-integer'
 
 import LayoutCalc from 'components/layout-calc'
 import VarRowV2 from 'components/calc-var-row'
@@ -46,7 +47,7 @@ class UI extends React.Component {
             name: 'CRC Data',
             type: 'string',
             direction: 'input',
-            value: '',
+            value: 'abc123',
             helpText: 'Input the data you wish to calculate the CRC for here.',
           }), // crcData
 
@@ -76,36 +77,42 @@ class UI extends React.Component {
           customCrcWidthBits: new CalcVar({
             name: 'customCrcWidthBits',         
             type: 'string',
+            value: '8',
             helpText: '',
           }),
 
           customCrcPolynomial: new CalcVar({            
             name: 'customCrcPolynomial',
             type: 'string',
+            value: '23',
             helpText: '',
           }),
 
           customCrcReflectData: new CalcVar({
             name: 'customCrcReflectData',
             type: 'checkbox',
+            value: false,
             helpText: '',
           }),
 
           customCrcReflectCrcOut: new CalcVar({
             name: 'customCrcReflectCrcOut',         
             type: 'checkbox',
+            value: false,
             helpText: '',
           }),
 
           customCrcInitialValue: new CalcVar({            
             name: 'customCrcInitialValue',
             type: 'string',
+            value: 'FF',
             helpText: '',
           }),
 
           customCrcXorOut: new CalcVar({            
             name: 'customCrcXorOut',
             type: 'string',
+            value: '00',
             helpText: '',
           }),
 
@@ -174,6 +181,45 @@ class UI extends React.Component {
           // Prepend '0x' at the front, as getHex() does not do this
           // for us
           calcVars.userSelectableCrcValue.value = '0x' + crcEngine.getHex()
+
+          //=====================================================//
+          //===================== CUSTOM CRC ALGORITHM ==========//
+          //=====================================================//
+          // Read dependencies          
+          const crcWidth = calcVars.customCrcWidthBits.value
+          const crcGeneratorPolynomial = calcVars.customCrcPolynomial.value
+          const crcInitialValue = calcVars.customCrcInitialValue.value
+          const reflectDataIn = calcVars.customCrcReflectData.value
+          const reflectCrcOut = calcVars.customCrcReflectCrcOut.value
+          const crcXorOut = calcVars.customCrcXorOut.value
+
+          // Convert dependencies as necessary
+          const generatorPolynomialAsBigInt = bigInt(crcGeneratorPolynomial, 16)
+          const initialValueAsBigInt = bigInt(crcInitialValue, 16)
+          const xorOutAsLong = bigInt(crcXorOut, 16)
+
+          var initObj = {
+            name: 'Custom Algorithm',
+            crcWidthBits: crcWidth,
+            crcPolynomial: generatorPolynomialAsBigInt,
+            startingValue: initialValueAsBigInt,
+            reflectData: reflectDataIn,
+            reflectRemainder: reflectCrcOut,
+            finalXorValue: xorOutAsLong
+          }
+          console.log(initObj)
+
+          // Generate a CRC engine from the information we have obtained
+          var crcEngine = new CrcGeneric(initObj)
+
+          for (var i = 0; i < crcData.length; i++) {
+            crcEngine.update(crcData[i])
+          }
+          console.log('crc value=' + crcEngine.getHex())
+          calcVars.customCrcValue.value = crcEngine.getHex()
+
+
+
         },
       }), // calc
     } // this.state
@@ -438,6 +484,7 @@ class UI extends React.Component {
                     <td>
                       <input
                         value={calcVars.userSelectableCrcValue.value}
+                        className="output"
                         style={{ width: '200' }}
                       />
                     </td>
@@ -512,19 +559,21 @@ class UI extends React.Component {
               <tbody>
                 <tr>
                   <td>CRC Width (bits):</td>
-                  <td><input name="customCrcWidthBits" value={calcVars.customCrcWidthBits.value}/></td>
+                  <td><input name="customCrcWidthBits" value={calcVars.customCrcWidthBits.value} onChange={this.valueChanged}/></td>
                   <td>Generator Polynomial:</td>
                   <td>0x</td>
                   <td>
                     <input
-                      name="customCrcPolynomial" value={calcVars.customCrcPolynomial.value}
+                      name="customCrcPolynomial"
+                      value={calcVars.customCrcPolynomial.value}
+                      onChange={this.valueChanged}
                       style={{ width: "200" }} />
                   </td>
                 </tr>
                 <tr>
                   <td>Reflect Data:</td>
                   <td>
-                    <input name="customCrcReflectData" type="checkbox" value={calcVars.customCrcReflectData.value} />
+                    <input name="customCrcReflectData" type="checkbox" value={calcVars.customCrcReflectData.value} onChange={this.valueChanged} />
                   </td>
                   <td>Init Value:</td>
                   <td>0x</td>
@@ -532,13 +581,14 @@ class UI extends React.Component {
                     <input
                       name="customCrcInitialValue"
                       value={calcVars.customCrcInitialValue.value}
+                      onChange={this.valueChanged}
                       style={{ width: "200" }}/>                  
                   </td>
                 </tr>
                 <tr>
                   <td>Reflect CRC Out:</td>
                   <td>
-                    <input name="customCrcReflectCrcOut" value={calcVars.customCrcReflectCrcOut.value}/>
+                    <input name="customCrcReflectCrcOut" type="checkbox" value={calcVars.customCrcReflectCrcOut.value} onChange={this.valueChanged}/>
                   </td>
                   <td>XOR Out:</td>
                   <td>0x</td>
@@ -546,6 +596,7 @@ class UI extends React.Component {
                     <input
                       name="customCrcXorOut"
                       value={calcVars.customCrcXorOut.value}
+                      onChange={this.valueChanged}
                       style={{ width: "200" }}/>
                   </td>
                 </tr>
@@ -556,6 +607,8 @@ class UI extends React.Component {
               <span style={{ alignSelf: 'center' }}>CRC Value: 0x </span>
               <input
                 name="customCrcValue"
+                value={calcVars.customCrcValue.value}
+                className="output"
                 style={{ width: "300" }}/>
             </div>
           </div>
@@ -595,6 +648,10 @@ class UI extends React.Component {
           #additional-information-table td:first-child + td {
             color: #989898;
             text-align: left;
+          }
+
+          .output {
+            border: 0px;
           }
         `}</style>
       </LayoutCalc>

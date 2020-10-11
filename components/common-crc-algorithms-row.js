@@ -33,7 +33,7 @@ export default class CommonCrcAlgorithmsRow extends React.Component {
     return (
       <tr>
         <td>{crcEngine.name}</td>
-        <td><input value={crcResult}/></td>
+        <td><input value={crcResult} style={{ border: '0px' }}/></td>
       </tr>
     )
   }
