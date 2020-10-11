@@ -3,7 +3,7 @@ import React from 'react'
 import bigInt from 'big-integer'
 
 import LayoutCalc from 'components/layout-calc'
-import VarRowV2 from 'components/calc-var-row'
+import { CalcVarInput } from 'components/calc-var-input'
 import { CalcHelper, Validators } from 'utils/calc-helper'
 import TileImage from './tile-image.png'
 import { Calc } from 'utils/calc'
@@ -48,6 +48,25 @@ class UI extends React.Component {
             type: 'string',
             direction: 'input',
             value: 'abc123',
+            validation: {
+              fns: [
+                (value, calc) => {
+                  // Read dependency variables
+                  const crcData = calc.calcVars.crcData.value
+                  const crcDataFormat = calc.calcVars.crcDataType.selOption
+
+                  // This validator is only converned with validating hex, so return if it
+                  // is not in hex format
+                  if (crcDataFormat !== 'Hex') return ['ok', '']
+
+                  if (stringManipulation.isHex(crcData)) {
+                    return ['ok', '']
+                  } else {
+                    return ['error', 'Value is not valid Hex.']
+                  }
+                }
+              ],
+            },
             helpText: 'Input the data you wish to calculate the CRC for here.',
           }), // crcData
 
@@ -379,10 +398,10 @@ class UI extends React.Component {
             >
               <div style={{ alignSelf: 'center' }}>CRC Data</div>
               <div style={{ width: '10px' }}></div>
-              <input
-                name="crcData"
-                value={calcVars.crcData.value}
-                onChange={this.valueChanged}
+              <CalcVarInput
+                id="crcData"
+                calc={this.state.calc}
+                valueChanged={this.valueChanged}
                 style={{ width: '400px' }}
               />
             </div>
@@ -392,8 +411,8 @@ class UI extends React.Component {
               <div style={{ alignSelf: 'center' }}>Data Format</div>
               <div style={{ width: '10px' }}></div>
               <select
-                temp="crcDataType"
-                temp2="calc.getVar('crcDataType').onValChange()"
+                name="crcDataType"
+                onChange={this.valueChanged}
                 style={{ width: '150px', height: '30px', fontSize: '14px' }}
               >
                 {crcDataTypeOptions}

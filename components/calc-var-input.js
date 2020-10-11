@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 
-export class CalcVarNumeric extends React.Component {
+export class CalcVarInput extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -15,7 +15,9 @@ export class CalcVarNumeric extends React.Component {
       disabled = true;
     }
 
-    const validationState = "";
+    console.log(this.props.calc)
+    const calcVar = this.props.calc.calcVars[this.props.id]
+    const validationState = calcVar.validation.state;
 
     return (
       <div>
@@ -34,19 +36,19 @@ export class CalcVarNumeric extends React.Component {
             padding-right: 10px;
           }
 
-          .value input.warning {
+          input.warning {
             border: 1px solid orange;
           }
 
-          .value input.warning:focus {
+          input.warning:focus {
             outline: 2px solid orange;
           }
 
-          .value input.error {
+          input.error {
             border: 1px solid red;
           }
 
-          .value input.error:focus {
+          input.error:focus {
             outline: 2px solid red;
           }
         `}</style>
@@ -55,11 +57,12 @@ export class CalcVarNumeric extends React.Component {
   }
 }
 
-CalcVarNumeric.defaultProps = {
+CalcVarInput.defaultProps = {
   width: 150,
 };
 
-CalcVarNumeric.propTypes = {
-  value: PropTypes.string.isRequired,
+CalcVarInput.propTypes = {
+  id: PropTypes.string.isRequired,
+  calc: PropTypes.object.isRequired,
   width: PropTypes.number,
 };
