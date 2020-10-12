@@ -14,17 +14,24 @@ export class CalcVarInput extends React.Component {
       readonly = true;
       disabled = true;
     }
-
-    console.log(this.props.calc)
+    
     const calcVar = this.props.calc.calcVars[this.props.id]
+    console.log(calcVar)
     const validationState = calcVar.validation.state;
+
+    let valueToDisp = null
+    if (calcVar.type === 'numeric') {
+      valueToDisp = calcVar.dispVal
+    } else {
+      valueToDisp = calcVar.value
+    }
 
     return (
       <div>
         <input
           name={this.props.id}
           className={validationState}
-          value={this.props.value}
+          value={valueToDisp}
           onChange={this.props.valueChanged}
           style={{ width: this.props.width }}
           readOnly={readonly}

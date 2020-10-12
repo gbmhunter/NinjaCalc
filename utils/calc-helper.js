@@ -1,25 +1,6 @@
 import { MetricPrefixes } from '~/utils/metric-prefixes'
 import { Units, UnitsMultiplicative } from '~/utils/calc-units'
 
-export class Validators {
-  /**
-   * Makes sure that the input string is a number.
-   * @param {string} value The input string to check.
-   */
-  static isNumber(value) {
-    if(!isNaN(value)) {
-      return [ 'ok', '']      
-    } else {
-      return [ 'error', 'Value must be a number.']
-    }
-  }
-
-  static isPositive(value) {
-    if(value >= 0) return [ 'ok', '' ]
-    else return [ 'error', 'Value must be positive.' ]
-  }
-}
-
 /**
  * Makes sure the input string is a number, with no additional alphabetical
  * characters after a valid number (which isNaN() won't pick up on!).
@@ -154,7 +135,13 @@ export class CalcHelper {
     } else if (calcVar.validation.fns) {      
       let validationResults = []
       for(const fn of calcVar.validation.fns) {
-        const validationResult = fn(calcVar.rawVal, calc)
+        let valueToValidate = null
+        if (calcVar.type === 'numeric') {          
+          valueToValidate = calcVar.rawVal
+        } else {
+          valueToValidate = calcVar.value
+        }
+        const validationResult = fn(valueToValidate, calc)
         validationResults.push(validationResult)
       }      
       // The following function sorts all the validation results so that the errors will be first,
@@ -194,6 +181,25 @@ export class CalcHelper {
       }
 
     }
+  }
+
+  static isValid(calcVar) {
+    if (calcVar.validation.state === 'ok') {
+      return true
+    } else {      
+      return false
+    }
+  }
+
+  static isValidMany(calcVars) {
+    for (const calcVar of calcVars) {
+      if (!this.isValid(calcVar)) {
+        console.log('Variable invalid! calcVar.name=' + calcVar.name)
+        console.log(calcVar)
+        return false
+      }
+    }
+    return true
   }
 
   static updateDispVals(calcVars) {

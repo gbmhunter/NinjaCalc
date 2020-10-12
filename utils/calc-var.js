@@ -39,7 +39,14 @@ export class CalcVar {
       throw Error('Type "' + config.type + '" not recognized for calc var "' + this.name + '".')
     }
 
-    this.validation = config.validation
+    if (typeof config.validation === 'undefined') {
+      this.validation = {
+        state: 'ok',
+        msg: '',
+      }
+    } else {
+      this.validation = config.validation
+    }
     this.helpText = config.helpText
   }
 }

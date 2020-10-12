@@ -4,14 +4,15 @@ import bigInt from 'big-integer'
 
 import LayoutCalc from 'components/layout-calc'
 import { CalcVarInput } from 'components/calc-var-input'
-import { CalcHelper, Validators } from 'utils/calc-helper'
+import { CalcHelper } from 'utils/calc-helper'
+import { Validators } from 'utils/validators'
 import TileImage from './tile-image.png'
 import { Calc } from 'utils/calc'
 import { CalcVar } from 'utils/calc-var'
-import { UnitsMultiplicative } from 'utils/calc-units'
-import { CrcGeneric } from 'utils/crc/crc-generic'
 import { crcCatalogue, crcIds } from 'utils/crc/crc-catalogue'
+import { CrcGeneric } from 'utils/crc/crc-generic'
 import { stringManipulation } from 'utils/string-manipulation/string-manipulation'
+import { UnitsMultiplicative } from 'utils/calc-units'
 
 import CommonCrcAlgorithmsRow from 'components/common-crc-algorithms-row'
 
@@ -62,7 +63,7 @@ class UI extends React.Component {
                   if (stringManipulation.isHex(crcData)) {
                     return ['ok', '']
                   } else {
-                    return ['error', 'Value is not valid Hex.']
+                    return ['error', 'Value must be valid "hex" number. Only the numbers 0-9 and characters A-F are allowed (and no "0x" prefix).']
                   }
                 }
               ],
@@ -95,9 +96,18 @@ class UI extends React.Component {
 
           customCrcWidthBits: new CalcVar({
             name: 'customCrcWidthBits',         
-            type: 'string',
-            value: '8',
-            helpText: '',
+            type: 'numeric',
+            direction: 'input',
+            dispVal: '8',
+            units: [ new UnitsMultiplicative('no unit', 1e0) ],
+            selUnit: 'no unit',
+            validation: {
+              fns: [
+                Validators.isInteger,
+                Validators.isGreaterThanZero,
+              ]
+            },
+            helpText: 'The width of the CRC generator polynomial (and resulting CRC value).',
           }),
 
           customCrcPolynomial: new CalcVar({            
@@ -205,39 +215,49 @@ class UI extends React.Component {
           //===================== CUSTOM CRC ALGORITHM ==========//
           //=====================================================//
           // Read dependencies          
-          const crcWidth = calcVars.customCrcWidthBits.value
+          const crcWidth = calcVars.customCrcWidthBits.rawVal
           const crcGeneratorPolynomial = calcVars.customCrcPolynomial.value
           const crcInitialValue = calcVars.customCrcInitialValue.value
           const reflectDataIn = calcVars.customCrcReflectData.value
           const reflectCrcOut = calcVars.customCrcReflectCrcOut.value
           const crcXorOut = calcVars.customCrcXorOut.value
 
-          // Convert dependencies as necessary
-          const generatorPolynomialAsBigInt = bigInt(crcGeneratorPolynomial, 16)
-          const initialValueAsBigInt = bigInt(crcInitialValue, 16)
-          const xorOutAsLong = bigInt(crcXorOut, 16)
+          if (CalcHelper.isValidMany([
+            calcVars.customCrcWidthBits,
+            calcVars.customCrcPolynomial,
+            calcVars.customCrcInitialValue,
+            calcVars.customCrcReflectData,
+            calcVars.customCrcReflectCrcOut,
+            calcVars.customCrcXorOut])) {
 
-          var initObj = {
-            name: 'Custom Algorithm',
-            crcWidthBits: crcWidth,
-            crcPolynomial: generatorPolynomialAsBigInt,
-            startingValue: initialValueAsBigInt,
-            reflectData: reflectDataIn,
-            reflectRemainder: reflectCrcOut,
-            finalXorValue: xorOutAsLong
+            // Convert dependencies as necessary
+            const generatorPolynomialAsBigInt = bigInt(crcGeneratorPolynomial, 16)
+            const initialValueAsBigInt = bigInt(crcInitialValue, 16)
+            const xorOutAsLong = bigInt(crcXorOut, 16)
+
+            var initObj = {
+              name: 'Custom Algorithm',
+              crcWidthBits: crcWidth,
+              crcPolynomial: generatorPolynomialAsBigInt,
+              startingValue: initialValueAsBigInt,
+              reflectData: reflectDataIn,
+              reflectRemainder: reflectCrcOut,
+              finalXorValue: xorOutAsLong
+            }
+            console.log(initObj)
+
+            // Generate a CRC engine from the information we have obtained
+            var crcEngine = new CrcGeneric(initObj)
+
+            for (var i = 0; i < crcData.length; i++) {
+              crcEngine.update(crcData[i])
+            }
+            console.log('All inputs valid!')            
+            calcVars.customCrcValue.value = crcEngine.getHex()
+          } else {
+            console.log('At least one input invalid!')
+            calcVars.customCrcValue.value = null
           }
-          console.log(initObj)
-
-          // Generate a CRC engine from the information we have obtained
-          var crcEngine = new CrcGeneric(initObj)
-
-          for (var i = 0; i < crcData.length; i++) {
-            crcEngine.update(crcData[i])
-          }
-          console.log('crc value=' + crcEngine.getHex())
-          calcVars.customCrcValue.value = crcEngine.getHex()
-
-
 
         },
       }), // calc
@@ -578,14 +598,19 @@ class UI extends React.Component {
               <tbody>
                 <tr>
                   <td>CRC Width (bits):</td>
-                  <td><input name="customCrcWidthBits" value={calcVars.customCrcWidthBits.value} onChange={this.valueChanged}/></td>
+                  <td>
+                    <CalcVarInput
+                      id="customCrcWidthBits"
+                      calc={this.state.calc}
+                      valueChanged={this.valueChanged}/>
+                  </td>
                   <td>Generator Polynomial:</td>
                   <td>0x</td>
                   <td>
-                    <input
-                      name="customCrcPolynomial"
-                      value={calcVars.customCrcPolynomial.value}
-                      onChange={this.valueChanged}
+                    <CalcVarInput
+                      id="customCrcPolynomial"
+                      calc={this.state.calc}
+                      valueChanged={this.valueChanged}
                       style={{ width: "200" }} />
                   </td>
                 </tr>

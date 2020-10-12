@@ -3,7 +3,8 @@ import React from "react"
 
 import LayoutCalc from 'components/layout-calc'
 import VarRowV2 from 'components/calc-var-row'
-import { CalcHelper, Validators } from 'utils/calc-helper'
+import { CalcHelper } from 'utils/calc-helper'
+import { Validators } from 'utils/validators'
 import TileImage from "./tile-image.png"
 import { Calc } from 'utils/calc'
 import { CalcVar } from 'utils/calc-var'
