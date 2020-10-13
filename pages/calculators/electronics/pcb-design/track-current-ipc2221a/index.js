@@ -129,7 +129,8 @@ class UI extends React.Component {
           }), // minTrackWidth
         }, // calcVars
 
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           // Read input variables
           const trackCurrent_A = calcVars.trackCurrent.rawVal
           const tempRise_degC = calcVars.tempRise.rawVal

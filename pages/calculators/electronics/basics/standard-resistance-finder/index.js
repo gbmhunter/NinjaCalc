@@ -58,7 +58,8 @@ class UI extends React.Component {
             },
           }), // desiredResistance
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           // coming soon...
         },
       }), // calc

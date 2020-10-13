@@ -24,7 +24,7 @@ export class CalcHelper {
       CalcHelper.runValidation(calcVar, calc)
     }
 
-    calc.eqFn(calc.calcVars)
+    calc.eqFn(calc)
     CalcHelper.updateDispVals(calc.calcVars)
   }
 
@@ -244,7 +244,7 @@ export class CalcHelper {
     }
 
     CalcHelper.runValidation(calcVar, calc)
-    calc.eqFn(calc.calcVars)
+    calc.eqFn(calc)
     CalcHelper.updateDispVals(calc.calcVars)
   }
 
@@ -254,7 +254,7 @@ export class CalcHelper {
     if (calcVar.direction === 'input')
       CalcHelper.setRawValFromDispVal(calcVar)
     CalcHelper.runValidation(calcVar, calc)
-    calc.eqFn(calc.calcVars)
+    calc.eqFn(calc)
     CalcHelper.updateDispVals(calc.calcVars)
   }
 

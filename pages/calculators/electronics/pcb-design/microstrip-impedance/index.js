@@ -155,7 +155,8 @@ class UI extends React.Component {
           }, // trackImpedance
         }, // calcVars
 
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           // Read input variables          
           const w = calcVars.trackWidth.rawVal
           const t = calcVars.trackThickness.rawVal

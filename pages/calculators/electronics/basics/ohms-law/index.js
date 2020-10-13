@@ -80,7 +80,8 @@ class UI extends React.Component {
             helpText: 'The resistance of the resistor.',
           }), // resistance_Ohms
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           if (calcVars.voltage_V.direction == "output") {
             calcVars.voltage_V.rawVal =
               calcVars.current_A.rawVal * calcVars.resistance_Ohms.rawVal

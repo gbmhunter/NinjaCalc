@@ -3,6 +3,7 @@ import React from 'react'
 import bigInt from 'big-integer'
 
 import LayoutCalc from 'components/layout-calc'
+import { CalcVarCheckbox } from 'components/calc-var-checkbox'
 import { CalcVarInput } from 'components/calc-var-input'
 import { CalcHelper } from 'utils/calc-helper'
 import { Validators } from 'utils/validators'
@@ -21,7 +22,7 @@ export var metadata = {
   name: 'CRC Calculator',
   description:
     'Calculate CRC values from either a large number of popular CRC algorithms or define one yourself.',
-  categories: ['Software'], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
+  categories: [ 'Software' ], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
   tags: ['software', 'CRC', 'algorithm', 'polynomial'],
   image: TileImage,
 }
@@ -31,10 +32,10 @@ class UI extends React.Component {
     super(props)
     let usersAlgorithmChoiceOptions = []
     for (var prop in crcIds) {
-      //        console.log('obj.' + prop, '=', obj[prop]);
       usersAlgorithmChoiceOptions.push(crcIds[prop])
     }
     this.state = {
+      // These will be populated by the eqFn()
       selectedCrcAlgorithmInfo: {
         name: '',
         crcWidthBits: '',
@@ -77,7 +78,7 @@ class UI extends React.Component {
             options: ['ASCII/Unicode', 'Hex'],
             selOption: 'ASCII/Unicode',
             helpText: 'The type of data in the "CRC Data" textbox.',
-          }),
+          }), // crcDataType
 
           usersAlgorithmChoice: new CalcVar({
             name: 'usersAlgorithmChoice',
@@ -85,7 +86,7 @@ class UI extends React.Component {
             options: usersAlgorithmChoiceOptions,
             selOption: 'CRC_32_POSIX_CKSUM',
             helpText: 'The CRC algorithm you wish to use.',
-          }),
+          }), // usersAlgorithmChoice
 
           userSelectableCrcValue: new CalcVar({
             name: 'userSelectableCrcValue',
@@ -113,53 +114,134 @@ class UI extends React.Component {
           customCrcPolynomial: new CalcVar({            
             name: 'customCrcPolynomial',
             type: 'string',
+            direction: 'input',
             value: '23',
-            helpText: '',
+            validation: {
+              fns: [
+                (value, calc) => {
+                  // Read dependency variables
+                  const customCrcWidthBits = calc.calcVars.customCrcWidthBits.rawVal
+                  const customCrcPolynomial = calc.calcVars.customCrcPolynomial.value
+
+                  // First make sure it is a valid hex number
+                  if (!stringManipulation.isHex(customCrcPolynomial)) {
+                    return [ 'error', 'Value must be valid "hex" number. Only the numbers 0-9 and characters A-F are allowed (and no "0x" prefix).' ]
+                  }
+
+                  // Now make sure it does not have more bits than the specified width of the CRC
+                  // Convert both into big ints
+                  const customCrcWidthBitsAsBigInt = bigInt(customCrcWidthBits)
+                  const customCrcPolynomialAsBigInt = bigInt(customCrcPolynomial, 16)
+                  // Compare
+                  if (bigInt(2).pow(customCrcWidthBitsAsBigInt).greater(customCrcPolynomialAsBigInt)) {
+                    return ['ok', '']
+                  } else {
+                    return [ 'error', 'Generator polynomial cannot have more bits that the width of the CRC.']
+                  }
+                }
+              ]
+            },
+            helpText: 'The generator polynomial for the CRC, in hex. Please describe this in standard form, i.e. by excluding the MSB of the polynomial, ' +
+            'and not reversing the bit order. The generator polynomial cannot have more bits than the width of the CRC.',
           }),
 
           customCrcReflectData: new CalcVar({
             name: 'customCrcReflectData',
             type: 'checkbox',
+            direction: 'input',
             value: false,
-            helpText: '',
+            helpText: 'Determines whether the input data is reflected (the bits reversed) before the rest of the CRC calculations take place. This occurs with some popular CRC algorithms.',
           }),
 
           customCrcReflectCrcOut: new CalcVar({
             name: 'customCrcReflectCrcOut',         
             type: 'checkbox',
+            direction: 'input',
             value: false,
-            helpText: '',
+            helpText: 'Determines whether the output data is reflected (the bits reversed) before the final CRC value is found. This occurs with some popular CRC algorithms.',
           }),
 
           customCrcInitialValue: new CalcVar({            
             name: 'customCrcInitialValue',
             type: 'string',
+            direction: 'input',
             value: 'FF',
-            helpText: '',
+            validation: {
+              fns: [
+                (value, calc) => {
+                  // Read dependency variables
+                  const customCrcWidthBits = calc.calcVars.customCrcWidthBits.rawVal
+                  const customCrcInitialValue = calc.calcVars.customCrcInitialValue.value
+
+                  // First make sure it is a valid hex number
+                  if (!stringManipulation.isHex(customCrcInitialValue)) {
+                    return [ 'error', 'Value must be valid "hex" number. Only the numbers 0-9 and characters A-F are allowed (and no "0x" prefix).' ]
+                  }
+
+                  // Now make sure it does not have more bits than the specified width of the CRC
+                  // Convert both into big ints
+                  const customCrcWidthBitsAsBigInt = bigInt(customCrcWidthBits)
+                  const customCrcInitialValueAsBigInt = bigInt(customCrcInitialValue, 16)
+                  // Compare
+                  if (bigInt(2).pow(customCrcWidthBitsAsBigInt).greater(customCrcInitialValueAsBigInt)) {
+                    return ['ok', '']
+                  } else {
+                    return [ 'error', 'Generator polynomial cannot have more bits that the width of the CRC.']
+                  }
+                }
+              ]
+            }, // validation
+            helpText: 'The initial value for the CRC, in hex. This cannot have more bits than the width CRC. All 0\'s and all f\'s are common choices.',
           }),
 
           customCrcXorOut: new CalcVar({            
             name: 'customCrcXorOut',
             type: 'string',
+            direction: 'input',
             value: '00',
-            helpText: '',
+            validation: {
+              fns: [
+                (value, calc) => {
+                  // Read dependency variables
+                  const customCrcWidthBits = calc.calcVars.customCrcWidthBits.rawVal
+                  const customCrcXorOut = calc.calcVars.customCrcXorOut.value
+
+                  // First make sure it is a valid hex number
+                  if (!stringManipulation.isHex(customCrcXorOut)) {
+                    return [ 'error', 'Value must be valid "hex" number. Only the numbers 0-9 and characters A-F are allowed (and no "0x" prefix).' ]
+                  }
+
+                  // Now make sure it does not have more bits than the specified width of the CRC
+                  // Convert both into big ints
+                  const customCrcWidthBitsAsBigInt = bigInt(customCrcWidthBits)
+                  const customCrcXorOutAsBigInt = bigInt(customCrcXorOut, 16)
+                  // Compare
+                  if (bigInt(2).pow(customCrcWidthBitsAsBigInt).greater(customCrcXorOutAsBigInt)) {
+                    return ['ok', '']
+                  } else {
+                    return [ 'error', 'XOR out value cannot have more bits that the width of the CRC.']
+                  }
+                }
+              ]
+            }, // validation
+            helpText: 'The XOR out value for the CRC.',
           }),
 
           customCrcValue: new CalcVar({            
             name: 'customCrcValue',
             type: 'string',
-            helpText: '',
+            direction: 'output',
+            helpText: 'The calculated CRC value with the provided custom algorithm used on the given input data.',
           }),
 
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           const inputCrcData = calcVars.crcData.value
           const crcDataType = calcVars.crcDataType.selOption
           // Convert input data
           const crcData = this.convertCrcInputData(inputCrcData, crcDataType)
-          this.setState({
-            crcData: crcData,
-          })
+          calc.scratch.crcData = crcData
 
           const usersAlgorithmChoice = calcVars.usersAlgorithmChoice.selOption
           console.log('usersAlgorithmChoice = ')
@@ -190,9 +272,7 @@ class UI extends React.Component {
             crcAlgorithmInfo.checkValue.toString(16),
             crcAlgorithmInfo.crcWidthBits
           )
-          this.setState({
-            selectedCrcAlgorithmInfo: selectedCrcAlgorithmInfo,
-          })
+          calc.scratch.selectedCrcAlgorithmInfo = selectedCrcAlgorithmInfo
 
           // Calculate CRC value
           var crcEngine = new CrcGeneric({
@@ -244,7 +324,6 @@ class UI extends React.Component {
               reflectRemainder: reflectCrcOut,
               finalXorValue: xorOutAsLong
             }
-            console.log(initObj)
 
             // Generate a CRC engine from the information we have obtained
             var crcEngine = new CrcGeneric(initObj)
@@ -370,7 +449,7 @@ class UI extends React.Component {
       }
     )
 
-    const selectedCrcAlgorithmInfo = this.state.selectedCrcAlgorithmInfo
+    const selectedCrcAlgorithmInfo = this.state.calc.scratch.selectedCrcAlgorithmInfo
 
     return (
       <LayoutCalc title={metadata.name + ' Calculator'}>
@@ -456,32 +535,32 @@ class UI extends React.Component {
                   </tr>
                   <CommonCrcAlgorithmsRow
                     crcCatalogue={crcCatalogue}
-                    crcData={this.state.crcData}
+                    crcData={this.state.calc.scratch.crcData}
                     crcEnum={crcIds.CRC_8_MAXIM}
                   ></CommonCrcAlgorithmsRow>
                   <CommonCrcAlgorithmsRow
                     crcCatalogue={crcCatalogue}
-                    crcData={this.state.crcData}
+                    crcData={this.state.calc.scratch.crcData}
                     crcEnum={crcIds.CRC_8_SMBUS}
                   ></CommonCrcAlgorithmsRow>
                   <CommonCrcAlgorithmsRow
                     crcCatalogue={crcCatalogue}
-                    crcData={this.state.crcData}
+                    crcData={this.state.calc.scratch.crcData}
                     crcEnum={crcIds.CRC_16_CCITT_FALSE}
                   ></CommonCrcAlgorithmsRow>
                   <CommonCrcAlgorithmsRow
                     crcCatalogue={crcCatalogue}
-                    crcData={this.state.crcData}
+                    crcData={this.state.calc.scratch.crcData}
                     crcEnum={crcIds.CRC_16_KERMIT_CCITT_TRUE}
                   ></CommonCrcAlgorithmsRow>
                   <CommonCrcAlgorithmsRow
                     crcCatalogue={crcCatalogue}
-                    crcData={this.state.crcData}
+                    crcData={this.state.calc.scratch.crcData}
                     crcEnum={crcIds.CRC_16_MAXIM}
                   ></CommonCrcAlgorithmsRow>
                   <CommonCrcAlgorithmsRow
                     crcCatalogue={crcCatalogue}
-                    crcData={this.state.crcData}
+                    crcData={this.state.calc.scratch.crcData}
                     crcEnum={crcIds.CRC_16_MODBUS}
                   ></CommonCrcAlgorithmsRow>
                 </tbody>
@@ -525,6 +604,7 @@ class UI extends React.Component {
                         value={calcVars.userSelectableCrcValue.value}
                         className="output"
                         style={{ width: '200' }}
+                        readOnly
                       />
                     </td>
                   </tr>
@@ -617,15 +697,18 @@ class UI extends React.Component {
                 <tr>
                   <td>Reflect Data:</td>
                   <td>
-                    <input name="customCrcReflectData" type="checkbox" value={calcVars.customCrcReflectData.value} onChange={this.valueChanged} />
+                    <CalcVarCheckbox
+                      id="customCrcReflectData"
+                      calc={this.state.calc}
+                      valueChanged={this.valueChanged} />
                   </td>
                   <td>Init Value:</td>
                   <td>0x</td>
                   <td>
-                    <input
-                      name="customCrcInitialValue"
-                      value={calcVars.customCrcInitialValue.value}
-                      onChange={this.valueChanged}
+                    <CalcVarInput
+                      id="customCrcInitialValue"
+                      calc={this.state.calc}
+                      valueChanged={this.valueChanged}
                       style={{ width: "200" }}/>                  
                   </td>
                 </tr>
@@ -637,10 +720,10 @@ class UI extends React.Component {
                   <td>XOR Out:</td>
                   <td>0x</td>
                   <td>
-                    <input
-                      name="customCrcXorOut"
-                      value={calcVars.customCrcXorOut.value}
-                      onChange={this.valueChanged}
+                    <CalcVarInput
+                      id="customCrcXorOut"
+                      calc={this.state.calc}
+                      valueChanged={this.valueChanged}
                       style={{ width: "200" }}/>
                   </td>
                 </tr>
@@ -649,10 +732,9 @@ class UI extends React.Component {
             <div style={{ height: '15px' }}></div>
             <div style={{ display: 'flex', margin: 'auto' }}>
               <span style={{ alignSelf: 'center' }}>CRC Value: 0x </span>
-              <input
-                name="customCrcValue"
-                value={calcVars.customCrcValue.value}
-                className="output"
+              <CalcVarInput
+                id="customCrcValue"
+                calc={this.state.calc}
                 style={{ width: "300" }}/>
             </div>
           </div>

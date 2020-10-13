@@ -178,10 +178,9 @@ class UI extends React.Component {
             },
             helpText: "The inductance of the inductor \(L\) in the buck converter. It is given by the equation: $$ L = \frac{ (V_{in} - V{SW} - V_{out}) \cdot D }{ f_{SW} \cdot \Delta I_{out} } $$",
           }, // ind_H
-
-
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           // Calculate inputs
           const vIn_V = calcVars.vIn_V.rawVal
           const vOut_V = calcVars.vOut_V.rawVal

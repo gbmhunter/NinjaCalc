@@ -74,7 +74,8 @@ class UI extends React.Component {
             },
           }), // voltage
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           if (calcVars.charge.direction == "output") {
             calcVars.charge.rawVal =
               calcVars.capacitance.rawVal * calcVars.voltage.rawVal

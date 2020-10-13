@@ -111,7 +111,8 @@ class UI extends React.Component {
             helpText: "The present temperature of the thermistor, at resistance R.",
           }, // thermistorTemp_K
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           // Read dependency variables
           const beta = calcVars.beta.rawVal
           const referenceResistance_Ohms = calcVars.referenceResistance_Ohms.rawVal

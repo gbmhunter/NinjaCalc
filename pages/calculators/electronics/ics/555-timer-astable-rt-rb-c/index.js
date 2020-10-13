@@ -136,7 +136,8 @@ class UI extends React.Component {
             sigFig: 3,
           }), // r2
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           const period_s = 1/calcVars.freq.rawVal
           calcVars.period.rawVal = period_s
       
