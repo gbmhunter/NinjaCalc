@@ -208,7 +208,7 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="beta"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -217,7 +217,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="referenceResistance_Ohms"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -226,7 +226,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="referenceTemperature_K"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -235,7 +235,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="thermistorResistance_Ohms"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -244,7 +244,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="thermistorTemperature_K"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"

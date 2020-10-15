@@ -128,11 +128,11 @@ class UI extends React.Component {
           <table>
             <tbody>
 
-              <VarRow id="viaDiameter" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="platingThickness" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="viaHeight" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="copperThermalConductivity" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="viaThermalResistance" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="viaDiameter" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="platingThickness" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="viaHeight" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="copperThermalConductivity" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="viaThermalResistance" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
             </tbody>
           </table>
 

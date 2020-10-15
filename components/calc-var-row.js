@@ -2,7 +2,8 @@ import PropTypes from "prop-types"
 import ReactTooltip from 'react-tooltip'
 import {findDOMNode} from 'react-dom'
 
-import * as CalcUnits from '~/utils/calc-units'
+import * as CalcUnits from 'utils/calc-units'
+import { CalcVarInput } from 'components/calc-var-input'
 
 class VarRow extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class VarRow extends React.Component {
   }
 
   render() {
-    const calcVars = this.props.calcVars;
+    const calcVars = this.props.calc.calcVars
     if (!calcVars) {
       throw Error("calcVars not provided.");
     }
@@ -53,16 +54,11 @@ class VarRow extends React.Component {
 
     let valueHtml = null
     if (calcVar.type === 'numeric') {
-      valueHtml = (<input                 
-            name={this.props.id}
-            className={validationState}
-            value={calcVar.dispVal}
-            onChange={this.props.valueChanged}
-            style={{ width: this.props.width }}
-            readOnly={readonly}
-            disabled={disabled}
-            data-tip={tooltipMsg}
-          ></input>)  
+      valueHtml = <CalcVarInput
+                    id={this.props.id}
+                    calc={this.props.calc}
+                    valueChanged={this.props.valueChanged}
+                    width={this.props.width} />
     } else if (calcVar.type === 'select') {
       const options = calcVar.options.map((option, idx) => {
         return (
@@ -191,7 +187,7 @@ VarRow.defaultProps = {
 };
 
 VarRow.propTypes = {
-  calcVars: PropTypes.object.isRequired,
+  calc: PropTypes.object.isRequired,
   valueChanged: PropTypes.func.isRequired,
   unitsChanged: PropTypes.func,
   width: PropTypes.number,

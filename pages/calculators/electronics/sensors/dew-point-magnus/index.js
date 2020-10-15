@@ -242,7 +242,7 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="airTemp_degC"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -251,7 +251,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="relativeHumidity_perc"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -260,7 +260,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="dewPoint_degC"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -276,14 +276,14 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="bCoefficient"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
               <VarRowV2
                 id="cCoefficient"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}

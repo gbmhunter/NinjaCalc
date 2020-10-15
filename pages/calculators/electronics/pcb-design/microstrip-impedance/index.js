@@ -223,7 +223,7 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="trackWidth"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 showHelpText={true}
@@ -231,7 +231,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="trackThickness"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 showHelpText={true}
@@ -239,7 +239,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="substrateThickness"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 showHelpText={true}
@@ -247,7 +247,7 @@ class UI extends React.Component {
               />              
               <VarRowV2
                 id="substrateDielectric"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 showHelpText={true}
@@ -255,7 +255,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="trackImpedance"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 showHelpText={true}

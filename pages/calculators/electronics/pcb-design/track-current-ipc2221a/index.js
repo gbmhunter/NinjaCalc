@@ -206,11 +206,11 @@ class UI extends React.Component {
           </div>
           <table>
             <tbody>
-              <CalcVarRow id="trackCurrent" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <CalcVarRow id="tempRise" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <CalcVarRow id="trackThickness" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <CalcVarRow id="trackLayer" calcVars={calcVars} valueChanged={this.valueChanged} width={varWidth}/>
-              <CalcVarRow id="minTrackWidth" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <CalcVarRow id="trackCurrent" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <CalcVarRow id="tempRise" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <CalcVarRow id="trackThickness" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <CalcVarRow id="trackLayer" calc={this.state.calc} valueChanged={this.valueChanged} width={varWidth}/>
+              <CalcVarRow id="minTrackWidth" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
             </tbody>
           </table>
 

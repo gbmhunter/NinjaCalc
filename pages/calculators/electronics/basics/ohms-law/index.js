@@ -164,7 +164,7 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="voltage_V"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -173,7 +173,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="current_A"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -182,7 +182,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="resistance_Ohms"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"

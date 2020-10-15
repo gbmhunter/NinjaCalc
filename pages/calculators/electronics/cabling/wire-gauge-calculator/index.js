@@ -271,7 +271,7 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="voltageDc_V"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            
                 width={varWidth}
@@ -279,7 +279,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="voltageDrop_perc"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            
                 width={varWidth}
@@ -287,7 +287,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="cableLength_m"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            
                 width={varWidth}
@@ -295,7 +295,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="current_A"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            
                 width={varWidth}
@@ -303,7 +303,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="conductorMaterial"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            
                 width={varWidth}
@@ -311,7 +311,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="conductorResistivity_Ohmm"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            
                 width={varWidth}
@@ -319,7 +319,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="crossSectionalArea_m2"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            
                 width={varWidth}
@@ -327,7 +327,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="gauge_awg"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                            
                 width={varWidth}

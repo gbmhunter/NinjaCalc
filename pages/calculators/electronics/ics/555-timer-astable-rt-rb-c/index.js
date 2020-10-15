@@ -199,14 +199,14 @@ class UI extends React.Component {
           <p style={{ maxWidth: '500px' }}>This calculator calculates the resistances and capacitances needed to operate a 555 timer in astable mode. The duty cycle cannot be set lower than 50%, if you want to do this you will have to attach an inverter to the output.</p>
           <table>
             <tbody>
-              <VarRow id="freq" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="dutyCycle" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="capacitance" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="period" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="timeHigh" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="timeLow" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="r1" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
-              <VarRow id="r2" calcVars={calcVars} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="freq" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="dutyCycle" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="capacitance" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="period" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="timeHigh" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="timeLow" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="r1" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
+              <VarRow id="r2" calc={this.state.calc} valueChanged={this.valueChanged} unitsChanged={this.unitsChanged} width={varWidth} />
             </tbody>
           </table>
 

@@ -1,5 +1,8 @@
 import PropTypes from "prop-types"
 
+/**
+ * This class is used by itself and also as part of CalcVarRow.
+ */
 export class CalcVarInput extends React.Component {
   constructor(props) {
     super(props)
@@ -16,7 +19,7 @@ export class CalcVarInput extends React.Component {
     }
     
     const calcVar = this.props.calc.calcVars[this.props.id]
-    console.log(calcVar)
+
     const validationState = calcVar.validation.state;
 
     let valueToDisp = null

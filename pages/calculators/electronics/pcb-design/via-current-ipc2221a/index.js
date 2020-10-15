@@ -350,69 +350,69 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="finishedHoleDiameter_m"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
               <VarRowV2
                 id="platingThickness_m"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
               <VarRowV2
                 id="viaLength_m"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
               <VarRowV2
                 id="tempRise_degC"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 width={varWidth}
               />
               <VarRowV2
                 id="platedCopperResistivity_Ohmm"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}                
               />
               <VarRowV2
                 id="specificThermalConductivity_WpmK"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}                
               />
               <VarRowV2
                 id="viaCrossSectionalArea_m2"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}                
               />
               <VarRowV2
                 id="viaElectricalResistance_Ohms"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}                
               />
               <VarRowV2
                 id="viaThermalResistance_degCpW"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}                
               />
               <VarRowV2
                 id="currentLimit_A"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}                

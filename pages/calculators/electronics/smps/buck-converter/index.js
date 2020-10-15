@@ -263,7 +263,7 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="vIn_V"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -271,7 +271,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="vOut_V"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -279,7 +279,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="vD_V"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -287,7 +287,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="vSw_V"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}                
                 width={varWidth}
@@ -295,7 +295,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="dutyCycle_ratio"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -303,7 +303,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="fSw_Hz"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -311,7 +311,7 @@ class UI extends React.Component {
               />    
               <VarRowV2
                 id="iOutAvg_A"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -319,7 +319,7 @@ class UI extends React.Component {
               />    
               <VarRowV2
                 id="iOutRipple_ratio"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -327,7 +327,7 @@ class UI extends React.Component {
               />    
               <VarRowV2
                 id="ind_H"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}

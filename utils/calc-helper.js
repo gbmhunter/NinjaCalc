@@ -20,11 +20,13 @@ export class CalcHelper {
       let calcVar = calc.calcVars[calcVarName]
       if (calcVar.direction === 'input' && calcVar.type === 'numeric') {
         CalcHelper.setRawValFromDispVal(calcVar)      
-      }
-      CalcHelper.runValidation(calcVar, calc)
+      }      
     }
 
     calc.eqFn(calc.calcVars)
+    for (let calcVarKey in calc.calcVars) {
+      CalcHelper.runValidation(calc.calcVars[calcVarKey], calc)
+    }
     CalcHelper.updateDispVals(calc.calcVars)
   }
 
@@ -121,12 +123,13 @@ export class CalcHelper {
    *    on other variable states).
    * @returns Nothing.
    */
-  static runValidation(calcVar, calc) {
+  static runValidation(calcVar, calc) {    
     if (typeof calcVar.validation === 'undefined')
       return
     // The entire calc object is provided because the validation might depend
     // on the state of other calc variables
     if (calcVar.validation.fn) {
+      console.log('WARNING: Using deprecated "fn" property inside the validation object, Used "fns" array instead.')
       const validationResult = calcVar.validation.fn(calcVar.rawVal, calc)
       const validationState = validationResult[0]
       const validationMsg = validationResult[1]
@@ -136,11 +139,17 @@ export class CalcHelper {
       let validationResults = []
       for(const fn of calcVar.validation.fns) {
         let valueToValidate = null
-        if (calcVar.type === 'numeric') {          
+        if (calcVar.type == 'numeric') {          
+          console.log('true')
           valueToValidate = calcVar.rawVal
         } else {
+          console.log('else')
           valueToValidate = calcVar.value
         }
+        console.log('Validating the calc var')
+        console.log(calcVar)
+        console.log('calcVar.rawVal=' + calcVar.rawVal)
+        console.log(valueToValidate)
         const validationResult = fn(valueToValidate, calc)
         validationResults.push(validationResult)
       }      
@@ -179,7 +188,8 @@ export class CalcHelper {
         calcVar.validation.state = 'ok'
         calcVar.validation.msg = ''
       }
-
+      console.log('Validation finished. calcVar=')
+      console.log(calcVar)
     }
   }
 
@@ -217,6 +227,7 @@ export class CalcHelper {
   }
 
   static handleValueChanged(calc, event) {
+    console.log('handleValueChanged() called.')
     if (!calc) throw Error('Calc must be provided')
     if (!event) throw Error('Event must be provided')
     let calcVar = calc.calcVars[event.target.name]
@@ -242,9 +253,11 @@ export class CalcHelper {
     } else {
       throw Error('Variable type "' + calcVar.type + '" for variable "' + event.target.name + '" not supported.')
     }
-
-    CalcHelper.runValidation(calcVar, calc)
+    
     calc.eqFn(calc.calcVars)
+    for (let calcVarKey in calc.calcVars) {
+      CalcHelper.runValidation(calc.calcVars[calcVarKey], calc)
+    }
     CalcHelper.updateDispVals(calc.calcVars)
   }
 
@@ -252,9 +265,11 @@ export class CalcHelper {
     let calcVar = calc.calcVars[event.target.name]
     calcVar.selUnit = event.target.value
     if (calcVar.direction === 'input')
-      CalcHelper.setRawValFromDispVal(calcVar)
-    CalcHelper.runValidation(calcVar, calc)
+      CalcHelper.setRawValFromDispVal(calcVar)    
     calc.eqFn(calc.calcVars)
+    for (let calcVarKey in calc.calcVars) {
+      CalcHelper.runValidation(calc.calcVars[calcVarKey], calc)
+    }
     CalcHelper.updateDispVals(calc.calcVars)
   }
 

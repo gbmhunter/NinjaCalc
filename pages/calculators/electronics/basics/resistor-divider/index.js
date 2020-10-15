@@ -174,7 +174,7 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="vin"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -183,7 +183,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="rtop"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -192,7 +192,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="rbot"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"
@@ -201,7 +201,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="vout"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 rbGroup="calc-what"

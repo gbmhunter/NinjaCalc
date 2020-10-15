@@ -571,7 +571,7 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="trackCurrent"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -579,7 +579,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="tempRise"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -587,7 +587,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="trackThickness"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -595,7 +595,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="boardThickness"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -603,14 +603,14 @@ class UI extends React.Component {
               />
               <VarRowV2Select
                 id="isPlanePresent"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 width={varWidth}
                 showHelpText={true}
               />
               <VarRowV2
                 id="planeProximity"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -621,7 +621,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="thermalConductivity"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -629,7 +629,7 @@ class UI extends React.Component {
               />
               <VarRowV2
                 id="minTrackWidth"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
@@ -646,42 +646,42 @@ class UI extends React.Component {
             <tbody>
               <VarRowV2
                 id="unadjustedTrackCrossSectionalArea"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
               <VarRowV2
                 id="trackThicknessModifier"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
               <VarRowV2
                 id="boardThicknessModifier"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
               <VarRowV2
                 id="planeProximityModifier"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
               <VarRowV2
                 id="thermalConductivityModifier"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
               <VarRowV2
                 id="adjustedTrackCrossSectionalArea"
-                calcVars={calcVars}
+                calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
