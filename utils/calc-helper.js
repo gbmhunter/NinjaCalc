@@ -139,17 +139,14 @@ export class CalcHelper {
       let validationResults = []
       for(const fn of calcVar.validation.fns) {
         let valueToValidate = null
-        if (calcVar.type == 'numeric') {          
-          console.log('true')
+        if (calcVar.type == 'numeric') {                    
           valueToValidate = calcVar.rawVal
-        } else {
-          console.log('else')
+        } else {          
           valueToValidate = calcVar.value
         }
-        console.log('Validating the calc var')
-        console.log(calcVar)
-        console.log('calcVar.rawVal=' + calcVar.rawVal)
-        console.log(valueToValidate)
+        // console.log('Validating the calc var')
+        // console.log(calcVar)        
+        
         const validationResult = fn(valueToValidate, calc)
         validationResults.push(validationResult)
       }      
@@ -188,8 +185,8 @@ export class CalcHelper {
         calcVar.validation.state = 'ok'
         calcVar.validation.msg = ''
       }
-      console.log('Validation finished. calcVar=')
-      console.log(calcVar)
+      // console.log('Validation finished. calcVar=')
+      // console.log(calcVar)
     }
   }
 
