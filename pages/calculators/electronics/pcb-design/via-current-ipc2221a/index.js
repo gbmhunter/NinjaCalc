@@ -6,6 +6,8 @@ import VarRowV2 from '~/components/calc-var-row';
 import VarRowV2Select from "~/components/VarRowV2Select";
 import CalcHelper from "~/utils/calc-helper";
 import TileImage from "./tile-image.png";
+import { CalcVar } from 'utils/calc-var'
+import { Calc } from 'utils/calc'
 
 export var metadata = {
   id: "via-current-ipc2221a", // Make sure this has the same name as the directory this file is in
@@ -43,10 +45,10 @@ class UI extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      calc: {
+      calc: new Calc({
         calcVars: {
 
-          finishedHoleDiameter_m: {
+          finishedHoleDiameter_m: new CalcVar({
             name: "Finished Hole Diameter",
             type: "numeric",
             direction: "input",
@@ -63,9 +65,9 @@ class UI extends React.Component {
             },
             helpText:
               "The finished hole diameter of the via. This is not the same as the drilled hole diameter, as the via is then plated.",
-          }, // finishedHoleDiameter
+          }), // finishedHoleDiameter
 
-          platingThickness_m: {
+          platingThickness_m: new CalcVar({
             name: "Plating Thickness",
             type: "numeric",
             direction: "input",
@@ -81,9 +83,9 @@ class UI extends React.Component {
             },
             helpText:
               "The plating thickness of the via walls. This is not the same as the copper plane thickness. The plating thickness is typicaly 20um or occasionally 25um.",
-          }, // platingThickness_m
+          }), // platingThickness_m
 
-          viaLength_m: {
+          viaLength_m: new CalcVar({
             name: "Via Length",
             type: "numeric",
             direction: "input",
@@ -99,9 +101,9 @@ class UI extends React.Component {
             },
             helpText:
               "The length of the via. This is equal to the distance between the copper planes the via starts and ends on. For a simple 2-layer 1.6mm thick PCB, the via height is also 1.6mm. This could also be called the height of the via.",
-          }, // viaLength_m
+          }), // viaLength_m
 
-          tempRise_degC: {
+          tempRise_degC: new CalcVar({
             name: "Temperature Rise",
             type: "numeric",
             direction: "input",
@@ -117,9 +119,9 @@ class UI extends React.Component {
             },
             helpText:
               "The maximum temperature rise above ambient you are allowing for the via. A rule-of-thumb for this value is between 10-40°C.",
-          }, // tempRise_degC
+          }), // tempRise_degC
 
-          platedCopperResistivity_Ohmm: {
+          platedCopperResistivity_Ohmm: new CalcVar({
             name: "Plated Copper Resistivity",
             type: "numeric",
             direction: "input",
@@ -135,9 +137,9 @@ class UI extends React.Component {
             },
             helpText:
               "The resistivity of the plated copper which the via is made from.",
-          }, // platedCopperResistivity_Ohmm
+          }), // platedCopperResistivity_Ohmm
 
-          specificThermalConductivity_WpmK: {
+          specificThermalConductivity_WpmK: new CalcVar({
             name: "Specific Thermal Conductivity",
             type: "numeric",
             direction: "input",
@@ -153,9 +155,9 @@ class UI extends React.Component {
             },
             helpText:
               "The specific thermal conductivity, k, of the plated copper which the via is made from.",
-          }, // specificThermalConductivity_WpmK
+          }), // specificThermalConductivity_WpmK
 
-          viaCrossSectionalArea_m2: {
+          viaCrossSectionalArea_m2: new CalcVar({
             name: "Via Cross-Sectional Area",
             type: "numeric",
             direction: "output",
@@ -167,9 +169,9 @@ class UI extends React.Component {
             sigFig: 4,
             helpText:
               "The cross-sectional area of the via (the area of the via as viewed from the top down).",
-          }, // viaCrossSectionalArea_m2
+          }), // viaCrossSectionalArea_m2
 
-          viaElectricalResistance_Ohms: {
+          viaElectricalResistance_Ohms: new CalcVar({
             name: "Via Electrical Resistance",
             type: "numeric",
             direction: "output",
@@ -180,9 +182,9 @@ class UI extends React.Component {
             sigFig: 4,
             helpText:
               "The electrical resistance of the via. This is the resistance as measured from the top to the bottom of the via.",
-          }, // viaElectricalResistance_Ohms
+          }), // viaElectricalResistance_Ohms
 
-          viaThermalResistance_degCpW: {
+          viaThermalResistance_degCpW: new CalcVar({
             name: "Via Thermal Resistance",
             type: "numeric",
             direction: "output",
@@ -193,9 +195,9 @@ class UI extends React.Component {
             sigFig: 4,
             helpText:
               "The thermal resistance of the via.",
-          }, // viaThermalResistance_degCpW
+          }), // viaThermalResistance_degCpW
 
-          currentLimit_A: {
+          currentLimit_A: new CalcVar({
             name: "Via Current Limit",
             type: "numeric",
             direction: "output",
@@ -207,7 +209,7 @@ class UI extends React.Component {
             sigFig: 4,
             helpText:
               "The maximum current the via can take before it rises to the specified temperature above ambient.",
-          }, // currentLimit_A
+          }), // currentLimit_A
 
         }, // calcVars
 
@@ -236,8 +238,8 @@ class UI extends React.Component {
           const currentLimit_A = ipc2221ACoefficientK * Math.pow(tempRise_degC, ipc2221ACoefficientb) * Math.pow(viaCrossSectionalArea_Mills2, ipc2221ACoefficientc)
           calcVars.currentLimit_A.rawVal = currentLimit_A
         }, // eqFn
-      }, // calc
-    }; // this.state
+      }), // calc
+    } // this.state
     CalcHelper.initCalc(this.state.calc);
   }
 
@@ -261,10 +263,8 @@ class UI extends React.Component {
     });
   };
 
-  render = () => {
-    // Area of ring = pi * inner diameter * thickness
-    const calcVars = this.state.calc.calcVars;
-    const varWidth = 100;
+  render = () => {    
+    const varWidth = 100
 
     return (
       <Layout>

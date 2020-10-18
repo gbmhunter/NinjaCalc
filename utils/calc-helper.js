@@ -187,6 +187,9 @@ export class CalcHelper {
       }
       // console.log('Validation finished. calcVar=')
       // console.log(calcVar)
+    } else {
+      calcVar.validation.state = 'ok'
+      calcVar.validation.msg = ''
     }
   }
 

@@ -1,12 +1,13 @@
-import Head from "next/head";
-import React from "react";
+import Head from "next/head"
+import React from "react"
 
 import Layout from "~/components/layout-calc"
-import VarRowV2 from '~/components/calc-var-row';
-import VarRowV2Select from "~/components/VarRowV2Select";
-import CalcHelper from "~/utils/calc-helper";
-import { unitConversionConstants } from "~/utils/unit-conversion-constants";
-import TileImage from "./tile-image.png";
+import VarRowV2 from '~/components/calc-var-row'
+import VarRowV2Select from "~/components/VarRowV2Select"
+import CalcHelper from "~/utils/calc-helper"
+import { unitConversionConstants } from "~/utils/unit-conversion-constants"
+import TileImage from "./tile-image.png"
+import { CalcVar } from 'utils/calc-var'
 
 export var metadata = {
   id: "microstrip-impedance", // Make sure this has the same name as the directory this file is in
@@ -44,7 +45,7 @@ class UI extends React.Component {
     this.state = {
       calc: {
         calcVars: {
-          trackWidth: {
+          trackWidth: new CalcVar({
             name: "Track Width",
             type: "numeric",
             direction: "input",
@@ -67,9 +68,9 @@ class UI extends React.Component {
             },
             helpText:
               "The width of the track (microstrip). This is normally measured in mm or mils.",
-          }, // trackWidth
+          }), // trackWidth
 
-          trackThickness: {
+          trackThickness: new CalcVar({
             name: "Track Thickness",
             type: "numeric",
             direction: "input",
@@ -91,9 +92,9 @@ class UI extends React.Component {
             },
             helpText:
               "The thickness of the track (microstrip). This is the same as the 'weight' of the copper layer the track is on. Usually measured in um or oz./sq foot.",
-          }, // trackThickness
+          }), // trackThickness
 
-          substrateThickness: {
+          substrateThickness: new CalcVar({
             name: "Substrate Thickness",
             type: "numeric",
             direction: "input",
@@ -115,9 +116,9 @@ class UI extends React.Component {
             },
             helpText:
               "The thickness (height) of the substrate. This is also the distance between the track and the plane below it. On a two layer standard thickness PCB, this is usually about 1.6mm. Between two layers of a high-density PCB this value can be much smaller. Usually measured in mm or mils.",
-          }, // substrateThickness
+          }), // substrateThickness
 
-          substrateDielectric: {
+          substrateDielectric: new CalcVar({
             name: "Substrate Dielectric",
             type: "numeric",
             direction: "input",
@@ -136,9 +137,9 @@ class UI extends React.Component {
             },
             helpText:
               "The dielectric of the substrate. For standard FR-4 PCB material, this value is around 4-4.7.",
-          }, // substrateDielectric
+          }), // substrateDielectric
 
-          trackImpedance: {
+          trackImpedance: new CalcVar({
             name: "Track Impedance",
             type: "numeric",
             direction: "output",
@@ -152,7 +153,7 @@ class UI extends React.Component {
             sigFig: 4,
             helpText:
               "The calculated impedance of the track (microstrip). This needs to match the impedance of what ever is connected to each end so that RF reflections do not occur. Value is usually between 20 and 150.",
-          }, // trackImpedance
+          }), // trackImpedance
         }, // calcVars
 
         eqFn: (calc) => {

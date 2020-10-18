@@ -56,6 +56,7 @@ class UI extends React.Component {
                 return ["ok", ""];
               },
             },
+            helpText: 'The exact resistance you want to find.',
           }), // desiredResistance
         }, // calcVars
         eqFn: (calc) => {
@@ -127,7 +128,7 @@ class UI extends React.Component {
           <table>
             <tbody>
               <VarRowV2
-                calcVars={this.state.calc.calcVars}
+                calc={this.state.calc}
                 id="desiredResistance"
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}

@@ -36,9 +36,11 @@ class UI extends React.Component {
             ],
             selUnit: "C",
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                (value) => {
+                  return ["ok", ""];
+                },
+              ]
             },
           }), // charge
           capacitance: new CalcVar({
@@ -52,9 +54,11 @@ class UI extends React.Component {
             ],
             selUnit: "F",
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                (value) => {
+                  return ["ok", ""];
+                },
+              ],
             },
           }), // capacitance
           voltage: new CalcVar({
@@ -68,9 +72,11 @@ class UI extends React.Component {
             ],
             selUnit: "V",
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                (value) => {
+                  return ["ok", ""];
+                },
+              ],
             },
           }), // voltage
         }, // calcVars
@@ -91,14 +97,11 @@ class UI extends React.Component {
         },
       }), // calc
     } // this.state
+    CalcHelper.initCalc(this.state.calc)
   }
 
   componentDidMount() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub])
-    CalcHelper.initCalc(this.state.calc)
-    this.setState({
-      calc: this.state.calc,
-    });
   } // componentDidMount()
 
   valueChanged = (e) => {

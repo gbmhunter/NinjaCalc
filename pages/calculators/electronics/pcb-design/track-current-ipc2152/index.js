@@ -7,6 +7,7 @@ import VarRowV2Select from "~/components/VarRowV2Select";
 import CalcHelper from "~/utils/calc-helper";
 import { unitConversionConstants } from "~/utils/unit-conversion-constants";
 import TileImage from "./tile-image.png";
+import { CalcVar } from 'utils/calc-var'
 
 export var metadata = {
   id: "track-current-ipc2152", // Make sure this has the same name as the directory this file is in
@@ -93,7 +94,7 @@ class UI extends React.Component {
     this.state = {
       calc: {
         calcVars: {
-          trackCurrent: {
+          trackCurrent: new CalcVar({
             name: "Track Current",
             type: "numeric",
             direction: "input",
@@ -116,8 +117,8 @@ class UI extends React.Component {
             },
             helpText:
               "The current you want the PCB track to be able to handle.",
-          }, // trackCurrent
-          tempRise: {
+          }), // trackCurrent
+          tempRise: new CalcVar({
             name: "Temperature Rise",
             type: "numeric",
             direction: "input",
@@ -145,12 +146,12 @@ class UI extends React.Component {
             },
             helpText:
               "The maximum desired temperature rise due to the current flowing through the track. 20-40°C is a common value for this.",
-          }, // tempRise
+          }), // tempRise
 
           // ============================================================================================= //
           // ============================ UN-ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ================ //
           // ============================================================================================= //
-          unadjustedTrackCrossSectionalArea: {
+          unadjustedTrackCrossSectionalArea: new CalcVar({
             name: "Unadjusted Track Cross-Sectional Area",
             type: "numeric",
             direction: "output",
@@ -167,8 +168,9 @@ class UI extends React.Component {
             },
             helpText:
               "The unadjusted cross-sectional area. This gets multiplied by the many modifiers to give an adjusted cross-sectional area.",
-          }, // unadjustedTrackCrossSectionalArea
-          trackThickness: {
+          }), // unadjustedTrackCrossSectionalArea
+
+          trackThickness: new CalcVar({
             name: "Track Thickness",
             type: "numeric",
             direction: "input",
@@ -194,8 +196,9 @@ class UI extends React.Component {
             },
             helpText:
               "The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz).",
-          }, // trackThickness
-          trackThicknessModifier: {
+          }), // trackThickness
+
+          trackThicknessModifier: new CalcVar({
             name: "Track Thickness Modifier",
             type: "numeric",
             direction: "output",
@@ -206,8 +209,9 @@ class UI extends React.Component {
             sigFig: 3,
             helpText:
               "The modifier to adjust the cross-sectional area with based on the track thickness.",
-          }, // trackThicknessModifier
-          boardThickness: {
+          }), // trackThicknessModifier
+
+          boardThickness: new CalcVar({
             name: "Board Thickness",
             type: "numeric",
             direction: "input",
@@ -234,12 +238,12 @@ class UI extends React.Component {
             },
             helpText:
               "The total thickness of the PCB that the track is on. A standard PCB thickness is 1.6mm.",
-          }, // boardThickness
+          }), // boardThickness
 
           // ============================================================================================= //
           // ================================ BOARD THICKNESS MODIFIER (output) ========================== //
           // ============================================================================================= //
-          boardThicknessModifier: {
+          boardThicknessModifier: new CalcVar({
             name: "Board Thickness Modifier",
             type: "numeric",
             direction: "output",
@@ -250,24 +254,24 @@ class UI extends React.Component {
             sigFig: 3,
             helpText:
               "The modifier to adjust the cross-sectional area with based on the board thickness.",
-          }, // boardThicknessModifier
+          }), // boardThicknessModifier
 
           // ============================================================================================= //
           // ==================================== IS PLANE PRESENT (combobox) ============================ //
           // ============================================================================================= //
-          isPlanePresent: {
+          isPlanePresent: new CalcVar({
             name: "Is Plane Present?",
             type: "select",
             options: ["Yes", "No"],
             selOption: "Yes",
             helpText:
               'Set this to "True" if there is a copper plane either above or below the current-carrying track, and then enter the distance to it in the "Plane Proximity" field. If there is no plane, set this to "False", and the "Plane Proximity" variable will also disappear.',
-          },
+          }),
 
           // ============================================================================================= //
           // ===================================== PLANE PROXIMITY (input) =============================== //
           // ============================================================================================= //
-          planeProximity: {
+          planeProximity: new CalcVar({
             name: "Plane Proximity",
             type: "numeric",
             direction: "input",
@@ -294,12 +298,12 @@ class UI extends React.Component {
             },
             helpText:
               "The distance from the current-carrying track to the closest copper plane. If it is a 2-layer 1.6mm PCB, with the current-carrying track on one side and ground on the other side, then the plane proximity would be 1.6mm. For 4 or more layer boards, this value is likely to be much less.",
-          }, // planeProximity
+          }), // planeProximity
 
           // ============================================================================================= //
           // =============================== PLANE PROXIMITY MODIFIER (output) =========================== //
           // ============================================================================================= //
-          planeProximityModifier: {
+          planeProximityModifier: new CalcVar({
             name: "Plane Proximity Modifier",
             type: "numeric",
             direction: "output",
@@ -310,12 +314,12 @@ class UI extends React.Component {
             sigFig: 3,
             helpText:
               "The modifier to adjust the cross-sectional area with based on the proximity of a plane to the current-carrying track.",
-          }, // planeProximityModifier
+          }), // planeProximityModifier
 
           // ============================================================================================= //
           // =================================== THERMAL CONDUCTIVITY (input) ============================ //
           // ============================================================================================= //
-          thermalConductivity: {
+          thermalConductivity: new CalcVar({
             name: "Thermal Conductivity",
             type: "numeric",
             direction: "input",
@@ -343,12 +347,12 @@ class UI extends React.Component {
             },
             helpText:
               "The thermal conductivity of the PCB. This is normally hard to determine, but for most FR4 PCBs this is around 0.20Wm-1K-1.",
-          }, // thermalConductivity
+          }), // thermalConductivity
 
           // ============================================================================================= //
           // ============================ THERMAL CONDUCTIVITY MODIFIER (output) ========================= //
           // ============================================================================================= //
-          thermalConductivityModifier: {
+          thermalConductivityModifier: new CalcVar({
             name: "Thermal Conductivity Modifier",
             type: "numeric",
             direction: "output",
@@ -357,12 +361,12 @@ class UI extends React.Component {
             sigFig: 3,
             helpText:
               "The modifier to adjust the cross-sectional area with based on the thermal conductivity of the PCB.",
-          }, // thermalConductivityModifier
+          }), // thermalConductivityModifier
 
           // ============================================================================================= //
           // ========================= ADJUSTED TRACK CROSS-SECTIONAL AREA (output) ====================== //
           // ============================================================================================= //
-          adjustedTrackCrossSectionalArea: {
+          adjustedTrackCrossSectionalArea: new CalcVar({
             name: "Adjusted Track Cross-Sectional Area",
             type: "numeric",
             direction: "output",
@@ -374,12 +378,12 @@ class UI extends React.Component {
             sigFig: 3,
             helpText:
               "The adjusted cross-sectional area, which is equal to the unadjusted cross-section area multiplied by all of the modifiers.",
-          }, // adjustedTrackCrossSectionalArea
+          }), // adjustedTrackCrossSectionalArea
 
           // ============================================================================================= //
           // ===================================== MIN. TRACK WIDTH (output) ============================= //
           // ============================================================================================= //
-          minTrackWidth: {
+          minTrackWidth: new CalcVar({
             name: "Minimum Track Width",
             type: "numeric",
             direction: "output",
@@ -390,7 +394,7 @@ class UI extends React.Component {
             sigFig: 3,
             helpText:
               "The minimum track width needed to carry the specified current without exceeding the given temperature rise.",
-          }, // minTrackWidth
+          }), // minTrackWidth
         }, // calcVars
 
         eqFn: (calc) => {
@@ -602,7 +606,7 @@ class UI extends React.Component {
                 width={varWidth}
                 showHelpText={true}
               />
-              <VarRowV2Select
+              <VarRowV2
                 id="isPlanePresent"
                 calc={this.state.calc}
                 valueChanged={this.valueChanged}
