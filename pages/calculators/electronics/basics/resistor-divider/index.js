@@ -88,7 +88,8 @@ class UI extends React.Component {
             },
           }), // vout
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           let vin = calcVars.vin.rawVal
           let rtop = calcVars.rtop.rawVal
           let rbot = calcVars.rbot.rawVal

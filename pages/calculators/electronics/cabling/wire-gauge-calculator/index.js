@@ -178,7 +178,8 @@ class UI extends React.Component {
             helpText: 'The calculated maximum AWG gauge of the cable. The calculated value is rounded down to the nearest integer.'
           }), // gauge_awg
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           // Input variables
           const voltageDc_V = calcVars.voltageDc_V.rawVal
           const voltageDrop_perc = calcVars.voltageDrop_perc.rawVal

@@ -2,35 +2,28 @@ import PropTypes from "prop-types"
 import ReactTooltip from 'react-tooltip'
 
 /**
- * This class is used by itself and also as part of CalcVarRow.
  * Generic UI element that should be used for any calculator variable that uses a "standard" string-based input (even numerical variables).
  */
-export class CalcVarInput extends React.Component {
+export class CalcVarCheckbox extends React.Component {
   constructor(props) {
     super(props)
   }
 
   render() {
-
+    
     const calcVar = this.props.calc.calcVars[this.props.id]
-
-    // If the variable is an output, make the input
-    // text box readonly so the user cannot change it
+    
     let readonly = null
     let disabled = null
-    let borderWidth = null
     if (calcVar.direction === 'input') {
       readonly = false
       disabled = false
-      borderWidth = '' // Just let the border be as default for inputs 
     } else if (calcVar.direction === "output") {
       readonly = true
       disabled = true
-      borderWidth = '0px' // Remove border for outputs
     } else {
       throw Error('Direction of "' + calcVar.direction + '" not supported.')
     }
-
 
     const validationState = calcVar.validation.state
 
@@ -58,6 +51,7 @@ export class CalcVarInput extends React.Component {
       <div>
         <ReactTooltip html={true} className="tooltip"/>
         <input
+          type="checkbox"
           name={this.props.id}
           className={validationState}
           value={valueToDisp}
@@ -65,7 +59,6 @@ export class CalcVarInput extends React.Component {
           readOnly={readonly}
           disabled={disabled}
           data-tip={tooltipMsg}
-          style={{ width: this.props.width, border: borderWidth }}
         ></input>
         <style jsx>{`
           .var-name {
@@ -74,7 +67,6 @@ export class CalcVarInput extends React.Component {
 
           input.warning {
             border: 1px solid orange;
-            background-color: #ffe9bf;
           }
 
           input.warning:focus {
@@ -83,7 +75,6 @@ export class CalcVarInput extends React.Component {
 
           input.error {
             border: 1px solid red;
-            background-color: #ffbfbf;
           }
 
           input.error:focus {
@@ -95,12 +86,10 @@ export class CalcVarInput extends React.Component {
   }
 }
 
-CalcVarInput.defaultProps = {
-  width: 150,
+CalcVarCheckbox.defaultProps = {
 };
 
-CalcVarInput.propTypes = {
+CalcVarCheckbox.propTypes = {
   id: PropTypes.string.isRequired,
   calc: PropTypes.object.isRequired,
-  width: PropTypes.number,
 };

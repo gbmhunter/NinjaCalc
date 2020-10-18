@@ -97,7 +97,8 @@ class UI extends React.Component {
             helpText: "The c coefficient of the Magnus equation.",
           }, // cCoefficient
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           const airTemp_degC = calcVars.airTemp_degC.rawVal;
           const relativeHumidity_perc = calcVars.relativeHumidity_perc.rawVal;
           const dewPoint_degC = calcVars.dewPoint_degC.rawVal;

@@ -23,7 +23,7 @@ export class CalcHelper {
       }      
     }
 
-    calc.eqFn(calc.calcVars)
+    calc.eqFn(calc)
     for (let calcVarKey in calc.calcVars) {
       CalcHelper.runValidation(calc.calcVars[calcVarKey], calc)
     }
@@ -254,7 +254,7 @@ export class CalcHelper {
       throw Error('Variable type "' + calcVar.type + '" for variable "' + event.target.name + '" not supported.')
     }
     
-    calc.eqFn(calc.calcVars)
+    calc.eqFn(calc)
     for (let calcVarKey in calc.calcVars) {
       CalcHelper.runValidation(calc.calcVars[calcVarKey], calc)
     }
@@ -266,7 +266,7 @@ export class CalcHelper {
     calcVar.selUnit = event.target.value
     if (calcVar.direction === 'input')
       CalcHelper.setRawValFromDispVal(calcVar)    
-    calc.eqFn(calc.calcVars)
+    calc.eqFn(calc)
     for (let calcVarKey in calc.calcVars) {
       CalcHelper.runValidation(calc.calcVars[calcVarKey], calc)
     }

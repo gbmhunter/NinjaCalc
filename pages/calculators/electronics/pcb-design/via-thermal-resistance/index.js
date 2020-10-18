@@ -78,7 +78,8 @@ class UI extends React.Component {
             sigFig: 3,
           }),
         }, // calcVars
-        eqFn: (calcVars) => {      
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           const viaCrossSectionalArea_m2 = Math.PI * calcVars.platingThickness.rawVal 
             * (calcVars.viaDiameter.rawVal - calcVars.platingThickness.rawVal)
           

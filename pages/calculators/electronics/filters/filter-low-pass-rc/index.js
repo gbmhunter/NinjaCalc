@@ -88,7 +88,8 @@ class UI extends React.Component {
             },
           }, // fcutoff
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           const resistance = calcVars.resistance.rawVal;
           const capacitance = calcVars.capacitance.rawVal;
           const fcutoff = calcVars.fcutoff.rawVal;

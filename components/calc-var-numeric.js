@@ -1,5 +1,8 @@
 import PropTypes from "prop-types"
 
+/**
+ * @deprecated Use CalcVarInput instead.
+ */
 export class CalcVarNumeric extends React.Component {
   constructor(props) {
     super(props)

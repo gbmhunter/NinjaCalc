@@ -211,7 +211,8 @@ class UI extends React.Component {
 
         }, // calcVars
 
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           // Read input variables
           const finishedHoleDiameter_m = calcVars.finishedHoleDiameter_m.rawVal;
           const platingThickness_m = calcVars.platingThickness_m.rawVal;

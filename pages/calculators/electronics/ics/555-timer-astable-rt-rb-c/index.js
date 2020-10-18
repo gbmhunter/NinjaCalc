@@ -36,12 +36,15 @@ class UI extends React.Component {
             ],
             selUnit: 'Hz',            
             validation: {
-              fn: (value) => {
-                console.log('validator() called with value=' + value)
-                if (value <= 0) { return ['error', 'Frequency must be greater than 0,'] }
-                return ['ok', '']
-              },
+              fns: [
+                (value) => {
+                  console.log('validator() called with value=' + value)
+                  if (value <= 0) { return ['error', 'Frequency must be greater than 0,'] }
+                  return ['ok', '']
+                },
+              ]
             },
+            helpText: 'The desired frequency of the 555 output waveform.',
           }), // freq
           dutyCycle: new CalcVar({
             name: 'Duty Cycle',
@@ -53,13 +56,16 @@ class UI extends React.Component {
               ['%', 1e-2],              
             ],
             selUnit: '%',
-            validation: {
-              fn: (value) => {
-                if (value < 50e-2) return ['error', 'Duty cycle must be greater or equal to 50%.']
-                if (value > 100e-2) return ['error', 'Duty cycle must be less or equal to 100%.']
-                return ['ok', '']
-              },
+            validations: {
+              fns: [
+                (value) => {
+                  if (value < 50e-2) return ['error', 'Duty cycle must be greater or equal to 50%.']
+                  if (value > 100e-2) return ['error', 'Duty cycle must be less or equal to 100%.']
+                  return ['ok', '']
+                },
+              ]
             },
+            helpText: 'The desired duty cycle. Because of the design of the 555, the duty cycle must be greater than 50%.'
           }), // dutyCycle
           capacitance: new CalcVar({
             name: 'Capacitance',
@@ -72,13 +78,16 @@ class UI extends React.Component {
             ],
             selUnit: 'F',
             validation: {
-              fn: (value) => {
-                if (value <= 0) return ['error', 'Capacitance must be greater than zero.']
-                if (value < 1e-12) return ['warning', 'This is an extremely small capacitance.']
-                if (value > 1e-3) return ['warning', 'This is an extremely large capacitance.']
-                return ['ok', '']
-              },
+              fns: [
+                  (value) => {
+                  if (value <= 0) return ['error', 'Capacitance must be greater than zero.']
+                  if (value < 1e-12) return ['warning', 'This is an extremely small capacitance.']
+                  if (value > 1e-3) return ['warning', 'This is an extremely large capacitance.']
+                  return ['ok', '']
+                },
+              ]
             },
+            helpText: 'The capacitance of the capacitor connected to the 555.',
           }), // capacitance
           period: new CalcVar({
             name: 'Period',
@@ -136,7 +145,8 @@ class UI extends React.Component {
             sigFig: 3,
           }), // r2
         }, // calcVars
-        eqFn: (calcVars) => {
+        eqFn: (calc) => {
+          const calcVars = calc.calcVars
           const period_s = 1/calcVars.freq.rawVal
           calcVars.period.rawVal = period_s
       
@@ -154,16 +164,11 @@ class UI extends React.Component {
         },
       }), // calc
     } // this.state
+    CalcHelper.initCalc(this.state.calc)
   }
 
   componentDidMount() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub])
-
-    CalcHelper.initCalc(this.state.calc)
-    this.setState({
-      calc: this.state.calc
-    })
-
     console.log('Calculator555TimerRtRbC mounted.')
   } // componentDidMount()
 
