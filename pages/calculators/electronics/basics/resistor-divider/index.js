@@ -8,6 +8,7 @@ import { CalcVar } from 'utils/calc-var'
 import { UnitsMultiplicative } from 'utils/calc-units'
 import CalcHelper from "utils/calc-helper"
 import TileImage from "./tile-image.png"
+import { Validators } from 'utils/validators'
 
 export var metadata = {
   id: "resistor-divider", // Make sure this has the same name as the directory this file is in
@@ -35,10 +36,12 @@ class UI extends React.Component {
             ],
             selUnit: "V",
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber,
+                Validators.isPositive,
+              ],
             },
+            helpText: 'The voltage to the top of the resistor divider (i.e. across both resistors).',
           }), // vin
           rtop: new CalcVar({
             name: "Top Resistance",
@@ -51,10 +54,12 @@ class UI extends React.Component {
             ],
             selUnit: "Ω",
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber,
+                Validators.isPositive,
+              ],
             },
+            helpText: 'The resistance of the first (top) resistor.',
           }), // rtop
           rbot: new CalcVar({
             name: "Bottom Resistance",
@@ -67,10 +72,12 @@ class UI extends React.Component {
             ],
             selUnit: "Ω",
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber,
+                Validators.isPositive,
+              ],
             },
+            helpText: 'The resistance of the second (bottom) resistor.',
           }), // rbot
           vout: new CalcVar({
             name: "Output Voltage",
@@ -82,10 +89,19 @@ class UI extends React.Component {
             ],
             selUnit: "V",
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber,
+                Validators.isPositive,
+                (value, calc) => {
+                  if (calc.calcVars.vout.rawVal >= calc.calcVars.vin.rawVal) {
+                    return [ 'error', 'Vout must be less than Vin.']
+                  } else {
+                    return [ 'ok', '' ]
+                  }
+                },
+              ],
             },
+            helpText: 'The voltage between the two resistors (i.e. across the bottom resistor).',
           }), // vout
         }, // calcVars
         eqFn: (calc) => {

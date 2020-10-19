@@ -2,7 +2,7 @@
 
 ## Dev Usage
 
-To install dependencies and start development server:
+To install dependencies and start development server (`yarn` is recommended):
 
 ```bash
 yarn install
@@ -17,3 +17,6 @@ To run unit/functional tests:
 yarn test
 ```
 
+## CICD
+
+Unit/functional tests are run by GitHub actions. These are configured by the file `.github/workflows/node.js.yaml`.
