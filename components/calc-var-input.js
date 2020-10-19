@@ -57,16 +57,19 @@ export class CalcVarInput extends React.Component {
     return (
       <div>
         <ReactTooltip html={true} className="tooltip"/>
-        <input
-          name={this.props.id}
-          className={validationState}
-          value={valueToDisp}
-          onChange={this.props.valueChanged}
-          readOnly={readonly}
-          disabled={disabled}
-          data-tip={tooltipMsg}
-          style={{ width: this.props.width, border: borderWidth }}
-        ></input>
+        {/* Wrap input in span, and attach tooltip to span. This is a work around because React Tooltip
+        does not display the tooltip attached to an input when the input is disabled. */}
+        <span data-tip={tooltipMsg}>
+          <input
+            name={this.props.id}
+            className={validationState}
+            value={valueToDisp}
+            onChange={this.props.valueChanged}
+            readOnly={readonly}
+            disabled={disabled}          
+            style={{ width: this.props.width, border: borderWidth }}
+          ></input>
+        </span>
         <style jsx>{`
           .var-name {
             padding-right: 10px;

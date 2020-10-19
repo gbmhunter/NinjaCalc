@@ -1,12 +1,11 @@
-import Head from "next/head";
-import React from "react";
+import Head from "next/head"
+import React from "react"
 
 import Layout from "~/components/layout-calc"
-import VarRowV2 from '~/components/calc-var-row';
-import VarRowV2Select from "~/components/VarRowV2Select";
-import CalcHelper from "~/utils/calc-helper";
-import { unitConversionConstants } from "~/utils/unit-conversion-constants";
-import TileImage from "./tile-image.png";
+import VarRowV2 from '~/components/calc-var-row'
+import CalcHelper from "~/utils/calc-helper"
+import { unitConversionConstants } from "~/utils/unit-conversion-constants"
+import TileImage from "./tile-image.png"
 import { CalcVar } from 'utils/calc-var'
 
 export var metadata = {

@@ -1,5 +1,7 @@
 # NinjaCalc
 
+![Build Status](https://github.com/gbmhunter/NinjaCalc/workflows/Node.js%20CI/badge.svg)
+
 ## Dev Usage
 
 To install dependencies and start development server (`yarn` is recommended):
