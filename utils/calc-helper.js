@@ -1,5 +1,5 @@
 import { MetricPrefixes } from '~/utils/metric-prefixes'
-import { Units, UnitsMultiplicative } from '~/utils/calc-units'
+import { Units, UnitsCustom, UnitsMultiplicative } from '~/utils/calc-units'
 
 /**
  * Makes sure the input string is a number, with no additional alphabetical
@@ -8,7 +8,7 @@ import { Units, UnitsMultiplicative } from '~/utils/calc-units'
  * @param {string} s String to test if numeric.
  */
 function isNumeric(s) {
-  return !isNaN(s - parseFloat(s));
+  return !isNaN(s - parseFloat(s))
 }
 
 export class CalcHelper {
@@ -67,6 +67,8 @@ export class CalcHelper {
       rawVal = num * unit[1]
     } else if(unit instanceof UnitsMultiplicative) { 
       rawVal = num * unit.multiplier
+    } else if(unit instanceof UnitsCustom) { 
+      rawVal = unit.fromFn(num)
     } else {
       throw Error('Type of unit ' + unit + ' not supported.')
     }    
@@ -92,6 +94,8 @@ export class CalcHelper {
       num = calcVar.rawVal / unit[1]
     } else if(unit instanceof UnitsMultiplicative) { 
       num = calcVar.rawVal / unit.multiplier
+    } else if(unit instanceof UnitsCustom) { 
+      num = unit.toFn(calcVar.rawVal)
     } else {
       throw Error('Type of unit ' + unit + ' not supported.')
     }    

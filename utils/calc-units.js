@@ -18,3 +18,15 @@ export class UnitsMultiplicative extends Units {
     this.multiplier = multiplier
   }
 }
+
+/**
+ * Can represent any kind of unit. Must provide a function to convert from base units to custom units,
+ * and also one to convert the other way.
+ */
+export class UnitsCustom extends Units {
+  constructor(name, toFn, fromFn) {
+    super(name)
+    this.toFn = toFn
+    this.fromFn = fromFn
+  }
+}

@@ -7,6 +7,7 @@ import CalcHelper from "~/utils/calc-helper"
 import { unitConversionConstants } from "~/utils/unit-conversion-constants"
 import TileImage from "./tile-image.png"
 import { CalcVar } from 'utils/calc-var'
+import { UnitsCustom, UnitsMultiplicative } from 'utils/calc-units'
 
 export var metadata = {
   id: "track-current-ipc2152", // Make sure this has the same name as the directory this file is in
@@ -35,7 +36,11 @@ export var metadata = {
 // ============================================================================================= //
 // ============================================ CONSTANTS ====================================== //
 // ============================================================================================= //
-const NUM_MILS_PER_MM = 1000 / 25.4;
+
+// Even though we could just use the unitConversionConstants class directly, we use this so much
+// in the following code lets make a shorter named version of this to increase readability
+const NUM_MILS_PER_MM = (1/unitConversionConstants.METERS_PER_MILS) / 1000.0
+
 // UNIVERSAL CHART CONSTANTS
 // The trendlines to calculate the co-efficients for a fixed temp takes the form y = Ax^B
 // where y is the co-efficient, x is the temperature.
@@ -89,7 +94,7 @@ const THERMAL_CONDUCTIVITY_TREND_LINE_COEF_C = 1.1958174134;
 
 class UI extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       calc: {
         calcVars: {
@@ -99,7 +104,7 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "1",
             units: [
-              ["A", 1],
+              new UnitsMultiplicative('A', 1),
             ],
             selUnit: "A",
             metricPrefixes: true,
@@ -124,7 +129,12 @@ class UI extends React.Component {
             dispVal: "40",
             rawVal: null,
             units: [
-              ["°C", 1]
+              new UnitsMultiplicative('°C', 1e0),
+              new UnitsCustom(
+                '°F',
+                (value) => { return (value*(9/5)) + 32 }, // toFn
+                (value) => { return (value - 32) / (9/5) }, // fromFn
+              ),
             ],
             selUnit: "°C",
             metricPrefixes: true,
@@ -133,7 +143,7 @@ class UI extends React.Component {
                 if (value < 1.0)
                   return [
                     "warning",
-                    "Temp. rise is below the minimum value (1°c) extracted from the universal graph in IPC-2152. Results might not be as accurate (extrapolation will occur).",
+                    "Temp. rise is below the minimum value (1°C) extracted from the universal graph in IPC-2152. Results might not be as accurate (extrapolation will occur).",
                   ];
                 if (value > 100.0)
                   return [
@@ -155,8 +165,8 @@ class UI extends React.Component {
             type: "numeric",
             direction: "output",
             units: [
-              ["um²", 1e-12],
-              ["mm²", 1e-6],
+              new UnitsMultiplicative('um²', 1e-12),
+              new UnitsMultiplicative('mm²', 1e-6),
             ],
             selUnit: "um²",
             sigFig: 4,
@@ -175,7 +185,9 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "35",
             units: [
-              ["um", 1e-6],              
+              new UnitsMultiplicative('um', 1e-6),
+              new UnitsMultiplicative('mill', unitConversionConstants.METERS_PER_MILS),
+              new UnitsMultiplicative('oz', unitConversionConstants.COPPER_THICKNESS_M_PER_OZ),
             ],
             selUnit: "um",
             validation: {
@@ -194,7 +206,7 @@ class UI extends React.Component {
               },
             },
             helpText:
-              "The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 16um (0.5oz) or 32um (1oz).",
+              "The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 17um (0.5oz) or 35um (1oz).",
           }), // trackThickness
 
           trackThicknessModifier: new CalcVar({
@@ -202,7 +214,7 @@ class UI extends React.Component {
             type: "numeric",
             direction: "output",
             units: [
-              ["no unit", 1]
+              new UnitsMultiplicative('no unit', 1),
             ],
             selUnit: "no unit",
             sigFig: 3,
@@ -216,7 +228,8 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "1.6",
             units: [
-              ["mm", 1e-3]
+              new UnitsMultiplicative('mm', 1e-3),
+              new UnitsMultiplicative('mill', unitConversionConstants.METERS_PER_MILS),
             ],
             selUnit: "mm",
             validation: {
@@ -247,7 +260,7 @@ class UI extends React.Component {
             type: "numeric",
             direction: "output",
             units: [
-              ["no unit", 1]
+              new UnitsMultiplicative('no unit', 1),
             ],
             selUnit: "no unit",
             sigFig: 3,
@@ -276,7 +289,8 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "1.6",
             units: [              
-              ["mm", 1e-3],
+              new UnitsMultiplicative('mm', 1e-3),
+              new UnitsMultiplicative('mill', unitConversionConstants.METERS_PER_MILS),
             ],
             selUnit: "mm",
             validation: {
@@ -307,7 +321,7 @@ class UI extends React.Component {
             type: "numeric",
             direction: "output",
             units: [
-              ["no unit", 1]
+              new UnitsMultiplicative('no unit', 1),
             ],
             selUnit: "no unit",
             sigFig: 3,
@@ -324,8 +338,8 @@ class UI extends React.Component {
             direction: "input",
             dispVal: "0.20",
             units: [
-              ["W/mK", 1],
-              // TODO: Add BTU/(hour*ft*f) unit
+              new UnitsMultiplicative('W/mK', 1),
+              new UnitsMultiplicative('BTU/(h*ft*F)', unitConversionConstants.THERMAL_CONDUCTIVITY_WATT_nMETER_nKELVIN_PER_BTU_nHOUR_nFT_nDEGF),              
             ],
             selUnit: "W/mK",
             validation: {
@@ -333,12 +347,12 @@ class UI extends React.Component {
                 if (value < 180e-3)
                   return [
                     "warning",
-                    "Thermal conductivity is below the minimum value (180mW/mK) extracted from the thermal conductivity modifier graph in IPC-2152. Results might not be as accurate (extrapolation will occur).",
+                    "Thermal conductivity is below the minimum value (0.18W/mK) extracted from the thermal conductivity modifier graph in IPC-2152. Results might not be as accurate (extrapolation will occur).",
                   ];
                 if (value > 340e-3)
                   return [
                     "warning",
-                    "Thermal conductivity is above the maximum value (340mW/mK) extracted from the thermal conductivity modifier graph in IPC-2152. Results might not be as accurate (extrapolation will occur).",
+                    "Thermal conductivity is above the maximum value (0.34W/mK) extracted from the thermal conductivity modifier graph in IPC-2152. Results might not be as accurate (extrapolation will occur).",
                   ];
                 // TODO: Add check to make sure plane proximity is not greater than board thickness
                 return ["ok", ""];
@@ -355,7 +369,9 @@ class UI extends React.Component {
             name: "Thermal Conductivity Modifier",
             type: "numeric",
             direction: "output",
-            units: [["no unit", 1]],
+            units: [
+              new UnitsMultiplicative('no unit', 1),
+            ],
             selUnit: "no unit",
             sigFig: 3,
             helpText:
@@ -370,8 +386,8 @@ class UI extends React.Component {
             type: "numeric",
             direction: "output",
             units: [
-              ["um²", 1e-12],
-              ["mm²", 1e-6],
+              new UnitsMultiplicative('um²', 1e-12),
+              new UnitsMultiplicative('mm²', 1e-6),
             ],
             selUnit: "um²",
             sigFig: 3,
@@ -387,7 +403,7 @@ class UI extends React.Component {
             type: "numeric",
             direction: "output",
             units: [              
-              ["mm", 1e-3],
+              new UnitsMultiplicative('mm', 1e-3),
             ],
             selUnit: "mm",
             sigFig: 3,
