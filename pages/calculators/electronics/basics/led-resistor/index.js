@@ -11,12 +11,12 @@ import { CalcVar } from 'utils/calc-var'
 import { UnitsMultiplicative } from 'utils/calc-units'
 
 export var metadata = {
-  id: 'ohms-law', // Make sure this has the same name as the directory this file is in
-  name: 'Ohm\'s Law (V=IR)',
+  id: 'led-resistor', // Make sure this has the same name as the directory this file is in
+  name: 'LED Current-Limiting Resistor Calculator',
   description:
-    'The hammer in any electrical engineers toolbox. Calculate voltage, resistance and current using Ohm\'s law.',
+    'Calculate the value of a resistor needed to current-limit an LED.',
   categories: ['Electronics', 'Basics'], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
-  tags: ['electronics', 'ohms', 'law', 'resistor', 'voltage', 'resistance', 'current'],
+  tags: ['electronics', 'current', 'led', 'resistor', 'resistance', 'limit'],
   image: TileImage,
 }
 
@@ -26,13 +26,13 @@ class CalcUI extends React.Component {
     this.state = {
       calc: new Calc({
         calcVars: {
-          voltage_V: new CalcVar({
-            name: 'Voltage',
+          supplyVoltage_V: new CalcVar({
+            name: 'Supply Voltage',
             type: 'numeric',
             direction: 'input',
-            dispVal: '12',
+            dispVal: '3.3',
             units: [
-              new UnitsMultiplicative('V', 1),
+              new UnitsMultiplicative('V', 1e0),
             ],
             selUnit: 'V',
             metricPrefixes: true,
@@ -42,13 +42,31 @@ class CalcUI extends React.Component {
                 Validators.isNumber
               ],
             },
-            helpText: 'The voltage across the resistor.',
-          }), // voltage_V
-          current_A: new CalcVar({
-            name: 'Current',
+            helpText: 'The supply voltage.',
+          }), // supplyVoltage_V
+          ledForwardVoltage_V: new CalcVar({
+            name: 'LED Forward Voltage',
             type: 'numeric',
             direction: 'input',
-            dispVal: '1',
+            dispVal: '2.0',
+            units: [
+              new UnitsMultiplicative('V', 1e0),
+            ],
+            selUnit: 'V',
+            metricPrefixes: true,
+            sigFig: 4,
+            validation: {
+              fns: [
+                Validators.isNumber
+              ],
+            },
+            helpText: 'The forward voltage drop across the LED, at the desired curret you want to drive the LED at.',
+          }), // ledForwardVoltage_V
+          ledCurrent_A: new CalcVar({
+            name: 'LED Current',
+            type: 'numeric',
+            direction: 'input',
+            dispVal: '20m',
             units: [
               new UnitsMultiplicative('A', 1),
             ],
@@ -60,10 +78,10 @@ class CalcUI extends React.Component {
                 Validators.isNumber
               ],
             },
-            helpText: 'The current through the resistor.',
+            helpText: 'The desired LED drive current.',
           }), // current_A
-          resistance_Ohms: new CalcVar({
-            name: 'Resistance',
+          seriesResistance_Ohms: new CalcVar({
+            name: 'Series Resistance',
             type: 'numeric',
             direction: 'output',
             units: [              
@@ -77,23 +95,14 @@ class CalcUI extends React.Component {
                 Validators.isNumber
               ],
             },
-            helpText: 'The resistance of the resistor.',
-          }), // resistance_Ohms
+            helpText: 'The series resistance required to get the desired current.',
+          }), // seriesResistance_Ohms
         }, // calcVars
         eqFn: (calc) => {
-          const calcVars = calc.calcVars
-          if (calcVars.voltage_V.direction == 'output') {
-            calcVars.voltage_V.rawVal =
-              calcVars.current_A.rawVal * calcVars.resistance_Ohms.rawVal
-          } else if (calcVars.current_A.direction == 'output') {
-            calcVars.current_A.rawVal =
-              calcVars.voltage_V.rawVal / calcVars.resistance_Ohms.rawVal
-          } else if (calcVars.resistance_Ohms.direction == 'output') {
-            calcVars.resistance_Ohms.rawVal =
-              calcVars.voltage_V.rawVal / calcVars.current_A.rawVal
-          } else {
-            throw Error('No variable was an output.')
-          }
+          const calcVars = calc.calcVars          
+          const voltageDropResistor = calcVars.supplyVoltage_V.rawVal - calcVars.ledForwardVoltage_V.rawVal
+          const seriesResistance_Ohms = voltageDropResistor / calcVars.ledCurrent_A.rawVal
+          calcVars.seriesResistance_Ohms.rawVal = seriesResistance_Ohms                        
         },
       }), // calc
     } // this.state
@@ -112,7 +121,7 @@ class CalcUI extends React.Component {
     this.setState({
       calc: calc,
     })
-  } // valueChanged
+  }
 
   unitsChanged = (e) => {
     let calc = this.state.calc
@@ -128,13 +137,13 @@ class CalcUI extends React.Component {
     this.setState({
       calc: calc,
     })
-  } // rbChanged
+  };
 
   render = () => {    
     const varWidth = 100
 
     return (
-      <LayoutCalc title={metadata.name + ' Calculator'}>
+      <LayoutCalc title={metadata.name}>
         <Head>
           <title>{metadata.name}</title>
           <link rel="icon" href="/favicon.ico" />
@@ -142,56 +151,62 @@ class CalcUI extends React.Component {
         <div className="vbox outer-wrapper">
           <div className="calc-notes">
             <p>
-              The following calculator works out either voltage, current or
-              resistance, given the other two parameters, using the equation:
-            </p>
-
-            <p style={{ textAlign: 'center' }}>$$ V = IR $$</p>
-
-            <p style={{ textAlign: 'center' }}>
-              where:
-              <br />
-              \( V \) = voltage across the resistor, in \(V\)
-              <br />
-              \( I \) = current through the resistor, in \(A\)
-              <br />
-              \( R \) = resistance of the resistor, in \(\Omega\)
-              <br />
+              This calculator works out the series resistance needed to current-limit an LED (to string of LEDs connected in series) to a desired drive current.
             </p>
           </div>
           <table>
             <tbody>
               <CalcVarRow
-                id="voltage_V"
+                id="supplyVoltage_V"
                 calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
-                rbGroup="calc-what"
-                rbChanged={this.rbChanged}
                 width={varWidth}
               />
               <CalcVarRow
-                id="current_A"
+                id="ledForwardVoltage_V"
                 calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
-                rbGroup="calc-what"
-                rbChanged={this.rbChanged}
                 width={varWidth}
               />
               <CalcVarRow
-                id="resistance_Ohms"
+                id="ledCurrent_A"
                 calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
-                rbGroup="calc-what"
-                rbChanged={this.rbChanged}
+                width={varWidth}
+              />
+              <CalcVarRow
+                id="seriesResistance_Ohms"
+                calc={this.state.calc}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
             </tbody>
           </table>
 
           <div style={{ height: 20 }}></div>
+
+          <div className="calc-notes">
+            <p>
+              The voltage drop across the resisor is found with:
+            </p>
+
+            <p style={{ textAlign: 'center' }}>{String.raw`$$ V_R = V_S - V_{led} $$`}</p>
+
+            <p style={{ textAlign: 'center' }}>
+              where:
+              <br />
+              \( V_R \) is the voltage drop across the resistor, in \(V\)
+              <br />
+              \( V_S \) is the supply voltage, in \(V\)
+              <br />
+              {String.raw`\( V_{led} \) is the voltage drop across the LED, at the desired drive current, in \(A\)`}
+              <br />
+            </p>
+          </div>
         </div>
         <style jsx>{`
           .calc-notes {
@@ -200,7 +215,7 @@ class CalcUI extends React.Component {
         `}</style>
       </LayoutCalc>
     )
-  } // render
-} // CalcUI
+  };
+}
 
 export default CalcUI
