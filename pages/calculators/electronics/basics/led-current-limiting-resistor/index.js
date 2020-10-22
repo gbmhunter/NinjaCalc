@@ -20,9 +20,26 @@ export var metadata = {
   image: TileImage,
 }
 
+class LedForwardVoltages_V {
+  static Red = 2.0
+  static Orange = 2.0
+  static Yellow = 2.1
+  static Green = 2.2
+  static Blue = 3.3
+  static Violet = 3.4
+}
+
 class CalcUI extends React.Component {
   constructor(props) {
     super(props)
+
+    let ledColourOptions = []
+    for (const colour in LedForwardVoltages_V) {
+      ledColourOptions.push(colour)
+    }
+    // Then add 'Custom' colour (user sets forward voltage)
+    ledColourOptions.push('Custom')
+
     this.state = {
       calc: new Calc({
         calcVars: {
@@ -44,6 +61,18 @@ class CalcUI extends React.Component {
             },
             helpText: 'The supply voltage (shown as Vcc in the diagram). This may come from a battery, power supply, microcontroller pin, e.t.c.',
           }), // supplyVoltage_V
+          ledColour: new CalcVar({
+            name: 'LED Colour',
+            type: 'select',
+            direction: 'input',            
+            options: ledColourOptions,
+            selOption: 'Red',                        
+            validation: {
+              fns: [                
+              ],
+            },
+            helpText: 'The colour of the LED, which sets the LED forward voltage drop. Note that these values are approximate only, but usually are good assumptions for most use cases. The slight change in forward voltage due to different LED currents is also not taken into account, but again, this is usually an o.k. approximation. Choose \'Custom\' if you want to specify the forward voltage yourself.',
+          }), // ledColour
           ledForwardVoltage_V: new CalcVar({
             name: 'LED Forward Voltage',
             type: 'numeric',
@@ -57,7 +86,14 @@ class CalcUI extends React.Component {
             sigFig: 4,
             validation: {
               fns: [
-                Validators.isNumber
+                Validators.isNumber,
+                (value, calc) => {
+                  if (calc.calcVars.ledForwardVoltage_V.rawVal >= calc.calcVars.supplyVoltage_V.rawVal) {
+                    return [ 'error', 'The LED forward voltage drop must be less than the supply voltage.' ]
+                  } else {
+                    return [ 'ok', '' ]
+                  }
+                }
               ],
             },
             helpText: 'The forward voltage drop across the LED, at the desired curret you want to drive the LED at.',
@@ -97,12 +133,44 @@ class CalcUI extends React.Component {
             },
             helpText: 'The series resistance required to get the desired current.',
           }), // seriesResistance_Ohms
+          resistorPowerDissipation_W: new CalcVar({
+            name: 'Resistor Power Dissipation',
+            type: 'numeric',
+            direction: 'output',
+            units: [              
+              new UnitsMultiplicative('W', 1),
+            ],
+            selUnit: 'W',
+            metricPrefixes: true,
+            sigFig: 4,
+            validation: {
+              fns: [
+                Validators.isNumber
+              ],
+            },
+            helpText: 'The power dissipation in the current-limiting resistor. Make sure the resistor is rated to AT LEAST this power dissipation, and appropriate thermal relief/heat sinking is provided when needed. For lower supply voltages (3.3-12V) and LED currents (1-20mA), standard 0603 to 1206 SMD resistor packages and footprints are usually fine with no extra heatsinking required.',
+          }), // resistorPowerDissipation_W
         }, // calcVars
         eqFn: (calc) => {
-          const calcVars = calc.calcVars          
-          const voltageDropResistor = calcVars.supplyVoltage_V.rawVal - calcVars.ledForwardVoltage_V.rawVal
+          const calcVars = calc.calcVars
+          
+          let ledForwardVoltage_V = null
+          if (calcVars.ledColour.selOption == 'Custom') {
+            // Allow user to enter custom voltage drop
+            calcVars.ledForwardVoltage_V.direction = 'input'
+            ledForwardVoltage_V = calcVars.ledForwardVoltage_V.rawVal
+          } else {
+            // Prevent user from entering in custom voltage drop (set by colour)
+            calcVars.ledForwardVoltage_V.direction = 'output'
+            // Voltage drop based on selected colour
+            ledForwardVoltage_V = LedForwardVoltages_V[calcVars.ledColour.selOption]
+            calcVars.ledForwardVoltage_V.rawVal = ledForwardVoltage_V
+          }
+          const voltageDropResistor = calcVars.supplyVoltage_V.rawVal - ledForwardVoltage_V
           const seriesResistance_Ohms = voltageDropResistor / calcVars.ledCurrent_A.rawVal
-          calcVars.seriesResistance_Ohms.rawVal = seriesResistance_Ohms                        
+          calcVars.seriesResistance_Ohms.rawVal = seriesResistance_Ohms
+          // Calculate power dissiaption, P = VI or P = I^2 R
+          calcVars.resistorPowerDissipation_W.rawVal = voltageDropResistor * calcVars.ledCurrent_A.rawVal                     
         },
       }), // calc
     } // this.state
@@ -165,6 +233,12 @@ class CalcUI extends React.Component {
                 width={varWidth}
               />
               <CalcVarRow
+                id="ledColour"
+                calc={this.state.calc}
+                valueChanged={this.valueChanged}                
+                width={varWidth}
+              />
+              <CalcVarRow
                 id="ledForwardVoltage_V"
                 calc={this.state.calc}
                 valueChanged={this.valueChanged}
@@ -180,6 +254,13 @@ class CalcUI extends React.Component {
               />
               <CalcVarRow
                 id="seriesResistance_Ohms"
+                calc={this.state.calc}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                width={varWidth}
+              />
+              <CalcVarRow
+                id="resistorPowerDissipation_W"
                 calc={this.state.calc}
                 valueChanged={this.valueChanged}
                 unitsChanged={this.unitsChanged}
