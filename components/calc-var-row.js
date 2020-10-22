@@ -131,7 +131,8 @@ class VarRow extends React.Component {
     }
 
     let helpTextHtml = null
-    if (this.props.showHelpText) {      
+    // if (this.props.showHelpText) {
+    if (true) {
       helpTextHtml = (<td style={{ fontSize: '0.8em' }}>{calcVar.helpText}</td>)
     }
 

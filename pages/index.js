@@ -16,7 +16,7 @@ import Layout from '~/components/layout'
 import TreeView from '~/components/tree-view/tree-view'
 
 import * as CalcCapacitorCharge from "./calculators/electronics/basics/capacitor-charge"
-import * as CalcLedResistor from './calculators/electronics/basics/led-resistor'
+import * as CalcLedCurrentLimitingResistor from './calculators/electronics/basics/led-current-limiting-resistor'
 import * as CalcOhmsLaw from "./calculators/electronics/basics/ohms-law"
 import * as CalcResistorDivider from "./calculators/electronics/basics/resistor-divider"
 import * as CalcStandardResistanceFinder from "./calculators/electronics/basics/standard-resistance-finder"
@@ -54,7 +54,7 @@ class Home extends React.Component {
 
     // electronics/basics
     this.addCalc(CalcCapacitorCharge)
-    this.addCalc(CalcLedResistor)
+    this.addCalc(CalcLedCurrentLimitingResistor)
     this.addCalc(CalcOhmsLaw)
     this.addCalc(CalcResistorDivider)
     this.addCalc(CalcStandardResistanceFinder)

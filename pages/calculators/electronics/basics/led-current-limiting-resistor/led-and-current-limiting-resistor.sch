@@ -1,0 +1,62 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Device:R_US R1
+U 1 1 5F914EF5
+P 4200 2350
+F 0 "R1" H 4268 2350 50  0000 L CNN
+F 1 "R_US" H 4268 2305 50  0001 L CNN
+F 2 "" V 4240 2340 50  0001 C CNN
+F 3 "~" H 4200 2350 50  0001 C CNN
+	1    4200 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED D1
+U 1 1 5F916041
+P 4200 2000
+F 0 "D1" V 4239 1882 50  0000 R CNN
+F 1 "LED" V 4148 1882 50  0000 R CNN
+F 2 "" H 4200 2000 50  0001 C CNN
+F 3 "~" H 4200 2000 50  0001 C CNN
+	1    4200 2000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5F9180C4
+P 4200 2500
+F 0 "#PWR?" H 4200 2250 50  0001 C CNN
+F 1 "GND" H 4205 2327 50  0000 C CNN
+F 2 "" H 4200 2500 50  0001 C CNN
+F 3 "" H 4200 2500 50  0001 C CNN
+	1    4200 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR?
+U 1 1 5F918693
+P 4200 1850
+F 0 "#PWR?" H 4200 1700 50  0001 C CNN
+F 1 "VCC" H 4215 2023 50  0000 C CNN
+F 2 "" H 4200 1850 50  0001 C CNN
+F 3 "" H 4200 1850 50  0001 C CNN
+	1    4200 1850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 2150 4200 2200
+$EndSCHEMATC

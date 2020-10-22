@@ -184,8 +184,9 @@ class UI extends React.Component {
               <tr>
                 <th>Variable</th>
                 <th>Value</th>
-                <th>Units</th>
-                <th>Output</th>
+                <th>Units&nbsp;</th>
+                <th>Output&nbsp;</th>
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>

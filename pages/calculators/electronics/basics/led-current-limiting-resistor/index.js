@@ -5,13 +5,13 @@ import LayoutCalc from 'components/layout-calc'
 import CalcVarRow from 'components/calc-var-row'
 import { CalcHelper } from 'utils/calc-helper'
 import { Validators } from 'utils/validators'
-import TileImage from './tile-image.png'
+import TileImage from './tile-image.jpg'
 import { Calc } from 'utils/calc'
 import { CalcVar } from 'utils/calc-var'
 import { UnitsMultiplicative } from 'utils/calc-units'
 
 export var metadata = {
-  id: 'led-resistor', // Make sure this has the same name as the directory this file is in
+  id: 'led-current-limiting-resistor', // Make sure this has the same name as the directory this file is in
   name: 'LED Current-Limiting Resistor Calculator',
   description:
     'Calculate the value of a resistor needed to current-limit an LED.',
@@ -42,7 +42,7 @@ class CalcUI extends React.Component {
                 Validators.isNumber
               ],
             },
-            helpText: 'The supply voltage.',
+            helpText: 'The supply voltage (shown as Vcc in the diagram). This may come from a battery, power supply, microcontroller pin, e.t.c.',
           }), // supplyVoltage_V
           ledForwardVoltage_V: new CalcVar({
             name: 'LED Forward Voltage',
@@ -78,7 +78,7 @@ class CalcUI extends React.Component {
                 Validators.isNumber
               ],
             },
-            helpText: 'The desired LED drive current.',
+            helpText: 'The desired LED drive current. For standard indicator LEDs the drive current is typically in the range of 5-20mA.',
           }), // current_A
           seriesResistance_Ohms: new CalcVar({
             name: 'Series Resistance',
@@ -131,14 +131,6 @@ class CalcUI extends React.Component {
     })
   } // unitsChanged
 
-  rbChanged = (e) => {      
-    let calc = this.state.calc
-    CalcHelper.handleRbChanged(calc, e)
-    this.setState({
-      calc: calc,
-    })
-  };
-
   render = () => {    
     const varWidth = 100
 
@@ -153,8 +145,17 @@ class CalcUI extends React.Component {
             <p>
               This calculator works out the series resistance needed to current-limit an LED (to string of LEDs connected in series) to a desired drive current.
             </p>
+            <div className="hbox"><img src={TileImage} style={{ width: '200px', margin: 'auto' }} /></div>
           </div>
-          <table>
+          <table className="calc-vars" style={{ maxWidth: '700px' }}>
+          <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Value</th>
+                <th>Units&nbsp;</th>
+                <th>Description</th>
+              </tr>
+            </thead>
             <tbody>
               <CalcVarRow
                 id="supplyVoltage_V"
@@ -194,19 +195,31 @@ class CalcUI extends React.Component {
               The voltage drop across the resisor is found with:
             </p>
 
-            <p style={{ textAlign: 'center' }}>{String.raw`$$ V_R = V_S - V_{led} $$`}</p>
+            <p style={{ textAlign: 'center' }}>{String.raw`$$ V_R = V_{CC} - V_{led} $$`}</p>
 
             <p style={{ textAlign: 'center' }}>
               where:
               <br />
               \( V_R \) is the voltage drop across the resistor, in \(V\)
               <br />
-              \( V_S \) is the supply voltage, in \(V\)
+              {String.raw`\( V_{CC} \) is the supply voltage, in \(V\)`}
               <br />
               {String.raw`\( V_{led} \) is the voltage drop across the LED, at the desired drive current, in \(A\)`}
               <br />
             </p>
-          </div>
+
+            <p>The required resistance is then found using Ohm's law with:</p>
+            <p style={{ textAlign: 'center' }}>{String.raw`$$ R = \frac{V_R}{I} $$`}</p>
+
+            <p style={{ textAlign: 'center' }}>
+              where:
+              <br />
+              \( R \) is the resistance of the resistor, in \( \Omega \)
+              <br />
+              {String.raw`\( I \) is the desired LED current (which is also the current through the LED, since they are in series), in \(A\)`}
+              <br />              
+            </p>
+          </div> {/* calc-notes */}
         </div>
         <style jsx>{`
           .calc-notes {

@@ -159,7 +159,16 @@ class CalcUI extends React.Component {
               <br />
             </p>
           </div>
-          <table>
+          <table className="calc-vars" style={{ maxWidth: '700px' }}>
+          <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Value</th>
+                <th>Units&nbsp;</th>
+                <th>Output&nbsp;</th>
+                <th>Description</th>
+              </tr>
+            </thead>
             <tbody>
               <CalcVarRow
                 id="voltage_V"
