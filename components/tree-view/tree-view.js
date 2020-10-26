@@ -12,9 +12,11 @@ class TreeView extends React.Component {
     var output = {
       'name': 'All',
       'selected': true,
-      'children': []
+      'children': [],
+      'numChildren': 0,
     }
     this.props.calculators.map((calculator) => {
+      output.numChildren += 1
       this.addCategoriesToTree(calculator.metadata.categories, output)
     })    
 
@@ -22,6 +24,13 @@ class TreeView extends React.Component {
     this.state.treeData = output;
   }
 
+  /**
+   * Adds the provided Array of categories to the provided node in tree. Designed to be recursively
+   * called.
+   * 
+   * @param {Array} categories Array of categories (as strings). e.g. [ 'Electronics', 'Basic' ]
+   * @param {*} treeNode The current node in the tree to add the categories to.
+   */
   addCategoriesToTree (categories, treeNode) {
     // console.log('addCategoriesToTree() called with categories =')
     // console.log(categories)
@@ -42,10 +51,15 @@ class TreeView extends React.Component {
       var newTreeNode = {
         'name': categories[0],
         'selected': false,
-        'children': []
+        'children': [],
+        'numChildren': 0,
       }
       treeNode.children.push(newTreeNode)
     }
+
+    // Increment count on tree node
+    treeNode.children[treeNode.children.length - 1].numChildren += 1
+
     // Remove first category element
     categories.splice(0, 1)
     if (categories.length > 0) {

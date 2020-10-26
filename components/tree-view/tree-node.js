@@ -24,7 +24,7 @@ class TreeNode extends React.Component {
     return (
       <div>
         <li onClick={this.onClick} className={this.props.data.selected ? 'green-background' : ''}
-          style={{ cursor: 'pointer' }}>{this.props.data.name}</li>
+          style={{ cursor: 'pointer' }}>{this.props.data.name} ({this.props.data.numChildren})</li>
         <ul>
           {childrenHtml}
         </ul>

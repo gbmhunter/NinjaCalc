@@ -50,7 +50,9 @@ class Home extends React.Component {
       calculators: [],
       filterByCategories: 'All',
       searchText: '',
-    };
+    }
+
+    // ADD CALCULATORS TO STATE
 
     // electronics/basics
     this.addCalc(CalcCapacitorCharge)
@@ -86,9 +88,6 @@ class Home extends React.Component {
   addCalc = (calcModule) => {
     let calculators = this.state.calculators
     calculators.push(calcModule)
-    // this.setState({
-    //   calculators: calculators,
-    // })
   }
 
   categoryTreeNodeClicked = (categories) => {    
@@ -230,27 +229,27 @@ class Home extends React.Component {
         </Head>
 
         <div id="content-wrapper" style={{ display: 'flex', width: '100%' }}>
-        <div id="left-column" style={{ minWidth: '200px', maxWidth: '200px', flexGrow: 0, marginLeft: '20px' }}>
-          <TreeView calculators={this.state.calculators} nodeClicked={this.categoryTreeNodeClicked}/>
+          <div id="left-column" style={{ minWidth: '200px', maxWidth: '200px', flexGrow: 0, marginLeft: '20px' }}>
+            <TreeView calculators={this.state.calculators} nodeClicked={this.categoryTreeNodeClicked}/>
+            </div>
+          <div id="right-column">
+            <div id="search-box" style={{ paddingLeft: '20px' }}>
+              Search:&nbsp;&nbsp;
+              <input value={this.state.searchText} onChange={this.onSearchTextChange} style={{ width: '400px' }}/>
+            </div>
+          <div id="calculator-selection-grid">
+            <Grid
+              component="div"
+              // columns={5}
+              columnWidth={TILE_WIDTH}
+              gutterWidth={15}
+              gutterHeight={15}
+              itemHeight={TILE_HEIGHT}
+              springConfig={{ stiffness: 170, damping: 26 }}
+            >
+              {calcList}
+            </Grid>
           </div>
-        <div id="right-column">
-          <div id="search-box" style={{ paddingLeft: '20px' }}>
-            Search:&nbsp;&nbsp;
-            <input value={this.state.searchText} onChange={this.onSearchTextChange} style={{ width: '400px' }}/>
-          </div>
-        <div id="calculator-selection-grid">
-        <Grid
-          component="div"
-          // columns={5}
-          columnWidth={TILE_WIDTH}
-          gutterWidth={15}
-          gutterHeight={15}
-          itemHeight={TILE_HEIGHT}
-          springConfig={{ stiffness: 170, damping: 26 }}
-        >
-          {calcList}
-        </Grid>
-        </div>
         </div>
 
         <style jsx>{`
