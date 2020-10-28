@@ -13,9 +13,9 @@ import { UnitsMultiplicative } from 'utils/calc-units'
 export var metadata = {
   id: 'mp4558-design-tool', // Make sure this has the same name as the directory this file is in
   name: 'MP4558 Design Tool',
-  description: '',
+  description: 'A calculator to help you use the MP4558 IC in your next PCB. Calculates passive component values, frequencies, currents, e.t.c.',
   categories: [ 'Electronics', 'ICs' ], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
-  tags: [ 'electronics', 'ICs', 'MP4558', 'SMPS' ],
+  tags: [ 'electronics', 'ICs', 'MP4558', 'SMPS', 'PSU', 'MPS', 'Monolithic Power', 'buck', 'converter', 'switch-mode', 'switch mode', 'inductor', 'power', 'supply', 'power supply' ],
   image: TileImage,
 }
 
