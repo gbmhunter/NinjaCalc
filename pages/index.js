@@ -26,6 +26,7 @@ import * as CalcWireGauge from "./calculators/electronics/cabling/wire-gauge-cal
 import * as CalcFilterLowPassRC from "./calculators/electronics/filters/filter-low-pass-rc"
 
 import * as Calc555TimerRtRbC from "./calculators/electronics/ics/555-timer-astable-rt-rb-c"
+import * as CalcMp4558 from "./calculators/electronics/ics/mp4558"
 
 import * as CalcMicrostripImpedance from "./calculators/electronics/pcb-design/microstrip-impedance"
 import * as CalcTrackCurrentIpc2152 from "./calculators/electronics/pcb-design/track-current-ipc2152"
@@ -66,6 +67,7 @@ class Home extends React.Component {
     this.addCalc(CalcFilterLowPassRC)
     // electronics/ics
     this.addCalc(Calc555TimerRtRbC)
+    this.addCalc(CalcMp4558)
     // electronics/pcb-design
     this.addCalc(CalcMicrostripImpedance)
     this.addCalc(CalcTrackCurrentIpc2152)
