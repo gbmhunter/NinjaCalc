@@ -201,6 +201,94 @@ class CalcUI extends React.Component {
             },
             helpText: 'The peak current through the inductor. Make sure that the inductor saturation current is above this value.',
           }), // iLP_A
+          cIn_F: new CalcVar({
+            name: 'Input Capacitance',
+            type: 'numeric',
+            direction: 'input',
+            dispVal: '10u',                
+            units: [
+              new UnitsMultiplicative('F', 1),
+            ],
+            selUnit: 'F',
+            metricPrefixes: true,
+            sigFig: 4,
+            validation: {
+              fns: [
+                Validators.isNumber
+              ],
+            },
+            helpText: 'The capacitance on the input. A larger input capacitance results in lower input voltage ripple.',
+          }), // cIn_F
+          vInRipple_V: new CalcVar({
+            name: 'Delta Vin',
+            type: 'numeric',
+            direction: 'output',                 
+            units: [
+              new UnitsMultiplicative('V', 1),
+            ],
+            selUnit: 'V',
+            metricPrefixes: true,
+            sigFig: 4,
+            validation: {
+              fns: [
+                Validators.isNumber
+              ],
+            },
+            helpText: 'The input ripple voltage.',
+          }), // vInRipple_V
+          cOut_F: new CalcVar({
+            name: 'Output Capacitance',
+            type: 'numeric',
+            direction: 'input',
+            dispVal: '33u',                
+            units: [
+              new UnitsMultiplicative('F', 1),
+            ],
+            selUnit: 'F',
+            metricPrefixes: true,
+            sigFig: 4,
+            validation: {
+              fns: [
+                Validators.isNumber
+              ],
+            },
+            helpText: 'The capacitance on the output. A larger output capacitance results in lower output voltage ripple.',
+          }), // cOut_F
+          rEsr_Ohms: new CalcVar({
+            name: 'Output Capacitor ESR',
+            type: 'numeric',
+            direction: 'input',
+            dispVal: '10m',    
+            units: [
+              new UnitsMultiplicative('Ω', 1),
+            ],
+            selUnit: 'Ω',
+            metricPrefixes: true,
+            sigFig: 4,
+            validation: {
+              fns: [
+                Validators.isNumber
+              ],
+            },
+            helpText: 'The ESR (equivalent series resistance) of the output capacitor. A capacitor with a larger ESR will result in larger output voltage ripple.',
+          }), // rEsr_Ohms
+          vOutRipple_V: new CalcVar({
+            name: 'Delta Vout',
+            type: 'numeric',
+            direction: 'output',                 
+            units: [
+              new UnitsMultiplicative('V', 1),
+            ],
+            selUnit: 'V',
+            metricPrefixes: true,
+            sigFig: 4,
+            validation: {
+              fns: [
+                Validators.isNumber
+              ],
+            },
+            helpText: 'The output ripple voltage. You can lower this by increasing the output capacitance, decreasing the output capacitor\'s ESR, or by increasing the switching frequency.',
+          }), // vOutRipple_V
         }, // calcVars
         eqFn: (calc) => {
           const calcVars = calc.calcVars      
@@ -224,6 +312,18 @@ class CalcUI extends React.Component {
           // Calculate peak inductor current, as per page 12 of the datasheet
           const iLP_A = iLoad_A + (vOut_V/(2*fsw_Hz*inductance_H))*(1-(vOut_V/vIn_V))
           calcVars.iLP_A.rawVal = iLP_A
+
+          // Calculate input capacitance, as per page 14 of the datasheet
+          const cIn_F = calcVars.cIn_F.rawVal
+          const vInRipple_V = (iLoad_A / (fsw_Hz * cIn_F)) * (vOut_V/vIn_V) * (1 - vOut_V/vIn_V)
+          calcVars.vInRipple_V.rawVal = vInRipple_V
+
+          // Calculate output capacitance, as per page 14 of the datasheet
+          const cOut_F = calcVars.cOut_F.rawVal
+          const rEsr_Ohms = calcVars.rEsr_Ohms.rawVal
+          const vOutRipple_V = (vOut_V / (fsw_Hz*inductance_H)) * (1 - vOut_V/vIn_V) 
+              * (rEsr_Ohms + 1/(8*fsw_Hz*cOut_F))
+          calcVars.vOutRipple_V.rawVal = vOutRipple_V
         },
       }), // calc
     } // this.state
@@ -348,6 +448,41 @@ class CalcUI extends React.Component {
                 unitsChanged={this.unitsChanged}
                 width={varWidth}
               />
+              <CalcVarRow
+                id="cIn_F"
+                calc={this.state.calc}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                width={varWidth}
+              />
+              <CalcVarRow
+                id="vInRipple_V"
+                calc={this.state.calc}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                width={varWidth}
+              />
+              <CalcVarRow
+                id="cOut_F"
+                calc={this.state.calc}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                width={varWidth}
+              />
+              <CalcVarRow
+                id="rEsr_Ohms"
+                calc={this.state.calc}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                width={varWidth}
+              />
+              <CalcVarRow
+                id="vOutRipple_V"
+                calc={this.state.calc}
+                valueChanged={this.valueChanged}
+                unitsChanged={this.unitsChanged}
+                width={varWidth}
+              />            
             </tbody>
           </table>
 

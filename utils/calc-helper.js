@@ -50,6 +50,11 @@ export class CalcHelper {
     })[0]
     if(!unit) throw Error('"' + calcVar.selUnit + '" units not found for calcVar="' + calcVar.name + '". Available units=' + calcVar.units)
 
+    // Make sure dispVal set
+    if (typeof calcVar.dispVal !== 'string') {
+      throw Error('Calc variable "' + calcVar.name + '" does not have a valid dispVal assigned. dispVal=' + calcVar.dispVal)
+    }
+
     let num = null
     // Support metric prefixes if allowed
     if (calcVar.metricPrefixes) {
