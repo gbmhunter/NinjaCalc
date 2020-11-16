@@ -105,7 +105,7 @@ class UI extends React.Component {
             helpText: 'The current you want the wire to take.'
           }), // current_A
           conductorMaterial: new CalcVar({
-            name: "Conductor Material",
+            name: 'Conductor Material',
             type: 'select',
             direction: "input",
             options: [
@@ -124,14 +124,14 @@ class UI extends React.Component {
             helpText: 'The material of the conductor.',
           }), // conductorMaterial
           conductorResistivity_Ohmm: new CalcVar({
-            name: "Conductor Resistivity",
+            name: 'Conductor Resistivity',
             type: 'numeric',
-            direction: "output", // Output by default, but changes to input if conductor material set to "Custom"
+            direction: 'output', // Output by default, but changes to input if conductor material set to "Custom"
             dispVal: '1.68e-8',
             units: [              
-              new UnitsMultiplicative("Ωm", 1e0),
+              new UnitsMultiplicative('Ωm', 1e0),
             ],
-            selUnit: "Ωm",
+            selUnit: 'Ωm',
             metricPrefixes: true,
             sigFig: 4,
             validation: {
@@ -143,14 +143,14 @@ class UI extends React.Component {
             helpText: 'The resistivity of the conductor. If you want to enter your own value in here, set the "Conductor Material" to custom.',
           }), // resistivity_Ohmm
           crossSectionalArea_m2: new CalcVar({
-            name: "Cross-sectional Area",
+            name: 'Cross-sectional Area',
             type: 'numeric',
             direction: 'output',            
             units: [              
-              new UnitsMultiplicative("mm²", 1e-6),
+              new UnitsMultiplicative('mm²', 1e-6),
             ],
-            selUnit: "mm²",
-            metricPrefixes: true,
+            selUnit: 'mm²',
+            metricPrefixes: false, // Don't want metric prefixes here, as milli-mm^2 is just confusing
             sigFig: 4,
             validation: {
               fns: [
@@ -160,13 +160,13 @@ class UI extends React.Component {
             helpText: 'The required cross-sectional area of the conductor in the cable.',
           }), // crossSectionalArea_m2
           gauge_awg: new CalcVar({
-            name: "Gauge",
+            name: 'Gauge',
             type: 'numeric',
             direction: 'output',            
             units: [              
-              new UnitsMultiplicative("AWG", 1e0),
+              new UnitsMultiplicative('AWG', 1e0),
             ],
-            selUnit: "AWG",                   
+            selUnit: 'AWG',                   
             format: (rawVal) => {              
               return Math.floor(rawVal)
             },
