@@ -18,7 +18,7 @@
     "imagemin-optipng": "^8.0.0",
     "jquery": "^3.5.0",
     "mathjs": "^6.2.3",
-    "next": "9.3.2",
+    "next": "11.1.0",
     "next-compose-plugins": "^2.2.0",
     "next-optimized-images": "^2.6.2",
     "plotly.js": "^1.50.1",
