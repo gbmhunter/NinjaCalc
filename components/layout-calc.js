@@ -2,6 +2,7 @@
  * Layout component specifically for calculator pages.
  */
 
+import React from 'react'
 import Nav from '~/components/nav'
 import Head from 'next/head'
 
