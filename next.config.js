@@ -17,7 +17,9 @@ module.exports = withPlugins([
         }
       );
       return config
+    },
+    images: {
+      disableStaticImages: true
     }
-  }
-
+  },
 );

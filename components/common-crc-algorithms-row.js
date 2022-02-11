@@ -1,3 +1,4 @@
+import React from 'react'
 import { CrcGeneric } from 'utils/crc/crc-generic'
 
 export default class CommonCrcAlgorithmsRow extends React.Component {
