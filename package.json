@@ -21,7 +21,7 @@
     "next": "12.0.10",
     "next-compose-plugins": "^2.2.0",
     "next-optimized-images": "^2.6.2",
-    "plotly.js": "^1.50.1",
+    "plotly.js": "^2.9.0",
     "react": "17.0.2",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "17.0.2",
