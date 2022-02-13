@@ -7,6 +7,3 @@ updates:
     # Raise pull requests for version updates
     # to pip against the `develop` branch
     target-branch: "develop"
-    # Labels on pull requests for version updates only
-    labels:
-      - "npm dependencies"

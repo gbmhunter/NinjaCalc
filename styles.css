@@ -1,5 +1,10 @@
 /* Global styles go in this file */
 
+:root {
+  --primary-color: #dc3545;
+  --primary-color-light: #fff3f3;
+}
+
 span.centered {
     display: inline-block;
     width: 100%;
@@ -15,11 +20,12 @@ div.calc-notes {
 }
 
 table.calc-vars thead tr {
-  background-color: #ccffcc;  
+  background-color: var(--primary-color);
+  color: #ffffff;
 }
 
 table.calc-vars tbody tr:nth-child(odd) {
-  background-color: #dddddd;
+  background-color: var(--primary-color-light);
 }
 
 div.MathJax_Display {
