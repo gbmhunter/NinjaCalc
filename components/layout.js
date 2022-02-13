@@ -3,9 +3,6 @@ import React from 'react'
 import Nav from '~/components/nav'
 import Head from 'next/head'
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
-
 
 export default ({ children, title = 'This is the default title' }) => (
   <div style={{ height: '100%' }}>
@@ -19,6 +16,9 @@ export default ({ children, title = 'This is the default title' }) => (
 
     {/* GLOBAL STYLES */}
     <style jsx global>{`
+        :root {
+          --primary-color: #dc3545;
+        }
         .hbox {
           display: flex;
           flex-direction: row;
@@ -33,9 +33,6 @@ export default ({ children, title = 'This is the default title' }) => (
         }
         p, h1, h2, h3, ul, li, a, div, td, th, input {    
           font-family: 'avenir next' ,'avenir', sans-serif;
-        }
-        .green-background {
-          background-color: #ccffcc;
         }
     `}</style>
   </div>

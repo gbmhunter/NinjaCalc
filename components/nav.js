@@ -2,14 +2,13 @@ import React from 'react'
 import Link from 'next/link'
 
 const Nav = () => (
-  <nav className="green-background">
+  <nav>
     <ul>
       <li>
         <Link href='/'>
-          <a>NinjaCalc</a>
+          <a className='site-title'>NinjaCalc</a>
         </Link>
       </li>
-      
     </ul>
 
     <style jsx>{`
@@ -20,7 +19,7 @@ const Nav = () => (
       }
       nav {
         text-align: center;
-
+        background-color: var(--primary-color);
       }
       ul {
         display: flex;
@@ -34,7 +33,7 @@ const Nav = () => (
         padding: 6px 8px;
       }
       a {
-        color: #067df7;
+        color: #ffffff;
         text-decoration: none;
         font-size: 1.2em;
       }
