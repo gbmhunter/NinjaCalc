@@ -1,5 +1,11 @@
 import Head from 'next/head'
 import React from 'react'
+import { styled } from '@mui/material/styles';
+import Stack from '@mui/material/Stack'
+import Slider from '@mui/material/Slider'
+import Box from '@mui/material/Box'
+import MuiInput from '@mui/material/Input'
+import Grid from '@mui/material/Grid'
 
 import LayoutCalc from 'components/layout-calc'
 import CalcVarRow from 'components/calc-var-row'
@@ -15,16 +21,20 @@ export var metadata = {
   name: 'Moving Average Filter Designer',
   description:
     'Tool to help you design a moving average filter.',
-  categories: [ 'Software' ], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
-  tags: [ 'software' ],
+  categories: ['Software'], // Make sure this matches the directory structure (with lower case conversion and replacement of spaces to hyphens)
+  tags: ['software'],
   image: TileImage,
 }
+
+const Input = styled(MuiInput)`
+  width: 42px;
+`;
 
 class CalcUI extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      
+      windowSize: 4
     } // this.state
   }
 
@@ -34,8 +44,20 @@ class CalcUI extends React.Component {
       MathJax.Hub.Queue(['Typeset', MathJax.Hub])
   } // componentDidMount()
 
-  render = () => {    
-    
+  render = () => {
+
+    const handleWindowSizeChange = (event, newValue) => {
+      this.setState({
+        windowSize: newValue
+      })
+    }
+
+    const handleInputChange = (event) => {
+      this.setState({
+        windowSize: event.target.value === '' ? '' : Number(event.target.value)
+      });
+    };
+
     return (
       <LayoutCalc title={metadata.name + ' Calculator'}>
         <Head>
@@ -43,7 +65,37 @@ class CalcUI extends React.Component {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="vbox outer-wrapper">
-          Window size: 
+          
+          {/* WINDOW SIZE */}
+          <Box sx={{ width: 350 }}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                Window size
+              </Grid>
+              <Grid item xs>
+                <Slider aria-label="Volume"
+                  step={1}
+                  marks
+                  min={1}
+                  max={100}
+                  value={this.state.windowSize} onChange={handleWindowSizeChange} />
+              </Grid>
+              <Grid item>
+                <Input
+                  value={this.state.windowSize}
+                  size="small"
+                  onChange={handleInputChange}
+                  inputProps={{
+                    step: 1,
+                    min: 1,
+                    max: 100,
+                    type: 'number',
+                    'aria-labelledby': 'input-slider',
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Box>
         </div>
         <style jsx>{`
           .calc-notes {
