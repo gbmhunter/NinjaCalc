@@ -41,7 +41,9 @@ import * as CalcBuckConverter from "./calculators/electronics/smps/buck-converte
 
 import * as Calc3DRotations from './calculators/mathematics/geometry/3d-rotations'
 
+// SOFTWARE
 import * as CalcCrcCalculator from './calculators/software/crc-calculator'
+import * as CalcMovingAverageFilterDesigner from './calculators/software/moving-average-filter-designer'
 
 class Home extends React.Component {
   constructor(props) {
@@ -83,6 +85,7 @@ class Home extends React.Component {
     this.addCalc(Calc3DRotations)
     // software
     this.addCalc(CalcCrcCalculator)
+    this.addCalc(CalcMovingAverageFilterDesigner)
   }
 
   componentDidMount = () => {}
