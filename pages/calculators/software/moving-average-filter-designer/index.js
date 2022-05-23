@@ -30,6 +30,7 @@ import TileImage from './tile-image.png'
 import { Calc } from 'utils/calc'
 import { CalcVar } from 'utils/calc-var'
 import { UnitsMultiplicative } from 'utils/calc-units'
+import { convoluteWindow } from 'utils/convolution-window'
 
 export var metadata = {
   id: 'moving-average-filter-designer', // Make sure this has the same name as the directory this file is in
@@ -47,21 +48,6 @@ const Input = styled(MuiInput)`
 
 const RenderNoShape = (props) => {
   return null
-}
-
-function movingAvg(array, countBefore, countAfter) {
-  if (countAfter == undefined) countAfter = 0
-  const result = []
-  for (let i = 0; i < array.length; i++) {
-    if ((i - countBefore < 0) || (i + countAfter >= array.length)) {
-      result.push(NaN)
-      continue
-    }
-    const subArr = array.slice(Math.max(i - countBefore, 0), Math.min(i + countAfter + 1, array.length))
-    const avg = subArr.reduce((a, b) => a + (isNaN(b) ? 0 : b), 0) / subArr.length
-    result.push(avg)
-  }
-  return result
 }
 
 const numOfDataPoints = 200
@@ -84,29 +70,38 @@ class CalcUI extends React.Component {
       inputWaveData[i] = { x: currTime_s, y: y_val }
     }
 
+    const window = this.createWindow(initialWindowSize)
+    const outputSignalData = this.recalculateOutputSignal(inputWaveData, window)
+
     this.state = {
       samplingFrequency_Hz: 1000,
       windowSize: initialWindowSize,
+      window: window,
       inputWave: inputWaveData,
-      outputSignalData: this.recalculateOutputSignal(inputWaveData, initialWindowSize)
+      outputSignalData: outputSignalData,
     } // this.state
   }
 
-  recalculateOutputSignal(inputSignalData, windowSize) {
+  recalculateOutputSignal(inputSignalData, window) {
     let inputMagnitude = []
-    // console.log('inputSignalData=')
-    // console.log(inputSignalData)
     for (let i = 0; i < numOfDataPoints; i++) {
       inputMagnitude[i] = inputSignalData[i].y
     }
-    let outputMagnitude = movingAvg(inputMagnitude, windowSize)
+    let outputMagnitude = convoluteWindow(inputMagnitude, window)
     let outputSignalData = []
     for (let i = 0; i < numOfDataPoints; i++) {
       outputSignalData[i] = { x: inputSignalData[i].x, y: outputMagnitude[i] }
     }
-    // console.log(outputSignalData)
 
     return outputSignalData
+  }
+
+  createWindow(windowSize) {
+    let window = []
+    for (let i = 0; i < windowSize; i++) {
+      window.push(1.0/windowSize)
+    }
+    return window
   }
 
   componentDidMount() {
@@ -118,18 +113,24 @@ class CalcUI extends React.Component {
   render = () => {
 
     const handleWindowSizeSliderChange = (event, newValue) => {
-
-      let outputSignalData = this.recalculateOutputSignal(this.state.inputWave, newValue)
+      let window = this.createWindow(newValue)
+      let outputSignalData = this.recalculateOutputSignal(this.state.inputWave, window)
       this.setState({
         windowSize: newValue,
+        window: window,
         outputSignalData: outputSignalData,
       })
 
     }
 
     const handleWindowSizeInputChange = (event) => {
+      const windowSize = event.target.value === '' ? '' : Number(event.target.value)
+      let window = this.createWindow(windowSize)
+      let outputSignalData = this.recalculateOutputSignal(this.state.inputWave, window)
       this.setState({
-        windowSize: event.target.value === '' ? '' : Number(event.target.value)
+        windowSize: windowSize,
+        window: window,
+        outputSignalData: outputSignalData,
       })
     }
 
