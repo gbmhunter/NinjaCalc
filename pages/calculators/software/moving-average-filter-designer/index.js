@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import MuiInput from '@mui/material/Input'
 import Grid from '@mui/material/Grid'
 import { Chart as ChartJS } from 'chart.js/auto'
-import { Chart, Line }            from 'react-chartjs-2'
+import { Chart, Line } from 'react-chartjs-2'
 
 import {
   ScatterChart,
@@ -19,7 +19,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from 'recharts';
+} from 'recharts'
 
 
 import LayoutCalc from 'components/layout-calc'
@@ -45,25 +45,29 @@ const Input = styled(MuiInput)`
   width: 60px;
 `
 
-const RenderNoShape = (props)=>{ 
-  return null; 
- }
-
- function movingAvg(array, countBefore, countAfter) {
-  if (countAfter == undefined) countAfter = 0;
-  const result = [];
-  for (let i = 0; i < array.length; i++) {
-    const subArr = array.slice(Math.max(i - countBefore, 0), Math.min(i + countAfter + 1, array.length));
-    const avg = subArr.reduce((a, b) => a + (isNaN(b) ? 0 : b), 0) / subArr.length;
-    result.push(avg);
-  }
-  return result;
+const RenderNoShape = (props) => {
+  return null
 }
 
-const numOfDataPoints = 100
+function movingAvg(array, countBefore, countAfter) {
+  if (countAfter == undefined) countAfter = 0
+  const result = []
+  for (let i = 0; i < array.length; i++) {
+    if ((i - countBefore < 0) || (i + countAfter >= array.length)) {
+      result.push(NaN)
+      continue
+    }
+    const subArr = array.slice(Math.max(i - countBefore, 0), Math.min(i + countAfter + 1, array.length))
+    const avg = subArr.reduce((a, b) => a + (isNaN(b) ? 0 : b), 0) / subArr.length
+    result.push(avg)
+  }
+  return result
+}
+
+const numOfDataPoints = 200
 const inputFrequency_Hz = 100
 const timePeriod_s = 20e-3
-const samplingInterval_s = timePeriod_s/numOfDataPoints
+const samplingInterval_s = timePeriod_s / numOfDataPoints
 const initialWindowSize = 10
 class CalcUI extends React.Component {
   constructor(props) {
@@ -71,15 +75,15 @@ class CalcUI extends React.Component {
 
 
     let inputWaveData = []
-    var seedrandom = require('seedrandom');
-    var rng = seedrandom('hello.');
+    var seedrandom = require('seedrandom')
+    var rng = seedrandom('hello.')
     const noise_amplitude = 0.2
     for (let i = 0; i < numOfDataPoints; i++) {
-      let currTime_s = 0 + samplingInterval_s*i
-      let y_val = Math.sin(2*Math.PI*inputFrequency_Hz*currTime_s) + noise_amplitude*rng()
+      let currTime_s = 0 + samplingInterval_s * i
+      let y_val = Math.sin(2 * Math.PI * inputFrequency_Hz * currTime_s) + noise_amplitude * rng()
       inputWaveData[i] = { x: currTime_s, y: y_val }
     }
-    
+
     this.state = {
       samplingFrequency_Hz: 1000,
       windowSize: initialWindowSize,
@@ -98,10 +102,10 @@ class CalcUI extends React.Component {
     let outputMagnitude = movingAvg(inputMagnitude, windowSize)
     let outputSignalData = []
     for (let i = 0; i < numOfDataPoints; i++) {
-      outputSignalData[i] = { x: inputSignalData[i].x, y: outputMagnitude[i]}
+      outputSignalData[i] = { x: inputSignalData[i].x, y: outputMagnitude[i] }
     }
     // console.log(outputSignalData)
-    
+
     return outputSignalData
   }
 
@@ -142,7 +146,7 @@ class CalcUI extends React.Component {
     }
 
     return (
-      <LayoutCalc title={metadata.name + ' Calculator'}>
+      <LayoutCalc title={metadata.name}>
         <Head>
           <title>{metadata.name}</title>
           <link rel="icon" href="/favicon.ico" />
@@ -204,27 +208,27 @@ class CalcUI extends React.Component {
             </Grid>
           </Box>
 
-         
-        <ScatterChart
-          width={500}
-          height={400}
-          margin={{
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20,
-          }}
-        >
-          <CartesianGrid />
-          <XAxis type="number" dataKey="x" name="Time" unit="s" />
-          <YAxis type="number" dataKey="y" name="Magnitude" unit="" />
-          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-          <Legend />
-          <Scatter name="Input Signal" data={this.state.inputWave} fill="#8884d8" line shape={<RenderNoShape />} />
-          <Scatter name="Output Signal" data={this.state.outputSignalData} fill="#82ca9d" line shape={<RenderNoShape />} />
-          {/* <Scatter name="B school" data={data02} fill="#82ca9d" line shape="diamond" /> */}
-        </ScatterChart>
-    
+
+          <ScatterChart
+            width={800}
+            height={800}
+            margin={{
+              top: 20,
+              right: 20,
+              bottom: 20,
+              left: 20,
+            }}
+          >
+            <CartesianGrid />
+            <XAxis type="number" dataKey="x" name="Time" label={{ value: "Time", position: "insideBottomCenter", dy: 10}} unit="s" />
+            <YAxis type="number" dataKey="y" name="Magnitude" label={{ value: "Magnitude", position: "insideLeft", angle: -90, dy: -10}} unit="" />
+            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <Legend />
+            <Scatter name="Input Signal" data={this.state.inputWave} fill="#8884d8" line shape={<RenderNoShape />} strokeWidth={4} />
+            <Scatter name="Output Signal" data={this.state.outputSignalData} fill="#82ca9d" line shape={<RenderNoShape />} strokeWidth={4} />
+            {/* <Scatter name="B school" data={data02} fill="#82ca9d" line shape="diamond" /> */}
+          </ScatterChart>
+
         </div>
         <style jsx>{`
           .calc-notes {
