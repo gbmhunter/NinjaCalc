@@ -6,8 +6,9 @@ import Slider from '@mui/material/Slider'
 import Box from '@mui/material/Box'
 import MuiInput from '@mui/material/Input'
 import Grid from '@mui/material/Grid'
-import { Chart as ChartJS } from 'chart.js/auto'
-import { Chart, Line } from 'react-chartjs-2'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
 
 import {
   ScatterChart,
@@ -20,7 +21,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
-
+import * as tf from '@tensorflow/tfjs'
 
 import LayoutCalc from 'components/layout-calc'
 import CalcVarRow from 'components/calc-var-row'
@@ -54,7 +55,9 @@ const numOfDataPoints = 200
 const inputFrequency_Hz = 100
 const timePeriod_s = 20e-3
 const samplingInterval_s = timePeriod_s / numOfDataPoints
+const samplingFrequency_Hz = 1 / samplingInterval_s
 const initialWindowSize = 10
+const defaultWindowShape = 'sma'
 class CalcUI extends React.Component {
   constructor(props) {
     super(props)
@@ -72,13 +75,17 @@ class CalcUI extends React.Component {
 
     const window = this.createWindow(initialWindowSize)
     const outputSignalData = this.recalculateOutputSignal(inputWaveData, window)
+    const { freqResponseFreqs, freqResponseMags } = this.calcFreqResponse(defaultWindowShape, initialWindowSize, samplingFrequency_Hz)
 
     this.state = {
       samplingFrequency_Hz: 1000,
+      windowShape: defaultWindowShape,
       windowSize: initialWindowSize,
       window: window,
       inputWave: inputWaveData,
       outputSignalData: outputSignalData,
+      freqResponseFreqs: freqResponseFreqs,
+      freqResponseMags: freqResponseMags,
     } // this.state
   }
 
@@ -99,9 +106,35 @@ class CalcUI extends React.Component {
   createWindow(windowSize) {
     let window = []
     for (let i = 0; i < windowSize; i++) {
-      window.push(1.0/windowSize)
+      window.push(1.0 / windowSize)
     }
     return window
+  }
+
+  calcFreqResponse = (windowShape, windowSize, samplingFrequency_Hz) => {
+    const nyquist_Hz = samplingFrequency_Hz / 2
+    if (windowShape == 'sma') {
+      let frequencies_Hz = tf.linspace(0, nyquist_Hz, 100)
+      let normFreq_cyclesPerSample = tf.div(frequencies_Hz, samplingFrequency_Hz)
+      let topFrac = tf.sin(normFreq_cyclesPerSample.mul(windowSize).mul(Math.PI))
+      let botFrac = tf.sin(normFreq_cyclesPerSample.mul(Math.PI))
+      let hofF = tf.abs(topFrac.div(botFrac)).mul(1/windowSize)
+      // H(0) will of been divide by 0, fix to equal 1/N
+      hofF = hofF.arraySync()
+      hofF[0] = 1
+      hofF = tf.tensor1d(hofF)
+      hofF.print()
+      return {  freqResponseFreqs: frequencies_Hz, freqResponseMags: hofF }
+
+    } else {
+      return []
+    }
+  } 
+
+  handleWindowShapeChange = (event) => {
+    this.setState({
+      windowShape: event.target.value,
+    })
   }
 
   componentDidMount() {
@@ -146,6 +179,15 @@ class CalcUI extends React.Component {
       })
     }
 
+
+    // Convert frequency response data to what plotting lib understands
+    const freqResponseFreqs = this.state.freqResponseFreqs.arraySync()
+    const freqResponseMags = this.state.freqResponseMags.arraySync()
+    let freqResponseChartData = []
+    for (let i = 0; i < freqResponseFreqs.length; i++) {
+      freqResponseChartData.push({ x: freqResponseFreqs[i], y: freqResponseMags[i] })
+    }    
+
     return (
       <LayoutCalc title={metadata.name}>
         <Head>
@@ -154,9 +196,28 @@ class CalcUI extends React.Component {
         </Head>
         <div className="vbox outer-wrapper">
 
-          {/* WINDOW SIZE */}
-          <Box sx={{ width: 350 }}>
+          <Box sx={{ width: 350 }}>            
             <Grid container spacing={2} alignItems="center">
+
+              {/* WINDOW SHAPE */}
+              <Grid item xs={4}>
+                Window Shape:
+              </Grid>
+              <Grid item xs={8}>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={this.state.windowShape}
+                  label="Window Shape"
+                  onChange={this.handleWindowShapeChange}
+                >
+                  <MenuItem value="sma">SMA</MenuItem>
+                  <MenuItem value="ema">EMA</MenuItem>
+                  <MenuItem value="gaussian">Gaussian</MenuItem>
+                </Select>
+              </Grid>
+
+              {/* WINDOW SIZE */}
               <Grid item xs={4}>
                 Window size
               </Grid>
@@ -211,8 +272,8 @@ class CalcUI extends React.Component {
 
 
           <ScatterChart
-            width={800}
-            height={800}
+            width={400}
+            height={400}
             margin={{
               top: 20,
               right: 20,
@@ -221,12 +282,31 @@ class CalcUI extends React.Component {
             }}
           >
             <CartesianGrid />
-            <XAxis type="number" dataKey="x" name="Time" label={{ value: "Time", position: "insideBottomCenter", dy: 10}} unit="s" />
-            <YAxis type="number" dataKey="y" name="Magnitude" label={{ value: "Magnitude", position: "insideLeft", angle: -90, dy: -10}} unit="" />
+            <XAxis type="number" dataKey="x" name="Time" label={{ value: "Time", position: "insideBottomCenter", dy: 10 }} unit="s" />
+            <YAxis type="number" dataKey="y" name="Magnitude" label={{ value: "Magnitude", position: "insideLeft", angle: -90, dy: -10 }} unit="" />
             <Tooltip cursor={{ strokeDasharray: '3 3' }} />
             <Legend />
             <Scatter name="Input Signal" data={this.state.inputWave} fill="#8884d8" line shape={<RenderNoShape />} strokeWidth={4} />
             <Scatter name="Output Signal" data={this.state.outputSignalData} fill="#82ca9d" line shape={<RenderNoShape />} strokeWidth={4} />
+            {/* <Scatter name="B school" data={data02} fill="#82ca9d" line shape="diamond" /> */}
+          </ScatterChart>
+
+          <ScatterChart
+            width={400}
+            height={400}
+            margin={{
+              top: 20,
+              right: 20,
+              bottom: 20,
+              left: 20,
+            }}
+          >
+            <CartesianGrid />
+            <XAxis type="number" dataKey="x" name="Time" label={{ value: "Frequency [Hz]", position: "insideBottomCenter", dy: 10 }} unit="" />
+            <YAxis type="number" dataKey="y" name="Magnitude" label={{ value: "Magnitude", position: "insideLeft", angle: -90, dy: -10 }} unit="" />
+            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <Legend />
+            <Scatter name="Frequency Response" data={freqResponseChartData} fill="#8884d8" line shape={<RenderNoShape />} strokeWidth={4} />
             {/* <Scatter name="B school" data={data02} fill="#82ca9d" line shape="diamond" /> */}
           </ScatterChart>
 
