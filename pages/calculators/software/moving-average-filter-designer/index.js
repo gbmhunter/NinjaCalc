@@ -1,11 +1,26 @@
 import Head from 'next/head'
 import React from 'react'
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 import Stack from '@mui/material/Stack'
 import Slider from '@mui/material/Slider'
 import Box from '@mui/material/Box'
 import MuiInput from '@mui/material/Input'
 import Grid from '@mui/material/Grid'
+import { Chart as ChartJS } from 'chart.js/auto'
+import { Chart, Line }            from 'react-chartjs-2'
+
+import {
+  ScatterChart,
+  Scatter,
+  XAxis,
+  YAxis,
+  ZAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
+
 
 import LayoutCalc from 'components/layout-calc'
 import CalcVarRow from 'components/calc-var-row'
@@ -27,15 +42,67 @@ export var metadata = {
 }
 
 const Input = styled(MuiInput)`
-  width: 42px;
-`;
+  width: 60px;
+`
 
+const RenderNoShape = (props)=>{ 
+  return null; 
+ }
+
+ function movingAvg(array, countBefore, countAfter) {
+  if (countAfter == undefined) countAfter = 0;
+  const result = [];
+  for (let i = 0; i < array.length; i++) {
+    const subArr = array.slice(Math.max(i - countBefore, 0), Math.min(i + countAfter + 1, array.length));
+    const avg = subArr.reduce((a, b) => a + (isNaN(b) ? 0 : b), 0) / subArr.length;
+    result.push(avg);
+  }
+  return result;
+}
+
+const numOfDataPoints = 100
+const inputFrequency_Hz = 100
+const timePeriod_s = 20e-3
+const samplingInterval_s = timePeriod_s/numOfDataPoints
+const initialWindowSize = 10
 class CalcUI extends React.Component {
   constructor(props) {
     super(props)
+
+
+    let inputWaveData = []
+    var seedrandom = require('seedrandom');
+    var rng = seedrandom('hello.');
+    const noise_amplitude = 0.2
+    for (let i = 0; i < numOfDataPoints; i++) {
+      let currTime_s = 0 + samplingInterval_s*i
+      let y_val = Math.sin(2*Math.PI*inputFrequency_Hz*currTime_s) + noise_amplitude*rng()
+      inputWaveData[i] = { x: currTime_s, y: y_val }
+    }
+    
     this.state = {
-      windowSize: 4
+      samplingFrequency_Hz: 1000,
+      windowSize: initialWindowSize,
+      inputWave: inputWaveData,
+      outputSignalData: this.recalculateOutputSignal(inputWaveData, initialWindowSize)
     } // this.state
+  }
+
+  recalculateOutputSignal(inputSignalData, windowSize) {
+    let inputMagnitude = []
+    // console.log('inputSignalData=')
+    // console.log(inputSignalData)
+    for (let i = 0; i < numOfDataPoints; i++) {
+      inputMagnitude[i] = inputSignalData[i].y
+    }
+    let outputMagnitude = movingAvg(inputMagnitude, windowSize)
+    let outputSignalData = []
+    for (let i = 0; i < numOfDataPoints; i++) {
+      outputSignalData[i] = { x: inputSignalData[i].x, y: outputMagnitude[i]}
+    }
+    // console.log(outputSignalData)
+    
+    return outputSignalData
   }
 
   componentDidMount() {
@@ -46,17 +113,33 @@ class CalcUI extends React.Component {
 
   render = () => {
 
-    const handleWindowSizeChange = (event, newValue) => {
+    const handleWindowSizeSliderChange = (event, newValue) => {
+
+      let outputSignalData = this.recalculateOutputSignal(this.state.inputWave, newValue)
       this.setState({
-        windowSize: newValue
+        windowSize: newValue,
+        outputSignalData: outputSignalData,
+      })
+
+    }
+
+    const handleWindowSizeInputChange = (event) => {
+      this.setState({
+        windowSize: event.target.value === '' ? '' : Number(event.target.value)
       })
     }
 
-    const handleInputChange = (event) => {
+    const handleSamplingFrequencySliderChange = (event, newValue) => {
       this.setState({
-        windowSize: event.target.value === '' ? '' : Number(event.target.value)
-      });
-    };
+        samplingFrequency_Hz: newValue
+      })
+    }
+
+    const handleSamplingFrequencyInputChange = (event) => {
+      this.setState({
+        samplingFrequency_Hz: event.target.value === '' ? '' : Number(event.target.value)
+      })
+    }
 
     return (
       <LayoutCalc title={metadata.name + ' Calculator'}>
@@ -65,26 +148,26 @@ class CalcUI extends React.Component {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="vbox outer-wrapper">
-          
+
           {/* WINDOW SIZE */}
           <Box sx={{ width: 350 }}>
             <Grid container spacing={2} alignItems="center">
-              <Grid item>
+              <Grid item xs={4}>
                 Window size
               </Grid>
-              <Grid item xs>
+              <Grid item xs={4}>
                 <Slider aria-label="Volume"
                   step={1}
                   marks
                   min={1}
                   max={100}
-                  value={this.state.windowSize} onChange={handleWindowSizeChange} />
+                  value={this.state.windowSize} onChange={handleWindowSizeSliderChange} />
               </Grid>
-              <Grid item>
+              <Grid item xs={4}>
                 <Input
                   value={this.state.windowSize}
                   size="small"
-                  onChange={handleInputChange}
+                  onChange={handleWindowSizeInputChange}
                   inputProps={{
                     step: 1,
                     min: 1,
@@ -94,8 +177,54 @@ class CalcUI extends React.Component {
                   }}
                 />
               </Grid>
+
+              {/* SAMPLING_FREQUENCY */}
+              <Grid item xs={4}>
+                Sampling frequency
+              </Grid>
+              <Grid item xs={4}>
+                <Slider aria-label="Volume"
+                  step={10}
+                  marks
+                  min={100}
+                  max={10000}
+                  value={this.state.samplingFrequency_Hz} onChange={handleSamplingFrequencySliderChange} />
+              </Grid>
+              <Grid item xs={4}>
+                <Input
+                  value={this.state.samplingFrequency_Hz}
+                  size="small"
+                  onChange={handleSamplingFrequencyInputChange}
+                  inputProps={{
+                    type: 'number',
+                    'aria-labelledby': 'input-slider',
+                  }}
+                />
+              </Grid>
             </Grid>
           </Box>
+
+         
+        <ScatterChart
+          width={500}
+          height={400}
+          margin={{
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20,
+          }}
+        >
+          <CartesianGrid />
+          <XAxis type="number" dataKey="x" name="Time" unit="s" />
+          <YAxis type="number" dataKey="y" name="Magnitude" unit="" />
+          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+          <Legend />
+          <Scatter name="Input Signal" data={this.state.inputWave} fill="#8884d8" line shape={<RenderNoShape />} />
+          <Scatter name="Output Signal" data={this.state.outputSignalData} fill="#82ca9d" line shape={<RenderNoShape />} />
+          {/* <Scatter name="B school" data={data02} fill="#82ca9d" line shape="diamond" /> */}
+        </ScatterChart>
+    
         </div>
         <style jsx>{`
           .calc-notes {
