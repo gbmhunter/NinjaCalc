@@ -11,17 +11,17 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
 
-import {
-  ScatterChart,
-  Scatter,
-  XAxis,
-  YAxis,
-  ZAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts'
+// import {
+//   ScatterChart,
+//   Scatter,
+//   XAxis,
+//   YAxis,
+//   ZAxis,
+//   CartesianGrid,
+//   Tooltip,
+//   Legend,
+//   ResponsiveContainer,
+// } from 'recharts'
 import * as tf from '@tensorflow/tfjs'
 
 import LayoutCalc from 'components/layout-calc'
@@ -33,6 +33,28 @@ import { Calc } from 'utils/calc'
 import { CalcVar } from 'utils/calc-var'
 import { UnitsMultiplicative } from 'utils/calc-units'
 import { convoluteWindow } from 'utils/convolution-window'
+
+import {
+  Chart as ChartJS,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+import { Scatter } from 'react-chartjs-2'
+
+ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend)
+
+export const options = {
+  scales: {
+    y: {
+      beginAtZero: true,
+    },
+  },
+}
+
+
 
 export var metadata = {
   id: 'moving-average-filter-designer', // Make sure this has the same name as the directory this file is in
@@ -145,9 +167,9 @@ class CalcUI extends React.Component {
   }
 
   handleSamplingFreqSliderChange = (event, newValue) => {
-    this.setState({
-      samplingFrequency_Hz: newValue
-    })
+    let stateCopy = Object.assign({}, this.state)
+    stateCopy.samplingFrequency_Hz = newValue
+    this.calculateAll(stateCopy)
   }
 
   handleWindowSizeInputChange = (event) => {
@@ -171,6 +193,7 @@ class CalcUI extends React.Component {
     const { freqResponseFreqs, freqResponseMags } = this.calcFreqResponse(stateCopy.windowShape, stateCopy.windowSize, stateCopy.samplingFrequency_Hz)
     this.setState({
       inputWave: inputSignalData,
+      samplingFrequency_Hz: stateCopy.samplingFrequency_Hz,
       windowSize: stateCopy.windowSize,
       window: window,
       outputSignalData: outputSignalData,
@@ -193,7 +216,6 @@ class CalcUI extends React.Component {
       })
     }
 
-
     // Convert frequency response data to what plotting lib understands
     const freqResponseFreqs = this.state.freqResponseFreqs.arraySync()
     const freqResponseMags = this.state.freqResponseMags.arraySync()
@@ -209,8 +231,9 @@ class CalcUI extends React.Component {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="vbox outer-wrapper">
+          <div style={{ height: "10px" }}></div>
 
-          <Box sx={{ width: 350 }}>
+          <Box sx={{ width: 800 }}>
             <Grid container spacing={2} alignItems="center">
 
               {/* WINDOW SHAPE */}
@@ -224,23 +247,25 @@ class CalcUI extends React.Component {
                   value={this.state.windowShape}
                   label="Window Shape"
                   onChange={this.handleWindowShapeChange}
+                  size="small"                  
+                  sx={{ minWidth: 130 }}
                 >
                   <MenuItem value="sma">SMA</MenuItem>
-                  <MenuItem value="ema">EMA</MenuItem>
-                  <MenuItem value="gaussian">Gaussian</MenuItem>
+                  {/* <MenuItem value="ema">EMA</MenuItem>
+                  <MenuItem value="gaussian">Gaussian</MenuItem> */}
                 </Select>
               </Grid>
 
               {/* WINDOW SIZE */}
               <Grid item xs={4}>
-                Window size
+                Window size, N
               </Grid>
               <Grid item xs={4}>
-                <Slider aria-label="Volume"
+                <Slider
                   step={1}
                   marks
                   min={1}
-                  max={100}
+                  max={30}
                   value={this.state.windowSize} onChange={this.handleWindowSizeSliderChange} />
               </Grid>
               <Grid item xs={4}>
@@ -251,7 +276,7 @@ class CalcUI extends React.Component {
                   inputProps={{
                     step: 1,
                     min: 1,
-                    max: 100,
+                    max: 30,
                     type: 'number',
                     'aria-labelledby': 'input-slider',
                   }}
@@ -279,23 +304,16 @@ class CalcUI extends React.Component {
                     type: 'number',
                     'aria-labelledby': 'input-slider',
                   }}
-                />
+                />Hz
               </Grid>
+              
 
               {/* SAMPLING PERIOD */}
               <Grid item xs={4}>
                 Sampling period
               </Grid>
               <Grid item xs={8}>
-                <Input
-                  value={1 / this.state.samplingFrequency_Hz}
-                  size="small"
-                  disabled={true}
-                  inputProps={{
-                    type: 'number',
-                    'aria-labelledby': 'input-slider',
-                  }}
-                />
+              {((1 / this.state.samplingFrequency_Hz)*1e3).toFixed(3)}ms
               </Grid>
 
               {/* NUM. SAMPLES */}
@@ -303,57 +321,79 @@ class CalcUI extends React.Component {
                 Num. samples
               </Grid>
               <Grid item xs={8}>
-                <Input
-                  value={numSamples}
-                  size="small"
-                  disabled={true}
-                  inputProps={{
-                    type: 'number',
-                    'aria-labelledby': 'input-slider',
-                  }}
-                />
+                {numSamples}
               </Grid>
             </Grid>
           </Box>
+          <div style={{ height: "20px" }}></div>
 
-          <Stack direction="row">            
-            <ScatterChart
-              width={400}
-              height={400}
-              margin={{
-                top: 20,
-                right: 20,
-                bottom: 20,
-                left: 20,
+          <Stack direction="row">
+            <div style={{ width: '700px' }}>
+              <Scatter options={{
+                scales: {
+                  x: {
+                    title: { display: true, text: 'Time [s]' },
+                  },
+                  y: {
+                    title: { display: true, text: 'Magnitude [no unit]' },
+                  },
+                },
               }}
-            >
-              <CartesianGrid />
-              <XAxis type="number" dataKey="x" name="Time" label={{ value: "Time", position: "insideBottomCenter", dy: 10 }} unit="s" />
-              <YAxis type="number" dataKey="y" name="Magnitude" label={{ value: "Magnitude", position: "insideLeft", angle: -90, dy: -10 }} unit="" />
-              <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-              <Legend />
-              <Scatter name="Input Signal" data={this.state.inputWave} fill="#8884d8" line shape={<RenderNoShape />} strokeWidth={4} />
-              <Scatter name="Output Signal" data={this.state.outputSignalData} fill="#82ca9d" line shape={<RenderNoShape />} strokeWidth={4} />              
-            </ScatterChart>
-
-            <ScatterChart
-              width={400}
-              height={400}
-              margin={{
-                top: 20,
-                right: 20,
-                bottom: 20,
-                left: 20,
-              }}
-            >
-              <CartesianGrid />
-              <XAxis type="number" dataKey="x" name="Time" label={{ value: "Frequency [Hz]", position: "insideBottomCenter", dy: 10 }} unit="" />
-              <YAxis type="number" dataKey="y" name="Magnitude" label={{ value: "Magnitude", position: "insideLeft", angle: -90, dy: -10 }} unit="" />
-              <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-              <Legend />
-              <Scatter name="Frequency Response" data={freqResponseChartData} fill="#8884d8" line shape={<RenderNoShape />} strokeWidth={4} />              
-            </ScatterChart>
+                data={
+                  {
+                    datasets: [
+                      {
+                        label: 'Input Signal',
+                        data: this.state.inputWave,
+                        backgroundColor: 'rgba(255, 99, 132, 1)',
+                        showLine: true,
+                        pointRadius: 0,
+                        borderWidth: 1,
+                        borderColor: 'rgb(255, 99, 132)',
+                      },
+                      {
+                        label: 'Output Signal',
+                        data: this.state.outputSignalData,
+                        backgroundColor: 'rgba(50, 54, 168, 1)',
+                        showLine: true,
+                        pointRadius: 0,
+                        borderWidth: 1,
+                        borderColor: 'rgba(50, 54, 168)',
+                      },
+                    ],
+                  }
+                } />
+            </div>
+            <div style={{ width: '700px' }}>
+              <Scatter
+                options={{
+                  scales: {
+                    x: {
+                      title: { display: true, text: 'Frequency [Hz]' },
+                    },
+                    y: {
+                      title: { display: true, text: 'H(f) [no unit]' },
+                    },
+                  },
+                }}
+                data={
+                  {
+                    datasets: [
+                      {
+                        label: 'Freq. Response',
+                        data: freqResponseChartData,
+                        backgroundColor: 'rgba(255, 99, 132, 1)',
+                        showLine: true,
+                        pointRadius: 0,
+                        borderWidth: 1,
+                        borderColor: 'rgb(255, 99, 132)',
+                      },
+                    ],
+                  }
+                } />
+            </div>
           </Stack>
+
 
         </div>
         <style jsx>{`
