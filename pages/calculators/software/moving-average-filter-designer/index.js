@@ -23,6 +23,8 @@ import { CalcVar } from 'utils/calc-var'
 import { UnitsMultiplicative } from 'utils/calc-units'
 import { convoluteWindow } from 'utils/convolution-window'
 
+import InteractiveList from './waveform-creator'
+
 import {
   Chart as ChartJS,
   LinearScale,
@@ -224,6 +226,8 @@ class CalcUI extends React.Component {
 
           <Box sx={{ width: 800 }}>
             <Grid container spacing={2} alignItems="center">
+
+              {/* <InteractiveList /> */}
 
               {/* WINDOW SHAPE */}
               <Grid item xs={4}>
