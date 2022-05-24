@@ -11,17 +11,6 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
 
-// import {
-//   ScatterChart,
-//   Scatter,
-//   XAxis,
-//   YAxis,
-//   ZAxis,
-//   CartesianGrid,
-//   Tooltip,
-//   Legend,
-//   ResponsiveContainer,
-// } from 'recharts'
 import * as tf from '@tensorflow/tfjs'
 
 import LayoutCalc from 'components/layout-calc'

@@ -35,7 +35,6 @@
     "react-stonecutter": "^0.3.10",
     "react-tooltip": "^4.2.21",
     "react-treebeard": "^3.2.4",
-    "recharts": "^2.1.10",
     "seedrandom": "^3.0.5",
     "stonecutter": "^0.3.10-rc",
     "three": "^0.109.0"
