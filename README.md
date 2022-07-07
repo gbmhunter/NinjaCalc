@@ -22,3 +22,7 @@ yarn test
 ## CICD
 
 Unit/functional tests are run by GitHub actions. These are configured by the file `.github/workflows/node.js.yaml`.
+
+## Deployment
+
+Deployment is done automatically when changes are pushed to the `master` branch. Deployment is done by Vercel, info can be found at https://vercel.com/gbmhunter/ninja-calc.
