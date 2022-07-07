@@ -4,7 +4,7 @@
 // ./pages/_document.js
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
-import { GA_TRACKING_ID } from '../lib/gtag'
+import { GA_MEASUREMENT_ID } from '../lib/gtag'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -68,7 +68,7 @@ class MyDocument extends Document {
           this code came from */}
           <script
             async
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           />
           <script
             dangerouslySetInnerHTML={{
@@ -76,7 +76,7 @@ class MyDocument extends Document {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
+            gtag('config', '${GA_MEASUREMENT_ID}', {
               page_path: window.location.pathname,
             });
           `,
