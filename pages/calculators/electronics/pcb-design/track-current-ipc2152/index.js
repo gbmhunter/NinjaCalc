@@ -402,8 +402,9 @@ class UI extends React.Component {
             name: "Minimum Track Width",
             type: "numeric",
             direction: "output",
-            units: [              
+            units: [
               new UnitsMultiplicative('mm', 1e-3),
+              new UnitsMultiplicative('mill', unitConversionConstants.METERS_PER_MILS),
             ],
             selUnit: "mm",
             sigFig: 3,
