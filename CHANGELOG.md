@@ -1,6 +1,6 @@
 # Changelog
 
-## [v3.4.5](https://github.com/gbmhunter/NinjaCalc/tree/v3.4.3) (2023-02-19)
+## [v3.4.5](https://github.com/gbmhunter/NinjaCalc/tree/v3.4.5) (2023-02-19)
 
 ### Features
 
