@@ -1,6 +1,6 @@
 # Changelog
 
-## [v3.4.6]
+## [v3.4.6](https://github.com/gbmhunter/NinjaCalc/tree/v3.4.6) (2023-02-20)
 
 * Fixed incorrect imperial unit display of 'mill' to 'mil' in the IPC2151 track current calculator.
 * Plane proximity input value is disabled if "is plane present" select is set to False in the IPC2151 track current calculator.
