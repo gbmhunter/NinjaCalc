@@ -186,7 +186,7 @@ class UI extends React.Component {
             dispVal: "35",
             units: [
               new UnitsMultiplicative('um', 1e-6),
-              new UnitsMultiplicative('mill', unitConversionConstants.METERS_PER_MILS),
+              new UnitsMultiplicative('mil', unitConversionConstants.METERS_PER_MILS),
               new UnitsMultiplicative('oz', unitConversionConstants.COPPER_THICKNESS_M_PER_OZ),
             ],
             selUnit: "um",
@@ -195,18 +195,18 @@ class UI extends React.Component {
                 if (value < 17.5e-6)
                   return [
                     "warning",
-                    "Track thickness is below the minimum value (17.5um) extracted from the track thickness modififer graph in IPC-2152. Results might not be as accurate (extrapolation will occur).",
+                    "Track thickness is below the minimum value (17.5um/0.5oz) extracted from the track thickness modifier graph in IPC-2152. Results might not be as accurate (extrapolation will occur).",
                   ];
                 if (value > 105.0036e-6)
                   return [
                     "warning",
-                    "Track thickness is above the maximum value (105um) extracted from the track thickness modififer graph in IPC-2152. Results might not be as accurate (extrapolation will occur).",
+                    "Track thickness is above the maximum value (105um) extracted from the track thickness modifier graph in IPC-2152. Results might not be as accurate (extrapolation will occur).",
                   ];
                 return ["ok", ""];
               },
             },
             helpText:
-              "The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 17um (0.5oz) or 35um (1oz).",
+              "The thickness (height) of the track. This is equal to the thickness of the copper layer the track is on. This is also called the copper weight. Common values are 17.5um (0.5oz) or 35um (1oz).",
           }), // trackThickness
 
           trackThicknessModifier: new CalcVar({
@@ -229,7 +229,7 @@ class UI extends React.Component {
             dispVal: "1.6",
             units: [
               new UnitsMultiplicative('mm', 1e-3),
-              new UnitsMultiplicative('mill', unitConversionConstants.METERS_PER_MILS),
+              new UnitsMultiplicative('mil', unitConversionConstants.METERS_PER_MILS),
             ],
             selUnit: "mm",
             validation: {
@@ -277,7 +277,7 @@ class UI extends React.Component {
             options: ["Yes", "No"],
             selOption: "Yes",
             helpText:
-              'Set this to "True" if there is a copper plane either above or below the current-carrying track, and then enter the distance to it in the "Plane Proximity" field. If there is no plane, set this to "False", and the "Plane Proximity" variable will also disappear.',
+              'Set this to "True" if there is a copper plane either above or below the current-carrying track, and then enter the distance to it in the "Plane Proximity" field. If there is no plane, set this to "False", and the "Plane Proximity" variable will be disabled.',
           }),
 
           // ============================================================================================= //
@@ -290,7 +290,7 @@ class UI extends React.Component {
             dispVal: "1.6",
             units: [              
               new UnitsMultiplicative('mm', 1e-3),
-              new UnitsMultiplicative('mill', unitConversionConstants.METERS_PER_MILS),
+              new UnitsMultiplicative('mil', unitConversionConstants.METERS_PER_MILS),
             ],
             selUnit: "mm",
             validation: {
@@ -404,7 +404,7 @@ class UI extends React.Component {
             direction: "output",
             units: [
               new UnitsMultiplicative('mm', 1e-3),
-              new UnitsMultiplicative('mill', unitConversionConstants.METERS_PER_MILS),
+              new UnitsMultiplicative('mil', unitConversionConstants.METERS_PER_MILS),
             ],
             selUnit: "mm",
             sigFig: 3,

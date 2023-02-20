@@ -32,6 +32,9 @@ export class CalcVarInput extends React.Component {
       throw Error('Direction of "' + calcVar.direction + '" not supported.')
     }
 
+    if (this.props.disabled) {
+      disabled = true
+    }
 
     const validationState = calcVar.validation.state
 

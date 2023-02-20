@@ -59,7 +59,8 @@ class VarRow extends React.Component {
                     id={this.props.id}
                     calc={this.props.calc}
                     valueChanged={this.props.valueChanged}
-                    width={this.props.width} />
+                    width={this.props.width}
+                    disabled={disabled} />
     } else if (calcVar.type === 'select') {
       const options = calcVar.options.map((option, idx) => {
         return (
