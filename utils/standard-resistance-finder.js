@@ -46,10 +46,11 @@ export class StandardResistanceFinder {
       464, 470, 475, 481, 487, 493, 499, 505, 511, 517, 523, 530, 536, 542, 549, 556,
       562, 569, 576, 583, 590, 597, 604, 612, 619, 626, 634, 642, 649, 657, 665, 673,
       681, 690, 698, 706, 715, 723, 732, 741, 750, 759, 768, 777, 787, 796, 806, 816,
-      825, 835, 845, 856, 866, 876, 887, 898, 909, 920, 931, 942, 953, 965, 976, 988
+      825, 835, 845, 856, 866, 876, 887, 898, 909, 920, 931, 942, 953, 965, 976, 988,
+      1000,
     ]
 
-    // Create E6 and E12 values from elements in E24 array
+    // Create E48 and E96 values from elements in E192 array
     this.e48Values = []
     this.e96Values = []
     for (i = 0; i < this.e192Values.length; i++) {
@@ -61,11 +62,16 @@ export class StandardResistanceFinder {
         this.e48Values.push(this.e192Values[i])
       }
     }
-
-    // console.log('StandardResistanceFinder() finished. this =')
-    // console.log(this)
   }
 
+  /**
+   * Finds the closest E-series resistance.
+   * 
+   * @param {number} desiredResistance The actual resistance you want. 
+   * @param {eSeriesOptions} eSeries The E series you want to look in.
+   * @param {searchMethods} searchMethod The search method you want to perform
+   * @returns The closest value to the resistance you provided based on the specified E series and search method.
+   */
   find = (desiredResistance, eSeries, searchMethod) => {
     if (!eSeries) throw new Error('eSeries variable provided to StandardResistanceFinder.find() must be a valid object.')
 

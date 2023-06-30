@@ -13,11 +13,27 @@ yarn dev
 
 By default, the local server will start at `localhost:3000`.
 
-To run unit/functional tests:
+To run all unit/functional tests:
 
 ```bash
 yarn test
 ```
+
+To run unit/functional tests which match a particular pattern:
+
+```bash
+yarn test <pattern>
+```
+
+e.g. to run all tests in `utils/standard-resistance-finder.test.js`:
+
+```bash
+yarn test standard-resistance-finder
+```
+
+## Tests
+
+Unit tests that don't need to mount react components are saved in `.test.js` files next to the source code. Tests which need to mount a react component (e.g. functional tests for each calculator) are in `__tests__/`.
 
 ## CICD
 

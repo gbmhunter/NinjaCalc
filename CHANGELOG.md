@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+* Fixed bug where resistance values above 95.3 but below 100 (or the equivalent in any decade) would crash the Standard Resistance Finder calculator.
+* Added unit tests for the Standard Resistance Finder calculator.
+
 ## [v3.4.6](https://github.com/gbmhunter/NinjaCalc/tree/v3.4.6) (2023-02-20)
 
 * Fixed incorrect imperial unit display of 'mill' to 'mil' in the IPC2151 track current calculator.

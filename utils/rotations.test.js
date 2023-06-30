@@ -51,10 +51,10 @@ test('rot matrix to euler angles rotate 90 around x', () => {
   expect(deepEqual(eulerAngles, [Math.PI/2, 0, 0])).toBe(true)
 })
 
-test('rot matrix to euler angles rotate 1 rad around x', () => {  
+test('rot matrix to euler angles rotate 1 rad around x', () => {
   const eulerAngles = Rotations.rotMatrixToEulerAngles(matrix([[1,0,0],[0,0.5403023,-0.8414710],[0,0.8414710,0.5403023]]), 'XYZ')  
   const answer=[1,0,0]
   for(var i=0; i<eulerAngles.length; i++){
-    expect(eulerAngles[i]).toBeCloseTo(answer[i], 3)    
+    expect(eulerAngles[i]).toBeCloseTo(answer[i], 3)
   }
 })
