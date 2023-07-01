@@ -1,5 +1,11 @@
 import { StandardResistanceFinder } from 'utils/standard-resistance-finder.js'
 
+test('e6-12.0-closest', () => {
+  let srf = new StandardResistanceFinder()
+  let closestResistance = srf.find(12.0, srf.eSeriesOptions.E6, srf.searchMethods.CLOSEST)
+  expect(closestResistance).toBeCloseTo(10.0)
+})
+
 test('e24-99.0-closest', () => {
   let srf = new StandardResistanceFinder()
   let closestResistance = srf.find(99.0, srf.eSeriesOptions.E24, srf.searchMethods.CLOSEST)

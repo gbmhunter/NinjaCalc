@@ -73,7 +73,8 @@ export class StandardResistanceFinder {
    * @returns The closest value to the resistance you provided based on the specified E series and search method.
    */
   find = (desiredResistance, eSeries, searchMethod) => {
-    if (!eSeries) throw new Error('eSeries variable provided to StandardResistanceFinder.find() must be a valid object.')
+    if (!eSeries)
+      throw new Error('eSeries variable provided to StandardResistanceFinder.find() must be a valid object.')
 
     // Check for special case where desired resistance is 0. Strictly speaking, this does not belong
     // in any E-series, but 0R links are common place so we will return 0.0 anyway.
@@ -168,14 +169,15 @@ export class StandardResistanceFinder {
       //    and lower than array[i]. We need to find which one is closer (based on percentage difference)
       // 2) We have stopped either on the second or last element of the array. If it is the second, val will
       //    be closest to array[i-1], if it is the last, val will be closest to array[i].
-      // console.log('Stopped when i = ' + i)
-      // console.log('Closest value 1 = ' + array[i - 1])
-      // console.log('Closest value 2 = ' + array[i])
+      console.log('Stopped when i = ' + i)
+      console.log('Closest value 1 = ' + array[i - 1])
+      console.log('Closest value 2 = ' + array[i])
+      console.log('val=', val)
 
-      var lowerPercDiff = ((val - array[i - 1]) / array[i - 1]) * 100.0
-      // console.log('Percentage diff 1 = ' + lowerPercDiff)
-      var higherPercDiff = ((val - array[i]) / array[i]) * 100.0
-      // console.log('Percentage diff 2 = ' + higherPercDiff)
+      var lowerPercDiff = ((array[i - 1] - val) / val) * 100.0
+      console.log('Percentage diff 1 = ' + lowerPercDiff)
+      var higherPercDiff = ((array[i] - val) / val) * 100.0
+      console.log('Percentage diff 2 = ' + higherPercDiff)
 
       if (Math.abs(lowerPercDiff) < Math.abs(higherPercDiff)) {
         return array[i - 1]

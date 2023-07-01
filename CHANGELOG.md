@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Fixed bug where the Standard Resistance Finder calculator would sometimes return the wrong values for the closest resistance (the percentage differences were being calculated incorrectly).
+
 ## [v3.5.0](https://github.com/gbmhunter/NinjaCalc/tree/v3.5.0) (2023-07-01)
 
 * Fixed bug where resistance values above 95.3 but below 100 (or the equivalent in any decade) would crash the Standard Resistance Finder calculator.
