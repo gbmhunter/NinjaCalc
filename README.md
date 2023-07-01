@@ -39,6 +39,8 @@ Unit tests that don't need to mount react components are saved in `.test.js` fil
 
 Unit/functional tests are run by GitHub actions. These are configured by the file `.github/workflows/node.js.yaml`.
 
-## Deployment
+## Releasing
 
-Deployment is done automatically when changes are pushed to the `master` branch. Deployment is done by Vercel, info can be found at https://vercel.com/gbmhunter/ninja-calc.
+Update the `CHANGELOG.md` with the changes since the last release. Make sure to update the version in `package.json`, this is pulled in by the client-side javascript and displayed in the app.
+
+Deployment is done automatically when changes are pushed to the `master` branch. Make sure to `git tag` with the correct version number. Deployment is done by Vercel, info can be found at https://vercel.com/gbmhunter/ninja-calc.

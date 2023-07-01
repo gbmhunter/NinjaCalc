@@ -177,7 +177,7 @@ class Home extends React.Component {
           <div className="tile-description">{calculator.metadata.description}</div>
           
           <style jsx>{`
-            .calculator-tile {                            
+            .calculator-tile {
               margin: 10px;
               padding: 5px;
               display: flex;

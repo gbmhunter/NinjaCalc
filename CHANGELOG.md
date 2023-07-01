@@ -2,8 +2,12 @@
 
 ## Unreleased
 
+## [v3.5.0](https://github.com/gbmhunter/NinjaCalc/tree/v3.5.0) (2023-07-01)
+
 * Fixed bug where resistance values above 95.3 but below 100 (or the equivalent in any decade) would crash the Standard Resistance Finder calculator.
 * Added unit tests for the Standard Resistance Finder calculator.
+* Added a Donate button (linked to Ko-fi).
+* Version number is now displayed in the upper-right corner of the app.
 
 ## [v3.4.6](https://github.com/gbmhunter/NinjaCalc/tree/v3.4.6) (2023-02-20)
 
