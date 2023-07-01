@@ -13,7 +13,9 @@ export class ESeriesRow extends React.Component {
 
   render() {
 
-    var desiredResistance = this.props.calc.calcVars.desiredResistance.rawVal    
+    var desiredResistance = this.props.calc.calcVars.desiredResistance.rawVal
+    const validationState = this.props.calc.calcVars.desiredResistance.validation.state
+
     let closestResistance = null
     let closestResistancePercDiff = null
     let closestEqualOrLowerResistance = null
@@ -23,7 +25,7 @@ export class ESeriesRow extends React.Component {
 
     const variableWidth = 100;
     const percErrorWidth = 80;
-    if (desiredResistance) {
+    if (validationState == 'ok') {
       closestResistance = standardResistanceFinder.find(desiredResistance, this.props.eSeries, standardResistanceFinder.searchMethods.CLOSEST)
       closestResistancePercDiff = (Math.abs(closestResistance - desiredResistance) / desiredResistance) * 100.0
       closestResistance = MetricPrefixes.numToString(closestResistance, 4)
@@ -38,8 +40,16 @@ export class ESeriesRow extends React.Component {
       closestEqualOrHigherResistancePercDiff = (Math.abs(closestEqualOrHigherResistance - desiredResistance) / desiredResistance) * 100.0
       closestEqualOrHigherResistance = MetricPrefixes.numToString(closestEqualOrHigherResistance, 4)
       closestEqualOrHigherResistancePercDiff = closestEqualOrHigherResistancePercDiff.toPrecision(4)
-      
-    }       
+    } else {
+      closestResistance = NaN
+      closestResistancePercDiff = NaN
+
+      closestEqualOrLowerResistance = NaN
+      closestEqualOrLowerResistancePercDiff = NaN
+
+      closestEqualOrHigherResistance = NaN
+      closestEqualOrHigherResistancePercDiff = NaN
+    }
 
     return (
       <tr>

@@ -5,7 +5,7 @@ export class Validators {
    */
   static isNumber(value) {
     if(!isNaN(value)) {
-      return [ 'ok', '']      
+      return [ 'ok', '']
     } else {
       console.log('Validating ' + value)
       return [ 'error', 'Value must be a number.']

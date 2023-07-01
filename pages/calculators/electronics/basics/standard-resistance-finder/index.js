@@ -1,14 +1,16 @@
-import Head from "next/head";
-import React from "react";
+import Head from "next/head"
+import React from "react"
 
 import Layout from "~/components/layout-calc"
-import VarRowV2 from '~/components/calc-var-row';
+import CalcVarRow from '~/components/calc-var-row'
 import { Calc } from '~/utils/calc'
 import { CalcVar } from '~/utils/calc-var'
-import CalcHelper from "~/utils/calc-helper";
-import { StandardResistanceFinder } from "~/utils/standard-resistance-finder";
-import TileImage from "./tile-image.png";
+import CalcHelper from "~/utils/calc-helper"
+import { Validators } from 'utils/validators'
+import { StandardResistanceFinder } from "~/utils/standard-resistance-finder"
+import TileImage from "./tile-image.png"
 import { ESeriesRow } from "~/components/e-series-row"
+import { UnitsMultiplicative } from 'utils/calc-units'
 
 export var metadata = {
   id: "standard-resistance-finder", // Make sure this has the same name as the directory this file is in
@@ -44,17 +46,20 @@ class UI extends React.Component {
         calcVars: {
           desiredResistance: new CalcVar({
             name: "Desired Resistance",
+            type: 'numeric',
             direction: "input",
-            dispVal: "10.3k",            
+            dispVal: "10.3k",
             units: [
-              ["Ω", 1e0],
+              new UnitsMultiplicative('Ω', 1),
             ],
             selUnit: "Ω",
             metricPrefixes: true,
+            sigFig: 4,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber,
+                Validators.isGreaterThanZero,
+              ],
             },
             helpText: 'The exact resistance you want to find.',
           }), // desiredResistance
@@ -113,7 +118,6 @@ class UI extends React.Component {
   };
 
   render = () => {
-    // Area of ring = pi * inner diameter * thickness
     const calcVars = this.state.calc.calcVars;
     const outputVarWidth = 100;
 
@@ -127,7 +131,7 @@ class UI extends React.Component {
           <div style={{ height: '50px' }} />
           <table>
             <tbody>
-              <VarRowV2
+              <CalcVarRow
                 calc={this.state.calc}
                 id="desiredResistance"
                 valueChanged={this.valueChanged}

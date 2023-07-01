@@ -66,7 +66,7 @@ class CalcUI extends React.Component {
             name: 'Resistance',
             type: 'numeric',
             direction: 'output',
-            units: [              
+            units: [
               new UnitsMultiplicative('Ω', 1),
             ],
             selUnit: 'Ω',
@@ -122,7 +122,7 @@ class CalcUI extends React.Component {
     })
   } // unitsChanged
 
-  rbChanged = (e) => {      
+  rbChanged = (e) => {
     let calc = this.state.calc
     CalcHelper.handleRbChanged(calc, e)
     this.setState({
@@ -130,7 +130,7 @@ class CalcUI extends React.Component {
     })
   } // rbChanged
 
-  render = () => {    
+  render = () => {
     const varWidth = 100
 
     return (

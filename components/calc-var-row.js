@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types"
 import ReactTooltip from 'react-tooltip'
-import {findDOMNode} from 'react-dom'
 
 import * as CalcUnits from 'utils/calc-units'
 import { CalcVarInput } from 'components/calc-var-input'
@@ -12,7 +11,7 @@ class VarRow extends React.Component {
   }
 
   componentDidUpdate() {
-    ReactTooltip.rebuild()    
+    ReactTooltip.rebuild()
   }
 
   render() {
@@ -102,16 +101,19 @@ class VarRow extends React.Component {
 
     let unitsHtml = null
     if (calcVar.type === 'numeric') {
-      unitsHtml = (<td className="units">
+      unitsHtml = (
+        <td className="units">
           <select
             name={this.props.id}
             value={calcVar.selUnit}
             onChange={this.props.unitsChanged}
             disabled={unitsDisabled}
+            style={{ height: '30px' }}
           >
             {unitOptions}
           </select>
-        </td>)
+        </td>
+      )
     } else {
       // All over types don't have units, so just insert a blank cell
       unitsHtml = (<td></td>)
@@ -177,6 +179,7 @@ class VarRow extends React.Component {
             width: 80px;
             font-size: 0.8em !important;
           }
+
         `}</style>
       </tr>
     );
