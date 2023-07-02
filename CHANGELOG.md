@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [v3.5.1](https://github.com/gbmhunter/NinjaCalc/tree/v3.5.1) (2023-07-02)
+
 * Fixed bug where the Standard Resistance Finder calculator would sometimes return the wrong values for the closest resistance (the percentage differences were being calculated incorrectly).
 * Added more input validation to the Standard Resistance Finder calculator, it no longer crashes when a negative number is entered.
 
