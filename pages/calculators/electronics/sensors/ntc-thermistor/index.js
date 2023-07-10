@@ -1,10 +1,13 @@
-import Head from "next/head";
-import React from "react";
+import Head from "next/head"
+import React from "react"
 
-import Layout from "~/components/layout";
-import VarRowV2 from '~/components/calc-var-row';
-import CalcHelper from "~/utils/calc-helper";
-import TileImage from "./tile-image.jpg";
+import Layout from "~/components/layout"
+import VarRowV2 from '~/components/calc-var-row'
+import CalcHelper from "~/utils/calc-helper"
+import { UnitsMultiplicative } from 'utils/calc-units'
+import { Validators } from 'utils/validators'
+
+import TileImage from "./tile-image.jpg"
 
 export var metadata = {
   id: "ntc-thermistor", // Make sure this has the same name as the directory this file is in
@@ -32,33 +35,38 @@ class UI extends React.Component {
         calcVars: {
           beta: {
             name: "Beta",
+            type: 'numeric',
             direction: "input",
             dispVal: "",
-            units: [["no unit", 1e0]],
+            units: [
+              new UnitsMultiplicative('no unit', 1),
+            ],
             selUnit: "no unit",
+            sigFig: 4,
+            metricPrefixes: true,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
             helpText:
               "The coefficient beta. This is usually specified in the thermistors datasheet.",
           }, // beta
           referenceResistance_Ohms: {
             name: "Reference Resistance",
+            type: 'numeric',
             direction: "input",
             dispVal: "",
             units: [
-              ["mΩ", 1e-3],
-              ["Ω", 1e-0],
-              ["kΩ", 1e3],
-              ["MΩ", 1e6],
+              new UnitsMultiplicative('Ω', 1),
             ],
-            selUnit: "kΩ",
+            selUnit: "Ω",
+            metricPrefixes: true,
+            sigFig: 4,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
             helpText:
               "The resistance of the thermistor at the reference point. This is usually when the thermistor is at 25°C.",
@@ -66,13 +74,19 @@ class UI extends React.Component {
 
           referenceTemperature_K: {
             name: "Reference Temperature",
+            type: 'numeric',
             direction: "input",
-            units: [["K", 1e0]],
+            dispVal: "298.15",
+            units: [
+              new UnitsMultiplicative('K', 1),
+            ],
             selUnit: "K",
+            metricPrefixes: true,
+            sigFig: 4,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
             helpText:
               "The temperature of the thermistor at the reference point. This is usually 25°C.",
@@ -80,33 +94,38 @@ class UI extends React.Component {
 
           thermistorResistance_Ohms: {
             name: "Thermistor Resistance",
+            type: 'numeric',
             direction: "input",
-            dispVal: "17.625",
+            dispVal: "17.625k",
             units: [
-              ["mΩ", 1e-3],
-              ["Ω", 1e-0],
-              ["kΩ", 1e3],
-              ["MΩ", 1e6],
+              new UnitsMultiplicative('Ω', 1),
             ],
-            selUnit: "kΩ",
+            selUnit: "Ω",
+            metricPrefixes: true,
+            sigFig: 4,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
             helpText: "The present resistance of the thermistor, at temperature T.",
           }, // thermistorResistance_Ohms
 
           thermistorTemperature_K: {
             name: "Thermistor Temperature",
+            type: 'numeric',
             direction: "output",
             dispVal: "",
-            units: [["K", 1]],
+            units: [
+              new UnitsMultiplicative('K', 1),
+            ],
             selUnit: "K",
+            metricPrefixes: true,
+            sigFig: 4,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
             helpText: "The present temperature of the thermistor, at resistance R.",
           }, // thermistorTemp_K
@@ -147,6 +166,7 @@ class UI extends React.Component {
         },
       }, // calc
     }; // this.state
+    CalcHelper.initCalc(this.state.calc)
   }
 
   componentDidMount() {

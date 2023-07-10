@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## [v3.5.2](https://github.com/gbmhunter/NinjaCalc/tree/v3.5.2) (2023-07-10)
+
+* Fixed bugs which were crashing the 'NTC Thermistor' and 'Dew Point (Magnus Equation)' calculators.
+
 ## [v3.5.1](https://github.com/gbmhunter/NinjaCalc/tree/v3.5.1) (2023-07-02)
 
 * Fixed bug where the Standard Resistance Finder calculator would sometimes return the wrong values for the closest resistance (the percentage differences were being calculated incorrectly).

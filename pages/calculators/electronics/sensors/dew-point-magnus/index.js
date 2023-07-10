@@ -1,10 +1,12 @@
 import Head from "next/head";
 import React from "react";
 
-import Layout from "~/components/layout";
-import VarRowV2 from '~/components/calc-var-row';
-import CalcHelper from "~/utils/calc-helper";
-import TileImage from "./tile-image.png";
+import Layout from "~/components/layout"
+import VarRowV2 from '~/components/calc-var-row'
+import CalcHelper from "~/utils/calc-helper"
+import TileImage from "./tile-image.png"
+import { Validators } from 'utils/validators'
+import { UnitsMultiplicative } from 'utils/calc-units'
 
 export var metadata = {
   id: "dew-point-magnus", // Make sure this has the same name as the directory this file is in
@@ -31,68 +33,89 @@ class UI extends React.Component {
         calcVars: {
           airTemp_degC: {
             name: "Air Temperature",
+            type: 'numeric',
             direction: "input",
             dispVal: "25",
-            units: [["°C", 1]],
+            units: [
+              new UnitsMultiplicative('°C', 1),
+            ],
             selUnit: "°C",
+            metricPrefixes: true,
+            sigFig: 4,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
             helpText:
               "The temperature of the air. This must be the same temperature at which the relative humidity was measured at.",
           }, // airTemp_degC
           relativeHumidity_perc: {
             name: "Relative Humidity",
+            type: 'numeric',
             direction: "input",
             dispVal: "50",
-            units: [["%", 1]],
+            units: [
+              new UnitsMultiplicative('%', 1),
+            ],
             selUnit: "%",
+            sigFig: 4,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
             helpText:
               "The relative humidity the the air, expressed as a percentage of the total amount of water the air could hold at the current temperature.",
           }, // relativeHumidity_perc
           dewPoint_degC: {
             name: "Dew Point",
+            type: 'numeric',
             direction: "output",
-            units: [["°C", 1]],
+            units: [
+              new UnitsMultiplicative('°C', 1),
+            ],
             selUnit: "°C",
+            sigFig: 4,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
             helpText:
               "If the air is cooled to the dew point temperature, then dew (condensation) will start to form. This value is allowed to be below the freezing point of water.",
           }, // dewPoint_degC
           bCoefficient: {
             name: "b",
+            type: 'numeric',
             direction: "input",
             dispVal: "17.625",
-            units: [["no unit", 1]],
+            units: [
+              new UnitsMultiplicative('no unit', 1),
+            ],
             selUnit: "no unit",
+            sigFig: 4,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
             helpText: "The b coefficient of the Magnus equation.",
           }, // bCoefficient
           cCoefficient: {
             name: "c",
+            type: 'numeric',
             direction: "input",
             dispVal: "243.04",
-            units: [["°C", 1]],
+            units: [
+              new UnitsMultiplicative('°C', 1),
+            ],
             selUnit: "°C",
+            sigFig: 4,
             validation: {
-              fn: (value) => {
-                return ["ok", ""];
-              },
+              fns: [
+                Validators.isNumber
+              ],
             },
             helpText: "The c coefficient of the Magnus equation.",
           }, // cCoefficient
@@ -142,6 +165,7 @@ class UI extends React.Component {
         },
       }, // calc
     }; // this.state
+    CalcHelper.initCalc(this.state.calc)
   }
 
   componentDidMount() {
