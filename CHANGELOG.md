@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## [v3.5.3](https://github.com/gbmhunter/NinjaCalc/tree/v3.5.3) (2024-01-10)
+
+* Fixed incorrect URL to the NinjaCalc app from the homepage.
+
 ## [v3.5.2](https://github.com/gbmhunter/NinjaCalc/tree/v3.5.2) (2023-07-10)
 
 * Fixed bugs which were crashing the 'NTC Thermistor' and 'Dew Point (Magnus Equation)' calculators.
