@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## [v3.5.4](https://github.com/gbmhunter/NinjaCalc/tree/v3.5.4) (2024-03-31)
+
+* Added Umami analytics script.
+
 ## [v3.5.3](https://github.com/gbmhunter/NinjaCalc/tree/v3.5.3) (2024-01-10)
 
 * Fixed incorrect URL to the NinjaCalc app from the homepage.

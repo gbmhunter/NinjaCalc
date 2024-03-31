@@ -88,7 +88,17 @@ class Home extends React.Component {
     this.addCalc(CalcMovingAverageFilterDesigner)
   }
 
-  componentDidMount = () => {}
+  componentDidMount = () => {
+    // Enable Umami analytics script in production and disable
+    // in dev. environment. Use the umami.disabled key in local storage for doing so
+    if (process.env.NODE_ENV === 'production') {
+      // It's not good enough just to set the key to 0, it needs to be removed
+      window.localStorage.removeItem('umami.disabled');
+    } else {
+      console.log('Detected dev. environment, setting umami.disabled in local storage to "1".');
+      window.localStorage.setItem('umami.disabled', '1');
+    }
+  }
 
   addCalc = (calcModule) => {
     let calculators = this.state.calculators
