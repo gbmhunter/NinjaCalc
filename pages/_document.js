@@ -83,6 +83,9 @@ class MyDocument extends Document {
             }}
           />
 
+          {/* Umami analytics. Tracking is disabled in dev. by setting
+          umami.disabled in local storage to 1. */}
+          <script defer src="https://umami.mbedded.ninja/script.js" data-website-id="f08a945e-6251-481c-bb7c-3275e76b2efc"></script>
 
         </Head>
         <body>
