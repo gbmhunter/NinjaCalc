@@ -1,0 +1,110 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/calculators/electronics/basics/resistor-divider",
+      "destination": "https://blog.mbedded.ninja/electronics/components/resistors/#resistor-dividers",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/basics/standard-resistance-finder",
+      "destination": "https://blog.mbedded.ninja/electronics/components/resistors/#e-series-resistance-finder",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/software/crc-calculator",
+      "destination": "https://blog.mbedded.ninja/programming/checksums/crcs-cyclic-redundancy-checks/#crc-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/basics/capacitor-charge",
+      "destination": "https://blog.mbedded.ninja/electronics/components/capacitors/#capacitor-charge-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/basics/led-current-limiting-resistor",
+      "destination": "https://blog.mbedded.ninja/electronics/components/diodes/light-emitting-diodes-leds/#led-current-limiting-resistor-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/basics/ohms-law",
+      "destination": "https://blog.mbedded.ninja/electronics/components/resistors/#ohms-law-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/cabling/wire-gauge-calculator",
+      "destination": "https://blog.mbedded.ninja/electronics/components/cables/#wire-gauge-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/filters/filter-low-pass-rc",
+      "destination": "https://blog.mbedded.ninja/electronics/circuit-design/analogue-filters/#low-pass-rc-filter-cutoff-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/ics/555-timer-astable-rt-rb-c",
+      "destination": "https://blog.mbedded.ninja/electronics/components/timers-and-multivibrators/#astable-555-timer-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/ics/mp4558-design-tool",
+      "destination": "https://blog.mbedded.ninja/electronics/components/power-regulators/switch-mode-power-supplies-smps/buck-converters/#mp4558-design-tool",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/pcb-design/microstrip-impedance",
+      "destination": "https://blog.mbedded.ninja/electronics/circuit-design/transmission-lines/microstrips/#microstrip-impedance-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/pcb-design/track-current-ipc2152",
+      "destination": "https://blog.mbedded.ninja/pcb-design/how-to-calculate-maximum-track-current/#track-current-ipc-2152-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/pcb-design/track-current-ipc2221a",
+      "destination": "https://blog.mbedded.ninja/pcb-design/how-to-calculate-maximum-track-current/#track-current-ipc-2221a-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/pcb-design/via-current-ipc2221a",
+      "destination": "https://blog.mbedded.ninja/pcb-design/pads-vias-holes/#via-current-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/pcb-design/via-thermal-resistance",
+      "destination": "https://blog.mbedded.ninja/pcb-design/thermal-design-for-pcbs/#via-thermal-resistance-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/sensors/dew-point-magnus",
+      "destination": "https://blog.mbedded.ninja/electronics/components/sensors/humidity-sensors/#dew-point-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/sensors/ntc-thermistor",
+      "destination": "https://blog.mbedded.ninja/electronics/components/sensors/temperature-sensors/#ntc-thermistor-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/electronics/smps/buck-converter",
+      "destination": "https://blog.mbedded.ninja/electronics/components/power-regulators/switch-mode-power-supplies-smps/buck-converters/#buck-converter-calculator",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/mathematics/geometry/3d-rotations",
+      "destination": "https://blog.mbedded.ninja/mathematics/geometry/rotation-matrices/#rotation-converter",
+      "statusCode": 301
+    },
+    {
+      "source": "/calculators/software/moving-average-filter-designer",
+      "destination": "https://blog.mbedded.ninja/programming/signal-processing/digital-filters/windowed-moving-average-filters/#moving-average-filter-designer",
+      "statusCode": 301
+    },
+    {
+      "source": "/",
+      "destination": "https://blog.mbedded.ninja/calculators/",
+      "statusCode": 301
+    }
+  ]
+}

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## [v3.6.0](https://github.com/gbmhunter/NinjaCalc/tree/v3.6.0) (2026-05-29)
+
+* Added redirects (via `vercel.json`) from individual calculator pages and the homepage to their new locations on `blog.mbedded.ninja`, following the port of the calculators to the blog site.
+
 ## [v3.5.4](https://github.com/gbmhunter/NinjaCalc/tree/v3.5.4) (2024-03-31)
 
 * Added Umami analytics script.
