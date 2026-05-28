@@ -4,11 +4,11 @@
 
 ## Dev Usage
 
-To install dependencies and start development server (`yarn` is recommended):
+To install dependencies and start development server:
 
 ```bash
-yarn install
-yarn dev
+npm install
+npm run dev
 ```
 
 By default, the local server will start at `localhost:3000`.
@@ -16,19 +16,19 @@ By default, the local server will start at `localhost:3000`.
 To run all unit/functional tests:
 
 ```bash
-yarn test
+npm test
 ```
 
 To run unit/functional tests which match a particular pattern:
 
 ```bash
-yarn test <pattern>
+npm test -- <pattern>
 ```
 
 e.g. to run all tests in `utils/standard-resistance-finder.test.js`:
 
 ```bash
-yarn test standard-resistance-finder
+npm test -- standard-resistance-finder
 ```
 
 ## Tests

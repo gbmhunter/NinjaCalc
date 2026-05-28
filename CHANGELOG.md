@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## [v3.6.1](https://github.com/gbmhunter/NinjaCalc/tree/v3.6.1) (2026-05-29)
+
+* Switched from `yarn` to `npm` for dependency management. Added `.npmrc` with `legacy-peer-deps=true` to resolve the `react-stonecutter` peer dependency conflict with React 17. Committed `package-lock.json` and removed `yarn.lock`. Updated README to reflect new commands.
+
 ## [v3.6.0](https://github.com/gbmhunter/NinjaCalc/tree/v3.6.0) (2026-05-29)
 
 * Added redirects (via `vercel.json`) from individual calculator pages and the homepage to their new locations on `blog.mbedded.ninja`, following the port of the calculators to the blog site.
