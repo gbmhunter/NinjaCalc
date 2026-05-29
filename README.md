@@ -2,6 +2,8 @@
 
 ![Build Status](https://github.com/gbmhunter/NinjaCalc/workflows/Node.js%20CI/badge.svg)
 
+> **⚠️ Deprecated.** NinjaCalc is no longer actively developed. All calculators have been ported to [blog.mbedded.ninja/calculators](https://blog.mbedded.ninja/calculators/), where they are now maintained. Visiting the NinjaCalc homepage redirects to the blog's calculator index, and individual calculator URLs redirect to their new locations (see `vercel.json`). This repository is kept around for historical reference.
+
 ## Dev Usage
 
 To install dependencies and start development server:
