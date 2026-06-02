@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## [v3.6.2](https://github.com/gbmhunter/NinjaCalc/tree/v3.6.2) (2026-06-02)
+
+* Updated the homepage redirect in `vercel.json` to point to `https://blog.mbedded.ninja/tools/` (was `/calculators/`), following the rename of the section on the blog.
+
 ## [v3.6.1](https://github.com/gbmhunter/NinjaCalc/tree/v3.6.1) (2026-05-29)
 
 * Switched from `yarn` to `npm` for dependency management. Added `.npmrc` with `legacy-peer-deps=true` to resolve the `react-stonecutter` peer dependency conflict with React 17. Committed `package-lock.json` and removed `yarn.lock`. Updated README to reflect new commands.

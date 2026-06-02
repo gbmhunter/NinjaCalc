@@ -103,7 +103,7 @@
     },
     {
       "source": "/",
-      "destination": "https://blog.mbedded.ninja/calculators/",
+      "destination": "https://blog.mbedded.ninja/tools/",
       "statusCode": 301
     }
   ]
